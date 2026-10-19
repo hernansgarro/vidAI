@@ -5452,7 +5452,7 @@ export default function App() {
                 ecoStats.simTime,
                 ecoStats.livingCount,
                 ecoStats.eggCount,
-            getConfig('maxOrganisms'),
+                getConfig('maxOrganisms'),
               );
 
               const totalBurnRate = Math.max(
