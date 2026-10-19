@@ -278,7 +278,7 @@ export default function App() {
   const [specimenBank, setSpecimenBank] = useState<SpecimenBankItem[]>([]);
   const displayedSpecimenBank = useMemo(() => [...founderBankItems, ...specimenBank].filter(item =>
     (bankFamily === 'All' || item.genome.archetype === bankFamily)
-    && (bankDiet === 'All' || item.genome.mouths.some(m => m.mouthType === bankDiet))
+    && (bankDiet === 'All' || getDietClassification(item.genome.mouths).category.toLowerCase() === bankDiet)
     && item.name.toLowerCase().includes(bankSearch.toLowerCase())),
     [founderBankItems, specimenBank, bankFamily, bankDiet, bankSearch]);
   const [saveNotification, setSaveNotification] = useState<string | null>(null);

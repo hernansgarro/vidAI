@@ -17,7 +17,8 @@ not expected results for the corrected feeding model.
   drag, energy-conversion constants and the interface layout are preserved.
 - Three diet labels: herbivore, carnivore and omnivore. Different specialist mouths
   give an omnivorous overall diet without changing any individual mouth's food
-  permissions. Mouth anatomy remains visible separately.
+  permissions. Bank diet filters use the same overall classification. Mouth
+  anatomy remains visible separately.
 - One intake allowance per mouth per simulated tick, shared across prey, eggs,
   nutrients and remains. Capacity limits intake before food is removed; full
   storage no longer destroys surplus food. Omnivore mouths retain their half-rate

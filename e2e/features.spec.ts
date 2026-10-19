@@ -97,6 +97,10 @@ test('imported green omnivore and edible remains retain three diet labels and di
   s.nutrients.push({id: 'remains', kind: 'carrion', decayTimeRemaining: 45, x: 1400, y: 850,
     vx: 0, vy: 0, radius: 18, energyValue: 3000, bottomTimer: 0, pulseTimer: 0});
   s.ledger.externalInflow += 3000;
+  await page.addInitScript(genome => {
+    localStorage.setItem('vida_specimen_bank_v3', JSON.stringify([{id: 'saved-combo', name: 'Green two-mouth specimen',
+      savedAt: 'Test', genome, tags: ['custom']}]));
+  }, g);
   await page.goto('./?autoplay');
   await page.getByTitle('Ecology & Physical Settings').click();
   await page.locator('input[type=file]').setInputFiles({name: 'pigment-and-remains.json', mimeType: 'application/json',
@@ -110,5 +114,10 @@ test('imported green omnivore and edible remains retain three diet labels and di
   expect(report.population.carrion).toBe(1); expect(report.population.nutrients).toBe(0);
   expect(Math.abs(report.energy.errorJ)).toBeLessThan(.001);
   await page.screenshot({path: test.info().outputPath('pigment-and-remains.png')});
+  await page.getByTitle('Specimen Bank (Save & Spawn Custom Genomes)').click();
+  await page.getByLabel('Diet filter').selectOption('omnivore');
+  await expect(page.getByTestId('specimen-row').filter({hasText: 'Green two-mouth specimen'})).toHaveCount(1);
+  await page.getByLabel('Diet filter').selectOption('carnivore');
+  await expect(page.getByTestId('specimen-row').filter({hasText: 'Green two-mouth specimen'})).toHaveCount(0);
   expect(errors).toEqual([]);
 });
