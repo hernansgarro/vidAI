@@ -244,6 +244,8 @@ export interface Genome {
   weightsHO: number[][]; // [MAX_OUTPUTS x NUM_HIDDEN]
   biasesO: number[];     // [MAX_OUTPUTS]
   // Life History Traits
+  targetClutchSize: number;    // integer 1..6 eggs desired per clutch
+  maturityAge: number;         // seconds until sexual maturity (10.0..45.0s)
   incubationTime: number;      // seconds
   eggReserveFraction: number;  // fraction of budget to reserve
   reproductionThreshold: number; // energy ratio needed
@@ -463,6 +465,23 @@ const clampVal = (v: number, min: number, max: number) => Math.max(min, Math.min
 const hsl = (h: number, s: number, l: number, a = 1) =>
   `hsla(${Math.floor(h)}, ${Math.floor(s)}%, ${Math.floor(l)}%, ${a})`;
 
+/**
+ * Enforces nutrient hue exclusion (105° to 165° green spectrum).
+ * Maps any creature body colors in this band to distinct vibrant colors
+ * (e.g. amber/orange 30°-55° or cyan/blue 175°-220°).
+ */
+export function sanitizeCreatureHue(hue: number): number {
+  let h = ((hue % 360) + 360) % 360;
+  if (h >= 105 && h <= 165) {
+    if (h < 135) {
+      h = 30 + ((h - 105) / 30) * 25; // Map to 30° - 55° (amber/gold)
+    } else {
+      h = 175 + ((h - 135) / 30) * 45; // Map to 175° - 220° (cyan/azure)
+    }
+  }
+  return Math.round(((h % 360) + 360) % 360);
+}
+
 export interface DietInfo {
   category: 'Herbivore' | 'Carnivore' | 'Omnivore' | 'Mixed' | 'Passive';
   label: string;
@@ -477,7 +496,8 @@ export interface DietInfo {
 
 export function getLifeStage(org: Organism): LifeStage {
   if (org.dissolving || org.dissolveAlpha < 1.0) return 'Deceased';
-  if (org.age < MATURITY_AGE) return 'Juvenile';
+  const maturityAge = org.genome.maturityAge || MATURITY_AGE;
+  if (org.age < maturityAge) return 'Juvenile';
   if (org.age >= org.maxLifespan * 0.8) return 'Aging';
   return 'Adult';
 }
@@ -492,46 +512,61 @@ export function evaluateReproductionAffordability(
 ): {
   eligible: boolean;
   affordableCount: number;
+  desiredCount: number;
+  actualClutchSize: number;
   eggCost: number;
   parentReserve: number;
   availableForReproduction: number;
   requiredBudget: number;
+  requiredForOneEgg: number;
   statusText: string;
   badgeClass: string;
   remainingCooldown: number;
 } {
   const g = org.genome;
+  const maturityAge = g.maturityAge || MATURITY_AGE;
+  const desiredCount = g.targetClutchSize || 2;
   const parentReserve = Math.max(MIN_PARENT_SURVIVAL_RESERVE_BASE, g.maxEnergyCapacity * MIN_PARENT_SURVIVAL_FRACTION);
   const eggCost = g.bodyCost + FOUNDER_DEFAULT_RESERVE;
   const availableForReproduction = org.energy - parentReserve;
-  const requiredBudget = eggCost + parentReserve;
+  const requiredForOneEgg = eggCost + parentReserve;
+  const requiredBudget = eggCost * desiredCount + parentReserve;
   const cooldown = g.reproductionCooldown || 18.0;
   const timeSinceRepro = simTime - (org.lastReproductionTime || 0);
   const remainingCooldown = Math.max(0, cooldown - timeSinceRepro);
+
+  const affordableCount = Math.max(0, Math.floor(availableForReproduction / eggCost));
+  const actualClutchSize = Math.min(desiredCount, affordableCount);
 
   if (org.dissolving || org.dissolveAlpha < 1.0) {
     return {
       eligible: false,
       affordableCount: 0,
+      desiredCount,
+      actualClutchSize: 0,
       eggCost,
       parentReserve,
       availableForReproduction: 0,
       requiredBudget,
+      requiredForOneEgg,
       statusText: '💀 Deceased',
       badgeClass: 'bg-slate-900 border-slate-700 text-slate-500',
       remainingCooldown: 0,
     };
   }
 
-  if (org.age < MATURITY_AGE) {
-    const timeToMaturity = MATURITY_AGE - org.age;
+  if (org.age < maturityAge) {
+    const timeToMaturity = maturityAge - org.age;
     return {
       eligible: false,
       affordableCount: 0,
+      desiredCount,
+      actualClutchSize: 0,
       eggCost,
       parentReserve,
       availableForReproduction,
       requiredBudget,
+      requiredForOneEgg,
       statusText: `🌱 Immature (${timeToMaturity.toFixed(1)}s to maturity)`,
       badgeClass: 'bg-emerald-950/80 border-emerald-500/40 text-emerald-300',
       remainingCooldown: 0,
@@ -541,11 +576,14 @@ export function evaluateReproductionAffordability(
   if (livingCount >= maxOrgs) {
     return {
       eligible: false,
-      affordableCount: 0,
+      affordableCount,
+      desiredCount,
+      actualClutchSize,
       eggCost,
       parentReserve,
       availableForReproduction,
       requiredBudget,
+      requiredForOneEgg,
       statusText: '🚫 Pop Cap Reached',
       badgeClass: 'bg-rose-950/80 border-rose-500/40 text-rose-300',
       remainingCooldown: 0,
@@ -555,11 +593,14 @@ export function evaluateReproductionAffordability(
   if (eggCount >= maxEggs) {
     return {
       eligible: false,
-      affordableCount: 0,
+      affordableCount,
+      desiredCount,
+      actualClutchSize,
       eggCost,
       parentReserve,
       availableForReproduction,
       requiredBudget,
+      requiredForOneEgg,
       statusText: '🥚 Egg Cap Reached',
       badgeClass: 'bg-amber-950/80 border-amber-500/40 text-amber-300',
       remainingCooldown: 0,
@@ -569,40 +610,48 @@ export function evaluateReproductionAffordability(
   if (remainingCooldown > 0.05) {
     return {
       eligible: false,
-      affordableCount: 0,
+      affordableCount,
+      desiredCount,
+      actualClutchSize,
       eggCost,
       parentReserve,
       availableForReproduction,
       requiredBudget,
+      requiredForOneEgg,
       statusText: `⏳ Cooldown (${remainingCooldown.toFixed(1)}s)`,
       badgeClass: 'bg-blue-950/80 border-blue-500/40 text-blue-300',
       remainingCooldown,
     };
   }
 
-  if (availableForReproduction < eggCost) {
+  if (actualClutchSize < 1) {
     return {
       eligible: false,
       affordableCount: 0,
+      desiredCount,
+      actualClutchSize: 0,
       eggCost,
       parentReserve,
       availableForReproduction,
       requiredBudget,
-      statusText: `⚡ Insufficient Energy (Need ${Math.round(requiredBudget)} J, have ${Math.round(org.energy)} J)`,
+      requiredForOneEgg,
+      statusText: `⚡ Foraging for 1st egg (${Math.round(Math.max(0, org.energy))} / ${Math.round(requiredForOneEgg)} J)`,
       badgeClass: 'bg-slate-900/80 border-slate-700 text-slate-400',
       remainingCooldown: 0,
     };
   }
 
-  const affordableCount = Math.min(MAX_CLUTCH_SIZE, Math.floor(availableForReproduction / eggCost));
   return {
     eligible: true,
     affordableCount,
+    desiredCount,
+    actualClutchSize,
     eggCost,
     parentReserve,
     availableForReproduction,
     requiredBudget,
-    statusText: `★ Ready (${affordableCount} egg${affordableCount > 1 ? 's' : ''} affordable)`,
+    requiredForOneEgg,
+    statusText: `★ Ready (Laying ${actualClutchSize}/${desiredCount} eggs)`,
     badgeClass: 'bg-amber-500/20 border-amber-400 text-amber-300 font-bold',
     remainingCooldown: 0,
   };
@@ -1055,6 +1104,8 @@ export function createReferenceNematodeGenome(): Genome {
     biasesH,
     weightsHO,
     biasesO,
+    targetClutchSize: 2,
+    maturityAge: 20.0,
     incubationTime: 10.0,
     eggReserveFraction: 0.35,
     reproductionThreshold: 0.60,
@@ -1114,6 +1165,8 @@ export function createEelFlagellateGenome(generation = 1, parentIds: string[] = 
     biasesH,
     weightsHO,
     biasesO,
+    targetClutchSize: 1 + Math.floor(customPrng.nextFloat() * 4),
+    maturityAge: customPrng.range(15.0, 24.0),
     incubationTime: 10.0,
     eggReserveFraction: 0.35,
     reproductionThreshold: 0.60,
@@ -1175,6 +1228,8 @@ export function createApexPredatorGenome(generation = 1, parentIds: string[] = [
     biasesH,
     weightsHO,
     biasesO,
+    targetClutchSize: 1 + Math.floor(customPrng.nextFloat() * 3),
+    maturityAge: customPrng.range(18.0, 26.0),
     incubationTime: 12.0,
     eggReserveFraction: 0.40,
     reproductionThreshold: 0.65,
@@ -1226,6 +1281,8 @@ export function createMantaFlapperGenome(generation = 1, parentIds: string[] = [
     biasesH,
     weightsHO,
     biasesO,
+    targetClutchSize: 1 + Math.floor(customPrng.nextFloat() * 4),
+    maturityAge: customPrng.range(16.0, 24.0),
     incubationTime: 11.0,
     eggReserveFraction: 0.35,
     reproductionThreshold: 0.60,
@@ -1261,7 +1318,7 @@ export function createTadpoleCruiserGenome(generation = 1, parentIds: string[] =
     archetype: 'Paddle Tadpole',
     generation,
     parentIds,
-    hue: 155,
+    hue: sanitizeCreatureHue(45), // Golden Amber (excluded from green nutrient band)
     saturation: 90,
     lightness: 54,
     parts,
@@ -1274,6 +1331,8 @@ export function createTadpoleCruiserGenome(generation = 1, parentIds: string[] =
     biasesH,
     weightsHO,
     biasesO,
+    targetClutchSize: 1 + Math.floor(customPrng.nextFloat() * 4),
+    maturityAge: customPrng.range(14.0, 22.0),
     incubationTime: 9.0,
     eggReserveFraction: 0.35,
     reproductionThreshold: 0.60,
@@ -1325,6 +1384,8 @@ export function createHydrofoilGliderGenome(generation = 1, parentIds: string[] 
     biasesH,
     weightsHO,
     biasesO,
+    targetClutchSize: 1 + Math.floor(customPrng.nextFloat() * 4),
+    maturityAge: customPrng.range(16.0, 24.0),
     incubationTime: 10.5,
     eggReserveFraction: 0.38,
     reproductionThreshold: 0.60,
@@ -1390,7 +1451,14 @@ export function createRandomGenome(generation = 1, parentIds: string[] = [], cus
 
   const hasCarn = mouths.some((m) => m.mouthType === 'carnivore');
   const hasOmni = mouths.some((m) => m.mouthType === 'omnivore');
-  const defaultHue = hasCarn ? customPrng.range(345, 360) : hasOmni ? customPrng.range(275, 305) : customPrng.range(155, 235);
+  const rawHue = hasCarn
+    ? customPrng.range(345, 360)
+    : hasOmni
+    ? customPrng.range(275, 305)
+    : customPrng.nextFloat() < 0.5
+    ? customPrng.range(175, 235)
+    : customPrng.range(30, 55);
+  const defaultHue = sanitizeCreatureHue(rawHue);
 
   return {
     id: `GEN-${customPrng.nextUint32().toString(36).substring(0, 5).toUpperCase()}`,
@@ -1411,6 +1479,8 @@ export function createRandomGenome(generation = 1, parentIds: string[] = [], cus
     biasesH,
     weightsHO,
     biasesO,
+    targetClutchSize: 1 + Math.floor(customPrng.nextFloat() * 4),
+    maturityAge: customPrng.range(14.0, 26.0),
     incubationTime: customPrng.range(8.0, 13.0),
     eggReserveFraction: customPrng.range(0.3, 0.45),
     reproductionThreshold: customPrng.range(0.55, 0.70),
@@ -1608,6 +1678,21 @@ export function mutateGenome(parent: Genome, severity = 0.25, customPrng: Xoshir
   } else if (hasOmnivoreMouth && customPrng.nextFloat() < 0.3) {
     newHue = customPrng.range(275, 305);
   }
+  newHue = sanitizeCreatureHue(newHue);
+
+  // Heritable Target Clutch Size (mutates ±1, range 1..6)
+  let mutatedTargetClutchSize = parent.targetClutchSize || 2;
+  if (customPrng.nextFloat() < mutChance) {
+    const clutchDelta = customPrng.nextFloat() < 0.5 ? -1 : 1;
+    mutatedTargetClutchSize = clampVal(mutatedTargetClutchSize + clutchDelta, 1, 6);
+  }
+
+  // Heritable Maturity Age (mutates ±1.0..3.0s, range 10.0..45.0s)
+  let mutatedMaturityAge = parent.maturityAge || 20.0;
+  if (customPrng.nextFloat() < mutChance) {
+    const ageDelta = customPrng.range(-3.0, 3.0) * mutScale;
+    mutatedMaturityAge = clampVal(mutatedMaturityAge + ageDelta, 10.0, 45.0);
+  }
 
   return {
     id: `GEN-${customPrng.nextUint32().toString(36).substring(0, 5).toUpperCase()}`,
@@ -1628,6 +1713,8 @@ export function mutateGenome(parent: Genome, severity = 0.25, customPrng: Xoshir
     biasesH,
     weightsHO,
     biasesO,
+    targetClutchSize: mutatedTargetClutchSize,
+    maturityAge: mutatedMaturityAge,
     incubationTime: clampVal(parent.incubationTime + (customPrng.nextFloat() < mutChance ? customPrng.range(-1, 1) : 0), 5.0, 20.0),
     eggReserveFraction: clampVal(parent.eggReserveFraction + (customPrng.nextFloat() < mutChance ? customPrng.range(-0.05, 0.05) : 0), 0.2, 0.55),
     reproductionThreshold: clampVal(parent.reproductionThreshold + (customPrng.nextFloat() < mutChance ? customPrng.range(-0.04, 0.04) : 0), 0.50, 0.80),
@@ -2780,27 +2867,28 @@ export function stepSimulation(
       }
     }
 
-    // E. REPRODUCTION (True Budget Affordability)
-    const maturityAge = MATURITY_AGE;
+    // E. REPRODUCTION (Continuous Attempt with Scaled Clutch Size & Heritable DNA Traits)
+    const maturityAge = g.maturityAge || MATURITY_AGE;
     const cooldown = g.reproductionCooldown || 18.0;
     const parentSurvivalReserve = Math.max(MIN_PARENT_SURVIVAL_RESERVE_BASE, g.maxEnergyCapacity * MIN_PARENT_SURVIVAL_FRACTION);
     const eggCost = g.bodyCost + FOUNDER_DEFAULT_RESERVE;
     const availableBudget = org.energy - parentSurvivalReserve;
     const isOffCooldown = state.simTime >= (org.lastReproductionTime || 0) + cooldown;
     const isMature = org.age >= maturityAge;
-    const canAffordEgg = availableBudget >= eggCost;
+    const desiredCount = g.targetClutchSize || 2;
+    const affordableCount = Math.max(0, Math.floor(availableBudget / eggCost));
+    const actualClutchSize = Math.min(desiredCount, affordableCount);
 
-    org.isGravid = isMature && isOffCooldown && canAffordEgg;
+    org.isGravid = isMature && isOffCooldown && actualClutchSize >= 1;
 
     if (
       org.isGravid &&
       organisms.length < (settings.maxOrganisms ?? 50) &&
       eggs.length < 75
     ) {
-      const affordableCount = Math.min(MAX_CLUTCH_SIZE, Math.floor(availableBudget / eggCost));
-      const clutchCount = clampVal(affordableCount, 1, 4);
+      const clutchCount = Math.min(actualClutchSize, 75 - eggs.length);
 
-      if (clutchCount >= 1 && availableBudget >= eggCost) {
+      if (clutchCount >= 1) {
         const rearSeg = org.segments[org.segments.length - 1];
         const clutchId = `CLUTCH-${prng.nextUint32().toString(36).substring(0, 5)}`;
         let laidAny = false;
@@ -3377,11 +3465,11 @@ export default function App() {
     const eggEnergyAccounting = hatchedBaby && Math.abs(hatchedBaby.structuralBiomass - benchGenome.bodyCost) < 1e-5 && Math.abs(hatchedBaby.energy - 30.0) < 1e-5;
     details.push(`3. Egg Energy Accounting (Zero Free Structural Energy): Hatchling Structural=${hatchedBaby?.structuralBiomass.toFixed(1)}J, Reserve=${hatchedBaby?.energy.toFixed(1)}J (Pass: ${eggEnergyAccounting})`);
 
-    // --- TEST 4: True Budget Reproduction & Cooldown Verification ---
-    // Mature adult with 35,000J reserve (only 35% of 100k capacity, well below old 60% capacity gate)
+    // --- TEST 4: True Budget Reproduction & Heritable Trait Verification ---
+    // Mature adult with 35,000J reserve (affords 1 egg out of target 2)
     const matureAdult = spawnOrganism(benchGenome, 400, 400, 0);
     matureAdult.age = 25.0; // Sexually mature (> 20s)
-    matureAdult.energy = 35000.0; // Affords parentReserve (20,000J) + eggCost (~11,640J)
+    matureAdult.energy = 35000.0; // Affords parentReserve (20,000J) + 1 egg (~11,640J)
     matureAdult.lastReproductionTime = 0;
 
     const reproState: SimulationState = {
@@ -3401,25 +3489,25 @@ export default function App() {
     };
 
     stepSimulation(reproState, testSettings, fixedDt);
-    const laidEgg = reproState.eggs.length > 0;
+    const laidEgg = reproState.eggs.length === 1;
     const cooldownActive = matureAdult.lastReproductionTime === reproState.simTime;
 
-    // Immature juvenile check (< 20s)
+    // Immature juvenile check (< maturityAge)
     const juvenileOrg = spawnOrganism(benchGenome, 600, 600, 0);
     juvenileOrg.age = 10.0; // Immature
     juvenileOrg.energy = 90000.0; // High energy
     const evalJuv = evaluateReproductionAffordability(juvenileOrg, reproState.simTime, 2, reproState.eggs.length);
     const juvBlocked = !evalJuv.eligible && evalJuv.statusText.includes('Immature');
 
-    // Unaffordable reserve check
+    // Unaffordable reserve check (< 1 egg)
     const brokeAdult = spawnOrganism(benchGenome, 700, 700, 0);
     brokeAdult.age = 30.0;
     brokeAdult.energy = 15000.0; // Less than parentReserve (20k)
     const evalBroke = evaluateReproductionAffordability(brokeAdult, reproState.simTime, 3, reproState.eggs.length);
-    const brokeBlocked = !evalBroke.eligible && evalBroke.statusText.includes('Insufficient Energy');
+    const brokeBlocked = !evalBroke.eligible && evalBroke.statusText.includes('Foraging for 1st egg');
 
     const reproductionAffordability = laidEgg && cooldownActive && juvBlocked && brokeBlocked;
-    details.push(`4. True Budget Reproduction (No 60% capacity gate): Laid=${laidEgg}, CooldownSet=${cooldownActive}, JuvBlocked=${juvBlocked}, BrokeBlocked=${brokeBlocked} (Pass: ${reproductionAffordability})`);
+    details.push(`4. True Budget Reproduction & Scaled Clutch (Target: ${benchGenome.targetClutchSize}, Mature: ${benchGenome.maturityAge}s): Laid=${laidEgg} egg, CooldownSet=${cooldownActive}, JuvBlocked=${juvBlocked}, BrokeBlocked=${brokeBlocked} (Pass: ${reproductionAffordability})`);
 
     // --- TEST 5: RGB Optical Occlusion & Attenuation ---
     const testRayHit1 = rayCircleIntersection(0, 0, 1, 0, 200, 50, 0, 10);
@@ -3772,9 +3860,10 @@ export default function App() {
         e.preventDefault();
         e.stopPropagation();
 
-        if (isBrainInspectorOpen || selectedOrgId) {
-          ignoreCanvasClickUntilRef.current = Date.now() + 400;
+        if (isBrainInspectorOpen) {
           setIsBrainInspectorOpen(false);
+        } else if (selectedOrgId) {
+          ignoreCanvasClickUntilRef.current = Date.now() + 400;
           setSelectedOrgId(null);
           setSelectedSpecimen(null);
           setIsAutoTracking(false);
@@ -4249,7 +4338,7 @@ export default function App() {
         const w = pDef.width;
         const h = pDef.height;
 
-        const partHue = (g.hue + sIdx * 10) % 360;
+        const partHue = sanitizeCreatureHue(g.hue + sIdx * 8);
         const partLight = org.energy < g.maxEnergyCapacity * 0.2 ? 30 : g.lightness;
 
         ctx.fillStyle = hsl(partHue, g.saturation, partLight, 0.88);
@@ -4613,7 +4702,8 @@ export default function App() {
             onClick={(e) => {
               e.stopPropagation();
               if (isBrainInspectorOpen) {
-                closeInspector(e);
+                setIsBrainInspectorOpen(false);
+                gameAudio.playCrispClick();
               } else {
                 if (!selectedOrgId && simStateRef.current.organisms.length > 0) {
                   const first = simStateRef.current.organisms[0];
@@ -4851,6 +4941,8 @@ export default function App() {
                 <div className="col-span-2">
                   Age: <span className="text-cyan-300 font-bold">{selectedSpecimen.age.toFixed(1)}s</span> / {selectedSpecimen.maxLifespan.toFixed(0)}s <span className="text-slate-500">({remainingLifespan.toFixed(1)}s left)</span>
                 </div>
+                <div>DNA Clutch: <span className="text-amber-300 font-bold">{selectedSpecimen.genome.targetClutchSize || 2} eggs</span></div>
+                <div>Maturity: <span className="text-emerald-300 font-bold">{(selectedSpecimen.genome.maturityAge || 20.0).toFixed(1)}s</span></div>
                 <div>Organs: <span className="text-cyan-300 font-bold">{selectedSpecimen.genome.mouths.length}M · {selectedSpecimen.genome.eyes.length}E</span></div>
                 <div>Biomass: <span className="text-purple-300 font-bold">{formatJoules(selectedSpecimen.structuralBiomass)}</span></div>
                 <div>Clutches: <span className="text-amber-300 font-bold">{selectedSpecimen.clutchesLaid || 0} ({selectedSpecimen.offspringCount} eggs)</span></div>
@@ -5169,14 +5261,17 @@ export default function App() {
                 </span>
                 <span className="text-[10px] text-slate-400 font-bold">{selectedSpecimen.id}</span>
                 <button
-                  onPointerDown={(e) => e.stopPropagation()}
+                  onPointerDown={(e) => {
+                    e.stopPropagation();
+                  }}
                   onClick={(e) => {
                     e.stopPropagation();
                     e.preventDefault();
-                    closeInspector(e);
+                    setIsBrainInspectorOpen(false);
+                    gameAudio.playCrispClick();
                   }}
-                  title="Close Inspector (✕)"
-                  className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800">
+                  title="Close Diagnostics Window (✕)"
+                  className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition-colors">
                   <X size={16} />
                 </button>
               </div>
@@ -5382,6 +5477,26 @@ export default function App() {
                       </div>
                     </div>
 
+                    {/* Heritable Genetic Traits */}
+                    <div className="p-2 rounded-lg bg-slate-900/90 border border-purple-500/30 space-y-1 text-[10px]">
+                      <div className="text-purple-300 font-bold flex items-center gap-1">
+                        <Dna size={12} />
+                        <span>HERITABLE REPRODUCTION DNA TRAITS</span>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2 text-slate-300 pt-0.5">
+                        <div className="bg-slate-950 p-1.5 rounded border border-slate-800">
+                          <div className="text-slate-400 text-[9px]">Target Clutch Size:</div>
+                          <div className="text-amber-300 font-bold text-xs">{selectedSpecimen.genome.targetClutchSize || 2} eggs</div>
+                          <div className="text-[8px] text-slate-500">Mutates &plusmn;1 (Range 1-6)</div>
+                        </div>
+                        <div className="bg-slate-950 p-1.5 rounded border border-slate-800">
+                          <div className="text-slate-400 text-[9px]">Sexual Maturity Age:</div>
+                          <div className="text-emerald-300 font-bold text-xs">{(selectedSpecimen.genome.maturityAge || 20.0).toFixed(1)}s</div>
+                          <div className="text-[8px] text-slate-500">Mutates &plusmn;1-3s (Range 10-45s)</div>
+                        </div>
+                      </div>
+                    </div>
+
                     <div className="space-y-1.5">
                       {selectedSpecimen.genome.parts.map((p, idx) => (
                         <div key={idx} className="p-2 bg-slate-900/80 rounded-lg border border-slate-800 flex justify-between items-center text-[10px]">
@@ -5499,6 +5614,13 @@ export default function App() {
                     </div>
 
                     <div className="flex justify-between text-slate-300">
+                      <span>DNA Target Clutch / Maturity:</span>
+                      <span className="text-amber-300 font-bold">
+                        {selectedSpecimen.genome.targetClutchSize || 2} eggs · {(selectedSpecimen.genome.maturityAge || 20.0).toFixed(1)}s maturity
+                      </span>
+                    </div>
+
+                    <div className="flex justify-between text-slate-300">
                       <span>Structural Biomass:</span>
                       <span className="text-purple-300 font-bold">{formatJoules(selectedSpecimen.structuralBiomass)}</span>
                     </div>
@@ -5611,6 +5733,7 @@ export default function App() {
                     <div>Archetype / Name: <span className="font-bold text-white">{selectedSpecimen.genome.name || selectedSpecimen.genome.archetype || 'Specimen'}</span></div>
                     <div>Generation: <span className="font-bold text-cyan-300">{selectedSpecimen.genome.generation}</span></div>
                     <div>Direct Parents: <span className="text-slate-400">{selectedSpecimen.genome.parentIds.join(', ') || 'Primordial Genesis'}</span></div>
+                    <div>DNA Traits: <span className="text-amber-300 font-bold">{selectedSpecimen.genome.targetClutchSize || 2} eggs clutch</span> &middot; <span className="text-emerald-300 font-bold">{(selectedSpecimen.genome.maturityAge || 20.0).toFixed(1)}s maturity</span></div>
                     <div>Total Offspring: <span className="font-bold text-emerald-400">{selectedSpecimen.offspringCount} laid across {selectedSpecimen.clutchesLaid || 0} clutches</span></div>
                     <div>Max Lifespan Cap: <span className="text-slate-300">{selectedSpecimen.genome.maxLifespan}s</span></div>
                   </div>

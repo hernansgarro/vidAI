@@ -1,4 +1,29 @@
-# Initial GitHub Pages import — 2026-10-19
+# Project status — 2026-10-19
+
+## Latest export update
+
+Integrated `project-files (11).zip` using the previous export as a merge base.
+This retains all new game changes: inherited target clutch size and maturity age,
+budget-limited clutches, nutrient-distinct creature colors, new trait displays,
+and diagnostics-window closing without clearing the creature selection.
+
+The standalone Pages build, bundled asset URLs, exported configuration defaults,
+configured population cap, zero-valued settings, and previously tested energy
+accounting repairs are preserved. The hosted Playground SDK is still unused.
+
+Local validation: **12 simulation tests passed** and `npm run build` passed.
+The added coverage exercises inherited clutch limits, partial affordable clutches,
+inherited maturity, and energy-conserving egg funding through the gameplay kernel.
+The existing single-egg regression now uses the explicit one-egg budget instead
+of the new desired-clutch budget.
+
+In the same seeded 60-second workload described below, all 18 founders survived,
+one offspring hatched, one egg remained, and no deaths occurred. The energy ledger
+discrepancy was approximately **1.4 × 10⁻⁸ J**. This remains a short startup check;
+long-term ecological sustainability is unverified. Chromium execution and Pages
+deployment are checked by the existing GitHub Actions workflow on push.
+
+## Initial GitHub Pages import
 
 ## Scope
 

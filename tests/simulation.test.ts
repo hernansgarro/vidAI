@@ -100,7 +100,7 @@ test('adult lays an affordable egg below the retired capacity threshold and resp
   org.age = 30;
   const s = world([org]);
   s.simTime = 30;
-  org.energy = sim.evaluateReproductionAffordability(org, 30, 1, 0).requiredBudget + 100;
+  org.energy = sim.evaluateReproductionAffordability(org, 30, 1, 0).requiredForOneEgg + 100;
   assert.ok(org.energy < g.maxEnergyCapacity * g.reproductionThreshold);
   const before = accounted(s);
   sim.stepSimulation(s, settings, 1 / 60);
@@ -110,6 +110,51 @@ test('adult lays an affordable egg below the retired capacity threshold and resp
   assert.ok(Math.abs(accounted(s) - before) < 1e-7);
   sim.stepSimulation(s, settings, 1 / 60);
   assert.equal(s.eggs.length, 1);
+});
+
+test('inherited clutch targets scale to the available budget and preserve funded energy', () => {
+  for (const [targetClutchSize, affordableEggs, expectedEggs] of [[6, 2, 2], [1, 4, 1]]) {
+    const g = sim.createReferenceNematodeGenome();
+    g.motorForce = 0;
+    g.targetClutchSize = targetClutchSize;
+    const org = sim.spawnOrganism(g, 1200, 750);
+    org.age = 30;
+    const s = world([org]);
+    s.simTime = 30;
+    const budget = sim.evaluateReproductionAffordability(org, 30, 1, 0);
+    org.energy = budget.parentReserve + budget.eggCost * affordableEggs + 100;
+    const before = accounted(s);
+    sim.stepSimulation(s, settings, 1 / 60);
+    assert.equal(s.eggs.length, expectedEggs);
+    assert.equal(org.offspringCount, expectedEggs);
+    assert.ok(org.energy >= budget.parentReserve);
+    assert.ok(Math.abs(accounted(s) - before) < 1e-7);
+    for (const e of s.eggs) {
+      assert.equal(e.genome.targetClutchSize, targetClutchSize);
+      assert.equal(e.genome.maturityAge, g.maturityAge);
+    }
+  }
+});
+
+test('inherited maturity age controls both life stage and egg laying', () => {
+  const g = sim.createReferenceNematodeGenome();
+  g.motorForce = 0;
+  g.maturityAge = 40;
+  const org = sim.spawnOrganism(g, 1200, 750);
+  org.age = 30;
+  org.energy = 90000;
+  const s = world([org]);
+  s.simTime = 60;
+  assert.equal(sim.getLifeStage(org), 'Juvenile');
+  assert.equal(sim.evaluateReproductionAffordability(org, 60, 1, 0).eligible, false);
+  sim.stepSimulation(s, settings, 1 / 60);
+  assert.equal(s.eggs.length, 0);
+  assert.equal(org.clutchesLaid, 0);
+  org.age = 40;
+  assert.equal(sim.getLifeStage(org), 'Adult');
+  sim.stepSimulation(s, settings, 1 / 60);
+  assert.equal(s.eggs.length, g.targetClutchSize);
+  assert.equal(org.clutchesLaid, 1);
 });
 
 test('age death is recorded with positive reserve', () => {

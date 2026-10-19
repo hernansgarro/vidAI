@@ -2,7 +2,8 @@
 
 An aquatic artificial life simulator with articulated 2D bodies, physical swimming,
 recurrent neural controllers, mouth-specific feeding, inherited mutations and eggs.
-Imported from the current VIDA Playground export (`project-files (10).zip`).
+Updated from the VIDA Playground export (`project-files (11).zip`), preserving
+the standalone build and validated energy-accounting fixes from the initial import.
 
 **Play:** https://smeagol44.github.io/vidAI/
 
