@@ -13,7 +13,9 @@ for (let tick = 0; tick < Math.round(seconds * 60); tick++) {
     const error = totalAccountedEnergy(s) - s.ledger.externalInflow;
     if (Math.abs(error) > .001 || s.organisms.some(o => !Number.isFinite(o.energy) || o.energy < 0 || o.segments.some(p => !Object.values(p).every(Number.isFinite)))) throw new Error('Simulation invariant failed.');
     console.log(JSON.stringify({seed, seconds: (tick + 1) / 60, living: s.organisms.filter(o => !o.dissolving).length,
-      births: s.totalBirths, deaths: s.totalDeaths, eggs: s.eggs.length, nutrients: s.nutrients.length,
+      births: s.totalBirths, deaths: s.totalDeaths, eggs: s.eggs.length,
+      nutrients: s.nutrients.filter(n => n.kind !== 'carrion').length,
+      carrion: s.nutrients.filter(n => n.kind === 'carrion').length,
       maxGeneration: Math.max(1, ...s.organisms.map(o => o.genome.generation)), energyErrorJ: error}));
   }
 }

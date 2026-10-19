@@ -43,7 +43,19 @@ Settings include nutrients (0–800), tank width/height, gravity, population cap
 (1–150), viscosity, inflow, seed and founder brain mode. Resizing translates whole
 articulated bodies. Lowering the cap does not kill existing creatures. A zero food
 target disables environmental replenishment; decomposition can still create food.
-**Clear Free Nutrients** records removed energy in the ledger.
+**Clear Free Nutrients** removes plant food and records its energy in the ledger.
+Pink remains are separate animal food: carnivore and omnivore mouths can scavenge
+it; herbivore mouths cannot. Uneaten remains become plant nutrients after 60
+simulated seconds without adding energy. The HUD counts plant food and remains
+separately. A mouth shares its intake limit across all contacted foods and stops
+removing food when storage is full.
+
+Diet labels are herbivore, carnivore and omnivore. A creature with different
+specialist mouths has an omnivorous overall diet; each mouth retains its own
+permissions. Body pigment is inherited independently of diet, including green.
+The inherited color-variability trait scales pigment mutation probability; zero
+preserves the parent's pigment in its next offspring. Variability itself can
+mutate. This is genetic inheritance, not brain-controlled color changing.
 
 Balanced founders have a weak heritable retinal steering prior. Unbiased founders
 have random controllers and seeded swimming oscillators. Neither mode is trained,
@@ -51,10 +63,11 @@ and neither uses hidden target positions. Both keep 24 recurrent hidden neurons.
 Every eye supplies five RGB/distance rays; every joint supplies angle and velocity.
 
 **Copy Diagnostic Report** provides settings, seed/PRNG, population, death history,
-energy balance and selected-creature telemetry. Current snapshots preserve complete
-simulation state and settings for exact continuation. Older v3 JSON worlds can be
-imported with sensory migration; environment settings omitted by those old files
-use defaults. Imported worlds pause for inspection before resuming.
+energy balance and selected-creature telemetry. Current v5 snapshots preserve
+pigment variability, decomposition timers and complete simulation state/settings
+for exact continuation in this build. Older v3/v4 JSON worlds import under the
+updated simulation rules; v3 neural channels migrate and omitted environment
+settings use defaults. Imported worlds pause for inspection before resuming.
 
 ## GitHub Pages
 
