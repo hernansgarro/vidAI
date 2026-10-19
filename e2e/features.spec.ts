@@ -20,6 +20,10 @@ test('catalogue, saved specimens, live brain graph and draggable inspector', asy
   const rows = page.getByTestId('specimen-row');
   await expect(rows).toHaveCount(50);
   await expect(rows.first().getByRole('button')).toHaveCount(1);
+  // Native select keyboard actions must not trigger simulation hotkeys.
+  await page.getByLabel('Body family').focus();
+  await page.keyboard.press('Space'); await page.keyboard.press('Escape');
+  await expect(page.getByRole('button', {name: 'RESUME SIMULATION', exact: true})).toBeHidden();
   await page.getByLabel('Body family').selectOption('Four paddles'); await expect(rows).toHaveCount(5);
   await page.getByLabel('Diet filter').selectOption('carnivore'); await expect(rows).toHaveCount(1);
   await rows.first().getByRole('button', {name: 'Spawn', exact: true}).click();

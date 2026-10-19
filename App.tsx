@@ -636,7 +636,8 @@ export default function App() {
   // Keyboard Shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (['input', 'textarea'].includes((e.target as HTMLElement)?.tagName?.toLowerCase())) return;
+      const target = e.target as HTMLElement;
+      if (['input', 'textarea', 'select'].includes(target?.tagName?.toLowerCase()) || target?.isContentEditable) return;
 
       if (e.key === 'Escape') {
         e.preventDefault();
