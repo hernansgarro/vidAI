@@ -1,6 +1,95 @@
 # Project status — 2026-10-19
 
-## Direct repository development — version 0.2.0
+## Feeding and pigment repair — version 0.2.1
+
+This release changes ecological outcomes. The 0.2.0 results below are historical,
+not expected results for the corrected feeding model.
+
+### Implemented
+
+- Independent inherited body pigment, with no mouth-driven recoloring or excluded
+  green band. Heritable `colorMutationRate` scales the world's pigment mutation
+  probability. Zero preserves parental hue, saturation and lightness in the next
+  offspring; the variability gene itself can mutate. This does not add conscious
+  color selection or neural control of pigment.
+- Rendering and optical sensing share the per-part body pigment, including the
+  existing low-energy shading. Founder anatomy, gaits, oscillator/motor equations,
+  drag, energy-conversion constants and the interface layout are preserved.
+- Three diet labels: herbivore, carnivore and omnivore. Different specialist mouths
+  give an omnivorous overall diet without changing any individual mouth's food
+  permissions. Bank diet filters use the same overall classification. Mouth
+  anatomy remains visible separately.
+- One intake allowance per mouth per simulated tick, shared across prey, eggs,
+  nutrients and remains. Capacity limits intake before food is removed; full
+  storage no longer destroys surplus food. Omnivore mouths retain their half-rate
+  trade-off. Resource visitation order is still deterministic and sequential.
+- The bite exhausting a living prey's reserve immediately records lethal predation,
+  so the victim cannot subsequently be mislabeled as starving in its own update.
+  Existing reserve-first predation remains a simplified model, not tissue injury.
+- Corpses and nonviable eggs leave pink edible remains. Carnivore/omnivore mouths
+  can scavenge these at 85% assimilation, with the remainder recorded as heat.
+  Uneaten remains become plant nutrients after 60 simulated seconds, preserving
+  their remaining chemical energy. This is a simple timed conversion, not a
+  microbial decomposition model. Existing particle-cap loss accounting remains.
+- HUD/report counts distinguish plant food and remains. Remains do not suppress
+  plant-food replenishment, and Clear Free Nutrients removes only plant food.
+- Save schema v5 retains food type, decay timers and pigment variability, with
+  exact continuation in this build. V3/v4 saves still import; their untyped food
+  stays plant food. Older saves run under the updated simulation rules.
+
+### Executed validation
+
+- 49 simulation tests passed (29 existing, 20 new). Coverage includes the six-food
+  intake reproduction at 1/30, 1/60 and 1/120s; shared mixed-resource intake;
+  permissions for all mouths against plant food and remains; lethal predation in
+  both organism orders; finite-storage feeding; conserved body/egg energy;
+  remains decay; color inheritance; optical pigment; validation and v5 exact
+  continuation through decay, plus v3/v4 import compatibility.
+- All four production-browser tests passed locally, including import/render of a
+  green creature with different specialist mouths and a distinct pink remains
+  particle. HUD/report show one omnivore, one remains particle and zero nutrients.
+  Existing catalogue, inspector dragging, live neural graph, sandbox, save/load,
+  Pages-subpath startup and pause/resume checks remain covered.
+- TypeScript and production build passed. Controlled swimming remains 1263.19px
+  COM displacement in 15s, with zero motor-off drift and 0.1197px final anchor error.
+  No frame-rate or learned-behavior claim is inferred from headless execution.
+
+Default initialization, 60 simulated seconds at 1/60s:
+
+| Seed | Living | Eggs | Recorded deaths | Absolute ledger discrepancy |
+| --- | ---: | ---: | ---: | ---: |
+| 4242 | 18 | 1 | 0 | 7.0 × 10⁻⁹ J |
+| 71 | 18 | 0 | 0 | 8.4 × 10⁻⁹ J |
+| 1901 | 18 | 0 | 0 | 2.3 × 10⁻⁹ J |
+
+Five-minute default ecosystem, seed 4242:
+
+| Simulated time | Living | Eggs | Highest living generation | Recorded deaths |
+| --- | ---: | ---: | ---: | ---: |
+| 60 s | 18 | 1 | 1 | 0 |
+| 120 s | 23 | 1 | 2 | 0 |
+| 180 s | 29 | 2 | 2 | 0 |
+| 240 s | 37 | 1 | 3 | 1 |
+| 300 s | 49 | 5 | 4 | 1 |
+
+Final ledger discrepancy: 1.36 × 10⁻⁷ J. Reproduce with
+`npm run benchmark -- --seed 4242 --seconds 300`. This is one short ecological
+sample; it does not establish indefinite sustainability or reliable hunting.
+No reserve inflation, replacement creatures or survival immunity were added.
+
+### Next focused work
+
+- Give brains control over oscillator amplitude/motor engagement, with useful
+  feeding/contact feedback and controlled behavioral comparisons.
+- Add inter-organism and nonadjacent self-contact; calibrate nonzero longitudinal
+  drag while retaining effective active swimming.
+- Retire or implement the unused reproduction genes; establish meaningful trait
+  trade-offs before expanding brain structure. Growth, injury/repair and gradual
+  senescence remain future biology features.
+- Spatial indexing, UI-thread separation, environmental niches and selectable
+  experiment archives remain pending. Preserve honest measured limits.
+
+## Previous release — version 0.2.0
 
 VIDA now develops and builds directly from this repository. The established
 interface, movable windows, camera, mouth/raycast effects, bubbles, eggs, audio

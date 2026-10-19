@@ -1,10 +1,10 @@
 import {
   XoshiroPRNG, migrateOrganismBrain, ensureBrainLayout, calculateBodyCost,
   calculateMaxEnergyCapacity, clampVal, getPartCornerVertices,
-  getBrainLayout, type Genome, type SimulationSettings, type SimulationState, type Organism,
+  getBrainLayout, getDietClassification, CARRION_DECAY_SECONDS, type Genome, type SimulationSettings, type SimulationState, type Organism,
 } from './simulation';
 
-export const BUILD_VERSION = '0.2.0';
+export const BUILD_VERSION = '0.2.1';
 export const DEFAULT_SETTINGS: SimulationSettings = {
   worldWidth: 2400, worldHeight: 1500, waterViscosity: .18,
   targetNutrients: 800, inflowRate: 15, kinshipProtection: true,
@@ -20,9 +20,9 @@ export function totalAccountedEnergy(s: SimulationState): number {
 }
 
 export function clearFreeNutrients(s: SimulationState): number {
-  const removed = s.nutrients.reduce((sum, n) => sum + n.energyValue, 0);
+  const removed = s.nutrients.filter(n => n.kind !== 'carrion').reduce((sum, n) => sum + n.energyValue, 0);
   s.ledger.recordedLosses += removed;
-  s.nutrients = [];
+  s.nutrients = s.nutrients.filter(n => n.kind === 'carrion');
   s.nutrientAccumulator = 0;
   return removed;
 }
@@ -53,7 +53,7 @@ export function resizeWorld(s: SimulationState, old: SimulationSettings, width: 
 
 export function createSnapshot(s: SimulationState, settings: SimulationSettings, metadata: Record<string, unknown> = {}) {
   const {prng, lineage, ...data} = s;
-  const snapshot = {schemaVersion: '4.0.0', build: BUILD_VERSION, metadata, settings,
+  const snapshot = {schemaVersion: '5.0.0', build: BUILD_VERSION, metadata, settings,
     state: {...data, prngState: prng.getState(), lineage: [...lineage]}};
   // Canonical JSON representation also drops optional undefined fields in memory.
   return JSON.parse(JSON.stringify(snapshot)) as typeof snapshot;
@@ -102,6 +102,7 @@ export function validateGenome(raw: unknown): Genome {
   assert(g.motorForce >= 0 && g.motorForce <= 100 && g.motorFrequency >= 0 && g.motorFrequency <= 20
     && g.maturityAge >= 0 && g.maxLifespan > 0 && g.incubationTime > 0 && g.metabolicEfficiency > 0
     && Number.isInteger(g.targetClutchSize) && g.targetClutchSize >= 1 && g.targetClutchSize <= 8, 'trait bounds');
+  assert(g.colorMutationRate === undefined || (Number.isFinite(g.colorMutationRate) && g.colorMutationRate >= 0 && g.colorMutationRate <= 1), 'pigment variability');
   assert(Array.isArray(g.parentIds) && g.parentIds.every(id => typeof id === 'string'), 'parent IDs');
   g.bodyCost = calculateBodyCost(g.parts, g.eyes, g.mouths);
   g.maxEnergyCapacity = calculateMaxEnergyCapacity(g.parts, g.storageTraitMultiplier ?? 1);
@@ -118,7 +119,7 @@ export function restoreSnapshot(input: unknown): {state: SimulationState; settin
     assert(input.length <= 25_000_000, 'file exceeds 25 MB'); return JSON.parse(input);
   })() : structuredClone(input);
   assert(raw && typeof raw === 'object', 'document');
-  assert(raw.schemaVersion === '4.0.0' || raw.schemaVersion === '3.0.0', 'unsupported schema');
+  assert(['5.0.0', '4.0.0', '3.0.0'].includes(raw.schemaVersion), 'unsupported schema');
   const legacy = raw.schemaVersion === '3.0.0';
   const data = legacy ? raw : raw.state;
   assert(data && typeof data === 'object', 'state');
@@ -158,7 +159,12 @@ export function restoreSnapshot(input: unknown): {state: SimulationState; settin
     assert([egg.x, egg.y, egg.vx, egg.vy, egg.fundedReserve, egg.fundedStructural, egg.incubationProgress, egg.totalIncubationTime].every(Number.isFinite)
       && egg.fundedReserve >= 0 && egg.fundedStructural >= 0 && egg.totalIncubationTime > 0, 'egg state');
   }
-  for (const n of data.nutrients) assert([n.x, n.y, n.vx, n.vy, n.energyValue, n.radius].every(Number.isFinite) && n.energyValue >= 0 && n.radius > 0, 'nutrient state');
+  for (const n of data.nutrients) {
+    assert([n.x, n.y, n.vx, n.vy, n.energyValue, n.radius].every(Number.isFinite) && n.energyValue >= 0 && n.radius > 0, 'nutrient state');
+    assert(n.kind === undefined || n.kind === 'nutrient' || n.kind === 'carrion', 'food type');
+    assert(n.decayTimeRemaining === undefined || (Number.isFinite(n.decayTimeRemaining) && n.decayTimeRemaining >= 0 && n.decayTimeRemaining <= CARRION_DECAY_SECONDS), 'food decay timer');
+    assert(n.kind !== 'carrion' || n.decayTimeRemaining !== undefined, 'carrion decay timer');
+  }
   const ledger = data.ledger;
   assert(ledger && ['externalInflow', 'metabolicDissipation', 'mechanicalWorkHeat', 'recordedLosses'].every(k => Number.isFinite(ledger[k]) && ledger[k] >= 0), 'energy ledger');
   assert(Number.isFinite(data.simTime) && data.simTime >= 0, 'simulation time');
@@ -185,10 +191,11 @@ export function diagnosticReport(s: SimulationState, settings: SimulationSetting
   const selected = living.find(o => o.id === selectedId);
   return {build: BUILD_VERSION, ...metadata, simTime: s.simTime, prngState: s.prng.getState(), settings,
     population: {living: living.length, decomposing: s.organisms.length - living.length, eggs: s.eggs.length,
-      nutrients: s.nutrients.length, births: s.totalBirths, deaths: s.totalDeaths,
+      nutrients: s.nutrients.filter(n => n.kind !== 'carrion').length,
+      carrion: s.nutrients.filter(n => n.kind === 'carrion').length, births: s.totalBirths, deaths: s.totalDeaths,
       families: [...new Set(living.map(o => o.genome.archetype))],
       diets: living.reduce<Record<string, number>>((counts, o) => {
-        const diet = [...new Set(o.genome.mouths.map(m => m.mouthType))].sort().join('+');
+        const diet = getDietClassification(o.genome.mouths).category;
         counts[diet] = (counts[diet] ?? 0) + 1; return counts;
       }, {})},
     energy: {...s.ledger, accounted: totalAccountedEnergy(s), errorJ: totalAccountedEnergy(s) - s.ledger.externalInflow},

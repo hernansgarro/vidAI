@@ -47,19 +47,19 @@ export function createInitialWorld(settings: SimulationSettings, seed = 4242, mo
 export function collectWorldStats(s: SimulationState, target: number) {
   const living = s.organisms.filter(o => !o.dissolving);
   const generations = living.map(o => o.genome.generation);
-  const counts = {herbivoreCount: 0, carnivoreCount: 0, omnivoreCount: 0, mixedCount: 0};
+  const counts = {herbivoreCount: 0, carnivoreCount: 0, omnivoreCount: 0};
   for (const o of living) {
     const category = getDietClassification(o.genome.mouths).category;
     if (category === 'Herbivore') counts.herbivoreCount++;
     if (category === 'Carnivore') counts.carnivoreCount++;
     if (category === 'Omnivore') counts.omnivoreCount++;
-    if (category === 'Mixed') counts.mixedCount++;
   }
   return {simTime: Math.round(s.simTime * 10) / 10, livingCount: living.length, eggCount: s.eggs.length,
     maxGeneration: Math.max(1, ...generations), avgGeneration: generations.length ? Math.round(generations.reduce((a, b) => a + b, 0) / generations.length * 10) / 10 : 1,
     totalBirths: s.totalBirths, totalDeaths: s.totalDeaths,
     fastestSpeed: Math.round(Math.max(0, ...living.map(o => o.speed)) * 10) / 10,
-    nutrientCount: s.nutrients.length, targetNutrients: target,
+    nutrientCount: s.nutrients.filter(n => n.kind !== 'carrion').length,
+    carrionCount: s.nutrients.filter(n => n.kind === 'carrion').length, targetNutrients: target,
     totalStoredBiomass: Math.round(s.organisms.reduce((sum, o) => sum + o.structuralBiomass, 0)),
     totalStoredReserves: Math.round(s.organisms.reduce((sum, o) => sum + o.energy, 0)),
     totalEggEnergy: Math.round(s.eggs.reduce((sum, e) => sum + e.fundedReserve + e.fundedStructural, 0)),

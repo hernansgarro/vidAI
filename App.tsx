@@ -83,7 +83,8 @@ import {
   SimulationState,
   clampVal,
   hsl,
-  sanitizeCreatureHue,
+  getBodyPigment,
+  getFoodRGB,
   getLifeStage,
   evaluateReproductionAffordability,
   getDietClassification,
@@ -277,7 +278,7 @@ export default function App() {
   const [specimenBank, setSpecimenBank] = useState<SpecimenBankItem[]>([]);
   const displayedSpecimenBank = useMemo(() => [...founderBankItems, ...specimenBank].filter(item =>
     (bankFamily === 'All' || item.genome.archetype === bankFamily)
-    && (bankDiet === 'All' || item.genome.mouths.some(m => m.mouthType === bankDiet))
+    && (bankDiet === 'All' || getDietClassification(item.genome.mouths).category.toLowerCase() === bankDiet)
     && item.name.toLowerCase().includes(bankSearch.toLowerCase())),
     [founderBankItems, specimenBank, bankFamily, bankDiet, bankSearch]);
   const [saveNotification, setSaveNotification] = useState<string | null>(null);
@@ -315,7 +316,7 @@ export default function App() {
     herbivoreCount: 0,
     carnivoreCount: 0,
     omnivoreCount: 0,
-    mixedCount: 0,
+    carrionCount: 0,
     simTimeRatio: 1.0,
     renderFPS: 60,
     physicsStepsPerSec: 60,
@@ -927,6 +928,7 @@ export default function App() {
     const nutImg = assets['nutrientParticle'];
     const nutAspect = (getConfig('assetNutrientParticleAspectRatio') as number) || 1.0;
     for (const nut of s.nutrients) {
+      const carrion = nut.kind === 'carrion';
       const isSuper = nut.isSuper || nut.energyValue > NUTRIENT_ENERGY_VALUE * 1.25;
       const baseRadius = Math.max(6.0, nut.radius);
       const pulse = 1.0 + Math.sin(nut.pulseTimer || 0) * 0.12;
@@ -937,7 +939,11 @@ export default function App() {
 
       const auraRad = Math.max(14, baseRadius * 2.6);
       const auraGrad = ctx.createRadialGradient(0, 0, baseRadius * 0.3, 0, 0, auraRad);
-      if (isSuper) {
+      if (carrion) {
+        auraGrad.addColorStop(0, 'rgba(240, 120, 106, .75)');
+        auraGrad.addColorStop(.45, 'rgba(190, 75, 60, .35)');
+        auraGrad.addColorStop(1, 'rgba(190, 75, 60, 0)');
+      } else if (isSuper) {
         auraGrad.addColorStop(0, 'rgba(52, 211, 153, 0.9)');
         auraGrad.addColorStop(0.4, 'rgba(6, 182, 212, 0.5)');
         auraGrad.addColorStop(1, 'rgba(6, 182, 212, 0)');
@@ -953,13 +959,14 @@ export default function App() {
 
       ctx.beginPath();
       ctx.arc(0, 0, baseRadius, 0, Math.PI * 2);
-      ctx.fillStyle = isSuper ? '#4ade80' : '#22e078';
+      const rgb = getFoodRGB(nut).map(c => Math.round(c * 255));
+      ctx.fillStyle = `rgb(${rgb.join(',')})`;
       ctx.fill();
-      ctx.strokeStyle = isSuper ? '#a7f3d0' : '#6ee7b7';
+      ctx.strokeStyle = carrion ? '#ffc5b5' : isSuper ? '#a7f3d0' : '#6ee7b7';
       ctx.lineWidth = Math.max(1.2, 2.0 / zoom);
       ctx.stroke();
 
-      if (nutImg && nutImg.complete && nutImg.naturalWidth > 0) {
+      if (!carrion && nutImg && nutImg.complete && nutImg.naturalWidth > 0) {
         const drawSize = baseRadius * 2.2;
         ctx.drawImage(nutImg, -drawSize / 2, -drawSize / 2, drawSize, drawSize / nutAspect);
       }
@@ -1069,10 +1076,9 @@ export default function App() {
         const w = pDef.width;
         const h = pDef.height;
 
-        const partHue = sanitizeCreatureHue(g.hue + sIdx * 8);
-        const partLight = org.energy < g.maxEnergyCapacity * 0.2 ? 30 : g.lightness;
+        const [partHue, partSaturation, partLight] = getBodyPigment(org, sIdx);
 
-        ctx.fillStyle = hsl(partHue, g.saturation, partLight, 0.88);
+        ctx.fillStyle = hsl(partHue, partSaturation, partLight, 0.88);
         ctx.strokeStyle = hsl(partHue, 95, 80, 0.95);
         ctx.lineWidth = 2;
 
@@ -1366,7 +1372,7 @@ export default function App() {
           </div>
 
           <div className="hidden sm:flex items-center gap-1 text-amber-300 bg-amber-950/40 px-2 py-0.5 rounded border border-amber-500/30">
-            <span>🧬 Mixed: <strong className="text-white">{ecoStats.mixedCount}</strong></span>
+            <span>🥩 Remains: <strong className="text-white">{ecoStats.carrionCount}</strong></span>
           </div>
 
           <div className="flex items-center gap-1 text-cyan-300 bg-cyan-950/40 px-2 py-0.5 rounded border border-cyan-500/30">
@@ -2332,6 +2338,10 @@ export default function App() {
                       </span>
                     </div>
 
+                    <div className="flex justify-between text-slate-300" title="Inherited multiplier of the world mutation probability for body color. Zero preserves pigment in the next offspring.">
+                      <span>Inherited Color Variability:</span>
+                      <span className="text-cyan-300 font-bold">{Math.round((selectedSpecimen.genome.colorMutationRate ?? 1) * 100)}%</span>
+                    </div>
                     <div className="border-t border-slate-800 pt-1 text-[10px] text-slate-400 font-bold">METABOLIC EXPENDITURE BREAKDOWN (J/s):</div>
                     <div className="flex justify-between text-slate-300 pl-2">
                       <span>• Basal Maintenance:</span>
@@ -2385,8 +2395,8 @@ export default function App() {
                     ) : (
                       <div className="space-y-1">
                         {selectedSpecimen.recentFeedings.slice().reverse().map((ev, idx) => {
-                          const icon = ev.foodCategory === 'Nutrient' ? '🌿' : ev.foodCategory === 'Prey' ? '🥩' : '🥚';
-                          const color = ev.foodCategory === 'Nutrient' ? 'text-emerald-400' : ev.foodCategory === 'Prey' ? 'text-rose-400' : 'text-amber-400';
+                          const icon = ev.foodCategory === 'Nutrient' ? '🌿' : ev.foodCategory === 'Prey' || ev.foodCategory === 'Carrion' ? '🥩' : '🥚';
+                          const color = ev.foodCategory === 'Nutrient' ? 'text-emerald-400' : ev.foodCategory === 'Prey' || ev.foodCategory === 'Carrion' ? 'text-rose-400' : 'text-amber-400';
                           return (
                             <div key={idx} className="p-1.5 bg-slate-900/90 rounded border border-slate-800 flex items-center justify-between text-[10px]">
                               <div className="flex items-center gap-1.5">
@@ -2914,7 +2924,7 @@ export default function App() {
               <div className="bg-slate-950/60 p-3 rounded-xl border border-purple-500/30">
                 <h4 className="font-bold text-purple-400 mb-1">3. Closed-Loop Biological Energy Accounting</h4>
                 <p>
-                  Eggs strictly conserve energy upon laying and hatching. Predated eggs cannot hatch into free bodies and instead decompose into nutrients, strictly enforcing zero free structural tissue creation.
+                  Eggs strictly conserve energy upon laying and hatching. Predated eggs cannot hatch into free bodies and instead leave edible remains that later decompose into nutrients, strictly enforcing zero free structural tissue creation.
                 </p>
               </div>
             </div>

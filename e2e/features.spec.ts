@@ -1,5 +1,7 @@
 import {test, expect, type Locator} from '@playwright/test';
 import {readFile} from 'node:fs/promises';
+import * as sim from '../simulation';
+import {DEFAULT_SETTINGS, createSnapshot} from '../persistence';
 
 test.use({viewport: {width: 1360, height: 900}});
 test.setTimeout(90000);
@@ -75,5 +77,47 @@ test('sandbox controls, zero food, diagnostic report and snapshot restore', asyn
   await expect(page.getByLabel('Nutrient target', {exact: true})).toHaveValue('0');
   await expect(page.getByLabel('Tank width', {exact: true})).toHaveValue('1800');
   await page.screenshot({path: info.outputPath('sandbox.png')});
+  expect(errors).toEqual([]);
+});
+
+test('imported green omnivore and edible remains retain three diet labels and distinct food counts', async ({page}) => {
+  const errors: string[] = []; page.on('pageerror', e => errors.push(e.message));
+  const settings = {...DEFAULT_SETTINGS, targetNutrients: 0, inflowRate: 0, mutationSeverity: 0};
+  const g = sim.createReferenceNematodeGenome(new sim.XoshiroPRNG(13));
+  g.hue = 120; g.colorMutationRate = 0;
+  g.mouths[0].mouthType = 'herbivore';
+  g.mouths.push({...g.mouths[0], id: 'second-mouth', direction: 'WEST', mouthType: 'carnivore'});
+  g.bodyCost = sim.calculateBodyCost(g.parts, g.eyes, g.mouths);
+  const prng = new sim.XoshiroPRNG(13);
+  const org = sim.spawnOrganism(g, 1200, 750, 0, undefined, undefined, prng); org.energy = g.maxEnergyCapacity;
+  const s: sim.SimulationState = {simTime: 0, initialSeed: 13, organisms: [org], eggs: [], nutrients: [],
+    bubbles: [], caustics: [], prng, lineage: new Map(), recentDeaths: [], nutrientAccumulator: 0,
+    totalBirths: 1, totalDeaths: 0, ledger: {externalInflow: org.energy + org.structuralBiomass,
+      metabolicDissipation: 0, mechanicalWorkHeat: 0, recordedLosses: 0}};
+  s.nutrients.push({id: 'remains', kind: 'carrion', decayTimeRemaining: 45, x: 1400, y: 850,
+    vx: 0, vy: 0, radius: 18, energyValue: 3000, bottomTimer: 0, pulseTimer: 0});
+  s.ledger.externalInflow += 3000;
+  await page.addInitScript(genome => {
+    localStorage.setItem('vida_specimen_bank_v3', JSON.stringify([{id: 'saved-combo', name: 'Green two-mouth specimen',
+      savedAt: 'Test', genome, tags: ['custom']}]));
+  }, g);
+  await page.goto('./?autoplay');
+  await page.getByTitle('Ecology & Physical Settings').click();
+  await page.locator('input[type=file]').setInputFiles({name: 'pigment-and-remains.json', mimeType: 'application/json',
+    buffer: Buffer.from(JSON.stringify(createSnapshot(s, settings)))});
+  await page.getByRole('button', {name: 'RESUME SIMULATION', exact: true}).click();
+  await expect(page.getByText(/Remains:/)).toHaveText(/Remains: 1/);
+  await expect(page.getByText(/Mixed:/)).toHaveCount(0);
+  await page.getByRole('button', {name: 'Copy Diagnostic Report', exact: true}).click();
+  const report = JSON.parse(await page.getByLabel('Diagnostic report', {exact: true}).inputValue());
+  expect(report.population.diets).toEqual({Omnivore: 1});
+  expect(report.population.carrion).toBe(1); expect(report.population.nutrients).toBe(0);
+  expect(Math.abs(report.energy.errorJ)).toBeLessThan(.001);
+  await page.screenshot({path: test.info().outputPath('pigment-and-remains.png')});
+  await page.getByTitle('Specimen Bank (Save & Spawn Custom Genomes)').click();
+  await page.getByLabel('Diet filter').selectOption('omnivore');
+  await expect(page.getByTestId('specimen-row').filter({hasText: 'Green two-mouth specimen'})).toHaveCount(1);
+  await page.getByLabel('Diet filter').selectOption('carnivore');
+  await expect(page.getByTestId('specimen-row').filter({hasText: 'Green two-mouth specimen'})).toHaveCount(0);
   expect(errors).toEqual([]);
 });

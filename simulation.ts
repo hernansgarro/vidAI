@@ -74,7 +74,7 @@ export const rng = new XoshiroPRNG(4242);
 // ============================================================================
 export type CardinalDir = 'NORTH' | 'SOUTH' | 'EAST' | 'WEST';
 export type MouthType = 'herbivore' | 'carnivore' | 'omnivore';
-export type FoodCategory = 'Nutrient' | 'Prey' | 'Egg';
+export type FoodCategory = 'Nutrient' | 'Prey' | 'Egg' | 'Carrion';
 
 export interface FeedingEvent {
   timestamp: number;
@@ -102,6 +102,7 @@ export const CONTINUOUS_EAT_RATE = 1200.0; // J/s max transfer (scaled for 100k 
 export const OMNIVORE_EAT_RATE = CONTINUOUS_EAT_RATE * 0.5; // 50% rate
 export const NUTRIENT_ENERGY_VALUE = 3000.0; // 3,000 J per nutrient
 export const BASE_NUTRIENT_RADIUS = 18.0;
+export const CARRION_DECAY_SECONDS = 60; // Unconsumed remains mineralize without adding energy.
 
 // Optical water ambient constant
 export const WATER_AMBIENT_RGB: [number, number, number] = [0.04, 0.12, 0.18];
@@ -171,6 +172,7 @@ export interface Genome {
   hue: number;
   saturation: number;
   lightness: number;
+  colorMutationRate?: number; // Heritable multiplier (0..1) of the world's pigment mutation probability.
   parts: PartDef[];
   eyes: SensoryEye[];
   mouths: SensoryMouth[];
@@ -228,7 +230,7 @@ export interface RayHit {
   r: number;
   g: number;
   b: number;
-  objectType: 'wall' | 'creature' | 'nutrient' | 'egg' | 'none';
+  objectType: 'wall' | 'creature' | 'nutrient' | 'carrion' | 'egg' | 'none';
 }
 
 export interface Organism {
@@ -297,6 +299,8 @@ export interface Nutrient {
   bottomTimer: number;
   isSuper?: boolean;
   pulseTimer?: number;
+  kind?: 'nutrient' | 'carrion'; // Missing in older saves means ordinary plant food.
+  decayTimeRemaining?: number;
 }
 
 export interface BubbleParticle {
@@ -411,25 +415,24 @@ export const clampVal = (v: number, min: number, max: number) => Math.max(min, M
 export const hsl = (h: number, s: number, l: number, a = 1) =>
   `hsla(${Math.floor(h)}, ${Math.floor(s)}%, ${Math.floor(l)}%, ${a})`;
 
-/**
- * Enforces nutrient hue exclusion (105° to 165° green spectrum).
- * Maps any creature body colors in this band to distinct vibrant colors
- * (e.g. amber/orange 30°-55° or cyan/blue 175°-220°).
- */
+/** Normalize pigment hue without diet restrictions or excluded colors. */
 export function sanitizeCreatureHue(hue: number): number {
-  let h = ((hue % 360) + 360) % 360;
-  if (h >= 105 && h <= 165) {
-    if (h < 135) {
-      h = 30 + ((h - 105) / 30) * 25; // Map to 30° - 55° (amber/gold)
-    } else {
-      h = 175 + ((h - 135) / 30) * 45; // Map to 175° - 220° (cyan/azure)
-    }
-  }
-  return Math.round(((h % 360) + 360) % 360);
+  return ((hue % 360) + 360) % 360;
+}
+
+/** The same opaque body pigment is used by rendering and creature vision. */
+export function getBodyPigment(org: Organism, partIndex: number): [number, number, number] {
+  return [Math.floor(sanitizeCreatureHue(org.genome.hue + partIndex * 8)),
+    Math.floor(org.genome.saturation),
+    Math.floor(org.energy < org.genome.maxEnergyCapacity * .2 ? 30 : org.genome.lightness)];
+}
+
+export function getFoodRGB(food: Nutrient): [number, number, number] {
+  return food.kind === 'carrion' ? [240 / 255, 120 / 255, 106 / 255] : [34 / 255, 224 / 255, 120 / 255];
 }
 
 export interface DietInfo {
-  category: 'Herbivore' | 'Carnivore' | 'Omnivore' | 'Mixed' | 'Passive';
+  category: 'Herbivore' | 'Carnivore' | 'Omnivore' | 'Passive';
   label: string;
   composition: string;
   badgeClass: string;
@@ -662,31 +665,12 @@ export function getDietClassification(mouths: SensoryMouth[] | undefined): DietI
     };
   }
 
-  if (omnivores > 0 && carnivores === 0 && herbivores === 0) {
-    return {
-      category: 'Omnivore',
-      label: 'Omnivore',
-      composition,
-      badgeClass: 'bg-purple-950/80 border-purple-500/40 text-purple-300',
-      textClass: 'text-purple-300 font-bold',
-      icon: '🟣',
-      herbivores: 0,
-      carnivores: 0,
-      omnivores,
-    };
-  }
-
-  // Mixed diet organism
+  // Overall diet follows edible categories; mouth anatomy remains individually typed.
   return {
-    category: 'Mixed',
-    label: `Mixed (${composition})`,
-    composition,
-    badgeClass: 'bg-amber-950/80 border-amber-500/40 text-amber-300',
-    textClass: 'text-amber-400 font-bold',
-    icon: '🥩🌿',
-    herbivores,
-    carnivores,
-    omnivores,
+    category: 'Omnivore', label: 'Omnivore', composition,
+    badgeClass: 'bg-purple-950/80 border-purple-500/40 text-purple-300',
+    textClass: 'text-purple-300 font-bold', icon: '🟣',
+    herbivores, carnivores, omnivores,
   };
 }
 
@@ -1339,7 +1323,7 @@ export function createTadpoleCruiserGenome(generation = 1, parentIds: string[] =
     archetype: 'Paddle Tadpole',
     generation,
     parentIds,
-    hue: sanitizeCreatureHue(45), // Golden Amber (excluded from green nutrient band)
+    hue: 45, // Golden amber founder pigment; independent of its mouth type.
     saturation: 90,
     lightness: 54,
     parts,
@@ -1472,14 +1456,7 @@ export function createRandomGenome(generation = 1, parentIds: string[] = [], cus
 
   const hasCarn = mouths.some((m) => m.mouthType === 'carnivore');
   const hasOmni = mouths.some((m) => m.mouthType === 'omnivore');
-  const rawHue = hasCarn
-    ? customPrng.range(345, 360)
-    : hasOmni
-    ? customPrng.range(275, 305)
-    : customPrng.nextFloat() < 0.5
-    ? customPrng.range(175, 235)
-    : customPrng.range(30, 55);
-  const defaultHue = sanitizeCreatureHue(rawHue);
+  const defaultHue = customPrng.range(0, 360);
 
   return {
     id: `GEN-${customPrng.nextUint32().toString(36).substring(0, 5).toUpperCase()}`,
@@ -1724,16 +1701,15 @@ export function mutateGenome(parent: Genome, severity = 0.25, customPrng: Xoshir
   const bodyCost = calculateBodyCost(parts, eyes, mouths);
   const maxEnergyCapacity = calculateMaxEnergyCapacity(parts, storageTraitMultiplier);
 
-  const hasCarnivoreMouth = mouths.some((m) => m.mouthType === 'carnivore');
-  const hasOmnivoreMouth = mouths.some((m) => m.mouthType === 'omnivore');
-
-  let newHue = (parent.hue + (customPrng.nextFloat() < mutChance ? customPrng.range(-20, 20) : 0) + 360) % 360;
-  if (hasCarnivoreMouth && customPrng.nextFloat() < 0.3) {
-    newHue = customPrng.range(345, 360);
-  } else if (hasOmnivoreMouth && customPrng.nextFloat() < 0.3) {
-    newHue = customPrng.range(275, 305);
-  }
-  newHue = sanitizeCreatureHue(newHue);
+  const pigmentChance = mutChance * (parent.colorMutationRate ?? 1);
+  const mutatePigment = (value: number) => customPrng.nextFloat() < pigmentChance
+    ? clampVal(value + customPrng.range(-4, 4) * mutScale, 0, 100) : value;
+  const newHue = customPrng.nextFloat() < pigmentChance
+    ? sanitizeCreatureHue(parent.hue + customPrng.range(-20, 20) * mutScale) : parent.hue;
+  const saturation = mutatePigment(parent.saturation);
+  const lightness = mutatePigment(parent.lightness);
+  // Variability itself can evolve. A newly changed value affects subsequent offspring.
+  const colorMutationRate = mutate(parent.colorMutationRate ?? 1, .1, 0, 1);
 
   // Heritable Target Clutch Size (mutates ±1, range 1..6)
   let mutatedTargetClutchSize = parent.targetClutchSize || 2;
@@ -1756,8 +1732,7 @@ export function mutateGenome(parent: Genome, severity = 0.25, customPrng: Xoshir
     generation: parent.generation + 1,
     parentIds: [parent.id],
     hue: newHue,
-    saturation: mutate(parent.saturation, 4, 65, 100),
-    lightness: mutate(parent.lightness, 4, 45, 72),
+    saturation, lightness, colorMutationRate,
     parts,
     eyes,
     mouths,
@@ -2038,15 +2013,17 @@ export function stepSimulation(
   const ledger = state.ledger;
   const prng = state.prng;
 
+  // Carrion does not suppress environmental plant-food replenishment.
+  const plantCount = nutrients.filter(n => n.kind !== 'carrion').length;
   // 1. Environmental Nutrient Inflow
-  if (nutrients.length >= targetNutrientsVal || inflowRateVal <= 0) {
+  if (plantCount >= targetNutrientsVal || inflowRateVal <= 0) {
     state.nutrientAccumulator = 0;
   } else {
     state.nutrientAccumulator += inflowRateVal * dt;
     if (state.nutrientAccumulator >= 1.0) {
       const spawnCount = Math.min(
         Math.floor(state.nutrientAccumulator),
-        targetNutrientsVal - nutrients.length,
+        targetNutrientsVal - plantCount,
         2200 - nutrients.length,
       );
       state.nutrientAccumulator -= spawnCount;
@@ -2072,6 +2049,13 @@ export function stepSimulation(
   const fluidDampingExp = Math.exp(-mu * 12.0 * dt);
   for (let i = 0; i < nutrients.length; i++) {
     const nut = nutrients[i];
+    if (nut.kind === 'carrion') {
+      nut.decayTimeRemaining = Math.max(0, (nut.decayTimeRemaining ?? CARRION_DECAY_SECONDS) - dt);
+      if (nut.decayTimeRemaining === 0) {
+        nut.kind = 'nutrient';
+        delete nut.decayTimeRemaining;
+      }
+    }
     nut.vy += gravity * dt;
     nut.vx *= fluidDampingExp;
     nut.vy *= fluidDampingExp;
@@ -2120,10 +2104,11 @@ export function stepSimulation(
       const requiredBodyCost = egg.genome.bodyCost;
 
       if (remainingEggEnergy < requiredBodyCost) {
-        // Nonviable egg due to predation/starvation: decompose into nutrient particle
+        // Nonviable eggs leave edible remains, with no unfunded energy.
         if (remainingEggEnergy > 5.0 && nutrients.length < 2200) {
           nutrients.push({
-            id: `NUT-${prng.nextUint32().toString(36)}`,
+            id: `REM-${prng.nextUint32().toString(36)}`,
+            kind: 'carrion', decayTimeRemaining: CARRION_DECAY_SECONDS,
             x: egg.x,
             y: egg.y,
             vx: 0,
@@ -2194,7 +2179,8 @@ export function stepSimulation(
           if (nutrients.length >= 2200) break;
           const angle = (d / Math.max(1, fullNutrientCount)) * Math.PI * 2;
           nutrients.push({
-            id: `NUT-${prng.nextUint32().toString(36)}`,
+            id: `REM-${prng.nextUint32().toString(36)}`,
+            kind: 'carrion', decayTimeRemaining: CARRION_DECAY_SECONDS,
             x: clampVal(deadPos.x + Math.cos(angle) * 16, 40, worldWidth - 40),
             y: clampVal(deadPos.y + Math.sin(angle) * 16, 40, worldHeight - 40),
             vx: 0,
@@ -2209,7 +2195,8 @@ export function stepSimulation(
 
         if (remainderFraction > 5.0 && nutrients.length < 2200) {
           nutrients.push({
-            id: `NUT-${prng.nextUint32().toString(36)}`,
+            id: `REM-${prng.nextUint32().toString(36)}`,
+            kind: 'carrion', decayTimeRemaining: CARRION_DECAY_SECONDS,
             x: deadPos.x,
             y: deadPos.y,
             vx: 0,
@@ -2352,7 +2339,7 @@ export function stepSimulation(
           const res = rayCircleIntersection(eyeWorldX, eyeWorldY, rayDirX, rayDirY, closestDist, nut.x, nut.y, nut.radius);
           if (res.hit && res.dist < closestDist) {
             closestDist = res.dist; hitHit = true; hitX = res.pointX; hitY = res.pointY;
-            hitR = 0.10; hitG = 0.95; hitB = 0.40; hitType = 'nutrient';
+            [hitR, hitG, hitB] = getFoodRGB(nut); hitType = nut.kind === 'carrion' ? 'carrion' : 'nutrient';
           }
         }
 
@@ -2372,8 +2359,6 @@ export function stepSimulation(
           const other = organisms[o];
           if (other.id === org.id || other.dissolving) continue; // Creature NEVER intersects its own body
 
-          const [oR, oG, oB] = hslToRgb(other.genome.hue, other.genome.saturation, other.genome.lightness);
-
           for (let s = 0; s < other.segments.length; s++) {
             const otherSeg = other.segments[s];
             const otherDef = other.genome.parts[s];
@@ -2392,7 +2377,7 @@ export function stepSimulation(
                 const dist = Math.hypot(inter.x - eyeWorldX, inter.y - eyeWorldY);
                 if (dist < closestDist) {
                   closestDist = dist; hitHit = true; hitX = inter.x; hitY = inter.y;
-                  hitR = oR; hitG = oG; hitB = oB; hitType = 'creature';
+                  [hitR, hitG, hitB] = hslToRgb(...getBodyPigment(other, s)); hitType = 'creature';
                 }
               }
             }
@@ -2728,198 +2713,100 @@ export function stepSimulation(
     ledger.metabolicDissipation += totalBasalDissipation * paidFraction;
     ledger.mechanicalWorkHeat += frameMechanicalWork * paidFraction;
 
-    // D. CONTACT FEEDING & EGG PREDATION (Exact Geometric Boundary, Zero Phantom Reach)
-    for (let mIdx = 0; mIdx < g.mouths.length; mIdx++) {
-      const mouth = g.mouths[mIdx];
-      const mouthPartIdx = Math.min(mouth.partIndex, org.segments.length - 1);
-      const mouthPhys = org.segments[mouthPartIdx];
-      const mouthDef = g.parts[mouthPartIdx];
+    // D. CONTACT FEEDING. One chemical-intake budget per mouth and simulated tick.
+    for (const mouth of g.mouths) {
+      const host = Math.min(mouth.partIndex, org.segments.length - 1);
+      const phys = org.segments[host], def = g.parts[host];
+      const anchor = getCardinalAnchor(mouth.direction, def.width, def.height);
+      const cos = Math.cos(phys.angle), sin = Math.sin(phys.angle);
+      const cx = phys.x + cos * anchor.x - sin * anchor.y;
+      const cy = phys.y + sin * anchor.x + cos * anchor.y;
+      const mouthRadius = mouth.mouthType === 'carnivore' ? 4.5 : mouth.mouthType === 'omnivore' ? 4 : 3.5;
+      const halfAperture = Math.max(mouthRadius, mouth.intakeWidth * .5);
+      const normal = getCardinalOutwardNormal(mouth.direction);
+      const tx = cos * -normal.y - sin * normal.x;
+      const ty = sin * -normal.y + cos * normal.x;
+      const x1 = cx - tx * halfAperture, y1 = cy - ty * halfAperture;
+      const x2 = cx + tx * halfAperture, y2 = cy + ty * halfAperture;
+      const eatsMeat = mouth.mouthType !== 'herbivore';
+      const eatsPlants = mouth.mouthType !== 'carnivore';
+      let remainingIntake = (mouth.mouthType === 'omnivore' ? OMNIVORE_EAT_RATE : CONTINUOUS_EAT_RATE) * dt;
+      const canEat = () => remainingIntake > 0 && org.energy < g.maxEnergyCapacity;
+      const consume = (available: number, category: FoodCategory, efficiency = 1): number => {
+        const transfer = Math.min(Math.max(0, available), remainingIntake,
+          Math.max(0, g.maxEnergyCapacity - org.energy) / efficiency);
+        if (transfer <= 0) return 0;
+        const absorbed = transfer * efficiency;
+        remainingIntake = Math.max(0, remainingIntake - transfer);
+        org.energy += absorbed;
+        ledger.metabolicDissipation += transfer - absorbed;
+        org.isFeedingHighlight = .2;
+        recordFeedingEvent(org, state.simTime, mouth.id, mouth.mouthType, category, absorbed);
+        return transfer;
+      };
 
-      const mouthAnchorLocal = getCardinalAnchor(mouth.direction, mouthDef.width, mouthDef.height);
-      const cosM = Math.cos(mouthPhys.angle);
-      const sinM = Math.sin(mouthPhys.angle);
-      const mouthCenterX = mouthPhys.x + cosM * mouthAnchorLocal.x - sinM * mouthAnchorLocal.y;
-      const mouthCenterY = mouthPhys.y + sinM * mouthAnchorLocal.x + cosM * mouthAnchorLocal.y;
-
-      // Exact physical aperture boundary
-      const mouthRadius = mouth.mouthType === 'carnivore' ? 4.5 : mouth.mouthType === 'omnivore' ? 4.0 : 3.5;
-      const halfAperture = Math.max(mouthRadius, mouth.intakeWidth * 0.5);
-      const normDir = getCardinalOutwardNormal(mouth.direction);
-      const tanX = -normDir.y;
-      const tanY = normDir.x;
-      const tanWorldX = cosM * tanX - sinM * tanY;
-      const tanWorldY = sinM * tanX + cosM * tanY;
-
-      const m1x = mouthCenterX - tanWorldX * halfAperture;
-      const m1y = mouthCenterY - tanWorldY * halfAperture;
-      const m2x = mouthCenterX + tanWorldX * halfAperture;
-      const m2y = mouthCenterY + tanWorldY * halfAperture;
-
-      const isCarnivore = mouth.mouthType === 'carnivore';
-      const isOmnivore = mouth.mouthType === 'omnivore';
-      const isHerbivore = mouth.mouthType === 'herbivore';
-
-      // 1. Meat Ingestion on Organisms (Carnivore & Omnivore ONLY)
-      if (isCarnivore || isOmnivore) {
-        const biteTransferRate = (isOmnivore ? OMNIVORE_EAT_RATE : CONTINUOUS_EAT_RATE) * dt;
-
-        for (let preyIdx = organisms.length - 1; preyIdx >= 0; preyIdx--) {
-          const prey = organisms[preyIdx];
-          if (prey.id === org.id || prey.dissolving) continue;
-          if (isKinshipProtected && areSiblings(org, prey)) continue;
-
-          let inContact = false;
-          for (let s = 0; s < prey.segments.length; s++) {
-            const preySeg = prey.segments[s];
-            const preyDef = prey.genome.parts[s];
-            if (Math.abs(preySeg.x - mouthCenterX) > 70 || Math.abs(preySeg.y - mouthCenterY) > 70) continue;
-
-            const corners = getPartCornerVertices(preySeg, preyDef);
-
-            // Check exact aperture segment intersecting prey edges
-            for (let c = 0; c < 4; c++) {
-              const c1 = corners[c];
-              const c2 = corners[(c + 1) % 4];
-              const inter = lineIntersection(m1x, m1y, m2x, m2y, c1.x, c1.y, c2.x, c2.y);
-              if (inter.hit) {
-                inContact = true;
-                break;
-              }
-              // Exact distance from mouth anchor to prey boundary <= mouthRadius
-              const edgeDist = distPointToSegment(mouthCenterX, mouthCenterY, c1.x, c1.y, c2.x, c2.y);
-              if (edgeDist <= mouthRadius) {
-                inContact = true;
-                break;
-              }
+      if (eatsMeat) {
+        for (let i = organisms.length - 1; i >= 0 && canEat(); i--) {
+          const prey = organisms[i];
+          if (prey.id === org.id || prey.dissolving || (isKinshipProtected && areSiblings(org, prey))) continue;
+          let contact = false;
+          for (let part = 0; part < prey.segments.length && !contact; part++) {
+            const pos = prey.segments[part];
+            if (Math.abs(pos.x - cx) > 70 || Math.abs(pos.y - cy) > 70) continue;
+            const corners = getPartCornerVertices(pos, prey.genome.parts[part]);
+            for (let edge = 0; edge < 4; edge++) {
+              const a = corners[edge], b = corners[(edge + 1) % 4];
+              if (lineIntersection(x1, y1, x2, y2, a.x, a.y, b.x, b.y).hit ||
+                  distPointToSegment(cx, cy, a.x, a.y, b.x, b.y) <= mouthRadius) { contact = true; break; }
             }
-            if (inContact) break;
           }
-
-          if (inContact) {
-            org.isFeedingHighlight = 0.2;
-            let netGained = 0;
-
-            if (prey.energy > 0) {
-              const transfer = Math.min(prey.energy, biteTransferRate);
-              prey.energy -= transfer;
-              const capacityRoom = Math.max(0, g.maxEnergyCapacity - org.energy);
-              const absorbed = Math.min(transfer, capacityRoom);
-              const excessRejected = transfer - absorbed;
-              org.energy += absorbed;
-              netGained = absorbed;
-              ledger.recordedLosses += excessRejected;
-            } else if (prey.structuralBiomass > 0) {
-              const transfer = Math.min(prey.structuralBiomass, biteTransferRate);
-              prey.structuralBiomass -= transfer;
-              const usableGained = transfer * 0.85;
-              const biteDissipation = transfer * 0.15;
-              const capacityRoom = Math.max(0, g.maxEnergyCapacity - org.energy);
-              const absorbed = Math.min(usableGained, capacityRoom);
-              const excessRejected = usableGained - absorbed;
-              org.energy += absorbed;
-              netGained = absorbed;
-              ledger.metabolicDissipation += biteDissipation;
-              ledger.recordedLosses += excessRejected;
-            }
-
-            if (netGained > 0) {
-              recordFeedingEvent(org, state.simTime, mouth.id, mouth.mouthType, 'Prey', netGained);
-            }
-
-            if (prey.energy <= 0 && prey.structuralBiomass <= 10.0) {
-              prey.deathCause = 'Predation';
-              prey.dissolving = true;
-              prey.dissolveAlpha = 1.0;
-              org.preyEaten += 1;
-              org.foodEaten += 1;
-              if (onEvent) onEvent('clash');
-            }
+          if (!contact) continue;
+          const reserveBite = prey.energy > 0;
+          const transfer = consume(reserveBite ? prey.energy : prey.structuralBiomass, 'Prey', reserveBite ? 1 : .85);
+          if (transfer <= 0) continue;
+          if (reserveBite) prey.energy = Math.max(0, prey.energy - transfer);
+          else prey.structuralBiomass = Math.max(0, prey.structuralBiomass - transfer);
+          // The bite that exhausts a living victim is lethal predation, not later starvation.
+          // Its remaining tissue is conserved in the edible remains below.
+          if (prey.energy <= 0) {
+            prey.deathCause = 'Predation'; prey.dissolving = true; prey.dissolveAlpha = 1;
+            org.preyEaten++; org.foodEaten++;
+            if (onEvent) onEvent('clash');
+          }
+        }
+        for (let i = eggs.length - 1; i >= 0 && canEat(); i--) {
+          const egg = eggs[i];
+          if (isKinshipProtected && isEggKin(org, egg)) continue;
+          if (distPointToSegment(egg.x, egg.y, x1, y1, x2, y2) > 16 + mouthRadius) continue;
+          const transfer = consume(egg.fundedReserve + egg.fundedStructural, 'Egg');
+          if (transfer <= 0) continue;
+          const reserve = Math.min(egg.fundedReserve, transfer);
+          egg.fundedReserve -= reserve;
+          egg.fundedStructural = Math.max(0, egg.fundedStructural - (transfer - reserve));
+          if (egg.fundedReserve + egg.fundedStructural <= 2) {
+            ledger.recordedLosses += egg.fundedReserve + egg.fundedStructural;
+            org.eggsPredated = (org.eggsPredated || 0) + 1;
+            org.preyEaten++; org.foodEaten++;
+            eggs.splice(i, 1);
+            if (onEvent) onEvent('clash');
           }
         }
       }
-
-      // 2. Foreign Egg Predation (Carnivore & Omnivore ONLY - Exact Geometric Contact)
-      if (isCarnivore || isOmnivore) {
-        const eggBiteRate = (isOmnivore ? OMNIVORE_EAT_RATE : CONTINUOUS_EAT_RATE) * dt;
-
-        for (let eggIdx = eggs.length - 1; eggIdx >= 0; eggIdx--) {
-          const targetEgg = eggs[eggIdx];
-          if (isKinshipProtected && isEggKin(org, targetEgg)) continue;
-
-          const eggRadius = 16.0;
-          if (Math.abs(targetEgg.x - mouthCenterX) > eggRadius + 25 || Math.abs(targetEgg.y - mouthCenterY) > eggRadius + 25) continue;
-
-          // Exact physical contact: distance to mouth center or aperture segment <= mouthRadius + eggRadius (NO phantom +10px)
-          const dist = distPointToSegment(targetEgg.x, targetEgg.y, m1x, m1y, m2x, m2y);
-          if (dist <= eggRadius + mouthRadius) {
-            org.isFeedingHighlight = 0.2;
-            const totalEggAvail = targetEgg.fundedReserve + targetEgg.fundedStructural;
-            const transfer = Math.min(totalEggAvail, eggBiteRate);
-
-            if (transfer > 0) {
-              if (targetEgg.fundedReserve >= transfer) {
-                targetEgg.fundedReserve -= transfer;
-              } else {
-                const rem = transfer - targetEgg.fundedReserve;
-                targetEgg.fundedReserve = 0;
-                targetEgg.fundedStructural = Math.max(0, targetEgg.fundedStructural - rem);
-              }
-
-              const capacityRoom = Math.max(0, g.maxEnergyCapacity - org.energy);
-              const absorbed = Math.min(transfer, capacityRoom);
-              const excess = transfer - absorbed;
-              org.energy += absorbed;
-              ledger.recordedLosses += excess;
-
-              if (absorbed > 0) {
-                recordFeedingEvent(org, state.simTime, mouth.id, mouth.mouthType, 'Egg', absorbed);
-              }
-            }
-
-            if (targetEgg.fundedStructural + targetEgg.fundedReserve <= 2.0) {
-              ledger.recordedLosses += targetEgg.fundedStructural + targetEgg.fundedReserve;
-              org.eggsPredated = (org.eggsPredated || 0) + 1;
-              org.preyEaten += 1;
-              org.foodEaten += 1;
-              eggs.splice(eggIdx, 1);
-              if (onEvent) onEvent('clash');
-            }
-          }
-        }
-      }
-
-      // 3. Herbivore Nutrient Ingestion (Herbivore & Omnivore ONLY - Exact Geometric Contact)
-      if (isHerbivore || isOmnivore) {
-        const grazingTransferRate = (isOmnivore ? OMNIVORE_EAT_RATE : CONTINUOUS_EAT_RATE) * dt;
-
-        for (let nIdx = nutrients.length - 1; nIdx >= 0; nIdx--) {
-          const nut = nutrients[nIdx];
-          if (Math.abs(nut.x - mouthCenterX) > nut.radius + 25 || Math.abs(nut.y - mouthCenterY) > nut.radius + 25) continue;
-
-          // Exact physical contact: distance to mouth aperture line <= nut.radius + mouthRadius (NO phantom +12px)
-          const dist = distPointToSegment(nut.x, nut.y, m1x, m1y, m2x, m2y);
-          if (dist <= nut.radius + mouthRadius) {
-            org.isFeedingHighlight = 0.2;
-            const transfer = Math.min(nut.energyValue, grazingTransferRate);
-            nut.energyValue -= transfer;
-            const capacityRoom = Math.max(0, g.maxEnergyCapacity - org.energy);
-            const absorbed = Math.min(transfer, capacityRoom);
-            const excess = transfer - absorbed;
-            org.energy += absorbed;
-            ledger.recordedLosses += excess;
-            nut.radius = getNutrientRadius(nut.energyValue);
-
-            if (absorbed > 0) {
-              recordFeedingEvent(org, state.simTime, mouth.id, mouth.mouthType, 'Nutrient', absorbed);
-            }
-
-            if (nut.energyValue <= 1.0) {
-              ledger.recordedLosses += nut.energyValue;
-              org.foodEaten += 1;
-              nutrients.splice(nIdx, 1);
-              if (onEvent) onEvent('eat');
-            }
-          }
+      for (let i = nutrients.length - 1; i >= 0 && canEat(); i--) {
+        const food = nutrients[i], carrion = food.kind === 'carrion';
+        if (carrion ? !eatsMeat : !eatsPlants) continue;
+        const reach = food.radius + halfAperture + mouthRadius;
+        if (Math.abs(food.x - cx) > reach || Math.abs(food.y - cy) > reach) continue;
+        if (distPointToSegment(food.x, food.y, x1, y1, x2, y2) > food.radius + mouthRadius) continue;
+        const transfer = consume(food.energyValue, carrion ? 'Carrion' : 'Nutrient', carrion ? .85 : 1);
+        if (transfer <= 0) continue;
+        food.energyValue = Math.max(0, food.energyValue - transfer);
+        food.radius = getNutrientRadius(food.energyValue);
+        if (food.energyValue <= 1) {
+          ledger.recordedLosses += food.energyValue;
+          org.foodEaten++;
+          nutrients.splice(i, 1);
+          if (onEvent) onEvent('eat');
         }
       }
     }
