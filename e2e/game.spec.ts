@@ -17,6 +17,10 @@ test('production game starts at the Pages subpath, runs and pauses', async ({pag
   await page.keyboard.press('Space');
   await expect(page.getByRole('button', {name: 'RESUME SIMULATION'})).toBeVisible();
   await page.getByRole('button', {name: 'RESUME SIMULATION'}).click();
+  await page.getByRole('button', {name: 'Menu', exact: true}).click();
+  await expect(page.getByText('SIMULATION MENU', {exact: true})).toBeVisible();
+  await page.getByRole('button', {name: 'RESUME', exact: true}).click();
+  await expect(page.getByText('SIMULATION MENU', {exact: true})).toBeHidden();
   expect(errors).toEqual([]);
   expect(failedRequests).toEqual([]);
   expect(await page.locator('script[src*="gstatic"]').count()).toBe(0);

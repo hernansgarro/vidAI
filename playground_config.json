@@ -13,18 +13,18 @@
       "name": "maxOrganisms",
       "type": "number",
       "label": "Max Population",
-      "default": 40,
-      "min": 10,
-      "max": 60,
-      "step": 2
+      "default": 100,
+      "min": 1,
+      "max": 150,
+      "step": 1
     },
     {
       "name": "targetNutrientCount",
       "type": "number",
       "label": "Nutrient Abundance Target / Inflow",
       "default": 800,
-      "min": 200,
-      "max": 2000,
+      "min": 0,
+      "max": 800,
       "step": 50
     },
     {
@@ -57,7 +57,7 @@
     {
       "name": "waterViscosity",
       "type": "number",
-      "label": "Water Viscosity (μ)",
+      "label": "Water Viscosity (\u03bc)",
       "default": 0.18,
       "min": 0.04,
       "max": 0.8,
@@ -75,8 +75,8 @@
   ],
   "values": {
     "initialOrganisms": 18,
-    "maxOrganisms": 45,
-    "targetNutrientCount": 900,
+    "maxOrganisms": 100,
+    "targetNutrientCount": 800,
     "reproductionEnergy": 0.65,
     "mutationRate": 0.25,
     "waterViscosity": 0.18,
