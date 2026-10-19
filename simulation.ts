@@ -1,0 +1,3033 @@
+// ============================================================================
+// 1. DETERMINISTIC PRNG (xoshiro128++)
+// ============================================================================
+export class XoshiroPRNG {
+  private s: Uint32Array;
+
+  constructor(seed = 1337) {
+    this.s = new Uint32Array(4);
+    this.reseed(seed);
+  }
+
+  reseed(seed: number) {
+    let x = (seed >>> 0) || 1;
+    for (let i = 0; i < 4; i++) {
+      let z = (x = (x + 0x9e3779b9) >>> 0);
+      z = Math.imul(z ^ (z >>> 16), 0x85ebca6b);
+      z = Math.imul(z ^ (z >>> 13), 0xc2b2ae35);
+      const val = (z ^ (z >>> 16)) >>> 0;
+      this.s[i] = val || (0x9e3779b9 + i);
+    }
+  }
+
+  nextUint32(): number {
+    const s = this.s;
+    const sum = (s[0] + s[3]) >>> 0;
+    const result = ((((sum << 7) | (sum >>> 25)) >>> 0) + s[0]) >>> 0;
+    const t = s[1] << 9;
+
+    s[2] ^= s[0];
+    s[3] ^= s[1];
+    s[1] ^= s[2];
+    s[0] ^= s[3];
+
+    s[2] ^= t;
+    s[3] = ((s[3] << 11) | (s[3] >>> 21)) >>> 0;
+
+    return result;
+  }
+
+  nextFloat(): number {
+    return (this.nextUint32() >>> 0) / 4294967296;
+  }
+
+  range(min: number, max: number): number {
+    return min + this.nextFloat() * (max - min);
+  }
+
+  rangeInt(min: number, max: number): number {
+    return Math.floor(this.range(min, max + 1));
+  }
+
+  getState(): [number, number, number, number] {
+    return [this.s[0], this.s[1], this.s[2], this.s[3]];
+  }
+
+  setState(state: [number, number, number, number]) {
+    this.s[0] = state[0];
+    this.s[1] = state[1];
+    this.s[2] = state[2];
+    this.s[3] = state[3];
+  }
+
+  clone(): XoshiroPRNG {
+    const copy = new XoshiroPRNG(1);
+    copy.setState(this.getState());
+    return copy;
+  }
+}
+
+export const rng = new XoshiroPRNG(4242);
+
+// ============================================================================
+// 2. DATA STRUCTURES & MORPHOLOGY DEFINITIONS
+// ============================================================================
+export type CardinalDir = 'NORTH' | 'SOUTH' | 'EAST' | 'WEST';
+export type MouthType = 'herbivore' | 'carnivore' | 'omnivore';
+export type FoodCategory = 'Nutrient' | 'Prey' | 'Egg';
+
+export interface FeedingEvent {
+  timestamp: number;
+  mouthId: string;
+  mouthType: MouthType;
+  foodCategory: FoodCategory;
+  energyTransferred: number;
+}
+
+export const UNIT_SIZE = 7.0; // Base unit in px
+export const BASE_PART_DENSITY = 0.40; // Base mass density
+export const FORCE_COST_MULTIPLIER = 0.000000175; // Mechanical work to heat dissipation (1/20th calibration)
+export const BASAL_METABOLIC_RATE = 12.0; // J/s for founder-sized body (BASE_FOUNDER_AREA = 36)
+export const SENSORY_NEURAL_METABOLIC_RATE = 0.45; // J/s per synapse / sensory eye
+export const MAX_FRAME_MOTOR_WORK = 40.0; // Max motor dissipation per sub-step clamp to prevent solver spikes
+
+export const MATURITY_AGE = 20.0; // 20.0s until sexual maturity
+export const MIN_PARENT_SURVIVAL_RESERVE_BASE = 2000.0; // 2,000 J minimum survival reserve floor
+export const MIN_PARENT_SURVIVAL_FRACTION = 0.20; // 20% of max capacity
+export const BASE_FOUNDER_AREA = 36.0; // Baseline body grid area (e.g. 3 segments of 12 units)
+export const FOUNDER_DEFAULT_RESERVE = 10000.0; // 10,000 J starting usable reserve
+export const FOUNDER_DEFAULT_CAPACITY = 100000.0; // 100,000 J max capacity
+
+export const CONTINUOUS_EAT_RATE = 1200.0; // J/s max transfer (scaled for 100k J economy)
+export const OMNIVORE_EAT_RATE = CONTINUOUS_EAT_RATE * 0.5; // 50% rate
+export const NUTRIENT_ENERGY_VALUE = 3000.0; // 3,000 J per nutrient
+export const BASE_NUTRIENT_RADIUS = 18.0;
+
+// Optical water ambient constant
+export const WATER_AMBIENT_RGB: [number, number, number] = [0.04, 0.12, 0.18];
+
+// Recurrent Brain Specs
+export const NUM_INPUT_RAYS = 5;
+export const RAYS_PER_EYE = 5;
+export const NUM_INPUTS = NUM_INPUT_RAYS * 3 + 7; // 15 optical + 3 joint + speed + energy + sin + cos = 22
+export const NUM_HIDDEN = 24; // 24 Recurrent Neurons
+export const MAX_PARTS = 7;
+export const OUTPUTS_PER_JOINT = 4; // [targetAngleOffset, motorDrive, peakTorque, jointStiffness]
+export const MAX_OUTPUTS = (MAX_PARTS - 1) * OUTPUTS_PER_JOINT;
+export const MAX_CLUTCH_SIZE = 8;
+
+export const INPUT_LABELS = [
+  'R1-Red', 'R1-Grn', 'R1-Blu',
+  'R2-Red', 'R2-Grn', 'R2-Blu',
+  'R3-Red', 'R3-Grn', 'R3-Blu',
+  'R4-Red', 'R4-Grn', 'R4-Blu',
+  'R5-Red', 'R5-Grn', 'R5-Blu',
+  'J1 RelAngle', 'J2 RelAngle', 'J3 RelAngle',
+  'Norm Speed', 'Norm Energy',
+  'CPG Sin', 'CPG Cos',
+];
+
+export const OUTPUT_LABELS = ['Angle', 'Drive', 'Torque', 'Stiff'];
+
+export interface SensoryEye {
+  id: string;
+  partIndex: number;
+  direction: CardinalDir;
+  fov: number; // in radians
+  range: number; // optical distance
+}
+
+export interface SensoryMouth {
+  id: string;
+  partIndex: number;
+  direction: CardinalDir;
+  intakeWidth: number; // aperture contact width
+  mouthType: MouthType;
+}
+
+export interface PartDef {
+  id: string;
+  parentIndex: number; // -1 for root
+  attachmentPoint: CardinalDir;
+  dimN: number;
+  dimM: number;
+  width: number;
+  height: number;
+  maxAngle: number;
+  baseAngleOffset: number;
+  cpgPhaseOffset: number;
+  cpgAmp: number;
+  cpgFreqMult: number;
+}
+
+export type ArchetypeId = 'eel' | 'flapper' | 'tadpole' | 'glider' | 'predator' | 'nematode' | 'random';
+
+export interface Genome {
+  id: string;
+  name?: string;
+  archetype?: string;
+  generation: number;
+  parentIds: string[];
+  hue: number;
+  saturation: number;
+  lightness: number;
+  parts: PartDef[];
+  eyes: SensoryEye[];
+  mouths: SensoryMouth[];
+  motorFrequency: number;
+  motorForce: number;
+  // Recurrent Neural Weights
+  weightsIH: number[][]; // [NUM_HIDDEN x NUM_INPUTS]
+  weightsHH: number[][]; // [NUM_HIDDEN x NUM_HIDDEN] Recurrent Synapses
+  biasesH: number[];     // [NUM_HIDDEN]
+  weightsHO: number[][]; // [MAX_OUTPUTS x NUM_HIDDEN]
+  biasesO: number[];     // [MAX_OUTPUTS]
+  brainVersion?: 2;
+  inputKeys?: string[];
+  outputKeys?: string[];
+  founderMode?: 'balanced' | 'unbiased';
+  // Life History Traits
+  targetClutchSize: number;    // integer 1..6 eggs desired per clutch
+  maturityAge: number;         // seconds until sexual maturity (10.0..45.0s)
+  incubationTime: number;      // seconds
+  eggReserveFraction: number;  // fraction of budget to reserve
+  reproductionThreshold: number; // energy ratio needed
+  reproductionCooldown: number;  // cooldown in seconds
+  maxLifespan: number;          // seconds
+  metabolicEfficiency: number;
+  bodyCost: number;
+  storageTraitMultiplier?: number;
+  maxEnergyCapacity: number;
+}
+
+export interface PartPhys {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  angle: number;
+  angVel: number;
+}
+
+export interface JointState {
+  phase: number;
+  targetAngle: number;
+  currentRelAngle: number;
+  currentRelAngVel: number;
+  appliedTorque: number;
+  stiffness: number;
+}
+
+export interface RayHit {
+  eyeId?: string;
+  rayIndex?: number;
+  hit: boolean;
+  dist: number;
+  pointX: number;
+  pointY: number;
+  r: number;
+  g: number;
+  b: number;
+  objectType: 'wall' | 'creature' | 'nutrient' | 'egg' | 'none';
+}
+
+export interface Organism {
+  id: string;
+  clutchId?: string;
+  genome: Genome;
+  segments: PartPhys[];
+  joints: JointState[];
+  energy: number;
+  structuralBiomass: number;
+  basalEnergyRate?: number;
+  sensoryEnergyRate?: number;
+  motorEnergyRate: number;
+  totalEnergyRate?: number;
+  age: number;
+  maxLifespan: number;
+  foodEaten: number;
+  preyEaten: number;
+  eggsPredated: number;
+  offspringCount: number;
+  clutchesLaid: number;
+  isGravid: boolean;
+  lastReproductionAge: number;
+  lastReproductionTime: number;
+  deathCause?: DeathCause;
+  distanceTraveled: number;
+  speed: number;
+  neuralInputs: number[];
+  neuralHidden: number[]; // Recurrent state h_t
+  neuralOutputs: number[];
+  rayHits: RayHit[];
+  glowPulse: number;
+  dissolving: boolean;
+  dissolveAlpha: number;
+  isFeedingHighlight: number;
+  traceHistory?: Array<{x: number; y: number; time: number}>;
+  recentFeedings?: FeedingEvent[];
+}
+
+export interface Egg {
+  id: string;
+  clutchId: string;
+  parentOrgId: string;
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  genome: Genome;
+  fundedStructural: number; // E_structural needed for offspring body
+  fundedReserve: number;    // Usable energy given to offspring
+  incubationProgress: number; // 0..1
+  totalIncubationTime: number;
+  pulseTimer: number;
+  colorHue: number;
+  readyToHatch: boolean;
+}
+
+export interface Nutrient {
+  id: string;
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  energyValue: number;
+  radius: number;
+  bottomTimer: number;
+  isSuper?: boolean;
+  pulseTimer?: number;
+}
+
+export interface BubbleParticle {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  size: number;
+  alpha: number;
+  maxLife: number;
+  life: number;
+  hue: number;
+}
+
+export interface CausticWave {
+  x: number;
+  y: number;
+  radius: number;
+  speed: number;
+  alpha: number;
+  angle: number;
+}
+
+export type DeathCause = 'Old Age' | 'Starvation' | 'Predation';
+export type LifeStage = 'Juvenile' | 'Adult' | 'Aging' | 'Deceased';
+
+export interface DeathRecord {
+  id: string;
+  name: string;
+  generation: number;
+  cause: DeathCause;
+  age: number;
+  energyAtDeath: number;
+  offspringCount: number;
+  timestamp: number;
+}
+
+export interface LineageRecord {
+  id: string;
+  name?: string;
+  parentIds: string[];
+  generation: number;
+  birthTime: number;
+  deathTime?: number;
+  deathCause?: DeathCause;
+  deathAge?: number;
+  deathEnergy?: number;
+  offspringCount: number;
+  archetype: string;
+  hue: number;
+  diet: string;
+  genome: Genome;
+}
+
+export interface SpecimenBankItem {
+  id: string;
+  name: string;
+  savedAt: string;
+  genome: Genome;
+  tags: string[];
+}
+
+export interface SimulationLedger {
+  externalInflow: number;
+  metabolicDissipation: number;
+  mechanicalWorkHeat: number;
+  recordedLosses: number; // Nonviable egg decomposition or excess feeding discard
+}
+
+export interface SimulationSettings {
+  worldWidth: number;
+  worldHeight: number;
+  waterViscosity: number;
+  targetNutrients: number;
+  inflowRate: number;
+  kinshipProtection: boolean;
+  mutationSeverity: number;
+  gravity?: number;
+  maxOrganisms?: number;
+}
+
+export interface SimulationState {
+  initialSeed?: number;
+  simTime: number;
+  organisms: Organism[];
+  eggs: Egg[];
+  nutrients: Nutrient[];
+  bubbles: BubbleParticle[];
+  caustics: CausticWave[];
+  ledger: SimulationLedger;
+  nutrientAccumulator: number;
+  totalBirths: number;
+  totalDeaths: number;
+  prng: XoshiroPRNG;
+  lineage: Map<string, LineageRecord>;
+  recentDeaths: DeathRecord[];
+}
+
+export const NUM_SUBSTEPS = 4; // 4 Substeps @ 1/240s for smooth, symplectic integration
+
+// Scratch buffers
+const scratchFx = new Float64Array(16);
+const scratchFy = new Float64Array(16);
+const scratchTorque = new Float64Array(16);
+const scratchMasses = new Float64Array(16);
+const scratchInvMasses = new Float64Array(16);
+const scratchInertias = new Float64Array(16);
+const scratchInvInertias = new Float64Array(16);
+const scratchPrevHidden = new Float64Array(NUM_HIDDEN);
+
+export const clampVal = (v: number, min: number, max: number) => Math.max(min, Math.min(max, v));
+export const hsl = (h: number, s: number, l: number, a = 1) =>
+  `hsla(${Math.floor(h)}, ${Math.floor(s)}%, ${Math.floor(l)}%, ${a})`;
+
+/**
+ * Enforces nutrient hue exclusion (105° to 165° green spectrum).
+ * Maps any creature body colors in this band to distinct vibrant colors
+ * (e.g. amber/orange 30°-55° or cyan/blue 175°-220°).
+ */
+export function sanitizeCreatureHue(hue: number): number {
+  let h = ((hue % 360) + 360) % 360;
+  if (h >= 105 && h <= 165) {
+    if (h < 135) {
+      h = 30 + ((h - 105) / 30) * 25; // Map to 30° - 55° (amber/gold)
+    } else {
+      h = 175 + ((h - 135) / 30) * 45; // Map to 175° - 220° (cyan/azure)
+    }
+  }
+  return Math.round(((h % 360) + 360) % 360);
+}
+
+export interface DietInfo {
+  category: 'Herbivore' | 'Carnivore' | 'Omnivore' | 'Mixed' | 'Passive';
+  label: string;
+  composition: string;
+  badgeClass: string;
+  textClass: string;
+  icon: string;
+  herbivores: number;
+  carnivores: number;
+  omnivores: number;
+}
+
+export function getLifeStage(org: Organism): LifeStage {
+  if (org.dissolving || org.dissolveAlpha < 1.0) return 'Deceased';
+  const maturityAge = org.genome.maturityAge || MATURITY_AGE;
+  if (org.age < maturityAge) return 'Juvenile';
+  if (org.age >= org.maxLifespan * 0.8) return 'Aging';
+  return 'Adult';
+}
+
+export function evaluateReproductionAffordability(
+  org: Organism,
+  simTime: number,
+  livingCount: number,
+  eggCount: number,
+  maxOrgs = 50,
+  maxEggs = 75,
+): {
+  eligible: boolean;
+  affordableCount: number;
+  desiredCount: number;
+  actualClutchSize: number;
+  eggCost: number;
+  parentReserve: number;
+  availableForReproduction: number;
+  requiredBudget: number;
+  requiredForOneEgg: number;
+  statusText: string;
+  badgeClass: string;
+  remainingCooldown: number;
+} {
+  const g = org.genome;
+  const maturityAge = g.maturityAge || MATURITY_AGE;
+  const desiredCount = g.targetClutchSize || 2;
+  const parentReserve = Math.max(MIN_PARENT_SURVIVAL_RESERVE_BASE, g.maxEnergyCapacity * MIN_PARENT_SURVIVAL_FRACTION);
+  const eggCost = g.bodyCost + FOUNDER_DEFAULT_RESERVE;
+  const availableForReproduction = org.energy - parentReserve;
+  const requiredForOneEgg = eggCost + parentReserve;
+  const requiredBudget = eggCost * desiredCount + parentReserve;
+  const cooldown = g.reproductionCooldown || 18.0;
+  const timeSinceRepro = simTime - (org.lastReproductionTime || 0);
+  const remainingCooldown = Math.max(0, cooldown - timeSinceRepro);
+
+  const affordableCount = Math.max(0, Math.floor(availableForReproduction / eggCost));
+  const actualClutchSize = Math.min(desiredCount, affordableCount);
+
+  if (org.dissolving || org.dissolveAlpha < 1.0) {
+    return {
+      eligible: false,
+      affordableCount: 0,
+      desiredCount,
+      actualClutchSize: 0,
+      eggCost,
+      parentReserve,
+      availableForReproduction: 0,
+      requiredBudget,
+      requiredForOneEgg,
+      statusText: '💀 Deceased',
+      badgeClass: 'bg-slate-900 border-slate-700 text-slate-500',
+      remainingCooldown: 0,
+    };
+  }
+
+  if (org.age < maturityAge) {
+    const timeToMaturity = maturityAge - org.age;
+    return {
+      eligible: false,
+      affordableCount: 0,
+      desiredCount,
+      actualClutchSize: 0,
+      eggCost,
+      parentReserve,
+      availableForReproduction,
+      requiredBudget,
+      requiredForOneEgg,
+      statusText: `🌱 Immature (${timeToMaturity.toFixed(1)}s to maturity)`,
+      badgeClass: 'bg-emerald-950/80 border-emerald-500/40 text-emerald-300',
+      remainingCooldown: 0,
+    };
+  }
+
+  if (livingCount >= maxOrgs) {
+    return {
+      eligible: false,
+      affordableCount,
+      desiredCount,
+      actualClutchSize,
+      eggCost,
+      parentReserve,
+      availableForReproduction,
+      requiredBudget,
+      requiredForOneEgg,
+      statusText: '🚫 Pop Cap Reached',
+      badgeClass: 'bg-rose-950/80 border-rose-500/40 text-rose-300',
+      remainingCooldown: 0,
+    };
+  }
+
+  if (eggCount >= maxEggs) {
+    return {
+      eligible: false,
+      affordableCount,
+      desiredCount,
+      actualClutchSize,
+      eggCost,
+      parentReserve,
+      availableForReproduction,
+      requiredBudget,
+      requiredForOneEgg,
+      statusText: '🥚 Egg Cap Reached',
+      badgeClass: 'bg-amber-950/80 border-amber-500/40 text-amber-300',
+      remainingCooldown: 0,
+    };
+  }
+
+  if (remainingCooldown > 0.05) {
+    return {
+      eligible: false,
+      affordableCount,
+      desiredCount,
+      actualClutchSize,
+      eggCost,
+      parentReserve,
+      availableForReproduction,
+      requiredBudget,
+      requiredForOneEgg,
+      statusText: `⏳ Cooldown (${remainingCooldown.toFixed(1)}s)`,
+      badgeClass: 'bg-blue-950/80 border-blue-500/40 text-blue-300',
+      remainingCooldown,
+    };
+  }
+
+  if (actualClutchSize < 1) {
+    return {
+      eligible: false,
+      affordableCount: 0,
+      desiredCount,
+      actualClutchSize: 0,
+      eggCost,
+      parentReserve,
+      availableForReproduction,
+      requiredBudget,
+      requiredForOneEgg,
+      statusText: `⚡ Foraging for 1st egg (${Math.round(Math.max(0, org.energy))} / ${Math.round(requiredForOneEgg)} J)`,
+      badgeClass: 'bg-slate-900/80 border-slate-700 text-slate-400',
+      remainingCooldown: 0,
+    };
+  }
+
+  return {
+    eligible: true,
+    affordableCount,
+    desiredCount,
+    actualClutchSize,
+    eggCost,
+    parentReserve,
+    availableForReproduction,
+    requiredBudget,
+    requiredForOneEgg,
+    statusText: `★ Ready (Laying ${actualClutchSize}/${desiredCount} eggs)`,
+    badgeClass: 'bg-amber-500/20 border-amber-400 text-amber-300 font-bold',
+    remainingCooldown: 0,
+  };
+}
+
+export function getDietClassification(mouths: SensoryMouth[] | undefined): DietInfo {
+  if (!mouths || mouths.length === 0) {
+    return {
+      category: 'Passive',
+      label: 'Passive Grazer',
+      composition: '0 Mouths (Passive)',
+      badgeClass: 'bg-slate-900/80 border-slate-700 text-slate-400',
+      textClass: 'text-slate-400',
+      icon: '⚪',
+      herbivores: 0,
+      carnivores: 0,
+      omnivores: 0,
+    };
+  }
+
+  let herbivores = 0;
+  let carnivores = 0;
+  let omnivores = 0;
+
+  for (const m of mouths) {
+    if (m.mouthType === 'carnivore') carnivores++;
+    else if (m.mouthType === 'omnivore') omnivores++;
+    else herbivores++;
+  }
+
+  const parts: string[] = [];
+  if (carnivores > 0) parts.push(`${carnivores} Carnivore`);
+  if (omnivores > 0) parts.push(`${omnivores} Omnivore`);
+  if (herbivores > 0) parts.push(`${herbivores} Herbivore`);
+  const composition = parts.join(' · ');
+
+  if (carnivores > 0 && herbivores === 0 && omnivores === 0) {
+    return {
+      category: 'Carnivore',
+      label: 'Carnivore',
+      composition,
+      badgeClass: 'bg-rose-950/80 border-rose-500/40 text-rose-300',
+      textClass: 'text-rose-400 font-bold',
+      icon: '🥩',
+      herbivores: 0,
+      carnivores,
+      omnivores: 0,
+    };
+  }
+
+  if (herbivores > 0 && carnivores === 0 && omnivores === 0) {
+    return {
+      category: 'Herbivore',
+      label: 'Herbivore',
+      composition,
+      badgeClass: 'bg-emerald-950/80 border-emerald-500/40 text-emerald-300',
+      textClass: 'text-emerald-400 font-bold',
+      icon: '🌿',
+      herbivores,
+      carnivores: 0,
+      omnivores: 0,
+    };
+  }
+
+  if (omnivores > 0 && carnivores === 0 && herbivores === 0) {
+    return {
+      category: 'Omnivore',
+      label: 'Omnivore',
+      composition,
+      badgeClass: 'bg-purple-950/80 border-purple-500/40 text-purple-300',
+      textClass: 'text-purple-300 font-bold',
+      icon: '🟣',
+      herbivores: 0,
+      carnivores: 0,
+      omnivores,
+    };
+  }
+
+  // Mixed diet organism
+  return {
+    category: 'Mixed',
+    label: `Mixed (${composition})`,
+    composition,
+    badgeClass: 'bg-amber-950/80 border-amber-500/40 text-amber-300',
+    textClass: 'text-amber-400 font-bold',
+    icon: '🥩🌿',
+    herbivores,
+    carnivores,
+    omnivores,
+  };
+}
+
+export function recordFeedingEvent(
+  org: Organism,
+  simTime: number,
+  mouthId: string,
+  mouthType: MouthType,
+  foodCategory: FoodCategory,
+  energyTransferred: number,
+) {
+  if (energyTransferred <= 0) return;
+  if (!org.recentFeedings) org.recentFeedings = [];
+
+  const last = org.recentFeedings[org.recentFeedings.length - 1];
+  if (
+    last &&
+    last.mouthId === mouthId &&
+    last.foodCategory === foodCategory &&
+    simTime - last.timestamp < 0.25
+  ) {
+    last.energyTransferred += energyTransferred;
+    last.timestamp = simTime;
+  } else {
+    org.recentFeedings.push({
+      timestamp: simTime,
+      mouthId,
+      mouthType,
+      foodCategory,
+      energyTransferred,
+    });
+    if (org.recentFeedings.length > 8) {
+      org.recentFeedings.shift();
+    }
+  }
+}
+
+export function getNutrientRadius(energy: number): number {
+  const ratio = Math.max(0.1, energy / NUTRIENT_ENERGY_VALUE);
+  const scale = 1 + 0.35 * Math.log2(ratio);
+  return Math.max(8.0, BASE_NUTRIENT_RADIUS * Math.max(0.4, scale));
+}
+
+export function getOppositeCardinalDir(dir: CardinalDir): CardinalDir {
+  switch (dir) {
+    case 'EAST': return 'WEST';
+    case 'WEST': return 'EAST';
+    case 'NORTH': return 'SOUTH';
+    case 'SOUTH': return 'NORTH';
+  }
+}
+
+export function isFaceWide(dir: CardinalDir, dimN: number, dimM: number): boolean {
+  if (dir === 'NORTH' || dir === 'SOUTH') {
+    return dimN > dimM;
+  } else {
+    return dimM > dimN;
+  }
+}
+
+export function isValidAttachment(
+  parentAttachmentPoint: CardinalDir,
+  parentN: number,
+  parentM: number,
+  childN: number,
+  childM: number,
+): boolean {
+  const isParentWide = isFaceWide(parentAttachmentPoint, parentN, parentM);
+  const childMatingFace = getOppositeCardinalDir(parentAttachmentPoint);
+  const isChildWide = isFaceWide(childMatingFace, childN, childM);
+  return !(isParentWide && isChildWide);
+}
+
+export function generateCompliantChildDimensions(
+  parentDir: CardinalDir,
+  parentN: number,
+  parentM: number,
+  customPrng: XoshiroPRNG = rng,
+): {dimN: number; dimM: number} {
+  const parentWide = isFaceWide(parentDir, parentN, parentM);
+  if (parentWide) {
+    if (parentDir === 'EAST' || parentDir === 'WEST') {
+      const dimN = customPrng.rangeInt(3, 7);
+      const dimM = customPrng.rangeInt(1, dimN);
+      return {dimN, dimM};
+    } else {
+      const dimM = customPrng.rangeInt(3, 7);
+      const dimN = customPrng.rangeInt(1, dimM);
+      return {dimN, dimM};
+    }
+  } else {
+    const dimN = customPrng.rangeInt(2, 6);
+    const dimM = customPrng.rangeInt(2, 6);
+    return {dimN, dimM};
+  }
+}
+
+export function areSiblings(a: Organism, b: Organism): boolean {
+  if (a.id === b.id) return true;
+  if (a.genome.parentIds.includes(b.id) || b.genome.parentIds.includes(a.id)) return true;
+  if (a.clutchId && b.clutchId && a.clutchId === b.clutchId) return true;
+  if (
+    a.genome.generation === b.genome.generation &&
+    a.genome.parentIds.length > 0 &&
+    b.genome.parentIds.length > 0
+  ) {
+    for (const pA of a.genome.parentIds) {
+      if (b.genome.parentIds.includes(pA)) return true;
+    }
+  }
+  return false;
+}
+
+export function isEggKin(org: Organism, egg: Egg): boolean {
+  if (egg.parentOrgId === org.id) return true;
+  if (egg.clutchId && org.clutchId && egg.clutchId === org.clutchId) return true;
+  if (egg.genome.parentIds && egg.genome.parentIds.includes(org.id)) return true;
+  if (org.genome.parentIds && egg.genome.parentIds) {
+    for (const p of org.genome.parentIds) {
+      if (egg.genome.parentIds.includes(p)) return true;
+    }
+  }
+  return false;
+}
+
+export function getCardinalAnchor(dir: CardinalDir, width: number, height: number): {x: number; y: number} {
+  const halfW = width * 0.5;
+  const halfH = height * 0.5;
+  switch (dir) {
+    case 'EAST': return {x: halfW, y: 0};
+    case 'WEST': return {x: -halfW, y: 0};
+    case 'NORTH': return {x: 0, y: -halfH};
+    case 'SOUTH': return {x: 0, y: halfH};
+  }
+}
+
+export function getChildAnchorForParentDir(dir: CardinalDir, width: number, height: number): {x: number; y: number} {
+  const halfW = width * 0.5;
+  const halfH = height * 0.5;
+  switch (dir) {
+    case 'EAST': return {x: -halfW, y: 0};
+    case 'WEST': return {x: halfW, y: 0};
+    case 'NORTH': return {x: 0, y: halfH};
+    case 'SOUTH': return {x: 0, y: -halfH};
+  }
+}
+
+export function getCardinalBaseAngle(dir: CardinalDir): number {
+  switch (dir) {
+    case 'EAST': return 0;
+    case 'WEST': return Math.PI;
+    case 'NORTH': return -Math.PI / 2;
+    case 'SOUTH': return Math.PI / 2;
+  }
+}
+
+export function getCardinalOutwardNormal(dir: CardinalDir): {x: number; y: number} {
+  switch (dir) {
+    case 'EAST': return {x: 1, y: 0};
+    case 'WEST': return {x: -1, y: 0};
+    case 'NORTH': return {x: 0, y: -1};
+    case 'SOUTH': return {x: 0, y: 1};
+  }
+}
+
+export function calculateBodyCost(parts: PartDef[], eyes: SensoryEye[], mouths: SensoryMouth[]): number {
+  let cost = 1200.0; // BASE_BODY_COST scaled for tissue mass
+  for (const part of parts) {
+    cost += part.dimN * part.dimM * 80.0;
+  }
+  cost += eyes.length * 250.0;
+  cost += mouths.length * 400.0;
+  cost += Math.max(0, parts.length - 1) * 200.0;
+  return Math.round(cost);
+}
+
+export function calculateTotalBodyArea(parts: PartDef[]): number {
+  let area = 0;
+  for (const part of parts) {
+    area += part.dimN * part.dimM;
+  }
+  return Math.max(4.0, area);
+}
+
+export function calculateMaxEnergyCapacity(parts: PartDef[], storageMultiplier = 1.0): number {
+  const totalArea = calculateTotalBodyArea(parts);
+  const scaledCapacity = FOUNDER_DEFAULT_CAPACITY * (totalArea / BASE_FOUNDER_AREA) * storageMultiplier;
+  return Math.round(clampVal(scaledCapacity, 40000.0, 300000.0));
+}
+
+export function formatJoules(value: number): string {
+  if (isNaN(value) || !isFinite(value)) return '0 J';
+  const val = Math.round(value);
+  if (Math.abs(val) >= 1000000) {
+    return `${(val / 1000000).toFixed(2)}M J`;
+  }
+  if (Math.abs(val) >= 10000) {
+    return `${(val / 1000).toFixed(1)}k J`;
+  }
+  return `${val.toLocaleString()} J`;
+}
+
+export function createPartDef(
+  id: string,
+  parentIndex: number,
+  attachmentPoint: CardinalDir,
+  dimN: number,
+  dimM: number,
+  maxAngle = 2.0,
+  baseAngleOffset = 0,
+  cpgPhaseOffset = 0,
+  cpgAmp = 1.0,
+  cpgFreqMult = 1.0,
+): PartDef {
+  const nClamped = clampVal(Math.round(dimN), 1, 10);
+  const mClamped = clampVal(Math.round(dimM), 1, 10);
+  return {
+    id,
+    parentIndex,
+    attachmentPoint,
+    dimN: nClamped,
+    dimM: mClamped,
+    width: nClamped * UNIT_SIZE,
+    height: mClamped * UNIT_SIZE,
+    maxAngle: clampVal(maxAngle, 0.6, 2.35),
+    baseAngleOffset,
+    cpgPhaseOffset,
+    cpgAmp,
+    cpgFreqMult,
+  };
+}
+
+// Xavier/Glorot Initialization for Recurrent Neural Controller
+export function createXavierRecurrentNetwork(customPrng: XoshiroPRNG = rng, inputCount = NUM_INPUTS, outputCount = MAX_OUTPUTS): {
+  weightsIH: number[][];
+  weightsHH: number[][];
+  biasesH: number[];
+  weightsHO: number[][];
+  biasesO: number[];
+} {
+  const limitIH = Math.sqrt(6.0 / (inputCount + NUM_HIDDEN));
+  const limitHH = Math.sqrt(6.0 / (NUM_HIDDEN + NUM_HIDDEN));
+  const limitHO = Math.sqrt(6.0 / (NUM_HIDDEN + MAX_OUTPUTS));
+
+  const weightsIH: number[][] = Array.from({length: NUM_HIDDEN}, () =>
+    Array.from({length: inputCount}, () => customPrng.range(-limitIH, limitIH)),
+  );
+  const weightsHH: number[][] = Array.from({length: NUM_HIDDEN}, () =>
+    Array.from({length: NUM_HIDDEN}, () => customPrng.range(-limitHH * 0.8, limitHH * 0.8)),
+  );
+  const biasesH = Array.from({length: NUM_HIDDEN}, () => customPrng.range(-0.05, 0.05));
+  const weightsHO: number[][] = Array.from({length: outputCount}, () =>
+    Array.from({length: NUM_HIDDEN}, () => customPrng.range(-limitHO, limitHO)),
+  );
+  const biasesO = Array.from({length: outputCount}, () => customPrng.range(-0.05, 0.05));
+
+  return {weightsIH, weightsHH, biasesH, weightsHO, biasesO};
+}
+
+export function getBrainLayout(g: Pick<Genome, 'eyes' | 'parts'>) {
+  const inputs: string[] = [];
+  const labels: string[] = [];
+  g.eyes.forEach((eye, e) => {
+    for (let ray = 0; ray < RAYS_PER_EYE; ray++) {
+      for (const channel of ['red', 'green', 'blue', 'distance']) {
+        inputs.push(`eye:${eye.id}:ray:${ray}:${channel}`);
+        labels.push(`E${e + 1} R${ray + 1} ${channel}`);
+      }
+    }
+  });
+  g.parts.slice(1).forEach((p, j) => {
+    for (const channel of ['angle', 'velocity']) {
+      inputs.push(`joint:${p.id}:${channel}`);
+      labels.push(`J${j + 1} ${channel}`);
+    }
+  });
+  inputs.push('body:speed', 'body:energy', 'body:sin', 'body:cos');
+  labels.push('Speed', 'Energy', 'CPG sin', 'CPG cos');
+  const outputs = g.parts.slice(1).flatMap(p => OUTPUT_LABELS.map(channel => `joint:${p.id}:${channel}`));
+  return {inputs, labels, outputs};
+}
+
+function legacyInputKeys(g: Genome): string[] {
+  const keys: string[] = [];
+  const rays = g.eyes.length === 1 ? 5 : Math.max(2, Math.floor(6 / g.eyes.length));
+  for (const eye of g.eyes) {
+    for (let r = 0; r < rays && keys.length < 15; r++) {
+      // Preserve the old ray's angular position when the ray count expands.
+      const index = Math.round(r * (RAYS_PER_EYE - 1) / Math.max(1, rays - 1));
+      for (const channel of ['red', 'green', 'blue']) keys.push(`eye:${eye.id}:ray:${index}:${channel}`);
+    }
+  }
+  while (keys.length < 15) keys.push(`unused:${keys.length}`);
+  for (let j = 1; j <= 3; j++) keys.push(`joint:${g.parts[j]?.id ?? 'unused'}:angle`);
+  keys.push('body:speed', 'body:energy', 'body:sin', 'body:cos');
+  return keys;
+}
+
+/** Preserve surviving connections by organ/part IDs, never by shifted array positions. */
+export function remapBrain(g: Genome, previous: Genome = g): void {
+  const layout = getBrainLayout(g);
+  const oldInputs = previous.inputKeys ?? legacyInputKeys(previous);
+  const oldOutputs = previous.outputKeys ?? getBrainLayout(previous).outputs;
+  const inputIndex = new Map(oldInputs.map((key, i) => [key, i]));
+  const outputIndex = new Map(oldOutputs.map((key, i) => [key, i]));
+  const ih = previous.weightsIH;
+  const ho = previous.weightsHO;
+  const bias = previous.biasesO;
+  g.weightsIH = Array.from({length: NUM_HIDDEN}, (_, h) => layout.inputs.map(key => {
+    const i = inputIndex.get(key);
+    let weight = i === undefined ? 0 : ih[h]?.[i] ?? 0;
+    if (previous.brainVersion !== 2 && key.startsWith('joint:') && key.endsWith(':angle')) {
+      const part = previous.parts.find(p => key === `joint:${p.id}:angle`);
+      weight *= part?.maxAngle ?? 1;
+    }
+    return weight;
+  }));
+  g.weightsHO = layout.outputs.map(key => {
+    const i = outputIndex.get(key);
+    return Array.from({length: NUM_HIDDEN}, (_, h) => i === undefined ? 0 : ho[i]?.[h] ?? 0);
+  });
+  g.biasesO = layout.outputs.map(key => {
+    const i = outputIndex.get(key);
+    return i === undefined ? 0 : bias[i] ?? 0;
+  });
+  g.inputKeys = layout.inputs;
+  g.outputKeys = layout.outputs;
+  g.brainVersion = 2;
+}
+
+export function ensureBrainLayout(g: Genome): void {
+  if (g.brainVersion !== 2 || !g.inputKeys || !g.outputKeys) remapBrain(g);
+}
+
+export function migrateOrganismBrain(org: Organism): void {
+  const legacy = org.genome.brainVersion !== 2;
+  const oldKeys = org.genome.inputKeys ?? legacyInputKeys(org.genome);
+  const values = new Map(oldKeys.map((key, i) => [key, org.neuralInputs[i] ?? 0]));
+  ensureBrainLayout(org.genome);
+  org.neuralInputs = org.genome.inputKeys!.map(key => {
+    const value = values.get(key) ?? 0;
+    if (legacy && key.startsWith('joint:') && key.endsWith(':angle')) {
+      const part = org.genome.parts.find(p => key === `joint:${p.id}:angle`);
+      return clampVal(value / Math.max(.01, part?.maxAngle ?? 1), -1, 1);
+    }
+    return value;
+  });
+  org.neuralOutputs = org.neuralOutputs.slice(0, org.genome.outputKeys!.length);
+}
+
+export function restSegments(parts: PartDef[], x = 0, y = 0): PartPhys[] {
+  const segments: PartPhys[] = [];
+  for (let i = 0; i < parts.length; i++) {
+    const d = parts[i];
+    if (i === 0) { segments.push({x, y, vx: 0, vy: 0, angle: 0, angVel: 0}); continue; }
+    const p = segments[d.parentIndex];
+    const pd = parts[d.parentIndex];
+    const pa = getCardinalAnchor(d.attachmentPoint, pd.width, pd.height);
+    const ca = getChildAnchorForParentDir(d.attachmentPoint, d.width, d.height);
+    const angle = p.angle + d.baseAngleOffset;
+    segments.push({x: p.x + Math.cos(p.angle) * pa.x - Math.sin(p.angle) * pa.y - Math.cos(angle) * ca.x + Math.sin(angle) * ca.y,
+      y: p.y + Math.sin(p.angle) * pa.x + Math.cos(p.angle) * pa.y - Math.sin(angle) * ca.x - Math.cos(angle) * ca.y,
+      angle, vx: 0, vy: 0, angVel: 0});
+  }
+  return segments;
+}
+
+export function morphologyProblems(parts: PartDef[]): string[] {
+  const problems: string[] = [];
+  if (parts.length < 1 || parts.length > MAX_PARTS || parts[0]?.parentIndex !== -1) return ['Invalid root or part count'];
+  const ids = new Set<string>();
+  const faces = new Set<string>();
+  for (let i = 0; i < parts.length; i++) {
+    const p = parts[i];
+    if (ids.has(p.id)) problems.push(`Duplicate part ID ${p.id}`);
+    ids.add(p.id);
+    if (![p.dimN, p.dimM].every(n => Number.isInteger(n) && n >= 1 && n <= 10)) problems.push(`Invalid dimensions ${i}`);
+    if (i === 0) continue;
+    if (p.parentIndex < 0 || p.parentIndex >= i) return [...problems, `Invalid parent ${i}`];
+    const parent = parts[p.parentIndex];
+    const face = `${p.parentIndex}:${p.attachmentPoint}`;
+    if (faces.has(face) || (p.parentIndex > 0 && getOppositeCardinalDir(parent.attachmentPoint) === p.attachmentPoint)) problems.push(`Occupied face ${i}`);
+    faces.add(face);
+    if (!isValidAttachment(p.attachmentPoint, parent.dimN, parent.dimM, p.dimN, p.dimM)) problems.push(`Wide attachment ${i}`);
+  }
+  const segments = restSegments(parts);
+  const boxes = parts.map((p, i) => getPartCornerVertices(segments[i], p));
+  for (let i = 0; i < boxes.length; i++) for (let j = i + 1; j < boxes.length; j++) {
+    let overlap = true;
+    for (const box of [boxes[i], boxes[j]]) for (let k = 0; k < 4; k++) {
+      const a = box[k], b = box[(k + 1) % 4];
+      const project = (v: {x: number; y: number}) => v.x * (a.y - b.y) + v.y * (b.x - a.x);
+      const aa = boxes[i].map(project), bb = boxes[j].map(project);
+      if (Math.min(Math.max(...aa), Math.max(...bb)) - Math.max(Math.min(...aa), Math.min(...bb)) <= 1e-7) overlap = false;
+    }
+    if (overlap) problems.push(`Overlapping parts ${i},${j}`);
+  }
+  return problems;
+}
+
+// 3-Segment Reference Nematode Genotype for Trustworthy Benchmark
+export function createReferenceNematodeGenome(customPrng = new XoshiroPRNG(9999)): Genome {
+  const parts: PartDef[] = [
+    createPartDef('part-0', -1, 'EAST', 5, 3, 1.2, 0, 0, 1.0, 1.0),
+    createPartDef('part-1', 0, 'WEST', 6, 2, 1.2, 0, 0, 0.8, 1.0),
+    createPartDef('part-2', 1, 'WEST', 7, 2, 1.2, 0, Math.PI * 0.5, 0.8, 1.0),
+  ];
+  const eyes: SensoryEye[] = [
+    {id: 'eye-0', partIndex: 0, direction: 'EAST', fov: 2.0, range: 500},
+  ];
+  const mouths: SensoryMouth[] = [
+    {id: 'mouth-0', partIndex: 0, direction: 'EAST', intakeWidth: 3 * UNIT_SIZE * 0.9, mouthType: 'herbivore'},
+  ];
+
+  const bodyCost = calculateBodyCost(parts, eyes, mouths);
+  const storageTraitMultiplier = 1.0;
+  const maxEnergyCapacity = calculateMaxEnergyCapacity(parts, storageTraitMultiplier);
+  const {weightsIH, weightsHH, biasesH, weightsHO, biasesO} = createXavierRecurrentNetwork(customPrng);
+
+  return {
+    id: 'BENCH-NEMATODE',
+    name: 'Benchmark Nematode',
+    archetype: 'Benchmark Nematode',
+    generation: 1,
+    parentIds: [],
+    hue: 195,
+    saturation: 90,
+    lightness: 55,
+    parts,
+    eyes,
+    mouths,
+    motorFrequency: 3.0,
+    motorForce: 3.0,
+    weightsIH,
+    weightsHH,
+    biasesH,
+    weightsHO,
+    biasesO,
+    targetClutchSize: 2,
+    maturityAge: 20.0,
+    incubationTime: 10.0,
+    eggReserveFraction: 0.35,
+    reproductionThreshold: 0.60,
+    reproductionCooldown: 18.0,
+    maxLifespan: 360,
+    metabolicEfficiency: 1.2,
+    bodyCost,
+    storageTraitMultiplier,
+    maxEnergyCapacity,
+  };
+}
+
+// Archetype Genomes with Recurrent Weights
+export function createEelFlagellateGenome(generation = 1, parentIds: string[] = [], customPrng = rng): Genome {
+  const parts: PartDef[] = [];
+  const eyes: SensoryEye[] = [];
+  const mouths: SensoryMouth[] = [];
+
+  parts.push(createPartDef('part-0', -1, 'EAST', 5, 3, 1.2, 0, 0, 1.0, 1.0));
+  mouths.push({id: 'mouth-0', partIndex: 0, direction: 'EAST', intakeWidth: 3 * UNIT_SIZE * 0.95, mouthType: 'herbivore'});
+  eyes.push({id: 'eye-0', partIndex: 0, direction: 'EAST', fov: 2.0, range: 560});
+
+  parts.push(createPartDef('part-1', 0, 'WEST', 6, 2, 1.2, 0, 0, 0.85, 1.0));
+  parts.push(createPartDef('part-2', 1, 'WEST', 7, 2, 1.2, 0, Math.PI * 0.5, 0.95, 1.0));
+
+  const bodyCost = calculateBodyCost(parts, eyes, mouths);
+  const storageTraitMultiplier = 1.0;
+  const maxEnergyCapacity = calculateMaxEnergyCapacity(parts, storageTraitMultiplier);
+  const {weightsIH, weightsHH, biasesH, weightsHO, biasesO} = createXavierRecurrentNetwork(customPrng);
+
+  // Optical Green Seeking & Smooth steering bias
+  weightsIH[0][1] = 0.8; // Left/Right Green
+  weightsIH[0][4] = 1.2;
+  weightsIH[1][10] = 1.2;
+  weightsIH[1][13] = 0.8;
+
+  // Steering offset output
+  weightsHO[0][0] = -0.5;
+  weightsHO[0][1] = 0.5;
+
+  return {
+    id: `EEL-${customPrng.nextUint32().toString(36).substring(0, 5).toUpperCase()}`,
+    name: 'Flagellate Eel',
+    archetype: 'Flagellate Eel',
+    generation,
+    parentIds,
+    hue: 185,
+    saturation: 92,
+    lightness: 58,
+    parts,
+    eyes,
+    mouths,
+    motorFrequency: 3.2,
+    motorForce: 3.2,
+    weightsIH,
+    weightsHH,
+    biasesH,
+    weightsHO,
+    biasesO,
+    targetClutchSize: 1 + Math.floor(customPrng.nextFloat() * 4),
+    maturityAge: customPrng.range(15.0, 24.0),
+    incubationTime: 10.0,
+    eggReserveFraction: 0.35,
+    reproductionThreshold: 0.60,
+    reproductionCooldown: 18.0,
+    maxLifespan: 340,
+    metabolicEfficiency: 1.18,
+    bodyCost,
+    storageTraitMultiplier,
+    maxEnergyCapacity,
+  };
+}
+
+export function createApexPredatorGenome(generation = 1, parentIds: string[] = [], customPrng = rng): Genome {
+  const parts: PartDef[] = [];
+  const eyes: SensoryEye[] = [];
+  const mouths: SensoryMouth[] = [];
+
+  parts.push(createPartDef('part-0', -1, 'EAST', 5, 4, 1.2, 0, 0, 1.0, 1.0));
+  mouths.push({id: 'mouth-0', partIndex: 0, direction: 'EAST', intakeWidth: 4.2 * UNIT_SIZE, mouthType: 'carnivore'});
+  mouths.push({id: 'mouth-1', partIndex: 0, direction: 'NORTH', intakeWidth: 3.0 * UNIT_SIZE, mouthType: 'carnivore'});
+
+  eyes.push({id: 'eye-0', partIndex: 0, direction: 'EAST', fov: 2.3, range: 650});
+  eyes.push({id: 'eye-1', partIndex: 0, direction: 'NORTH', fov: 1.6, range: 500});
+  eyes.push({id: 'eye-2', partIndex: 0, direction: 'SOUTH', fov: 1.6, range: 500});
+
+  parts.push(createPartDef('part-1', 0, 'WEST', 6, 2, 1.2, 0, 0, 0.85, 1.0));
+  parts.push(createPartDef('part-2', 1, 'WEST', 7, 2, 1.2, 0, Math.PI * 0.5, 1.0, 1.05));
+
+  const bodyCost = calculateBodyCost(parts, eyes, mouths);
+  const storageTraitMultiplier = 1.05;
+  const maxEnergyCapacity = calculateMaxEnergyCapacity(parts, storageTraitMultiplier);
+  const {weightsIH, weightsHH, biasesH, weightsHO, biasesO} = createXavierRecurrentNetwork(customPrng);
+
+  // Prey pursuit steering
+  weightsIH[0][2] = 1.2;
+  weightsIH[0][0] = 0.9;
+  weightsIH[1][14] = 1.2;
+  weightsIH[1][12] = 0.9;
+
+  weightsHO[0][0] = -0.6;
+  weightsHO[0][1] = 0.6;
+
+  return {
+    id: `PRED-${customPrng.nextUint32().toString(36).substring(0, 5).toUpperCase()}`,
+    name: 'Apex Hunter',
+    archetype: 'Apex Hunter',
+    generation,
+    parentIds,
+    hue: 355,
+    saturation: 96,
+    lightness: 54,
+    parts,
+    eyes,
+    mouths,
+    motorFrequency: 3.4,
+    motorForce: 3.5,
+    weightsIH,
+    weightsHH,
+    biasesH,
+    weightsHO,
+    biasesO,
+    targetClutchSize: 1 + Math.floor(customPrng.nextFloat() * 3),
+    maturityAge: customPrng.range(18.0, 26.0),
+    incubationTime: 12.0,
+    eggReserveFraction: 0.40,
+    reproductionThreshold: 0.65,
+    reproductionCooldown: 20.0,
+    maxLifespan: 380,
+    metabolicEfficiency: 1.25,
+    bodyCost,
+    storageTraitMultiplier,
+    maxEnergyCapacity,
+  };
+}
+
+export function createMantaFlapperGenome(generation = 1, parentIds: string[] = [], customPrng = rng): Genome {
+  const parts: PartDef[] = [];
+  const eyes: SensoryEye[] = [];
+  const mouths: SensoryMouth[] = [];
+
+  parts.push(createPartDef('part-0', -1, 'EAST', 5, 4, 1.2, 0, 0, 1.0, 1.0));
+  mouths.push({id: 'mouth-0', partIndex: 0, direction: 'EAST', intakeWidth: 4 * UNIT_SIZE * 0.95, mouthType: 'herbivore'});
+  eyes.push({id: 'eye-0', partIndex: 0, direction: 'EAST', fov: 2.0, range: 520});
+  eyes.push({id: 'eye-1', partIndex: 0, direction: 'NORTH', fov: 1.5, range: 460});
+  eyes.push({id: 'eye-2', partIndex: 0, direction: 'SOUTH', fov: 1.5, range: 460});
+
+  parts.push(createPartDef('part-1', 0, 'NORTH', 6, 2, 1.2, -Math.PI / 2, 0.0, 0.85, 1.0));
+  parts.push(createPartDef('part-2', 0, 'SOUTH', 6, 2, 1.2, Math.PI / 2, Math.PI, 0.85, 1.0));
+  parts.push(createPartDef('part-3', 0, 'WEST', 5, 2, 1.2, 0, Math.PI * 0.5, 0.8, 1.0));
+
+  const bodyCost = calculateBodyCost(parts, eyes, mouths);
+  const storageTraitMultiplier = 1.0;
+  const maxEnergyCapacity = calculateMaxEnergyCapacity(parts, storageTraitMultiplier);
+  const {weightsIH, weightsHH, biasesH, weightsHO, biasesO} = createXavierRecurrentNetwork(customPrng);
+
+  return {
+    id: `MAN-${customPrng.nextUint32().toString(36).substring(0, 5).toUpperCase()}`,
+    name: 'Manta Flapper',
+    archetype: 'Manta Flapper',
+    generation,
+    parentIds,
+    hue: 215,
+    saturation: 90,
+    lightness: 60,
+    parts,
+    eyes,
+    mouths,
+    motorFrequency: 3.0,
+    motorForce: 3.0,
+    weightsIH,
+    weightsHH,
+    biasesH,
+    weightsHO,
+    biasesO,
+    targetClutchSize: 1 + Math.floor(customPrng.nextFloat() * 4),
+    maturityAge: customPrng.range(16.0, 24.0),
+    incubationTime: 11.0,
+    eggReserveFraction: 0.35,
+    reproductionThreshold: 0.60,
+    reproductionCooldown: 18.0,
+    maxLifespan: 360,
+    metabolicEfficiency: 1.18,
+    bodyCost,
+    storageTraitMultiplier,
+    maxEnergyCapacity,
+  };
+}
+
+export function createTadpoleCruiserGenome(generation = 1, parentIds: string[] = [], customPrng = rng): Genome {
+  const parts: PartDef[] = [];
+  const eyes: SensoryEye[] = [];
+  const mouths: SensoryMouth[] = [];
+
+  parts.push(createPartDef('part-0', -1, 'EAST', 5, 4, 1.2, 0, 0, 1.0, 1.0));
+  mouths.push({id: 'mouth-0', partIndex: 0, direction: 'EAST', intakeWidth: 4 * UNIT_SIZE * 0.95, mouthType: 'herbivore'});
+  eyes.push({id: 'eye-0', partIndex: 0, direction: 'EAST', fov: 2.2, range: 550});
+
+  parts.push(createPartDef('part-1', 0, 'WEST', 6, 2, 1.2, 0, 0, 0.8, 1.0));
+  parts.push(createPartDef('part-2', 1, 'WEST', 7, 2, 1.2, 0, Math.PI * 0.5, 0.9, 1.0));
+
+  const bodyCost = calculateBodyCost(parts, eyes, mouths);
+  const storageTraitMultiplier = 1.0;
+  const maxEnergyCapacity = calculateMaxEnergyCapacity(parts, storageTraitMultiplier);
+  const {weightsIH, weightsHH, biasesH, weightsHO, biasesO} = createXavierRecurrentNetwork(customPrng);
+
+  return {
+    id: `TAD-${customPrng.nextUint32().toString(36).substring(0, 5).toUpperCase()}`,
+    name: 'Paddle Tadpole',
+    archetype: 'Paddle Tadpole',
+    generation,
+    parentIds,
+    hue: sanitizeCreatureHue(45), // Golden Amber (excluded from green nutrient band)
+    saturation: 90,
+    lightness: 54,
+    parts,
+    eyes,
+    mouths,
+    motorFrequency: 3.2,
+    motorForce: 3.0,
+    weightsIH,
+    weightsHH,
+    biasesH,
+    weightsHO,
+    biasesO,
+    targetClutchSize: 1 + Math.floor(customPrng.nextFloat() * 4),
+    maturityAge: customPrng.range(14.0, 22.0),
+    incubationTime: 9.0,
+    eggReserveFraction: 0.35,
+    reproductionThreshold: 0.60,
+    reproductionCooldown: 16.0,
+    maxLifespan: 330,
+    metabolicEfficiency: 1.22,
+    bodyCost,
+    storageTraitMultiplier,
+    maxEnergyCapacity,
+  };
+}
+
+export function createHydrofoilGliderGenome(generation = 1, parentIds: string[] = [], customPrng = rng): Genome {
+  const parts: PartDef[] = [];
+  const eyes: SensoryEye[] = [];
+  const mouths: SensoryMouth[] = [];
+
+  parts.push(createPartDef('part-0', -1, 'EAST', 5, 4, 1.2, 0, 0, 1.0, 1.0));
+  mouths.push({id: 'mouth-0', partIndex: 0, direction: 'EAST', intakeWidth: 3.5 * UNIT_SIZE, mouthType: 'omnivore'});
+  eyes.push({id: 'eye-0', partIndex: 0, direction: 'EAST', fov: 2.2, range: 560});
+  eyes.push({id: 'eye-1', partIndex: 0, direction: 'NORTH', fov: 1.6, range: 480});
+  eyes.push({id: 'eye-2', partIndex: 0, direction: 'SOUTH', fov: 1.6, range: 480});
+
+  parts.push(createPartDef('part-1', 0, 'WEST', 6, 2, 1.2, 0, 0, 0.8, 1.0));
+  parts.push(createPartDef('part-2', 0, 'NORTH', 5, 2, 1.2, -Math.PI / 2, 0.2, 0.8, 1.0));
+  parts.push(createPartDef('part-3', 0, 'SOUTH', 5, 2, 1.2, Math.PI / 2, 0.2, 0.8, 1.0));
+
+  const bodyCost = calculateBodyCost(parts, eyes, mouths);
+  const storageTraitMultiplier = 1.0;
+  const maxEnergyCapacity = calculateMaxEnergyCapacity(parts, storageTraitMultiplier);
+  const {weightsIH, weightsHH, biasesH, weightsHO, biasesO} = createXavierRecurrentNetwork(customPrng);
+
+  return {
+    id: `GLI-${customPrng.nextUint32().toString(36).substring(0, 5).toUpperCase()}`,
+    name: 'Hydrofoil Glider',
+    archetype: 'Hydrofoil Glider',
+    generation,
+    parentIds,
+    hue: 285,
+    saturation: 90,
+    lightness: 60,
+    parts,
+    eyes,
+    mouths,
+    motorFrequency: 3.0,
+    motorForce: 3.0,
+    weightsIH,
+    weightsHH,
+    biasesH,
+    weightsHO,
+    biasesO,
+    targetClutchSize: 1 + Math.floor(customPrng.nextFloat() * 4),
+    maturityAge: customPrng.range(16.0, 24.0),
+    incubationTime: 10.5,
+    eggReserveFraction: 0.38,
+    reproductionThreshold: 0.60,
+    reproductionCooldown: 18.0,
+    maxLifespan: 350,
+    metabolicEfficiency: 1.20,
+    bodyCost,
+    storageTraitMultiplier,
+    maxEnergyCapacity,
+  };
+}
+
+export function createRandomGenome(generation = 1, parentIds: string[] = [], customPrng = rng): Genome {
+  const parts: PartDef[] = [];
+  const eyes: SensoryEye[] = [];
+  const mouths: SensoryMouth[] = [];
+
+  const rootN = customPrng.rangeInt(4, 6);
+  const rootM = customPrng.rangeInt(3, 5);
+  parts.push(createPartDef('part-0', -1, 'EAST', rootN, rootM, 1.2, 0, 0, 1.0, 1.0));
+
+  const mouthTypesList: MouthType[] = ['herbivore', 'carnivore', 'omnivore'];
+  mouths.push({
+    id: 'mouth-0',
+    partIndex: 0,
+    direction: 'EAST',
+    intakeWidth: rootM * UNIT_SIZE * 0.85,
+    mouthType: mouthTypesList[customPrng.rangeInt(0, 2)],
+  });
+
+  eyes.push({
+    id: 'eye-0',
+    partIndex: 0,
+    direction: 'EAST',
+    fov: customPrng.range(1.6, 2.3),
+    range: customPrng.range(480, 620),
+  });
+
+  const chainLen = customPrng.rangeInt(2, 3);
+  for (let c = 1; c <= chainLen; c++) {
+    const parentP = parts[c - 1];
+    const pDims = generateCompliantChildDimensions('WEST', parentP.dimN, parentP.dimM, customPrng);
+    parts.push(
+      createPartDef(
+        `part-${c}`,
+        c - 1,
+        'WEST',
+        pDims.dimN,
+        pDims.dimM,
+        1.2,
+        0,
+        (c - 1) * Math.PI * 0.5,
+        0.8,
+        1.0,
+      ),
+    );
+  }
+
+  const bodyCost = calculateBodyCost(parts, eyes, mouths);
+  const storageTraitMultiplier = customPrng.range(0.85, 1.25);
+  const maxEnergyCapacity = calculateMaxEnergyCapacity(parts, storageTraitMultiplier);
+  const {weightsIH, weightsHH, biasesH, weightsHO, biasesO} = createXavierRecurrentNetwork(customPrng);
+
+  const hasCarn = mouths.some((m) => m.mouthType === 'carnivore');
+  const hasOmni = mouths.some((m) => m.mouthType === 'omnivore');
+  const rawHue = hasCarn
+    ? customPrng.range(345, 360)
+    : hasOmni
+    ? customPrng.range(275, 305)
+    : customPrng.nextFloat() < 0.5
+    ? customPrng.range(175, 235)
+    : customPrng.range(30, 55);
+  const defaultHue = sanitizeCreatureHue(rawHue);
+
+  return {
+    id: `GEN-${customPrng.nextUint32().toString(36).substring(0, 5).toUpperCase()}`,
+    name: hasCarn ? 'Predator Morph' : hasOmni ? 'Omnivore Morph' : 'Grazer Morph',
+    archetype: hasCarn ? 'Predator Morph' : hasOmni ? 'Omnivore Morph' : 'Grazer Morph',
+    generation,
+    parentIds,
+    hue: defaultHue,
+    saturation: customPrng.range(82, 98),
+    lightness: customPrng.range(52, 65),
+    parts,
+    eyes,
+    mouths,
+    motorFrequency: customPrng.range(2.8, 3.4),
+    motorForce: customPrng.range(2.8, 3.4),
+    weightsIH,
+    weightsHH,
+    biasesH,
+    weightsHO,
+    biasesO,
+    targetClutchSize: 1 + Math.floor(customPrng.nextFloat() * 4),
+    maturityAge: customPrng.range(14.0, 26.0),
+    incubationTime: customPrng.range(8.0, 13.0),
+    eggReserveFraction: customPrng.range(0.3, 0.45),
+    reproductionThreshold: customPrng.range(0.55, 0.70),
+    reproductionCooldown: customPrng.range(15.0, 22.0),
+    maxLifespan: customPrng.range(280, 420),
+    metabolicEfficiency: customPrng.range(1.0, 1.28),
+    bodyCost,
+    storageTraitMultiplier,
+    maxEnergyCapacity,
+  };
+}
+
+export function createArchetypeGenome(
+  archetype: ArchetypeId,
+  generation = 1,
+  parentIds: string[] = [],
+  customPrng = rng,
+): Genome {
+  switch (archetype) {
+    case 'eel': return createEelFlagellateGenome(generation, parentIds, customPrng);
+    case 'flapper': return createMantaFlapperGenome(generation, parentIds, customPrng);
+    case 'tadpole': return createTadpoleCruiserGenome(generation, parentIds, customPrng);
+    case 'glider': return createHydrofoilGliderGenome(generation, parentIds, customPrng);
+    case 'predator': return createApexPredatorGenome(generation, parentIds, customPrng);
+    case 'nematode': return createReferenceNematodeGenome();
+    case 'random':
+    default:
+      return createRandomGenome(generation, parentIds, customPrng);
+  }
+}
+
+// Structural Topology Mutation with Strict No-Wide-to-Wide Validation
+export function mutateGenome(parent: Genome, severity = 0.25, customPrng: XoshiroPRNG = rng): Genome {
+  const mutChance = clampVal(severity, 0, 1);
+  const mutScale = mutChance * 1.2;
+  if (mutChance === 0) {
+    return {...structuredClone(parent),
+      id: `GEN-${customPrng.nextUint32().toString(36).toUpperCase()}`,
+      generation: parent.generation + 1, parentIds: [parent.id]};
+  }
+  ensureBrainLayout(parent);
+  const mutate = (value: number, delta: number, min: number, max: number) =>
+    customPrng.nextFloat() < mutChance
+      ? clampVal(value + customPrng.range(-delta, delta) * mutScale, min, max)
+      : value;
+
+  let parts: PartDef[] = parent.parts.map((p) => ({...p}));
+
+  // Structural Topology Mutations: Appendage addition / pruning
+  if (customPrng.nextFloat() < mutChance * 0.25 && parts.length < MAX_PARTS) {
+    const attachIdx = customPrng.rangeInt(0, parts.length - 1);
+    const parentP = parts[attachIdx];
+    const candidateDirs: CardinalDir[] = ['WEST', 'NORTH', 'SOUTH', 'EAST'];
+    const chosenDir = candidateDirs[customPrng.rangeInt(0, candidateDirs.length - 1)];
+    const dims = generateCompliantChildDimensions(chosenDir, parentP.dimN, parentP.dimM, customPrng);
+    if (isValidAttachment(chosenDir, parentP.dimN, parentP.dimM, dims.dimN, dims.dimM)) {
+      parts.push(createPartDef(`part-${customPrng.nextUint32().toString(36)}`, attachIdx, chosenDir, dims.dimN, dims.dimM, 2.0, 0, customPrng.range(0, Math.PI * 2), 1.2, 1.0));
+    }
+  } else if (customPrng.nextFloat() < mutChance * 0.15 && parts.length > 2) {
+    // Prune leaf part safely
+    const isLeaf = (idx: number) => !parts.some((p) => p.parentIndex === idx);
+    const leafIndices = parts.map((_, i) => i).filter((i) => i > 0 && isLeaf(i));
+    if (leafIndices.length > 0) {
+      const pruneIdx = leafIndices[leafIndices.length - 1];
+      parts.splice(pruneIdx, 1);
+      // Remap parent indices
+      parts = parts.map((p) => ({
+        ...p,
+        parentIndex: p.parentIndex >= pruneIdx ? Math.max(0, p.parentIndex - 1) : p.parentIndex,
+      }));
+    }
+  }
+
+  // Relocate a branch only to an earlier parent; reject occupied/overlapping poses.
+  if (parts.length > 1 && customPrng.nextFloat() < mutChance * .15) {
+    const i = customPrng.rangeInt(1, parts.length - 1);
+    const candidate = parts.map(p => ({...p}));
+    candidate[i].parentIndex = customPrng.rangeInt(0, i - 1);
+    candidate[i].attachmentPoint = (['NORTH', 'SOUTH', 'EAST', 'WEST'] as CardinalDir[])[customPrng.rangeInt(0, 3)];
+    candidate[i].baseAngleOffset = 0;
+    if (morphologyProblems(candidate).length === 0) parts = candidate;
+  }
+  if (morphologyProblems(parts).length) parts = parent.parts.map(p => ({...p}));
+
+  // Segment dimension & CPG mutations
+  for (let i = 0; i < parts.length; i++) {
+    const p = parts[i];
+    let newN = p.dimN;
+    let newM = p.dimM;
+    let dimChanged = false;
+
+    if (customPrng.nextFloat() < mutChance) {
+      newN = clampVal(newN + (customPrng.nextFloat() < 0.5 ? -1 : 1), 1, 10);
+      dimChanged = true;
+    }
+    if (customPrng.nextFloat() < mutChance) {
+      newM = clampVal(newM + (customPrng.nextFloat() < 0.5 ? -1 : 1), 1, 10);
+      dimChanged = true;
+    }
+
+    if (dimChanged) {
+      let valid = true;
+      if (i > 0) {
+        const parentIdx = Math.max(0, Math.min(i - 1, p.parentIndex));
+        const parentP = parts[parentIdx];
+        if (!isValidAttachment(p.attachmentPoint, parentP.dimN, parentP.dimM, newN, newM)) {
+          valid = false;
+        }
+      }
+      if (valid) {
+        const candidate = parts.map((part, index) => index === i ? {...part, dimN: newN, dimM: newM, width: newN * UNIT_SIZE, height: newM * UNIT_SIZE} : part);
+        valid = morphologyProblems(candidate).length === 0;
+      }
+      if (valid) {
+        p.dimN = newN;
+        p.dimM = newM;
+        p.width = newN * UNIT_SIZE;
+        p.height = newM * UNIT_SIZE;
+      }
+    }
+
+    p.maxAngle = mutate(p.maxAngle, .2, .6, 2.35);
+    if (customPrng.nextFloat() < mutChance) p.cpgPhaseOffset = (p.cpgPhaseOffset + customPrng.range(-.4, .4) * mutScale + Math.PI * 2) % (Math.PI * 2);
+    p.cpgAmp = mutate(p.cpgAmp, .2, .1, 2.6);
+    p.cpgFreqMult = mutate(p.cpgFreqMult, .2, .5, 2.5);
+  }
+
+  const remapHost = (oldIndex: number) => {
+    let index = oldIndex;
+    while (index >= 0) {
+      const mapped = parts.findIndex(p => p.id === parent.parts[index]?.id);
+      if (mapped >= 0) return mapped;
+      index = parent.parts[index]?.parentIndex ?? -1;
+    }
+    return 0;
+  };
+  // Sensory Eyes mutations
+  let eyes: SensoryEye[] = parent.eyes.map((eye) => ({
+    ...eye,
+    partIndex: remapHost(eye.partIndex),
+    fov: mutate(eye.fov, .2, .8, 2.4),
+    range: mutate(eye.range, 30, 280, 680),
+  }));
+
+  const cardinalDirs: CardinalDir[] = ['EAST', 'WEST', 'NORTH', 'SOUTH'];
+  if (customPrng.nextFloat() < mutChance * 0.25 && eyes.length < 5) {
+    const pIdx = customPrng.rangeInt(0, parts.length - 1);
+    const dir = cardinalDirs[customPrng.rangeInt(0, cardinalDirs.length - 1)];
+    eyes.push({
+      id: `eye-${customPrng.nextUint32().toString(36)}`,
+      partIndex: pIdx,
+      direction: dir,
+      fov: customPrng.range(1.5, 2.3),
+      range: customPrng.range(450, 620),
+    });
+  } else if (customPrng.nextFloat() < mutChance * 0.15 && eyes.length > 1) {
+    eyes.pop();
+  }
+
+  // Sensory Mouths mutations
+  const mouthTypesList: MouthType[] = ['herbivore', 'carnivore', 'omnivore'];
+  let mouths: SensoryMouth[] = parent.mouths.map((m) => {
+    let mutatedType: MouthType = m.mouthType || 'herbivore';
+    if (customPrng.nextFloat() < mutChance * 0.18) {
+      const candidates = mouthTypesList.filter((t) => t !== mutatedType);
+      mutatedType = candidates[customPrng.rangeInt(0, candidates.length - 1)];
+    }
+    return {
+      ...m,
+      partIndex: remapHost(m.partIndex),
+      mouthType: mutatedType,
+      intakeWidth: mutate(m.intakeWidth, 2, 3, 38),
+    };
+  });
+
+  if (customPrng.nextFloat() < mutChance * 0.20 && mouths.length < 3) {
+    const pIdx = customPrng.rangeInt(0, parts.length - 1);
+    const dir = cardinalDirs[customPrng.rangeInt(0, cardinalDirs.length - 1)];
+    const chosenType = mouthTypesList[customPrng.rangeInt(0, mouthTypesList.length - 1)];
+    mouths.push({
+      id: `mouth-${customPrng.nextUint32().toString(36)}`,
+      partIndex: pIdx,
+      direction: dir,
+      intakeWidth: customPrng.range(14, 28),
+      mouthType: chosenType,
+    });
+  } else if (customPrng.nextFloat() < mutChance * 0.12 && mouths.length > 1) {
+    mouths.pop();
+  }
+
+  // Neural Weights Mutations
+  const weightsIH = parent.weightsIH.map((row) =>
+    row.map((w) =>
+      customPrng.nextFloat() < mutChance ? clampVal(w + customPrng.range(-0.3, 0.3) * mutScale, -3.5, 3.5) : w,
+    ),
+  );
+  const weightsHH = parent.weightsHH.map((row) =>
+    row.map((w) =>
+      customPrng.nextFloat() < mutChance ? clampVal(w + customPrng.range(-0.25, 0.25) * mutScale, -3.0, 3.0) : w,
+    ),
+  );
+  const biasesH = parent.biasesH.map((b) =>
+    customPrng.nextFloat() < mutChance ? clampVal(b + customPrng.range(-0.15, 0.15) * mutScale, -1.5, 1.5) : b,
+  );
+  const weightsHO = parent.weightsHO.map((row) =>
+    row.map((w) =>
+      customPrng.nextFloat() < mutChance ? clampVal(w + customPrng.range(-0.3, 0.3) * mutScale, -3.5, 3.5) : w,
+    ),
+  );
+  const biasesO = parent.biasesO.map((b) =>
+    customPrng.nextFloat() < mutChance ? clampVal(b + customPrng.range(-0.15, 0.15) * mutScale, -1.5, 1.5) : b,
+  );
+
+  // Storage trait multiplier mutation
+  const storageTraitMultiplier = clampVal(
+    (parent.storageTraitMultiplier || 1.0) + (customPrng.nextFloat() < mutChance ? customPrng.range(-0.1, 0.1) * mutScale : 0),
+    0.8,
+    2.0,
+  );
+  const bodyCost = calculateBodyCost(parts, eyes, mouths);
+  const maxEnergyCapacity = calculateMaxEnergyCapacity(parts, storageTraitMultiplier);
+
+  const hasCarnivoreMouth = mouths.some((m) => m.mouthType === 'carnivore');
+  const hasOmnivoreMouth = mouths.some((m) => m.mouthType === 'omnivore');
+
+  let newHue = (parent.hue + (customPrng.nextFloat() < mutChance ? customPrng.range(-20, 20) : 0) + 360) % 360;
+  if (hasCarnivoreMouth && customPrng.nextFloat() < 0.3) {
+    newHue = customPrng.range(345, 360);
+  } else if (hasOmnivoreMouth && customPrng.nextFloat() < 0.3) {
+    newHue = customPrng.range(275, 305);
+  }
+  newHue = sanitizeCreatureHue(newHue);
+
+  // Heritable Target Clutch Size (mutates ±1, range 1..6)
+  let mutatedTargetClutchSize = parent.targetClutchSize || 2;
+  if (customPrng.nextFloat() < mutChance) {
+    const clutchDelta = customPrng.nextFloat() < 0.5 ? -1 : 1;
+    mutatedTargetClutchSize = clampVal(mutatedTargetClutchSize + clutchDelta, 1, 6);
+  }
+
+  // Heritable Maturity Age (mutates ±1.0..3.0s, range 10.0..45.0s)
+  let mutatedMaturityAge = parent.maturityAge || 20.0;
+  if (customPrng.nextFloat() < mutChance) {
+    const ageDelta = customPrng.range(-3.0, 3.0) * mutScale;
+    mutatedMaturityAge = clampVal(mutatedMaturityAge + ageDelta, 10.0, 45.0);
+  }
+
+  const child: Genome = {
+    id: `GEN-${customPrng.nextUint32().toString(36).substring(0, 5).toUpperCase()}`,
+    name: parent.name,
+    archetype: parent.archetype,
+    generation: parent.generation + 1,
+    parentIds: [parent.id],
+    hue: newHue,
+    saturation: mutate(parent.saturation, 4, 65, 100),
+    lightness: mutate(parent.lightness, 4, 45, 72),
+    parts,
+    eyes,
+    mouths,
+    motorFrequency: mutate(parent.motorFrequency, .3, .1, 5.2),
+    motorForce: mutate(parent.motorForce, .5, 0, 19.5),
+    weightsIH,
+    weightsHH,
+    biasesH,
+    weightsHO,
+    biasesO,
+    targetClutchSize: mutatedTargetClutchSize,
+    maturityAge: mutatedMaturityAge,
+    incubationTime: mutate(parent.incubationTime, 1, 5.0, 20.0),
+    eggReserveFraction: mutate(parent.eggReserveFraction, 0.05, 0.2, 0.55),
+    reproductionThreshold: mutate(parent.reproductionThreshold, 0.04, 0.50, 0.80),
+    reproductionCooldown: mutate(parent.reproductionCooldown, 1, 12.0, 25.0),
+    maxLifespan: mutate(parent.maxLifespan, 20, 220, 550),
+    metabolicEfficiency: mutate(parent.metabolicEfficiency, 0.05, 0.85, 1.35),
+    bodyCost,
+    storageTraitMultiplier,
+    maxEnergyCapacity,
+  };
+  remapBrain(child, {...parent, weightsIH, weightsHO, biasesO});
+  return child;
+}
+
+export function spawnOrganism(
+  genome: Genome,
+  x: number,
+  y: number,
+  heading = 0,
+  clutchId?: string,
+  startingReserve?: number,
+  customPrng: XoshiroPRNG = rng,
+): Organism {
+  ensureBrainLayout(genome);
+  const segments: PartPhys[] = [];
+  const joints: JointState[] = [];
+  const partCount = genome.parts.length;
+
+  segments.push({
+    x,
+    y,
+    vx: 0,
+    vy: 0,
+    angle: isNaN(heading) ? 0 : heading,
+    angVel: 0,
+  });
+
+  for (let i = 1; i < partCount; i++) {
+    const pDef = genome.parts[i];
+    const parentIdx = Math.max(0, Math.min(i - 1, pDef.parentIndex));
+    const parentPhys = segments[parentIdx];
+    const parentDef = genome.parts[parentIdx];
+
+    const parentCos = Math.cos(parentPhys.angle);
+    const parentSin = Math.sin(parentPhys.angle);
+    const parentAnchorLocal = getCardinalAnchor(pDef.attachmentPoint, parentDef.width, parentDef.height);
+
+    const anchorWorldX = parentPhys.x + parentCos * parentAnchorLocal.x - parentSin * parentAnchorLocal.y;
+    const anchorWorldY = parentPhys.y + parentSin * parentAnchorLocal.x + parentCos * parentAnchorLocal.y;
+
+    const childAngle = parentPhys.angle + (pDef.baseAngleOffset || 0);
+    const childCos = Math.cos(childAngle);
+    const childSin = Math.sin(childAngle);
+
+    const childAnchorLocal = getChildAnchorForParentDir(pDef.attachmentPoint, pDef.width, pDef.height);
+    const childComX = anchorWorldX - (childCos * childAnchorLocal.x - childSin * childAnchorLocal.y);
+    const childComY = anchorWorldY - (childSin * childAnchorLocal.x + childCos * childAnchorLocal.y);
+
+    segments.push({
+      x: isNaN(childComX) ? x : childComX,
+      y: isNaN(childComY) ? y : childComY,
+      vx: 0,
+      vy: 0,
+      angle: isNaN(childAngle) ? 0 : childAngle,
+      angVel: 0,
+    });
+
+    joints.push({
+      phase: pDef.cpgPhaseOffset || 0,
+      targetAngle: 0,
+      currentRelAngle: 0,
+      currentRelAngVel: 0,
+      appliedTorque: 0,
+      stiffness: 1.0,
+    });
+  }
+
+  // Set default starting reserve: 10,000 J for founder, or funded reserve for hatchlings
+  const initialReserve = startingReserve !== undefined
+    ? Math.max(0.0, startingReserve)
+    : (genome.generation === 1 ? FOUNDER_DEFAULT_RESERVE : Math.max(1000.0, genome.maxEnergyCapacity * 0.15));
+
+  return {
+    id: `ORG-${customPrng.nextUint32().toString(36)}-${customPrng.nextUint32().toString(36)}`,
+    clutchId,
+    genome,
+    segments,
+    joints,
+    energy: initialReserve,
+    structuralBiomass: genome.bodyCost,
+    basalEnergyRate: 0,
+    sensoryEnergyRate: 0,
+    motorEnergyRate: 0,
+    totalEnergyRate: 0,
+    age: 0,
+    maxLifespan: genome.maxLifespan || 340,
+    foodEaten: 0,
+    preyEaten: 0,
+    eggsPredated: 0,
+    offspringCount: 0,
+    clutchesLaid: 0,
+    isGravid: false,
+    lastReproductionAge: 0,
+    lastReproductionTime: 0,
+    distanceTraveled: 0,
+    speed: 0,
+    neuralInputs: new Array(genome.inputKeys!.length).fill(0),
+    neuralHidden: new Array(NUM_HIDDEN).fill(0),
+    neuralOutputs: new Array(genome.outputKeys!.length).fill(0),
+    rayHits: [],
+    glowPulse: 0,
+    dissolving: false,
+    dissolveAlpha: 1.0,
+    isFeedingHighlight: 0,
+    traceHistory: [],
+    recentFeedings: [],
+  };
+}
+
+export function calculateOrganismCOM(org: Organism): {x: number; y: number; totalMass: number; vxCOM: number; vyCOM: number} {
+  let totalMass = 0;
+  let weightedX = 0;
+  let weightedY = 0;
+  let weightedVx = 0;
+  let weightedVy = 0;
+
+  for (let i = 0; i < org.segments.length; i++) {
+    const pDef = org.genome.parts[i];
+    const m = Math.max(0.35, pDef.dimN * pDef.dimM * BASE_PART_DENSITY);
+    totalMass += m;
+    weightedX += org.segments[i].x * m;
+    weightedY += org.segments[i].y * m;
+    weightedVx += org.segments[i].vx * m;
+    weightedVy += org.segments[i].vy * m;
+  }
+
+  return {
+    x: totalMass > 0 ? weightedX / totalMass : org.segments[0].x,
+    y: totalMass > 0 ? weightedY / totalMass : org.segments[0].y,
+    totalMass,
+    vxCOM: totalMass > 0 ? weightedVx / totalMass : 0,
+    vyCOM: totalMass > 0 ? weightedVy / totalMass : 0,
+  };
+}
+
+// Geometric Intersections
+export function lineIntersection(
+  p1x: number, p1y: number, p2x: number, p2y: number,
+  p3x: number, p3y: number, p4x: number, p4y: number,
+): {hit: boolean; t: number; u: number; x: number; y: number} {
+  const denom = (p1x - p2x) * (p3y - p4y) - (p1y - p2y) * (p3x - p4x);
+  if (Math.abs(denom) < 1e-6) return {hit: false, t: 0, u: 0, x: 0, y: 0};
+
+  const t = ((p1x - p3x) * (p3y - p4y) - (p1y - p3y) * (p3x - p4x)) / denom;
+  const u = -((p1x - p2x) * (p1y - p3y) - (p1y - p2y) * (p1x - p3x)) / denom;
+
+  if (t >= 0 && t <= 1 && u >= 0 && u <= 1) {
+    return {hit: true, t, u, x: p1x + t * (p2x - p1x), y: p1y + t * (p2y - p1y)};
+  }
+  return {hit: false, t: 0, u: 0, x: 0, y: 0};
+}
+
+export function rayCircleIntersection(
+  rayOriginX: number, rayOriginY: number,
+  rayDirX: number, rayDirY: number, rayMaxLen: number,
+  circleX: number, circleY: number, radius: number,
+): {hit: boolean; dist: number; pointX: number; pointY: number} {
+  const ocX = rayOriginX - circleX;
+  const ocY = rayOriginY - circleY;
+  const b = ocX * rayDirX + ocY * rayDirY;
+  const c = ocX * ocX + ocY * ocY - radius * radius;
+  const discriminant = b * b - c;
+
+  if (discriminant < 0) return {hit: false, dist: 0, pointX: 0, pointY: 0};
+
+  const sqrtDisc = Math.sqrt(discriminant);
+  let t = -b - sqrtDisc;
+  if (t < 0) t = -b + sqrtDisc;
+
+  if (t >= 0 && t <= rayMaxLen) {
+    return {
+      hit: true,
+      dist: t,
+      pointX: rayOriginX + rayDirX * t,
+      pointY: rayOriginY + rayDirY * t,
+    };
+  }
+  return {hit: false, dist: 0, pointX: 0, pointY: 0};
+}
+
+export function getPartCornerVertices(phys: PartPhys, def: PartDef): Array<{x: number; y: number}> {
+  const halfW = def.width * 0.5;
+  const halfH = def.height * 0.5;
+  const cosA = Math.cos(phys.angle);
+  const sinA = Math.sin(phys.angle);
+
+  return [
+    {x: phys.x + cosA * halfW - sinA * halfH, y: phys.y + sinA * halfW + cosA * halfH},
+    {x: phys.x - cosA * halfW - sinA * halfH, y: phys.y - sinA * halfW + cosA * halfH},
+    {x: phys.x - cosA * halfW + sinA * halfH, y: phys.y - sinA * halfW - cosA * halfH},
+    {x: phys.x + cosA * halfW + sinA * halfH, y: phys.y + sinA * halfW - cosA * halfH},
+  ];
+}
+
+export function distPointToSegment(px: number, py: number, x1: number, y1: number, x2: number, y2: number): number {
+  const dx = x2 - x1;
+  const dy = y2 - y1;
+  const l2 = dx * dx + dy * dy;
+  if (l2 === 0) return Math.hypot(px - x1, py - y1);
+  const t = clampVal(((px - x1) * dx + (py - y1) * dy) / l2, 0, 1);
+  const projX = x1 + t * dx;
+  const projY = y1 + t * dy;
+  return Math.hypot(px - projX, py - projY);
+}
+
+// Convert HSL to RGB (0..1)
+export function hslToRgb(h: number, s: number, l: number): [number, number, number] {
+  h = (h % 360) / 360;
+  s = s / 100;
+  l = l / 100;
+  let r, g, b;
+  if (s === 0) {
+    r = g = b = l;
+  } else {
+    const hue2rgb = (p: number, q: number, t: number) => {
+      if (t < 0) t += 1;
+      if (t > 1) t -= 1;
+      if (t < 1 / 6) return p + (q - p) * 6 * t;
+      if (t < 1 / 2) return q;
+      if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+      return p;
+    };
+    const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+    const p = 2 * l - q;
+    r = hue2rgb(p, q, h + 1 / 3);
+    g = hue2rgb(p, q, h);
+    b = hue2rgb(p, q, h - 1 / 3);
+  }
+  return [r, g, b];
+}
+
+// ============================================================================
+// 3. AUTHORITATIVE MODULAR SIMULATION KERNEL (`stepSimulation`)
+// ============================================================================
+export function stepSimulation(
+  state: SimulationState,
+  settings: SimulationSettings,
+  dt: number,
+  onEvent?: (type: 'birth' | 'death' | 'eat' | 'clash' | 'egg_loss') => void,
+): void {
+  const mu = settings.waterViscosity ?? 0.22;
+  const worldWidth = settings.worldWidth;
+  const worldHeight = settings.worldHeight;
+  const targetNutrientsVal = settings.targetNutrients ?? 800;
+  const inflowRateVal = settings.inflowRate ?? 15;
+  const isKinshipProtected = settings.kinshipProtection ?? true;
+  const mutationSeverity = settings.mutationSeverity ?? 0.25;
+  const gravity = settings.gravity ?? 0;
+
+  state.simTime += dt;
+  const organisms = state.organisms;
+  const eggs = state.eggs;
+  const nutrients = state.nutrients;
+  const bubbles = state.bubbles;
+  const caustics = state.caustics;
+  const ledger = state.ledger;
+  const prng = state.prng;
+
+  // 1. Environmental Nutrient Inflow
+  if (nutrients.length >= targetNutrientsVal || inflowRateVal <= 0) {
+    state.nutrientAccumulator = 0;
+  } else {
+    state.nutrientAccumulator += inflowRateVal * dt;
+    if (state.nutrientAccumulator >= 1.0) {
+      const spawnCount = Math.min(
+        Math.floor(state.nutrientAccumulator),
+        targetNutrientsVal - nutrients.length,
+        2200 - nutrients.length,
+      );
+      state.nutrientAccumulator -= spawnCount;
+
+      for (let n = 0; n < spawnCount; n++) {
+        nutrients.push({
+          id: `NUT-${prng.nextUint32().toString(36)}`,
+          x: prng.range(40, worldWidth - 40),
+          y: prng.range(40, worldHeight - 40),
+          vx: 0,
+          vy: 0,
+          energyValue: NUTRIENT_ENERGY_VALUE,
+          radius: getNutrientRadius(NUTRIENT_ENERGY_VALUE),
+          bottomTimer: 0,
+          pulseTimer: prng.range(0, Math.PI * 2),
+        });
+        ledger.externalInflow += NUTRIENT_ENERGY_VALUE;
+      }
+    }
+  }
+
+  // 2. Nutrients Motion
+  const fluidDampingExp = Math.exp(-mu * 12.0 * dt);
+  for (let i = 0; i < nutrients.length; i++) {
+    const nut = nutrients[i];
+    nut.vy += gravity * dt;
+    nut.vx *= fluidDampingExp;
+    nut.vy *= fluidDampingExp;
+    nut.x += nut.vx * dt;
+    nut.y += nut.vy * dt;
+    nut.pulseTimer = (nut.pulseTimer || 0) + dt * (nut.isSuper ? 4.0 : 2.5);
+
+    if (nut.x < 35) { nut.x = 35; nut.vx = 0; }
+    if (nut.x > worldWidth - 35) { nut.x = worldWidth - 35; nut.vx = 0; }
+    if (nut.y < 35) { nut.y = 35; nut.vy = 0; }
+    if (nut.y > worldHeight - 35) { nut.y = worldHeight - 35; nut.vy = 0; }
+  }
+
+  // 3. Caustics
+  for (const c of caustics) {
+    c.angle += c.speed * dt;
+    c.x += Math.cos(c.angle) * 12 * dt;
+    c.y += Math.sin(c.angle) * 12 * dt;
+    if (c.x < 0) c.x = worldWidth;
+    if (c.x > worldWidth) c.x = 0;
+    if (c.y < 0) c.y = worldHeight;
+    if (c.y > worldHeight) c.y = 0;
+  }
+
+  // 4. Incubating Multi-Egg Clutches (Full energy accounting: non-viable damaged eggs decompose without duplicate hatching)
+  for (let i = eggs.length - 1; i >= 0; i--) {
+    const egg = eggs[i];
+    egg.incubationProgress = Math.min(1.0, egg.incubationProgress + dt / egg.totalIncubationTime);
+    egg.pulseTimer += dt * 4.5;
+    egg.vy += gravity * dt;
+    egg.vx *= fluidDampingExp;
+    egg.vy *= fluidDampingExp;
+
+    egg.x += egg.vx * dt;
+    egg.y += egg.vy * dt;
+
+    if (egg.x < 35) { egg.x = 35; egg.vx = 0; }
+    if (egg.x > worldWidth - 35) { egg.x = worldWidth - 35; egg.vx = 0; }
+    if (egg.y < 35) { egg.y = 35; egg.vy = 0; }
+    if (egg.y > worldHeight - 35) { egg.y = worldHeight - 35; egg.vy = 0; }
+
+    const remainingEggEnergy = egg.fundedStructural + egg.fundedReserve;
+
+    // Check viability at completion
+    if (egg.incubationProgress >= 1.0) {
+      const requiredBodyCost = egg.genome.bodyCost;
+
+      if (remainingEggEnergy < requiredBodyCost) {
+        // Nonviable egg due to predation/starvation: decompose into nutrient particle
+        if (remainingEggEnergy > 5.0 && nutrients.length < 2200) {
+          nutrients.push({
+            id: `NUT-${prng.nextUint32().toString(36)}`,
+            x: egg.x,
+            y: egg.y,
+            vx: 0,
+            vy: 0,
+            energyValue: remainingEggEnergy,
+            radius: getNutrientRadius(remainingEggEnergy),
+            bottomTimer: 0,
+            pulseTimer: prng.range(0, Math.PI * 2),
+          });
+        } else {
+          ledger.recordedLosses += remainingEggEnergy;
+        }
+        eggs.splice(i, 1);
+        if (onEvent) onEvent('egg_loss');
+        continue;
+      }
+
+      // Successful Hatching: Exactly fundedStructural becomes structural biomass, remaining becomes usable reserve
+      egg.readyToHatch = true;
+      if (organisms.filter(o => !o.dissolving).length < (settings.maxOrganisms ?? 50)) {
+        const startingUsableReserve = remainingEggEnergy - requiredBodyCost;
+        const baby = spawnOrganism(
+          egg.genome,
+          egg.x,
+          egg.y,
+          prng.range(0, Math.PI * 2),
+          egg.clutchId,
+          startingUsableReserve,
+          prng,
+        );
+        baby.structuralBiomass = requiredBodyCost;
+        organisms.push(baby);
+        state.totalBirths += 1;
+
+        state.lineage.set(baby.id, {
+          id: baby.id,
+          parentIds: [egg.parentOrgId],
+          generation: baby.genome.generation,
+          birthTime: state.simTime,
+          offspringCount: 0,
+          archetype: baby.genome.archetype || 'Offspring',
+          hue: baby.genome.hue,
+          diet: getDietClassification(baby.genome.mouths).label,
+          genome: baby.genome,
+        });
+
+        eggs.splice(i, 1);
+        if (onEvent) onEvent('birth');
+      }
+    }
+  }
+
+  // 5. Organisms Simulation
+  for (let orgIdx = organisms.length - 1; orgIdx >= 0; orgIdx--) {
+    const org = organisms[orgIdx];
+    const g = org.genome;
+
+    if (org.dissolving) {
+      org.dissolveAlpha -= dt * 1.5;
+      if (org.dissolveAlpha <= 0) {
+        const deadPos = org.segments[0];
+        const totalRemainingEnergy = Math.max(0, org.structuralBiomass) + Math.max(0, org.energy);
+        const fullNutrientCount = Math.floor(totalRemainingEnergy / NUTRIENT_ENERGY_VALUE);
+        const remainderFraction = totalRemainingEnergy - fullNutrientCount * NUTRIENT_ENERGY_VALUE;
+        let returnedEnergy = 0;
+
+        for (let d = 0; d < fullNutrientCount; d++) {
+          if (nutrients.length >= 2200) break;
+          const angle = (d / Math.max(1, fullNutrientCount)) * Math.PI * 2;
+          nutrients.push({
+            id: `NUT-${prng.nextUint32().toString(36)}`,
+            x: clampVal(deadPos.x + Math.cos(angle) * 16, 40, worldWidth - 40),
+            y: clampVal(deadPos.y + Math.sin(angle) * 16, 40, worldHeight - 40),
+            vx: 0,
+            vy: 0,
+            energyValue: NUTRIENT_ENERGY_VALUE,
+            radius: getNutrientRadius(NUTRIENT_ENERGY_VALUE),
+            bottomTimer: 0,
+            pulseTimer: prng.range(0, Math.PI * 2),
+          });
+          returnedEnergy += NUTRIENT_ENERGY_VALUE;
+        }
+
+        if (remainderFraction > 5.0 && nutrients.length < 2200) {
+          nutrients.push({
+            id: `NUT-${prng.nextUint32().toString(36)}`,
+            x: deadPos.x,
+            y: deadPos.y,
+            vx: 0,
+            vy: 0,
+            energyValue: remainderFraction,
+            radius: getNutrientRadius(remainderFraction),
+            bottomTimer: 0,
+            pulseTimer: prng.range(0, Math.PI * 2),
+          });
+          returnedEnergy += remainderFraction;
+        }
+        ledger.recordedLosses += totalRemainingEnergy - returnedEnergy;
+
+        const cause: DeathCause = org.deathCause || (org.age >= org.maxLifespan ? 'Old Age' : org.energy <= 0 ? 'Starvation' : 'Predation');
+        const rec = state.lineage.get(org.id);
+        if (rec) {
+          rec.deathTime = state.simTime;
+          rec.deathCause = cause;
+          rec.deathAge = org.age;
+          rec.deathEnergy = Math.max(0, org.energy);
+        }
+
+        if (!state.recentDeaths) state.recentDeaths = [];
+        state.recentDeaths.unshift({
+          id: org.id,
+          name: org.genome.name || org.id,
+          generation: org.genome.generation,
+          cause,
+          age: org.age,
+          energyAtDeath: Math.max(0, org.energy),
+          offspringCount: org.offspringCount,
+          timestamp: state.simTime,
+        });
+        if (state.recentDeaths.length > 30) state.recentDeaths.pop();
+
+        organisms.splice(orgIdx, 1);
+        state.totalDeaths += 1;
+        if (onEvent) onEvent('death');
+      }
+      continue;
+    }
+
+    org.age += dt;
+    org.glowPulse += dt * 3.5;
+    if (org.isFeedingHighlight > 0) {
+      org.isFeedingHighlight = Math.max(0, org.isFeedingHighlight - dt);
+    }
+
+    // Trace breadcrumbs
+    if (!org.traceHistory) org.traceHistory = [];
+    if (org.traceHistory.length === 0 || Math.hypot(org.segments[0].x - org.traceHistory[org.traceHistory.length - 1].x, org.segments[0].y - org.traceHistory[org.traceHistory.length - 1].y) > 12) {
+      org.traceHistory.push({x: org.segments[0].x, y: org.segments[0].y, time: state.simTime});
+      if (org.traceHistory.length > 30) org.traceHistory.shift();
+    }
+
+    // A. MULTI-EYE OPTICAL RGB RAYCAST WITH WATER ATTENUATION
+    org.rayHits = [];
+    org.neuralInputs.fill(0);
+    let rayInputIdx = 0;
+    const totalEyes = g.eyes.length;
+
+    for (let eIdx = 0; eIdx < totalEyes; eIdx++) {
+      const eye = g.eyes[eIdx];
+      const eyePartIdx = Math.min(eye.partIndex, org.segments.length - 1);
+      const eyePhys = org.segments[eyePartIdx];
+      const eyeDef = g.parts[eyePartIdx];
+
+      const eyeAnchorLocal = getCardinalAnchor(eye.direction, eyeDef.width, eyeDef.height);
+      const cosA = Math.cos(eyePhys.angle);
+      const sinA = Math.sin(eyePhys.angle);
+      const eyeWorldX = eyePhys.x + cosA * eyeAnchorLocal.x - sinA * eyeAnchorLocal.y;
+      const eyeWorldY = eyePhys.y + sinA * eyeAnchorLocal.x + cosA * eyeAnchorLocal.y;
+
+      const baseHeading = eyePhys.angle + getCardinalBaseAngle(eye.direction);
+      const fov = eye.fov;
+      const maxRange = eye.range;
+      const raysToCast = RAYS_PER_EYE;
+
+      for (let r = 0; r < raysToCast; r++) {
+        const rayOffset = raysToCast > 1 ? (r / (raysToCast - 1) - 0.5) * fov : 0;
+        const rayAngle = baseHeading + rayOffset;
+        const rayDirX = Math.cos(rayAngle);
+        const rayDirY = Math.sin(rayAngle);
+
+        let closestDist = maxRange;
+        let hitHit = false;
+        let hitX = eyeWorldX + rayDirX * maxRange;
+        let hitY = eyeWorldY + rayDirY * maxRange;
+        let hitR = WATER_AMBIENT_RGB[0];
+        let hitG = WATER_AMBIENT_RGB[1];
+        let hitB = WATER_AMBIENT_RGB[2];
+        let hitType: RayHit['objectType'] = 'none';
+
+        // 1. Tank Boundary Walls
+        if (rayDirX < -1e-5) {
+          const t = (0 - eyeWorldX) / rayDirX;
+          if (t > 0 && t < closestDist) {
+            const yHit = eyeWorldY + rayDirY * t;
+            if (yHit >= 0 && yHit <= worldHeight) {
+              closestDist = t; hitHit = true; hitX = 0; hitY = yHit;
+              hitR = 0.02; hitG = 0.71; hitB = 0.83; hitType = 'wall';
+            }
+          }
+        }
+        if (rayDirX > 1e-5) {
+          const t = (worldWidth - eyeWorldX) / rayDirX;
+          if (t > 0 && t < closestDist) {
+            const yHit = eyeWorldY + rayDirY * t;
+            if (yHit >= 0 && yHit <= worldHeight) {
+              closestDist = t; hitHit = true; hitX = worldWidth; hitY = yHit;
+              hitR = 0.02; hitG = 0.71; hitB = 0.83; hitType = 'wall';
+            }
+          }
+        }
+        if (rayDirY < -1e-5) {
+          const t = (0 - eyeWorldY) / rayDirY;
+          if (t > 0 && t < closestDist) {
+            const xHit = eyeWorldX + rayDirX * t;
+            if (xHit >= 0 && xHit <= worldWidth) {
+              closestDist = t; hitHit = true; hitX = xHit; hitY = 0;
+              hitR = 0.02; hitG = 0.71; hitB = 0.83; hitType = 'wall';
+            }
+          }
+        }
+        if (rayDirY > 1e-5) {
+          const t = (worldHeight - eyeWorldY) / rayDirY;
+          if (t > 0 && t < closestDist) {
+            const xHit = eyeWorldX + rayDirX * t;
+            if (xHit >= 0 && xHit <= worldWidth) {
+              closestDist = t; hitHit = true; hitX = xHit; hitY = worldHeight;
+              hitR = 0.02; hitG = 0.71; hitB = 0.83; hitType = 'wall';
+            }
+          }
+        }
+
+        // 2. Nutrients
+        for (let n = 0; n < nutrients.length; n++) {
+          const nut = nutrients[n];
+          if (Math.abs(nut.x - eyeWorldX) > closestDist + nut.radius || Math.abs(nut.y - eyeWorldY) > closestDist + nut.radius) continue;
+          const res = rayCircleIntersection(eyeWorldX, eyeWorldY, rayDirX, rayDirY, closestDist, nut.x, nut.y, nut.radius);
+          if (res.hit && res.dist < closestDist) {
+            closestDist = res.dist; hitHit = true; hitX = res.pointX; hitY = res.pointY;
+            hitR = 0.10; hitG = 0.95; hitB = 0.40; hitType = 'nutrient';
+          }
+        }
+
+        // 3. Incubating Eggs
+        for (let e = 0; e < eggs.length; e++) {
+          const egg = eggs[e];
+          if (Math.abs(egg.x - eyeWorldX) > closestDist + 24 || Math.abs(egg.y - eyeWorldY) > closestDist + 24) continue;
+          const res = rayCircleIntersection(eyeWorldX, eyeWorldY, rayDirX, rayDirY, closestDist, egg.x, egg.y, 16.0);
+          if (res.hit && res.dist < closestDist) {
+            closestDist = res.dist; hitHit = true; hitX = res.pointX; hitY = res.pointY;
+            hitR = 0.95; hitG = 0.75; hitB = 0.15; hitType = 'egg';
+          }
+        }
+
+        // 4. Organisms with Exact Surface Colors (Self-Vision Exemption: eyes never see own body segments)
+        for (let o = 0; o < organisms.length; o++) {
+          const other = organisms[o];
+          if (other.id === org.id || other.dissolving) continue; // Creature NEVER intersects its own body
+
+          const [oR, oG, oB] = hslToRgb(other.genome.hue, other.genome.saturation, other.genome.lightness);
+
+          for (let s = 0; s < other.segments.length; s++) {
+            const otherSeg = other.segments[s];
+            const otherDef = other.genome.parts[s];
+            if (Math.abs(otherSeg.x - eyeWorldX) > closestDist + 50 || Math.abs(otherSeg.y - eyeWorldY) > closestDist + 50) continue;
+
+            const corners = getPartCornerVertices(otherSeg, otherDef);
+            for (let c = 0; c < 4; c++) {
+              const c1 = corners[c];
+              const c2 = corners[(c + 1) % 4];
+              const inter = lineIntersection(
+                eyeWorldX, eyeWorldY,
+                eyeWorldX + rayDirX * closestDist, eyeWorldY + rayDirY * closestDist,
+                c1.x, c1.y, c2.x, c2.y,
+              );
+              if (inter.hit) {
+                const dist = Math.hypot(inter.x - eyeWorldX, inter.y - eyeWorldY);
+                if (dist < closestDist) {
+                  closestDist = dist; hitHit = true; hitX = inter.x; hitY = inter.y;
+                  hitR = oR; hitG = oG; hitB = oB; hitType = 'creature';
+                }
+              }
+            }
+          }
+        }
+
+        // Realistic Optical Distance Attenuation: C_perceived = (1 - e^(-alpha*d))*C_water + e^(-alpha*d)*C_surface
+        const alpha = 1.0 / (maxRange * 0.55);
+        const expTerm = Math.exp(-alpha * closestDist);
+        const finalR = (1 - expTerm) * WATER_AMBIENT_RGB[0] + expTerm * hitR;
+        const finalG = (1 - expTerm) * WATER_AMBIENT_RGB[1] + expTerm * hitG;
+        const finalB = (1 - expTerm) * WATER_AMBIENT_RGB[2] + expTerm * hitB;
+
+        org.neuralInputs[rayInputIdx++] = finalR;
+        org.neuralInputs[rayInputIdx++] = finalG;
+        org.neuralInputs[rayInputIdx++] = finalB;
+        org.neuralInputs[rayInputIdx++] = clampVal(closestDist / maxRange, 0, 1);
+
+        org.rayHits.push({
+          eyeId: eye.id, rayIndex: r,
+          hit: hitHit,
+          dist: closestDist,
+          pointX: hitX,
+          pointY: hitY,
+          r: finalR,
+          g: finalG,
+          b: finalB,
+          objectType: hitType,
+        });
+      }
+    }
+
+    // All joints have normalized angle and angular-velocity feedback.
+    for (let j = 0; j < org.joints.length; j++) {
+      org.neuralInputs[rayInputIdx++] = clampVal(org.joints[j].currentRelAngle / Math.max(.01, g.parts[j + 1].maxAngle), -1, 1);
+      org.neuralInputs[rayInputIdx++] = clampVal(org.joints[j].currentRelAngVel / 20, -1, 1);
+    }
+    org.neuralInputs[rayInputIdx++] = clampVal(org.speed / 60, 0, 1);
+    org.neuralInputs[rayInputIdx++] = clampVal(org.energy / Math.max(1, g.maxEnergyCapacity), 0, 1);
+    const masterPhase = org.joints[0]?.phase ?? 0;
+    org.neuralInputs[rayInputIdx++] = Math.sin(masterPhase);
+    org.neuralInputs[rayInputIdx++] = Math.cos(masterPhase);
+
+    // B. RECURRENT NEURAL EVALUATION (h_t = tanh(W_in * x_t + W_rec * h_{t-1} + b))
+    for (let h = 0; h < NUM_HIDDEN; h++) {
+      scratchPrevHidden[h] = org.neuralHidden[h] || 0;
+    }
+
+    for (let h = 0; h < NUM_HIDDEN; h++) {
+      let sum = g.biasesH[h] || 0;
+      for (let inp = 0; inp < org.neuralInputs.length; inp++) {
+        sum += (org.neuralInputs[inp] || 0) * (g.weightsIH[h]?.[inp] || 0);
+      }
+      for (let rh = 0; rh < NUM_HIDDEN; rh++) {
+        sum += scratchPrevHidden[rh] * (g.weightsHH[h]?.[rh] || 0);
+      }
+      org.neuralHidden[h] = isNaN(sum) ? 0 : Math.tanh(sum);
+    }
+
+    const numJoints = org.segments.length - 1;
+    for (let o = 0; o < numJoints * OUTPUTS_PER_JOINT; o++) {
+      let sum = g.biasesO[o] || 0;
+      for (let h = 0; h < NUM_HIDDEN; h++) {
+        sum += org.neuralHidden[h] * (g.weightsHO[o]?.[h] || 0);
+      }
+      org.neuralOutputs[o] = isNaN(sum) ? 0 : Math.tanh(sum);
+    }
+
+    // C. RIGID BODY HYDRODYNAMICS & 4-CHANNEL MOTOR ACTUATION ACROSS 4 SUBSTEPS
+    const partCount = org.segments.length;
+    for (let i = 0; i < partCount; i++) {
+      const pDef = g.parts[i];
+      const mass = Math.max(0.35, pDef.dimN * pDef.dimM * BASE_PART_DENSITY);
+      const inertia = (1 / 12) * mass * (pDef.width * pDef.width + pDef.height * pDef.height);
+      scratchMasses[i] = mass;
+      scratchInvMasses[i] = 1 / mass;
+      scratchInertias[i] = inertia;
+      scratchInvInertias[i] = 1 / inertia;
+    }
+
+    let frameMechanicalWork = 0;
+    const dt_sub = dt / NUM_SUBSTEPS; // Fixed 1/240s substep
+
+    for (let sub = 0; sub < NUM_SUBSTEPS; sub++) {
+      scratchFx.fill(0);
+      scratchFy.fill(0);
+      scratchTorque.fill(0);
+
+      // Motor torque computation across joints
+      for (let j = 0; j < numJoints; j++) {
+        const joint = org.joints[j];
+        const childIdx = j + 1;
+        const childDef = g.parts[childIdx];
+        const parentIdx = Math.max(0, Math.min(childIdx - 1, childDef.parentIndex));
+
+        const parentPhys = org.segments[parentIdx];
+        const childPhys = org.segments[childIdx];
+
+        const outBase = j * OUTPUTS_PER_JOINT;
+        const targetAngleOffset = (org.neuralOutputs[outBase] || 0) * 0.45;
+        const motorFreqDrive = 1.0 + (org.neuralOutputs[outBase + 1] || 0) * 0.35;
+        const peakTorqueMod = clampVal(1.0 + (org.neuralOutputs[outBase + 2] || 0) * 0.4, 0.5, 1.6);
+        const stiffnessDampingMod = clampVal(1.0 + (org.neuralOutputs[outBase + 3] || 0) * 0.4, 0.4, 1.8);
+        joint.stiffness = stiffnessDampingMod;
+
+        const jointFreq = g.motorFrequency * childDef.cpgFreqMult * motorFreqDrive;
+        joint.phase = (joint.phase + 2 * Math.PI * jointFreq * dt_sub) % (2 * Math.PI);
+
+        const wave = Math.sin(joint.phase) * childDef.cpgAmp;
+        const targetAngle = clampVal((wave + targetAngleOffset) * childDef.maxAngle, -childDef.maxAngle, childDef.maxAngle);
+        joint.targetAngle = targetAngle;
+
+        let currentRelAngle = childPhys.angle - parentPhys.angle - (childDef.baseAngleOffset || 0);
+        while (currentRelAngle > Math.PI) currentRelAngle -= Math.PI * 2;
+        while (currentRelAngle < -Math.PI) currentRelAngle += Math.PI * 2;
+        joint.currentRelAngle = currentRelAngle;
+
+        const relAngVel = childPhys.angVel - parentPhys.angVel;
+        joint.currentRelAngVel = relAngVel;
+
+        const avgInertia = (scratchInertias[parentIdx] + scratchInertias[childIdx]) * 0.5;
+        const kp = g.motorForce * avgInertia * 480.0 * stiffnessDampingMod;
+        const kd = Math.sqrt(kp * avgInertia) * 1.4 * stiffnessDampingMod;
+
+        let motorTorque = kp * (targetAngle - currentRelAngle) - kd * relAngVel;
+        const maxTorque = avgInertia * 2200.0 * peakTorqueMod;
+        motorTorque = clampVal(motorTorque, -maxTorque, maxTorque);
+        if (isNaN(motorTorque)) motorTorque = 0;
+        joint.appliedTorque = motorTorque;
+
+        const deltaTheta = Math.abs(relAngVel * dt_sub);
+        const stepJointWork = Math.abs(motorTorque) * deltaTheta * FORCE_COST_MULTIPLIER;
+        if (!isNaN(stepJointWork) && isFinite(stepJointWork)) {
+          frameMechanicalWork += stepJointWork;
+        }
+
+        scratchTorque[childIdx] += motorTorque;
+        scratchTorque[parentIdx] -= motorTorque;
+      }
+
+      // Integrated Hydrodynamic Drag
+      for (let i = 0; i < partCount; i++) {
+        const seg = org.segments[i];
+        const def = g.parts[i];
+        const cosA = Math.cos(seg.angle);
+        const sinA = Math.sin(seg.angle);
+
+        const u = seg.vx * cosA + seg.vy * sinA;
+        const v = -seg.vx * sinA + seg.vy * cosA;
+
+        const fLocalX = -0.0 * mu * def.height * u; // Tangential drag (0 for calibrated benchmark propulsion)
+        const fLocalY = -2.0 * mu * def.width * v;  // Normal anisotropic fluid drag
+
+        const fDragWorldX = fLocalX * cosA - fLocalY * sinA;
+        const fDragWorldY = fLocalX * sinA + fLocalY * cosA;
+        const fDragTorque = -(mu * seg.angVel * (def.width * def.width * def.width + def.height * def.height * def.height)) / 6.0;
+
+        scratchFx[i] += fDragWorldX;
+        scratchFy[i] += fDragWorldY + gravity * scratchMasses[i];
+        scratchTorque[i] += fDragTorque;
+
+        const corners = getPartCornerVertices(seg, def);
+        const kWallRepel = 24.0 * scratchMasses[i];
+        const kWallDamping = 4.0 * scratchMasses[i];
+
+        for (const pt of corners) {
+          const rx = pt.x - seg.x;
+          const ry = pt.y - seg.y;
+          const vPtX = seg.vx - seg.angVel * ry;
+          const vPtY = seg.vy + seg.angVel * rx;
+
+          if (pt.x < 0) {
+            const pen = -pt.x;
+            const fx = pen * kWallRepel - vPtX * kWallDamping;
+            scratchFx[i] += fx;
+            scratchTorque[i] += rx * 0 - ry * fx;
+          } else if (pt.x > worldWidth) {
+            const pen = pt.x - worldWidth;
+            const fx = -pen * kWallRepel - vPtX * kWallDamping;
+            scratchFx[i] += fx;
+            scratchTorque[i] += rx * 0 - ry * fx;
+          }
+
+          if (pt.y < 0) {
+            const pen = -pt.y;
+            const fy = pen * kWallRepel - vPtY * kWallDamping;
+            scratchFy[i] += fy;
+            scratchTorque[i] += rx * fy - ry * 0;
+          } else if (pt.y > worldHeight) {
+            const pen = pt.y - worldHeight;
+            const fy = -pen * kWallRepel - vPtY * kWallDamping;
+            scratchFy[i] += fy;
+            scratchTorque[i] += rx * fy - ry * 0;
+          }
+        }
+      }
+
+      for (let i = 0; i < partCount; i++) {
+        const seg = org.segments[i];
+        seg.vx += scratchFx[i] * scratchInvMasses[i] * dt_sub;
+        seg.vy += scratchFy[i] * scratchInvMasses[i] * dt_sub;
+        seg.angVel += scratchTorque[i] * scratchInvInertias[i] * dt_sub;
+
+        const spd = Math.hypot(seg.vx, seg.vy);
+        if (spd > 400.0) {
+          seg.vx = (seg.vx / spd) * 400.0;
+          seg.vy = (seg.vy / spd) * 400.0;
+        }
+        seg.angVel = clampVal(seg.angVel, -20.0, 20.0);
+      }
+
+      // Joint Constraint Solver (Iterative impulse resolution with exact momentum conservation)
+      for (let iter = 0; iter < 10; iter++) {
+        for (let j = 0; j < numJoints; j++) {
+          const childIdx = j + 1;
+          const childDef = g.parts[childIdx];
+          const parentIdx = Math.max(0, Math.min(childIdx - 1, childDef.parentIndex));
+
+          const parentPhys = org.segments[parentIdx];
+          const childPhys = org.segments[childIdx];
+          const parentDef = g.parts[parentIdx];
+
+          const parentAnchorLocal = getCardinalAnchor(childDef.attachmentPoint, parentDef.width, parentDef.height);
+          const childAnchorLocal = getChildAnchorForParentDir(childDef.attachmentPoint, childDef.width, childDef.height);
+
+          const cosP = Math.cos(parentPhys.angle);
+          const sinP = Math.sin(parentPhys.angle);
+          const rPx = cosP * parentAnchorLocal.x - sinP * parentAnchorLocal.y;
+          const rPy = sinP * parentAnchorLocal.x + cosP * parentAnchorLocal.y;
+
+          const cosC = Math.cos(childPhys.angle);
+          const sinC = Math.sin(childPhys.angle);
+          const rCx = cosC * childAnchorLocal.x - sinC * childAnchorLocal.y;
+          const rCy = sinC * childAnchorLocal.x + cosC * childAnchorLocal.y;
+
+          const anchorPx = parentPhys.x + rPx;
+          const anchorPy = parentPhys.y + rPy;
+          const anchorCx = childPhys.x + rCx;
+          const anchorCy = childPhys.y + rCy;
+
+          const vAnchorPx = parentPhys.vx - parentPhys.angVel * rPy;
+          const vAnchorPy = parentPhys.vy + parentPhys.angVel * rPx;
+          const vAnchorCx = childPhys.vx - childPhys.angVel * rCy;
+          const vAnchorCy = childPhys.vy + childPhys.angVel * rCx;
+
+          const vRelX = vAnchorCx - vAnchorPx;
+          const vRelY = vAnchorCy - vAnchorPy;
+
+          const posErrX = anchorCx - anchorPx;
+          const posErrY = anchorCy - anchorPy;
+          const beta = 0.35;
+          const biasX = (beta / dt_sub) * posErrX;
+          const biasY = (beta / dt_sub) * posErrY;
+
+          const wP = scratchInvMasses[parentIdx];
+          const wC = scratchInvMasses[childIdx];
+          const iP = scratchInvInertias[parentIdx];
+          const iC = scratchInvInertias[childIdx];
+
+          const k11 = wP + wC + rPy * rPy * iP + rCy * rCy * iC;
+          const k22 = wP + wC + rPx * rPx * iP + rCx * rCx * iC;
+          const k12 = -rPx * rPy * iP - rCx * rCy * iC;
+
+          const det = k11 * k22 - k12 * k12;
+          if (det > 1e-7) {
+            const rhsX = -(vRelX + biasX);
+            const rhsY = -(vRelY + biasY);
+
+            const impulseX = (k22 * rhsX - k12 * rhsY) / det;
+            const impulseY = (-k12 * rhsX + k11 * rhsY) / det;
+
+            childPhys.vx += impulseX * wC;
+            childPhys.vy += impulseY * wC;
+            childPhys.angVel += (rCx * impulseY - rCy * impulseX) * iC;
+
+            parentPhys.vx -= impulseX * wP;
+            parentPhys.vy -= impulseY * wP;
+            parentPhys.angVel -= (rPx * impulseY - rPy * impulseX) * iP;
+          }
+
+          // Enforce physical joint-angle limits
+          let relAngle = childPhys.angle - parentPhys.angle - (childDef.baseAngleOffset || 0);
+          while (relAngle > Math.PI) relAngle -= Math.PI * 2;
+          while (relAngle < -Math.PI) relAngle += Math.PI * 2;
+
+          if (Math.abs(relAngle) > childDef.maxAngle) {
+            const limitErr = Math.sign(relAngle) * (Math.abs(relAngle) - childDef.maxAngle);
+            const relAngVel = childPhys.angVel - parentPhys.angVel;
+            const angularBias = (0.2 / dt_sub) * limitErr;
+            const angImpulse = -(relAngVel + angularBias) / (iP + iC);
+            childPhys.angVel += angImpulse * iC;
+            parentPhys.angVel -= angImpulse * iP;
+          }
+        }
+      }
+
+      for (let i = 0; i < partCount; i++) {
+        const seg = org.segments[i];
+        seg.x += seg.vx * dt_sub;
+        seg.y += seg.vy * dt_sub;
+        seg.angle += seg.angVel * dt_sub;
+      }
+    }
+
+    // Clamp mechanical work to prevent frame 0 impulse spikes from draining reserves
+    frameMechanicalWork = Math.min(MAX_FRAME_MOTOR_WORK, frameMechanicalWork);
+
+    // Mass-Weighted COM Speed & Odometry
+    const comData = calculateOrganismCOM(org);
+    org.speed = Math.hypot(comData.vxCOM, comData.vyCOM);
+    org.distanceTraveled += org.speed * dt;
+
+    // Area-Normalized Basal & Sensory Metabolism
+    const sizeRatio = calculateTotalBodyArea(g.parts) / BASE_FOUNDER_AREA;
+    const basalRate = BASAL_METABOLIC_RATE * sizeRatio * g.metabolicEfficiency;
+    const sensoryRate = SENSORY_NEURAL_METABOLIC_RATE * (g.eyes.length * 5 + NUM_HIDDEN);
+    const motorRate = frameMechanicalWork / dt;
+
+    const basalMetabolism = basalRate * dt;
+    const sensoryMetabolism = sensoryRate * dt;
+    const totalBasalDissipation = basalMetabolism + sensoryMetabolism;
+
+    org.basalEnergyRate = basalRate;
+    org.sensoryEnergyRate = sensoryRate;
+    org.motorEnergyRate = motorRate;
+    org.totalEnergyRate = basalRate + sensoryRate + motorRate;
+
+    // Deduct expenditure and ensure reserves strictly stop at 0.0 (no negative reserves)
+    const requiredExpenditure = totalBasalDissipation + frameMechanicalWork;
+    const paidFraction = requiredExpenditure > 0
+      ? Math.min(1, org.energy / requiredExpenditure) : 0;
+    org.energy = Math.max(0.0, org.energy - requiredExpenditure);
+    ledger.metabolicDissipation += totalBasalDissipation * paidFraction;
+    ledger.mechanicalWorkHeat += frameMechanicalWork * paidFraction;
+
+    // D. CONTACT FEEDING & EGG PREDATION (Exact Geometric Boundary, Zero Phantom Reach)
+    for (let mIdx = 0; mIdx < g.mouths.length; mIdx++) {
+      const mouth = g.mouths[mIdx];
+      const mouthPartIdx = Math.min(mouth.partIndex, org.segments.length - 1);
+      const mouthPhys = org.segments[mouthPartIdx];
+      const mouthDef = g.parts[mouthPartIdx];
+
+      const mouthAnchorLocal = getCardinalAnchor(mouth.direction, mouthDef.width, mouthDef.height);
+      const cosM = Math.cos(mouthPhys.angle);
+      const sinM = Math.sin(mouthPhys.angle);
+      const mouthCenterX = mouthPhys.x + cosM * mouthAnchorLocal.x - sinM * mouthAnchorLocal.y;
+      const mouthCenterY = mouthPhys.y + sinM * mouthAnchorLocal.x + cosM * mouthAnchorLocal.y;
+
+      // Exact physical aperture boundary
+      const mouthRadius = mouth.mouthType === 'carnivore' ? 4.5 : mouth.mouthType === 'omnivore' ? 4.0 : 3.5;
+      const halfAperture = Math.max(mouthRadius, mouth.intakeWidth * 0.5);
+      const normDir = getCardinalOutwardNormal(mouth.direction);
+      const tanX = -normDir.y;
+      const tanY = normDir.x;
+      const tanWorldX = cosM * tanX - sinM * tanY;
+      const tanWorldY = sinM * tanX + cosM * tanY;
+
+      const m1x = mouthCenterX - tanWorldX * halfAperture;
+      const m1y = mouthCenterY - tanWorldY * halfAperture;
+      const m2x = mouthCenterX + tanWorldX * halfAperture;
+      const m2y = mouthCenterY + tanWorldY * halfAperture;
+
+      const isCarnivore = mouth.mouthType === 'carnivore';
+      const isOmnivore = mouth.mouthType === 'omnivore';
+      const isHerbivore = mouth.mouthType === 'herbivore';
+
+      // 1. Meat Ingestion on Organisms (Carnivore & Omnivore ONLY)
+      if (isCarnivore || isOmnivore) {
+        const biteTransferRate = (isOmnivore ? OMNIVORE_EAT_RATE : CONTINUOUS_EAT_RATE) * dt;
+
+        for (let preyIdx = organisms.length - 1; preyIdx >= 0; preyIdx--) {
+          const prey = organisms[preyIdx];
+          if (prey.id === org.id || prey.dissolving) continue;
+          if (isKinshipProtected && areSiblings(org, prey)) continue;
+
+          let inContact = false;
+          for (let s = 0; s < prey.segments.length; s++) {
+            const preySeg = prey.segments[s];
+            const preyDef = prey.genome.parts[s];
+            if (Math.abs(preySeg.x - mouthCenterX) > 70 || Math.abs(preySeg.y - mouthCenterY) > 70) continue;
+
+            const corners = getPartCornerVertices(preySeg, preyDef);
+
+            // Check exact aperture segment intersecting prey edges
+            for (let c = 0; c < 4; c++) {
+              const c1 = corners[c];
+              const c2 = corners[(c + 1) % 4];
+              const inter = lineIntersection(m1x, m1y, m2x, m2y, c1.x, c1.y, c2.x, c2.y);
+              if (inter.hit) {
+                inContact = true;
+                break;
+              }
+              // Exact distance from mouth anchor to prey boundary <= mouthRadius
+              const edgeDist = distPointToSegment(mouthCenterX, mouthCenterY, c1.x, c1.y, c2.x, c2.y);
+              if (edgeDist <= mouthRadius) {
+                inContact = true;
+                break;
+              }
+            }
+            if (inContact) break;
+          }
+
+          if (inContact) {
+            org.isFeedingHighlight = 0.2;
+            let netGained = 0;
+
+            if (prey.energy > 0) {
+              const transfer = Math.min(prey.energy, biteTransferRate);
+              prey.energy -= transfer;
+              const capacityRoom = Math.max(0, g.maxEnergyCapacity - org.energy);
+              const absorbed = Math.min(transfer, capacityRoom);
+              const excessRejected = transfer - absorbed;
+              org.energy += absorbed;
+              netGained = absorbed;
+              ledger.recordedLosses += excessRejected;
+            } else if (prey.structuralBiomass > 0) {
+              const transfer = Math.min(prey.structuralBiomass, biteTransferRate);
+              prey.structuralBiomass -= transfer;
+              const usableGained = transfer * 0.85;
+              const biteDissipation = transfer * 0.15;
+              const capacityRoom = Math.max(0, g.maxEnergyCapacity - org.energy);
+              const absorbed = Math.min(usableGained, capacityRoom);
+              const excessRejected = usableGained - absorbed;
+              org.energy += absorbed;
+              netGained = absorbed;
+              ledger.metabolicDissipation += biteDissipation;
+              ledger.recordedLosses += excessRejected;
+            }
+
+            if (netGained > 0) {
+              recordFeedingEvent(org, state.simTime, mouth.id, mouth.mouthType, 'Prey', netGained);
+            }
+
+            if (prey.energy <= 0 && prey.structuralBiomass <= 10.0) {
+              prey.deathCause = 'Predation';
+              prey.dissolving = true;
+              prey.dissolveAlpha = 1.0;
+              org.preyEaten += 1;
+              org.foodEaten += 1;
+              if (onEvent) onEvent('clash');
+            }
+          }
+        }
+      }
+
+      // 2. Foreign Egg Predation (Carnivore & Omnivore ONLY - Exact Geometric Contact)
+      if (isCarnivore || isOmnivore) {
+        const eggBiteRate = (isOmnivore ? OMNIVORE_EAT_RATE : CONTINUOUS_EAT_RATE) * dt;
+
+        for (let eggIdx = eggs.length - 1; eggIdx >= 0; eggIdx--) {
+          const targetEgg = eggs[eggIdx];
+          if (isKinshipProtected && isEggKin(org, targetEgg)) continue;
+
+          const eggRadius = 16.0;
+          if (Math.abs(targetEgg.x - mouthCenterX) > eggRadius + 25 || Math.abs(targetEgg.y - mouthCenterY) > eggRadius + 25) continue;
+
+          // Exact physical contact: distance to mouth center or aperture segment <= mouthRadius + eggRadius (NO phantom +10px)
+          const dist = distPointToSegment(targetEgg.x, targetEgg.y, m1x, m1y, m2x, m2y);
+          if (dist <= eggRadius + mouthRadius) {
+            org.isFeedingHighlight = 0.2;
+            const totalEggAvail = targetEgg.fundedReserve + targetEgg.fundedStructural;
+            const transfer = Math.min(totalEggAvail, eggBiteRate);
+
+            if (transfer > 0) {
+              if (targetEgg.fundedReserve >= transfer) {
+                targetEgg.fundedReserve -= transfer;
+              } else {
+                const rem = transfer - targetEgg.fundedReserve;
+                targetEgg.fundedReserve = 0;
+                targetEgg.fundedStructural = Math.max(0, targetEgg.fundedStructural - rem);
+              }
+
+              const capacityRoom = Math.max(0, g.maxEnergyCapacity - org.energy);
+              const absorbed = Math.min(transfer, capacityRoom);
+              const excess = transfer - absorbed;
+              org.energy += absorbed;
+              ledger.recordedLosses += excess;
+
+              if (absorbed > 0) {
+                recordFeedingEvent(org, state.simTime, mouth.id, mouth.mouthType, 'Egg', absorbed);
+              }
+            }
+
+            if (targetEgg.fundedStructural + targetEgg.fundedReserve <= 2.0) {
+              ledger.recordedLosses += targetEgg.fundedStructural + targetEgg.fundedReserve;
+              org.eggsPredated = (org.eggsPredated || 0) + 1;
+              org.preyEaten += 1;
+              org.foodEaten += 1;
+              eggs.splice(eggIdx, 1);
+              if (onEvent) onEvent('clash');
+            }
+          }
+        }
+      }
+
+      // 3. Herbivore Nutrient Ingestion (Herbivore & Omnivore ONLY - Exact Geometric Contact)
+      if (isHerbivore || isOmnivore) {
+        const grazingTransferRate = (isOmnivore ? OMNIVORE_EAT_RATE : CONTINUOUS_EAT_RATE) * dt;
+
+        for (let nIdx = nutrients.length - 1; nIdx >= 0; nIdx--) {
+          const nut = nutrients[nIdx];
+          if (Math.abs(nut.x - mouthCenterX) > nut.radius + 25 || Math.abs(nut.y - mouthCenterY) > nut.radius + 25) continue;
+
+          // Exact physical contact: distance to mouth aperture line <= nut.radius + mouthRadius (NO phantom +12px)
+          const dist = distPointToSegment(nut.x, nut.y, m1x, m1y, m2x, m2y);
+          if (dist <= nut.radius + mouthRadius) {
+            org.isFeedingHighlight = 0.2;
+            const transfer = Math.min(nut.energyValue, grazingTransferRate);
+            nut.energyValue -= transfer;
+            const capacityRoom = Math.max(0, g.maxEnergyCapacity - org.energy);
+            const absorbed = Math.min(transfer, capacityRoom);
+            const excess = transfer - absorbed;
+            org.energy += absorbed;
+            ledger.recordedLosses += excess;
+            nut.radius = getNutrientRadius(nut.energyValue);
+
+            if (absorbed > 0) {
+              recordFeedingEvent(org, state.simTime, mouth.id, mouth.mouthType, 'Nutrient', absorbed);
+            }
+
+            if (nut.energyValue <= 1.0) {
+              ledger.recordedLosses += nut.energyValue;
+              org.foodEaten += 1;
+              nutrients.splice(nIdx, 1);
+              if (onEvent) onEvent('eat');
+            }
+          }
+        }
+      }
+    }
+
+    // E. REPRODUCTION (Continuous Attempt with Scaled Clutch Size & Heritable DNA Traits)
+    const maturityAge = g.maturityAge || MATURITY_AGE;
+    const cooldown = g.reproductionCooldown || 18.0;
+    const parentSurvivalReserve = Math.max(MIN_PARENT_SURVIVAL_RESERVE_BASE, g.maxEnergyCapacity * MIN_PARENT_SURVIVAL_FRACTION);
+    const eggCost = g.bodyCost + FOUNDER_DEFAULT_RESERVE;
+    const availableBudget = org.energy - parentSurvivalReserve;
+    const isOffCooldown = state.simTime >= (org.lastReproductionTime || 0) + cooldown;
+    const isMature = org.age >= maturityAge;
+    const desiredCount = g.targetClutchSize || 2;
+    const affordableCount = Math.max(0, Math.floor(availableBudget / eggCost));
+    const actualClutchSize = Math.min(desiredCount, affordableCount);
+
+    org.isGravid = isMature && isOffCooldown && actualClutchSize >= 1;
+
+    if (
+      org.isGravid &&
+      organisms.filter(o => !o.dissolving).length < (settings.maxOrganisms ?? 50) &&
+      eggs.length < 75
+    ) {
+      const clutchCount = Math.min(actualClutchSize, 75 - eggs.length);
+
+      if (clutchCount >= 1) {
+        const rearSeg = org.segments[org.segments.length - 1];
+        const clutchId = `CLUTCH-${prng.nextUint32().toString(36).substring(0, 5)}`;
+        let laidAny = false;
+
+        for (let k = 0; k < clutchCount; k++) {
+          if (eggs.length >= 75) break;
+          const babyGenome = mutateGenome(g, mutationSeverity, prng);
+          babyGenome.parentIds = [org.id];
+          const offspringBodyCost = babyGenome.bodyCost;
+          const allocatedReserve = FOUNDER_DEFAULT_RESERVE;
+          const totalEggEnergy = offspringBodyCost + allocatedReserve;
+
+          if (org.energy >= totalEggEnergy + parentSurvivalReserve) {
+            org.energy -= totalEggEnergy;
+            org.offspringCount += 1;
+            laidAny = true;
+
+            const rec = state.lineage.get(org.id);
+            if (rec) rec.offspringCount += 1;
+
+            const angleSpread = (k - (clutchCount - 1) / 2) * 0.35;
+            const layAngle = rearSeg.angle + Math.PI + angleSpread;
+
+            eggs.push({
+              id: `EGG-${prng.nextUint32().toString(36).substring(0, 5)}`,
+              clutchId,
+              parentOrgId: org.id,
+              x: rearSeg.x + Math.cos(layAngle) * 25,
+              y: rearSeg.y + Math.sin(layAngle) * 25,
+              vx: Math.cos(layAngle) * prng.range(0.6, 1.2),
+              vy: Math.sin(layAngle) * prng.range(0.6, 1.2),
+              genome: babyGenome,
+              fundedStructural: offspringBodyCost,
+              fundedReserve: allocatedReserve,
+              incubationProgress: 0,
+              totalIncubationTime: babyGenome.incubationTime || prng.range(8.5, 14.0),
+              pulseTimer: k * 0.4,
+              colorHue: babyGenome.hue,
+              readyToHatch: false,
+            });
+          }
+        }
+
+        if (laidAny) {
+          org.lastReproductionAge = org.age;
+          org.lastReproductionTime = state.simTime;
+          org.clutchesLaid += 1;
+          if (onEvent) onEvent('birth');
+        }
+      }
+    }
+
+    org.isGravid = evaluateReproductionAffordability(
+      org, state.simTime, organisms.filter(o => !o.dissolving).length, eggs.length, settings.maxOrganisms ?? 50,
+    ).eligible;
+
+    // F. Starvation & Senescence (Precise Cause Attribution)
+    if (!org.dissolving) {
+      if (org.age >= org.maxLifespan) {
+        org.deathCause = 'Old Age';
+        org.dissolving = true;
+        org.dissolveAlpha = 1.0;
+      } else if (org.energy <= 0) {
+        org.deathCause = 'Starvation';
+        org.dissolving = true;
+        org.dissolveAlpha = 1.0;
+      }
+    }
+  }
+
+  // 6. Bubbles
+  for (let i = bubbles.length - 1; i >= 0; i--) {
+    const b = bubbles[i];
+    b.life += dt;
+    b.x += b.vx * dt * 60;
+    b.y += b.vy * dt * 60;
+    b.vy -= 0.05 * dt * 60;
+    b.alpha = (1 - b.life / b.maxLife) * 0.6;
+    if (b.life >= b.maxLife) bubbles.splice(i, 1);
+  }
+  if (bubbles.length > 60) {
+    bubbles.splice(0, bubbles.length - 60);
+  }
+}
+
