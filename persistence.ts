@@ -4,7 +4,7 @@ import {
   getBrainLayout, getDietClassification, brainEdgeKey, CARRION_DECAY_SECONDS, MAX_OUTPUTS, MAX_SURFACE_ORGANS, MAX_NEURAL_INPUTS, MAX_HIDDEN, MAX_ENABLED_BRAIN_EDGES, MAX_BRAIN_MEMORY_SECONDS, MAX_PLASTIC_MOTOR_SYNAPSES, MAX_LEARNED_MOTOR_DELTA, plasticMotorEdges, surfacePlacementProblems, morphologyProblems, type Genome, type SimulationSettings, type SimulationState, type Organism,
 } from './simulation';
 
-export const BUILD_VERSION = '0.21.0';
+export const BUILD_VERSION = '0.22.0';
 export const DEFAULT_SETTINGS: SimulationSettings = {
   worldWidth: 2400, worldHeight: 1500, waterViscosity: .18,
   targetNutrients: 400, inflowRate: 15, kinshipProtection: true,
@@ -155,6 +155,11 @@ export function validateGenome(raw: unknown): Genome {
   assert(g.forgettingRate === undefined ||
     (typeof g.forgettingRate === 'number' && Number.isFinite(g.forgettingRate)
       && g.forgettingRate >= 0 && g.forgettingRate <= 1), 'learned forgetting rate');
+  assert(g.plasticMotorScope === undefined || g.plasticMotorScope === 'angle'
+    || g.plasticMotorScope === 'all', 'plastic motor scope');
+  assert(g.injuryAversionRate === undefined ||
+    (typeof g.injuryAversionRate === 'number' && Number.isFinite(g.injuryAversionRate)
+      && g.injuryAversionRate >= 0 && g.injuryAversionRate <= 1), 'injury aversion rate');
   assert(g.colorMutationRate === undefined || (Number.isFinite(g.colorMutationRate) && g.colorMutationRate >= 0 && g.colorMutationRate <= 1), 'pigment variability');
   assert(Array.isArray(g.parentIds) && g.parentIds.every(id => typeof id === 'string'), 'parent IDs');
   g.bodyCost = calculateBodyCost(g.parts, g.eyes, g.mouths);
@@ -244,7 +249,8 @@ export function restoreSnapshot(input: unknown): {state: SimulationState; settin
         try { edge = JSON.parse(record.edge); } catch { assert(false, 'plastic synapse ID'); }
         assert(Array.isArray(edge) && edge.length === 3
           && edge[0] === 'ho' && typeof edge[1] === 'string' && output.has(edge[1])
-          && edge[1].endsWith(':Angle') && typeof edge[2] === 'string' && hidden.has(edge[2])
+          && (o.genome.plasticMotorScope === 'all' || edge[1].endsWith(':Angle'))
+          && typeof edge[2] === 'string' && hidden.has(edge[2])
           && record.edge === brainEdgeKey('ho', edge[1], edge[2])
           && !inactive.has(record.edge) && allowed.has(record.edge), 'plastic edge identity');
         assert(typeof record.delta === 'number' && Number.isFinite(record.delta)
@@ -315,6 +321,8 @@ export function diagnosticReport(s: SimulationState, settings: SimulationSetting
       feedings: selected.recentFeedings,
       lifetimeLearning: {inheritedRate: selected.genome.plasticityRate ?? 0,
         inheritedForgetRate: selected.genome.forgettingRate ?? 0.1,
+        plasticMotorScope: selected.genome.plasticMotorScope ?? 'angle',
+        inheritedAversionRate: selected.genome.injuryAversionRate ?? 0,
         adaptedMotorSynapses: (selected.learnedMotorWeights ?? []).filter(edge => Math.abs(edge.delta) > 1e-8).length,
         plasticityEnergyRate: selected.plasticityEnergyRate ?? 0}} : null};
 }
