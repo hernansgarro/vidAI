@@ -1759,7 +1759,7 @@ export function createArchetypeGenome(
 // organisms retain their personal memory, and offspring begin with fresh state.
 export type BrainTopologyOperation =
   'add-neuron' | 'remove-neuron' | 'enable-connection' |
-  'disable-connection' | 'prune-connection' | 'reconnect';
+  'disable-connection' | 'prune-connection' | 'reconnect' | 'wire-injury-motor';
 
 type BrainEdgeLocation = {kind: 'ih' | 'hh' | 'ho'; target: number; source: number; key: string; weight: number};
 
@@ -1824,6 +1824,40 @@ export function mutateBrainTopology(g: Genome, operation: BrainTopologyOperation
       && key !== brainEdgeKey('ho', g.outputKeys![outIndex], newId));
     g.weightsIH[count][inIndex] = customPrng.range(-0.04, 0.04);
     g.weightsHO[outIndex][count] = customPrng.range(-0.04, 0.04);
+    return true;
+  }
+  if (operation === 'wire-injury-motor') {
+    // A single inherited innovation may link *experienced* physical injury
+    // to a motor strategy. It is NOT an automatic escape reflex: channel,
+    // direction and gain are stochastic, including detrimental responses.
+    // Start with a new isolated neuron so the genotype's existing behavior
+    // remains identical before its first real bite. Extra brain upkeep is
+    // paid by the ordinary neuron/edge maintenance model.
+    const injury = g.inputKeys!.indexOf('body:injury');
+    if (injury < 0 || g.parts.length < 2 ||
+      count >= MAX_HIDDEN || enabledBrainEdgeCount(g) + g.parts.length > MAX_ENABLED_BRAIN_EDGES) return false;
+    if (!mutateBrainTopology(g, 'add-neuron', customPrng)) return false;
+    const h = g.hiddenIds!.length - 1, nodeId = g.hiddenIds![h];
+    const channels = ['Angle', 'Drive', 'Torque', 'Stiff', 'Amp', 'Engage'];
+    const selected = channels[customPrng.rangeInt(0, channels.length - 1)];
+    const selectedOutputs = g.outputKeys!.map((key, i) => key.endsWith(':' + selected) ? i : -1).filter(i => i >= 0);
+    const enabled = new Set(g.disabledConnections!);
+    const sensoryGain = (customPrng.nextFloat() < 0.5 ? -1 : 1) * customPrng.range(.4, 3);
+    const motorGain = (customPrng.nextFloat() < 0.5 ? -1 : 1) * customPrng.range(.4, 3);
+    for (let i = 0; i < g.inputKeys!.length; i++) {
+      const key = brainEdgeKey('ih', nodeId, g.inputKeys![i]);
+      g.weightsIH[h][i] = i === injury ? sensoryGain : 0;
+      if (i === injury) enabled.delete(key); else enabled.add(key);
+    }
+    for (let o = 0; o < g.outputKeys!.length; o++) {
+      const key = brainEdgeKey('ho', g.outputKeys![o], nodeId);
+      const use = selectedOutputs.includes(o);
+      g.weightsHO[o][h] = use ? motorGain : 0;
+      if (use) enabled.delete(key); else enabled.add(key);
+    }
+    // New hidden recurrent edges remain disabled from add-neuron.
+    g.disabledConnections = [...enabled];
+    checkBrainBudget(g);
     return true;
   }
   if (operation === 'remove-neuron') {
@@ -2181,7 +2215,7 @@ export function mutateGenome(parent: Genome, severity = 0.25, customPrng: Xoshir
   if (customPrng.nextFloat() < mutChance * 0.16) {
     const operations: BrainTopologyOperation[] = [
       'add-neuron', 'remove-neuron', 'enable-connection',
-      'disable-connection', 'prune-connection', 'reconnect',
+      'disable-connection', 'prune-connection', 'reconnect', 'wire-injury-motor',
     ];
     mutateBrainTopology(child, operations[customPrng.rangeInt(0, operations.length - 1)], customPrng);
   }

@@ -43,6 +43,19 @@
   snapshots remap neural inputs by key, add zero new weights/state and
   preserve everything else; schema v11 current is strict brain v7.
   Avoid claiming predator escape until physical comparative trials pass.
+- Phase 5C physical escape innovation: `wire-injury-motor` is a rare,
+  stochastic **brain topology mutation** on offspring, not a runtime escape
+  reflex. It grows one isolated hidden neuron (within the 1–96/edge budget),
+  connects `body:injury` to that neuron, and links the neuron to a randomly
+  selected existing motor output channel across joints. Sensory and motor
+  signs and gains vary independently, so mutations can help or harm.
+  Zero injury leaves the new neuron silent. Normal neuronal upkeep and
+  synapse accounting apply; the 55 founders remain unchanged. Paired
+  2.5-second real-physics rear-mouth trials demonstrate a genotype with
+  stronger Amp strokes taking 270–330 J versus 420–450 J with the same
+  geometry and a disconnected stimulus. Those are *stationary* hunters;
+  mobile hunting and ecological selection are unproven. Keep
+  `tests/bite-escape-survey.test.ts` short, seeded and causal.
 - Phase 5C inherited visual steering: for newly created FND-001 in balanced
   mode only, retinal->hidden gain is 1.5 (other founders .2) and the
   hidden->joint Angle prior is (-.5, +.5) rather than (+.04, -.04).

@@ -1,5 +1,53 @@
 # Project status — 2026-10-20
 
+## Phase 5C: inherited motor-escape innovation — v0.16.0 (CI verified)
+
+- Real-physics paired tests used identical FND-001 Three-link Darters
+  exposed to a **stationary omnivore biting behind the tail**. Only
+  heritable injury-to-motor connections differed between controls;
+  neither controller was given target coordinates, a danger flag or
+  scripted impulses. Each test ran 2.5 simulated seconds with real hinge
+  torque, water drag, mouth transfers, metabolism and conserved energy.
+- Across **seven** physically contacting rear-mouth placements (gap
+  8,9,10,11,12,14,16 px), a response increasing wave amplitude reduced
+  measured energy stolen from the victim from **420–450 J** in disconnected
+  controls to **270–330 J**, while separation from the hunter increased.
+  Inverting the same response *worsened* contact: **2,130–4,500 J** stolen.
+  Non-biting placements were deliberately excluded rather than counted
+  as escaped. This shows a possible defensive phenotype, not universal
+  fear/escape or successful predator recognition.
+- Added a rare inherited `wire-injury-motor` brain topology operation to
+  **offspring mutation only**. Within hidden-neuron and enabled-edge
+  budgets it introduces an isolated silent-at-rest neuron, connects the
+  real `body:injury` sensory input, and connects one randomly chosen
+  existing neural motor channel across the physical joints. Input gain,
+  motor gain and their signs are independently stochastic; outcomes can
+  increase or reduce attacks. The new neuron consumes real brain upkeep,
+  receives no retina/body-type oracle, and changes no existing founder
+  or historical save baseline.
+- Tests enumerate six motor channels and both beneficial/harmful signs;
+  verify a real `mutateGenome` offspring can generate the composite
+  innovation without changing the parent; verify the connected
+  **seed-13** `Amp` genotype takes **330 J** vs **450 J** with its
+  injury connection disabled in one directly paired geometry, with
+  more real separation. Bounded deterministic current-schema save/load
+  and conservation are verified for the evolved network.
+- This is **controlled reduction in repeated biting by a stationary
+  predator**. Predator chasing/turning, broader anatomy coverage,
+  free-roaming selection, multigeneration fitness, mortality outcomes,
+  and sensory anticipation remain **unproven**; Phase 5C is not closed.
+- The live GitHub Wiki source `docs/wiki/Sensory-Behavior.md` is
+  updated in place; Actions publishes its current-state explanation
+  and schematics to the actual Wiki on merge.
+- On PR branch commit `c7ec3cee`, GitHub Actions run **#39414409443**
+  passed **136/136 fast tests**, TypeScript checks and the Vite production
+  build. The genetically generated seed-13 `Amp` response lowered bite
+  transfer at gaps **8, 10, 16 px** from **450, 450, 420 J** to
+  **330, 330, 270 J**, while increasing physical predator separation by
+  **9.9, 9.9, 8.4 px**. Tests remain short, reproducible and conservative;
+  no long ecology runs or browser tests were performed.
+
+
 ## Phase 5C: physically grounded bite awareness — v0.15.0 (CI verified)
 
 - Predation previously transferred energy from victim to hunter but gave the
