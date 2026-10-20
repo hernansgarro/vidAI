@@ -84,6 +84,8 @@ test('calibrated founder movement is measured against actual eye/mouth orientati
     for (let i = 0; i < seconds * 60; i++) sim.stepSimulation(s, settings, dt);
     const after = sim.calculateOrganismCOM(org);
     assert.ok(Math.abs(totalAccountedEnergy(s) - energy) < 1e-5);
+    if (id === 'FND-001') assert.ok(after.x > before.x + 30, 'head-first founder gait');
+    if (id === 'FND-051') assert.ok(after.x > before.x + 25, 'do not reverse forward bell swimmers');
     results.push({id, name: g.name, diet: g.mouths.map(m => m.mouthType),
       eyes: g.eyes.map(e => e.direction), mouths: g.mouths.map(m => m.direction),
       displacementX: after.x - before.x, displacementY: after.y - before.y,
@@ -92,40 +94,12 @@ test('calibrated founder movement is measured against actual eye/mouth orientati
   console.log('VIDA_PHASE5_LOCOMOTION '+JSON.stringify(results));
 });
 
-test('diagnose phase wave direction without applying artificial thrust or changing production founders', () => {
-  const results = [];
-  for (const id of ['FND-001', 'FND-031', 'FND-051']) {
-    for (const variant of ['original', 'negate-phase', 'tail-shift-pi', 'reverse-phase-speed', 'invert-stroke', 'reverse-phase-order']) {
-      const g = createFounderGenome(id);
-      if (variant === 'negate-phase') for (const p of g.parts.slice(1)) p.cpgPhaseOffset *= -1;
-      if (variant === 'tail-shift-pi') for (let i = 2; i < g.parts.length; i++) g.parts[i].cpgPhaseOffset += Math.PI;
-      if (variant === 'reverse-phase-speed') for (const p of g.parts.slice(1)) p.cpgFreqMult *= -1;
-      if (variant === 'invert-stroke') for (const p of g.parts.slice(1)) p.cpgAmp *= -1;
-      if (variant === 'reverse-phase-order') {
-        const phases = g.parts.slice(1).map(p => p.cpgPhaseOffset).reverse();
-        for (let i = 1; i < g.parts.length; i++) g.parts[i].cpgPhaseOffset = phases[i - 1];
-      }
-      const s = createInitialWorld(settings, 210, 'balanced', 'standard', 0);
-      const org = addExternalOrganism(s, g, settings, ox, oy, 0)!;
-      org.genome.maturityAge = 1000;
-      const before = sim.calculateOrganismCOM(org), energy = totalAccountedEnergy(s);
-      for (let i = 0; i < seconds * 60; i++) sim.stepSimulation(s, settings, dt);
-      const after = sim.calculateOrganismCOM(org);
-      assert.ok(Math.abs(totalAccountedEnergy(s) - energy) < 1e-5);
-      results.push({id, variant, dx: Number((after.x - before.x).toFixed(2)),
-        dy: Number((after.y - before.y).toFixed(2)),
-        heading: Number(org.segments[0].angle.toFixed(2)), alive: !org.dissolving});
-    }
-  }
-  console.log('VIDA_PHASE5_WAVE_SWEEP '+JSON.stringify(results));
-});
-
 test('phase-corrected head-first swimming is evaluated against physically reachable food', () => {
   const results = [];
-  for (const mode of ['baseline', 'reverse-wave', 'reverse-wave-blind'] as const) {
+  for (const mode of ['legacy-backward', 'head-first', 'head-first-blind'] as const) {
     const g = createFounderGenome('FND-001');
-    if (mode !== 'baseline') for (const p of g.parts.slice(1)) p.cpgPhaseOffset *= -1;
-    if (mode === 'reverse-wave-blind') removeVisualWeights(g);
+    if (mode === 'legacy-backward') for (const p of g.parts.slice(1)) p.cpgPhaseOffset *= -1;
+    if (mode === 'head-first-blind') removeVisualWeights(g);
     const s = createInitialWorld(settings, 210, 'balanced', 'standard', 0);
     const org = addExternalOrganism(s, g, settings, ox, oy, 0)!;
     org.genome.maturityAge = 1000;
@@ -141,5 +115,31 @@ test('phase-corrected head-first swimming is evaluated against physically reacha
       eatenJ: 3000 - s.nutrients.reduce((total, n) => total + n.energyValue, 0),
       feedEvents: org.recentFeedings?.length ?? 0, endDistance: Math.hypot(after.x - targetX, after.y - targetY)});
   }
+  const legacy = results.find(v => v.mode === 'legacy-backward')!;
+  const forward = results.find(v => v.mode === 'head-first')!;
+  const blind = results.find(v => v.mode === 'head-first-blind')!;
+  assert.ok(legacy.dx < -100 && legacy.eatenJ === 0);
+  assert.ok(forward.dx > 160 && forward.eatenJ > 2000 && forward.feedEvents > 0);
+  assert.ok(blind.dx > 160 && blind.eatenJ > 2000);
+  // The improvement in this geometry is physical access, not visual guidance.
+  assert.equal(forward.eatenJ, blind.eatenJ);
   console.log('VIDA_PHASE5_FEEDING_ALIGNMENT '+JSON.stringify(results));
+});
+
+test('existing snapshots preserve legacy FND-001 gait phases and deterministic continuation', async () => {
+  const {createSnapshot, restoreSnapshot} = await import('../persistence');
+  const current = createFounderGenome('FND-001');
+  const old = structuredClone(current);
+  for (const p of old.parts.slice(1)) p.cpgPhaseOffset *= -1;
+  const w = createInitialWorld(settings, 901, 'unbiased', 'standard', 0);
+  addExternalOrganism(w, old, settings, ox, oy, 0);
+  const saved = createSnapshot(w, settings), restored = restoreSnapshot(saved);
+  assert.deepEqual(restored.state.organisms[0].genome.parts.map(p=>p.cpgPhaseOffset),
+    old.parts.map(p=>p.cpgPhaseOffset));
+  assert.notDeepEqual(current.parts.map(p=>p.cpgPhaseOffset),old.parts.map(p=>p.cpgPhaseOffset));
+  for(let i=0;i<4;i++) {
+    sim.stepSimulation(w,settings,dt);
+    sim.stepSimulation(restored.state,settings,dt);
+  }
+  assert.deepEqual(createSnapshot(restored.state,settings),createSnapshot(w,settings));
 });
