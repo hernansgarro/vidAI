@@ -1,5 +1,66 @@
 # Project status — 2026-10-20
 
+## B-D: compact ecological measurement baseline — v0.20.0
+
+- **Implemented:** `ecologyAudit.ts` reads actual living/dissolving populations,
+  seeded/hatch births, separately counted laid eggs, funded egg reserves and
+  structural biomass, lineage-confirmed completed deaths by cause, food and
+  carrion stores, organism reserves, and full energy ledger discrepancy.
+  `EcologyIntakeObserver` collects *increments* of VIDA's coalescing mouth
+  feeding receipts without double counting the growing historical event.
+  All diagnostics are observational: no changed biology, PRNG, reserve,
+  founder anatomy or persistent world state.
+- **Three unassisted 3-second seed worlds** (seeds 17, 29, 41) started
+  with four ordinary balanced founders and 60 randomly placed nutrients.
+  Matched exact-state controls had all those nutrients removed and
+  conservatively recorded as losses. All 12 animals survived but **all
+  six worlds registered zero actual nutrient intake**; no natural
+  hatching, deaths, or eggs occurred during these short juvenile trials.
+  A short life without eating is **not ecological sustainability**.
+  The 12 food-world survivors ended with aggregate reserves of about
+  39.57–39.61 kJ per four-creature world. Foodless comparisons had
+  similar reserves, with small neural/physical differences attributable
+  to presence/absence of retinal stimulus, not nutrition.
+- **Controlled physically swimming visual foraging:** eight six-second
+  trials over seeds 17, 29, both sides and food distances 135/160px
+  used one balanced Three-link Darter and exactly one finite particle.
+  Each sighted trial absorbed **816–1,680 J** from actual mouth transfer;
+  identical retinally disconnected controls absorbed **0 J**. Both
+  seeds produce identical trajectories in this controlled setup;
+  they are repeated deterministic controls, not eight biologically
+  independent genotype successes. The energy removed from nutrient
+  resources matches absorption at the existing 80% rate.
+- **Mature adult egg funding, *not* natural energy acquisition:** three
+  warm-start adult founders were explicitly initialized with sufficient
+  reserves, and each laid one true funded egg at an ordinary kernel
+  reproduction step. Egg usable reserve was **3,500 J**, and valid
+  mutated offspring structural costs were **4,740, 4,980 and 5,460 J**;
+  matched parents initialized **200 J below the first-egg barrier** did
+  not reproduce. No initial-funding adjustment occurred after t=0.
+  Eggs are not counted as successful hatchlings; background reproduction
+  and multigeneration population viability were not shown.
+- **Mortality and carrion:** three explicitly low-reserve (1 J)
+  juvenile animals starved, dissolved, and produced **4,980 J** carrion
+  each without energy creation. This is an edge-case mechanism test,
+  not a measured natural mortality rate.
+- Every sampled scenario checked the conserved ledger; current v11 saves
+  still round-trip unchanged, and the full fast suite and TypeScript/Vite
+  build gate the merge. No full ecosystem, browser or overnight trials.
+  Known limitation: the per-tick receipt observer can miss events if
+  an organism exceeds its eight exposed historical receipt slots
+  *within one step*, so it is not a high-density lifetime event archive.
+  `npm run benchmark:ecology` emits a machine-readable reproducible
+  report; the GitHub Wiki maintains the current capability reference.
+- **B-A–B-D bounded development sequence: CLOSED AS AN INSTRUMENTED
+  PROTOTYPE, NOT AS SELF-SUSTAINING ARTIFICIAL LIFE.** The free-roaming
+  baseline is *negative* for demonstrated foraging. Predator pursuit,
+  multigeneration viability, relative survival and natural selection
+  remain unproven. Preserve those as explicit limitations; do not
+  reopen unbounded early-brain tuning. Next substantial milestone is
+  **original Phase 5, waking lifetime learning**; original Phase 6
+  optional sleep/replay follows only after demonstrated learning.
+
+
 ## B-C: inherited lateral retinal turning toward moving prey — v0.19.0
 
 - Added a rare `wire-retinal-turn` **offspring topology mutation**.

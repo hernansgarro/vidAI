@@ -31,7 +31,25 @@ npm run test:e2e     # optional browser suite at the Pages subpath
 npm run preview      # serve dist locally after building
 npm run benchmark -- --seed 4242 --seconds 300
 npm run benchmark:behavior # controlled motion and paired vision measurements
+npm run benchmark:ecology  # read-only fixed-seed ecological validation JSON
 ```
+
+## B-D ecological validation (bounded prototype)
+
+The B-A–B-D movement/behavior/measurement workstream is now complete as a
+**measurable prototype**, not a self-sustaining ecosystem. Three brief
+unassisted seed worlds with scattered nutrients produced **zero feeding**
+despite 12 surviving starter creatures. Controlled sighted Darters absorbed
+816–1,680 J of finite food in eight short tests while retinally
+disconnected controls absorbed none. Separately, three explicitly
+pre-funded adult setups laid viable-energy eggs; three deliberately
+low-reserve setups died and conserved carrion. These controlled outcomes
+do **not** establish natural multigeneration survival, reliably tracking
+hunters or general evolved fitness. Run `npm run benchmark:ecology` for
+the reproducible seeded JSON report and see
+[Ecology Baseline and Energy Auditing](https://github.com/smeagol44/vidAI/wiki/Ecology-Baseline)
+for methods and limits. **Original Phase 5 lifetime synaptic learning**
+and **original Phase 6 optional sleep/replay** are still pending.
 
 ## Creatures and sandbox
 
@@ -55,8 +73,11 @@ once. Six other starting positions produced no bite and were excluded
 from escape claims. When applied to five very different body plans,
 the response improved **5 of 15** biting setups, worsened **6**, and
 tied **4**. The result is useful as evidence that morphology matters,
-not that predators can be reliably escaped. These hunters swim using
+not that predators can be reliably escaped. These initial hunters swim using
 real joints and water drag but **do not actively home toward prey**.
+A later rare inheritable lateral retinal-to-joint circuit can cause
+some genuinely late bites on moving prey (4/24 paired trials), but
+reliable center-of-mass pursuit was **not** observed.
 The selected creature's Brain inspector now displays actual neural
 injury signal, queued bitten joules and enabled injury-input wiring.
 

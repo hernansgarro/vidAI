@@ -1,4 +1,4 @@
-# VIDA: remaining features — 2026-10-20 / v0.19.0
+# VIDA: remaining features — 2026-10-20 / v0.20.0
 
 This is a focused review of the current 2D source, not an implementation promise.
 Small changes fit the existing systems. Big changes affect simulation architecture,
@@ -49,10 +49,23 @@ rather than confusingly reusing the original Phase 5:
   None of those pairs improved closest center-of-mass approach. This is
   an evolutionary possibility, not ecological viability, generalized
   prey tracking, a guaranteed predator strategy or synaptic learning.
-- **B-D — compact ecology baseline:** next (previously 5D). Short seeded
-  measures of real feeding, survival, death and funded reproduction,
-  recording negative outcomes without survival subsidies or mass tuning of
-  the 55 founders. This is the **next implementation priority**.
+- **B-D — compact ecology baseline:** **completed as a bounded measurement
+  milestone** (previously 5D). Native-physics 3-seed free-roaming worlds
+  with 4 founders and 60 food particles showed all survived 3 seconds
+  but **none fed**. In contrast, eight six-second controlled sighted
+  Darter trials absorbed 816–1,680 J versus no intake in retinally
+  disconnected controls. Three pre-funded mature cohorts laid real
+  funded eggs, while three initially impoverished juveniles starved
+  and left conserved carrion. Paired controls, exact state measures,
+  death causes and reserve/heat/egg energy are now reproducible from
+  `npm run benchmark:ecology`. This is **not** sustainable ecology,
+  natural-selection fitness or successful multigeneration breeding.
+
+**The B-A–B-D prototype capability/measurement workstream is closed.**
+The measured short free-roaming result remains negative for independent
+food acquisition; therefore ecological viability, robust active predator
+pursuit and multigeneration adaptation stay separate open scientific
+outcomes rather than silently being marked solved.
 
 - **Original Phase 5 — waking lifetime learning:** **not implemented**.
   Evolve bounded plasticity and forgetting; track personal learned synaptic
@@ -65,9 +78,9 @@ rather than confusingly reusing the original Phase 5:
   energetically accountable, and compare against equal-compute waking learning.
   World-model dreaming is a later optional idea, not an existing feature.
 
-Do not prune the 55 founders now. Once core behavior, learning and ecological
-evaluation exist, curate approximately eight differentiated **featured**
-starters while keeping archive Bank designs and old saves usable.
+Do not prune the 55 founders now. Once lifetime learning and longer ecological
+fitness comparisons are evaluated, curate approximately eight differentiated
+**featured** starters while keeping archived Bank designs and old saves usable.
 
 Monitor performance only if measured bottlenecks arise.
 
