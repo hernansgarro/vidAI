@@ -406,6 +406,11 @@
       "preservedExactPausedTime": true,
       "preservedZeroFood": true
     },
-    "execution": "Ten-case full local suite plus focused import/layout follow-up; CI configured for one software-rendered browser worker."
+    "execution": "Ten-case full local suite plus focused import/layout follow-up; CI configured for one software-rendered browser worker.",
+    "layoutFixture": "Genuine imported empty paused snapshot; body/brain panels use a manually spawned catalogue creature.",
+    "fullDefaultStartupViewport": [
+      1920,
+      900
+    ]
   }
 }

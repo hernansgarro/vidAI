@@ -14,6 +14,14 @@ for (const viewport of [{width: 1920, height: 900}, {width: 520, height: 900}, {
   test(`canvas fills ${viewport.width}x${viewport.height} and windows remain reachable`, async ({page}, info) => {
     const errors: string[] = []; page.on('pageerror', e => errors.push(e.message));
     await page.setViewportSize(viewport); await page.goto('./?autoplay');
+    // Keep layout measurements independent of ecological/rendering workload.
+    // This is a genuine imported, paused snapshot, not a product test flag.
+    const quiet = {...DEFAULT_SETTINGS, targetNutrients: 0, inflowRate: 0};
+    await page.getByTitle('Ecology & Physical Settings').click();
+    await page.locator('input[type=file]').setInputFiles({name: 'layout.json', mimeType: 'application/json',
+      buffer: Buffer.from(JSON.stringify(createSnapshot(emptyWorld(11), quiet)))});
+    await expect(page.getByRole('button', {name: 'RESUME SIMULATION', exact: true})).toBeVisible();
+    await page.getByTitle('Close settings (✕)').click();
     await expect(page.getByTestId('build-version')).toHaveText(`v${BUILD_VERSION}`);
     for (const name of ['Eel', 'Predator', 'Flapper', 'Tadpole', 'Glider', 'Random'])
       await expect(page.getByRole('button', {name, exact: true})).toHaveCount(0);

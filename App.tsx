@@ -489,6 +489,7 @@ export default function App() {
       cameraRef.current.y = cameraRef.current.targetY = v.worldHeight / 2;
       setGameState(prev => ({...prev, status: 'PAUSED'}));
       setSaveNotification('Snapshot restored. Resume when ready.');
+      setTimeout(() => setSaveNotification(current => current === 'Snapshot restored. Resume when ready.' ? null : current), 2500);
       gameAudio.playLevelUpStinger();
     }).catch(error => setSaveNotification(error instanceof Error ? error.message : 'Invalid snapshot.'));
   }, [replaceWorld]);
@@ -1630,7 +1631,7 @@ export default function App() {
 
         {/* TOAST NOTIFICATION BADGE */}
         {saveNotification && (
-          <div className="absolute top-14 left-1/2 -translate-x-1/2 bg-gradient-to-r from-purple-900/90 to-emerald-900/90 border border-emerald-400 backdrop-blur-md rounded-2xl px-4 py-2 flex items-center gap-2 z-50 font-mono text-xs font-bold text-emerald-300 shadow-2xl animate-bounce">
+          <div className="pointer-events-none absolute top-14 left-1/2 -translate-x-1/2 bg-gradient-to-r from-purple-900/90 to-emerald-900/90 border border-emerald-400 backdrop-blur-md rounded-2xl px-4 py-2 flex items-center gap-2 z-50 font-mono text-xs font-bold text-emerald-300 shadow-2xl animate-bounce">
             <CheckCircle2 size={16} className="text-emerald-400" />
             <span>{saveNotification}</span>
           </div>

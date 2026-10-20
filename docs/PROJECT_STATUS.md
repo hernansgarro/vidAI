@@ -17,6 +17,8 @@
 - Canvas selection now consumes pointer events directly. Previously a press and
   release entirely between frames could be lost by polling the held state.
   Selection, dragging, wheel/pinch zoom and tracking remain available.
+  Notifications ignore pointer input, and successful import notices expire, so
+  banners cannot obstruct panel controls.
 - Empty retinal space is exactly black. Walls, water, bubbles, grid, selection
   indicators and glows supply no RGB or distance hit. Creatures, food particles
   (including pink carrion) and eggs retain nearest-surface occlusion. Surface RGB
@@ -90,9 +92,12 @@ zero-food world using the previous inflow. World swaps/resizing now carry a rend
 epoch; mismatched callbacks cannot advance the new world. A new browser regression
 imports the same snapshot three times from MAX speed with 4x CPU throttling,
 verifying exact saved time and zero food before resuming. The failing food-display
-case and this stress check both pass. CI now runs graphics-heavy browser cases
-serially: two simultaneous software-rendered canvases caused the wide-screen
-case to exceed its 90s budget, while its single-worker rerun passed unchanged.
+case and this stress check both pass in CI. The software-rendered wide-window
+layout scene exceeded its 90s budget in CI, including with one worker. Layout
+checks now use a genuine imported empty/paused snapshot, isolating bounds/scroll/
+resize from ecological rendering workload. The separate startup/pause check runs
+its full default ecosystem at 1920x900. The isolated wide-layout local rerun took
+21.5s, with all its bounds/scroll/resize assertions retained. CI remains serial.
 
 A controlled active swimmer struck a passive body moving at 100px/s: maximum
 hinge error over 5s was 0.1585px and contact penetration 0.0210px. A deliberately

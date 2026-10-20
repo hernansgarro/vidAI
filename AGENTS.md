@@ -20,6 +20,7 @@
   neighbors; preserve mass-weighted COM and hinge stability during self-contact.
 - Floating windows must fit the tank viewport between toolbars. Canvas backing
   dimensions must follow its CSS area/device-pixel ratio without stretching.
+  Noninteractive notification banners must not intercept pointer input.
 - No hidden refills, replacement creatures, death immunity, target-coordinate
   steering, or fabricated diagnostic pass flags.
 - World swaps/resizing use a UI render epoch so callbacks with old settings cannot
