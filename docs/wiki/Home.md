@@ -1,19 +1,17 @@
 # VIDA — Current Feature Reference
 
-This directory contains **current-state** feature documentation, intended to be copied into the [VIDA GitHub Wiki](https://github.com/smeagol44/vidAI/wiki) when Wiki write access is available.
-
-Documentation describes **what the latest game does**, not version history, milestone logs or experiments. Update the relevant page **in place** whenever its implementation changes.
+Documentation for the **current 2D VIDA simulation**. Each page describes what the latest game does, how its mechanisms work, and its known limitations. Feature pages are **updated in place** rather than duplicated for each release.
 
 ## Simulation systems
 
-- [Movement and Motor Control](Motor-Control.md) — optional oscillators, direct joint positioning, neural commands, inherited motor parameters, physical work and limitations.
-- [Senses and Visually Guided Behavior](Sensory-Behavior.md) — physical retinal rays, inherited sensory steering, test-supported food approach and unresolved threat recognition.
+- [Movement and Motor Control](https://github.com/smeagol44/vidAI/wiki/Motor-Control) — optional oscillators, direct joint positioning, inherited motor parameters, physical work and limits.
+- [Senses and Visually Guided Behavior](https://github.com/smeagol44/vidAI/wiki/Sensory-Behavior) — true retinal rays, inherited neural steering, measured food approach and unresolved threat recognition.
 
-Further pages belong here only as the corresponding systems are reviewed or modified; historical findings stay in `docs/PROJECT_STATUS.md`.
+More current-feature pages will be added as those systems are worked on; this is not an attempt to document all existing systems at once.
 
-## Editorial rules
+## Reading and maintaining this Wiki
 
-- State what ships now. Avoid release-by-release changelogs.
-- Keep one well-organized page per feature; update it, don't create a new dated copy.
-- Show the mechanism and limitations, with short diagrams and verified values.
-- Link to implementation and fast regression tests for maintainers.
+- **[Play VIDA](https://smeagol44.github.io/vidAI/)** · **[Source repository](https://github.com/smeagol44/vidAI)**
+- Keep pages concise, with diagrams, grounded settings and explicit limitations.
+- No historical changelogs or milestone journals here. The repository's `docs/PROJECT_STATUS.md` records experiments and version changes separately.
+- These pages are maintained from `docs/wiki/` in the main repository and synchronized into the Wiki by GitHub Actions. Future edits should update those source pages to avoid being overwritten at the next synchronization.
