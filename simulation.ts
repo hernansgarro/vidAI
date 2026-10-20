@@ -89,7 +89,8 @@ export const UNIT_SIZE = 7.0; // Base unit in px
 export const BASE_PART_DENSITY = 0.40; // Base mass density
 export const FORCE_COST_MULTIPLIER = 0.000000175; // Mechanical work to heat dissipation (1/20th calibration)
 export const BASAL_METABOLIC_RATE = 12.0; // J/s for founder-sized body (BASE_FOUNDER_AREA = 36)
-export const SENSORY_NEURAL_METABOLIC_RATE = 0.45; // J/s per synapse / sensory eye
+export const SENSORY_NEURAL_METABOLIC_RATE = 0.45; // J/s per sensory channel/neuron.
+export const NEURAL_EDGE_METABOLIC_RATE = 0.00025; // J/s per enabled synapse, relative to a legacy dense-24 budget.
 export const MAX_FRAME_MOTOR_WORK = 40.0; // Max motor dissipation per sub-step clamp to prevent solver spikes
 export const LONGITUDINAL_DRAG = 0.05; // Calibrated nonzero resistance along each segment.
 export const MOTOR_RESPONSE_SECONDS = 0.12;
@@ -1720,6 +1721,146 @@ export function createArchetypeGenome(
   return genome;
 }
 
+// Explicit genetic topology operators. They affect only the supplied genome;
+// organisms retain their personal memory, and offspring begin with fresh state.
+export type BrainTopologyOperation =
+  'add-neuron' | 'remove-neuron' | 'enable-connection' |
+  'disable-connection' | 'prune-connection' | 'reconnect';
+
+type BrainEdgeLocation = {kind: 'ih' | 'hh' | 'ho'; target: number; source: number; key: string; weight: number};
+
+/** Describe a matrix slot using immutable channel and hidden-neuron IDs. */
+function brainEdgeAt(g: Genome, kind: BrainEdgeLocation['kind'], target: number, source: number): BrainEdgeLocation {
+  const targetId = kind === 'ho' ? g.outputKeys![target] : g.hiddenIds![target];
+  const sourceId = kind === 'ih' ? g.inputKeys![source] : g.hiddenIds![source];
+  const weight = kind === 'ih' ? g.weightsIH[target][source]
+    : kind === 'hh' ? g.weightsHH[target][source] : g.weightsHO[target][source];
+  return {kind, target, source, key: brainEdgeKey(kind, targetId, sourceId), weight};
+}
+
+function setBrainEdgeWeight(g: Genome, edge: BrainEdgeLocation, weight: number): void {
+  if (edge.kind === 'ih') g.weightsIH[edge.target][edge.source] = weight;
+  else if (edge.kind === 'hh') g.weightsHH[edge.target][edge.source] = weight;
+  else g.weightsHO[edge.target][edge.source] = weight;
+}
+
+/** Resolve persisted disabled keys without relying on matrix positions. */
+function findBrainEdge(g: Genome, key: string): BrainEdgeLocation | null {
+  let parts: unknown;
+  try { parts = JSON.parse(key); } catch { return null; }
+  if (!Array.isArray(parts) || parts.length !== 3) return null;
+  const [kind, targetId, sourceId] = parts;
+  if (kind !== 'ih' && kind !== 'hh' && kind !== 'ho') return null;
+  const target = (kind === 'ho' ? g.outputKeys! : g.hiddenIds!).indexOf(targetId);
+  const source = (kind === 'ih' ? g.inputKeys! : g.hiddenIds!).indexOf(sourceId);
+  if (target < 0 || source < 0) return null;
+  return brainEdgeAt(g, kind, target, source);
+}
+
+/** Low-perturbation, deterministic inherited topology changes, independent of weight mutation.
+ * Returns false if the requested operation has no legal opportunity.
+ */
+export function mutateBrainTopology(g: Genome, operation: BrainTopologyOperation, customPrng: XoshiroPRNG = rng): boolean {
+  ensureBrainLayout(g);
+  const count = g.hiddenIds!.length, inputs = g.inputKeys!.length, outputs = g.outputKeys!.length;
+  const disabled = new Set(g.disabledConnections!);
+  if (operation === 'add-neuron') {
+    // All fresh synapses start disabled except one weak sensory input and one weak
+    // motor output. This avoids a dense silent expansion and preserves old behavior.
+    if (count >= MAX_HIDDEN || !inputs || !outputs || enabledBrainEdgeCount(g) + 2 > MAX_ENABLED_BRAIN_EDGES) return false;
+    const previous = structuredClone(g);
+    let newId: string;
+    do { newId = `hidden:mut-${customPrng.nextUint32().toString(36)}`; }
+    while (g.hiddenIds!.includes(newId));
+    g.hiddenIds = [...g.hiddenIds!, newId];
+    for (const input of g.inputKeys!) disabled.add(brainEdgeKey('ih', newId, input));
+    for (const hidden of g.hiddenIds) {
+      disabled.add(brainEdgeKey('hh', newId, hidden));
+      disabled.add(brainEdgeKey('hh', hidden, newId));
+    }
+    for (const output of g.outputKeys!) disabled.add(brainEdgeKey('ho', output, newId));
+    g.disabledConnections = [...disabled];
+    remapBrain(g, previous);
+    const inIndex = customPrng.rangeInt(0, inputs - 1), outIndex = customPrng.rangeInt(0, outputs - 1);
+    g.disabledConnections = g.disabledConnections!.filter(key =>
+      key !== brainEdgeKey('ih', newId, g.inputKeys![inIndex])
+      && key !== brainEdgeKey('ho', g.outputKeys![outIndex], newId));
+    g.weightsIH[count][inIndex] = customPrng.range(-0.04, 0.04);
+    g.weightsHO[outIndex][count] = customPrng.range(-0.04, 0.04);
+    return true;
+  }
+  if (operation === 'remove-neuron') {
+    if (count <= 1) return false;
+    // Prefer the least influential hidden node; no automatic protection or
+    // guaranteed fitness criterion. This is a local connection-magnitude proxy.
+    let weakest = 0, weakestScore = Infinity;
+    for (let h = 0; h < count; h++) {
+      let score = 0;
+      for (let o = 0; o < outputs; o++) {
+        const edge = brainEdgeAt(g, 'ho', o, h);
+        if (!disabled.has(edge.key)) score += Math.abs(edge.weight);
+      }
+      for (let target = 0; target < count; target++) {
+        const edge = brainEdgeAt(g, 'hh', target, h);
+        if (!disabled.has(edge.key)) score += Math.abs(edge.weight);
+      }
+      if (score < weakestScore) { weakest = h; weakestScore = score; }
+    }
+    const previous = structuredClone(g);
+    g.hiddenIds = g.hiddenIds!.filter((_, h) => h !== weakest);
+    remapBrain(g, previous);
+    return true;
+  }
+
+  // Pick from the existing disabled set; large networks are never enumerated.
+  const chooseDisabled = (): BrainEdgeLocation | null => {
+    const keys = g.disabledConnections!;
+    if (!keys.length) return null;
+    for (let attempt = 0; attempt < 48; attempt++) {
+      const edge = findBrainEdge(g, keys[customPrng.rangeInt(0, keys.length - 1)]);
+      if (edge && Math.abs(edge.weight) <= 0.12) return edge;
+    }
+    return null;
+  };
+  // Draw from bounded matrix samples. Avoid immediately cutting large-magnitude
+  // paths, although this does not guarantee functional preservation.
+  const chooseEnabled = (): BrainEdgeLocation | null => {
+    for (let attempt = 0; attempt < 96; attempt++) {
+      const kind = (['ih', 'hh', 'ho'] as const)[customPrng.rangeInt(0, 2)];
+      const rows = kind === 'ho' ? outputs : count;
+      const cols = kind === 'ih' ? inputs : count;
+      if (!rows || !cols) continue;
+      const edge = brainEdgeAt(g, kind, customPrng.rangeInt(0, rows - 1), customPrng.rangeInt(0, cols - 1));
+      if (!disabled.has(edge.key) && Math.abs(edge.weight) <= 0.12) return edge;
+    }
+    return null;
+  };
+
+  if (operation === 'enable-connection' || operation === 'reconnect') {
+    const destination = chooseDisabled();
+    if (!destination) return false;
+    const origin = operation === 'reconnect' ? chooseEnabled() : null;
+    if (operation === 'reconnect' && !origin) return false;
+    if (!origin && enabledBrainEdgeCount(g) >= MAX_ENABLED_BRAIN_EDGES) return false;
+    disabled.delete(destination.key);
+    if (origin) disabled.add(origin.key);
+    // A truly new connection gets a gentle nonzero seed. Disabling does not
+    // erase weights, and a subsequently re-enabled nonzero weight is preserved.
+    if (Math.abs(destination.weight) < 1e-12) setBrainEdgeWeight(g, destination, customPrng.range(-0.04, 0.04));
+    g.disabledConnections = [...disabled];
+    return true;
+  }
+  if (operation === 'disable-connection' || operation === 'prune-connection') {
+    const edge = chooseEnabled();
+    if (!edge) return false;
+    disabled.add(edge.key);
+    if (operation === 'prune-connection') setBrainEdgeWeight(g, edge, 0);
+    g.disabledConnections = [...disabled];
+    return true;
+  }
+  return false;
+}
+
 // Structural Topology Mutation with Strict No-Wide-to-Wide Validation
 export function mutateGenome(parent: Genome, severity = 0.25, customPrng: XoshiroPRNG = rng): Genome {
   const mutChance = clampVal(severity, 0, 1);
@@ -1729,6 +1870,8 @@ export function mutateGenome(parent: Genome, severity = 0.25, customPrng: Xoshir
       id: `GEN-${customPrng.nextUint32().toString(36).toUpperCase()}`,
       generation: parent.generation + 1, parentIds: [parent.id]};
   }
+  // Never migrate a parent's neural layout or anatomy in place.
+  parent = structuredClone(parent);
   if (parent.anatomyVersion === undefined && morphologyProblems(parent.parts).length > 0) {
     const parts = parent.parts.map(p => ({...p}));
     alignLegacyFinDimensions(parts);
@@ -1887,23 +2030,28 @@ export function mutateGenome(parent: Genome, severity = 0.25, customPrng: Xoshir
 
   normalizeSurfaceOrgans({parts, eyes, mouths});
 
-  // Neural Weights Mutations
-  const weightsIH = parent.weightsIH.map((row) =>
-    row.map((w) =>
-      customPrng.nextFloat() < mutChance ? clampVal(w + customPrng.range(-0.3, 0.3) * mutScale, -3.5, 3.5) : w,
+  // Existing enabled weights and dormant disabled weights are distinct.
+  // Mutate only enabled edges; disabling one never silently rewrites it.
+  const inactive = new Set(parent.disabledConnections);
+  const weightsIH = parent.weightsIH.map((row, h) =>
+    row.map((w, i) =>
+      inactive.has(brainEdgeKey('ih', parent.hiddenIds![h], parent.inputKeys![i])) ? w
+        : customPrng.nextFloat() < mutChance ? clampVal(w + customPrng.range(-0.3, 0.3) * mutScale, -3.5, 3.5) : w,
     ),
   );
-  const weightsHH = parent.weightsHH.map((row) =>
-    row.map((w) =>
-      customPrng.nextFloat() < mutChance ? clampVal(w + customPrng.range(-0.25, 0.25) * mutScale, -3.0, 3.0) : w,
+  const weightsHH = parent.weightsHH.map((row, h) =>
+    row.map((w, rh) =>
+      inactive.has(brainEdgeKey('hh', parent.hiddenIds![h], parent.hiddenIds![rh])) ? w
+        : customPrng.nextFloat() < mutChance ? clampVal(w + customPrng.range(-0.25, 0.25) * mutScale, -3.0, 3.0) : w,
     ),
   );
   const biasesH = parent.biasesH.map((b) =>
     customPrng.nextFloat() < mutChance ? clampVal(b + customPrng.range(-0.15, 0.15) * mutScale, -1.5, 1.5) : b,
   );
-  const weightsHO = parent.weightsHO.map((row) =>
-    row.map((w) =>
-      customPrng.nextFloat() < mutChance ? clampVal(w + customPrng.range(-0.3, 0.3) * mutScale, -3.5, 3.5) : w,
+  const weightsHO = parent.weightsHO.map((row, o) =>
+    row.map((w, h) =>
+      inactive.has(brainEdgeKey('ho', parent.outputKeys![o], parent.hiddenIds![h])) ? w
+        : customPrng.nextFloat() < mutChance ? clampVal(w + customPrng.range(-0.3, 0.3) * mutScale, -3.5, 3.5) : w,
     ),
   );
   const biasesO = parent.biasesO.map((b) =>
@@ -1977,6 +2125,15 @@ export function mutateGenome(parent: Genome, severity = 0.25, customPrng: Xoshir
     maxEnergyCapacity,
   };
   remapBrain(child, {...parent, weightsIH, weightsHH, biasesH, weightsHO, biasesO});
+  // Rare topology event, independent of regular weight/anatomy changes. The
+  // same PRNG controls both event choice and its internal deterministic details.
+  if (customPrng.nextFloat() < mutChance * 0.16) {
+    const operations: BrainTopologyOperation[] = [
+      'add-neuron', 'remove-neuron', 'enable-connection',
+      'disable-connection', 'prune-connection', 'reconnect',
+    ];
+    mutateBrainTopology(child, operations[customPrng.rangeInt(0, operations.length - 1)], customPrng);
+  }
   return child;
 }
 
@@ -2961,7 +3118,13 @@ export function stepSimulation(
     // Area-Normalized Basal & Sensory Metabolism
     const sizeRatio = calculateTotalBodyArea(g.parts) / BASE_FOUNDER_AREA;
     const basalRate = BASAL_METABOLIC_RATE * sizeRatio * g.metabolicEfficiency;
-    const sensoryRate = SENSORY_NEURAL_METABOLIC_RATE * (g.eyes.length * 5 + g.hiddenIds!.length + g.mouths.length * 2);
+    // Reference-normalized synapse upkeep: every original 24-node dense
+    // controller costs exactly what it did in v0.8, for any anatomy. Added
+    // enabled synapses cost energy; disabled/pruned edges save it.
+    const referenceEdges = NUM_HIDDEN * (g.inputKeys!.length + NUM_HIDDEN + g.outputKeys!.length);
+    const sensoryRate = Math.max(0,
+      SENSORY_NEURAL_METABOLIC_RATE * (g.eyes.length * 5 + g.hiddenIds!.length + g.mouths.length * 2)
+      + NEURAL_EDGE_METABOLIC_RATE * (enabledBrainEdgeCount(g) - referenceEdges));
     const motorRate = frameMechanicalWork / dt;
 
     const basalMetabolism = basalRate * dt;
