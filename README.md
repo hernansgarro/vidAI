@@ -71,6 +71,19 @@ Physical learning-versus-disabled fitness comparisons remain the
 next Phase 5 milestone. Sleeping/replay (original Phase 6) is
 not implemented. See [Waking Synaptic Learning](https://github.com/smeagol44/vidAI/wiki/Waking-Learning).
 
+### Expanded Phase 5 capabilities (v0.22)
+
+Descendants may now inherit the ability to learn on **every existing
+joint's six motor commands**, rather than Angle alone, while keeping
+the 96-edge limit and real energy cost. A second optional gene
+uses only **physical predator bites** as negative reinforcement,
+alongside positive real-food absorption. Neither is a hardcoded
+escape or chasing reflex. Earlier creatures retain their exact
+Angle-only behavior and acquired experiences still cannot
+pass to offspring. These systems are functional but are not
+yet proof of improved lifetime food acquisition or survival;
+see the [Waking Learning Wiki](https://github.com/smeagol44/vidAI/wiki/Waking-Learning).
+
 ## Creatures and sandbox
 
 **Evolvable responses to bites:** Reproduction can now occasionally create a

@@ -6,9 +6,10 @@ changes are separate from the inherited genome, adapt only existing
 enabled synapses, use physical mouth intake as reinforcement, cost usable
 energy, and gradually fade when not reinforced.
 
-This is the **first bounded implementation** of original Phase 5.
-It establishes a real within-life change to motor policy, **not yet
-an improved lifetime food-gathering or survival outcome**.
+Original Phase 5 now includes a second functional increment:
+evolvable full-body motor learning and real-bite aversion. These are
+real within-life changes to motor policy, **not yet proven to improve
+lifetime food-gathering or survival outcomes**.
 
 ## Mechanism
 
@@ -33,10 +34,14 @@ flowchart LR
   or alter it. **`forgettingRate`** is an optional inherited
   relaxation allele (0–1 per second; default 0.1 when enabled).
 - A learning-capable organism maintains up to **96 enabled
-  hidden-neuron → joint `Angle` motor synapses**. Which ones are
-  eligible comes from stable genomic neuron/output IDs and the existing
-  disabled-connection mask. The selection is deterministic, not a
-  new kind of physical movement or a new sensor.
+  hidden-neuron → motor synapses**. Older and default creatures retain
+  the original Angle-only candidate selection, in the same order.
+  Descendants may genetically evolve `plasticMotorScope: 'all'`
+  to distribute learning across **Angle, Drive, Torque, Stiff, Amp
+  and Engage** on *all joints*, interleaving outputs to avoid
+  exhausting the bound on the first joint. The disabled-connection
+  mask and stable identities remain authoritative. No new force
+  or behavioral action is scripted.
 - An **eligibility trace** (memory of actual recent hidden activation
   × motor output, with a 0.6-second time constant) associates recent
   command activity with the **previous completed tick's genuine
@@ -45,7 +50,7 @@ flowchart LR
 - After a neural update, the individual can change its own bounded
   synapse offset by a reward-modulated amount. Offsets are limited to
   **±0.8 per edge**. Learned synapses modify subsequent neural
-  Angle commands and therefore use the same pre-existing
+  motor commands and therefore use the same pre-existing
   torque-limited hinges and water resistance. Unrewarded offsets
   relax exponentially; no learning or decay step changes inherited
   genomic weights.
@@ -75,8 +80,33 @@ Neither feature is simulated dreaming or replay.
 The selected creature's Brain diagram uses the **effective weight**
 (inherited weight plus acquired offset) for each motor connection.
 When learning is enabled it also displays genetic learning/forgetting
-rates, count of adapted motor synapses and metabolic plasticity cost.
+rates, motor scope, injury-aversion rate, count of adapted motor
+synapses and metabolic plasticity cost.
 It does not show an invented food target or prescribe behavior.
+
+## Learning from genuine injury
+
+An additional **`injuryAversionRate`** allele (0–1 per second,
+optional and independently heritable/mutable) lets an animal use
+physically inflicted injury as **negative reinforcement**. The
+neural teaching signal is the same `body:injury` channel that
+reports actual usable/tissue energy removed by a compatible
+predator mouth. It cannot be triggered by a nearby predator,
+a colored body, a harmless collision or ordinary energy use.
+The net teaching signal is the inherited learning rate times
+real mouth absorption **minus** the inherited aversion rate times
+real injury. The change still acts only through the creature's
+existing neurons and torque-limited physical motor controls.
+Nothing decides which way to escape or whether a particular
+movement is useful.
+
+The new `all` scope and optional aversion are explicitly
+mutated at asexual reproduction. An offspring inherits those
+*learning capabilities* but never the parent's acquired weights
+or eligibility traces. The same 96-edge limit, per-edge energy
+upkeep, rewriting cost, forgetting and strict save validation
+apply. Older genomes lacking these genes retain the exact old
+learning scope and zero pain aversion.
 
 ## Verified and not yet verified
 
@@ -93,6 +123,11 @@ It does not show an invented food target or prescribe behavior.
   geometry. It proves a within-life **reward-conditioned neural
   response**, **not** improved physical searching, eating, survival,
   reproduction, or general foraging.
+- Short tests additionally exercise active joint mechanics and
+  learned non-Angle commands during real finite food contact;
+  another uses a real biting predator versus harmless contact
+  to verify pain-based negative reinforcement. These are working
+  mechanisms, **not** proof of improved foraging or escape.
 - Tests also require real feeding receipts, finite energy accounting,
   correct newborn inheritance, mutation reachability, exact saved
   continuation and rejection of maliciously invalid plastic

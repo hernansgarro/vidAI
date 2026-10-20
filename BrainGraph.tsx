@@ -45,6 +45,8 @@ export default function BrainGraph({organism: org, threshold}: {organism: Organi
     {(g.plasticityRate ?? 0) > 0 && <div className="text-xs text-slate-400 px-2 py-1">
       Lifetime learning: genetically enabled (rate {g.plasticityRate!.toFixed(3)}/s,
       forgetting {(g.forgettingRate ?? .1).toFixed(3)}/s),
+      {' '}scope {g.plasticMotorScope ?? 'angle'},
+      pain-aversion {(g.injuryAversionRate ?? 0).toFixed(3)}/s,
       {' '}{acquiredCount} adapted motor synapses; energy cost {(org.plasticityEnergyRate ?? 0).toFixed(4)} J/s.
       Links show inherited weight + personal learned adjustment.
     </div>}

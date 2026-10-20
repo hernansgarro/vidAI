@@ -41,6 +41,21 @@
   motor-active learning-versus-off physical benefit. Original Phase 6
   sleep/replay remains unimplemented. Keep tests fast in
   `tests/waking-plasticity.test.ts`; do not claim learned fitness.
+- Original Phase 5 v0.22: two optional traits extend v0.21 waking
+  plasticity. `plasticMotorScope: 'all'` selects eligible HO connections
+  across all six outputs on every joint, interleaving outputs and
+  respecting the same 96-edge ceiling; absent means EXACT original
+  Angle-only selection. `injuryAversionRate` (0..1/s) subtracts
+  the real previous-tick `body:injury` input from food-reward
+  teaching, never nearby color/identity or ordinary energy loss.
+  Both mutate/inherit genetically, whereas somatic learned weights
+  do NOT pass to offspring. All edges remain enabled-only, finite,
+  identity-keyed and paid for; keep save v11/brain v7 exact and
+  reject invalid traits/learned edge identities. Do not force
+  escape, targeting, neural biases or new motor thrust.
+  Short physical tests suffice; don't start giant genotype
+  calibration campaigns or claim learned survival advantages
+  until demonstrated. The 3D repo is wholly unrelated.
 - Phase 5B motor architecture: every joint's original six neural outputs
   remain stable. Optional inherited `oscillatorMix` (0–1) and four
   `waveHarmonics` coefficients (each −1..1) permit wave-free direct Angle

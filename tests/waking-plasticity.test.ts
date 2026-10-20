@@ -211,3 +211,109 @@ test('learned plasticity charges finite upkeep and rewrite energy even without e
  assert.equal(learnedTotal(org),0);
  close(totalAccountedEnergy(world),before);
 });
+
+test('evolved whole-body scope updates non-Angle motor commands through real feeding, with conserved costs and exact saves', () => {
+ const settingsAll={...settings,waterViscosity:.18};
+ const make=(scope:'all'|'angle')=>{
+   const state=createInitialWorld(settingsAll,713,'unbiased','standard',0);
+   const g=policyGenome(.8);
+   g.plasticMotorScope=scope;
+   g.motorForce=3; // Actual articulated stroke mechanics remain enabled
+   const engage=g.outputKeys!.findIndex(k=>k.endsWith(':Engage'));
+   const drive=g.outputKeys!.findIndex(k=>k.endsWith(':Drive'));
+   assert.ok(engage>=0 && drive>=0);
+   g.weightsHO[engage][0]=.4;
+   g.weightsHO[drive][0]=.4;
+   const org=addExternalOrganism(state,g,settingsAll,1200,750,0)!;
+   const anchor=sim.getOrganAnchor(g.mouths[0],g.parts[0].width,g.parts[0].height);
+   state.nutrients.push({id:'earned-food',x:1200+anchor.x,y:750,vx:0,vy:0,
+      energyValue:3000,radius:18,kind:'nutrient',bottomTimer:0,pulseTimer:0});
+   state.ledger.externalInflow+=3000;
+   return {state,org,engage,drive};
+ };
+ const all=make('all'), angles=make('angle');
+ assert.ok(sim.plasticMotorEdges(all.org.genome).some(e=>e.output===all.drive));
+ assert.ok(sim.plasticMotorEdges(all.org.genome).some(e=>e.output===all.engage));
+ assert.ok(sim.plasticMotorEdges(all.org.genome).length<=sim.MAX_PLASTIC_MOTOR_SYNAPSES);
+ assert.ok(sim.plasticMotorEdges(all.org.genome).some(e=>e.output===all.org.genome.outputKeys!.length-1),
+   'all-output selection must sample last physical joint, not just the first');
+ assert.ok(!sim.plasticMotorEdges(angles.org.genome).some(e=>e.output===angles.engage));
+ const startAngle=all.org.joints[0].currentRelAngle;
+ for(let i=0;i<35;i++){
+   sim.stepSimulation(all.state,settingsAll,dt);
+   sim.stepSimulation(angles.state,settingsAll,dt);
+ }
+ assert.ok(all.org.recentFeedings?.some(e=>e.energyTransferred>0),'reward must be genuine physical food contact');
+ const extraEngage=all.org.learnedMotorWeights!.filter(e=>e.edge.includes(':Engage')&&Math.abs(e.delta)>1e-9);
+ const extraDrive=all.org.learnedMotorWeights!.filter(e=>e.edge.includes(':Drive')&&Math.abs(e.delta)>1e-9);
+ assert.ok(extraEngage.length>0 && extraDrive.length>0,'all-output ability must change multiple live motor channels');
+ assert.ok(Math.abs(all.org.neuralOutputs[all.engage]-angles.org.neuralOutputs[angles.engage])>1e-5);
+ assert.ok(Math.abs(all.org.joints[0].currentRelAngle-startAngle)>1e-7,'real hinged anatomy must still articulate');
+ assert.ok(Math.abs(all.org.joints[0].appliedTorque)>0);
+ for(const row of [all,angles]) assert.ok(Math.abs(totalAccountedEnergy(row.state)-row.state.ledger.externalInflow)<1e-4);
+ const snapshot=createSnapshot(all.state,settingsAll), restored=restoreSnapshot(snapshot);
+ assert.deepEqual(createSnapshot(restored.state,restored.settings),snapshot);
+ sim.stepSimulation(all.state,settingsAll,dt);
+ sim.stepSimulation(restored.state,settingsAll,dt);
+ assert.deepEqual(createSnapshot(restored.state,settingsAll),createSnapshot(all.state,settingsAll));
+ assert.equal(all.org.genome.weightsHO[all.engage][0],.4,'somatic learning never rewrites DNA');
+});
+
+test('actual bites can teach negative valence without a scripted escape rule or fake injury', () => {
+ const attackSettings={...settings,kinshipProtection:false};
+ const make=(aversion:number,attackerMouth:'carnivore'|'herbivore')=>{
+   const state=createInitialWorld(attackSettings,927,'unbiased','standard',0);
+   const g=policyGenome(.8);
+   g.injuryAversionRate=aversion;
+   const prey=addExternalOrganism(state,g,attackSettings,1200,750,0)!;
+   const rear=Math.min(...prey.segments.map((seg,i)=>seg.x-g.parts[i].width/2));
+   const hunterG=sim.createReferenceNematodeGenome(new sim.XoshiroPRNG(21));
+   hunterG.parts=[hunterG.parts[0]];
+   hunterG.eyes=[];
+   hunterG.motorForce=0;
+   hunterG.mouths=[{id:'bite-mouth',partIndex:0,direction:'EAST',intakeWidth:30,mouthType:attackerMouth}];
+   hunterG.bodyCost=sim.calculateBodyCost(hunterG.parts,hunterG.eyes,hunterG.mouths);
+   hunterG.maxEnergyCapacity=sim.calculateMaxEnergyCapacity(hunterG.parts,hunterG.storageTraitMultiplier);
+   sim.remapBrain(hunterG);
+   const hunterX=rear-hunterG.parts[0].width/2+6;
+   addExternalOrganism(state,hunterG,attackSettings,hunterX,750,0)!;
+   return {state,prey};
+ };
+ const injured=make(1,'carnivore'), neutral=make(0,'carnivore'), harmless=make(1,'herbivore');
+ for(let i=0;i<20;i++)for(const x of [injured,neutral,harmless])
+   sim.stepSimulation(x.state,attackSettings,dt);
+ const motor=injured.prey.genome.outputKeys!.findIndex(x=>x.endsWith(':Angle'));
+ const physicalPain=injured.prey.neuralInputs[injured.prey.genome.inputKeys!.indexOf('body:injury')];
+ assert.ok(physicalPain>0,'only physical bites teach aversion');
+ assert.equal(harmless.prey.neuralInputs[harmless.prey.genome.inputKeys!.indexOf('body:injury')],0);
+ assert.equal(learnedTotal(neutral.prey),0);
+ assert.equal(learnedTotal(harmless.prey),0);
+ assert.ok(learnedTotal(injured.prey)>0);
+ assert.ok(injured.prey.neuralOutputs[motor]<neutral.prey.neuralOutputs[motor],
+   'negative reinforcement must reduce an implicated motor activation');
+ for(const row of [injured,neutral,harmless])
+   assert.ok(Math.abs(totalAccountedEnergy(row.state)-row.state.ledger.externalInflow)<1e-4);
+ const son=sim.mutateGenome(injured.prey.genome,0,new sim.XoshiroPRNG(9));
+ assert.equal(son.injuryAversionRate,1);
+ assert.equal(son.plasticityRate,.8);
+ assert.equal(sim.spawnOrganism(son,1800,750,0).learnedMotorWeights,undefined);
+});
+
+test('extended heritable traits have strict validation and preserve legacy angle-only saves',()=>{
+ const gene=policyGenome(.8);
+ const s=createInitialWorld(settings,81,'unbiased','standard',0);
+ const org=addExternalOrganism(s,gene,settings,1200,750,0)!;
+ sim.stepSimulation(s,settings,dt);
+ const saved=createSnapshot(s,settings);
+ assert.deepEqual(createSnapshot(restoreSnapshot(saved).state,settings),saved);
+ for(const edit of [
+  (g:sim.Genome)=>{g.plasticMotorScope='sideways' as 'all'},
+  (g:sim.Genome)=>{g.injuryAversionRate=Number.NaN},
+  (g:sim.Genome)=>{g.injuryAversionRate=-0.1},
+  (g:sim.Genome)=>{g.injuryAversionRate=1.1}
+ ]) {
+   const mutant=structuredClone(gene);edit(mutant);
+   assert.throws(()=>validateGenome(mutant),/Invalid snapshot/);
+ }
+ assert.ok(org.learnedMotorWeights?.every(x=>JSON.parse(x.edge)[1].endsWith(':Angle')));
+});

@@ -1,5 +1,35 @@
 # Project status — 2026-10-20
 
+## Original Phase 5: full-body motor learning and injury aversion — v0.22.0
+
+- Two optional heritable, ordinarily mutable additions expand waking
+  learning without any new control reflex: `plasticMotorScope: 'all'`
+  lets a creature learn on all six neural output channels of all its
+  existing physical joints. Stable enabled connections are sampled
+  across joints, keeping the existing 96-edge cap and genetic identity.
+  Absence of the allele preserves v0.21's exact Angle-only policy.
+- `injuryAversionRate` (0–1/s) permits negative reinforcement
+  by **actual** `body:injury` energy taken during physical predator
+  mouth contact; real compatible oral nutrient/food absorption remains
+  positive reinforcement. Colors, diagnostic creature types, harmless
+  collisions, target coordinates, or natural energy expenditure do
+  not produce punishment. Creature-defined circuit responses may
+  remain ineffective or even harmful.
+- Learned motor offsets, eligibility traces, forgetting, and all
+  energy charges remain individual somatic state: eggs/newborns receive
+  genetic capabilities but never parent's acquired weights. Existing
+  memory, organ placement, locomotion physics, energy conservation,
+  brain v7, schema v11 and 55 founders remain unchanged. Current-save
+  validators reject invalid genes and unapproved learned edge IDs.
+- A few short physically grounded tests exercise multi-channel
+  learning during genuine food intake and pain aversion during
+  genuine bites with harmless-mouth controls. These validate
+  working pathways **not general survival, learned hunger navigation,
+  or proven escape benefits**. Phase 5 continues; Phase 6 remains
+  optional and not implemented. No extended founder tuning or
+  long seed sweeps.
+
+
 ## Original Phase 5, waking within-life plasticity — v0.21.0, first bounded slice
 
 - **What now works:** optional inherited `plasticityRate` (0–0.8/s)

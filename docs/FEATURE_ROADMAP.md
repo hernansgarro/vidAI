@@ -1,4 +1,4 @@
-# VIDA: remaining features — 2026-10-20 / v0.21.0
+# VIDA: remaining features — 2026-10-20 / v0.22.0
 
 This is a focused review of the current 2D source, not an implementation promise.
 Small changes fit the existing systems. Big changes affect simulation architecture,
@@ -82,6 +82,16 @@ outcomes rather than silently being marked solved.
   predation or ecological fitness**. Next: short paired multi-episode
   physical acquisition/survival tests of *learning versus no learning*,
   with relevant control conditions and no hand-injected rewards.
+  **v0.22 expands useful learning capabilities without reopening
+  long testing phases:** rare, inherited all-channel plastic motor
+  scope and separately evolvable genuine bite-based aversion.
+  Offsets still pay energy and remain somatic; old Angle-only
+  brains stay unchanged. Brief physical checks establish actual
+  multi-output learning and bite-conditioned synaptic change,
+  not improved survival or ecological fitness. Follow up with
+  normal feature development and only bounded physical benefit
+  checks as each new capability warrants.
+
 - **Original Phase 6 — optional rest/sleep and replay:** **not implemented**.
   Only consider after waking learning improves *physical behavior*, rather
   than merely adapting a motor response in an immobile laboratory animal. Bound experience
