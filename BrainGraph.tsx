@@ -10,7 +10,9 @@ export default function BrainGraph({organism: org, threshold}: {organism: Organi
   const inputs = positions(org.neuralInputs.length), hidden = positions(hiddenIds.length), outputs = positions(layout.outputs.length);
   const disabled = new Set(g.disabledConnections ?? []);
   const learned = new Map((org.learnedMotorWeights ?? []).map(e => [e.edge, e.delta]));
+  const learnedRetina = new Map((org.learnedSensoryWeights ?? []).map(e => [e.edge, e.delta]));
   const acquiredCount = [...learned.values()].filter(value => Math.abs(value) > 1e-8).length;
+  const acquiredRetina = [...learnedRetina.values()].filter(value => Math.abs(value) > 1e-8).length;
   const links: React.ReactNode[] = [];
   const link = (key: string, edge: string, fromX: number, fromY: number, toX: number, toY: number, weight: number, activation: number, recurrent = false) => {
     if (disabled.has(edge) || Math.abs(weight) <= threshold) return;
@@ -26,7 +28,10 @@ export default function BrainGraph({organism: org, threshold}: {organism: Organi
   for (let h = 0; h < hiddenIds.length; h++) {
     for (let i = 0; i < inputs.length; i++) {
       const edge = brainEdgeKey('ih', hiddenIds[h], layout.inputs[i]);
-      link(`${layout.labels[i]} → ${hiddenIds[h]}`, edge, x[0], inputs[i], x[1], hidden[h], g.weightsIH[h]?.[i] ?? 0, org.neuralInputs[i] ?? 0);
+      const gene = g.weightsIH[h]?.[i] ?? 0, acquired = learnedRetina.get(edge) ?? 0;
+      const description = `${layout.labels[i]} → ${hiddenIds[h]}`
+        + (acquired ? ` (inherited ${gene.toFixed(4)}, retinal memory Δ${acquired.toFixed(4)})` : '');
+      link(description, edge, x[0], inputs[i], x[1], hidden[h], gene + acquired, org.neuralInputs[i] ?? 0);
     }
     for (let prev = 0; prev < hiddenIds.length; prev++) {
       const edge = brainEdgeKey('hh', hiddenIds[h], hiddenIds[prev]);
@@ -42,13 +47,14 @@ export default function BrainGraph({organism: org, threshold}: {organism: Organi
     link(label, edge, x[1], hidden[h], x[2], outputs[o], inheritedWeight + somaticOffset, org.neuralHidden[h] ?? 0);
   }
   return <div className="w-full max-h-72 overflow-y-auto">
-    {(g.plasticityRate ?? 0) > 0 && <div className="text-xs text-slate-400 px-2 py-1">
-      Lifetime learning: genetically enabled (rate {g.plasticityRate!.toFixed(3)}/s,
+    {((g.plasticityRate ?? 0) > 0 || (g.sensoryPlasticityRate ?? 0) > 0) && <div className="text-xs text-slate-400 px-2 py-1">
+      Lifetime learning: genetically enabled (motor rate {(g.plasticityRate ?? 0).toFixed(3)}/s,
+      retinal rate {(g.sensoryPlasticityRate ?? 0).toFixed(3)}/s,
       forgetting {(g.forgettingRate ?? .1).toFixed(3)}/s),
       {' '}scope {g.plasticMotorScope ?? 'angle'},
       pain-aversion {(g.injuryAversionRate ?? 0).toFixed(3)}/s,
-      {' '}{acquiredCount} adapted motor synapses; energy cost {(org.plasticityEnergyRate ?? 0).toFixed(4)} J/s.
-      Links show inherited weight + personal learned adjustment.
+      {' '}{acquiredCount} adapted motor and {acquiredRetina} adapted retinal synapses; energy cost {(org.plasticityEnergyRate ?? 0).toFixed(4)} J/s.
+      Links show inherited weight + personal learned adjustment in both motor and retinal pathways.
     </div>}
     <svg viewBox={`0 0 460 ${height}`} className="w-full select-none" style={{height}} role="img" aria-label="Live recurrent neural network">
       {links}

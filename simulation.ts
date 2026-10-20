@@ -96,6 +96,7 @@ export const MEMORY_METABOLIC_RATE = 0.08; // Extra J/s per second of combined n
 // Phase 5: only heritably enabled organisms can adapt their own motor synapses.
 // No per-genome weight edit is performed while an organism lives.
 export const MAX_PLASTIC_MOTOR_SYNAPSES = 96;
+export const MAX_PLASTIC_SENSORY_SYNAPSES = 96;
 export const MAX_LEARNED_MOTOR_DELTA = 0.8;
 export const PLASTIC_ELIGIBILITY_SECONDS = 0.6;
 export const PLASTIC_UPKEEP_J_PER_EDGE_SECOND = 0.002;
@@ -232,6 +233,7 @@ export interface Genome {
   forgettingRate?: number; // Heritable learned-weight relaxation 0..1 / s. Absent = 0.1 for learning-enabled descendants.
   plasticMotorScope?: 'angle' | 'all'; // Heritable learner motor scope; absent = exact old Angle-only pathway.
   injuryAversionRate?: number; // Heritable 0..1 / s loss-based teaching signal from REAL body:injury only; absent = 0.
+  sensoryPlasticityRate?: number; // Heritable 0..0.8 / s associative retinal IH learning; absent = no acquired perception changes.
   disabledConnections?: string[]; // Canonical edge keys; absent/empty means legacy fully enabled.
   inputKeys?: string[];
   outputKeys?: string[];
@@ -315,6 +317,7 @@ export interface Organism {
   // Somatic motor-synapse offsets and recent eligibility, keyed by stable HO
   // identities. NEVER written into genome or inherited by offspring.
   learnedMotorWeights?: Array<{edge: string; delta: number; eligibility: number}>;
+  learnedSensoryWeights?: Array<{edge: string; delta: number; eligibility: number}>; // Somatic RGB retina→hidden associations, never inherited.
   rayHits: RayHit[];
   glowPulse: number;
   dissolving: boolean;
@@ -1187,6 +1190,73 @@ export function plasticMotorEdges(g: Genome): Array<{edge: string; output: numbe
   return result;
 }
 
+/** A heritable capability to associate physical optical RGB channels with
+ * hidden activity. No object identity, debug ray label, wall, or target
+ * coordinate enters this pathway. Only existing ENABLED sensory synapses
+ * are eligible. An absent gene allocates nothing and changes no old math.
+ * Each sampled hidden unit sees diverse real rays and spectral channels;
+ * dormant genetic connections remain dormant.
+ */
+export function plasticSensoryEdges(g: Genome): Array<{edge: string; input: number; hidden: number}> {
+  if (!(g.sensoryPlasticityRate && g.sensoryPlasticityRate > 0)) return [];
+  const disabled = new Set(g.disabledConnections ?? []);
+  const retinalInputs = g.inputKeys!.flatMap((key, index) =>
+    key.startsWith('eye:') && /:(red|green|blue)$/.test(key) ? [index] : []);
+  const result: Array<{edge: string; input: number; hidden: number}> = [];
+  for (let h = 0; h < g.hiddenIds!.length; h++) {
+    for (const input of retinalInputs) {
+      const edge = brainEdgeKey('ih', g.hiddenIds![h], g.inputKeys![input]);
+      if (!disabled.has(edge)) result.push({edge, input, hidden: h});
+      if (result.length >= MAX_PLASTIC_SENSORY_SYNAPSES) return result;
+    }
+  }
+  return result;
+}
+
+/** Learned retinal associations use precisely the same somatic energy
+ * accounting and clamped eligibility principle as motor learning.
+ * Food intake reinforces currently coactive retinal→hidden channels;
+ * bites can weaken them if the lineage evolved injury aversion.
+ * The acquired deltas affect NEXT tick's sensory evaluation. No
+ * teaching occurs from mere sight without real reward/punishment.
+ */
+export function applySensoryAssociations(
+  org: Organism, dt: number, ledger: SimulationState['ledger'],
+): number {
+  const g = org.genome;
+  if (!(g.sensoryPlasticityRate && g.sensoryPlasticityRate > 0) || dt <= 0 || org.dissolving) return 0;
+  const edges = plasticSensoryEdges(g);
+  if (!edges.length) return 0;
+  const previous = new Map((org.learnedSensoryWeights ?? []).map(s => [s.edge, s]));
+  const alpha = -Math.expm1(-dt / PLASTIC_ELIGIBILITY_SECONDS);
+  const forgetting = Math.exp(-(g.forgettingRate ?? .1) * dt);
+  const reward = clampVal(Math.max(0, ...g.mouths.map(m => org.mouthFeedback?.[m.id]?.intake ?? 0)), 0, 1);
+  const injuryIndex = g.inputKeys!.indexOf('body:injury');
+  const injury = injuryIndex >= 0 ? clampVal(org.neuralInputs[injuryIndex] ?? 0, 0, 1) : 0;
+  const valence = g.sensoryPlasticityRate * reward - (g.injuryAversionRate ?? 0) * injury;
+  const next = edges.map(({edge, input, hidden}) => {
+    const old = previous.get(edge);
+    const pre = clampVal(org.neuralInputs[input] ?? 0, 0, 1);
+    const eligibility = clampVal((old?.eligibility ?? 0) * (1 - alpha)
+      + alpha * pre * org.neuralHidden[hidden], -1, 1);
+    const delta = old?.delta ?? 0;
+    const target = clampVal(delta * forgetting + valence * eligibility * dt,
+      -MAX_LEARNED_MOTOR_DELTA, MAX_LEARNED_MOTOR_DELTA);
+    return {edge, delta, eligibility, target};
+  });
+  const upkeep = Math.min(org.energy, edges.length * PLASTIC_UPKEEP_J_PER_EDGE_SECOND * dt);
+  const wanted = next.reduce((sum, e) => sum + Math.abs(e.target - e.delta), 0) * PLASTIC_REWRITE_J_PER_WEIGHT;
+  const paid = Math.min(wanted, Math.max(0, org.energy - upkeep));
+  const scale = wanted > 0 ? paid / wanted : 1;
+  const cost = upkeep + paid;
+  org.energy -= cost;
+  ledger.metabolicDissipation += cost;
+  org.learnedSensoryWeights = next.map(e => ({
+    edge: e.edge, delta: e.delta + (e.target - e.delta) * scale, eligibility: e.eligibility,
+  }));
+  return cost;
+}
+
 /** Applies signed reinforcement-modulated, time-decaying motor eligibility
  * after neural evaluation. Positive reward is only REAL previous-tick mouth
  * assimilation; optional negative teaching comes only from the actual bite
@@ -1339,6 +1409,10 @@ export function remapOrganismBrain(org: Organism, previous: Genome): void {
   if (org.learnedMotorWeights) {
     const allowed = new Set(plasticMotorEdges(org.genome).map(e => e.edge));
     org.learnedMotorWeights = org.learnedMotorWeights.filter(s => allowed.has(s.edge));
+  }
+  if (org.learnedSensoryWeights) {
+    const allowed = new Set(plasticSensoryEdges(org.genome).map(e => e.edge));
+    org.learnedSensoryWeights = org.learnedSensoryWeights.filter(s => allowed.has(s.edge));
   }
 }
 
@@ -2343,6 +2417,7 @@ export function mutateGenome(parent: Genome, severity = 0.25, customPrng: Xoshir
     forgettingRate: parent.forgettingRate,
     plasticMotorScope: parent.plasticMotorScope,
     injuryAversionRate: parent.injuryAversionRate,
+    sensoryPlasticityRate: parent.sensoryPlasticityRate,
     disabledConnections: [...(parent.disabledConnections ?? [])],
     targetClutchSize: mutatedTargetClutchSize,
     maturityAge: mutatedMaturityAge,
@@ -2446,6 +2521,12 @@ export function mutateGenome(parent: Genome, severity = 0.25, customPrng: Xoshir
       child.injuryAversionRate = clampVal((child.injuryAversionRate ?? 0)
         + customPrng.range(-0.15, 0.30) * mutScale, 0, 1);
     }
+  }
+  // Additional sensory association capacity evolves independently of
+  // inherited circuit weights and of the two older motor learning genes.
+  if (customPrng.nextFloat() < mutChance * 0.12) {
+    child.sensoryPlasticityRate = clampVal((child.sensoryPlasticityRate ?? 0)
+      + customPrng.range(-0.15, 0.25) * mutScale, 0, .8);
   }
   return child;
 }
@@ -3460,6 +3541,9 @@ export function stepSimulation(
     const learnedMotor = org.learnedMotorWeights?.length
       ? new Map(org.learnedMotorWeights.map(s => [s.edge, s.delta]))
       : null;
+    const learnedRetina = org.learnedSensoryWeights?.length
+      ? new Map(org.learnedSensoryWeights.map(s => [s.edge, s.delta]))
+      : null;
     for (let h = 0; h < hiddenCount; h++) scratchPrevHidden[h] = org.neuralHidden[h] || 0;
 
     for (let h = 0; h < hiddenCount; h++) {
@@ -3467,6 +3551,10 @@ export function stepSimulation(
       for (let inp = 0; inp < org.neuralInputs.length; inp++) {
         if (!disabled || !disabled.has(brainEdgeKey('ih', g.hiddenIds![h], g.inputKeys![inp]))) {
           sum += (org.neuralInputs[inp] || 0) * (g.weightsIH[h]?.[inp] || 0);
+          if (learnedRetina) {
+            const delta = learnedRetina.get(brainEdgeKey('ih', g.hiddenIds![h], g.inputKeys![inp])) ?? 0;
+            if (delta !== 0) sum += (org.neuralInputs[inp] || 0) * delta;
+          }
         }
       }
       for (let rh = 0; rh < hiddenCount; rh++) {
@@ -3501,6 +3589,10 @@ export function stepSimulation(
     // motor commands only, with their own debited metabolic cost.
     if ((g.plasticityRate ?? 0) > 0) {
       org.plasticityEnergyRate = applyWakingPlasticity(org, dt, ledger) / dt;
+    }
+    if ((g.sensoryPlasticityRate ?? 0) > 0) {
+      const sensoryCost = applySensoryAssociations(org, dt, ledger) / dt;
+      org.plasticityEnergyRate = (org.plasticityEnergyRate ?? 0) + sensoryCost;
     }
 
   }
