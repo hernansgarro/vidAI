@@ -116,7 +116,9 @@ export const EGG_RGB: [number, number, number] = [1, 1, 1];
 export const NUM_INPUT_RAYS = 5;
 export const RAYS_PER_EYE = 5;
 export const NUM_INPUTS = NUM_INPUT_RAYS * 3 + 7; // 15 optical + 3 joint + speed + energy + sin + cos = 22
-export const NUM_HIDDEN = 24; // 24 Recurrent Neurons
+export const NUM_HIDDEN = 24; // Compatibility default for existing founders.
+export const MAX_HIDDEN = 96;
+export const MAX_ENABLED_BRAIN_EDGES = 65_536; // Dense legacy layouts fit; larger layouts may need sparsity.
 export const MAX_PARTS = 7;
 export const LEGACY_OUTPUTS_PER_JOINT = 4;
 export const LEGACY_MAX_OUTPUTS = (MAX_PARTS - 1) * LEGACY_OUTPUTS_PER_JOINT;
@@ -194,12 +196,14 @@ export interface Genome {
   motorFrequency: number;
   motorForce: number;
   // Recurrent Neural Weights
-  weightsIH: number[][]; // [NUM_HIDDEN x NUM_INPUTS]
-  weightsHH: number[][]; // [NUM_HIDDEN x NUM_HIDDEN] Recurrent Synapses
-  biasesH: number[];     // [NUM_HIDDEN]
-  weightsHO: number[][]; // [MAX_OUTPUTS x NUM_HIDDEN]
-  biasesO: number[];     // [MAX_OUTPUTS]
-  brainVersion?: 2 | 3 | 4;
+  weightsIH: number[][]; // [hidden neuron x sensory key]
+  weightsHH: number[][]; // [target hidden neuron x source hidden neuron]
+  biasesH: number[];     // [hidden neuron]
+  weightsHO: number[][]; // [motor key x hidden neuron]
+  biasesO: number[];     // [motor key]
+  brainVersion?: 2 | 3 | 4 | 5;
+  hiddenIds?: string[]; // Stable neuron identities; index order defines the matrix axes.
+  disabledConnections?: string[]; // Canonical edge keys; absent/empty means legacy fully enabled.
   inputKeys?: string[];
   outputKeys?: string[];
   founderMode?: 'balanced' | 'unbiased';
@@ -428,7 +432,7 @@ const scratchMasses = new Float64Array(16);
 const scratchInvMasses = new Float64Array(16);
 const scratchInertias = new Float64Array(16);
 const scratchInvInertias = new Float64Array(16);
-const scratchPrevHidden = new Float64Array(NUM_HIDDEN);
+const scratchPrevHidden = new Float64Array(MAX_HIDDEN);
 
 export const clampVal = (v: number, min: number, max: number) => Math.max(min, Math.min(max, v));
 export const hsl = (h: number, s: number, l: number, a = 1) =>
@@ -1009,26 +1013,27 @@ export function createPartDef(
 }
 
 // Xavier/Glorot Initialization for Recurrent Neural Controller
-export function createXavierRecurrentNetwork(customPrng: XoshiroPRNG = rng, inputCount = NUM_INPUTS, outputCount = LEGACY_MAX_OUTPUTS): {
+export function createXavierRecurrentNetwork(customPrng: XoshiroPRNG = rng, inputCount = NUM_INPUTS, outputCount = LEGACY_MAX_OUTPUTS, hiddenCount = NUM_HIDDEN): {
   weightsIH: number[][];
   weightsHH: number[][];
   biasesH: number[];
   weightsHO: number[][];
   biasesO: number[];
 } {
-  const limitIH = Math.sqrt(6.0 / (inputCount + NUM_HIDDEN));
-  const limitHH = Math.sqrt(6.0 / (NUM_HIDDEN + NUM_HIDDEN));
-  const limitHO = Math.sqrt(6.0 / (NUM_HIDDEN + outputCount));
+  if (!Number.isInteger(hiddenCount) || hiddenCount < 1 || hiddenCount > MAX_HIDDEN) throw new Error('Invalid hidden neuron count');
+  const limitIH = Math.sqrt(6.0 / (inputCount + hiddenCount));
+  const limitHH = Math.sqrt(6.0 / (hiddenCount + hiddenCount));
+  const limitHO = Math.sqrt(6.0 / (hiddenCount + outputCount));
 
-  const weightsIH: number[][] = Array.from({length: NUM_HIDDEN}, () =>
+  const weightsIH: number[][] = Array.from({length: hiddenCount}, () =>
     Array.from({length: inputCount}, () => customPrng.range(-limitIH, limitIH)),
   );
-  const weightsHH: number[][] = Array.from({length: NUM_HIDDEN}, () =>
-    Array.from({length: NUM_HIDDEN}, () => customPrng.range(-limitHH * 0.8, limitHH * 0.8)),
+  const weightsHH: number[][] = Array.from({length: hiddenCount}, () =>
+    Array.from({length: hiddenCount}, () => customPrng.range(-limitHH * 0.8, limitHH * 0.8)),
   );
-  const biasesH = Array.from({length: NUM_HIDDEN}, () => customPrng.range(-0.05, 0.05));
+  const biasesH = Array.from({length: hiddenCount}, () => customPrng.range(-0.05, 0.05));
   const weightsHO: number[][] = Array.from({length: outputCount}, () =>
-    Array.from({length: NUM_HIDDEN}, () => customPrng.range(-limitHO, limitHO)),
+    Array.from({length: hiddenCount}, () => customPrng.range(-limitHO, limitHO)),
   );
   const biasesO = Array.from({length: outputCount}, () => customPrng.range(-0.05, 0.05));
 
@@ -1085,44 +1090,115 @@ function legacyOutputKeys(g: Genome): string[] {
   return g.parts.slice(1).flatMap(p => OUTPUT_LABELS.slice(0, LEGACY_OUTPUTS_PER_JOINT).map(channel => `joint:${p.id}:${channel}`));
 }
 
-/** Preserve surviving connections by organ/part IDs, never by shifted array positions. */
+/** Stable, unambiguous key for disabling one directed connection. */
+export function brainEdgeKey(kind: 'ih' | 'hh' | 'ho', target: string, source: string): string {
+  return JSON.stringify([kind, target, source]);
+}
+
+function defaultHiddenIds(count: number): string[] {
+  return Array.from({length: count}, (_, i) => `hidden:${i}`);
+}
+
+/** Count enabled directed synapses without allocating their keys. */
+export function enabledBrainEdgeCount(g: Genome): number {
+  const h = g.hiddenIds?.length ?? g.biasesH.length;
+  const inputs = g.inputKeys?.length ?? g.weightsIH[0]?.length ?? 0;
+  const outputs = g.outputKeys?.length ?? g.weightsHO.length;
+  return h * (inputs + h + outputs) - (g.disabledConnections?.length ?? 0);
+}
+
+function checkBrainBudget(g: Genome): void {
+  const count = g.hiddenIds?.length ?? g.biasesH.length;
+  if (!Number.isInteger(count) || count < 1 || count > MAX_HIDDEN
+    || enabledBrainEdgeCount(g) < 0 || enabledBrainEdgeCount(g) > MAX_ENABLED_BRAIN_EDGES) {
+    throw new Error('Invalid hidden neuron or enabled neural edge budget');
+  }
+}
+
+/** Preserve connections and hidden biases by stable identity, not shifting matrix indices. */
 export function remapBrain(g: Genome, previous: Genome = g): void {
   const layout = getBrainLayout(g);
   const oldInputs = previous.inputKeys ?? legacyInputKeys(previous);
   const oldOutputs = previous.outputKeys ?? legacyOutputKeys(previous);
+  const oldHidden = previous.hiddenIds ?? defaultHiddenIds(previous.biasesH.length);
+  const nextHidden = g.hiddenIds ?? oldHidden;
+  if (nextHidden.length < 1 || nextHidden.length > MAX_HIDDEN || new Set(nextHidden).size !== nextHidden.length) {
+    throw new Error('Invalid hidden neuron identities');
+  }
   const inputIndex = new Map(oldInputs.map((key, i) => [key, i]));
   const outputIndex = new Map(oldOutputs.map((key, i) => [key, i]));
-  const ih = previous.weightsIH;
-  const ho = previous.weightsHO;
-  const bias = previous.biasesO;
-  g.weightsIH = Array.from({length: NUM_HIDDEN}, (_, h) => layout.inputs.map(key => {
-    const i = inputIndex.get(key);
-    let weight = i === undefined ? 0 : ih[h]?.[i] ?? 0;
+  const hiddenIndex = new Map(oldHidden.map((key, i) => [key, i]));
+  const ih = previous.weightsIH, hh = previous.weightsHH, ho = previous.weightsHO;
+  const hiddenBias = previous.biasesH, outputBias = previous.biasesO;
+  g.weightsIH = nextHidden.map(id => layout.inputs.map(key => {
+    const h = hiddenIndex.get(id), i = inputIndex.get(key);
+    let weight = h === undefined || i === undefined ? 0 : ih[h]?.[i] ?? 0;
     if (previous.brainVersion === undefined && key.startsWith('joint:') && key.endsWith(':angle')) {
       const part = previous.parts.find(p => key === `joint:${p.id}:angle`);
       weight *= part?.maxAngle ?? 1;
     }
     return weight;
   }));
+  g.weightsHH = nextHidden.map(target => nextHidden.map(source => {
+    const h = hiddenIndex.get(target), rh = hiddenIndex.get(source);
+    return h === undefined || rh === undefined ? 0 : hh[h]?.[rh] ?? 0;
+  }));
+  g.biasesH = nextHidden.map(id => {
+    const i = hiddenIndex.get(id);
+    return i === undefined ? 0 : hiddenBias[i] ?? 0;
+  });
   g.weightsHO = layout.outputs.map(key => {
     const i = outputIndex.get(key);
-    return Array.from({length: NUM_HIDDEN}, (_, h) => i === undefined ? 0 : ho[i]?.[h] ?? 0);
+    return nextHidden.map(id => {
+      const h = hiddenIndex.get(id);
+      return i === undefined || h === undefined ? 0 : ho[i]?.[h] ?? 0;
+    });
   });
   g.biasesO = layout.outputs.map(key => {
     const i = outputIndex.get(key);
-    return i === undefined ? 0 : bias[i] ?? 0;
+    return i === undefined ? 0 : outputBias[i] ?? 0;
   });
+  const inputs = new Set(layout.inputs), outputs = new Set(layout.outputs), hidden = new Set(nextHidden);
+  g.disabledConnections = (g.disabledConnections ?? previous.disabledConnections ?? []).filter(key => {
+    let edge: unknown;
+    try { edge = JSON.parse(key); } catch { return false; }
+    if (!Array.isArray(edge) || edge.length !== 3 || !edge.every(v => typeof v === 'string')) return false;
+    const [kind, target, source] = edge;
+    if (brainEdgeKey(kind as 'ih' | 'hh' | 'ho', target, source) !== key) return false;
+    return kind === 'ih' ? hidden.has(target) && inputs.has(source)
+      : kind === 'hh' ? hidden.has(target) && hidden.has(source)
+      : kind === 'ho' && outputs.has(target) && hidden.has(source);
+  });
+  g.hiddenIds = [...nextHidden];
   g.inputKeys = layout.inputs;
   g.outputKeys = layout.outputs;
-  g.brainVersion = 4;
+  g.brainVersion = 5;
+  checkBrainBudget(g);
 }
 
 export function ensureBrainLayout(g: Genome): void {
-  if (g.brainVersion !== 4 || !g.inputKeys || !g.outputKeys) remapBrain(g);
+  if (g.brainVersion !== 5 || !g.inputKeys || !g.outputKeys || !g.hiddenIds || !g.disabledConnections) remapBrain(g);
+  checkBrainBudget(g);
+}
+
+/** Remap an organism's live sensory, recurrent and motor states by their original IDs. */
+export function remapOrganismBrain(org: Organism, previous: Genome): void {
+  const oldInputs = previous.inputKeys ?? legacyInputKeys(previous);
+  const oldOutputs = previous.outputKeys ?? legacyOutputKeys(previous);
+  const oldHidden = previous.hiddenIds ?? defaultHiddenIds(previous.biasesH.length);
+  const inputs = new Map(oldInputs.map((key, i) => [key, org.neuralInputs[i] ?? 0]));
+  const outputs = new Map(oldOutputs.map((key, i) => [key, org.neuralOutputs[i] ?? 0]));
+  const memory = new Map(oldHidden.map((key, i) => [key, org.neuralHidden[i] ?? 0]));
+  remapBrain(org.genome, previous);
+  org.neuralInputs = org.genome.inputKeys!.map(key => inputs.get(key) ?? 0);
+  org.neuralHidden = org.genome.hiddenIds!.map(key => memory.get(key) ?? 0);
+  org.neuralOutputs = org.genome.outputKeys!.map(key => outputs.get(key) ?? 0);
 }
 
 export function migrateOrganismBrain(org: Organism): void {
   const legacy = org.genome.brainVersion === undefined;
+  const oldHidden = org.genome.hiddenIds ?? defaultHiddenIds(org.genome.biasesH.length);
+  const memory = new Map(oldHidden.map((key, i) => [key, org.neuralHidden[i] ?? 0]));
   const outputValues = new Map((org.genome.outputKeys ?? legacyOutputKeys(org.genome)).map((key, i) => [key, org.neuralOutputs[i] ?? 0]));
   const oldKeys = org.genome.inputKeys ?? legacyInputKeys(org.genome);
   const values = new Map(oldKeys.map((key, i) => [key, org.neuralInputs[i] ?? 0]));
@@ -1135,6 +1211,7 @@ export function migrateOrganismBrain(org: Organism): void {
     }
     return value;
   });
+  org.neuralHidden = org.genome.hiddenIds!.map(key => memory.get(key) ?? 0);
   org.neuralOutputs = org.genome.outputKeys!.map(key => outputValues.get(key) ?? 0);
   org.mouthFeedback ??= {};
   for (const joint of org.joints) { joint.amplitude ??= 1; joint.engagement ??= 1; }
@@ -1885,6 +1962,8 @@ export function mutateGenome(parent: Genome, severity = 0.25, customPrng: Xoshir
     biasesH,
     weightsHO,
     biasesO,
+    hiddenIds: [...parent.hiddenIds!],
+    disabledConnections: [...(parent.disabledConnections ?? [])],
     targetClutchSize: mutatedTargetClutchSize,
     maturityAge: mutatedMaturityAge,
     incubationTime: mutate(parent.incubationTime, 1, 5.0, 20.0),
@@ -1897,7 +1976,7 @@ export function mutateGenome(parent: Genome, severity = 0.25, customPrng: Xoshir
     storageTraitMultiplier,
     maxEnergyCapacity,
   };
-  remapBrain(child, {...parent, weightsIH, weightsHO, biasesO});
+  remapBrain(child, {...parent, weightsIH, weightsHH, biasesH, weightsHO, biasesO});
   return child;
 }
 
@@ -1994,7 +2073,7 @@ export function spawnOrganism(
     distanceTraveled: 0,
     speed: 0,
     neuralInputs: new Array(genome.inputKeys!.length).fill(0),
-    neuralHidden: new Array(NUM_HIDDEN).fill(0),
+    neuralHidden: new Array(genome.hiddenIds!.length).fill(0),
     neuralOutputs: new Array(genome.outputKeys!.length).fill(0),
     rayHits: [],
     glowPulse: 0,
@@ -2824,18 +2903,23 @@ export function stepSimulation(
     org.neuralInputs[rayInputIdx++] = g.mouths.some(m => (org.mouthFeedback?.[m.id]?.intake ?? 0) > 0) ? 1 : 0;
     org.neuralInputs[rayInputIdx++] = clampVal(calculateOrganismCOM(org).y / Math.max(1, worldHeight), 0, 1);
 
-    // B. RECURRENT NEURAL EVALUATION (h_t = tanh(W_in * x_t + W_rec * h_{t-1} + b))
-    for (let h = 0; h < NUM_HIDDEN; h++) {
-      scratchPrevHidden[h] = org.neuralHidden[h] || 0;
-    }
+    // B. RECURRENT NEURAL EVALUATION. The original dense 24-node loop retains its
+    // arithmetic order; explicit disabled keys opt individual edges out.
+    const hiddenCount = g.hiddenIds!.length;
+    const disabled = g.disabledConnections?.length ? new Set(g.disabledConnections) : null;
+    for (let h = 0; h < hiddenCount; h++) scratchPrevHidden[h] = org.neuralHidden[h] || 0;
 
-    for (let h = 0; h < NUM_HIDDEN; h++) {
+    for (let h = 0; h < hiddenCount; h++) {
       let sum = g.biasesH[h] || 0;
       for (let inp = 0; inp < org.neuralInputs.length; inp++) {
-        sum += (org.neuralInputs[inp] || 0) * (g.weightsIH[h]?.[inp] || 0);
+        if (!disabled || !disabled.has(brainEdgeKey('ih', g.hiddenIds![h], g.inputKeys![inp]))) {
+          sum += (org.neuralInputs[inp] || 0) * (g.weightsIH[h]?.[inp] || 0);
+        }
       }
-      for (let rh = 0; rh < NUM_HIDDEN; rh++) {
-        sum += scratchPrevHidden[rh] * (g.weightsHH[h]?.[rh] || 0);
+      for (let rh = 0; rh < hiddenCount; rh++) {
+        if (!disabled || !disabled.has(brainEdgeKey('hh', g.hiddenIds![h], g.hiddenIds![rh]))) {
+          sum += scratchPrevHidden[rh] * (g.weightsHH[h]?.[rh] || 0);
+        }
       }
       org.neuralHidden[h] = isNaN(sum) ? 0 : Math.tanh(sum);
     }
@@ -2843,8 +2927,10 @@ export function stepSimulation(
     const numJoints = org.segments.length - 1;
     for (let o = 0; o < numJoints * OUTPUTS_PER_JOINT; o++) {
       let sum = g.biasesO[o] || 0;
-      for (let h = 0; h < NUM_HIDDEN; h++) {
-        sum += org.neuralHidden[h] * (g.weightsHO[o]?.[h] || 0);
+      for (let h = 0; h < hiddenCount; h++) {
+        if (!disabled || !disabled.has(brainEdgeKey('ho', g.outputKeys![o], g.hiddenIds![h]))) {
+          sum += org.neuralHidden[h] * (g.weightsHO[o]?.[h] || 0);
+        }
       }
       org.neuralOutputs[o] = isNaN(sum) ? 0 : Math.tanh(sum);
     }
@@ -2875,7 +2961,7 @@ export function stepSimulation(
     // Area-Normalized Basal & Sensory Metabolism
     const sizeRatio = calculateTotalBodyArea(g.parts) / BASE_FOUNDER_AREA;
     const basalRate = BASAL_METABOLIC_RATE * sizeRatio * g.metabolicEfficiency;
-    const sensoryRate = SENSORY_NEURAL_METABOLIC_RATE * (g.eyes.length * 5 + NUM_HIDDEN + g.mouths.length * 2);
+    const sensoryRate = SENSORY_NEURAL_METABOLIC_RATE * (g.eyes.length * 5 + g.hiddenIds!.length + g.mouths.length * 2);
     const motorRate = frameMechanicalWork / dt;
 
     const basalMetabolism = basalRate * dt;

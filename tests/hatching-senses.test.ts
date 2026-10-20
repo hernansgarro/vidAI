@@ -90,7 +90,7 @@ test('v7 migration preserves old pathways, activations and PRNG; new channels st
   downgrade(old.state.organisms[0].genome); old.state.organisms[0].neuralInputs = old.state.organisms[0].neuralInputs.slice(0, -2);
   for (const [, rec] of old.state.lineage) downgrade(rec.genome);
   const before = structuredClone(old.state.organisms[0]), restored = restoreSnapshot(old), current = restored.state.organisms[0];
-  assert.equal(current.genome.brainVersion, 4); assert.deepEqual(current.neuralHidden, before.neuralHidden);
+  assert.equal(current.genome.brainVersion, 5); assert.deepEqual(current.neuralHidden, before.neuralHidden);
   current.genome.weightsIH.forEach((row, h) => {assert.deepEqual(row.slice(0, -2), before.genome.weightsIH[h]); assert.deepEqual(row.slice(-2), [0, 0]);});
   assert.deepEqual(current.neuralInputs.slice(0, -2), before.neuralInputs); assert.deepEqual(current.neuralOutputs, before.neuralOutputs);
   assert.deepEqual(restored.state.prng.getState(), old.state.prngState);

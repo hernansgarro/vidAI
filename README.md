@@ -65,8 +65,10 @@ Find and spawn them through the Bank's family filter. Its quiet initial neural m
 weights are evolvable; both founder modes still use the same recurrent architecture.
 The retinal strip scrolls horizontally for creatures with many eyes.
 
-New saves use schema v8, with stable organ slots, feeding/depth senses and current
-neural buffers. Versions v3–v7 remain importable. Imported legacy organ positions and live geometry are
+New saves use schema v9, with identity-stable variable hidden neurons and explicit
+disabled neural connections. Existing 24-neuron founders and their mutable
+sensory/motor pathways retain their weights and memory. Versions v3–v8 remain
+importable; structural brain mutations and lifetime learning are not yet enabled. Imported legacy organ positions and live geometry are
 retained; offspring undergoing mutation acquire valid slots. Old fin presets are
 repaired for new organisms and mutated descendants, without moving their saved parents.
 Zero-mutation legacy clones retain the original anatomy. New imports are checked
@@ -97,7 +99,8 @@ mutate. This is genetic inheritance, not brain-controlled color changing.
 
 Balanced founders have a weak heritable retinal steering prior. Unbiased founders
 have random controllers and seeded swimming oscillators. Neither mode is trained,
-and neither uses hidden target positions. Both keep 24 recurrent hidden neurons.
+and neither uses hidden target positions. Both start with 24 recurrent hidden neurons, while the runtime supports 1–96
+with an enabled-edge budget of 65,536. Neuron count does not yet mutate at reproduction.
 Every eye supplies five RGB/distance rays; every joint supplies angle and velocity.
 Each mouth reports edible contact and normalized absorbed intake from the previous
 completed tick. Each joint has six neural outputs: angle, frequency, torque,
