@@ -97,7 +97,9 @@ test('calibrated founder movement is measured against actual eye/mouth orientati
 test('phase-corrected head-first swimming is evaluated against physically reachable food', () => {
   const results = [];
   for (const mode of ['legacy-backward', 'head-first', 'head-first-blind'] as const) {
-    const g = createFounderGenome('FND-001');
+    // Isolate the physics-only head-first gait experiment from later
+    // founder-specific balanced retinal-weight calibration.
+    const g = createFounderGenome('FND-001', 'unbiased');
     if (mode === 'legacy-backward') for (const p of g.parts.slice(1)) p.cpgPhaseOffset *= -1;
     if (mode === 'head-first-blind') removeVisualWeights(g);
     const s = createInitialWorld(settings, 210, 'balanced', 'standard', 0);
