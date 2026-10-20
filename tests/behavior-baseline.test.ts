@@ -91,3 +91,31 @@ test('calibrated founder movement is measured against actual eye/mouth orientati
   }
   console.log('VIDA_PHASE5_LOCOMOTION '+JSON.stringify(results));
 });
+
+test('diagnose phase wave direction without applying artificial thrust or changing production founders', () => {
+  const results = [];
+  for (const id of ['FND-001', 'FND-031', 'FND-051']) {
+    for (const variant of ['original', 'negate-phase', 'tail-shift-pi', 'reverse-phase-speed', 'invert-stroke', 'reverse-phase-order']) {
+      const g = createFounderGenome(id);
+      if (variant === 'negate-phase') for (const p of g.parts.slice(1)) p.cpgPhaseOffset *= -1;
+      if (variant === 'tail-shift-pi') for (let i = 2; i < g.parts.length; i++) g.parts[i].cpgPhaseOffset += Math.PI;
+      if (variant === 'reverse-phase-speed') for (const p of g.parts.slice(1)) p.cpgFreqMult *= -1;
+      if (variant === 'invert-stroke') for (const p of g.parts.slice(1)) p.cpgAmp *= -1;
+      if (variant === 'reverse-phase-order') {
+        const phases = g.parts.slice(1).map(p => p.cpgPhaseOffset).reverse();
+        for (let i = 1; i < g.parts.length; i++) g.parts[i].cpgPhaseOffset = phases[i - 1];
+      }
+      const s = createInitialWorld(settings, 210, 'balanced', 'standard', 0);
+      const org = addExternalOrganism(s, g, settings, ox, oy, 0)!;
+      org.genome.maturityAge = 1000;
+      const before = sim.calculateOrganismCOM(org), energy = totalAccountedEnergy(s);
+      for (let i = 0; i < seconds * 60; i++) sim.stepSimulation(s, settings, dt);
+      const after = sim.calculateOrganismCOM(org);
+      assert.ok(Math.abs(totalAccountedEnergy(s) - energy) < 1e-5);
+      results.push({id, variant, dx: Number((after.x - before.x).toFixed(2)),
+        dy: Number((after.y - before.y).toFixed(2)),
+        heading: Number(org.segments[0].angle.toFixed(2)), alive: !org.dissolving});
+    }
+  }
+  console.log('VIDA_PHASE5_WAVE_SWEEP '+JSON.stringify(results));
+});
