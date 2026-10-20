@@ -1,5 +1,18 @@
 # Project status — 2026-10-20
 
+## Alternate music — version 0.6.2
+
+- Added a compact Track 1 / Track 2 selector to the shared start/pause menu
+  audio controls. Track 1 remains the default; the choice persists locally.
+- Track 2 is Coral Depths, the default music referenced by vidAI3D
+  (`dca99b924ccd2204d7fda136fd91568c2c42cb30`, `constants.ts`). Bundled a local
+  copy from https://storage.googleapis.com/assets-gen-playground/musiclibrary/coral_depths.mp3
+  so playback does not depend on that external host. Both tracks use the same
+  volume/mute controls. Switching stops and cleans up the previous player.
+- Validation: **72 fast tests passed**, TypeScript/production build passed and
+  emitted both local MP3 assets. Confirmed both MP3s decode and contain different
+  audio. No browser checks or extended simulation runs.
+
 ## Independent audio volumes — version 0.6.1
 
 - Start and pause menus share separate SFX/Music sliders (0–100%), percentage
