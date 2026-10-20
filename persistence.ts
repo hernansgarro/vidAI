@@ -4,7 +4,7 @@ import {
   getBrainLayout, getDietClassification, brainEdgeKey, CARRION_DECAY_SECONDS, MAX_OUTPUTS, MAX_SURFACE_ORGANS, MAX_NEURAL_INPUTS, MAX_HIDDEN, MAX_ENABLED_BRAIN_EDGES, MAX_BRAIN_MEMORY_SECONDS, surfacePlacementProblems, morphologyProblems, type Genome, type SimulationSettings, type SimulationState, type Organism,
 } from './simulation';
 
-export const BUILD_VERSION = '0.17.0';
+export const BUILD_VERSION = '0.18.0';
 export const DEFAULT_SETTINGS: SimulationSettings = {
   worldWidth: 2400, worldHeight: 1500, waterViscosity: .18,
   targetNutrients: 400, inflowRate: 15, kinshipProtection: true,
@@ -107,6 +107,10 @@ export function validateGenome(raw: unknown): Genome {
     assert(surfacePlacementProblems(g).length === 0, 'exclusive face occupancy');
   }
   assert(g.eyes.every(e => e.fov > 0 && e.fov <= Math.PI * 2 && e.range > 0 && e.range <= 5000), 'eye parameters');
+  assert(g.eyes.every(e => e.spectralSensitivity === undefined
+    || (Array.isArray(e.spectralSensitivity) && e.spectralSensitivity.length === 3
+      && e.spectralSensitivity.every((v: unknown) => typeof v === 'number'
+        && Number.isFinite(v) && v >= 0 && v <= 1))), 'eye spectral sensitivity');
   assert(g.mouths.every(m => ['herbivore', 'omnivore', 'carnivore'].includes(m.mouthType) && m.intakeWidth > 0), 'mouth parameters');
   for (const matrix of [g.weightsIH, g.weightsHH, g.weightsHO]) {
     assert(Array.isArray(matrix) && matrix.length <= MAX_HIDDEN && matrix.every(row =>
