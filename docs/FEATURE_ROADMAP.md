@@ -1,4 +1,4 @@
-# VIDA: remaining features — 2026-10-20 / v0.12.0
+# VIDA: remaining features — 2026-10-20 / v0.13.0
 
 This is a focused review of the current 2D source, not an implementation promise.
 Small changes fit the existing systems. Big changes affect simulation architecture,
@@ -28,11 +28,22 @@ distinguished below from gaps in existing systems.
 
 ## Recommended order
 
-Phase 1–3 foundational brain, reproduction and inspector work is complete.
-Next: controlled foraging/escape research, meaningful remaining life-history
-trade-offs, and carefully isolated lifetime plasticity research. Sleep/rest
-or offline replay should follow only if needed by demonstrable learning
-mechanisms, not as a replacement for basic sensory behavior. Monitor performance only if measured bottlenecks arise.
+- **Phase 5B: Evolvable locomotion — implemented.** Inherited oscillator
+  mixing (including no wave), independently controlled direct joint-angle
+  commands, smooth inherited waveform harmonics, maintained torque/drag
+  physics and backward-compatible sine-only founders. Coordinate evolving
+  motor strategies with measurable foraging rather than scripted thrust.
+- **Phase 5C: Sensory-driven foraging/avoidance — next.** Improve retinal
+  neural-to-motor response and evaluate whether a brain actually pursues
+  real food or avoids threats, using paired trials and measured contact.
+- **Phase 5D: Ecological validation — subsequently.** Assess actual nutrient
+  income, survival and reproduction across multiple fixed seeds, without
+  fabricating ecological fitness or inserting survival subsidies.
+- Research optional lifetime neural plasticity/rest separately once basic
+  motor and sensory behavior is demonstrably effective.
+
+
+Monitor performance only if measured bottlenecks arise.
 
 ## Limits that remain corrections rather than new features
 

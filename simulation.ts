@@ -178,6 +178,8 @@ export interface PartDef {
   cpgPhaseOffset: number;
   cpgAmp: number;
   cpgFreqMult: number;
+  oscillatorMix?: number; // Heritable rhythmic contribution 0..1; absent = exact legacy sine controller.
+  waveHarmonics?: number[]; // Up to four bounded sine harmonics (2nd..5th); absent = exact sine.
 }
 
 export type ArchetypeId = 'eel' | 'flapper' | 'tadpole' | 'glider' | 'predator' | 'nematode' | 'random';
@@ -2192,6 +2194,22 @@ export function mutateGenome(parent: Genome, severity = 0.25, customPrng: Xoshir
       0, MAX_BRAIN_MEMORY_SECONDS,
     );
   }
+  // Independent heritable motor-policy changes. New alleles affect only
+  // offspring; historical founders and imported genomes use exact old math.
+  // Each physical joint can explore a freely blended rhythmic/direct regime
+  // or evolve a smooth waveform by modifying one Fourier coefficient.
+  for (const part of child.parts.slice(1)) {
+    if (customPrng.nextFloat() < mutChance * 0.32) {
+      const oldMix = part.oscillatorMix ?? 1;
+      part.oscillatorMix = clampVal(oldMix + customPrng.range(-0.70, 0.35) * mutScale, 0, 1);
+    }
+    if (customPrng.nextFloat() < mutChance * 0.24) {
+      const harmonics = [...(part.waveHarmonics ?? [0, 0, 0, 0])];
+      const index = customPrng.rangeInt(0, 3);
+      harmonics[index] = clampVal(harmonics[index] + customPrng.range(-0.6, 0.6) * mutScale, -1, 1);
+      part.waveHarmonics = harmonics;
+    }
+  }
   return child;
 }
 
@@ -2458,6 +2476,39 @@ function projectBodyJoints(org: Organism, iterations: number): void {
   }
 }
 
+/** Smooth, bounded genetic waveform. A sine is the neutral allele. Adding
+ * harmonics gives continuous non-sinusoidal strokes without discontinuous
+ * sawtooth impulses. Coefficients are bounded genetically and on import.
+ */
+export function evaluateMotorWave(phase: number, harmonics?: readonly number[]): number {
+  if (!harmonics || harmonics.every(c => c === 0)) return Math.sin(phase);
+  let value = Math.sin(phase), bound = 1;
+  for (let i = 0; i < harmonics.length; i++) {
+    value += harmonics[i] * Math.sin((i + 2) * phase);
+    bound += Math.abs(harmonics[i]);
+  }
+  return value / bound;
+}
+
+/** The neural Angle channel drives deliberate posture, even when a genome
+ * disables its oscillator entirely. Amp and Drive remain independently
+ * controlled by each joint's brain. Absent new alleles runs the precise
+ * historical six-channel motor formula for all old worlds and founders.
+ */
+export function calculateJointMotorTarget(def: PartDef, phase: number, amplitude: number, angleCommand: number): number {
+  if (def.oscillatorMix === undefined && def.waveHarmonics === undefined) {
+    const wave = Math.sin(phase) * def.cpgAmp * amplitude;
+    return clampVal((wave + angleCommand * 0.45) * def.maxAngle, -def.maxAngle, def.maxAngle);
+  }
+  const mix = def.oscillatorMix ?? 1;
+  const oscillation = evaluateMotorWave(phase, def.waveHarmonics) * def.cpgAmp * amplitude * mix;
+  // As the brain turns down Amp, its direct Angle command obtains full joint
+  // travel instead of merely offsetting a mandatory oscillation.
+  const activeRhythm = mix * clampVal(amplitude, 0, 1);
+  const directRange = 0.45 + 0.55 * (1 - activeRhythm);
+  return clampVal((oscillation + angleCommand * directRange) * def.maxAngle, -def.maxAngle, def.maxAngle);
+}
+
 function advanceOrganismPhysics(org: Organism, settings: SimulationSettings, dt_sub: number): number {
   const g = org.genome, numJoints = org.joints.length;
   const mu = settings.waterViscosity ?? .22, gravity = settings.gravity ?? 0;
@@ -2489,7 +2540,7 @@ function advanceOrganismPhysics(org: Organism, settings: SimulationSettings, dt_
     const childPhys = org.segments[childIdx];
 
     const outBase = j * OUTPUTS_PER_JOINT;
-    const targetAngleOffset = (org.neuralOutputs[outBase] || 0) * 0.45;
+    const angleCommand = org.neuralOutputs[outBase] || 0;
     const motorFreqDrive = 1.0 + (org.neuralOutputs[outBase + 1] || 0) * 0.35;
     const peakTorqueMod = clampVal(1.0 + (org.neuralOutputs[outBase + 2] || 0) * 0.4, 0.5, 1.6);
     const stiffnessDampingMod = clampVal(1.0 + (org.neuralOutputs[outBase + 3] || 0) * 0.4, 0.4, 1.8);
@@ -2507,8 +2558,7 @@ function advanceOrganismPhysics(org: Organism, settings: SimulationSettings, dt_
     const jointFreq = g.motorFrequency * childDef.cpgFreqMult * motorFreqDrive;
     joint.phase = (joint.phase + 2 * Math.PI * jointFreq * dt_sub) % (2 * Math.PI);
 
-    const wave = Math.sin(joint.phase) * childDef.cpgAmp * joint.amplitude;
-    const targetAngle = clampVal((wave + targetAngleOffset) * childDef.maxAngle, -childDef.maxAngle, childDef.maxAngle);
+    const targetAngle = calculateJointMotorTarget(childDef, joint.phase, joint.amplitude, angleCommand);
     joint.targetAngle = targetAngle;
 
     let currentRelAngle = childPhys.angle - parentPhys.angle - (childDef.baseAngleOffset || 0);

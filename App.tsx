@@ -2222,6 +2222,17 @@ export default function App() {
                       J{i + 1}: stroke {Math.round((j.amplitude ?? 1) * 100)}% · engaged {Math.round((j.engagement ?? 1) * 100)}%
                     </span>)}
                   </div>
+                  <div className="w-full max-h-24 overflow-y-auto px-2 pb-2 text-[10px] text-slate-400" data-testid="joint-motor-genetics">
+                    {selectedSpecimen.genome.parts.slice(1).map((part, i) => (
+                      <div key={part.id} title="Inherited oscillator contribution (0% = pure brain-controlled posture). Harmonics alter the wave smoothly, without adding thrust.">
+                        J{i + 1} · rhythm {Math.round((part.oscillatorMix ?? 1) * 100)}%
+                        {' · '}{part.waveHarmonics?.some(c => c !== 0)
+                          ? `harmonics [${part.waveHarmonics.map(c => c.toFixed(2)).join(', ')}]`
+                          : 'sine'}
+                        {part.oscillatorMix === undefined && part.waveHarmonics === undefined ? ' (classic controller)' : ''}
+                      </div>
+                    ))}
+                  </div>
                   <BrainGraph organism={selectedSpecimen} threshold={synapsePruningThreshold} />
                 </div>
               </div>
