@@ -59,7 +59,7 @@ function run(seed: number, side: -1 | 1, coupled = true, preyMoving = true, step
   } else {
     preyG.motorForce = 0;
   }
-  const x = 1100 + 105 * Math.cos(.5), y = 730 + side * 105 * Math.sin(.5);
+  const x = 1100 + 135 * Math.cos(.5), y = 730 + side * 135 * Math.sin(.5);
   const prey = addExternalOrganism(state, preyG, settings, x, y, side * .15)!;
   const startH = sim.calculateOrganismCOM(hunter), startP = sim.calculateOrganismCOM(prey);
   const startGap = Math.hypot(startH.x - startP.x, startH.y - startP.y);
