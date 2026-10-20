@@ -97,12 +97,12 @@ export const MOTOR_RESPONSE_SECONDS = 0.12;
 
 export const MATURITY_AGE = 20.0; // 20.0s until sexual maturity
 export const MIN_PARENT_SURVIVAL_RESERVE_BASE = 2000.0; // 2,000 J minimum survival reserve floor
-export const MIN_PARENT_SURVIVAL_FRACTION = 0.20; // 20% of max capacity
+export const MIN_PARENT_SURVIVAL_FRACTION = 0.12; // 12% of capacity; protected when laying.
 export const BASE_FOUNDER_AREA = 36.0; // Baseline body grid area (e.g. 3 segments of 12 units)
 export const FOUNDER_DEFAULT_RESERVE = 10000.0; // 10,000 J starting usable reserve
 export const FOUNDER_DEFAULT_CAPACITY = 100000.0; // 100,000 J max capacity
 
-export const CONTINUOUS_EAT_RATE = 2400.0; // J/s max transfer (scaled for 100k J economy)
+export const CONTINUOUS_EAT_RATE = 3600.0; // Gross J/s per specialist; actual intake remains contact-/storage-limited.
 export const OMNIVORE_EAT_RATE = CONTINUOUS_EAT_RATE * 0.5; // 50% rate
 export const MOUTH_ASSIMILATION = 0.8; // All mouths dissipate 20% of removed chemical energy.
 export const NUTRIENT_ENERGY_VALUE = 3000.0; // 3,000 J per nutrient
@@ -475,6 +475,12 @@ export function getLifeStage(org: Organism): LifeStage {
   return 'Adult';
 }
 
+/** Inherited egg allocation: 20–55% of the former 10 kJ founder reserve.
+ * Better-funded hatchlings cost more to produce. No energy is created. */
+export function getEggReserveFunding(g: Pick<Genome, 'eggReserveFraction'>): number {
+  return FOUNDER_DEFAULT_RESERVE * clampVal(g.eggReserveFraction ?? .35, .2, .55);
+}
+
 export function evaluateReproductionAffordability(
   org: Organism,
   simTime: number,
@@ -500,7 +506,7 @@ export function evaluateReproductionAffordability(
   const maturityAge = g.maturityAge || MATURITY_AGE;
   const desiredCount = g.targetClutchSize || 2;
   const parentReserve = Math.max(MIN_PARENT_SURVIVAL_RESERVE_BASE, g.maxEnergyCapacity * MIN_PARENT_SURVIVAL_FRACTION);
-  const eggCost = g.bodyCost + FOUNDER_DEFAULT_RESERVE;
+  const eggCost = g.bodyCost + getEggReserveFunding(g);
   const availableForReproduction = org.energy - parentReserve;
   const requiredForOneEgg = eggCost + parentReserve;
   const requiredBudget = eggCost * desiredCount + parentReserve;
@@ -3278,7 +3284,7 @@ export function stepSimulation(
     const maturityAge = g.maturityAge || MATURITY_AGE;
     const cooldown = g.reproductionCooldown || 18.0;
     const parentSurvivalReserve = Math.max(MIN_PARENT_SURVIVAL_RESERVE_BASE, g.maxEnergyCapacity * MIN_PARENT_SURVIVAL_FRACTION);
-    const eggCost = g.bodyCost + FOUNDER_DEFAULT_RESERVE;
+    const eggCost = g.bodyCost + getEggReserveFunding(g);
     const availableBudget = org.energy - parentSurvivalReserve;
     const isOffCooldown = state.simTime >= (org.lastReproductionTime || 0) + cooldown;
     const isMature = org.age >= maturityAge;
@@ -3305,7 +3311,7 @@ export function stepSimulation(
           const babyGenome = mutateGenome(g, mutationSeverity, prng);
           babyGenome.parentIds = [org.id];
           const offspringBodyCost = babyGenome.bodyCost;
-          const allocatedReserve = FOUNDER_DEFAULT_RESERVE;
+          const allocatedReserve = getEggReserveFunding(g);
           const totalEggEnergy = offspringBodyCost + allocatedReserve;
 
           if (org.energy >= totalEggEnergy + parentSurvivalReserve) {
