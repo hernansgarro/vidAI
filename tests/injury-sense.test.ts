@@ -136,3 +136,48 @@ test('current snapshots reject malformed injury values or brain version before r
   g.weightsIH.forEach(row => row.pop());
   assert.throws(() => validateGenome(g), /Invalid snapshot/);
 });
+
+test('experienced predation can drive inherited joint commands through true physical muscles', () => {
+  const make = (injuryCoupled: boolean) => {
+    const s = createInitialWorld(settings, 311, 'unbiased', 'standard', 0);
+    const g = sim.createReferenceNematodeGenome(new sim.XoshiroPRNG(5));
+    g.motorFrequency = 0;
+    g.motorForce = 2.8;
+    for (const p of g.parts.slice(1)) p.cpgAmp = 0;
+    sim.ensureBrainLayout(g);
+    g.weightsIH.forEach(row => row.fill(0));
+    g.weightsHH.forEach(row => row.fill(0));
+    g.weightsHO.forEach(row => row.fill(0));
+    g.biasesH.fill(0); g.biasesO.fill(0);
+    const injuryIndex = g.inputKeys!.indexOf('body:injury');
+    const angleIndex = g.outputKeys!.findIndex(k => k.endsWith(':Angle'));
+    if (injuryCoupled) {
+      g.weightsIH[0][injuryIndex] = 2;
+      g.weightsHO[angleIndex][0] = 2;
+    }
+    const prey = addExternalOrganism(s, g, settings, 1200, 750, 0)!;
+    const hunterGenome = body('carnivore');
+    hunterGenome.mouths[0].direction = 'WEST';
+    const predator = addExternalOrganism(s, hunterGenome, settings,
+      1200 + (g.parts[0].width + hunterGenome.parts[0].width) / 2, 750, 0)!;
+    predator.genome.motorForce = 0;
+    return {s, prey, predator, injuryIndex, angleIndex};
+  };
+  const active = make(true), neutral = make(false);
+  const beforeA = totalAccountedEnergy(active.s), beforeB = totalAccountedEnergy(neutral.s);
+  sim.stepSimulation(active.s, settings, dt);
+  sim.stepSimulation(neutral.s, settings, dt);
+  assert.ok(active.prey.biteFeedbackJ! > 0 && neutral.prey.biteFeedbackJ! > 0,
+    'real jaws must bite in both counterfactuals');
+  assert.equal(active.prey.neuralOutputs[active.angleIndex], 0);
+  sim.stepSimulation(active.s, settings, dt);
+  sim.stepSimulation(neutral.s, settings, dt);
+  assert.ok(active.prey.neuralInputs[active.injuryIndex] > 0);
+  assert.ok(active.prey.neuralOutputs[active.angleIndex] > .5,
+    'genetic synapses convert actual injury into the existing angle motor command');
+  assert.equal(neutral.prey.neuralOutputs[neutral.angleIndex], 0);
+  assert.ok(active.prey.joints[0].targetAngle > neutral.prey.joints[0].targetAngle + .1,
+    'command reaches articulated physical hinge, not a scripted world velocity');
+  assert.ok(Math.abs(totalAccountedEnergy(active.s) - beforeA) < 1e-5);
+  assert.ok(Math.abs(totalAccountedEnergy(neutral.s) - beforeB) < 1e-5);
+});
