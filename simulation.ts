@@ -3592,7 +3592,10 @@ export function stepSimulation(
     }
     if ((g.sensoryPlasticityRate ?? 0) > 0) {
       const sensoryCost = applySensoryAssociations(org, dt, ledger) / dt;
-      org.plasticityEnergyRate = (org.plasticityEnergyRate ?? 0) + sensoryCost;
+      // The displayed rate is THIS tick's debit, not a running sum when
+      // sensory learning evolves without the older motor-learning allele.
+      org.plasticityEnergyRate = ((g.plasticityRate ?? 0) > 0
+        ? (org.plasticityEnergyRate ?? 0) : 0) + sensoryCost;
     }
 
   }
