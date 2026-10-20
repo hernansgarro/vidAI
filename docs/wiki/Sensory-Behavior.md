@@ -82,11 +82,12 @@ were unchanged. The correct response therefore depends on
 morphology and movement context; no universal panic/flight behavior
 has been added.
 
-**Limitation:** Mobile hunters in these tests swim forward on their
-existing genetically determined gaits; they do not dynamically
-turn toward or track fleeing prey. These experiments establish
-*possible damage reduction*, **not reliable escape from a pursuing
-predator**, learned recognition or long-term ecological fitness.
+**Limitation:** The original mobile-hunter injury comparisons use
+straight-swimming hunters, not tracking hunters. A separate inherited
+retinal-steering mutation can now change hunter heading and cause real
+bites on independently swimming prey (described below). Neither set of
+tests proves **reliable prey pursuit**, successful prey classification,
+learned recognition or long-term ecological fitness.
 
 ## Observing injury in the Brain inspector
 
@@ -113,6 +114,43 @@ Each eye still casts five physically grounded rays. After attenuation through wa
 For a precise green-only organism surface, an eye with **[1, 0, 1]** gets no RGB or distance cue. Actual plant nutrients are *green-dominant, not green-only*: they also reflect red and blue, so suppressing green does **not** completely hide them from the same eye. Likewise, pigmentation is not a guaranteed camouflage mechanism: multiple rays, shape, other pigments and physical contact remain relevant.
 
 There is an energetic trade-off. Each eye's sensory upkeep contribution is **5 × (0.25 + 0.75 × mean(R,G,B))** sensing units, multiplied by the existing sensory energy rate. Lower sensitivity saves some metabolic energy, but also discards optical information; even a fully blind eye retains one-quarter of the original eye cost, and its underlying physical structure and neural network remain. No calories or free motion are created.
+
+## Inherited visual-turn circuit in moving hunters
+
+The **`wire-retinal-turn`** genetic topology operation can occur as a
+rare ordinary offspring mutation. It adds one isolated hidden neuron, receives
+left-versus-right contrast from the five real rays of **one inherited eye**
+at a randomly chosen red, green or blue wavelength, and connects to the
+organism's existing **Angle** motor outputs. The sign, input gain and
+motor gain are stochastic, so some offspring turn usefully and others
+turn the wrong way. Empty black water leaves the new neuron silent.
+The circuit's weights, disabled connection keys and neuron are heritable
+and mutable; enabled edges and physical muscles pay normal energy costs.
+
+```mermaid
+flowchart LR
+  P[Moving prey reflects light] --> E[Physical RGB eye rays]
+  E --> F[Inherited lateral spectral weights]
+  F --> H[Isolated hidden neuron]
+  H --> M[Existing joint Angle outputs]
+  M --> T[Torque-limited hinged swimming]
+  T --> C[Possible moving-prey contact and finite bite]
+```
+
+**Short controlled evidence:** In 24 paired five-second scenarios across
+twelve fixed genetic circuit draws and prey positions on either side,
+both predator and prey moved through their *own articulated swimming*.
+Four sighted variants bit prey **after it had already travelled about
+30–90 pixels**; their otherwise identical retinal-disconnected
+counterfactuals made **no bites**. All 24 pairs conserved energy.
+No retina/object-type oracle, target coordinates, free thrust or scripted
+prey-chasing velocities were provided. Critically, **none** of the 24
+sighted variants improved the tested closest *center-of-mass distance*
+relative to its disconnected control: mouth/tail geometry can produce
+real physical contact without general pursuit convergence. Many mutants
+were ineffective; this is a demonstrated **possible inherited
+sensory-driven attack**, not reliable tracking, generalizable hunting
+or a food-web viability claim.
 
 ## Current inherited visual behavior
 
@@ -146,7 +184,8 @@ These results establish **short-range, visually influenced nutrient approach for
 - `tests/visual-steering-survey.test.ts`: paired visible/legacy/blind physical food approach, conserved energy, old-save behavior and sensory limitations
 - `tests/injury-sense.test.ts`: real-bite-only injury cue, conservation, migration, invalid saves
 - `tests/bite-escape-survey.test.ts`: real transferred bite joules, beneficial/harmful inherited actuation, randomly generated isolated injury-motor circuits, and exact-save continuation
-- `tests/moving-hunter.test.ts`: paired self-propelled hunters, real bite gates, physical displacement, and five prey morphologies
+- `tests/moving-hunter.test.ts`: paired self-propelled straight-swimming hunters, real bite gates, physical displacement, and five prey morphologies
+- `tests/moving-visual-hunter.test.ts`: ordinary offspring innovation, receptor-to-joint circuit, blinded matched controls, moving-prey displacement *before* first bite, genuine mouth transfers, conservation and exact save continuation
 - `tests/senses-contact.test.ts`: light, geometry and feeding invariants
 - `tests/spectral-vision.test.ts`: inherited gains, green-only creature and real greenish food contrast, distance gating, sensory upkeep, reversible mutation, validation and exact current-save continuation
 - `tests/behavior-baseline.test.ts`: locomotion and baseline steering comparisons

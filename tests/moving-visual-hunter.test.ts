@@ -141,5 +141,42 @@ test('controlled moving prey produces physical pursuit observations against a di
       biteJ:sighted.biteJ, blindBiteJ:disconnected.biteJ,
       firstBiteTick:sighted.firstBiteTick, preyMovedAtBite:sighted.preyMovedAtBite});
   }
-  console.log('VIDA_BC_MOVING_VISUAL_HUNTER ' + JSON.stringify(results));
+  const postMotionBites = results.filter(r => r.biteJ > 0 && r.blindBiteJ === 0
+    && r.firstBiteTick >= 120 && r.preyMovedAtBite > 20);
+  assert.ok(postMotionBites.length >= 4,
+    'at least four inherited retinal genotypes must bite genuinely moving prey after meaningful travel; controls never bite');
+  assert.equal(results.filter(r => r.blindBiteJ > 0).length, 0);
+  assert.ok(results.some(r => r.trackedClosest > r.blindClosest + 10),
+    'many retinal mutants are maladaptive: do not infer reliable center-of-mass pursuit');
+  console.log('VIDA_BC_MOVING_VISUAL_HUNTER ' + JSON.stringify({
+    pairs: results.length, postMotionBites: postMotionBites.map(r => ({
+      seed: r.seed, side: r.side, biteJ: r.biteJ,
+      firstBiteTick: r.firstBiteTick, preyMovedAtBite: r.preyMovedAtBite
+    })), centerApproachWins: results.filter(r => r.trackedClosest + 2 < r.blindClosest).length
+  }));
+});
+
+test('ordinary offspring mutation can grow the new retinal-turn circuit without manually choosing an operation', () => {
+  const parent = createFounderGenome('FND-001', 'unbiased');
+  let found = false;
+  for (let seed = 1; seed <= 300; seed++) {
+    const child = sim.mutateGenome(parent, 1, new sim.XoshiroPRNG(seed));
+    for (const [h, id] of child.hiddenIds!.entries()) {
+      if (parent.hiddenIds!.includes(id)) continue;
+      const activeInputs = child.inputKeys!.filter((k, i) =>
+        k.startsWith('eye:') && child.weightsIH[h][i] !== 0
+        && !child.disabledConnections!.includes(sim.brainEdgeKey('ih', id, k)));
+      const activeTurns = child.outputKeys!.filter((k, i) =>
+        k.endsWith(':Angle') && child.weightsHO[i][h] !== 0
+        && !child.disabledConnections!.includes(sim.brainEdgeKey('ho', k, id)));
+      if (activeInputs.length === 4 && activeTurns.length === child.parts.length - 1) {
+        assert.deepEqual(validateGenome(child), child);
+        assert.deepEqual(createFounderGenome('FND-001', 'unbiased'), parent);
+        found = true;
+        break;
+      }
+    }
+    if (found) break;
+  }
+  assert.ok(found, 'sexual/asexual offspring mutation must genuinely reach the new inherited pathway');
 });

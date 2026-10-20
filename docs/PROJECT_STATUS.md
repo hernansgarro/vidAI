@@ -1,5 +1,45 @@
 # Project status — 2026-10-20
 
+## B-C: inherited lateral retinal turning toward moving prey — v0.19.0
+
+- Added a rare `wire-retinal-turn` **offspring topology mutation**.
+  It starts an isolated inherited hidden neuron, wires a stochastic
+  wavelength and left-right ray contrast from one physical eye to
+  the organism's existing joint Angle motors, and uses ordinary
+  recurrent evaluation, torque-limited hinges and hydrodynamic drag.
+  Both sensory and motor sign/gain may help or harm. Empty black water
+  produces no activation. No target coordinates, prey identity labels,
+  forced heading, new locomotor forces, or dynamic speed bonuses exist.
+- A five-second **24-pair** deterministic test used twelve inherited
+  circuit draws times two off-axis placements, with two self-propelled
+  articulated organisms in each run. Spectral input-connected and
+  identically constructed retinal-disconnected hunters were paired.
+  **Four** sighted configurations physically bit moving prey after its
+  COM had already travelled approximately **29.6, 38.6, 77.7 or 90.4 px**
+  from encounter start. Corresponding controls never bit. Actual bite
+  transfers were 180, 960, 360 and 420 J. Energy conservation was
+  checked in all comparisons. Another 20 pairs did not establish
+  successful hunting.
+- Importantly, **zero** of these 24 sighted trials improved closest
+  hunter/prey COM separation relative to the disconnected control,
+  despite four demonstrated post-motion bites. Physical mouth/tail
+  contact does **not** imply broadly better pursuit or steering.
+  This result establishes a possible heritable visual attack on moving
+  prey, **not reliable chases**, predator recognition, general
+  fitness or lifetime learning.
+- Tests also exercise exact current-save continuation, stable brain IDs,
+  independent positive and negative mutations, reversible ordinary
+  offspring access to the new topology, and previously shipped founder
+  baselines. Genome save schema stays v11 / brain v7. The 55 founders,
+  prior saves and the actual mechanical physics are unchanged.
+- B-C has a **bounded evolutionary implementation milestone** now,
+  with pursuit reliability explicitly unresolved. Next: compact B-D
+  ecological metrics of feeding, survival, deaths and funded eggs,
+  *not* several more Darter/brain-tuning releases. Original Phase 5
+  waking learning and Phase 6 optional sleep/replay remain separate
+  pending work.
+
+
 ## Inherited spectral sensitivity — v0.18.0
 
 - Per-eye optional red/green/blue receptor gains, each 0–1, now multiply

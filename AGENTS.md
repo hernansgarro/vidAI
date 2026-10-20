@@ -68,6 +68,19 @@
   not active visual pursuit. The Brain inspector shows the real injury
   neural signal, next-tick queued bite energy, and enabled inherited
   input synapses without introducing a new simulation cue.
+- B-C heritable lateral retinal steering: `wire-retinal-turn` adds an
+  isolated hidden neuron receiving signed left/right ray contrast in one
+  inherited color channel, projecting to existing joint Angle outputs.
+  Both sensory and motor signs/magnitudes vary across offspring; the
+  ordinary mutation operator can generate it. Real RGB/occlusion, neural
+  persistence, bounded edges, torque, drag, energy costs, and exact saves
+  remain authoritative. In 24 five-second trials versus disconnected
+  counterparts with independently swimming prey, only four genetically
+  sighted circuits physically bit *after* the prey travelled 30–90px;
+  none improved closest COM separation. This is possible visual contact,
+  NOT reliable pursuit, target identification or learned hunting. Keep
+  `tests/moving-visual-hunter.test.ts` bounded. Proceed to B-D baseline
+  rather than indefinite founder reweighting.
 - B-C inherited eye spectra: each eye may optionally store `spectralSensitivity` as
   three validated 0–1 RGB gains; absent means [1,1,1] and must preserve
   legacy retina, costs, saves and founder reproduction baselines. Filter
