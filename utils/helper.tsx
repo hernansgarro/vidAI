@@ -437,7 +437,7 @@ class GameAudio {
   /** Set master volume (0..1). Affects SFX. */
   setVolume(v: number) {
     this.volume = Math.max(0, Math.min(1, v));
-    if (this.master && this.ctx && !this.muted) {
+    if (this.master && this.ctx) {
       this.master.gain.setValueAtTime(this.volume, this.ctx.currentTime);
     }
   }

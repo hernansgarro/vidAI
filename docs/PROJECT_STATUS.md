@@ -1,5 +1,16 @@
 # Project status — 2026-10-20
 
+## Independent audio volumes — version 0.6.1
+
+- Start and pause menus share separate SFX/Music sliders (0–100%), percentage
+  readouts and existing independent mute controls. Volumes persist locally across
+  reloads; defaults remain 60% SFX and the configured music volume.
+- Changing SFX volume while muted now updates its independent master gain, so
+  unmuting restores the selected level. Music uses its existing reactive gain.
+- Menu panels scroll on short screens to keep the added controls accessible.
+- Validation: all **72 fast tests passed**, plus TypeScript/production build.
+  No browser checks or extended simulation runs for this focused UI update.
+
 ## Hatch clearance and internal senses — version 0.6.0
 
 - Confirmed existing normalized reserve/capacity and per-mouth contact/intake

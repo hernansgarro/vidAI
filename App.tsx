@@ -158,6 +158,44 @@ function organSlotLabel(organ: {direction: string; slot?: number}): string {
   return organ.slot === 1 ? (horizontalFace ? 'left' : 'upper') : (horizontalFace ? 'right' : 'lower');
 }
 
+function readAudioVolume(key: string, fallback: number): number {
+  try {
+    const saved = localStorage.getItem(key);
+    const value = saved === null || saved.trim() === '' ? NaN : Number(saved);
+    return Number.isFinite(value) ? Math.max(0, Math.min(1, value)) : fallback;
+  } catch { return fallback; }
+}
+
+function AudioControls({sfxVolume, musicVolume, sfxMuted, musicMuted,
+  onSfxVolume, onMusicVolume, onSfxMute, onMusicMute}: {
+  sfxVolume: number; musicVolume: number; sfxMuted: boolean; musicMuted: boolean;
+  onSfxVolume: (volume: number) => void; onMusicVolume: (volume: number) => void;
+  onSfxMute: () => void; onMusicMute: () => void;
+}) {
+  return <div className="w-full grid grid-cols-2 gap-3 my-1">
+    {[
+      {name: 'SFX', volume: sfxVolume, muted: sfxMuted, change: onSfxVolume, mute: onSfxMute},
+      {name: 'Music', volume: musicVolume, muted: musicMuted, change: onMusicVolume, mute: onMusicMute},
+    ].map(({name, volume, muted, change, mute}) => <div key={name} className="min-w-0 flex flex-col gap-2">
+      <button type="button" aria-label={`Mute ${name}`} aria-pressed={muted}
+        onClick={(e) => { e.stopPropagation(); mute(); }}
+        className={`px-3 py-2.5 rounded-xl border font-mono text-xs font-bold flex items-center justify-center gap-2 transition-colors ${muted
+          ? 'bg-rose-950/40 border-rose-500/40 text-rose-300'
+          : 'bg-slate-800 border-slate-700 text-cyan-300 hover:bg-slate-700'}`}>
+        {muted || volume === 0 ? <VolumeX size={16} /> : <Volume2 size={16} />}
+        {name}: {muted ? 'Muted' : 'Active'}
+      </button>
+      <label className="flex flex-col gap-1 text-[10px] font-mono text-slate-300 text-left">
+        <span className="flex justify-between gap-2"><span>{name} volume</span><span>{Math.round(volume * 100)}%</span></span>
+        <input type="range" min="0" max="1" step="0.01" value={volume}
+          aria-label={`${name} volume`} aria-valuetext={`${Math.round(volume * 100)} percent`}
+          onChange={(e) => change(Number(e.target.value))}
+          className="w-full accent-cyan-400 cursor-pointer" />
+      </label>
+    </div>)}
+  </div>;
+}
+
 export default function App() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const viewportRef = useRef<HTMLDivElement>(null);
@@ -207,6 +245,15 @@ export default function App() {
   const [showMouthApertures, setShowMouthApertures] = useState(true);
   const [musicMuted, setMusicMuted] = useState(false);
   const [sfxMuted, setSfxMuted] = useState(false);
+  const [sfxVolume, setSfxVolume] = useState(() => readAudioVolume('vida:sfxVolume', 0.6));
+  const [musicVolume, setMusicVolume] = useState(() => readAudioVolume('vida:musicVolume', getConfig('defaultMusicVolume')));
+  useEffect(() => {
+    gameAudio.setVolume(sfxVolume);
+    try { localStorage.setItem('vida:sfxVolume', String(sfxVolume)); } catch {}
+  }, [sfxVolume]);
+  useEffect(() => {
+    try { localStorage.setItem('vida:musicVolume', String(musicVolume)); } catch {}
+  }, [musicVolume]);
   const [timeMultiplier, setTimeMultiplier] = useState<1 | 2 | 5 | 10 | 20 | 50>(1);
 
   // Settings & Configuration Sliders
@@ -1269,7 +1316,7 @@ export default function App() {
         </div>
       )}
 
-      <BackgroundMusic url={ambientMusicUrl} isPlaying={isMusicPlaying} isMuted={musicMuted} volume={getConfig('defaultMusicVolume')} />
+      <BackgroundMusic url={ambientMusicUrl} isPlaying={isMusicPlaying} isMuted={musicMuted} volume={musicVolume} />
 
       {/* TOP DEDICATED TELEMETRY HUD BAR */}
       <header className="w-full bg-slate-900/95 border-b border-cyan-500/20 backdrop-blur-md px-3 py-2 flex flex-wrap items-center justify-between gap-2 z-20 shrink-0">
@@ -2632,7 +2679,7 @@ export default function App() {
       {/* --- OVERLAYS --- */}
       {gameState.status === 'START' && (
         <MenuOverlay tone="neutral" zIndex={50}>
-          <div className="w-full max-w-lg bg-slate-900/95 border-2 border-cyan-500/40 rounded-3xl p-6 md:p-8 shadow-2xl flex flex-col items-center backdrop-blur-xl text-center m-4">
+          <div className="w-full max-w-lg max-h-[calc(100dvh-2rem)] overflow-y-auto shrink-0 bg-slate-900/95 border-2 border-cyan-500/40 rounded-3xl p-6 md:p-8 shadow-2xl flex flex-col items-center backdrop-blur-xl text-center m-4">
             <div className="w-16 h-16 rounded-2xl bg-cyan-500/20 border border-cyan-400/40 flex items-center justify-center mb-4 shadow-inner">
               <img
                 src={neuralNodeIconUrl}
@@ -2659,6 +2706,12 @@ export default function App() {
                 <Play size={22} />
                 SEED SIMULATION
               </button>
+
+              <AudioControls sfxVolume={sfxVolume} musicVolume={musicVolume}
+                sfxMuted={sfxMuted} musicMuted={musicMuted}
+                onSfxVolume={setSfxVolume} onMusicVolume={setMusicVolume}
+                onSfxMute={() => setSfxMuted(gameAudio.toggleMute())}
+                onMusicMute={() => setMusicMuted(prev => !prev)} />
 
               <div className="grid grid-cols-2 gap-2">
                 <button
@@ -2706,7 +2759,7 @@ export default function App() {
         <MenuOverlay tone="neutral" zIndex={60}>
           <div
             onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-md bg-slate-900 border-2 border-cyan-500/40 rounded-3xl p-6 md:p-8 shadow-2xl flex flex-col items-center backdrop-blur-xl m-4">
+            className="w-full max-w-md max-h-[calc(100dvh-2rem)] overflow-y-auto shrink-0 bg-slate-900 border-2 border-cyan-500/40 rounded-3xl p-6 md:p-8 shadow-2xl flex flex-col items-center backdrop-blur-xl m-4">
             <h2 className="text-2xl md:text-3xl font-black mb-6 text-cyan-300 font-mono tracking-wider">
               SIMULATION MENU
             </h2>
@@ -2721,36 +2774,11 @@ export default function App() {
                 RESUME
               </button>
 
-              <div className="grid grid-cols-2 gap-2 my-1">
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    const newMuted = gameAudio.toggleMute();
-                    setSfxMuted(newMuted);
-                  }}
-                  className={`px-4 py-2.5 rounded-xl border font-mono text-xs font-bold flex items-center justify-center gap-2 transition-colors ${
-                    sfxMuted
-                      ? 'bg-rose-950/40 border-rose-500/40 text-rose-300'
-                      : 'bg-slate-800 border-slate-700 text-cyan-300 hover:bg-slate-700'
-                  }`}>
-                  {sfxMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
-                  SFX: {sfxMuted ? 'Muted' : 'Active'}
-                </button>
-
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setMusicMuted((prev) => !prev);
-                  }}
-                  className={`px-4 py-2.5 rounded-xl border font-mono text-xs font-bold flex items-center justify-center gap-2 transition-colors ${
-                    musicMuted
-                      ? 'bg-rose-950/40 border-rose-500/40 text-rose-300'
-                      : 'bg-slate-800 border-slate-700 text-cyan-300 hover:bg-slate-700'
-                  }`}>
-                  {musicMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
-                  Music: {musicMuted ? 'Muted' : 'Active'}
-                </button>
-              </div>
+              <AudioControls sfxVolume={sfxVolume} musicVolume={musicVolume}
+                sfxMuted={sfxMuted} musicMuted={musicMuted}
+                onSfxVolume={setSfxVolume} onMusicVolume={setMusicVolume}
+                onSfxMute={() => setSfxMuted(gameAudio.toggleMute())}
+                onMusicMute={() => setMusicMuted(prev => !prev)} />
 
               <button
                 onClick={(e) => {
