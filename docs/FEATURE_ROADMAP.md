@@ -1,4 +1,4 @@
-# VIDA: remaining features — 2026-10-20 / v0.9.0
+# VIDA: remaining features — 2026-10-20 / v0.10.0
 
 This is a focused review of the current 2D source, not an implementation promise.
 Small changes fit the existing systems. Big changes affect simulation architecture,
@@ -9,7 +9,6 @@ distinguished below from gaps in existing systems.
 
 | Addition | Current gap and purpose |
 | --- | --- |
-| Egg inspector | Select an egg to inspect parent, funded reserve, incubation progress and whether occupied space is delaying hatching. Clearance exists; its reason is not exposed through a dedicated egg inspector. |
 | Bank favorites and sorting | Search, family/diet filters, previews, saving and spawning already exist. Add pinned designs and useful sort choices; do not replace those controls. |
 | Environment profiles | Save and restore named settings profiles without replacing the active world with a full snapshot. Full ecosystem JSON save/load already exists. |
 | CSV statistics export | Export population, diets, births/deaths and energy counters. The existing population plot keeps a short 60-sample history; a full experiment log is a larger feature. |
@@ -20,7 +19,7 @@ distinguished below from gaps in existing systems.
 | Work | Current state and intended improvement |
 | --- | --- |
 | Reliable sensory-driven behavior | Founders have phased gaits and a weak retinal steering prior, not demonstrated dependable foraging, pursuit or escape. Evaluate and improve inherited controllers using only their actual senses. Strong swimming alone does not demonstrate intelligent behavior. |
-| Biological trait trade-offs | `eggReserveFraction` is inherited/mutated but not used when funding eggs; egg cost currently uses a fixed 10,000 J reserve plus construction. Maintenance efficiency also needs a meaningful benefit/cost trade-off. Preserve energy conservation when completing or retiring these traits. |
+| Biological trait trade-offs | Egg reserve allocation now affects the actual funded hatchling reserve, parental energy cost and first-egg threshold; a higher allele improves starting reserves but delays reproduction. Parent survival floor and faster physical feeding were rebalanced in v0.10. Pending: review unused `reproductionThreshold` and other inherited efficiency/storage trade-offs separately without disguising them as guaranteed improvements. |
 | Evolvable neural structure | Phase 1–2 implemented: hidden sizes 1–96 with stable IDs, sparse masks, low-probability inheritable neuron/connection mutations, bounded computation, calibrated upkeep and exact snapshot continuation. Structural changes are genetic (at reproduction); individual organisms still cannot grow circuits during life or learn updated weights. Need controlled behavior evaluation before claiming increased intelligence. |
 | Growth, injury and gradual aging | Juvenile/adult/aging labels exist, but real body growth, local tissue injury/repair and gradual senescence are absent. These require consistent mass, geometry, energy and controller updates. |
 | Environment and communication (optional) | Currents and resource patches could create niches. Chemical or acoustic organs would add new physical signals and sensory channels. Current sound effects are presentation, not creature communication. Implement these as separate systems, not one large update. |
@@ -29,10 +28,10 @@ distinguished below from gaps in existing systems.
 
 ## Recommended order
 
-Improve foraging/escape behavior and complete biological trait trade-offs before
-increasing brain size. Egg inspection and anatomy summaries would make both easier
-to understand. Brain topology evolution, richer environments and body biology can
-follow as separate milestones; performance should follow measured bottlenecks.
+Phase 1–3 foundational brain, reproduction and inspector work is complete.
+Next: controlled foraging/escape research, meaningful remaining life-history
+trade-offs and memory timescales, keeping lifetime plasticity and optional rest
+as later distinct phases. Monitor performance only if measured bottlenecks arise.
 
 ## Limits that remain corrections rather than new features
 
