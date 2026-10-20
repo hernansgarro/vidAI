@@ -51,7 +51,7 @@ the reproducible seeded JSON report and see
 for methods and limits. **Original Phase 5 lifetime synaptic learning**
 and **original Phase 6 optional sleep/replay** are still pending.
 
-## First waking lifetime learning (original Phase 5, in progress)
+## Waking lifetime learning (original Phase 5, bounded core complete)
 
 Descendants can now *evolve the capacity to learn while alive*.
 A rare inherited plasticity gene enables short-term eligibility
@@ -67,9 +67,14 @@ physical motor force**, the same learned Angle response increased
 from about **0.642 to 0.691** while the unfed control stayed
 about **0.642**. This establishes conditioned neural changes inside
 a lifetime, **not proven better swimming or food acquisition**.
-Physical learning-versus-disabled fitness comparisons remain the
-next Phase 5 milestone. Sleeping/replay (original Phase 6) is
-not implemented. See [Waking Synaptic Learning](https://github.com/smeagol44/vidAI/wiki/Waking-Learning).
+A later full-physics experiment compares creatures keeping
+or erasing personal acquired memories after the same
+real food patch. Of four short second-food encounters,
+one learned animal absorbed **180 more gross J**,
+one **420 fewer J**, and two tied. This is possible
+physical learned benefit, not reliable generalization.
+The core implementation is complete; sleeping/replay
+(original Phase 6) is not implemented. See [Waking Synaptic Learning](https://github.com/smeagol44/vidAI/wiki/Waking-Learning).
 
 ### Expanded Phase 5 capabilities (v0.22)
 
@@ -110,9 +115,11 @@ After four food-free seconds, a controlled learner
 retained about **47% more acquired synaptic weight**
 than a matched clone without protection. This
 does not yet prove better acquired foraging or survival.
-Original Phase 5 still needs a bounded physical
-behavior benefit check; original Phase 6 sleep/
-replay remains unimplemented. See
+Original Phase 5's physical test found both a
+helpful and a harmful learned feeding outcome.
+Its core waking-learning capability is complete,
+while reliable ecological performance is still open.
+Original Phase 6 sleep/replay remains unimplemented. See
 [Waking Learning](https://github.com/smeagol44/vidAI/wiki/Waking-Learning).
 
 ## Creatures and sandbox
