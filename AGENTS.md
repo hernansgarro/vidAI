@@ -4,8 +4,9 @@
   camera controls, effects, and audio unless a requested change concerns them.
 - `simulation.ts` is the production kernel. Controllers use 24 recurrent hidden
   neurons and six outputs per joint; channel identities follow stable eye/part/mouth
-  IDs. Migrate old four-channel commands by key, never by the new array stride.
-  Save schema v7 includes stable organ slots, motor ramps and oral feedback; legacy migration must
+  IDs. Brain v4 adds aggregate feeding and normalized COM depth; preserve the existing
+  normalized reserve input. Migrate old four-channel commands by key, never by the new array stride.
+  Save schema v8 includes stable organ slots, motor ramps and oral feedback; legacy migration must
   preserve recurrent memory and existing weights.
 - `data/founders.json` contains 51 distinct blueprints (50 revised originals and
   Moonbell Jellyfish). Preserve their actual anatomy and measured gaits; never
@@ -36,10 +37,14 @@
   step replacement state before its matching pause/settings render.
 - New imports must be validated before replacing the active world. Current
   snapshots must continue exactly, including PRNG, activations, counters and IDs.
-- Run `npm test`, `npm run build`, and `npm run test:e2e` for simulation/UI changes.
-  Use `npm run benchmark -- --seed 4242 --seconds 300` for longer ecosystem work
-  and `npm run benchmark:behavior` for isolated control and paired-vision checks.
+- Default verification is `npm run test:fast` and `npm run build`. Prefer pure
+  geometry/state assertions and a few kernel ticks. Full `npm test`, browser tests,
+  ecosystem/behavior benchmarks and manual browser checks are opt-in for a concrete
+  unresolved regression or an explicit user request; do not repeat them routinely.
+- Hatching requires a clear whole-body envelope and tank containment. Blocked eggs
+  keep funded energy and hatch heading; they wait rather than spawning interlocked
+  with a passerby or consuming new randomness on every attempt.
 - Record measured results and limitations in `docs/PROJECT_STATUS.md`. Distinguish
   controlled swimming, neural response, and ecological behavior in reports.
 - Work through a branch and PR. The main-branch Pages workflow deploys only after
-  its simulation, build and browser checks pass.
+  its fast automated tests and build pass. Extended checks are opt-in.

@@ -23,10 +23,11 @@ or Playground SDK are required. Dependencies, CSS, images and audio are bundled
 locally into the build. Exported Playground configuration values are retained.
 
 ```sh
-npm test             # kernel regressions, 51 bodies, genetics, snapshots and seeded ecosystems
+npm run test:fast    # routine automated regressions, no long ecosystem runs
+npm test             # optional full simulation suite
 npm run build        # TypeScript checks and production build
 npx playwright install --with-deps chromium
-npm run test:e2e     # production build at the Pages subpath
+npm run test:e2e     # optional browser suite at the Pages subpath
 npm run preview      # serve dist locally after building
 npm run benchmark -- --seed 4242 --seconds 300
 npm run benchmark:behavior # controlled motion and paired vision measurements
@@ -151,3 +152,21 @@ Simulation energy and time use the game's existing calibrated units. Finite
 lifespans and natural extinction remain enabled. See [project status](docs/PROJECT_STATUS.md)
 for verified repairs and remaining limitations. Original asset provenance is
 retained in `design/asset_manifest.json` and `THIRD_PARTY_NOTICES.md`.
+
+Version 0.6.0 adds a whole-body feeding flag (actual intake during the previous
+completed tick) and normalized center-of-mass depth (surface 0, floor 1). Current
+usable energy already has a normalized reserve/capacity input. Per-mouth contact
+and intake inputs remain. Brain v4/schema v8 migrate old channels by stable IDs,
+preserving their weights, recurrent memory, outputs and PRNG; new old-save
+pathways start neutral. New founders can evolve/use the added senses.
+
+Mature eggs now wait until the newborn's full initial bounding envelope is clear
+of living bodies and inside the tank. Eight deterministic orientations are tried
+at the egg's position; eggs are never teleported. Waiting retains the funded
+reserve, stored heading, predation exposure and population-cap rules. This prevents
+newborn limbs from appearing around a passerby as well as direct overlap. It is
+conservative and can delay hatching near densely packed bodies.
+
+Routine GitHub validation runs fast automated tests and the production build.
+Full simulations and browser checks remain available through a manual workflow
+run with **extended_validation** enabled; they no longer run on every release.

@@ -19,7 +19,7 @@ test('fresh defaults, five-design population, slotted bank preview and jellyfish
   const download = page.waitForEvent('download');
   await page.getByRole('button', {name: 'Export Snapshot', exact: true}).click();
   const snapshot = JSON.parse(await readFile((await (await download).path())!, 'utf8'));
-  expect(snapshot.schemaVersion).toBe('7.0.0');
+  expect(snapshot.schemaVersion).toBe('8.0.0');
   expect(snapshot.settings.targetNutrients).toBe(400);
   expect(snapshot.state.organisms).toHaveLength(18);
   expect(new Set(snapshot.state.organisms.map((o: any) => o.genome.id)).size).toBe(5);

@@ -141,7 +141,7 @@ export const CARDINAL_DIRS: CardinalDir[] = ['EAST', 'WEST', 'NORTH', 'SOUTH'];
 export const ORGAN_SLOTS_PER_FACE = 3;
 // Absolute import bounds. Physical joints reduce the actual number of available slots.
 export const MAX_SURFACE_ORGANS = MAX_PARTS * 4 * ORGAN_SLOTS_PER_FACE;
-export const MAX_NEURAL_INPUTS = MAX_SURFACE_ORGANS * RAYS_PER_EYE * 4 + (MAX_PARTS - 1) * 2 + 4;
+export const MAX_NEURAL_INPUTS = MAX_SURFACE_ORGANS * RAYS_PER_EYE * 4 + (MAX_PARTS - 1) * 2 + 6;
 
 export interface SurfaceOrgan {
   id: string;
@@ -199,7 +199,7 @@ export interface Genome {
   biasesH: number[];     // [NUM_HIDDEN]
   weightsHO: number[][]; // [MAX_OUTPUTS x NUM_HIDDEN]
   biasesO: number[];     // [MAX_OUTPUTS]
-  brainVersion?: 2 | 3;
+  brainVersion?: 2 | 3 | 4;
   inputKeys?: string[];
   outputKeys?: string[];
   founderMode?: 'balanced' | 'unbiased';
@@ -304,6 +304,7 @@ export interface Egg {
   pulseTimer: number;
   colorHue: number;
   readyToHatch: boolean;
+  hatchHeading?: number; // Chosen once; blocked eggs do not redraw randomness each tick.
 }
 
 export interface Nutrient {
@@ -1034,7 +1035,7 @@ export function createXavierRecurrentNetwork(customPrng: XoshiroPRNG = rng, inpu
   return {weightsIH, weightsHH, biasesH, weightsHO, biasesO};
 }
 
-export function getBrainLayout(g: Pick<Genome, 'eyes' | 'parts'> & Partial<Pick<Genome, 'mouths'>>) {
+export function getBrainLayout(g: Pick<Genome, 'eyes' | 'parts'> & Partial<Pick<Genome, 'mouths'>>, internalSenses = true) {
   const inputs: string[] = [];
   const labels: string[] = [];
   g.eyes.forEach((eye, e) => {
@@ -1056,6 +1057,9 @@ export function getBrainLayout(g: Pick<Genome, 'eyes' | 'parts'> & Partial<Pick<
   for (const [m, mouth] of (g.mouths ?? []).entries()) {
     inputs.push(`mouth:${mouth.id}:contact`, `mouth:${mouth.id}:intake`);
     labels.push(`M${m + 1} food contact`, `M${m + 1} absorbed intake`);
+  }
+  if (internalSenses) {
+    inputs.push('body:feeding', 'body:depth'); labels.push('Currently feeding', 'Depth / pressure');
   }
   const outputs = g.parts.slice(1).flatMap(p => OUTPUT_LABELS.map(channel => `joint:${p.id}:${channel}`));
   return {inputs, labels, outputs};
@@ -1110,11 +1114,11 @@ export function remapBrain(g: Genome, previous: Genome = g): void {
   });
   g.inputKeys = layout.inputs;
   g.outputKeys = layout.outputs;
-  g.brainVersion = 3;
+  g.brainVersion = 4;
 }
 
 export function ensureBrainLayout(g: Genome): void {
-  if (g.brainVersion !== 3 || !g.inputKeys || !g.outputKeys) remapBrain(g);
+  if (g.brainVersion !== 4 || !g.inputKeys || !g.outputKeys) remapBrain(g);
 }
 
 export function migrateOrganismBrain(org: Organism): void {
@@ -2406,6 +2410,29 @@ function advanceOrganismPhysics(org: Organism, settings: SimulationSettings, dt_
   return frameMechanicalWork;
 }
 
+interface HatchBounds {left: number; right: number; top: number; bottom: number}
+function bodyBounds(parts: PartDef[], segments: PartPhys[]): HatchBounds {
+  const corners = parts.flatMap((p, i) => getPartCornerVertices(segments[i], p));
+  return {left: Math.min(...corners.map(p => p.x)), right: Math.max(...corners.map(p => p.x)),
+    top: Math.min(...corners.map(p => p.y)), bottom: Math.max(...corners.map(p => p.y))};
+}
+
+/** Conservative empty envelope also prevents spawning arms around an existing body. */
+export function findClearHatchHeading(egg: Egg, settings: SimulationSettings, organisms: Organism[]): number | null {
+  const pose = restSegments(egg.genome.parts);
+  const obstacles = organisms.filter(o => !o.dissolving).flatMap(o => o.segments.map((p, i) => bodyBounds([o.genome.parts[i]], [p])));
+  for (let attempt = 0; attempt < 8; attempt++) {
+    const heading = (egg.hatchHeading ?? 0) + attempt * Math.PI / 4, c = Math.cos(heading), s = Math.sin(heading);
+    const segments = pose.map(p => ({...p, x: egg.x + c * p.x - s * p.y, y: egg.y + s * p.x + c * p.y, angle: p.angle + heading}));
+    const b = bodyBounds(egg.genome.parts, segments), margin = 2;
+    if (b.left < margin || b.top < margin || b.right > settings.worldWidth - margin || b.bottom > settings.worldHeight - margin) continue;
+    if (obstacles.some(a => a.left < b.right + margin && a.right > b.left - margin
+      && a.top < b.bottom + margin && a.bottom > b.top - margin)) continue;
+    return heading;
+  }
+  return null;
+}
+
 // ============================================================================
 // 3. AUTHORITATIVE MODULAR SIMULATION KERNEL (`stepSimulation`)
 // ============================================================================
@@ -2533,12 +2560,15 @@ export function stepSimulation(
       // Successful Hatching: Exactly fundedStructural becomes structural biomass, remaining becomes usable reserve
       egg.readyToHatch = true;
       if (organisms.filter(o => !o.dissolving).length < (settings.maxOrganisms ?? 50)) {
+        egg.hatchHeading ??= prng.range(0, Math.PI * 2);
+        const heading = findClearHatchHeading(egg, settings, organisms);
+        if (heading === null) continue; // Remain funded, edible and ready until a full body fits.
         const startingUsableReserve = remainingEggEnergy - requiredBodyCost;
         const baby = spawnOrganism(
           egg.genome,
           egg.x,
           egg.y,
-          prng.range(0, Math.PI * 2),
+          heading,
           egg.clutchId,
           startingUsableReserve,
           prng,
@@ -2790,6 +2820,9 @@ export function stepSimulation(
       org.neuralInputs[rayInputIdx++] = feedback?.contact ?? 0;
       org.neuralInputs[rayInputIdx++] = feedback?.intake ?? 0;
     }
+
+    org.neuralInputs[rayInputIdx++] = g.mouths.some(m => (org.mouthFeedback?.[m.id]?.intake ?? 0) > 0) ? 1 : 0;
+    org.neuralInputs[rayInputIdx++] = clampVal(calculateOrganismCOM(org).y / Math.max(1, worldHeight), 0, 1);
 
     // B. RECURRENT NEURAL EVALUATION (h_t = tanh(W_in * x_t + W_rec * h_{t-1} + b))
     for (let h = 0; h < NUM_HIDDEN; h++) {
