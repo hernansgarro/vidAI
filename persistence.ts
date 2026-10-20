@@ -4,7 +4,7 @@ import {
   getBrainLayout, getDietClassification, brainEdgeKey, CARRION_DECAY_SECONDS, MAX_OUTPUTS, MAX_SURFACE_ORGANS, MAX_NEURAL_INPUTS, MAX_HIDDEN, MAX_ENABLED_BRAIN_EDGES, MAX_BRAIN_MEMORY_SECONDS, MAX_PLASTIC_MOTOR_SYNAPSES, MAX_PLASTIC_SENSORY_SYNAPSES, MAX_LEARNED_MOTOR_DELTA, plasticMotorEdges, plasticSensoryEdges, surfacePlacementProblems, morphologyProblems, type Genome, type SimulationSettings, type SimulationState, type Organism,
 } from './simulation';
 
-export const BUILD_VERSION = '0.23.0';
+export const BUILD_VERSION = '0.24.0';
 export const DEFAULT_SETTINGS: SimulationSettings = {
   worldWidth: 2400, worldHeight: 1500, waterViscosity: .18,
   targetNutrients: 400, inflowRate: 15, kinshipProtection: true,
@@ -163,6 +163,11 @@ export function validateGenome(raw: unknown): Genome {
   assert(g.sensoryPlasticityRate === undefined ||
     (typeof g.sensoryPlasticityRate === 'number' && Number.isFinite(g.sensoryPlasticityRate)
       && g.sensoryPlasticityRate >= 0 && g.sensoryPlasticityRate <= .8), 'sensory plasticity rate');
+  assert(g.memoryConsolidationRate === undefined ||
+    (typeof g.memoryConsolidationRate === 'number' && Number.isFinite(g.memoryConsolidationRate)
+      && g.memoryConsolidationRate >= 0 && g.memoryConsolidationRate <= 2
+      && ((g.plasticityRate ?? 0) > 0 || (g.sensoryPlasticityRate ?? 0) > 0)),
+    'memory consolidation rate');
   assert(g.colorMutationRate === undefined || (Number.isFinite(g.colorMutationRate) && g.colorMutationRate >= 0 && g.colorMutationRate <= 1), 'pigment variability');
   assert(Array.isArray(g.parentIds) && g.parentIds.every(id => typeof id === 'string'), 'parent IDs');
   g.bodyCost = calculateBodyCost(g.parts, g.eyes, g.mouths);
@@ -260,6 +265,12 @@ export function restoreSnapshot(input: unknown): {state: SimulationState; settin
           && Math.abs(record.delta) <= MAX_LEARNED_MOTOR_DELTA
           && typeof record.eligibility === 'number' && Number.isFinite(record.eligibility)
           && Math.abs(record.eligibility) <= 1, 'plastic state bounds');
+        assert(record.consolidation === undefined ||
+          ((o.genome.memoryConsolidationRate ?? 0) > 0
+          && typeof record.consolidation === 'number'
+          && Number.isFinite(record.consolidation)
+          && record.consolidation >= 0 && record.consolidation <= 1),
+          'somatic motor consolidation bounds');
       }
     }
     if (o.learnedSensoryWeights !== undefined) {
@@ -278,6 +289,12 @@ export function restoreSnapshot(input: unknown): {state: SimulationState; settin
           && Math.abs(record.delta) <= MAX_LEARNED_MOTOR_DELTA
           && typeof record.eligibility === 'number' && Number.isFinite(record.eligibility)
           && Math.abs(record.eligibility) <= 1, 'learned retina state bounds');
+        assert(record.consolidation === undefined ||
+          ((o.genome.memoryConsolidationRate ?? 0) > 0
+          && typeof record.consolidation === 'number'
+          && Number.isFinite(record.consolidation)
+          && record.consolidation >= 0 && record.consolidation <= 1),
+          'somatic retinal consolidation bounds');
       }
     }
     // Preserve exact activations for current saves; migrate only legacy buffers.
@@ -345,6 +362,11 @@ export function diagnosticReport(s: SimulationState, settings: SimulationSetting
         plasticMotorScope: selected.genome.plasticMotorScope ?? 'angle',
         inheritedAversionRate: selected.genome.injuryAversionRate ?? 0,
         inheritedSensoryLearningRate: selected.genome.sensoryPlasticityRate ?? 0,
+        inheritedConsolidationRate: selected.genome.memoryConsolidationRate ?? 0,
+        consolidatedMotorEdges: (selected.learnedMotorWeights ?? [])
+          .filter(edge => (edge.consolidation ?? 0) > .01).length,
+        consolidatedRetinalEdges: (selected.learnedSensoryWeights ?? [])
+          .filter(edge => (edge.consolidation ?? 0) > .01).length,
         adaptedRetinalSynapses: (selected.learnedSensoryWeights ?? []).filter(edge => Math.abs(edge.delta) > 1e-8).length,
         adaptedMotorSynapses: (selected.learnedMotorWeights ?? []).filter(edge => Math.abs(edge.delta) > 1e-8).length,
         plasticityEnergyRate: selected.plasticityEnergyRate ?? 0}} : null};

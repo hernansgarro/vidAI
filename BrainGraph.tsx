@@ -50,10 +50,13 @@ export default function BrainGraph({organism: org, threshold}: {organism: Organi
     {((g.plasticityRate ?? 0) > 0 || (g.sensoryPlasticityRate ?? 0) > 0) && <div className="text-xs text-slate-400 px-2 py-1">
       Lifetime learning: genetically enabled (motor rate {(g.plasticityRate ?? 0).toFixed(3)}/s,
       retinal rate {(g.sensoryPlasticityRate ?? 0).toFixed(3)}/s,
+      memory retention {(g.memoryConsolidationRate ?? 0).toFixed(3)}/s,
       forgetting {(g.forgettingRate ?? .1).toFixed(3)}/s),
       {' '}scope {g.plasticMotorScope ?? 'angle'},
       pain-aversion {(g.injuryAversionRate ?? 0).toFixed(3)}/s,
-      {' '}{acquiredCount} adapted motor and {acquiredRetina} adapted retinal synapses; energy cost {(org.plasticityEnergyRate ?? 0).toFixed(4)} J/s.
+      {' '}{acquiredCount} adapted motor and {acquiredRetina} adapted retinal synapses,
+      {' '}{[...(org.learnedMotorWeights ?? []), ...(org.learnedSensoryWeights ?? [])]
+        .filter(s=>(s.consolidation ?? 0) > .01).length} stabilized synapses; energy cost {(org.plasticityEnergyRate ?? 0).toFixed(4)} J/s.
       Links show inherited weight + personal learned adjustment in both motor and retinal pathways.
     </div>}
     <svg viewBox={`0 0 460 ${height}`} className="w-full select-none" style={{height}} role="img" aria-label="Live recurrent neural network">

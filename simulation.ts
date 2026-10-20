@@ -101,6 +101,7 @@ export const MAX_LEARNED_MOTOR_DELTA = 0.8;
 export const PLASTIC_ELIGIBILITY_SECONDS = 0.6;
 export const PLASTIC_UPKEEP_J_PER_EDGE_SECOND = 0.002;
 export const PLASTIC_REWRITE_J_PER_WEIGHT = 0.4;
+export const CONSOLIDATED_MEMORY_UPKEEP_J_PER_SECOND = 0.004; // Extra J/s at 100% retained per eligible synapse.
 export const MAX_FRAME_MOTOR_WORK = 40.0; // Max motor dissipation per sub-step clamp to prevent solver spikes
 export const LONGITUDINAL_DRAG = 0.05; // Calibrated nonzero resistance along each segment.
 export const MOTOR_RESPONSE_SECONDS = 0.12;
@@ -234,6 +235,7 @@ export interface Genome {
   plasticMotorScope?: 'angle' | 'all'; // Heritable learner motor scope; absent = exact old Angle-only pathway.
   injuryAversionRate?: number; // Heritable 0..1 / s loss-based teaching signal from REAL body:injury only; absent = 0.
   sensoryPlasticityRate?: number; // Heritable 0..0.8 / s associative retinal IH learning; absent = no acquired perception changes.
+  memoryConsolidationRate?: number; // Heritable 0..2/s: preserve repeatedly reinforced somatic edges; absent = old forgetting.
   disabledConnections?: string[]; // Canonical edge keys; absent/empty means legacy fully enabled.
   inputKeys?: string[];
   outputKeys?: string[];
@@ -316,8 +318,8 @@ export interface Organism {
   neuralOutputs: number[];
   // Somatic motor-synapse offsets and recent eligibility, keyed by stable HO
   // identities. NEVER written into genome or inherited by offspring.
-  learnedMotorWeights?: Array<{edge: string; delta: number; eligibility: number}>;
-  learnedSensoryWeights?: Array<{edge: string; delta: number; eligibility: number}>; // Somatic RGB retina→hidden associations, never inherited.
+  learnedMotorWeights?: Array<{edge: string; delta: number; eligibility: number; consolidation?: number}>;
+  learnedSensoryWeights?: Array<{edge: string; delta: number; eligibility: number; consolidation?: number}>; // Somatic RGB retina→hidden associations, never inherited.
   rayHits: RayHit[];
   glowPulse: number;
   dissolving: boolean;
@@ -1213,6 +1215,32 @@ export function plasticSensoryEdges(g: Genome): Array<{edge: string; input: numb
   return result;
 }
 
+/** Optional consolidation of compatible, already learned experiences.
+ * The sign of the existing synapse change must agree with the new,
+ * genuinely rewarded/punished eligibility. Mere recurrent activity, vision
+ * or a single first update cannot consolidate a previously absent memory.
+ * Contradictory feedback weakens retention faster; unreinforced memory
+ * loses consolidation slowly. The rate is heritable; the strength isn't.
+ * Return undefined for old organisms to preserve v0.23 save/step semantics.
+ */
+function nextRetention(
+  g: Genome, old: {delta: number; consolidation?: number} | undefined,
+  teaching: number, dt: number,
+): {forget: number; consolidation?: number} {
+  const baseline = g.forgettingRate ?? .1;
+  const rate = g.memoryConsolidationRate ?? 0;
+  if (rate <= 0) return {forget: Math.exp(-baseline * dt)};
+  const strength = old?.consolidation ?? 0;
+  const consistent = old && old.delta * teaching > 0;
+  const contradictory = old && old.delta * teaching < 0;
+  const gain = consistent ? rate * Math.min(1, Math.abs(teaching)) * (1 - strength) * dt : 0;
+  const decay = strength * rate * (contradictory ? .5 : .008) * dt;
+  return {
+    forget: Math.exp(-baseline * (1 - .95 * strength) * dt),
+    consolidation: clampVal(strength + gain - decay, 0, 1),
+  };
+}
+
 /** Learned retinal associations use precisely the same somatic energy
  * accounting and clamped eligibility principle as motor learning.
  * Food intake reinforces currently coactive retinal→hidden channels;
@@ -1229,7 +1257,6 @@ export function applySensoryAssociations(
   if (!edges.length) return 0;
   const previous = new Map((org.learnedSensoryWeights ?? []).map(s => [s.edge, s]));
   const alpha = -Math.expm1(-dt / PLASTIC_ELIGIBILITY_SECONDS);
-  const forgetting = Math.exp(-(g.forgettingRate ?? .1) * dt);
   const reward = clampVal(Math.max(0, ...g.mouths.map(m => org.mouthFeedback?.[m.id]?.intake ?? 0)), 0, 1);
   const injuryIndex = g.inputKeys!.indexOf('body:injury');
   const injury = injuryIndex >= 0 ? clampVal(org.neuralInputs[injuryIndex] ?? 0, 0, 1) : 0;
@@ -1240,11 +1267,17 @@ export function applySensoryAssociations(
     const eligibility = clampVal((old?.eligibility ?? 0) * (1 - alpha)
       + alpha * pre * org.neuralHidden[hidden], -1, 1);
     const delta = old?.delta ?? 0;
-    const target = clampVal(delta * forgetting + valence * eligibility * dt,
+    const teaching = valence * eligibility;
+    const retention = nextRetention(g, old, teaching, dt);
+    const target = clampVal(delta * retention.forget + teaching * dt,
       -MAX_LEARNED_MOTOR_DELTA, MAX_LEARNED_MOTOR_DELTA);
-    return {edge, delta, eligibility, target};
+    return {edge, delta, eligibility, target, consolidation:retention.consolidation,
+      oldConsolidation:old?.consolidation ?? 0};
   });
-  const upkeep = Math.min(org.energy, edges.length * PLASTIC_UPKEEP_J_PER_EDGE_SECOND * dt);
+  const stableUpkeep = next.reduce((sum, e) => sum + (e.consolidation ?? 0), 0)
+    * CONSOLIDATED_MEMORY_UPKEEP_J_PER_SECOND * dt;
+  const upkeep = Math.min(org.energy,
+    edges.length * PLASTIC_UPKEEP_J_PER_EDGE_SECOND * dt + stableUpkeep);
   const wanted = next.reduce((sum, e) => sum + Math.abs(e.target - e.delta), 0) * PLASTIC_REWRITE_J_PER_WEIGHT;
   const paid = Math.min(wanted, Math.max(0, org.energy - upkeep));
   const scale = wanted > 0 ? paid / wanted : 1;
@@ -1253,6 +1286,10 @@ export function applySensoryAssociations(
   ledger.metabolicDissipation += cost;
   org.learnedSensoryWeights = next.map(e => ({
     edge: e.edge, delta: e.delta + (e.target - e.delta) * scale, eligibility: e.eligibility,
+    ...(e.consolidation === undefined ? {} : {
+      consolidation: e.oldConsolidation + (e.consolidation - e.oldConsolidation)
+        * (e.consolidation > e.oldConsolidation ? scale : 1),
+    }),
   }));
   return cost;
 }
@@ -1275,7 +1312,6 @@ export function applyWakingPlasticity(
   if (edges.length === 0) return 0;
   const old = new Map((org.learnedMotorWeights ?? []).map(s => [s.edge, s]));
   const factor = -Math.expm1(-dt / PLASTIC_ELIGIBILITY_SECONDS);
-  const forgetting = Math.exp(-(g.forgettingRate ?? 0.1) * dt);
   // Each mouth reports absorbed energy / intake budget from the last tick.
   // Do not use untrusted UI feeding counters or diagnostic objectType.
   const reward = clampVal(Math.max(0, ...g.mouths.map(m => org.mouthFeedback?.[m.id]?.intake ?? 0)), 0, 1);
@@ -1289,11 +1325,16 @@ export function applyWakingPlasticity(
     const eligibility = clampVal((previous?.eligibility ?? 0) * (1 - factor)
       + factor * org.neuralHidden[hidden] * org.neuralOutputs[output], -1, 1);
     const delta = previous?.delta ?? 0;
-    const requested = clampVal(delta * forgetting + valence * eligibility * dt,
+    const teaching = valence * eligibility;
+    const retention = nextRetention(g, previous, teaching, dt);
+    const requested = clampVal(delta * retention.forget + teaching * dt,
       -MAX_LEARNED_MOTOR_DELTA, MAX_LEARNED_MOTOR_DELTA);
-    return {edge, delta, requested, eligibility};
+    return {edge, delta, requested, eligibility,
+      consolidation:retention.consolidation, oldConsolidation:previous?.consolidation ?? 0};
   });
-  const upkeep = PLASTIC_UPKEEP_J_PER_EDGE_SECOND * edges.length * dt;
+  const upkeep = PLASTIC_UPKEEP_J_PER_EDGE_SECOND * edges.length * dt
+    + next.reduce((sum,e)=>sum+(e.consolidation ?? 0),0)
+      * CONSOLIDATED_MEMORY_UPKEEP_J_PER_SECOND * dt;
   const upkeepPaid = Math.min(org.energy, upkeep);
   const availableForUpdates = Math.max(0, org.energy - upkeepPaid);
   const requestedChange = next.reduce((sum, s) => sum + Math.abs(s.requested - s.delta), 0);
@@ -1304,7 +1345,12 @@ export function applyWakingPlasticity(
   org.energy -= total;
   ledger.metabolicDissipation += total;
   org.learnedMotorWeights = next.map(s => ({edge:s.edge,
-    delta: s.delta + (s.requested - s.delta) * scale, eligibility:s.eligibility}));
+    delta: s.delta + (s.requested - s.delta) * scale, eligibility:s.eligibility,
+    ...(s.consolidation === undefined ? {} : {
+      consolidation: s.oldConsolidation + (s.consolidation - s.oldConsolidation)
+        * (s.consolidation > s.oldConsolidation ? scale : 1),
+    }),
+  }));
   return total;
 }
 
@@ -2418,6 +2464,7 @@ export function mutateGenome(parent: Genome, severity = 0.25, customPrng: Xoshir
     plasticMotorScope: parent.plasticMotorScope,
     injuryAversionRate: parent.injuryAversionRate,
     sensoryPlasticityRate: parent.sensoryPlasticityRate,
+    memoryConsolidationRate: parent.memoryConsolidationRate,
     disabledConnections: [...(parent.disabledConnections ?? [])],
     targetClutchSize: mutatedTargetClutchSize,
     maturityAge: mutatedMaturityAge,
@@ -2527,6 +2574,13 @@ export function mutateGenome(parent: Genome, severity = 0.25, customPrng: Xoshir
   if (customPrng.nextFloat() < mutChance * 0.12) {
     child.sensoryPlasticityRate = clampVal((child.sensoryPlasticityRate ?? 0)
       + customPrng.range(-0.15, 0.25) * mutScale, 0, .8);
+  }
+  // Only learning-capable descendants can evolve slower long-term
+  // retention. No founder/save acquires this trait retroactively.
+  if (((child.plasticityRate ?? 0) > 0 || (child.sensoryPlasticityRate ?? 0) > 0)
+    && customPrng.nextFloat() < mutChance * .12) {
+    child.memoryConsolidationRate = clampVal((child.memoryConsolidationRate ?? 0)
+      + customPrng.range(-.3, .65) * mutScale, 0, 2);
   }
   return child;
 }
