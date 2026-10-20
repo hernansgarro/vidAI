@@ -1,6 +1,7 @@
 import {compiledBrain, compiledDeltas, alignPlasticRecords, invalidateCompiledBrain} from './neuralRuntime';
 import {resolveBodyContacts} from './contacts';
 import {NutrientSightGrid} from './sightBroadphase';
+import {OrderedSpatialIndex, type SpatialBounds} from './spatialIndex';
 // ============================================================================
 // 1. DETERMINISTIC PRNG (xoshiro128++)
 // ============================================================================
@@ -2859,23 +2860,32 @@ export function hslToRgb(h: number, s: number, l: number): [number, number, numb
 }
 
 /** Repair contact-induced hinge error without adding velocity or motor energy. */
+const scratchProjection = Array.from({length: MAX_PARTS - 1}, () => ({
+  aim: 0, bim: 0, aii: 0, bii: 0, paX: 0, paY: 0, pbX: 0, pbY: 0,
+}));
 function projectBodyJoints(org: Organism, iterations: number): void {
   const parts = org.genome.parts;
+  // Local geometry/masses stay constant while projection changes poses.
+  for (let index = 1; index < parts.length; index++) {
+    const def = parts[index], pd = parts[def.parentIndex], entry = scratchProjection[index - 1];
+    const am = Math.max(.35, pd.dimN * pd.dimM * BASE_PART_DENSITY);
+    const bm = Math.max(.35, def.dimN * def.dimM * BASE_PART_DENSITY);
+    entry.aim = 1 / am; entry.bim = 1 / bm;
+    entry.aii = 12 / (am * (pd.width ** 2 + pd.height ** 2));
+    entry.bii = 12 / (bm * (def.width ** 2 + def.height ** 2));
+    const pa = getCardinalAnchor(def.attachmentPoint, pd.width, pd.height);
+    const pb = getChildAnchorForParentDir(def.attachmentPoint, def.width, def.height);
+    entry.paX = pa.x; entry.paY = pa.y; entry.pbX = pb.x; entry.pbY = pb.y;
+  }
   for (let iteration = 0; iteration < iterations; iteration++) {
     for (let index = 1; index < parts.length; index++) {
       const def = parts[index], pd = parts[def.parentIndex];
       const a = org.segments[def.parentIndex], b = org.segments[index];
-      const am = Math.max(.35, pd.dimN * pd.dimM * BASE_PART_DENSITY);
-      const bm = Math.max(.35, def.dimN * def.dimM * BASE_PART_DENSITY);
-      const aim = 1 / am, bim = 1 / bm;
-      const aii = 12 / (am * (pd.width ** 2 + pd.height ** 2));
-      const bii = 12 / (bm * (def.width ** 2 + def.height ** 2));
-      const pa = getCardinalAnchor(def.attachmentPoint, pd.width, pd.height);
-      const pb = getChildAnchorForParentDir(def.attachmentPoint, def.width, def.height);
-      const ax = Math.cos(a.angle) * pa.x - Math.sin(a.angle) * pa.y;
-      const ay = Math.sin(a.angle) * pa.x + Math.cos(a.angle) * pa.y;
-      const bx = Math.cos(b.angle) * pb.x - Math.sin(b.angle) * pb.y;
-      const by = Math.sin(b.angle) * pb.x + Math.cos(b.angle) * pb.y;
+      const {aim, bim, aii, bii, paX, paY, pbX, pbY} = scratchProjection[index - 1];
+      const ax = Math.cos(a.angle) * paX - Math.sin(a.angle) * paY;
+      const ay = Math.sin(a.angle) * paX + Math.cos(a.angle) * paY;
+      const bx = Math.cos(b.angle) * pbX - Math.sin(b.angle) * pbY;
+      const by = Math.sin(b.angle) * pbX + Math.cos(b.angle) * pbY;
       const ex = b.x + bx - a.x - ax, ey = b.y + by - a.y - ay;
       const k11 = aim + bim + ay * ay * aii + by * by * bii;
       const k22 = aim + bim + ax * ax * aii + bx * bx * bii;
@@ -3220,6 +3230,82 @@ export function evaluateEggHatchStatus(egg: Egg, settings: SimulationSettings, o
 // ============================================================================
 // 3. AUTHORITATIVE MODULAR SIMULATION KERNEL (`stepSimulation`)
 // ============================================================================
+/** Evaluate the same ordered sums using dense or compiled enabled-row loops.
+ * Learned offsets remain separate additions; current genome weights are read
+ * on every tick. No lower precision, reassociation or sensing-rate changes. */
+function evaluateOrganismBrain(org: Organism, dt: number): void {
+  const g = org.genome;
+  const hiddenCount = g.hiddenIds!.length;
+  const plan = compiledBrain(g);
+  const learnedMotor = org.learnedMotorWeights?.length ? compiledDeltas(org, plan) : null;
+  const learnedRetina = org.learnedSensoryWeights?.length
+    ? (learnedMotor ?? compiledDeltas(org, plan)) : null;
+  const inputCount = org.neuralInputs.length;
+  for (let h = 0; h < hiddenCount; h++) scratchPrevHidden[h] = org.neuralHidden[h] || 0;
+  
+  for (let h = 0; h < hiddenCount; h++) {
+    let sum = g.biasesH[h] || 0;
+    const ihRow = g.weightsIH[h], hhRow = g.weightsHH[h];
+    const ihOffset = h * inputCount;
+    const enabledInputs = plan.enabledIH[h];
+    if (enabledInputs) {
+      for (let k = 0; k < enabledInputs.length; k++) {
+        const inp = enabledInputs[k];
+        sum += (org.neuralInputs[inp] || 0) * (ihRow?.[inp] || 0);
+        if (learnedRetina) {
+          const delta = learnedRetina.sensory[ihOffset + inp];
+          if (delta !== 0) sum += (org.neuralInputs[inp] || 0) * delta;
+        }
+      }
+    } else {
+      for (let inp = 0; inp < org.neuralInputs.length; inp++) {
+        sum += (org.neuralInputs[inp] || 0) * (ihRow?.[inp] || 0);
+        if (learnedRetina) {
+          const delta = learnedRetina.sensory[ihOffset + inp];
+          if (delta !== 0) sum += (org.neuralInputs[inp] || 0) * delta;
+        }
+      }
+    }
+    const enabledRecurrent = plan.enabledHH[h];
+    if (enabledRecurrent) {
+      for (let k = 0; k < enabledRecurrent.length; k++) {
+        const rh = enabledRecurrent[k];
+        sum += scratchPrevHidden[rh] * (hhRow?.[rh] || 0);
+      }
+    } else for (let rh = 0; rh < hiddenCount; rh++) sum += scratchPrevHidden[rh] * (hhRow?.[rh] || 0);
+    const next = isNaN(sum) ? 0 : Math.tanh(sum);
+    org.neuralHidden[h] = integrateNeuronMemory(scratchPrevHidden[h], next, g.hiddenTimeConstants![h], dt);
+  }
+  
+  const numJoints = org.segments.length - 1;
+  for (let o = 0; o < numJoints * OUTPUTS_PER_JOINT; o++) {
+    let sum = g.biasesO[o] || 0;
+    const hoRow = g.weightsHO[o];
+    const enabledOutputs = plan.enabledHO[o];
+    if (enabledOutputs) {
+      for (let k = 0; k < enabledOutputs.length; k++) {
+        const h = enabledOutputs[k];
+        sum += org.neuralHidden[h] * (hoRow?.[h] || 0);
+      }
+    } else for (let h = 0; h < hiddenCount; h++) sum += org.neuralHidden[h] * (hoRow?.[h] || 0);
+    // Acquired synapse offsets alter the neural motor command, not genome
+    // weights, and cannot activate a disabled connection.
+    if (learnedMotor && (g.plasticMotorScope === 'all' || g.outputKeys![o].endsWith(':Angle'))) {
+      if (enabledOutputs) {
+        for (let k = 0; k < enabledOutputs.length; k++) {
+          const h = enabledOutputs[k], slot = o * hiddenCount + h;
+          sum += org.neuralHidden[h] * learnedMotor.motor[slot];
+        }
+      } else for (let h = 0; h < hiddenCount; h++) {
+        const slot = o * hiddenCount + h;
+        sum += org.neuralHidden[h] * learnedMotor.motor[slot];
+      }
+    }
+    org.neuralOutputs[o] = isNaN(sum) ? 0 : Math.tanh(sum);
+  }
+  
+}
+
 export function stepSimulation(
   state: SimulationState,
   settings: SimulationSettings,
@@ -3386,10 +3472,21 @@ export function stepSimulation(
   // Nutrient vision broadphase is per-step scratch, never part of snapshots.
   // Corpse dissolution can append carrion while iterating living organisms,
   // so rebuild on any length change before their next eye cast.
-  let sightGrid: NutrientSightGrid | undefined;
-  // All vision precedes movement. Reuse exact corners across rays/eyes, retaining
-  // the original organism/segment/edge order and dynamic pigment evaluation.
-  const sightCorners = new Map<PartPhys, ReturnType<typeof getPartCornerVertices>>();
+  // The entire sensing pass precedes movement. Index all physical objects in
+  // legacy priority order: food, eggs, then organism/part order. Pigment remains
+  // dynamic because earlier animals may have paid for learning this tick.
+  const bodySight = organisms.flatMap(other => other.dissolving ? [] : other.segments.map((seg, part) => {
+    const def = other.genome.parts[part], corners = getPartCornerVertices(seg, def);
+    const bounds = {left: Math.min(...corners.map(p => p.x)), right: Math.max(...corners.map(p => p.x)),
+      top: Math.min(...corners.map(p => p.y)), bottom: Math.max(...corners.map(p => p.y))};
+    return {kind: 'body' as const, other, part, seg, def, corners, bounds};
+  }));
+  const eggSight = eggs.map(egg => ({kind: 'egg' as const, egg,
+    bounds: {left: egg.x - 16, right: egg.x + 16, top: egg.y - 16, bottom: egg.y + 16}}));
+  type SightEntry = {kind: 'food'; food: Nutrient; bounds: SpatialBounds}
+    | (typeof eggSight)[number] | (typeof bodySight)[number];
+  let sightGrid: OrderedSpatialIndex | undefined, sightFoodCount = -1;
+  let sightEntries: SightEntry[] = [];
   // 5. Organisms Simulation
   for (let orgIdx = organisms.length - 1; orgIdx >= 0; orgIdx--) {
     const org = organisms[orgIdx];
@@ -3454,8 +3551,13 @@ export function stepSimulation(
     }
 
     // A. MULTI-EYE OPTICAL RGB RAYCAST WITH WATER ATTENUATION
-    if (!sightGrid || sightGrid.nutrientCount !== nutrients.length) {
-      sightGrid = new NutrientSightGrid(nutrients);
+    if (!sightGrid || sightFoodCount !== nutrients.length) {
+      const foodSight: SightEntry[] = nutrients.map(food => ({kind: 'food', food,
+        bounds: {left: food.x - food.radius, right: food.x + food.radius,
+          top: food.y - food.radius, bottom: food.y + food.radius}}));
+      sightEntries = [...foodSight, ...eggSight, ...bodySight];
+      sightGrid = new OrderedSpatialIndex(sightEntries.map(entry => entry.bounds));
+      sightFoodCount = nutrients.length;
     }
     org.rayHits = [];
     org.neuralInputs.fill(0);
@@ -3495,55 +3597,41 @@ export function stepSimulation(
         let hitType: RayHit['objectType'] = 'none';
 
         // Walls, grid, bubbles, rays, glows and other display effects are invisible.
-        // 2. Nutrients
-        const possibleFood = sightGrid.query(eyeWorldX, eyeWorldY,
+        const candidates = sightGrid.query(eyeWorldX, eyeWorldY,
           eyeWorldX + rayDirX * maxRange, eyeWorldY + rayDirY * maxRange);
-        for (const n of possibleFood) {
-          const nut = nutrients[n];
-          if (Math.abs(nut.x - eyeWorldX) > closestDist + nut.radius || Math.abs(nut.y - eyeWorldY) > closestDist + nut.radius) continue;
-          const res = rayCircleIntersection(eyeWorldX, eyeWorldY, rayDirX, rayDirY, closestDist, nut.x, nut.y, nut.radius);
-          if (res.hit && res.dist < closestDist) {
-            closestDist = res.dist; hitHit = true; hitX = res.pointX; hitY = res.pointY;
-            [hitR, hitG, hitB] = getFoodRGB(nut); hitType = nut.kind === 'carrion' ? 'carrion' : 'nutrient';
-          }
-        }
-
-        // 3. Incubating Eggs
-        for (let e = 0; e < eggs.length; e++) {
-          const egg = eggs[e];
-          if (Math.abs(egg.x - eyeWorldX) > closestDist + 24 || Math.abs(egg.y - eyeWorldY) > closestDist + 24) continue;
-          const res = rayCircleIntersection(eyeWorldX, eyeWorldY, rayDirX, rayDirY, closestDist, egg.x, egg.y, 16.0);
-          if (res.hit && res.dist < closestDist) {
-            closestDist = res.dist; hitHit = true; hitX = res.pointX; hitY = res.pointY;
-            [hitR, hitG, hitB] = EGG_RGB; hitType = 'egg';
-          }
-        }
-
-        // 4. Organisms with Exact Surface Colors (Self-Vision Exemption: eyes never see own body segments)
-        for (let o = 0; o < organisms.length; o++) {
-          const other = organisms[o];
-          if (other.id === org.id || other.dissolving) continue; // Creature NEVER intersects its own body
-
-          for (let s = 0; s < other.segments.length; s++) {
-            const otherSeg = other.segments[s];
-            const otherDef = other.genome.parts[s];
+        for (const candidate of candidates) {
+          const entry = sightEntries[candidate];
+          if (entry.kind === 'food') {
+            const nut = entry.food;
+            if (Math.abs(nut.x - eyeWorldX) > closestDist + nut.radius || Math.abs(nut.y - eyeWorldY) > closestDist + nut.radius) continue;
+            const res = rayCircleIntersection(eyeWorldX, eyeWorldY, rayDirX, rayDirY, closestDist, nut.x, nut.y, nut.radius);
+            if (res.hit && res.dist < closestDist) {
+              closestDist = res.dist; hitHit = true; hitX = res.pointX; hitY = res.pointY;
+              [hitR, hitG, hitB] = getFoodRGB(nut); hitType = nut.kind === 'carrion' ? 'carrion' : 'nutrient';
+            }
+          } else if (entry.kind === 'egg') {
+            const egg = entry.egg;
+            if (Math.abs(egg.x - eyeWorldX) > closestDist + 24 || Math.abs(egg.y - eyeWorldY) > closestDist + 24) continue;
+            const res = rayCircleIntersection(eyeWorldX, eyeWorldY, rayDirX, rayDirY, closestDist, egg.x, egg.y, 16.0);
+            if (res.hit && res.dist < closestDist) {
+              closestDist = res.dist; hitHit = true; hitX = res.pointX; hitY = res.pointY;
+              [hitR, hitG, hitB] = EGG_RGB; hitType = 'egg';
+            }
+          } else {
+            const {other, part, seg: otherSeg, corners} = entry;
+            if (other.id === org.id || other.dissolving) continue;
+            // Preserve the legacy exact-test prefilter as well as edge/tie order.
             if (Math.abs(otherSeg.x - eyeWorldX) > closestDist + 50 || Math.abs(otherSeg.y - eyeWorldY) > closestDist + 50) continue;
-
-            let corners = sightCorners.get(otherSeg);
-            if (!corners) {corners = getPartCornerVertices(otherSeg, otherDef); sightCorners.set(otherSeg, corners);}
             for (let c = 0; c < 4; c++) {
-              const c1 = corners[c];
-              const c2 = corners[(c + 1) % 4];
-              const inter = lineIntersection(
-                eyeWorldX, eyeWorldY,
+              const c1 = corners[c], c2 = corners[(c + 1) % 4];
+              const inter = lineIntersection(eyeWorldX, eyeWorldY,
                 eyeWorldX + rayDirX * closestDist, eyeWorldY + rayDirY * closestDist,
-                c1.x, c1.y, c2.x, c2.y,
-              );
+                c1.x, c1.y, c2.x, c2.y);
               if (inter.hit) {
                 const dist = Math.hypot(inter.x - eyeWorldX, inter.y - eyeWorldY);
                 if (dist < closestDist) {
                   closestDist = dist; hitHit = true; hitX = inter.x; hitY = inter.y;
-                  [hitR, hitG, hitB] = hslToRgb(...getBodyPigment(other, s)); hitType = 'creature';
+                  [hitR, hitG, hitB] = hslToRgb(...getBodyPigment(other, part)); hitType = 'creature';
                 }
               }
             }
@@ -3614,55 +3702,7 @@ export function stepSimulation(
 
     // B. RECURRENT NEURAL EVALUATION. The original dense 24-node loop retains its
     // arithmetic order; explicit disabled keys opt individual edges out.
-    const hiddenCount = g.hiddenIds!.length;
-    const plan = compiledBrain(g);
-    const learnedMotor = org.learnedMotorWeights?.length ? compiledDeltas(org, plan) : null;
-    const learnedRetina = org.learnedSensoryWeights?.length
-      ? (learnedMotor ?? compiledDeltas(org, plan)) : null;
-    const inputCount = org.neuralInputs.length;
-    for (let h = 0; h < hiddenCount; h++) scratchPrevHidden[h] = org.neuralHidden[h] || 0;
-
-    for (let h = 0; h < hiddenCount; h++) {
-      let sum = g.biasesH[h] || 0;
-      const ihRow = g.weightsIH[h], hhRow = g.weightsHH[h];
-      const ihOffset = h * inputCount, hhOffset = h * hiddenCount;
-      for (let inp = 0; inp < org.neuralInputs.length; inp++) {
-        if (!plan.ih[ihOffset + inp]) {
-          sum += (org.neuralInputs[inp] || 0) * (ihRow?.[inp] || 0);
-          if (learnedRetina) {
-            const delta = learnedRetina.sensory[ihOffset + inp];
-            if (delta !== 0) sum += (org.neuralInputs[inp] || 0) * delta;
-          }
-        }
-      }
-      for (let rh = 0; rh < hiddenCount; rh++) {
-        if (!plan.hh[hhOffset + rh]) {
-          sum += scratchPrevHidden[rh] * (hhRow?.[rh] || 0);
-        }
-      }
-      const next = isNaN(sum) ? 0 : Math.tanh(sum);
-      org.neuralHidden[h] = integrateNeuronMemory(scratchPrevHidden[h], next, g.hiddenTimeConstants![h], dt);
-    }
-
-    const numJoints = org.segments.length - 1;
-    for (let o = 0; o < numJoints * OUTPUTS_PER_JOINT; o++) {
-      let sum = g.biasesO[o] || 0;
-      const hoRow = g.weightsHO[o], hoOffset = o * hiddenCount;
-      for (let h = 0; h < hiddenCount; h++) {
-        if (!plan.ho[hoOffset + h]) {
-          sum += org.neuralHidden[h] * (hoRow?.[h] || 0);
-        }
-      }
-      // Acquired synapse offsets alter the neural motor command, not genome
-      // weights, and cannot activate a disabled connection.
-      if (learnedMotor && (g.plasticMotorScope === 'all' || g.outputKeys![o].endsWith(':Angle'))) {
-        for (let h = 0; h < hiddenCount; h++) {
-          const slot = o * hiddenCount + h;
-          if (!plan.ho[slot]) sum += org.neuralHidden[h] * learnedMotor.motor[slot];
-        }
-      }
-      org.neuralOutputs[o] = isNaN(sum) ? 0 : Math.tanh(sum);
-    }
+    evaluateOrganismBrain(org, dt);
     // Reward is from legitimate physical contact on the PREVIOUS tick.
     // Mutations in a living animal's learned offsets change subsequent
     // motor commands only, with their own debited metabolic cost.
@@ -3731,6 +3771,10 @@ export function stepSimulation(
     ledger.mechanicalWorkHeat += frameMechanicalWork * paidFraction;
 
   }
+  // Feeding has its own post-movement index; sight bounds must never be reused.
+  const preyGrid = new OrderedSpatialIndex(organisms.map(other => bodyBounds(other.genome.parts, other.segments)));
+  let oralFoodGrid: NutrientSightGrid | undefined;
+  let oralEggGrid: OrderedSpatialIndex | undefined, oralEggCount = -1;
   // Charge every active body's expenditure before any bites are exchanged.
   for (let index = active.length - 1; index >= 0; index--) {
     const org = active[index], g = org.genome;
@@ -3772,8 +3816,11 @@ export function stepSimulation(
         return transfer;
       };
 
+      const left = Math.min(x1, x2) - mouthRadius, right = Math.max(x1, x2) + mouthRadius;
+      const top = Math.min(y1, y2) - mouthRadius, bottom = Math.max(y1, y2) + mouthRadius;
       if (eatsMeat) {
-        for (let i = organisms.length - 1; i >= 0 && (canEat() || !feedback.contact); i--) {
+        for (const i of preyGrid.queryBounds(left, top, right, bottom).reverse()) {
+          if (!(canEat() || !feedback.contact)) break;
           const prey = organisms[i];
           if (prey.id === org.id || prey.dissolving || (isKinshipProtected && areSiblings(org, prey))) continue;
           let contact = false;
@@ -3804,7 +3851,14 @@ export function stepSimulation(
             if (onEvent) onEvent('clash');
           }
         }
-        for (let i = eggs.length - 1; i >= 0 && (canEat() || !feedback.contact); i--) {
+        // Reproduction can append eggs between mouths; predation can remove them.
+        if (!oralEggGrid || oralEggCount !== eggs.length) {
+          oralEggGrid = new OrderedSpatialIndex(eggs.map(egg => ({
+            left: egg.x - 16, right: egg.x + 16, top: egg.y - 16, bottom: egg.y + 16})));
+          oralEggCount = eggs.length;
+        }
+        for (const i of oralEggGrid.queryBounds(left, top, right, bottom).reverse()) {
+          if (!(canEat() || !feedback.contact)) break;
           const egg = eggs[i];
           if (isKinshipProtected && isEggKin(org, egg)) continue;
           if (distPointToSegment(egg.x, egg.y, x1, y1, x2, y2) > 16 + mouthRadius) continue;
@@ -3818,12 +3872,15 @@ export function stepSimulation(
             ledger.recordedLosses += egg.fundedReserve + egg.fundedStructural;
             org.eggsPredated = (org.eggsPredated || 0) + 1;
             org.preyEaten++; org.foodEaten++;
-            eggs.splice(i, 1);
+            eggs.splice(i, 1); oralEggGrid = undefined;
             if (onEvent) onEvent('clash');
           }
         }
       }
-      for (let i = nutrients.length - 1; i >= 0 && (canEat() || !feedback.contact); i--) {
+      if (!oralFoodGrid || oralFoodGrid.nutrientCount !== nutrients.length)
+        oralFoodGrid = new NutrientSightGrid(nutrients);
+      for (const i of oralFoodGrid.queryBounds(left, top, right, bottom).reverse()) {
+        if (!(canEat() || !feedback.contact)) break;
         const food = nutrients[i], carrion = food.kind === 'carrion';
         if (carrion ? !eatsMeat : !eatsPlants) continue;
         const reach = food.radius + halfAperture + mouthRadius;
