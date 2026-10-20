@@ -1,6 +1,134 @@
 # Project status — 2026-10-19
 
-## Neural motor control and longitudinal drag — version 0.3.0
+## UI, vision, feeding and body contact — version 0.4.0
+
+### Implemented
+
+- Current version appears at the bottom right. Feed/Feed All moved next to the
+  playback controls; the Eel, Predator, Flapper, Tadpole, Glider and Random
+  shortcut row is removed. The Bank, all 50 bodies and existing effects/audio remain.
+- Canvas logical dimensions follow its actual CSS area between the toolbars,
+  including device-pixel ratio. Wide and narrow screens show different areas of
+  the same world with equal X/Y scale, rather than stretching or letterboxing.
+- All five floating panels are bounded by that area, scroll and have native
+  resize handles. Moving/resizing panels or changing screen size reclamps their
+  full rectangles, keeping content above the bottom toolbar. Main menu/guide
+  overlays retain their independent scrolling.
+- Canvas selection now consumes pointer events directly. Previously a press and
+  release entirely between frames could be lost by polling the held state.
+  Selection, dragging, wheel/pinch zoom and tracking remain available.
+  Notifications ignore pointer input, and successful import notices expire, so
+  banners cannot obstruct panel controls.
+- Empty retinal space is exactly black. Walls, water, bubbles, grid, selection
+  indicators and glows supply no RGB or distance hit. Creatures, food particles
+  (including pink carrion) and eggs retain nearest-surface occlusion. Surface RGB
+  attenuates exponentially toward black with distance; distance channels remain.
+- Eggs have a stable white physical shell and equal RGB surface channels. Their
+  display glow/ring carries no retinal signal. Nutrient cores keep fixed geometry
+  and pigment while only their display glow pulses; consuming energy can still
+  legitimately shrink the physical food radius.
+- Mouths have animated dark openings and bite ripples driven by that mouth's
+  actual absorbed intake/recent feeding. The animation changes no contact reach,
+  optical body geometry, intake budget or neural inputs.
+- Every mouth absorbs 80% of removed chemical energy, recording the rest as heat.
+  Existing carrion/tissue digestion loss multiplies this factor (0.8 x 0.85 =
+  68%). Gross intake rates and the shared per-mouth budget remain unchanged.
+  Storage limits removal before assimilation, so full creatures do not destroy
+  surplus food. Reciprocal feeding cannot amplify the combined chemical reserves.
+- Carnivore mouths still cannot consume plant nutrients. Default-on kin
+  protection excludes living parents/offspring, same-clutch and same-generation
+  shared-parent siblings, and related eggs. Unrelated generation peers are edible;
+  disabling protection permits cannibalism. Remains carry no kin protection.
+  Different specialist mouths can still coexist, classified overall as Omnivore;
+  there is no fourth Mixed diet label or HUD count.
+- Initialization, automatic inflow, Feed and Feed All use one capped nutrient
+  creation function. Lowering the limit retains existing food but prevents more
+  creation at/above it. Zero also disables manual plant-food creation. Carrion is
+  funded animal biomass, not an external refill: mineralization waits for a plant
+  slot without deleting its stored energy. Death/egg remains retain their global
+  particle safety cap and existing loss accounting.
+- Rotated body rectangles now collide with other living creatures and their own
+  nonadjacent parts. Directly hinged neighbors are exempt to allow bending.
+  Physics advances all creatures on one common substep clock (at most 1/240s at
+  the tested timesteps), then resolves inelastic frictionless impulses and split
+  position/hinge repair before feeding. Mass and rotational inertia enter impulse
+  resolution. A deterministic spatial hash limits contact candidates. Positional
+  recovery does not add separation velocity or charge biological motor work.
+- Existing v6 snapshot fields suffice: no controller remapping or neuron changes.
+  V3/v4/v5/v6 imports remain supported; current saves continue exactly under this
+  build's updated rules. Old imports preserve neural weights and recurrent memory.
+  Default founder reserves, body/gait genes, drag and force conversion are retained.
+
+### Executed validation
+
+All 92 simulation tests passed (62 existing, 30 new). The new cases cover black empty space/walls,
+white and distance-faded eggs, nearest-surface occlusion, pulse-independent food
+vision, 80%/68% assimilation and heat, manual/inflow/decay caps, kin toggle cases
+for living prey and eggs, reciprocal predation, rotated geometry, momentum and
+kinetic-energy behavior of the impulse, high-speed contact at 1/30, 1/60 and
+1/120s, nonadjacent self-contact, exact snapshot continuation and intact hinges.
+
+All 50 original bodies remained finite/alive for 15s at viscosity .22. Net
+translations ranged from about 7 to 1488px; this includes curving/circling and
+is not a claim of equal cruising ability. The controlled 15s reference remains
+1206.42px, with zero motor-off drift and 0.1194px hinge error.
+
+All 18 default founders survived 60s for seeds 4242, 71 and 1901, with no eggs or
+deaths at that time. Absolute ledger discrepancies were 5.59e-9, 2.75e-8 and
+7.92e-9 J. Detailed current measurements are in `docs/release-validation-0.4.0.json`.
+
+All eleven production-browser scenarios passed across the full local suite and
+focused follow-up runs. These include 1920x900,
+520x900 and 1024x480 windows, native resizing, dragging against viewport edges,
+scrolling to each panel's final content, re-clamping after a 700x500 resize,
+version/obsolete-button checks, actual Feed/Feed All limits, and existing catalogue,
+snapshot/diet/remains behavior. A double-density canvas check verifies the white
+egg pixels and actual animated mouth openings. The same check also passed after
+adding quick selection, pan and wheel-zoom assertions. TypeScript/build passed.
+
+The first CI run caught an import race: the world ref changed before React's
+pause/settings render committed, so an old animation callback could step the new
+zero-food world using the previous inflow. World swaps/resizing now carry a render
+epoch; mismatched callbacks cannot advance the new world. A new browser regression
+imports the same snapshot three times from MAX speed with 4x CPU throttling,
+verifying exact saved time and zero food before resuming. The failing food-display
+case and this stress check both pass in CI. The software-rendered wide-window
+layout scene exceeded its 90s budget in CI, including with one worker. Layout
+checks now use a genuine imported empty/paused snapshot, isolating bounds/scroll/
+resize from ecological rendering workload. The separate startup/pause check runs
+its full default ecosystem at 1920x900. The isolated wide-layout local rerun took
+21.5s, with all its bounds/scroll/resize assertions retained. CI remains serial.
+
+A controlled active swimmer struck a passive body moving at 100px/s: maximum
+hinge error over 5s was 0.1585px and contact penetration 0.0210px. A deliberately
+folded passive chain resolved root/leaf self-contact to about 0.02px slop with
+hinge error below 1e-9px and COM drift below 1e-6px, without motor work.
+
+Five-minute default ecosystem, seed 4242, production kernel at 1/60s:
+
+| Simulated time | Living | Eggs | Highest generation | Recorded deaths |
+| --- | ---: | ---: | ---: | ---: |
+| 60 s | 18 | 0 | 1 | 0 |
+| 120 s | 18 | 0 | 1 | 0 |
+| 180 s | 20 | 0 | 2 | 0 |
+| 240 s | 24 | 1 | 2 | 0 |
+| 300 s | 24 | 1 | 2 | 1 |
+
+Final ledger discrepancy: 2.98e-7 J. Reproduce with
+`npm run benchmark -- --seed 4242 --seconds 300`. This is one finite ecological
+sample, not proof of indefinite stability or improved intelligence.
+
+### Remaining focused work
+
+Contacts use discrete substeps and allow small solver slop; this is not continuous
+collision detection or a full fluid solver. Directly attached rectangles may
+intersect while bending. Food/eggs retain their existing circle/contact model,
+not rigid-body collision response. Spatial indexing currently accelerates body
+contacts, not all eye rays. Reliable foraging/escape, unused reproduction traits,
+growth/injury/repair, evolving neural structure and longer ecological evaluation
+remain pending.
+
+## Previous release: neural motor control and longitudinal drag — version 0.3.0
 
 ### Implemented
 

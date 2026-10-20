@@ -11,8 +11,20 @@
   anatomy and gait data; do not replace entries with renamed duplicates.
 - Maintenance uses geometric body area, not construction joules. Keep reserve,
   construction energy, storage capacity, and heat/removal accounting distinct.
+- Vision is black except for physical creatures, food and white eggs. Display
+  glows/pulses and tank walls must not affect retinal RGB or hit geometry.
+- All mouth transfers apply 80% assimilation, stacking the existing carrion
+  digestion factor; rejected energy becomes heat. Use addNutrients for all
+  external plant-food creation so manual feeding obeys the environmental cap.
+- Body contacts resolve on the common substep clock. Exclude directly hinged
+  neighbors; preserve mass-weighted COM and hinge stability during self-contact.
+- Floating windows must fit the tank viewport between toolbars. Canvas backing
+  dimensions must follow its CSS area/device-pixel ratio without stretching.
+  Noninteractive notification banners must not intercept pointer input.
 - No hidden refills, replacement creatures, death immunity, target-coordinate
   steering, or fabricated diagnostic pass flags.
+- World swaps/resizing use a UI render epoch so callbacks with old settings cannot
+  step replacement state before its matching pause/settings render.
 - New imports must be validated before replacing the active world. Current
   snapshots must continue exactly, including PRNG, activations, counters and IDs.
 - Run `npm test`, `npm run build`, and `npm run test:e2e` for simulation/UI changes.

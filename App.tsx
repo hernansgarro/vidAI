@@ -54,7 +54,6 @@ import {
   Overlay,
   prepareCanvas,
   useAssets,
-  useInput,
   useIsMobile,
   gameAudio,
 } from './utils/helper';
@@ -85,6 +84,8 @@ import {
   hsl,
   getBodyPigment,
   getFoodRGB,
+  addNutrients,
+  nutrientSpawnSlots,
   getLifeStage,
   evaluateReproductionAffordability,
   getDietClassification,
@@ -98,75 +99,51 @@ import {
   stepSimulation
 } from './simulation';
 import {FOUNDER_FAMILIES, createFounderBankItems, type FounderMode} from './founders';
-import {CREDITS, createSnapshot, restoreSnapshot, validateGenome,
+import {BUILD_VERSION, CREDITS, createSnapshot, restoreSnapshot, validateGenome,
   clearFreeNutrients, resizeWorld, diagnosticReport} from './persistence';
 export * from './simulation';
 
-// Draggable modal hook with strict viewport clamping
+// Bound floating windows to the visible tank area, including after resizing.
 function useDraggableModal(initialX: number, initialY: number) {
-  const [pos, setPos] = useState(() => {
-    const maxX = typeof window !== 'undefined' ? Math.max(20, window.innerWidth - 120) : 1000;
-    const maxY = typeof window !== 'undefined' ? Math.max(20, window.innerHeight - 120) : 600;
-    return {
-      x: Math.max(10, Math.min(maxX, initialX)),
-      y: Math.max(10, Math.min(maxY, initialY)),
-    };
-  });
-  const isDraggingRef = useRef(false);
-  const dragStartRef = useRef({x: 0, y: 0, posX: 0, posY: 0});
-
-  const handlePointerDown = (e: React.PointerEvent) => {
-    e.stopPropagation();
-    isDraggingRef.current = true;
-    dragStartRef.current = {
-      x: e.clientX,
-      y: e.clientY,
-      posX: pos.x,
-      posY: pos.y,
-    };
-    try {
-      (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
-    } catch {
-      // ignore
-    }
-  };
-
-  const handlePointerMove = (e: React.PointerEvent) => {
-    if (!isDraggingRef.current) return;
-    e.stopPropagation();
-    const dx = e.clientX - dragStartRef.current.x;
-    const dy = e.clientY - dragStartRef.current.y;
-    const maxX = typeof window !== 'undefined' ? Math.max(20, window.innerWidth - 120) : 1200;
-    const maxY = typeof window !== 'undefined' ? Math.max(20, window.innerHeight - 120) : 800;
-
-    setPos({
-      x: Math.max(10, Math.min(maxX, dragStartRef.current.posX + dx)),
-      y: Math.max(10, Math.min(maxY, dragStartRef.current.posY + dy)),
+  const [pos, setPos] = useState({x: initialX, y: initialY});
+  const elementRef = useRef<HTMLDivElement | null>(null);
+  const observerRef = useRef<ResizeObserver | null>(null);
+  const dragStartRef = useRef<{x: number; y: number; posX: number; posY: number} | null>(null);
+  const clampPosition = useCallback((candidate: {x: number; y: number}) => {
+    const node = elementRef.current, area = node?.parentElement;
+    if (!node || !area) return candidate;
+    return {x: clampVal(candidate.x, 8, Math.max(8, area.clientWidth - node.offsetWidth - 8)),
+      y: clampVal(candidate.y, 8, Math.max(8, area.clientHeight - node.offsetHeight - 8))};
+  }, []);
+  const panelRef = useCallback((node: HTMLDivElement | null) => {
+    observerRef.current?.disconnect(); elementRef.current = node;
+    if (!node) return;
+    const fit = () => setPos(current => {
+      const next = clampPosition(current);
+      return current.x === next.x && current.y === next.y ? current : next;
     });
+    observerRef.current = new ResizeObserver(fit); observerRef.current.observe(node);
+    if (node.parentElement) observerRef.current.observe(node.parentElement);
+    fit();
+  }, [clampPosition]);
+  useEffect(() => () => observerRef.current?.disconnect(), []);
+  const finish = (e: React.PointerEvent) => {
+    dragStartRef.current = null;
+    if (e.currentTarget.hasPointerCapture(e.pointerId)) e.currentTarget.releasePointerCapture(e.pointerId);
   };
-
-  const handlePointerUp = (e: React.PointerEvent) => {
-    if (isDraggingRef.current) {
-      isDraggingRef.current = false;
-      e.stopPropagation();
-      try {
-        (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
-      } catch {
-        // ignore
-      }
-    }
-  };
-
-  return {
-    pos,
-    setPos,
-    headerProps: {
-      onPointerDown: handlePointerDown,
-      onPointerMove: handlePointerMove,
-      onPointerUp: handlePointerUp,
-      onPointerCancel: handlePointerUp,
+  return {pos, panelRef, headerProps: {
+    onPointerDown: (e: React.PointerEvent) => {
+      if (e.button !== 0 || (e.target as HTMLElement).closest('button,input,select,textarea')) return;
+      e.stopPropagation(); dragStartRef.current = {x: e.clientX, y: e.clientY, posX: pos.x, posY: pos.y};
+      e.currentTarget.setPointerCapture(e.pointerId);
     },
-  };
+    onPointerMove: (e: React.PointerEvent) => {
+      const start = dragStartRef.current; if (!start) return;
+      e.stopPropagation();
+      setPos(clampPosition({x: start.posX + e.clientX - start.x, y: start.posY + e.clientY - start.y}));
+    },
+    onPointerUp: finish, onPointerCancel: finish,
+  }};
 }
 
 // ============================================================================
@@ -174,6 +151,14 @@ function useDraggableModal(initialX: number, initialY: number) {
 // ============================================================================
 export default function App() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const [{width: canvasWidth, height: canvasHeight}, setViewportSize] = useState({width: 1280, height: 720});
+  useEffect(() => {
+    const node = viewportRef.current; if (!node) return;
+    const measure = () => { const rect = node.getBoundingClientRect(); setViewportSize({width: Math.max(1, rect.width), height: Math.max(1, rect.height)}); };
+    const observer = new ResizeObserver(measure); observer.observe(node); measure();
+    return () => observer.disconnect();
+  }, []);
   const stepperRef = useRef<ReturnType<typeof createFixedStepper>>();
 
   const ASSETS_MANIFEST: Record<string, string> = {
@@ -185,8 +170,6 @@ export default function App() {
   const {assets, isReady: assetsReady} = useAssets(ASSETS_MANIFEST);
 
   const isMobile = useIsMobile();
-  const canvasWidth = getConfig('baseCanvasWidth') as number;
-  const canvasHeight = getConfig('baseCanvasHeight') as number;
   const [worldWidth, setWorldWidth] = useState(clampVal(getConfig('worldWidth'), 800, 4800));
   const [worldHeight, setWorldHeight] = useState(clampVal(getConfig('worldHeight'), 600, 3000));
 
@@ -376,6 +359,15 @@ export default function App() {
     lastDragY: 0,
   });
 
+  // A replacement world must never be stepped by a render holding its old settings.
+  const [worldEpoch, setWorldEpoch] = useState(0);
+  const worldEpochRef = useRef(0);
+  const replaceWorld = useCallback((state: SimulationState) => {
+    worldEpochRef.current++;
+    simStateRef.current = state;
+    setWorldEpoch(worldEpochRef.current);
+  }, []);
+
   const statsTimerRef = useRef(0);
   const timeMultiplierRef = useRef(timeMultiplier);
   timeMultiplierRef.current = timeMultiplier;
@@ -384,10 +376,6 @@ export default function App() {
     (window as any).canHandleBackKey = gameState.status !== 'START';
   }, [gameState.status]);
 
-  const inputRef = useInput(canvasRef, true, {
-    width: canvasWidth,
-    height: canvasHeight,
-  });
 
   const closeInspector = useCallback((e?: React.MouseEvent | React.PointerEvent) => {
     if (e) {
@@ -450,6 +438,7 @@ export default function App() {
     cam.x = clampVal(cam.x + dx, 0, width); cam.targetX = clampVal(cam.targetX + dx, 0, width);
     cam.y = clampVal(cam.y + dy, 0, height); cam.targetY = clampVal(cam.targetY + dy, 0, height);
     setWorldWidth(width); setWorldHeight(height);
+    replaceWorld(simStateRef.current);
   };
 
   const copyDiagnosticReport = async () => {
@@ -463,12 +452,12 @@ export default function App() {
 
   // Fork a complete, independent state without changing simulation randomness.
   const branchEcosystem = useCallback(() => {
-    simStateRef.current = restoreSnapshot(createSnapshot(simStateRef.current, currentSettings())).state;
+    replaceWorld(restoreSnapshot(createSnapshot(simStateRef.current, currentSettings())).state);
     setSelectedOrgId(null); setSelectedSpecimen(null); setIsAutoTracking(false);
     setSaveNotification(`Branched ecosystem: ${customBranchName}`);
     setTimeout(() => setSaveNotification(null), 2500);
     gameAudio.playLevelUpStinger();
-  }, [customBranchName, currentSettings]);
+  }, [customBranchName, currentSettings, replaceWorld]);
 
   const exportEcosystemJSON = useCallback(() => {
     const s = simStateRef.current;
@@ -487,7 +476,7 @@ export default function App() {
     void file.text().then(text => {
       const restored = restoreSnapshot(text);
       const v = restored.settings;
-      simStateRef.current = restored.state;
+      replaceWorld(restored.state);
       setEcoStats(prev => ({...prev, ...collectWorldStats(restored.state, v.targetNutrients)}));
       setWorldWidth(v.worldWidth); setWorldHeight(v.worldHeight); setGravity(v.gravity ?? 0);
       setWaterViscosity(v.waterViscosity); setTargetNutrientAbundance(v.targetNutrients); setNutrientInflowRate(v.inflowRate);
@@ -500,9 +489,10 @@ export default function App() {
       cameraRef.current.y = cameraRef.current.targetY = v.worldHeight / 2;
       setGameState(prev => ({...prev, status: 'PAUSED'}));
       setSaveNotification('Snapshot restored. Resume when ready.');
+      setTimeout(() => setSaveNotification(current => current === 'Snapshot restored. Resume when ready.' ? null : current), 2500);
       gameAudio.playLevelUpStinger();
     }).catch(error => setSaveNotification(error instanceof Error ? error.message : 'Invalid snapshot.'));
-  }, []);
+  }, [replaceWorld]);
 
   const [diagnosticsRunning, setDiagnosticsRunning] = useState(false);
   const runDiagnosticSuite = useCallback(async () => {
@@ -515,7 +505,7 @@ export default function App() {
   // Initialize Simulation
   const initGame = useCallback(
     (preset = 'standard') => {
-      simStateRef.current = createInitialWorld(currentSettings(), simulationSeed, founderMode, preset, getConfig('initialOrganisms'));
+      replaceWorld(createInitialWorld(currentSettings(), simulationSeed, founderMode, preset, getConfig('initialOrganisms')));
       popHistoryRef.current = [simStateRef.current.organisms.length];
       setEcoStats(prev => ({...prev, ...collectWorldStats(simStateRef.current, targetNutrientAbundance)}));
 
@@ -537,7 +527,7 @@ export default function App() {
 
       gameAudio.playConfirmSelect();
     },
-    [worldWidth, worldHeight, currentSettings, simulationSeed, founderMode],
+    [worldWidth, worldHeight, currentSettings, simulationSeed, founderMode, replaceWorld],
   );
 
 
@@ -579,60 +569,23 @@ export default function App() {
   const spawnNutrientBurst = useCallback(
     (worldX?: number, worldY?: number, count = 15) => {
       const s = simStateRef.current;
-      const currentCount = s.nutrients.length;
-      const actualCount = Math.min(count, Math.max(0, 2200 - currentCount));
-      if (actualCount <= 0) return;
-
-      const cx = worldX !== undefined ? worldX : cameraRef.current.x + s.prng.range(-50, 50);
-      const cy = worldY !== undefined ? worldY : cameraRef.current.y + s.prng.range(-50, 50);
-
-      for (let i = 0; i < actualCount; i++) {
-        s.nutrients.push({
-          id: `NUT-${s.prng.nextUint32().toString(36)}`,
-          x: clampVal(cx + s.prng.range(-80, 80), 40, worldWidth - 40),
-          y: clampVal(cy + s.prng.range(-80, 80), 40, worldHeight - 40),
-          vx: 0,
-          vy: 0,
-          energyValue: NUTRIENT_ENERGY_VALUE,
-          radius: getNutrientRadius(NUTRIENT_ENERGY_VALUE),
-          bottomTimer: 0,
-          pulseTimer: s.prng.range(0, Math.PI * 2),
-        });
-        s.ledger.externalInflow += NUTRIENT_ENERGY_VALUE;
-      }
-      gameAudio.playPotionGulp();
-    },
-    [worldWidth, worldHeight],
+      if (nutrientSpawnSlots(s, currentSettings()) === 0) return;
+      const cx = worldX ?? cameraRef.current.x, cy = worldY ?? cameraRef.current.y;
+      if (addNutrients(s, currentSettings(), count, {x: cx, y: cy, spread: 80})) gameAudio.playPotionGulp();
+    }, [currentSettings],
   );
 
-  // Feed All living organisms
+  // Feed All adds capped plant food near living creatures, not directly to reserves.
   const feedAllOrganisms = useCallback(() => {
-    const s = simStateRef.current;
-    if (s.organisms.length === 0) {
-      spawnNutrientBurst(worldWidth / 2, worldHeight / 2, 35);
-      return;
+    const s = simStateRef.current, living = s.organisms.filter(o => !o.dissolving);
+    if (!living.length) { spawnNutrientBurst(worldWidth / 2, worldHeight / 2, 35); return; }
+    let added = 0;
+    for (const org of living) {
+      added += addNutrients(s, currentSettings(), 2, {...org.segments[0], spread: 60});
+      if (!nutrientSpawnSlots(s, currentSettings())) break;
     }
-    for (const org of s.organisms) {
-      if (s.nutrients.length >= 2200) break;
-      const root = org.segments[0];
-      for (let i = 0; i < 2; i++) {
-        if (s.nutrients.length >= 2200) break;
-        s.nutrients.push({
-          id: `NUT-${s.prng.nextUint32().toString(36)}`,
-          x: clampVal(root.x + s.prng.range(-60, 60), 40, worldWidth - 40),
-          y: clampVal(root.y + s.prng.range(-60, 60), 40, worldHeight - 40),
-          vx: 0,
-          vy: 0,
-          energyValue: NUTRIENT_ENERGY_VALUE,
-          radius: getNutrientRadius(NUTRIENT_ENERGY_VALUE),
-          bottomTimer: 0,
-          pulseTimer: s.prng.range(0, Math.PI * 2),
-        });
-        s.ledger.externalInflow += NUTRIENT_ENERGY_VALUE;
-      }
-    }
-    gameAudio.playPotionGulp();
-  }, [worldWidth, worldHeight, spawnNutrientBurst]);
+    if (added) gameAudio.playPotionGulp();
+  }, [worldWidth, worldHeight, currentSettings, spawnNutrientBurst]);
 
   // Keyboard Shortcuts
   useEffect(() => {
@@ -722,6 +675,7 @@ export default function App() {
       if (e.touches.length === 2) {
         const dx = e.touches[0].clientX - e.touches[1].clientX;
         const dy = e.touches[0].clientY - e.touches[1].clientY;
+        pointerDownStateRef.current.active = false; cameraRef.current.isDragging = false;
         touchStartDist = Math.hypot(dx, dy);
         initialZoom = cameraRef.current.zoom;
       }
@@ -750,7 +704,7 @@ export default function App() {
 
   // Update Loop
   const update = (deltaTime: number) => {
-    if (gameState.status !== 'PLAYING' || isGameMenuOpen) return;
+    if (worldEpoch !== worldEpochRef.current || gameState.status !== 'PLAYING' || isGameMenuOpen) return;
 
     const multiplier = timeMultiplierRef.current;
     const fixedDt = 1 / 60;
@@ -850,6 +804,40 @@ export default function App() {
     }
   };
 
+  const canvasPoint = (e: React.PointerEvent<HTMLCanvasElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    return {x: (e.clientX - rect.left) * canvasWidth / rect.width,
+      y: (e.clientY - rect.top) * canvasHeight / rect.height};
+  };
+  const handleCanvasDown = (e: React.PointerEvent<HTMLCanvasElement>) => {
+    if (!e.isPrimary || e.button !== 0) return;
+    const p = canvasPoint(e), cam = cameraRef.current;
+    pointerDownStateRef.current = {...p, time: Date.now(), active: true};
+    cam.isDragging = true; cam.lastDragX = p.x; cam.lastDragY = p.y;
+    e.currentTarget.setPointerCapture(e.pointerId);
+  };
+  const handleCanvasMove = (e: React.PointerEvent<HTMLCanvasElement>) => {
+    const start = pointerDownStateRef.current; if (!start.active || !e.isPrimary) return;
+    const p = canvasPoint(e), cam = cameraRef.current;
+    if (Math.hypot(p.x - start.x, p.y - start.y) > 5) {
+      cam.targetX -= (p.x - cam.lastDragX) / cam.zoom;
+      cam.targetY -= (p.y - cam.lastDragY) / cam.zoom; setIsAutoTracking(false);
+    }
+    cam.lastDragX = p.x; cam.lastDragY = p.y;
+  };
+  const handleCanvasUp = (e: React.PointerEvent<HTMLCanvasElement>, cancelled = false) => {
+    const start = pointerDownStateRef.current; if (!start.active || !e.isPrimary) return;
+    const p = canvasPoint(e), cam = cameraRef.current; start.active = false; cam.isDragging = false;
+    if (e.currentTarget.hasPointerCapture(e.pointerId)) e.currentTarget.releasePointerCapture(e.pointerId);
+    if (cancelled || Math.hypot(p.x - start.x, p.y - start.y) >= 6 || Date.now() - start.time >= 500
+      || Date.now() <= ignoreCanvasClickUntilRef.current) return;
+    const x = cam.x + (p.x - canvasWidth / 2) / cam.zoom, y = cam.y + (p.y - canvasHeight / 2) / cam.zoom;
+    const clicked = simStateRef.current.organisms.find(org => org.segments.some(seg => Math.hypot(seg.x - x, seg.y - y) < 45 / cam.zoom));
+    setSelectedOrgId(clicked?.id ?? null); setSelectedSpecimen(clicked ?? null);
+    setIsBrainInspectorOpen(!!clicked); setIsAutoTracking(!!clicked);
+    if (clicked) gameAudio.playConfirmSelect();
+  };
+
   // Rendering Pipeline
   const draw = (ctx: CanvasRenderingContext2D) => {
     realTimeTrackerRef.current.framesThisSec += 1;
@@ -935,9 +923,7 @@ export default function App() {
 
       ctx.save();
       ctx.translate(nut.x, nut.y);
-      ctx.scale(pulse, pulse);
-
-      const auraRad = Math.max(14, baseRadius * 2.6);
+      const auraRad = Math.max(14, baseRadius * 2.6) * pulse;
       const auraGrad = ctx.createRadialGradient(0, 0, baseRadius * 0.3, 0, 0, auraRad);
       if (carrion) {
         auraGrad.addColorStop(0, 'rgba(240, 120, 106, .75)');
@@ -984,39 +970,27 @@ export default function App() {
 
       ctx.save();
       ctx.translate(egg.x, egg.y);
-      ctx.scale(pulse, pulse);
-
-      const eggGlow = ctx.createRadialGradient(0, 0, 6, 0, 0, 24);
-      eggGlow.addColorStop(0, `hsla(${egg.colorHue}, 90%, 65%, 0.5)`);
-      eggGlow.addColorStop(1, 'rgba(245, 158, 11, 0)');
+      const eggGlow = ctx.createRadialGradient(0, 0, 6, 0, 0, 24 * pulse);
+      eggGlow.addColorStop(0, 'rgba(255, 255, 255, 0.5)');
+      eggGlow.addColorStop(1, 'rgba(255, 255, 255, 0)');
       ctx.fillStyle = eggGlow;
       ctx.beginPath();
-      ctx.arc(0, 0, 24, 0, Math.PI * 2);
+      ctx.arc(0, 0, 24 * pulse, 0, Math.PI * 2);
       ctx.fill();
 
       ctx.beginPath();
       ctx.arc(0, 0, eggHeight * 0.7, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * egg.incubationProgress);
-      ctx.strokeStyle = egg.readyToHatch ? '#34d399' : `hsl(${egg.colorHue}, 90%, 65%)`;
+      ctx.strokeStyle = egg.readyToHatch ? '#a7f3d0' : '#ffffff';
       ctx.lineWidth = 2.5;
       ctx.stroke();
 
-      drawAsset(
-        ctx,
-        eggImg,
-        -eggWidth / 2,
-        -eggHeight / 2,
-        eggWidth,
-        eggHeight,
-        (fallbackCtx) => {
-          fallbackCtx.beginPath();
-          fallbackCtx.ellipse(0, 0, eggWidth / 2, eggHeight / 2, 0, 0, Math.PI * 2);
-          fallbackCtx.fillStyle = `hsla(${egg.colorHue}, 80%, 60%, 0.7)`;
-          fallbackCtx.strokeStyle = '#38bdf8';
-          fallbackCtx.lineWidth = 2;
-          fallbackCtx.fill();
-          fallbackCtx.stroke();
-        },
-      );
+      ctx.beginPath(); ctx.arc(0, 0, 16, 0, Math.PI * 2);
+      ctx.fillStyle = '#ffffff'; ctx.fill();
+      ctx.strokeStyle = '#cbd5e1'; ctx.lineWidth = 1.5; ctx.stroke();
+      if (eggImg?.complete && eggImg.naturalWidth > 0) {
+        ctx.save(); ctx.filter = 'grayscale(1) brightness(1.8)'; ctx.globalAlpha = .14;
+        ctx.drawImage(eggImg, -eggWidth / 2, -eggHeight / 2, eggWidth, eggHeight); ctx.restore();
+      }
       ctx.restore();
     }
 
@@ -1145,6 +1119,10 @@ export default function App() {
           const isOmni = mouth.mouthType === 'omnivore';
 
           const mouthRadius = isCarn ? 4.5 : isOmni ? 4.0 : 3.5;
+          const lastBite = org.recentFeedings?.filter(event => event.mouthId === mouth.id).at(-1);
+          const activity = Math.max(org.mouthFeedback?.[mouth.id]?.intake ?? 0,
+            lastBite ? clampVal(1 - (s.simTime - lastBite.timestamp) / .3, 0, 1) : 0);
+          const opening = activity * (.5 + .5 * Math.sin(s.simTime * 28));
           const halfAperture = Math.max(mouthRadius, mouth.intakeWidth * 0.5);
 
           // Physical Feeding Aperture Slot Indicator (Visible under HUD toggle or selection)
@@ -1211,6 +1189,16 @@ export default function App() {
             ctx.fill();
             ctx.stroke();
           }
+          // Bite animation is visual only; physical aperture and optical body stay fixed.
+          const normal = getCardinalOutwardNormal(mouth.direction);
+          ctx.beginPath();
+          ctx.ellipse(mouthLoc.x, mouthLoc.y, 2 + opening * 2.2, .8 + opening * 2.5,
+            Math.atan2(normal.y, normal.x), 0, Math.PI * 2);
+          ctx.fillStyle = '#020610'; ctx.fill();
+          if (activity > 0) {
+            ctx.beginPath(); ctx.arc(mouthLoc.x, mouthLoc.y, 7 + opening * 5, 0, Math.PI * 2);
+            ctx.strokeStyle = `rgba(255,255,255,${activity * .65})`; ctx.lineWidth = 1.2; ctx.stroke();
+          }
         }
 
         ctx.restore();
@@ -1239,73 +1227,6 @@ export default function App() {
   useEffect(() => {
     let raf = 0;
     const loop = (time: number) => {
-      if (inputRef.current) {
-        const ptr = inputRef.current.pointer;
-        const cam = cameraRef.current;
-        const pState = pointerDownStateRef.current;
-        const s = simStateRef.current;
-
-        if (ptr.down) {
-          if (!pState.active) {
-            pState.active = true;
-            pState.x = ptr.x;
-            pState.y = ptr.y;
-            pState.time = Date.now();
-            cam.isDragging = true;
-            cam.lastDragX = ptr.x;
-            cam.lastDragY = ptr.y;
-          } else {
-            const dx = (ptr.x - cam.lastDragX) / cam.zoom;
-            const dy = (ptr.y - cam.lastDragY) / cam.zoom;
-            const totalMoveDist = Math.hypot(ptr.x - pState.x, ptr.y - pState.y);
-            if (totalMoveDist > 5) {
-              cam.targetX -= dx;
-              cam.targetY -= dy;
-              setIsAutoTracking(false);
-            }
-            cam.lastDragX = ptr.x;
-            cam.lastDragY = ptr.y;
-          }
-        } else {
-          if (pState.active) {
-            const totalMoveDist = Math.hypot(ptr.x - pState.x, ptr.y - pState.y);
-            const pressDuration = Date.now() - pState.time;
-            pState.active = false;
-            cam.isDragging = false;
-
-            if (totalMoveDist < 6 && pressDuration < 500 && Date.now() > ignoreCanvasClickUntilRef.current) {
-              const worldX = cam.x + (pState.x - canvasWidth / 2) / cam.zoom;
-              const worldY = cam.y + (pState.y - canvasHeight / 2) / cam.zoom;
-
-              let clickedOrg: Organism | null = null;
-              for (const org of s.organisms) {
-                for (const seg of org.segments) {
-                  const dist = Math.hypot(seg.x - worldX, seg.y - worldY);
-                  if (dist < 45 / cam.zoom) {
-                    clickedOrg = org;
-                    break;
-                  }
-                }
-                if (clickedOrg) break;
-              }
-
-              if (clickedOrg) {
-                setSelectedOrgId(clickedOrg.id);
-                setSelectedSpecimen(clickedOrg);
-                setIsBrainInspectorOpen(true);
-                setIsAutoTracking(true);
-                gameAudio.playConfirmSelect();
-              } else {
-                setSelectedOrgId(null);
-                setSelectedSpecimen(null);
-                setIsBrainInspectorOpen(false);
-                setIsAutoTracking(false);
-              }
-            }
-          }
-        }
-      }
-
       stepperRef.current?.(time, (dt) => updateRef.current(dt));
 
       const ctx = canvasRef.current?.getContext('2d');
@@ -1511,19 +1432,12 @@ export default function App() {
       </header>
 
       {/* MAIN SIMULATION CANVAS */}
-      <div className="flex-1 w-full min-h-0 relative flex items-center justify-center bg-slate-950 overflow-hidden">
-        <canvas
-          ref={canvasRef}
-          width={canvasWidth}
-          height={canvasHeight}
-          style={{
-            aspectRatio: `${canvasWidth} / ${canvasHeight}`,
-            maxWidth: '100%',
-            maxHeight: '100%',
-            objectFit: 'contain',
-          }}
-          className="w-auto h-auto max-w-full max-h-full cursor-grab active:cursor-grabbing block"
-        />
+      <div ref={viewportRef} data-testid="tank-viewport" className="flex-1 w-full min-h-0 relative bg-slate-950 overflow-hidden">
+        <canvas ref={canvasRef} width={canvasWidth} height={canvasHeight}
+          onPointerDown={handleCanvasDown} onPointerMove={handleCanvasMove}
+          onPointerUp={e => handleCanvasUp(e)} onPointerCancel={e => handleCanvasUp(e, true)}
+          onLostPointerCapture={() => { pointerDownStateRef.current.active = false; cameraRef.current.isDragging = false; }}
+          aria-label="Aquatic simulation" className="absolute inset-0 w-full h-full cursor-grab active:cursor-grabbing block" />
 
         {/* CREATURE'S-EYE RETINAL HUD STRIP (When creature is selected) */}
         {selectedSpecimen && (
@@ -1538,7 +1452,7 @@ export default function App() {
                   <div
                     className="w-4 h-4 rounded border border-white/30 shadow-inner"
                     style={{backgroundColor: `rgb(${Math.round(ray.r * 255)}, ${Math.round(ray.g * 255)}, ${Math.round(ray.b * 255)})`}}
-                    title={`Ray ${idx + 1}: ${ray.hit ? ray.objectType : 'ambient water'} @ ${Math.round(ray.dist)}px`}
+                    title={`Ray ${idx + 1}: ${ray.hit ? ray.objectType : 'empty space (black)'} @ ${Math.round(ray.dist)}px`}
                   />
                   <span className="text-[8px] text-slate-400 mt-0.5">{idx + 1}</span>
                 </div>
@@ -1562,21 +1476,21 @@ export default function App() {
           );
 
           return (
-            <div
+            <div ref={badgeDraggable.panelRef} data-testid="badge-window"
               onPointerDown={(e) => e.stopPropagation()}
               onClick={(e) => e.stopPropagation()}
               style={{
                 transform: `translate3d(${badgeDraggable.pos.x}px, ${badgeDraggable.pos.y}px, 0)`,
                 pointerEvents: 'auto',
               }}
-              className={`absolute top-0 left-0 bg-slate-900/95 backdrop-blur-md border rounded-2xl p-3 max-w-xs text-xs font-mono shadow-2xl flex flex-col gap-1.5 pointer-events-auto z-30 transition-all ${
+              className={`vida-window absolute top-0 left-0 bg-slate-900/95 backdrop-blur-md border rounded-2xl p-3 w-80 text-xs font-mono shadow-2xl flex flex-col gap-1.5 pointer-events-auto z-30 transition-colors ${
                 isAging
                   ? 'border-amber-500/80 shadow-amber-500/20 ring-1 ring-amber-400/40'
                   : 'border-cyan-500/40 shadow-cyan-500/10'
               }`}>
               <div
                 {...badgeDraggable.headerProps}
-                className="flex items-center justify-between gap-2 border-b border-cyan-500/20 pb-1.5 cursor-grab active:cursor-grabbing select-none">
+                className="flex items-center justify-between gap-2 border-b border-cyan-500/20 pb-1.5 shrink-0 touch-none cursor-grab active:cursor-grabbing select-none">
                 <div
                   className="flex items-center gap-1.5 font-bold text-cyan-300 hover:underline"
                   onClick={(e) => {
@@ -1717,7 +1631,7 @@ export default function App() {
 
         {/* TOAST NOTIFICATION BADGE */}
         {saveNotification && (
-          <div className="absolute top-14 left-1/2 -translate-x-1/2 bg-gradient-to-r from-purple-900/90 to-emerald-900/90 border border-emerald-400 backdrop-blur-md rounded-2xl px-4 py-2 flex items-center gap-2 z-50 font-mono text-xs font-bold text-emerald-300 shadow-2xl animate-bounce">
+          <div className="pointer-events-none absolute top-14 left-1/2 -translate-x-1/2 bg-gradient-to-r from-purple-900/90 to-emerald-900/90 border border-emerald-400 backdrop-blur-md rounded-2xl px-4 py-2 flex items-center gap-2 z-50 font-mono text-xs font-bold text-emerald-300 shadow-2xl animate-bounce">
             <CheckCircle2 size={16} className="text-emerald-400" />
             <span>{saveNotification}</span>
           </div>
@@ -1725,17 +1639,17 @@ export default function App() {
 
         {/* DRAGGABLE SETTINGS & "BRANCH THIS ECOSYSTEM" PANEL */}
         {isSettingsOpen && (
-          <div
+          <div ref={settingsDraggable.panelRef} data-testid="settings-window"
             onPointerDown={(e) => e.stopPropagation()}
             onClick={(e) => e.stopPropagation()}
             style={{
               transform: `translate3d(${settingsDraggable.pos.x}px, ${settingsDraggable.pos.y}px, 0)`,
               pointerEvents: 'auto',
             }}
-            className="absolute top-0 left-0 bg-slate-900/95 backdrop-blur-lg border border-amber-500/50 rounded-2xl p-4 w-88 font-mono text-xs shadow-2xl z-40 pointer-events-auto">
+            className="vida-window absolute top-0 left-0 bg-slate-900/95 backdrop-blur-lg border border-amber-500/50 rounded-2xl p-4 w-[352px] flex flex-col font-mono text-xs shadow-2xl z-40 pointer-events-auto">
             <div
               {...settingsDraggable.headerProps}
-              className="flex items-center justify-between border-b border-amber-500/30 pb-2 mb-3 cursor-grab active:cursor-grabbing select-none">
+              className="flex items-center justify-between border-b border-amber-500/30 pb-2 mb-3 shrink-0 touch-none cursor-grab active:cursor-grabbing select-none">
               <div className="flex items-center gap-2">
                 <GripHorizontal className="text-amber-400" size={16} />
                 <Sliders className="text-amber-400" size={16} />
@@ -1755,7 +1669,7 @@ export default function App() {
               </button>
             </div>
 
-            <div className="space-y-3.5 max-h-[70vh] overflow-y-auto pr-1">
+            <div className="space-y-3.5 flex-1 min-h-0 overflow-y-auto pr-1">
               {/* Branch Ecosystem Button */}
               <div className="p-2.5 rounded-xl bg-purple-950/40 border border-purple-500/40 space-y-2">
                 <div className="flex items-center gap-1.5 text-purple-300 font-bold">
@@ -1810,14 +1724,14 @@ export default function App() {
                   aria-label="Nutrient target"
                   min="0"
                   max="800"
-                  step="50"
+                  step="1"
                   value={targetNutrientAbundance}
                   onChange={(e) => setTargetNutrientAbundance(parseInt(e.target.value, 10))}
                   className="w-full h-2 accent-emerald-400 cursor-pointer bg-slate-950 rounded-lg"
                 />
               </div>
 
-              <p className="text-[10px] text-slate-400">Target controls inflow. Existing particles remain until eaten or cleared.</p>
+              <p className="text-[10px] text-slate-400">Limit applies to inflow, Feed and Feed All. Existing food remains until eaten or cleared; remains keep their stored energy.</p>
               <button className="w-full py-1.5 bg-slate-800 border border-emerald-500/40 rounded-xl text-emerald-300 text-[11px]"
                 onClick={() => {
                   clearFreeNutrients(simStateRef.current);
@@ -1891,6 +1805,7 @@ export default function App() {
                 </button>
               </div>
 
+              <p className="text-[10px] text-slate-400">Protection covers living parents, offspring, siblings and related eggs. Unrelated creatures of the same generation remain edible; remains are unprotected animal food.</p>
               <div className="flex items-center justify-between p-2 rounded-xl bg-slate-950/80 border border-slate-800">
                 <span className="text-[11px] text-slate-300 font-bold">Movement Traces:</span>
                 <button
@@ -1940,17 +1855,17 @@ export default function App() {
 
         {/* SPECIMEN BANK MODAL */}
         {isSpecimenBankOpen && (
-          <div
+          <div ref={bankDraggable.panelRef} data-testid="bank-window"
             onPointerDown={(e) => e.stopPropagation()}
             onClick={(e) => e.stopPropagation()}
             style={{
               transform: `translate3d(${bankDraggable.pos.x}px, ${bankDraggable.pos.y}px, 0)`,
               pointerEvents: 'auto',
             }}
-            className="absolute top-0 left-0 bg-slate-900/95 backdrop-blur-xl border-2 border-purple-500/50 rounded-3xl p-4 w-96 max-h-[80vh] flex flex-col font-mono text-xs shadow-2xl z-40 pointer-events-auto">
+            className="vida-window absolute top-0 left-0 bg-slate-900/95 backdrop-blur-xl border-2 border-purple-500/50 rounded-3xl p-4 w-96 flex flex-col font-mono text-xs shadow-2xl z-40 pointer-events-auto">
             <div
               {...bankDraggable.headerProps}
-              className="flex items-center justify-between border-b border-purple-500/30 pb-2 mb-3 cursor-grab active:cursor-grabbing select-none shrink-0">
+              className="flex items-center justify-between border-b border-purple-500/30 pb-2 mb-3 shrink-0 touch-none cursor-grab active:cursor-grabbing select-none shrink-0">
               <div className="flex items-center gap-2">
                 <GripHorizontal className="text-purple-400" size={16} />
                 <FolderOpen className="text-purple-400" size={16} />
@@ -2028,18 +1943,18 @@ export default function App() {
 
         {/* DRAGGABLE BRAIN, MORPHOLOGY, ENERGY, LINEAGE & VERIFICATION INSPECTOR */}
         {isBrainInspectorOpen && selectedSpecimen && (
-          <div data-testid="creature-inspector"
+          <div ref={inspectorDraggable.panelRef} data-testid="creature-inspector"
             onPointerDown={(e) => e.stopPropagation()}
             onClick={(e) => e.stopPropagation()}
             style={{
               transform: `translate3d(${inspectorDraggable.pos.x}px, ${inspectorDraggable.pos.y}px, 0)`,
               pointerEvents: 'auto',
             }}
-            className="absolute top-0 left-0 bg-slate-900/95 backdrop-blur-xl border-2 border-cyan-500/50 rounded-3xl p-4 w-96 md:w-[500px] max-h-[85vh] flex flex-col font-mono text-xs shadow-2xl z-40 pointer-events-auto">
+            className="vida-window absolute top-0 left-0 bg-slate-900/95 backdrop-blur-xl border-2 border-cyan-500/50 rounded-3xl p-4 w-96 md:w-[500px] flex flex-col font-mono text-xs shadow-2xl z-40 pointer-events-auto">
             {/* Draggable Header */}
             <div
               {...inspectorDraggable.headerProps}
-              className="flex items-center justify-between border-b border-cyan-500/30 pb-2 mb-2 shrink-0 cursor-grab active:cursor-grabbing select-none">
+              className="flex items-center justify-between border-b border-cyan-500/30 pb-2 mb-2 shrink-0 shrink-0 touch-none cursor-grab active:cursor-grabbing select-none">
               <div className="flex items-center gap-2">
                 <GripHorizontal className="text-cyan-400" size={18} />
                 <Network className="text-cyan-400" size={18} />
@@ -2554,17 +2469,17 @@ export default function App() {
 
         {/* DRAGGABLE ECOSYSTEM TELEMETRY LEDGER */}
         {isEcosystemGraphOpen && (
-          <div
+          <div ref={ledgerDraggable.panelRef} data-testid="ledger-window"
             onPointerDown={(e) => e.stopPropagation()}
             onClick={(e) => e.stopPropagation()}
             style={{
               transform: `translate3d(${ledgerDraggable.pos.x}px, ${ledgerDraggable.pos.y}px, 0)`,
               pointerEvents: 'auto',
             }}
-            className="absolute top-0 left-0 bg-slate-900/95 backdrop-blur-lg border border-emerald-500/50 rounded-2xl p-4 w-88 font-mono text-xs shadow-2xl z-40 pointer-events-auto">
+            className="vida-window absolute top-0 left-0 bg-slate-900/95 backdrop-blur-lg border border-emerald-500/50 rounded-2xl p-4 w-[352px] flex flex-col font-mono text-xs shadow-2xl z-40 pointer-events-auto">
             <div
               {...ledgerDraggable.headerProps}
-              className="flex items-center justify-between border-b border-emerald-500/30 pb-2 mb-3 cursor-grab active:cursor-grabbing select-none">
+              className="flex items-center justify-between border-b border-emerald-500/30 pb-2 mb-3 shrink-0 touch-none cursor-grab active:cursor-grabbing select-none">
               <div className="flex items-center gap-2">
                 <GripHorizontal className="text-emerald-400" size={16} />
                 <Activity className="text-emerald-400" size={16} />
@@ -2601,7 +2516,7 @@ export default function App() {
 
             <div className="space-y-1.5 text-[10px] text-slate-300">
               <div className="flex justify-between bg-slate-950/60 p-1.5 rounded border border-slate-800">
-                <span>External Nutrient Inflow:</span>
+                <span>External Energy Added:</span>
                 <span className="text-emerald-400 font-bold">{formatJoules(ecoStats.totalExternalInflow)}</span>
               </div>
               <div className="flex justify-between bg-slate-950/60 p-1.5 rounded border border-slate-800">
@@ -2617,7 +2532,7 @@ export default function App() {
                 <span className="text-amber-300 font-bold">{formatJoules(ecoStats.totalEggEnergy)}</span>
               </div>
               <div className="flex justify-between bg-slate-950/60 p-1.5 rounded border border-slate-800">
-                <span>Ambient Nutrients:</span>
+                <span>Free Food (Plants + Remains):</span>
                 <span className="text-emerald-300 font-bold">{formatJoules(ecoStats.totalFoodEnergy)}</span>
               </div>
               <div className="flex justify-between bg-slate-950/60 p-1.5 rounded border border-slate-800">
@@ -2638,7 +2553,7 @@ export default function App() {
       </div>
 
       {/* BOTTOM ACTION TOOLBAR */}
-      <footer className="w-full bg-slate-900/95 border-t border-cyan-500/20 backdrop-blur-md px-3 py-2 flex flex-wrap items-center justify-between gap-2 z-20 shrink-0">
+      <footer data-testid="action-toolbar" className="w-full bg-slate-900/95 border-t border-cyan-500/20 backdrop-blur-md px-3 py-2 flex flex-wrap items-center justify-between gap-2 z-20 shrink-0">
         <div className="flex items-center gap-2">
           <button
             onClick={(e) => {
@@ -2669,57 +2584,8 @@ export default function App() {
           </button>
         </div>
 
-        {/* Archetype Seed Buttons */}
-        <div className="flex items-center gap-1.5 overflow-x-auto py-0.5 max-w-full">
-          <span className="hidden lg:inline text-[11px] font-mono text-cyan-400 font-bold mr-1">
-            SEED ARCHETYPE:
-          </span>
-
-          <button
-            onClick={(e) => { e.stopPropagation(); addPrimordialSpecimen('eel'); }}
-            className="px-2.5 py-2 rounded-xl bg-cyan-950/70 hover:bg-cyan-900 border border-cyan-500/40 text-cyan-300 font-mono text-[11px] font-bold flex items-center gap-1 transition-all active:scale-95 shadow-sm">
-            <Sparkles size={13} className="text-cyan-400" />
-            <span>Eel</span>
-          </button>
-
-          <button
-            onClick={(e) => { e.stopPropagation(); addPrimordialSpecimen('predator'); }}
-            className="px-2.5 py-2 rounded-xl bg-rose-950/70 hover:bg-rose-900 border border-rose-500/50 text-rose-300 font-mono text-[11px] font-bold flex items-center gap-1 transition-all active:scale-95 shadow-sm">
-            <Flame size={13} className="text-rose-400 animate-pulse" />
-            <span>Predator</span>
-          </button>
-
-          <button
-            onClick={(e) => { e.stopPropagation(); addPrimordialSpecimen('flapper'); }}
-            className="px-2.5 py-2 rounded-xl bg-blue-950/70 hover:bg-blue-900 border border-blue-500/40 text-blue-300 font-mono text-[11px] font-bold flex items-center gap-1 transition-all active:scale-95 shadow-sm">
-            <Sparkles size={13} className="text-blue-400" />
-            <span>Flapper</span>
-          </button>
-
-          <button
-            onClick={(e) => { e.stopPropagation(); addPrimordialSpecimen('tadpole'); }}
-            className="px-2.5 py-2 rounded-xl bg-emerald-950/70 hover:bg-emerald-900 border border-emerald-500/40 text-emerald-300 font-mono text-[11px] font-bold flex items-center gap-1 transition-all active:scale-95 shadow-sm">
-            <Sparkles size={13} className="text-emerald-400" />
-            <span>Tadpole</span>
-          </button>
-
-          <button
-            onClick={(e) => { e.stopPropagation(); addPrimordialSpecimen('glider'); }}
-            className="px-2.5 py-2 rounded-xl bg-purple-950/70 hover:bg-purple-900 border border-purple-500/40 text-purple-300 font-mono text-[11px] font-bold flex items-center gap-1 transition-all active:scale-95 shadow-sm">
-            <Sparkles size={13} className="text-purple-400" />
-            <span>Glider</span>
-          </button>
-
-          <button
-            onClick={(e) => { e.stopPropagation(); addPrimordialSpecimen('random'); }}
-            className="px-2.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-750 border border-slate-700 text-slate-300 font-mono text-[11px] font-bold flex items-center gap-1 transition-all active:scale-95 shadow-sm">
-            <Dna size={13} className="text-amber-400" />
-            <span>Random</span>
-          </button>
-        </div>
-
         {/* Feeding Buttons */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 mr-auto">
           <button
             onClick={(e) => { e.stopPropagation(); spawnNutrientBurst(); }}
             className="min-w-[44px] min-h-[44px] px-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-slate-950 font-bold flex items-center justify-center gap-1.5 transition-transform active:scale-95 shadow-md text-xs md:text-sm">
@@ -2731,9 +2597,10 @@ export default function App() {
             onClick={(e) => { e.stopPropagation(); feedAllOrganisms(); }}
             className="min-w-[44px] min-h-[44px] px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-emerald-300 border border-emerald-500/40 font-mono text-xs font-bold flex items-center justify-center gap-1.5 transition-transform active:scale-95 shadow-md">
             <Sparkles size={15} />
-            <span className="hidden sm:inline">Feed All</span>
+            <span>Feed All</span>
           </button>
         </div>
+        <span data-testid="build-version" className="ml-auto shrink-0 text-[10px] font-mono text-slate-400" title="Current VIDA version">v{BUILD_VERSION}</span>
       </footer>
 
       {/* --- OVERLAYS --- */}
@@ -2915,7 +2782,7 @@ export default function App() {
               <div className="bg-slate-950/60 p-3 rounded-xl border border-cyan-500/30">
                 <h4 className="font-bold text-cyan-400 mb-1">1. Recurrent Neural Networks (RNN)</h4>
                 <p>
-                  Each organism is powered by a 24-neuron recurrent neural controller (h_t = tanh(W_in &middot; x_t + W_rec &middot; h_t-1 + b)), capable of short-term memory, rhythmic oscillators, and goal-directed swimming.
+                  Eyes see creatures, food and white eggs fading into black with distance; walls and visual effects are invisible. Each organism is powered by a 24-neuron recurrent neural controller (h_t = tanh(W_in &middot; x_t + W_rec &middot; h_t-1 + b)), capable of short-term memory, rhythmic oscillators, and goal-directed swimming.
                 </p>
               </div>
 
@@ -2929,7 +2796,7 @@ export default function App() {
               <div className="bg-slate-950/60 p-3 rounded-xl border border-purple-500/30">
                 <h4 className="font-bold text-purple-400 mb-1">3. Closed-Loop Biological Energy Accounting</h4>
                 <p>
-                  Eggs strictly conserve energy upon laying and hatching. Predated eggs cannot hatch into free bodies and instead leave edible remains that later decompose into nutrients, strictly enforcing zero free structural tissue creation.
+                  All mouths absorb 80% of ingested energy; the loss becomes heat. Carrion retains its additional digestion loss. Eggs conserve energy upon laying and hatching. Predated eggs cannot hatch into free bodies and instead leave edible remains that later decompose into nutrients, strictly enforcing zero free structural tissue creation.
                 </p>
               </div>
             </div>

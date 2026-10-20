@@ -2,6 +2,8 @@ import {defineConfig} from '@playwright/test';
 
 export default defineConfig({
   testDir: './e2e',
+  // Full-tank canvas effects contend for the small CI runner's software renderer.
+  workers: process.env.CI ? 1 : undefined,
   use: {
     baseURL: 'http://127.0.0.1:4173/vidAI/', browserName: 'chromium',
     launchOptions: {

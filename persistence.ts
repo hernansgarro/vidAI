@@ -4,7 +4,7 @@ import {
   getBrainLayout, getDietClassification, CARRION_DECAY_SECONDS, MAX_OUTPUTS, type Genome, type SimulationSettings, type SimulationState, type Organism,
 } from './simulation';
 
-export const BUILD_VERSION = '0.3.0';
+export const BUILD_VERSION = '0.4.0';
 export const DEFAULT_SETTINGS: SimulationSettings = {
   worldWidth: 2400, worldHeight: 1500, waterViscosity: .18,
   targetNutrients: 800, inflowRate: 15, kinshipProtection: true,

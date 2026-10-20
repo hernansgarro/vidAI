@@ -13,3 +13,17 @@ html, body, #root {
 
 canvas {touch-action: none;}
 button, input, select {font: inherit;}
+
+/* The parent is the visible tank between toolbars. Native resize handles stay inside it. */
+.vida-window {
+  max-width: calc(100% - 16px);
+  max-height: calc(100% - 16px);
+  min-width: min(280px, calc(100% - 16px));
+  min-height: min(120px, calc(100% - 16px));
+  resize: both;
+  overflow: auto;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+  scrollbar-width: thin;
+}
+.vida-window > div { min-width: 0; }

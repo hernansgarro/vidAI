@@ -1,6 +1,6 @@
 import {
   XoshiroPRNG, spawnOrganism, createArchetypeGenome, getDietClassification,
-  NUTRIENT_ENERGY_VALUE, getNutrientRadius, type ArchetypeId, type Genome,
+  addNutrients, type ArchetypeId, type Genome,
   type SimulationSettings, type SimulationState,
 } from './simulation';
 import {FOUNDER_BLUEPRINTS, createFounderGenome, sampleFounderGenomes, type FounderMode} from './founders';
@@ -33,12 +33,7 @@ export function createInitialWorld(settings: SimulationSettings, seed = 4242, mo
     const y = preset === 'showcase' ? (Math.floor(i / columns) + .5) * settings.worldHeight / rows : prng.range(200, settings.worldHeight - 200);
     addExternalOrganism(s, genomes[i], settings, x, y);
   }
-  for (let i = 0; i < settings.targetNutrients; i++) {
-    s.nutrients.push({id: `NUT-${prng.nextUint32().toString(36)}`, x: prng.range(40, settings.worldWidth - 40),
-      y: prng.range(40, settings.worldHeight - 40), vx: 0, vy: 0, energyValue: NUTRIENT_ENERGY_VALUE,
-      radius: getNutrientRadius(NUTRIENT_ENERGY_VALUE), bottomTimer: 0, pulseTimer: prng.range(0, Math.PI * 2)});
-    s.ledger.externalInflow += NUTRIENT_ENERGY_VALUE;
-  }
+  addNutrients(s, settings, settings.targetNutrients);
   for (let i = 0; i < 28; i++) s.caustics.push({x: prng.range(0, settings.worldWidth), y: prng.range(0, settings.worldHeight),
     radius: prng.range(140, 320), speed: prng.range(.2, .55), alpha: prng.range(.04, .1), angle: prng.range(0, Math.PI * 2)});
   return s;

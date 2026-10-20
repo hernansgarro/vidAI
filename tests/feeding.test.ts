@@ -50,7 +50,7 @@ test('omnivore mouth shares one budget across living prey, eggs and free food', 
   sim.stepSimulation(s, settings, 1 / 60);
   const events = org.recentFeedings!;
   assert.deepEqual(events.map(e => e.foodCategory), ['Prey', 'Egg', 'Nutrient']);
-  assert.ok(Math.abs(events.reduce((sum, e) => sum + e.energyTransferred, 0) - 10) < 1e-6);
+  assert.ok(Math.abs(events.reduce((sum, e) => sum + e.energyTransferred, 0) - 8) < 1e-6);
   conserved(s, before);
 });
 
@@ -88,7 +88,7 @@ test('full storage limits removal to the energy just spent and never destroys su
   const before = totalAccountedEnergy(s);
   sim.stepSimulation(s, settings, 1 / 60);
   const removed = 18000 - s.nutrients.reduce((sum, n) => sum + n.energyValue, 0);
-  assert.ok(removed <= org.totalEnergyRate! / 60 + 1e-6);
+  assert.ok(removed <= org.totalEnergyRate! / 60 / sim.MOUTH_ASSIMILATION + 1e-6);
   assert.ok(Math.abs(org.energy - org.genome.maxEnergyCapacity) < 1e-6);
   assert.equal(s.ledger.recordedLosses, 0); conserved(s, before);
 });
@@ -105,7 +105,7 @@ test('remains preserve all body energy, survive clearing plant food, and decay w
   s.nutrients.push(food(x)); clearFreeNutrients(s);
   assert.equal(s.nutrients.length, count);
   s.nutrients.forEach(n => { n.decayTimeRemaining = 1 / 60; });
-  sim.stepSimulation(s, settings, 1 / 60);
+  sim.stepSimulation(s, {...settings, targetNutrients: count}, 1 / 60);
   assert.ok(s.nutrients.every(n => n.kind === 'nutrient'));
   conserved(s, before + 3000);
 });

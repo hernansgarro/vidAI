@@ -1,5 +1,9 @@
 import {test, expect} from '@playwright/test';
 
+// Full default ecosystem/effects at the large viewport; layout is tested separately.
+test.use({viewport: {width: 1920, height: 900}});
+test.setTimeout(60000);
+
 test('production game starts at the Pages subpath, runs and pauses', async ({page}) => {
   const errors: string[] = [];
   const failedRequests: string[] = [];
