@@ -1,5 +1,46 @@
 # Project status — 2026-10-20
 
+## Phase 5C: causal visual approach for the balanced Darter — v0.14.0 (CI pending)
+
+- The prior FND-001 sensory experiment established weak, sometimes
+  incorrectly directed retinal-to-muscle weights. A controlled sweep across
+  actual seeded articulated-physics runs varied only neural weight
+  magnitudes/signs while holding mouth, eyes, body, food and drag fixed.
+- The **balanced-mode FND-001 founder** now inherits a stronger retinal
+  green-contrast prior: input gain **1.5** (was 0.2) and its two hidden
+  steering nodes connect to joint Angle with weights **−0.5/+0.5**
+  (previously +0.04/−0.04). The weights live inside the ordinary mutable
+  recurrent network, with no new input/output channels or target-coordinate
+  steering. Unbiased FND-001, the other 54 founders and all existing saved
+  genomes keep their existing weights. Offspring may mutate and inherit them.
+- In **eight** six-second physical-contact scenarios (±0.5 radians from
+  heading, range 110, 135, 160 or 190 px), actual mouth intake occurred
+  in **7/8** calibrated sighted runs versus **0/8** for the old weak
+  prior and **0/8** for retinally disconnected controllers. The
+  calibrated organism approached closer to each food target than the
+  disconnected-vision comparison. All eye hit locations came from true
+  raycast geometry, all food energy came from finite physical nutrients
+  and each trial retained a conserved energy ledger.
+- Visual creature-body controls are logged without a predator-avoidance
+  success assertion: **RGB body pigmentation does not indicate predator
+  intent or vulnerability**. Avoidance, predictive pursuit, multi-genome
+  generalization and sustained population viability remain unknown.
+- `tests/visual-steering-survey.test.ts` is now a bounded, reproducible
+  regression suite rather than a parameter search. It checks true RGB
+  neural inputs, physical approach/ingestion, sight-disabled comparators,
+  old-world snapshot exact continuation and no silent founder-wide
+  retuning. The preceding Phase 5A gait test is explicitly unbiased-mode
+  to keep locomotion results independent of newer retinal priors.
+- The latest-only feature reference is `docs/wiki/Sensory-Behavior.md`,
+  alongside `Motor-Control.md`. Direct GitHub Wiki publishing is not
+  supported by the current connector; these are version-controlled
+  ready-to-publish source pages, not claims of Wiki publication.
+- This is a **focused improvement in tested food approach**, not proof
+  that Phase 5C's entire predator escape objective is complete. CI
+  verification will be recorded before merge. No full ecosystem/browser
+  tests were used.
+
+
 ## Optional, genetically evolvable articulated locomotion — v0.13.0 (CI verified)
 
 - Phase 5B expands the existing six-output-per-joint controller without
