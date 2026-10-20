@@ -1,6 +1,6 @@
 # Project status — 2026-10-20
 
-## Phase 5C: moving hunters and morphology dependence — v0.17.0 (CI pending)
+## Phase 5C: moving hunters and morphology dependence — v0.17.0 (CI verified)
 
 - Controlled, deterministic, short physical trials paired identical
   inherited injury-to-motor genes with their **disconnected injury**
@@ -38,7 +38,12 @@
   is synchronized into the real GitHub Wiki by Actions when merged.
   `tests/moving-hunter.test.ts` adds paired, contact-validated,
   energy-conserving fast checks, with no long ecosystem/browser run.
-- Final PR-head TypeScript/build and test outcomes pending.
+- GitHub Actions PR workflow **#39416455376** on commit
+  `585a5d10` passed **138/138 fast tests**, TypeScript checking and
+  the production Vite build. Tests cover real hunter displacement,
+  bite-contact gating, paired somatic wiring, five body shapes,
+  energy conservation and the pre-existing brain/save invariants.
+  No long ecosystem runs or browser tests were performed.
 
 
 ## Phase 5C: inherited motor-escape innovation — v0.16.0 (CI verified)
