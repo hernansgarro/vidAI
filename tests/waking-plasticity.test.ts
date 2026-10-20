@@ -265,7 +265,7 @@ test('actual bites can teach negative valence without a scripted escape rule or 
    const state=createInitialWorld(attackSettings,927,'unbiased','standard',0);
    const g=policyGenome(.8);
    g.injuryAversionRate=aversion;
-   const prey=addExternalOrganism(state,g,1200,750,0)!;
+   const prey=addExternalOrganism(state,g,attackSettings,1200,750,0)!;
    const rear=Math.min(...prey.segments.map((seg,i)=>seg.x-g.parts[i].width/2));
    const hunterG=sim.createReferenceNematodeGenome(new sim.XoshiroPRNG(21));
    hunterG.parts=[hunterG.parts[0]];
