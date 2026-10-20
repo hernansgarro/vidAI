@@ -2,12 +2,15 @@
 
 - This is the 2D simulation. Keep the current visual style, movable windows,
   camera controls, effects, and audio unless a requested change concerns them.
-- `simulation.ts` is the production kernel. Controllers use 24 recurrent hidden
-  neurons and six outputs per joint; channel identities follow stable eye/part/mouth
-  IDs. Brain v4 adds aggregate feeding and normalized COM depth; preserve the existing
-  normalized reserve input. Migrate old four-channel commands by key, never by the new array stride.
-  Save schema v8 includes stable organ slots, motor ramps and oral feedback; legacy migration must
-  preserve recurrent memory and existing weights.
+- `simulation.ts` is the production kernel. Founders retain 24 recurrent
+  hidden neurons and six outputs per joint; brain v5 supports identity-stable
+  1–96 hidden neurons, at most 65,536 enabled connections, and explicit disabled
+  synapse keys. Preserve existing dense weights, hidden activations, founder
+  steering and stable eye/part/mouth/motor channels by ID. Brain v4 added
+  aggregate feeding and normalized COM depth; do not duplicate reserve input.
+  Migrate old four-channel motor commands by key, never array stride. Save
+  schema v9 imports v3–v8 and preserves exact current continuation. Structural
+  brain mutation and lifetime learning are pending, not already implemented.
 - `data/founders.json` contains 55 distinct blueprints (50 revised originals and
   five jellyfish designs). Preserve their actual anatomy and measured gaits; never
   replace entries with renamed duplicates. Selective symmetry is not a mutation rule.
