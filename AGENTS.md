@@ -56,6 +56,24 @@
   Short physical tests suffice; don't start giant genotype
   calibration campaigns or claim learned survival advantages
   until demonstrated. The 3D repo is wholly unrelated.
+- Original Phase 5 v0.23: independently inherited, mutable
+  `sensoryPlasticityRate` enables up to 96 existing enabled RGB
+  eye-input-to-hidden synapses to acquire individual deltas
+  and trace eligibility. Only real previous-tick mouth intake
+  and actual physical bite injury provide positive/negative
+  teaching. Learning debits usable energy to metabolic heat
+  for upkeep and rewrites, and alters the future recurrent
+  neural evaluation. Save schema v11 strictly validates
+  `learnedSensoryWeights` by canonical IH edge, bounded delta
+  and trace, and preserves deterministic continuation.
+  Old genomes lacking the trait use exact old math.
+  Children inherit genes, never learned retinal synapses.
+  The Brain inspector displays learned RGB and motor weights
+  distinctly. Three short tests in `tests/sensory-association.test.ts`
+  establish actual food learning, subsequent causal response,
+  energy conservation and save/offspring safety. Do not claim
+  learned generalization or long-term ecological fitness, and
+  do not reopen extended brain/founder tuning campaigns.
 - Phase 5B motor architecture: every joint's original six neural outputs
   remain stable. Optional inherited `oscillatorMix` (0–1) and four
   `waveHarmonics` coefficients (each −1..1) permit wave-free direct Angle
