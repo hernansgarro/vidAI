@@ -1,6 +1,6 @@
 # Project status — 2026-10-20
 
-## Genetic neural memory timescales — version 0.11.0 (CI pending)
+## Genetic neural memory timescales — version 0.11.0 (CI verified)
 
 - Each hidden neuron can inherit a leaky activation-response time constant
   τ in seconds (bounded 0–4 s). At zero, the original per-tick tanh response
@@ -23,11 +23,13 @@
   count of memory-enabled neurons, maximum τ and memory upkeep. New brain
   version v6/save schema v10 validate exact arrays, bounds and active
   neural state; earlier schemas remain supported.
-- Focused tests cover founder baseline, physical-time low-pass behavior,
-  remapping after neuron edits, mutation/determinism, old-save migration,
-  exact current-save continuation, rejected malformed genes and energy.
-  Exact commit CI results will be recorded before merging. No long
-  ecosystem or manual browser checks requested.
+- GitHub Actions PR run #39385723158 on commit `a77f4bb4` passed
+  **108/108 fast tests**, TypeScript checking and the production build.
+  Eight new focused tests cover founder baseline, physical-time low-pass
+  responses, remapping, deterministic mutations, v9 migration, exact v10
+  continuation, malformed genes and conserved energy. Older v3–v8
+  compatibility checks remain in the fast suite. No manual browser,
+  long ecosystem, or behavioral learning benchmarks were run.
 
 
 
