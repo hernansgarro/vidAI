@@ -68,8 +68,8 @@ function run(strategy: Strategy, angle: number, gap: number, duration = 2.5) {
 }
 test('survey inherited somatic-to-motor escape without scripts, free forces or target tracking',()=>{
   const rows = [];
-  for(const angle of [0,.25,-.25]) for(const gap of [0,8])
-    for(const strategy of ['neutral','ampUp','ampDown','driveUp','driveDown','torqueUp','angleUp','angleDown','engageDown'] as Strategy[])
+  for(const angle of [0]) for(const gap of [3,4,5,6,7,8,9,10,11,12,14,16])
+    for(const strategy of ['neutral','ampUp','ampDown','angleUp','angleDown'] as Strategy[])
       rows.push(run(strategy,angle,gap));
   console.log('PHASE5C_ESCAPE_SURVEY '+JSON.stringify(rows));
 });
