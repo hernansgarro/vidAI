@@ -14,8 +14,33 @@
   and per-neuron inherited leaky activation memory (tau 0–4 seconds). Tau=0
   follows the exact original recurrence; every founder and earlier save
   migrates to tau=0. Offspring start with zero neural activations.
-  Lifetime plasticity/weight learning is not implemented. Legacy dense-24 controllers retain their exact baseline
+  Phase 5 optional somatic motor plasticity is now implemented as a first
+  bounded slice, but physically improved foraging/survival is NOT yet
+  demonstrated. Legacy dense-24 controllers retain their exact baseline
   neural upkeep through reference-normalized enabled-synapse cost.
+- Original Phase 5, v0.21 first waking plasticity increment:
+  optional heritable `plasticityRate` and `forgettingRate` permit
+  reward-modulated somatic offsets ONLY on existing enabled Angle motor
+  edges (max 96). Eligibility decays over 0.6 s; reinforcement comes
+  solely from true previous-tick mouth absorption, never target
+  coordinates, feeding counters, debug labels or oracle. Enabled
+  candidate upkeep is 0.002 J/s/edge, rewriting is 0.4 J per absolute
+  weight unit; both leave creature reserves into metabolic heat, and
+  mutations cannot create energy. Each live animal maintains its own
+  learnedMotorWeights (stable HO edge key, bounded delta/eligibility);
+  offspring inherit only the genetic learning traits and original
+  matrices, not the parent's acquired synapses or traces. Optional
+  state is strictly validated and resumes exactly in schema v11,
+  without changing brain v7. `BrainGraph.tsx` shows effective (genome
+  plus acquired) motor weights separately. Founders and historical
+  saves lacking alleles preserve exact behavior and PRNG.
+  In the controlled real-mouth-reward test, force was disabled, so
+  a measured increase in neural Angle response proves only somatic
+  conditioned output change, NOT improved physical food collection.
+  Original Phase 5 remains IN PROGRESS; next test same-genotype
+  motor-active learning-versus-off physical benefit. Original Phase 6
+  sleep/replay remains unimplemented. Keep tests fast in
+  `tests/waking-plasticity.test.ts`; do not claim learned fitness.
 - Phase 5B motor architecture: every joint's original six neural outputs
   remain stable. Optional inherited `oscillatorMix` (0–1) and four
   `waveHarmonics` coefficients (each −1..1) permit wave-free direct Angle
@@ -105,11 +130,11 @@
   B-A–B-D is complete as a **bounded instrumented prototype**, NOT
   established sustainable ecology, learned survival, or universal
   predator tracking. No extra survivor subsidies or automatic feeding.
-  Original Phase 5 lifetime learning and original Phase 6 sleep remain
-  separate and unimplemented.
-- Labels B-A–B-D describe the supplemental behavior workstream, distinct
-  from original Phase 5 (not-yet-implemented lifetime synaptic learning)
-  and original Phase 6 (optional sleep/replay after learning works).
+  Original Phase 5 now has an initial somatic learning mechanism, but
+  physical ecological benefits and Phase 6 sleep/replay are still open.
+- Labels B-A–B-D describe the completed bounded behavior workstream,
+  distinct from ongoing original Phase 5 (waking learning first slice)
+  and original Phase 6 (optional sleep/replay after real behavior benefit).
 - Phase 5C inherited visual steering: for newly created FND-001 in balanced
   mode only, retinal->hidden gain is 1.5 (other founders .2) and the
   hidden->joint Angle prior is (-.5, +.5) rather than (+.04, -.04).

@@ -1,5 +1,55 @@
 # Project status — 2026-10-20
 
+## Original Phase 5, waking within-life plasticity — v0.21.0, first bounded slice
+
+- **What now works:** optional inherited `plasticityRate` (0–0.8/s)
+  and `forgettingRate` (0–1/s) enable a live animal to change up to
+  96 of its existing enabled hidden-to-`Angle` synaptic weights.
+  A 0.6-second eligibility trace captures recent hidden neuron and
+  motor activity. The *previous tick's actual compatible-mouth absorbed
+  intake* is the sole reinforcement signal. Genetic matrices are
+  never edited by this somatic update; newly laid eggs and children
+  inherit capability, not learned weights or eligibility. Disabled
+  edges remain disabled. Rare ordinary mutation can introduce the
+  trait into a previously nonplastic lineage, while the 55 original
+  founder phenotypes retain identical controller behavior.
+- **Energy and bounds:** changing learned weights and normal plastic
+  upkeep consume the animal's existing usable energy, crediting
+  metabolic dissipation. Upkeep is 0.002 J per candidate plastic
+  motor synapse per second, rewriting costs 0.4 J per unit changed
+  weight, and learned offsets are clipped to ±0.8. Unrewarded
+  somatic changes decay at an inherited rate. The existing torque,
+  water drag, reserves and feeding systems are unchanged.
+- **Actual within-life learning evidence:** in a fixed one-neuron
+  policy trial supplied a finite nutrient by legitimate mouth
+  contact, the animal absorbed **2,400 J** and its rewarded neural
+  `Angle` output increased **0.6420 → 0.6912**, against a
+  same-genotype unfed control at **0.6420**. The genetic output
+  synapse stayed exactly **1.0** and its somatic state held an
+  aggregate **0.1203** absolute learned weight difference across
+  48 eligible synapses. When food was removed, learned differences
+  faded. We also test exact save/load PRNG and neural-state
+  continuation, proper newborn zero acquired state, ordinary allele
+  mutation, disabled edge protections, strict malformed-save
+  rejection, and complete energy accounting.
+- **Scope limitation:** this trial intentionally disabled physical
+  joint force to isolate reward-specific neural updates. It did
+  **not** show improved swimming, reaching food, long-term
+  survival, predator response, or reproduction *caused by lifetime
+  learning*. This is **Phase 5 started, not finished**.
+  The next priority is a genuinely motor-active paired post-training
+  comparison with same-genotype learning-off controls, including
+  negative outcomes. No sleeping/replay was added (original Phase 6).
+- **Compatibility:** brain v7, save schema v11 remain unchanged;
+  somatic acquired synapses are optional validated organism state
+  in the current schema; founders and legacy saves without optional
+  learning alleles keep their exact previous dynamics. Brain
+  inspector and diagnostics report personal live motor adjustments
+  separately from inherited weights. The present Wiki is maintained
+  under `docs/wiki/Waking-Learning.md` and actually published
+  after merging via the Wiki workflow.
+
+
 ## B-D: compact ecological measurement baseline — v0.20.0
 
 - **Implemented:** `ecologyAudit.ts` reads actual living/dissolving populations,

@@ -1,10 +1,10 @@
 import {
   XoshiroPRNG, migrateOrganismBrain, ensureBrainLayout, calculateBodyCost,
   calculateMaxEnergyCapacity, clampVal, getPartCornerVertices,
-  getBrainLayout, getDietClassification, brainEdgeKey, CARRION_DECAY_SECONDS, MAX_OUTPUTS, MAX_SURFACE_ORGANS, MAX_NEURAL_INPUTS, MAX_HIDDEN, MAX_ENABLED_BRAIN_EDGES, MAX_BRAIN_MEMORY_SECONDS, surfacePlacementProblems, morphologyProblems, type Genome, type SimulationSettings, type SimulationState, type Organism,
+  getBrainLayout, getDietClassification, brainEdgeKey, CARRION_DECAY_SECONDS, MAX_OUTPUTS, MAX_SURFACE_ORGANS, MAX_NEURAL_INPUTS, MAX_HIDDEN, MAX_ENABLED_BRAIN_EDGES, MAX_BRAIN_MEMORY_SECONDS, MAX_PLASTIC_MOTOR_SYNAPSES, MAX_LEARNED_MOTOR_DELTA, plasticMotorEdges, surfacePlacementProblems, morphologyProblems, type Genome, type SimulationSettings, type SimulationState, type Organism,
 } from './simulation';
 
-export const BUILD_VERSION = '0.20.0';
+export const BUILD_VERSION = '0.21.0';
 export const DEFAULT_SETTINGS: SimulationSettings = {
   worldWidth: 2400, worldHeight: 1500, waterViscosity: .18,
   targetNutrients: 400, inflowRate: 15, kinshipProtection: true,
@@ -149,6 +149,12 @@ export function validateGenome(raw: unknown): Genome {
   assert(g.motorForce >= 0 && g.motorForce <= 100 && g.motorFrequency >= 0 && g.motorFrequency <= 20
     && g.maturityAge >= 0 && g.maxLifespan > 0 && g.incubationTime > 0 && g.metabolicEfficiency > 0
     && Number.isInteger(g.targetClutchSize) && g.targetClutchSize >= 1 && g.targetClutchSize <= 8, 'trait bounds');
+  assert(g.plasticityRate === undefined ||
+    (typeof g.plasticityRate === 'number' && Number.isFinite(g.plasticityRate)
+      && g.plasticityRate >= 0 && g.plasticityRate <= 0.8), 'plastic learning rate');
+  assert(g.forgettingRate === undefined ||
+    (typeof g.forgettingRate === 'number' && Number.isFinite(g.forgettingRate)
+      && g.forgettingRate >= 0 && g.forgettingRate <= 1), 'learned forgetting rate');
   assert(g.colorMutationRate === undefined || (Number.isFinite(g.colorMutationRate) && g.colorMutationRate >= 0 && g.colorMutationRate <= 1), 'pigment variability');
   assert(Array.isArray(g.parentIds) && g.parentIds.every(id => typeof id === 'string'), 'parent IDs');
   g.bodyCost = calculateBodyCost(g.parts, g.eyes, g.mouths);
@@ -207,6 +213,10 @@ export function restoreSnapshot(input: unknown): {state: SimulationState; settin
     assert(o.joints.every(j => [j.phase, j.targetAngle, j.currentRelAngle, j.currentRelAngVel, j.appliedTorque, j.stiffness].every(Number.isFinite)), 'joint state');
     assert(o.joints.every(j => Number.isFinite(j.amplitude) && j.amplitude! >= 0 && j.amplitude! <= 1.75
       && Number.isFinite(j.engagement) && j.engagement! >= 0 && j.engagement! <= 1), 'motor control state');
+    assert(o.plasticityEnergyRate === undefined ||
+      (typeof o.plasticityEnergyRate === 'number' && Number.isFinite(o.plasticityEnergyRate)
+      && o.plasticityEnergyRate >= 0 && o.plasticityEnergyRate <= 1e6),
+      'plasticity energy meter');
     assert(o.mouthFeedback && typeof o.mouthFeedback === 'object' && !Array.isArray(o.mouthFeedback), 'oral feedback');
     assert(typeof o.biteFeedbackJ === 'number' && Number.isFinite(o.biteFeedbackJ)
       && o.biteFeedbackJ >= 0 && o.biteFeedbackJ <= 1e9, 'bite sensory feedback');
@@ -218,6 +228,31 @@ export function restoreSnapshot(input: unknown): {state: SimulationState; settin
     assert(Array.isArray(o.neuralInputs) && o.neuralInputs.length <= MAX_NEURAL_INPUTS && o.neuralInputs.every(Number.isFinite)
       && Array.isArray(o.neuralHidden) && o.neuralHidden.length === o.genome.hiddenIds!.length && o.neuralHidden.every(Number.isFinite)
       && Array.isArray(o.neuralOutputs) && o.neuralOutputs.length <= MAX_OUTPUTS && o.neuralOutputs.every(Number.isFinite), 'activations');
+    if (o.learnedMotorWeights !== undefined) {
+      assert((o.genome.plasticityRate ?? 0) > 0 && Array.isArray(o.learnedMotorWeights)
+        && o.learnedMotorWeights.length <= MAX_PLASTIC_MOTOR_SYNAPSES,
+        'somatic learned motor state');
+      const hidden = new Set(o.genome.hiddenIds), output = new Set(o.genome.outputKeys);
+      const inactive = new Set(o.genome.disabledConnections);
+      const allowed = new Set(plasticMotorEdges(o.genome).map(s => s.edge));
+      const seen = new Set<string>();
+      for (const record of o.learnedMotorWeights) {
+        assert(record && typeof record.edge === 'string'
+          && record.edge.length <= 320 && !seen.has(record.edge), 'unique plastic synapse ID');
+        seen.add(record.edge);
+        let edge: unknown;
+        try { edge = JSON.parse(record.edge); } catch { assert(false, 'plastic synapse ID'); }
+        assert(Array.isArray(edge) && edge.length === 3
+          && edge[0] === 'ho' && typeof edge[1] === 'string' && output.has(edge[1])
+          && edge[1].endsWith(':Angle') && typeof edge[2] === 'string' && hidden.has(edge[2])
+          && record.edge === brainEdgeKey('ho', edge[1], edge[2])
+          && !inactive.has(record.edge) && allowed.has(record.edge), 'plastic edge identity');
+        assert(typeof record.delta === 'number' && Number.isFinite(record.delta)
+          && Math.abs(record.delta) <= MAX_LEARNED_MOTOR_DELTA
+          && typeof record.eligibility === 'number' && Number.isFinite(record.eligibility)
+          && Math.abs(record.eligibility) <= 1, 'plastic state bounds');
+      }
+    }
     // Preserve exact activations for current saves; migrate only legacy buffers.
     assert(o.neuralInputs.length === o.genome.inputKeys!.length && o.neuralOutputs.length === o.genome.outputKeys!.length, 'activation buffer sizes');
     return o;
@@ -277,5 +312,9 @@ export function diagnosticReport(s: SimulationState, settings: SimulationSetting
       expenditureJPerSecond: {basal: selected.basalEnergyRate, sensory: selected.sensoryEnergyRate, motor: selected.motorEnergyRate},
       oralFeedback: selected.mouthFeedback, biteFeedbackJ: selected.biteFeedbackJ, motors: selected.joints.map((j, i) => ({partId: selected.genome.parts[i + 1].id,
         amplitude: j.amplitude, engagement: j.engagement, torque: j.appliedTorque})),
-      feedings: selected.recentFeedings} : null};
+      feedings: selected.recentFeedings,
+      lifetimeLearning: {inheritedRate: selected.genome.plasticityRate ?? 0,
+        inheritedForgetRate: selected.genome.forgettingRate ?? 0.1,
+        adaptedMotorSynapses: (selected.learnedMotorWeights ?? []).filter(edge => Math.abs(edge.delta) > 1e-8).length,
+        plasticityEnergyRate: selected.plasticityEnergyRate ?? 0}} : null};
 }
