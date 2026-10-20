@@ -1,5 +1,25 @@
 # Project status — 2026-10-20
 
+## Four jellyfish variants — version 0.7.0
+
+- Bank expanded to **55 designs**, including five Bell swimmers. Existing 51
+  blueprints are unchanged. Added Lantern (compact five-part herbivore), Sailbell
+  (broad five-part herbivore), Ribbon (seven-part omnivore with segmented trailing
+  tentacles), and Crown (seven-part carnivore with terminal paddles).
+- Each has a distinct physical anatomy, stable IDs, pigment, seed, stroke settings
+  and life history. They use existing evolvable recurrent controllers and physical
+  hinges/drag; no artificial thrust. Available through Bank filters/search and
+  automatically eligible for the usual up-to-five-design random startup.
+- Added nine bounded tests: all 55 anatomies/organ slots validate unchanged in
+  both brain modes; all five jellyfish are in the Bank; each new design translates
+  in two simulated seconds in both modes while its passive control stays still,
+  with finite poses, positive reserves and conserved energy.
+- **81 fast tests passed**, plus TypeScript/production build. Updated catalogue
+  counts in opt-in tests, without running the full simulation or browser suites.
+- New [feature roadmap](FEATURE_ROADMAP.md) distinguishes small additions, bigger
+  missing systems and known model limitations using the current source. Short
+  gait checks do not demonstrate long-term survival or competent foraging.
+
 ## Alternate music — version 0.6.2
 
 - Added a compact Track 1 / Track 2 selector to the shared start/pause menu

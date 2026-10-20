@@ -18,7 +18,7 @@ interface FounderBlueprint {
     storageTraitMultiplier: number};
 }
 
-/** Validated geometry and calibrated gaits from the original 50-founder catalogue. */
+/** Founder catalogue: original calibrated bodies plus compact hinged bell swimmers. */
 export const FOUNDER_BLUEPRINTS = rawFounders as FounderBlueprint[];
 export const FOUNDER_FAMILIES = [...new Set(FOUNDER_BLUEPRINTS.map(f => f.family))];
 

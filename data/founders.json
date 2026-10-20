@@ -7039,5 +7039,561 @@
       "metabolicEfficiency": 1.05,
       "storageTraitMultiplier": 1
     }
+  },
+  {
+    "id": "FND-052",
+    "name": "Lantern Jellyfish",
+    "family": "Bell swimmers",
+    "diet": "herbivore",
+    "seed": 715052,
+    "morphology": {
+      "parts": [
+        {
+          "id": "FND-052-P0",
+          "parentIndex": -1,
+          "attachmentPoint": "EAST",
+          "dimN": 2,
+          "dimM": 3,
+          "width": 14,
+          "height": 21,
+          "maxAngle": 1.15,
+          "baseAngleOffset": 0,
+          "cpgPhaseOffset": 0,
+          "cpgAmp": 0,
+          "cpgFreqMult": 1
+        },
+        {
+          "id": "FND-052-P1",
+          "parentIndex": 0,
+          "attachmentPoint": "NORTH",
+          "dimN": 2,
+          "dimM": 1,
+          "width": 14,
+          "height": 7,
+          "maxAngle": 1.15,
+          "baseAngleOffset": 0,
+          "cpgPhaseOffset": 0,
+          "cpgAmp": 0.7,
+          "cpgFreqMult": 1
+        },
+        {
+          "id": "FND-052-P2",
+          "parentIndex": 0,
+          "attachmentPoint": "SOUTH",
+          "dimN": 2,
+          "dimM": 1,
+          "width": 14,
+          "height": 7,
+          "maxAngle": 1.15,
+          "baseAngleOffset": 0,
+          "cpgPhaseOffset": 3.141592653589793,
+          "cpgAmp": 0.7,
+          "cpgFreqMult": 1
+        },
+        {
+          "id": "FND-052-P3",
+          "parentIndex": 1,
+          "attachmentPoint": "WEST",
+          "dimN": 3,
+          "dimM": 1,
+          "width": 21,
+          "height": 7,
+          "maxAngle": 1.15,
+          "baseAngleOffset": 0,
+          "cpgPhaseOffset": 4.883185307179586,
+          "cpgAmp": 0.85,
+          "cpgFreqMult": 1
+        },
+        {
+          "id": "FND-052-P4",
+          "parentIndex": 2,
+          "attachmentPoint": "WEST",
+          "dimN": 3,
+          "dimM": 1,
+          "width": 21,
+          "height": 7,
+          "maxAngle": 1.15,
+          "baseAngleOffset": 0,
+          "cpgPhaseOffset": 1.7415926535897932,
+          "cpgAmp": 0.85,
+          "cpgFreqMult": 1
+        }
+      ],
+      "eyes": [
+        {
+          "id": "FND-052-E0",
+          "partIndex": 0,
+          "direction": "EAST",
+          "slot": 1,
+          "fov": 2,
+          "range": 500
+        },
+        {
+          "id": "FND-052-E1",
+          "partIndex": 0,
+          "direction": "EAST",
+          "slot": 2,
+          "fov": 2,
+          "range": 500
+        }
+      ],
+      "mouths": [
+        {
+          "id": "FND-052-M0",
+          "partIndex": 0,
+          "direction": "EAST",
+          "slot": 0,
+          "intakeWidth": 10,
+          "mouthType": "herbivore"
+        }
+      ],
+      "hue": 175,
+      "saturation": 70,
+      "lightness": 65
+    },
+    "locomotion": {
+      "motorFrequency": 2.8,
+      "motorForce": 3.0
+    },
+    "lifeHistory": {
+      "targetClutchSize": 2,
+      "maturityAge": 18,
+      "incubationTime": 8,
+      "reproductionCooldown": 16,
+      "maxLifespan": 340,
+      "metabolicEfficiency": 1.05,
+      "storageTraitMultiplier": 1
+    }
+  },
+  {
+    "id": "FND-053",
+    "name": "Sailbell Jellyfish",
+    "family": "Bell swimmers",
+    "diet": "herbivore",
+    "seed": 715053,
+    "morphology": {
+      "parts": [
+        {
+          "id": "FND-053-P0",
+          "parentIndex": -1,
+          "attachmentPoint": "EAST",
+          "dimN": 3,
+          "dimM": 8,
+          "width": 21,
+          "height": 56,
+          "maxAngle": 1.15,
+          "baseAngleOffset": 0,
+          "cpgPhaseOffset": 0,
+          "cpgAmp": 0,
+          "cpgFreqMult": 1
+        },
+        {
+          "id": "FND-053-P1",
+          "parentIndex": 0,
+          "attachmentPoint": "NORTH",
+          "dimN": 4,
+          "dimM": 1,
+          "width": 28,
+          "height": 7,
+          "maxAngle": 1.15,
+          "baseAngleOffset": 0,
+          "cpgPhaseOffset": 0,
+          "cpgAmp": 0.65,
+          "cpgFreqMult": 1
+        },
+        {
+          "id": "FND-053-P2",
+          "parentIndex": 0,
+          "attachmentPoint": "SOUTH",
+          "dimN": 4,
+          "dimM": 1,
+          "width": 28,
+          "height": 7,
+          "maxAngle": 1.15,
+          "baseAngleOffset": 0,
+          "cpgPhaseOffset": 3.141592653589793,
+          "cpgAmp": 0.65,
+          "cpgFreqMult": 1
+        },
+        {
+          "id": "FND-053-P3",
+          "parentIndex": 1,
+          "attachmentPoint": "WEST",
+          "dimN": 4,
+          "dimM": 1,
+          "width": 28,
+          "height": 7,
+          "maxAngle": 1.15,
+          "baseAngleOffset": 0,
+          "cpgPhaseOffset": 4.883185307179586,
+          "cpgAmp": 0.85,
+          "cpgFreqMult": 1
+        },
+        {
+          "id": "FND-053-P4",
+          "parentIndex": 2,
+          "attachmentPoint": "WEST",
+          "dimN": 4,
+          "dimM": 1,
+          "width": 28,
+          "height": 7,
+          "maxAngle": 1.15,
+          "baseAngleOffset": 0,
+          "cpgPhaseOffset": 1.7415926535897932,
+          "cpgAmp": 0.85,
+          "cpgFreqMult": 1
+        }
+      ],
+      "eyes": [
+        {
+          "id": "FND-053-E0",
+          "partIndex": 0,
+          "direction": "EAST",
+          "slot": 1,
+          "fov": 2,
+          "range": 560
+        },
+        {
+          "id": "FND-053-E1",
+          "partIndex": 0,
+          "direction": "EAST",
+          "slot": 2,
+          "fov": 2,
+          "range": 560
+        }
+      ],
+      "mouths": [
+        {
+          "id": "FND-053-M0",
+          "partIndex": 0,
+          "direction": "EAST",
+          "slot": 0,
+          "intakeWidth": 18,
+          "mouthType": "herbivore"
+        }
+      ],
+      "hue": 38,
+      "saturation": 85,
+      "lightness": 65
+    },
+    "locomotion": {
+      "motorFrequency": 1.9,
+      "motorForce": 4.0
+    },
+    "lifeHistory": {
+      "targetClutchSize": 1,
+      "maturityAge": 28,
+      "incubationTime": 13,
+      "reproductionCooldown": 20,
+      "maxLifespan": 420,
+      "metabolicEfficiency": 1.05,
+      "storageTraitMultiplier": 1
+    }
+  },
+  {
+    "id": "FND-054",
+    "name": "Ribbon Jellyfish",
+    "family": "Bell swimmers",
+    "diet": "omnivore",
+    "seed": 715054,
+    "morphology": {
+      "parts": [
+        {
+          "id": "FND-054-P0",
+          "parentIndex": -1,
+          "attachmentPoint": "EAST",
+          "dimN": 2,
+          "dimM": 5,
+          "width": 14,
+          "height": 35,
+          "maxAngle": 1.15,
+          "baseAngleOffset": 0,
+          "cpgPhaseOffset": 0,
+          "cpgAmp": 0,
+          "cpgFreqMult": 1
+        },
+        {
+          "id": "FND-054-P1",
+          "parentIndex": 0,
+          "attachmentPoint": "NORTH",
+          "dimN": 3,
+          "dimM": 1,
+          "width": 21,
+          "height": 7,
+          "maxAngle": 1.15,
+          "baseAngleOffset": 0,
+          "cpgPhaseOffset": 0,
+          "cpgAmp": 0.7,
+          "cpgFreqMult": 1
+        },
+        {
+          "id": "FND-054-P2",
+          "parentIndex": 0,
+          "attachmentPoint": "SOUTH",
+          "dimN": 3,
+          "dimM": 1,
+          "width": 21,
+          "height": 7,
+          "maxAngle": 1.15,
+          "baseAngleOffset": 0,
+          "cpgPhaseOffset": 3.141592653589793,
+          "cpgAmp": 0.7,
+          "cpgFreqMult": 1
+        },
+        {
+          "id": "FND-054-P3",
+          "parentIndex": 1,
+          "attachmentPoint": "WEST",
+          "dimN": 3,
+          "dimM": 1,
+          "width": 21,
+          "height": 7,
+          "maxAngle": 1.15,
+          "baseAngleOffset": 0,
+          "cpgPhaseOffset": 4.883185307179586,
+          "cpgAmp": 0.85,
+          "cpgFreqMult": 1
+        },
+        {
+          "id": "FND-054-P4",
+          "parentIndex": 2,
+          "attachmentPoint": "WEST",
+          "dimN": 3,
+          "dimM": 1,
+          "width": 21,
+          "height": 7,
+          "maxAngle": 1.15,
+          "baseAngleOffset": 0,
+          "cpgPhaseOffset": 1.7415926535897932,
+          "cpgAmp": 0.85,
+          "cpgFreqMult": 1
+        },
+        {
+          "id": "FND-054-P5",
+          "parentIndex": 3,
+          "attachmentPoint": "WEST",
+          "dimN": 4,
+          "dimM": 1,
+          "width": 28,
+          "height": 7,
+          "maxAngle": 1.15,
+          "baseAngleOffset": 0,
+          "cpgPhaseOffset": 3.633185307179586,
+          "cpgAmp": 0.8,
+          "cpgFreqMult": 1
+        },
+        {
+          "id": "FND-054-P6",
+          "parentIndex": 4,
+          "attachmentPoint": "WEST",
+          "dimN": 4,
+          "dimM": 1,
+          "width": 28,
+          "height": 7,
+          "maxAngle": 1.15,
+          "baseAngleOffset": 0,
+          "cpgPhaseOffset": 0.4915926535897932,
+          "cpgAmp": 0.8,
+          "cpgFreqMult": 1
+        }
+      ],
+      "eyes": [
+        {
+          "id": "FND-054-E0",
+          "partIndex": 0,
+          "direction": "EAST",
+          "slot": 1,
+          "fov": 2,
+          "range": 560
+        },
+        {
+          "id": "FND-054-E1",
+          "partIndex": 0,
+          "direction": "EAST",
+          "slot": 2,
+          "fov": 2,
+          "range": 560
+        }
+      ],
+      "mouths": [
+        {
+          "id": "FND-054-M0",
+          "partIndex": 0,
+          "direction": "EAST",
+          "slot": 0,
+          "intakeWidth": 15,
+          "mouthType": "omnivore"
+        }
+      ],
+      "hue": 220,
+      "saturation": 70,
+      "lightness": 65
+    },
+    "locomotion": {
+      "motorFrequency": 2.2,
+      "motorForce": 3.6
+    },
+    "lifeHistory": {
+      "targetClutchSize": 1,
+      "maturityAge": 24,
+      "incubationTime": 11,
+      "reproductionCooldown": 20,
+      "maxLifespan": 420,
+      "metabolicEfficiency": 1.05,
+      "storageTraitMultiplier": 1
+    }
+  },
+  {
+    "id": "FND-055",
+    "name": "Crown Jellyfish",
+    "family": "Bell swimmers",
+    "diet": "carnivore",
+    "seed": 715055,
+    "morphology": {
+      "parts": [
+        {
+          "id": "FND-055-P0",
+          "parentIndex": -1,
+          "attachmentPoint": "EAST",
+          "dimN": 2,
+          "dimM": 7,
+          "width": 14,
+          "height": 49,
+          "maxAngle": 1.15,
+          "baseAngleOffset": 0,
+          "cpgPhaseOffset": 0,
+          "cpgAmp": 0,
+          "cpgFreqMult": 1
+        },
+        {
+          "id": "FND-055-P1",
+          "parentIndex": 0,
+          "attachmentPoint": "NORTH",
+          "dimN": 2,
+          "dimM": 1,
+          "width": 14,
+          "height": 7,
+          "maxAngle": 1.15,
+          "baseAngleOffset": 0,
+          "cpgPhaseOffset": 0,
+          "cpgAmp": 0.7,
+          "cpgFreqMult": 1
+        },
+        {
+          "id": "FND-055-P2",
+          "parentIndex": 0,
+          "attachmentPoint": "SOUTH",
+          "dimN": 2,
+          "dimM": 1,
+          "width": 14,
+          "height": 7,
+          "maxAngle": 1.15,
+          "baseAngleOffset": 0,
+          "cpgPhaseOffset": 3.141592653589793,
+          "cpgAmp": 0.7,
+          "cpgFreqMult": 1
+        },
+        {
+          "id": "FND-055-P3",
+          "parentIndex": 1,
+          "attachmentPoint": "WEST",
+          "dimN": 4,
+          "dimM": 1,
+          "width": 28,
+          "height": 7,
+          "maxAngle": 1.15,
+          "baseAngleOffset": 0,
+          "cpgPhaseOffset": 4.883185307179586,
+          "cpgAmp": 0.75,
+          "cpgFreqMult": 1
+        },
+        {
+          "id": "FND-055-P4",
+          "parentIndex": 2,
+          "attachmentPoint": "WEST",
+          "dimN": 4,
+          "dimM": 1,
+          "width": 28,
+          "height": 7,
+          "maxAngle": 1.15,
+          "baseAngleOffset": 0,
+          "cpgPhaseOffset": 1.7415926535897932,
+          "cpgAmp": 0.75,
+          "cpgFreqMult": 1
+        },
+        {
+          "id": "FND-055-P5",
+          "parentIndex": 3,
+          "attachmentPoint": "WEST",
+          "dimN": 2,
+          "dimM": 3,
+          "width": 14,
+          "height": 21,
+          "maxAngle": 1.15,
+          "baseAngleOffset": 0,
+          "cpgPhaseOffset": 3.633185307179586,
+          "cpgAmp": 0.6,
+          "cpgFreqMult": 1
+        },
+        {
+          "id": "FND-055-P6",
+          "parentIndex": 4,
+          "attachmentPoint": "WEST",
+          "dimN": 2,
+          "dimM": 3,
+          "width": 14,
+          "height": 21,
+          "maxAngle": 1.15,
+          "baseAngleOffset": 0,
+          "cpgPhaseOffset": 0.4915926535897932,
+          "cpgAmp": 0.6,
+          "cpgFreqMult": 1
+        }
+      ],
+      "eyes": [
+        {
+          "id": "FND-055-E0",
+          "partIndex": 0,
+          "direction": "EAST",
+          "slot": 1,
+          "fov": 2,
+          "range": 600
+        },
+        {
+          "id": "FND-055-E1",
+          "partIndex": 0,
+          "direction": "EAST",
+          "slot": 2,
+          "fov": 2,
+          "range": 600
+        }
+      ],
+      "mouths": [
+        {
+          "id": "FND-055-M0",
+          "partIndex": 0,
+          "direction": "EAST",
+          "slot": 0,
+          "intakeWidth": 15,
+          "mouthType": "carnivore"
+        }
+      ],
+      "hue": 320,
+      "saturation": 70,
+      "lightness": 65
+    },
+    "locomotion": {
+      "motorFrequency": 2.0,
+      "motorForce": 3.8
+    },
+    "lifeHistory": {
+      "targetClutchSize": 1,
+      "maturityAge": 30,
+      "incubationTime": 14,
+      "reproductionCooldown": 20,
+      "maxLifespan": 420,
+      "metabolicEfficiency": 1.05,
+      "storageTraitMultiplier": 1
+    }
   }
 ]

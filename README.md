@@ -35,14 +35,14 @@ npm run benchmark:behavior # controlled motion and paired vision measurements
 
 ## Creatures and sandbox
 
-The existing **Bank** includes 51 built-in founders in eleven body families, with body
+The existing **Bank** includes 55 built-in founders in eleven body families, with body
 previews, family/diet filters and individual spawning. Built-ins do not consume
 saved-specimen slots. Standard seeding uses 18 organisms drawn evenly from up to five randomly selected
 designs, without replacement at design selection. The same seed reproduces the
 same selection; each organism owns an independent genome and brain state. There
 is no forced diet quota; some random communities will fare better than others.
 The default plant-food target is 400;
-**Reset with Catalogue Showcase** starts a new world with up to 51 designs, subject
+**Reset with Catalogue Showcase** starts a new world with up to 55 designs, subject
 to the current living-population cap. The old six archetype shortcuts have been removed; use the Bank or Add Life.
 
 Each body face holds either a physical connection (including a part's parent)
@@ -57,12 +57,16 @@ bodies (FND-021/022/024/034/035) have more balanced limbs, while the asymmetric 
 irregular families remain distinct. Moonbell Jellyfish (FND-051, **Bell swimmers**)
 uses five hinged rectangles—a bell, two rims and two trailing tentacles—with
 phased strokes. It is a rigid-part swimmer, not a deformable bell or fluid-jet model.
-Find and spawn it through the Bank's family filter. Its quiet initial neural motor
+Four additional jellyfish share that family: Lantern (compact grazer, five parts),
+Sailbell (broad grazer, five parts), Ribbon (segmented tentacles, seven parts,
+omnivore), and Crown (terminal paddles, seven parts, carnivore). Their bodies,
+phases, stroke rates and life histories differ; none use artificial thrust.
+Find and spawn them through the Bank's family filter. Its quiet initial neural motor
 weights are evolvable; both founder modes still use the same recurrent architecture.
 The retinal strip scrolls horizontally for creatures with many eyes.
 
-New saves use schema v7, with stable organ slots and current neural buffers. Versions
-v3–v6 remain importable. Imported legacy organ positions and live geometry are
+New saves use schema v8, with stable organ slots, feeding/depth senses and current
+neural buffers. Versions v3–v7 remain importable. Imported legacy organ positions and live geometry are
 retained; offspring undergoing mutation acquire valid slots. Old fin presets are
 repaired for new organisms and mutated descendants, without moving their saved parents.
 Zero-mutation legacy clones retain the original anatomy. New imports are checked

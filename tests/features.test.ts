@@ -14,10 +14,10 @@ function isolated(g: sim.Genome) {
   return {s, org};
 }
 
-test('all 51 catalogue bodies are distinct, valid, finite and able to swim', () => {
+test('all 55 catalogue bodies are distinct, valid, finite and able to swim', () => {
   const fingerprints = new Set<string>();
   const measurements = [];
-  assert.equal(FOUNDER_BLUEPRINTS.length, 51);
+  assert.equal(FOUNDER_BLUEPRINTS.length, 55);
   for (const d of FOUNDER_BLUEPRINTS) {
     const g = createFounderGenome(d.id);
     assert.deepEqual(sim.morphologyProblems(g.parts), [], d.id);
@@ -35,9 +35,9 @@ test('all 51 catalogue bodies are distinct, valid, finite and able to swim', () 
     measurements.push({id: d.id, displacementPx: Math.round(distance), energy: Math.round(org.energy)});
   }
   console.log('CATALOGUE', JSON.stringify(measurements));
-  assert.equal(FOUNDER_BLUEPRINTS.filter(d => d.diet === 'herbivore').length, 30);
-  assert.equal(FOUNDER_BLUEPRINTS.filter(d => d.diet === 'omnivore').length, 11);
-  assert.equal(FOUNDER_BLUEPRINTS.filter(d => d.diet === 'carnivore').length, 10);
+  assert.equal(FOUNDER_BLUEPRINTS.filter(d => d.diet === 'herbivore').length, 32);
+  assert.equal(FOUNDER_BLUEPRINTS.filter(d => d.diet === 'omnivore').length, 12);
+  assert.equal(FOUNDER_BLUEPRINTS.filter(d => d.diet === 'carnivore').length, 11);
 });
 
 test('zero-mutation inheritance preserves all traits and weights over ten generations', () => {
