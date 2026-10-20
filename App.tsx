@@ -93,6 +93,8 @@ import {
   nutrientSpawnSlots,
   getLifeStage,
   evaluateReproductionAffordability,
+  evaluateEggHatchStatus,
+  getEggReserveFunding,
   getDietClassification,
   getNutrientRadius,
   getCardinalAnchor,
@@ -299,6 +301,7 @@ export default function App() {
   const settingsDraggable = useDraggableModal(16, 56);
   const ledgerDraggable = useDraggableModal(16, typeof window !== 'undefined' ? window.innerHeight - 400 : 380);
   const badgeDraggable = useDraggableModal(16, 12);
+  const eggDraggable = useDraggableModal(16, 68);
   const bankDraggable = useDraggableModal(typeof window !== 'undefined' ? window.innerWidth / 2 - 200 : 400, 60);
   const arenaDraggable = useDraggableModal(typeof window !== 'undefined' ? window.innerWidth / 2 - 260 : 350, 40);
 
@@ -382,6 +385,7 @@ export default function App() {
   });
 
   const [selectedOrgId, setSelectedOrgId] = useState<string | null>(null);
+  const [selectedEggId, setSelectedEggId] = useState<string | null>(null);
   const [selectedSpecimen, setSelectedSpecimen] = useState<Organism | null>(null);
   const [isAutoTracking, setIsAutoTracking] = useState(false);
 
@@ -409,6 +413,9 @@ export default function App() {
     lineage: new Map<string, LineageRecord>(),
     recentDeaths: [],
   });
+  // A selected egg remains a reference to actual kernel state; no duplicated
+  // incubation/clearance counters or saved UI-only status fields.
+  const selectedEgg = selectedEggId ? simStateRef.current.eggs.find(egg => egg.id === selectedEggId) : null;
 
   // Telemetry Performance Tracker
   const realTimeTrackerRef = useRef({
@@ -462,6 +469,7 @@ export default function App() {
     setIsBrainInspectorOpen(false);
     setSelectedOrgId(null);
     setSelectedSpecimen(null);
+    setSelectedEggId(null);
     setIsAutoTracking(false);
     gameAudio.playCrispClick();
   }, []);
@@ -529,7 +537,7 @@ export default function App() {
   // Fork a complete, independent state without changing simulation randomness.
   const branchEcosystem = useCallback(() => {
     replaceWorld(restoreSnapshot(createSnapshot(simStateRef.current, currentSettings())).state);
-    setSelectedOrgId(null); setSelectedSpecimen(null); setIsAutoTracking(false);
+    setSelectedOrgId(null); setSelectedSpecimen(null); setSelectedEggId(null); setIsAutoTracking(false);
     setSaveNotification(`Branched ecosystem: ${customBranchName}`);
     setTimeout(() => setSaveNotification(null), 2500);
     gameAudio.playLevelUpStinger();
@@ -560,7 +568,7 @@ export default function App() {
       if (Number.isInteger(restored.metadata.seed)) setSimulationSeed(Number(restored.metadata.seed));
       if (restored.metadata.founderMode === 'balanced' || restored.metadata.founderMode === 'unbiased') setFounderMode(restored.metadata.founderMode);
       popHistoryRef.current = Array.isArray(restored.metadata.populationHistory) ? restored.metadata.populationHistory as number[] : [];
-      setSelectedOrgId(null); setSelectedSpecimen(null); setIsAutoTracking(false);
+      setSelectedOrgId(null); setSelectedSpecimen(null); setSelectedEggId(null); setIsAutoTracking(false);
       cameraRef.current.x = cameraRef.current.targetX = v.worldWidth / 2;
       cameraRef.current.y = cameraRef.current.targetY = v.worldHeight / 2;
       setGameState(prev => ({...prev, status: 'PAUSED'}));
@@ -587,6 +595,7 @@ export default function App() {
 
       setSelectedOrgId(null);
       setSelectedSpecimen(null);
+      setSelectedEggId(null);
       setIsBrainInspectorOpen(false);
       setIsAutoTracking(false);
       cameraRef.current.x = worldWidth / 2;
@@ -620,6 +629,7 @@ export default function App() {
 
     setSelectedOrgId(specimen.id);
     setSelectedSpecimen(specimen);
+    setSelectedEggId(null);
     gameAudio.playPowerupChime();
 
     setGameState((prev) => {
@@ -675,6 +685,9 @@ export default function App() {
 
         if (isBrainInspectorOpen) {
           setIsBrainInspectorOpen(false);
+        } else if (selectedEggId) {
+          setSelectedEggId(null);
+          ignoreCanvasClickUntilRef.current = Date.now() + 400;
         } else if (selectedOrgId) {
           ignoreCanvasClickUntilRef.current = Date.now() + 400;
           setSelectedOrgId(null);
@@ -731,7 +744,7 @@ export default function App() {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [spawnNutrientBurst, addPrimordialSpecimen, isBrainInspectorOpen, selectedOrgId, isSettingsOpen, isEcosystemGraphOpen, isSpecimenBankOpen, isArenaOpen, isHowToPlayOpen]);
+  }, [spawnNutrientBurst, addPrimordialSpecimen, isBrainInspectorOpen, selectedEggId, selectedOrgId, isSettingsOpen, isEcosystemGraphOpen, isSpecimenBankOpen, isArenaOpen, isHowToPlayOpen]);
 
   // Zoom handling
   useEffect(() => {
@@ -861,6 +874,7 @@ export default function App() {
 
       const selected = selectedOrgId ? s.organisms.find((o) => o.id === selectedOrgId) : null;
       setSelectedSpecimen(selected || null);
+      if (selectedEggId && !s.eggs.some(egg => egg.id === selectedEggId)) setSelectedEggId(null);
 
       popHistoryRef.current.push(s.organisms.filter(o => !o.dissolving).length);
       if (popHistoryRef.current.length > 60) popHistoryRef.current.shift();
@@ -908,8 +922,15 @@ export default function App() {
     if (cancelled || Math.hypot(p.x - start.x, p.y - start.y) >= 6 || Date.now() - start.time >= 500
       || Date.now() <= ignoreCanvasClickUntilRef.current) return;
     const x = cam.x + (p.x - canvasWidth / 2) / cam.zoom, y = cam.y + (p.y - canvasHeight / 2) / cam.zoom;
+    const egg = simStateRef.current.eggs.find(egg => Math.hypot(egg.x - x, egg.y - y) < 24 / cam.zoom);
+    if (egg) {
+      setSelectedEggId(egg.id); setSelectedOrgId(null); setSelectedSpecimen(null);
+      setIsBrainInspectorOpen(false); setIsAutoTracking(false);
+      gameAudio.playConfirmSelect();
+      return;
+    }
     const clicked = simStateRef.current.organisms.find(org => org.segments.some(seg => Math.hypot(seg.x - x, seg.y - y) < 45 / cam.zoom));
-    setSelectedOrgId(clicked?.id ?? null); setSelectedSpecimen(clicked ?? null);
+    setSelectedEggId(null); setSelectedOrgId(clicked?.id ?? null); setSelectedSpecimen(clicked ?? null);
     setIsBrainInspectorOpen(!!clicked); setIsAutoTracking(!!clicked);
     if (clicked) gameAudio.playConfirmSelect();
   };
@@ -1066,6 +1087,10 @@ export default function App() {
       if (eggImg?.complete && eggImg.naturalWidth > 0) {
         ctx.save(); ctx.filter = 'grayscale(1) brightness(1.8)'; ctx.globalAlpha = .14;
         ctx.drawImage(eggImg, -eggWidth / 2, -eggHeight / 2, eggWidth, eggHeight); ctx.restore();
+      }
+      if (egg.id === selectedEggId) {
+        ctx.beginPath(); ctx.arc(0, 0, 21, 0, Math.PI * 2);
+        ctx.strokeStyle = '#fbbf24'; ctx.lineWidth = 2; ctx.stroke();
       }
       ctx.restore();
     }
@@ -1523,6 +1548,44 @@ export default function App() {
           onLostPointerCapture={() => { pointerDownStateRef.current.active = false; cameraRef.current.isDragging = false; }}
           aria-label="Aquatic simulation" className="absolute inset-0 w-full h-full cursor-grab active:cursor-grabbing block" />
 
+        {/* EGG INSPECTOR — same kernel clearance and funded values used for hatching. */}
+        {selectedEgg && (() => {
+          const status = evaluateEggHatchStatus(selectedEgg, currentSettings(), simStateRef.current.organisms);
+          const parent = simStateRef.current.organisms.find(org => org.id === selectedEgg.parentOrgId);
+          const parentName = parent?.genome.name ?? simStateRef.current.lineage.get(selectedEgg.parentOrgId)?.name;
+          const progress = Math.round(Math.min(1, selectedEgg.incubationProgress) * 100);
+          const totalFunding = selectedEgg.fundedStructural + selectedEgg.fundedReserve;
+          return (
+            <div ref={eggDraggable.panelRef} data-testid="egg-inspector"
+              onPointerDown={e => e.stopPropagation()} onClick={e => e.stopPropagation()}
+              style={{transform: `translate3d(${eggDraggable.pos.x}px, ${eggDraggable.pos.y}px, 0)`, pointerEvents: 'auto'}}
+              className="vida-window absolute top-0 left-0 bg-slate-900/95 backdrop-blur-xl border border-amber-500/60 rounded-2xl p-3 w-80 max-w-[calc(100%-1rem)] font-mono text-xs shadow-2xl z-40 pointer-events-auto">
+              <div {...eggDraggable.headerProps} className="flex items-center justify-between border-b border-amber-500/30 pb-2 mb-2 touch-none cursor-grab active:cursor-grabbing select-none">
+                <span className="text-amber-300 font-bold">🥚 EGG INSPECTOR</span>
+                <button type="button" title="Close egg inspector"
+                  onPointerDown={e => e.stopPropagation()}
+                  onClick={e => {e.stopPropagation(); setSelectedEggId(null); ignoreCanvasClickUntilRef.current = Date.now() + 400;}}
+                  className="p-1 text-slate-400 hover:text-white rounded hover:bg-slate-800"><X size={15}/></button>
+              </div>
+              <div className="space-y-1 text-slate-300">
+                <div className="text-amber-100 truncate" title={selectedEgg.id}>{selectedEgg.id}</div>
+                <div>Parent: <span className="text-white" title={selectedEgg.parentOrgId}>{parentName ?? selectedEgg.parentOrgId}</span></div>
+                <div>Generation: <span className="text-white">{selectedEgg.genome.generation}</span></div>
+                <div>Funded body: <span className="text-white">{formatJoules(selectedEgg.fundedStructural)}</span></div>
+                <div>Funded hatch reserve: <span className="text-emerald-300">{formatJoules(selectedEgg.fundedReserve)}</span></div>
+                <div>Total funded energy: <span className="text-white">{formatJoules(totalFunding)}</span></div>
+                <div>Body requirement: <span className="text-white">{formatJoules(selectedEgg.genome.bodyCost)}</span></div>
+                <div>Inherited future egg reserve fraction: <span className="text-white">{Math.round(selectedEgg.genome.eggReserveFraction * 100)}%</span></div>
+                <div className="pt-1">Incubation: <span className="text-amber-200">{progress}%</span> · {selectedEgg.totalIncubationTime.toFixed(1)}s total</div>
+                <div className="bg-slate-950 rounded-full h-1.5 border border-slate-700 overflow-hidden">
+                  <div className="h-full bg-amber-400" style={{width: `${progress}%`}} />
+                </div>
+                <div className="pt-1 text-amber-200 font-semibold" data-testid="egg-hatch-status">{status.message}</div>
+              </div>
+            </div>
+          );
+        })()}
+
         {/* CREATURE'S-EYE RETINAL HUD STRIP (When creature is selected) */}
         {selectedSpecimen && (
           <div style={{maxWidth: 'calc(100% - 1rem)'}} className="absolute top-2 left-1/2 -translate-x-1/2 bg-slate-900/90 backdrop-blur-md border border-cyan-500/40 rounded-2xl px-3 py-1.5 flex items-center gap-3 z-30 font-mono text-[11px] shadow-lg">
@@ -1696,6 +1759,10 @@ export default function App() {
                 <div className="flex justify-between text-[10px] text-slate-400 mb-0.5">
                   <span>Reserve: {formatJoules(selectedSpecimen.energy)} / {formatJoules(selectedSpecimen.genome.maxEnergyCapacity)}</span>
                   <span>Reserve Floor: {formatJoules(reproStatus.parentReserve)}</span>
+                </div>
+                <div className="flex justify-between text-[10px] text-slate-400 mb-1">
+                  <span>Next egg: {formatJoules(reproStatus.eggCost)}</span>
+                  <span>Hatch reserve: {formatJoules(getEggReserveFunding(selectedSpecimen.genome))}</span>
                 </div>
                 <div className="w-full bg-slate-950 rounded-full h-1.5 overflow-hidden border border-slate-700">
                   <div

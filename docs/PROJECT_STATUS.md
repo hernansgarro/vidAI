@@ -1,5 +1,44 @@
 # Project status — 2026-10-20
 
+## Reproduction, feeding and egg inspection — version 0.10.0 (CI verified)
+
+- Reproduction was genuinely difficult because an adult needed 20% of its
+  maximum capacity as protected reserve **plus** full baby body construction
+  and a fixed 10,000 J funded reserve. The inherited `eggReserveFraction`
+  gene was mutating without affecting allocation.
+- Per-mouth gross specialist transfer rises 2,400 → 3,600 J/s, and omnivore
+  transfer 1,200 → 1,800 J/s. The shared per-mouth budget, 80% assimilation,
+  carrion digestion factor, energy storage cap and environmental supply
+  remain unchanged. Faster eating does not create nutrients or grant new
+  energy to creatures without physical food contact.
+- An egg now receives exactly its offspring body cost and a reserve of
+  `10,000 J × clamp(parent.eggReserveFraction, 0.2, 0.55)` (3,500 J default),
+  both fully debited from the parent. The parent's survival floor drops from
+  20% to 12% of storage capacity (never below 2,000 J). Higher fractions
+  increase hatchling starting energy but delay parental reproduction.
+  E.g., body 6,000 J and capacity 100,000 J: first-egg threshold falls from
+  36,000 J to 21,500 J. Existing saved eggs retain their original funding;
+  no retroactive rewrite, refill or accelerated maturation.
+- Eggs can be clicked and examined in a bounded draggable panel. The panel
+  reads real kernel egg funding, incubation, parent identity and hatching
+  conditions. The status helper shares the hatching geometry/clearance test,
+  distinguishes incubation, nonviability, population cap, tank boundary,
+  collision blocking and pending randomized orientation without consuming PRNG.
+  It is UI telemetry, not an independently simulated egg stage.
+- No changes to natural selection, body/brain locomotion, sensory steering,
+  inheritance mechanics or overall food supply. Reliable survival and higher
+  birth rates across seeds remain unproven until deliberate ecological tests.
+  Additional life-history trade-offs, especially the still-unused
+  `reproductionThreshold` trait, remain a follow-up.
+- GitHub Actions PR run #39384359696 at commit `162e207d` passed
+  **100/100 fast tests**, TypeScript type checking and production build.
+  Tests cover actual gross transfer, conserved energy, inherited reserve costs,
+  affordability, current snapshot continuation and truthful hatch-blocker
+  reporting. The earlier run's two stale test expectations were corrected.
+  Long ecosystem and manual browser suites were intentionally not run.
+
+
+
 ## Inherited structural brain evolution — version 0.9.0 (CI verified)
 
 - Phase 2 introduces low-probability genetic topology events, separate from
