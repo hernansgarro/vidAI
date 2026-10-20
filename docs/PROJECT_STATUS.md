@@ -1,6 +1,6 @@
 # Project status — 2026-10-20
 
-## Inherited structural brain evolution — version 0.9.0 (CI validation pending)
+## Inherited structural brain evolution — version 0.9.0 (CI verified)
 
 - Phase 2 introduces low-probability genetic topology events, separate from
   inherited weight changes: neuron insertion/removal, connection enabling,
@@ -28,11 +28,13 @@
 - Inspectors show each individual's actual enabled/disabled synapse counts
   and metabolic costs. Current brain v5/save schema v9 remain unchanged;
   v3–v8 import support and v9 deterministic continuation are preserved.
-- Focused tests will verify all structural operators, bounds, mild initial
-  motor perturbation, parent isolation, zero-mutation inheritance,
-  deterministic structural changes, save continuation and energy ledger.
-  The fast suite/build are CI-verified; no long ecosystem or browser run
-  is planned. Larger structures have not demonstrated better behavior.
+- GitHub Actions PR run #39380193256 on commit `fbb688ef` passed
+  **95/95 fast tests**, TypeScript and production build. The eight new
+  controlled topology cases cover all operations, size limits, weak insertion,
+  parent isolation, zero-mutation inheritance, deterministic offspring,
+  snapshot continuation and energy conservation. No long ecosystem or
+  browser suites were run. Larger structures have not demonstrated
+  better behavior.
 
 
 
