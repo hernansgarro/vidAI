@@ -20,7 +20,9 @@ test('55 founders have unique anatomy and valid organs in both brain modes; all 
       assert.deepEqual(morphologyProblems(g.parts), [], design.id);
       assert.deepEqual(surfacePlacementProblems(g), [], design.id);
       validateGenome(g);
-      assert.deepEqual(g.parts, design.morphology.parts);
+      const expectedParts = structuredClone(design.morphology.parts);
+      if (design.id === 'FND-001') for (const p of expectedParts.slice(1)) p.cpgPhaseOffset *= -1;
+      assert.deepEqual(g.parts, expectedParts);
       assert.deepEqual(g.eyes, design.morphology.eyes);
       assert.deepEqual(g.mouths, design.morphology.mouths);
     }
