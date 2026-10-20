@@ -1,6 +1,6 @@
 # Project status — 2026-10-20
 
-## Reproduction, feeding and egg inspection — version 0.10.0 (CI pending)
+## Reproduction, feeding and egg inspection — version 0.10.0 (CI verified)
 
 - Reproduction was genuinely difficult because an adult needed 20% of its
   maximum capacity as protected reserve **plus** full baby body construction
@@ -30,10 +30,12 @@
   birth rates across seeds remain unproven until deliberate ecological tests.
   Additional life-history trade-offs, especially the still-unused
   `reproductionThreshold` trait, remain a follow-up.
-- Focused fast tests check actual gross transfer, conserved energy, inherited
-  reserve costs, affordability, legacy snapshot continuation and truthful
-  hatch-blocker reporting. Record exact-commit CI results before merge.
-  No routine long ecosystem or manual browser testing is requested.
+- GitHub Actions PR run #39384359696 at commit `162e207d` passed
+  **100/100 fast tests**, TypeScript type checking and production build.
+  Tests cover actual gross transfer, conserved energy, inherited reserve costs,
+  affordability, current snapshot continuation and truthful hatch-blocker
+  reporting. The earlier run's two stale test expectations were corrected.
+  Long ecosystem and manual browser suites were intentionally not run.
 
 
 
