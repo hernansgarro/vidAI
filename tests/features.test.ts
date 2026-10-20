@@ -189,7 +189,7 @@ test('legacy v3 saves migrate sensory weights and activations without dropping h
     ledger: s.ledger, prngState: s.prng.getState(), lineage: []};
   const loaded = restoreSnapshot(JSON.stringify(raw));
   const migrated = loaded.state.organisms[0];
-  assert.equal(migrated.genome.brainVersion, 5);
+  assert.equal(migrated.genome.brainVersion, 6);
   assert.equal(migrated.neuralInputs.length, 32);
   assert.ok(migrated.neuralHidden.every(value => value === .37));
   const angleIndex = migrated.genome.inputKeys!.indexOf('joint:part-1:angle');
