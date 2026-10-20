@@ -119,3 +119,27 @@ test('diagnose phase wave direction without applying artificial thrust or changi
   }
   console.log('VIDA_PHASE5_WAVE_SWEEP '+JSON.stringify(results));
 });
+
+test('phase-corrected head-first swimming is evaluated against physically reachable food', () => {
+  const results = [];
+  for (const mode of ['baseline', 'reverse-wave', 'reverse-wave-blind'] as const) {
+    const g = createFounderGenome('FND-001');
+    if (mode !== 'baseline') for (const p of g.parts.slice(1)) p.cpgPhaseOffset *= -1;
+    if (mode === 'reverse-wave-blind') removeVisualWeights(g);
+    const s = createInitialWorld(settings, 210, 'balanced', 'standard', 0);
+    const org = addExternalOrganism(s, g, settings, ox, oy, 0)!;
+    org.genome.maturityAge = 1000;
+    const targetX = ox + 110, targetY = oy;
+    s.nutrients.push({id: 'front-food', x: targetX, y: targetY, vx: 0, vy: 0,
+      kind: 'nutrient', energyValue: 3000, radius: sim.getNutrientRadius(3000), bottomTimer: 0, pulseTimer: 0});
+    s.ledger.externalInflow += 3000;
+    const before = sim.calculateOrganismCOM(org), originalEnergy = totalAccountedEnergy(s);
+    for (let i = 0; i < 6 * 60; i++) sim.stepSimulation(s, settings, dt);
+    const after = sim.calculateOrganismCOM(org);
+    assert.ok(Math.abs(totalAccountedEnergy(s) - originalEnergy) < 1e-5);
+    results.push({mode, dx: Number((after.x - before.x).toFixed(1)),
+      eatenJ: 3000 - s.nutrients.reduce((total, n) => total + n.energyValue, 0),
+      feedEvents: org.recentFeedings?.length ?? 0, endDistance: Math.hypot(after.x - targetX, after.y - targetY)});
+  }
+  console.log('VIDA_PHASE5_FEEDING_ALIGNMENT '+JSON.stringify(results));
+});
