@@ -1771,7 +1771,8 @@ export function createArchetypeGenome(
 // organisms retain their personal memory, and offspring begin with fresh state.
 export type BrainTopologyOperation =
   'add-neuron' | 'remove-neuron' | 'enable-connection' |
-  'disable-connection' | 'prune-connection' | 'reconnect' | 'wire-injury-motor';
+  'disable-connection' | 'prune-connection' | 'reconnect' | 'wire-injury-motor' |
+  'wire-retinal-turn';
 
 type BrainEdgeLocation = {kind: 'ih' | 'hh' | 'ho'; target: number; source: number; key: string; weight: number};
 
@@ -1868,6 +1869,49 @@ export function mutateBrainTopology(g: Genome, operation: BrainTopologyOperation
       if (use) enabled.delete(key); else enabled.add(key);
     }
     // New hidden recurrent edges remain disabled from add-neuron.
+    g.disabledConnections = [...enabled];
+    checkBrainBudget(g);
+    return true;
+  }
+  if (operation === 'wire-retinal-turn') {
+    // Inherited lateral color-contrast receptive field: a randomly selected
+    // eye and wavelength project left-versus-right retinal ray activity to
+    // an isolated neuron and the existing joint Angle muscles. Direction,
+    // gain and color are stochastic, so even valid innovations may be
+    // maladaptive. There is NO object-type, location or danger input and NO
+    // runtime steering force. Every new connection pays ordinary brain upkeep.
+    if (!g.eyes.length || g.parts.length < 2 || count >= MAX_HIDDEN ||
+      enabledBrainEdgeCount(g) + RAYS_PER_EYE + g.parts.length > MAX_ENABLED_BRAIN_EDGES) return false;
+    if (!mutateBrainTopology(g, 'add-neuron', customPrng)) return false;
+    const h = g.hiddenIds!.length - 1, nodeId = g.hiddenIds![h];
+    const eye = g.eyes[customPrng.rangeInt(0, g.eyes.length - 1)];
+    const color = (['red', 'green', 'blue'] as const)[customPrng.rangeInt(0, 2)];
+    const sensoryGain = customPrng.range(1, 4) * (customPrng.nextFloat() < .5 ? -1 : 1);
+    const motorGain = customPrng.range(1, 4) * (customPrng.nextFloat() < .5 ? -1 : 1);
+    const enabled = new Set(g.disabledConnections!);
+    for (let i = 0; i < g.inputKeys!.length; i++) {
+      const key = g.inputKeys![i];
+      const sensoryKey = brainEdgeKey('ih', nodeId, key);
+      let gain = 0;
+      for (let ray = 0; ray < RAYS_PER_EYE; ray++) {
+        if (key === `eye:${eye.id}:ray:${ray}:${color}`) {
+          const offset = (ray / (RAYS_PER_EYE - 1) - .5) * eye.fov;
+          gain = Math.sin(offset) * sensoryGain;
+          break;
+        }
+      }
+      g.weightsIH[h][i] = gain;
+      if (Math.abs(gain) > 1e-12) enabled.delete(sensoryKey);
+      else enabled.add(sensoryKey);
+    }
+    for (let o = 0; o < g.outputKeys!.length; o++) {
+      const outputKey = g.outputKeys![o];
+      const edge = brainEdgeKey('ho', outputKey, nodeId);
+      const turnJoint = outputKey.endsWith(':Angle');
+      g.weightsHO[o][h] = turnJoint ? motorGain : 0;
+      if (turnJoint) enabled.delete(edge); else enabled.add(edge);
+    }
+    // add-neuron already isolates all recurrent connections, including self.
     g.disabledConnections = [...enabled];
     checkBrainBudget(g);
     return true;
@@ -2227,7 +2271,7 @@ export function mutateGenome(parent: Genome, severity = 0.25, customPrng: Xoshir
   if (customPrng.nextFloat() < mutChance * 0.16) {
     const operations: BrainTopologyOperation[] = [
       'add-neuron', 'remove-neuron', 'enable-connection',
-      'disable-connection', 'prune-connection', 'reconnect', 'wire-injury-motor',
+      'disable-connection', 'prune-connection', 'reconnect', 'wire-injury-motor', 'wire-retinal-turn',
     ];
     mutateBrainTopology(child, operations[customPrng.rangeInt(0, operations.length - 1)], customPrng);
   }

@@ -1,4 +1,4 @@
-# VIDA: remaining features — 2026-10-20 / v0.18.0
+# VIDA: remaining features — 2026-10-20 / v0.19.0
 
 This is a focused review of the current 2D source, not an implementation promise.
 Small changes fit the existing systems. Big changes affect simulation architecture,
@@ -18,7 +18,7 @@ distinguished below from gaps in existing systems.
 
 | Work | Current state and intended improvement |
 | --- | --- |
-| Reliable sensory-driven behavior | The balanced Darter has measured retinal food approach and evolving injury-sensing motor circuits. New paired real-physics tests against self-propelled hunters report 6 improved, 2 tied, 1 worsened outcomes among 9 biting starts, with 6 no-bite setups excluded. Across five body types and 15 genuine biting encounters, the same injury response improves 5, worsens 6, ties 4. The Brain inspector exposes the actual injury signal, pending energy and active inherited synapses. Per-eye inherited RGB receptor gains (including zero) and metabolic sensing costs now evolve, without altering legacy genomes; spectral suppression can hide purely green surfaces but does not erase red/blue reflections from real food. Next: test mobile **turning/tracking hunters** against blinded/disconnected controls before behavior baseline B-D. |
+| Reliable sensory-driven behavior | The balanced Darter has measured retinal food approach and evolving injury-sensing motor circuits. New paired real-physics tests against self-propelled hunters report 6 improved, 2 tied, 1 worsened outcomes among 9 biting starts, with 6 no-bite setups excluded. Across five body types and 15 genuine biting encounters, the same injury response improves 5, worsens 6, ties 4. The Brain inspector exposes the actual injury signal, pending energy and active inherited synapses. Per-eye inherited RGB receptor gains (including zero) and metabolic sensing costs now evolve, without altering legacy genomes; spectral suppression can hide purely green surfaces but does not erase red/blue reflections from real food. A heritable lateral RGB-to-joint circuit now produces genuine late bites in 4 of 24 paired self-propelled-prey trials versus none in blinded controls; center-of-mass approach was worse than the controls. This is limited evidence for sensory-driven moving-prey attacks, **not reliable pursuit**. Move to the bounded B-D ecological baseline rather than prolonged founder/brain tuning. |
 | Biological trait trade-offs | Egg reserve allocation now affects the actual funded hatchling reserve, parental energy cost and first-egg threshold; a higher allele improves starting reserves but delays reproduction. Parent survival floor and faster physical feeding were rebalanced in v0.10. Pending: review unused `reproductionThreshold` and other inherited efficiency/storage trade-offs separately without disguising them as guaranteed improvements. |
 | Evolvable neural structure | Phases 1–2 support changing hidden sizes (1–96), neuron identity, inherited connection masks and bounded upkeep. Phase 4 adds per-hidden-neuron inherited activation memory (0–4 s) with tau=0 original baseline and an explicit upkeep cost. Memory timescales are not synaptic learning or dreaming: living organisms still cannot update weights or grow structure within life. Controlled tests have not demonstrated improved foraging or long-term survival. |
 | Growth, injury and gradual aging | Juvenile/adult/aging labels exist, but real body growth, local tissue injury/repair and gradual senescence are absent. These require consistent mass, geometry, energy and controller updates. |
@@ -39,18 +39,20 @@ rather than confusingly reusing the original Phase 5:
 
 - **B-A — movement/retinal diagnostics:** completed (previously 5A).
 - **B-B — evolvable physical motor control:** completed (previously 5B).
-- **B-C — sensory-driven feeding/predation/defense:** in progress (previously
-  5C). Short real-physics trials show the balanced Darter tracking food
-  using inherited neural weights; certain inherited injury circuits reduce
-  biting in some conditions. RGB receptor sensitivities and their sensing
-  costs now evolve. Remaining bounded closure: **a genuinely turning,
-  retinal-guided mobile hunter**, compared to blinded/disconnected genetic
-  controls. Neither passive swimming nor pre-existing feeding guarantees
-  pursuit.
+- **B-C — sensory-driven feeding/predation/defense:** bounded capability
+  implementation completed (previously 5C), but **reliable pursuit remains
+  unsolved**. A balanced Darter feeds using inherited color circuits,
+  descendants can evolve RGB receptor sensitivity and injury responses,
+  and a rare isolated lateral retinal-turn neuron can produce real
+  predator bites *after prey has physically swum 30–90 px*, unlike its
+  identical disconnected controls (4/24 tested genotype/side pairs).
+  None of those pairs improved closest center-of-mass approach. This is
+  an evolutionary possibility, not ecological viability, generalized
+  prey tracking, a guaranteed predator strategy or synaptic learning.
 - **B-D — compact ecology baseline:** next (previously 5D). Short seeded
   measures of real feeding, survival, death and funded reproduction,
   recording negative outcomes without survival subsidies or mass tuning of
-  the 55 founders.
+  the 55 founders. This is the **next implementation priority**.
 
 - **Original Phase 5 — waking lifetime learning:** **not implemented**.
   Evolve bounded plasticity and forgetting; track personal learned synaptic
