@@ -23,8 +23,8 @@
   the *exact* old sine formula in older genomes and founders. `Amp` can
   silence an evolved oscillator without disabling physical muscle torque.
   All commands remain torque-limited, substep-integrated and paid from the
-  conserved energy ledger. Snapshot schema remains v10, with strict optional
-  allele validation. Use short tests in `tests/evolvable-actuation.test.ts`.
+  conserved energy ledger. Optional motor alleles remain backward-compatible in current schema
+  v11, with strict validation. Use short tests in `tests/evolvable-actuation.test.ts`.
 - GitHub Wiki is the *current-feature reference*, not a historical changelog.
   Keep one succinct, maintainable page per currently reviewed feature with
   accurate schematics and limitations; update it in place.
@@ -56,6 +56,18 @@
   geometry and a disconnected stimulus. Those are *stationary* hunters;
   mobile hunting and ecological selection are unproven. Keep
   `tests/bite-escape-survey.test.ts` short, seeded and causal.
+- Phase 5C mobile-predator measurement: paired, short trials in
+  `tests/moving-hunter.test.ts` use self-propelled articulated hunters
+  against identical injury-coupled/disconnected genomes, with real
+  transfer accounting. Nine of 15 initial Darter encounters physically
+  bit; the injury circuit reduced bite J in six, tied two and worsened
+  one, while six noncontact trials cannot be called escapes.
+  Across five body plans with 15 actual biting setups it improved five,
+  worsened six and tied four. Thus a single motor policy is not a
+  universal escape adaptation, and passive straight-line swimming is
+  not active visual pursuit. The Brain inspector shows the real injury
+  neural signal, next-tick queued bite energy, and enabled inherited
+  input synapses without introducing a new simulation cue.
 - Phase 5C inherited visual steering: for newly created FND-001 in balanced
   mode only, retinal->hidden gain is 1.5 (other founders .2) and the
   hidden->joint Angle prior is (-.5, +.5) rather than (+.04, -.04).
