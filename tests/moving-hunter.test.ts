@@ -36,8 +36,9 @@ function trial(response:Response, hunterSpeed:number, separation:number, hunterA
  hunterGenome.mouths[0].mouthType='omnivore';
  hunterGenome.mouths[0].intakeWidth=30;
  hunterGenome.bodyCost=sim.calculateBodyCost(hunterGenome.parts,hunterGenome.eyes,hunterGenome.mouths);
- const rearEdge=Math.min(...prey.segments.map(p=>p.x-p.width/2));
+ const rearEdge=Math.min(...prey.segments.map((p,i)=>p.x-prey.genome.parts[i].width/2));
  const hunterX=placeByRearEdge ? rearEdge - hunterGenome.parts[0].width/2 + separation : 1200-separation;
+ assert.ok(Number.isFinite(hunterX),'test placement must be a real physical location');
  const hunter=addExternalOrganism(state,hunterGenome,settings,hunterX,750,hunterAngle)!;
  const hunterStart=sim.calculateOrganismCOM(hunter),preyStart=sim.calculateOrganismCOM(prey);
  const initialTotal=totalAccountedEnergy(state);
