@@ -8,8 +8,8 @@
   normalized reserve input. Migrate old four-channel commands by key, never by the new array stride.
   Save schema v8 includes stable organ slots, motor ramps and oral feedback; legacy migration must
   preserve recurrent memory and existing weights.
-- `data/founders.json` contains 51 distinct blueprints (50 revised originals and
-  Moonbell Jellyfish). Preserve their actual anatomy and measured gaits; never
+- `data/founders.json` contains 55 distinct blueprints (50 revised originals and
+  five jellyfish designs). Preserve their actual anatomy and measured gaits; never
   replace entries with renamed duplicates. Selective symmetry is not a mutation rule.
 - Anatomy v1 uses one physical connection OR three organs combined per face.
   Count both ends of hinges. Preserve stable organ slots and IDs across mutation,

@@ -20,7 +20,7 @@ test('catalogue, saved specimens, live brain graph and draggable inspector', asy
   await page.getByRole('button', {name: 'SEED SIMULATION', exact: true}).click();
   await page.getByTitle('Specimen Bank (Save & Spawn Custom Genomes)').click();
   const rows = page.getByTestId('specimen-row');
-  await expect(rows).toHaveCount(51);
+  await expect(rows).toHaveCount(55);
   await expect(rows.first().getByRole('button')).toHaveCount(1);
   // Native select keyboard actions must not trigger simulation hotkeys.
   await page.getByLabel('Body family').focus();

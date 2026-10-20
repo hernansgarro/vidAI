@@ -29,7 +29,7 @@ test('fresh defaults, five-design population, slotted bank preview and jellyfish
   }
   await page.getByTitle('Close settings (✕)').click();
   await page.getByTitle('Specimen Bank (Save & Spawn Custom Genomes)').click();
-  await expect(page.getByTestId('specimen-row')).toHaveCount(51);
+  await expect(page.getByTestId('specimen-row')).toHaveCount(55);
   await page.getByLabel('Body family').selectOption('Bell swimmers');
   const jelly = page.getByTestId('specimen-row'); await expect(jelly).toHaveCount(1);
   await expect(jelly).toContainText('Moonbell Jellyfish');
