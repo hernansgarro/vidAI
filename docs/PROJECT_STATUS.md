@@ -1,6 +1,6 @@
 # Project status — 2026-10-20
 
-## Phase 5A: causal sensory baseline and forward feeding gait — v0.12.0 (CI pending)
+## Phase 5A: causal sensory baseline and forward feeding gait — v0.12.0 (CI verified)
 
 - Controlled baseline trials compare exactly matching FND-001 genomes with
   retinal synapses enabled or disconnected (preserving dark-water baseline
@@ -33,11 +33,12 @@
   predator avoidance and long-term reproductive survival are **not proved**.
   Note that the short trial's “creature threat” is an observed foreign body,
   not an evolved recognition of predator danger.
-- `tests/behavior-baseline.test.ts` preserves the meaningful paired
+- GitHub Actions PR run #39391692071 on commit `99fba308` passed
+  **112/112 fast tests**, TypeScript checking and production Vite build.
+  `tests/behavior-baseline.test.ts` preserves the meaningful paired
   measures, founder locomotion check, accessible-food regression, and exact
-  legacy snapshot continuation. Existing founder integrity tests now
-  explicitly permit this single calibrated phase exception. Release CI
-  results will be recorded after exact-head verification.
+  old-gait snapshot continuation. Existing founder integrity checks permit
+  precisely this calibrated phase exception, not arbitrary blueprint drift.
   No long behavioral/ecosystem suite or browser execution was performed.
 
 
