@@ -46,7 +46,7 @@ export default function BrainGraph({organism: org, threshold}: {organism: Organi
       </g>)}
       {hidden.map((y, i) => <circle data-hidden-neuron={hiddenIds[i]} key={hiddenIds[i]} cx={x[1]} cy={y} r={4}
         fill={`rgba(${(org.neuralHidden[i] ?? 0) >= 0 ? '168,85,247' : '244,63,94'},${.3 + Math.abs(org.neuralHidden[i] ?? 0) * .7})`}>
-        <title>{hiddenIds[i]}: {(org.neuralHidden[i] ?? 0).toFixed(4)}</title>
+        <title>{hiddenIds[i]}: {(org.neuralHidden[i] ?? 0).toFixed(4)} · activation memory τ={(g.hiddenTimeConstants?.[i] ?? 0).toFixed(2)} s</title>
       </circle>)}
       {outputs.map((y, i) => <g key={layout.outputs[i]}>
         <circle cx={x[2]} cy={y} r={3.2} fill="#f59e0b">
