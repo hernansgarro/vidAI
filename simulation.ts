@@ -956,9 +956,9 @@ export function getBrainLayout(g: Pick<Genome, 'eyes' | 'parts'> & Partial<Pick<
   });
   inputs.push('body:speed', 'body:energy', 'body:sin', 'body:cos');
   labels.push('Speed', 'Energy', 'CPG sin', 'CPG cos');
-  for (const mouth of g.mouths ?? []) {
+  for (const [m, mouth] of (g.mouths ?? []).entries()) {
     inputs.push(`mouth:${mouth.id}:contact`, `mouth:${mouth.id}:intake`);
-    labels.push('Food contact', 'Absorbed intake');
+    labels.push(`M${m + 1} food contact`, `M${m + 1} absorbed intake`);
   }
   const outputs = g.parts.slice(1).flatMap(p => OUTPUT_LABELS.map(channel => `joint:${p.id}:${channel}`));
   return {inputs, labels, outputs};
