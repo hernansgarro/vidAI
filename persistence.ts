@@ -1,7 +1,7 @@
 import {
   XoshiroPRNG, migrateOrganismBrain, ensureBrainLayout, calculateBodyCost,
   calculateMaxEnergyCapacity, clampVal, getPartCornerVertices,
-  getBrainLayout, getDietClassification, brainEdgeKey, CARRION_DECAY_SECONDS, MAX_OUTPUTS, MAX_SURFACE_ORGANS, MAX_NEURAL_INPUTS, MAX_HIDDEN, MAX_ENABLED_BRAIN_EDGES, MAX_BRAIN_MEMORY_SECONDS, MAX_PLASTIC_MOTOR_SYNAPSES, MAX_LEARNED_MOTOR_DELTA, surfacePlacementProblems, morphologyProblems, type Genome, type SimulationSettings, type SimulationState, type Organism,
+  getBrainLayout, getDietClassification, brainEdgeKey, CARRION_DECAY_SECONDS, MAX_OUTPUTS, MAX_SURFACE_ORGANS, MAX_NEURAL_INPUTS, MAX_HIDDEN, MAX_ENABLED_BRAIN_EDGES, MAX_BRAIN_MEMORY_SECONDS, MAX_PLASTIC_MOTOR_SYNAPSES, MAX_LEARNED_MOTOR_DELTA, plasticMotorEdges, surfacePlacementProblems, morphologyProblems, type Genome, type SimulationSettings, type SimulationState, type Organism,
 } from './simulation';
 
 export const BUILD_VERSION = '0.21.0';
@@ -234,6 +234,7 @@ export function restoreSnapshot(input: unknown): {state: SimulationState; settin
         'somatic learned motor state');
       const hidden = new Set(o.genome.hiddenIds), output = new Set(o.genome.outputKeys);
       const inactive = new Set(o.genome.disabledConnections);
+      const allowed = new Set(plasticMotorEdges(o.genome).map(s => s.edge));
       const seen = new Set<string>();
       for (const record of o.learnedMotorWeights) {
         assert(record && typeof record.edge === 'string'
@@ -245,7 +246,7 @@ export function restoreSnapshot(input: unknown): {state: SimulationState; settin
           && edge[0] === 'ho' && typeof edge[1] === 'string' && output.has(edge[1])
           && edge[1].endsWith(':Angle') && typeof edge[2] === 'string' && hidden.has(edge[2])
           && record.edge === brainEdgeKey('ho', edge[1], edge[2])
-          && !inactive.has(record.edge), 'plastic edge identity');
+          && !inactive.has(record.edge) && allowed.has(record.edge), 'plastic edge identity');
         assert(typeof record.delta === 'number' && Number.isFinite(record.delta)
           && Math.abs(record.delta) <= MAX_LEARNED_MOTOR_DELTA
           && typeof record.eligibility === 'number' && Number.isFinite(record.eligibility)
