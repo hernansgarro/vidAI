@@ -2317,7 +2317,7 @@ export function spawnOrganism(
     dissolveAlpha: 1.0,
     isFeedingHighlight: 0,
     traceHistory: [],
-    recentFeedings: [], mouthFeedback: {}, biteFeedbackJ: 0;
+    recentFeedings: [], mouthFeedback: {}, biteFeedbackJ: 0,
   };
 }
 
