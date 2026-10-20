@@ -292,6 +292,7 @@ export interface Organism {
   basalEnergyRate?: number;
   sensoryEnergyRate?: number;
   motorEnergyRate: number;
+  plasticityEnergyRate?: number; // Somatic upkeep + rewrite cost, charged once to metabolic heat.
   totalEnergyRate?: number;
   age: number;
   maxLifespan: number;
@@ -2317,6 +2318,8 @@ export function mutateGenome(parent: Genome, severity = 0.25, customPrng: Xoshir
     weightsHO,
     biasesO,
     hiddenIds: [...parent.hiddenIds!],
+    plasticityRate: parent.plasticityRate,
+    forgettingRate: parent.forgettingRate,
     disabledConnections: [...(parent.disabledConnections ?? [])],
     targetClutchSize: mutatedTargetClutchSize,
     maturityAge: mutatedMaturityAge,
@@ -2382,19 +2385,6 @@ export function mutateGenome(parent: Genome, severity = 0.25, customPrng: Xoshir
       part.waveHarmonics = harmonics;
     }
   }
-  // Rare inherited capacity for somatic learning. Appended to all old
-  // mutation draws to avoid perturbing established founder/offspring streams.
-  // The acquired motor offsets themselves exist only on living organisms.
-  if (customPrng.nextFloat() < mutChance * 0.12) {
-    const base = child.plasticityRate ?? 0;
-    child.plasticityRate = clampVal(base + customPrng.range(-0.15, 0.25) * mutScale,
-      0, 0.8);
-    if (child.plasticityRate > 0 && child.forgettingRate === undefined) child.forgettingRate = 0.1;
-  }
-  if ((child.plasticityRate ?? 0) > 0 && customPrng.nextFloat() < mutChance * 0.1) {
-    child.forgettingRate = clampVal((child.forgettingRate ?? 0.1)
-      + customPrng.range(-0.05, 0.05) * mutScale, 0, 1);
-  }
   // Independently inherited spectral gains arise in offspring without adding
   // neural channels or changing existing founder/save genotypes. A receptor can
   // disappear exactly (0), reappear, or change continuously; no diet oracle.
@@ -2409,6 +2399,19 @@ export function mutateGenome(parent: Genome, severity = 0.25, customPrng: Xoshir
       }
       eye.spectralSensitivity = gains;
     }
+  }
+  // Rare inherited capacity for somatic learning. Appended to all old
+  // mutation draws to avoid perturbing established founder/offspring streams.
+  // The acquired motor offsets themselves exist only on living organisms.
+  if (customPrng.nextFloat() < mutChance * 0.12) {
+    const base = child.plasticityRate ?? 0;
+    child.plasticityRate = clampVal(base + customPrng.range(-0.15, 0.25) * mutScale,
+      0, 0.8);
+    if (child.plasticityRate > 0 && child.forgettingRate === undefined) child.forgettingRate = 0.1;
+  }
+  if ((child.plasticityRate ?? 0) > 0 && customPrng.nextFloat() < mutChance * 0.1) {
+    child.forgettingRate = clampVal((child.forgettingRate ?? 0.1)
+      + customPrng.range(-0.05, 0.05) * mutScale, 0, 1);
   }
   return child;
 }
@@ -3463,7 +3466,9 @@ export function stepSimulation(
     // Reward is from legitimate physical contact on the PREVIOUS tick.
     // Mutations in a living animal's learned offsets change subsequent
     // motor commands only, with their own debited metabolic cost.
-    applyWakingPlasticity(org, dt, ledger);
+    if ((g.plasticityRate ?? 0) > 0) {
+      org.plasticityEnergyRate = applyWakingPlasticity(org, dt, ledger) / dt;
+    }
 
   }
 
@@ -3508,7 +3513,7 @@ export function stepSimulation(
     org.basalEnergyRate = basalRate;
     org.sensoryEnergyRate = sensoryRate;
     org.motorEnergyRate = motorRate;
-    org.totalEnergyRate = basalRate + sensoryRate + motorRate;
+    org.totalEnergyRate = basalRate + sensoryRate + motorRate + (org.plasticityEnergyRate ?? 0);
 
     // Deduct expenditure and ensure reserves strictly stop at 0.0 (no negative reserves)
     const requiredExpenditure = totalBasalDissipation + frameMechanicalWork;
