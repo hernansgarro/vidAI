@@ -120,17 +120,29 @@ test('v9 snapshots upgrade with tau zero, preserving original network/activation
   org.neuralHidden[0] = .424;
   const current = createSnapshot(s, settings), old = structuredClone(current);
   old.schemaVersion = '9.0.0';
+  const downgrade = (g: sim.Genome) => {
+    g.brainVersion = 5;
+    delete g.hiddenTimeConstants;
+    const i = g.inputKeys!.indexOf('body:injury');
+    if (i >= 0) {
+      g.inputKeys!.splice(i, 1);
+      g.weightsIH.forEach(row => row.splice(i, 1));
+    }
+  };
   for (const o of old.state.organisms) {
-    o.genome.brainVersion = 5;
-    delete o.genome.hiddenTimeConstants;
+    downgrade(o.genome);
+    o.neuralInputs.pop(); // v9 predates the bite-feedback channel.
+    delete o.biteFeedbackJ;
   }
-  for (const egg of old.state.eggs) {egg.genome.brainVersion = 5; delete egg.genome.hiddenTimeConstants;}
-  for (const [, rec] of old.state.lineage) {rec.genome.brainVersion = 5; delete rec.genome.hiddenTimeConstants;}
+  for (const egg of old.state.eggs) downgrade(egg.genome);
+  for (const [, rec] of old.state.lineage) downgrade(rec.genome);
   const restored = restoreSnapshot(old), next = restored.state.organisms[0];
   assert.equal(next.genome.brainVersion, 7);
   assert.deepEqual(next.genome.hiddenTimeConstants, [0]);
   assert.deepEqual(next.neuralHidden, org.neuralHidden);
-  assert.deepEqual(next.genome.weightsIH, org.genome.weightsIH);
+  assert.deepEqual(next.genome.weightsIH.map(row => row.slice(0, -1)),
+    org.genome.weightsIH.map(row => row.slice(0, -1)));
+  assert.ok(next.genome.weightsIH.every(row => row.at(-1) === 0));
   assert.deepEqual(next.genome.weightsHH, org.genome.weightsHH);
   assert.deepEqual(next.genome.weightsHO, org.genome.weightsHO);
   assert.deepEqual(restored.state.prng.getState(), s.prng.getState());
