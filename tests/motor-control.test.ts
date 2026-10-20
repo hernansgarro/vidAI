@@ -143,7 +143,7 @@ test('a real v5 seven-part save preserves all old commands, weights, hidden memo
   const old = JSON.parse(readFileSync(new URL('./fixtures/v5-motor-world.json', import.meta.url), 'utf8'));
   const before = old.state.organisms[0];
   const {state} = restoreSnapshot(old), org = state.organisms[0];
-  assert.equal(org.genome.brainVersion, 4); assert.equal(org.neuralOutputs.length, 36);
+  assert.equal(org.genome.brainVersion, 5); assert.equal(org.neuralOutputs.length, 36);
   assert.deepEqual(org.neuralHidden, before.neuralHidden); assert.deepEqual(state.prng.getState(), old.state.prngState);
   before.genome.inputKeys.forEach((key: string, i: number) => {
     const current = org.genome.inputKeys!.indexOf(key); assert.equal(org.neuralInputs[current], before.neuralInputs[i]);
@@ -165,7 +165,7 @@ test('current snapshots preserve motor ramps and oral feedback for exact continu
   const savedSettings = {...settings, worldWidth: 4800, worldHeight: 3000};
   org.segments.forEach(p => { p.x -= 3600; p.y -= 4500; });
   const saved = createSnapshot(s, savedSettings), restored = restoreSnapshot(saved);
-  assert.equal(saved.schemaVersion, '8.0.0');
+  assert.equal(saved.schemaVersion, '9.0.0');
   assert.deepEqual(createSnapshot(restored.state, restored.settings), saved);
   for (let i = 0; i < 120; i++) { sim.stepSimulation(s, savedSettings, 1 / 60); sim.stepSimulation(restored.state, savedSettings, 1 / 60); }
   assert.deepEqual(createSnapshot(s, savedSettings), createSnapshot(restored.state, savedSettings));
