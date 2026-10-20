@@ -69,6 +69,9 @@ import {
   UNIT_SIZE,
   BASAL_METABOLIC_RATE,
   SENSORY_NEURAL_METABOLIC_RATE,
+  NEURAL_EDGE_METABOLIC_RATE,
+  NUM_HIDDEN,
+  enabledBrainEdgeCount,
   BASE_FOUNDER_AREA,
   NUTRIENT_ENERGY_VALUE,
   CONTINUOUS_EAT_RATE,
@@ -2135,6 +2138,11 @@ export default function App() {
                     <span className="text-purple-400 font-bold">{selectedSpecimen.neuralHidden.length} RECURRENT HIDDEN (h_t)</span>
                     <span className="text-amber-400 font-bold">6-CH MOTORS</span>
                   </div>
+                  <div className="px-2 mb-1 text-[10px] text-slate-500 self-start" data-testid="brain-topology">
+                    {enabledBrainEdgeCount(selectedSpecimen.genome).toLocaleString()} enabled connections
+                    {selectedSpecimen.genome.disabledConnections?.length
+                      ? ` · ${selectedSpecimen.genome.disabledConnections.length.toLocaleString()} disabled` : ''}
+                  </div>
 
                   <div className="w-full px-2 pb-2 text-[10px] text-slate-400" data-testid="motor-telemetry">
                     {selectedSpecimen.joints.map((j, i) => <span key={selectedSpecimen.genome.parts[i + 1].id} className="inline-block mr-3">
@@ -2362,7 +2370,10 @@ export default function App() {
                     <div className="flex justify-between text-slate-300 pl-2">
                       <span>• Sensory & Neural:</span>
                       <span className="text-indigo-300 font-bold">
-                        {(selectedSpecimen.sensoryEnergyRate ?? (SENSORY_NEURAL_METABOLIC_RATE * (selectedSpecimen.genome.eyes.length * 5 + selectedSpecimen.neuralHidden.length + selectedSpecimen.genome.mouths.length * 2))).toFixed(2)} J/s
+                        {(selectedSpecimen.sensoryEnergyRate ?? Math.max(0,
+                          SENSORY_NEURAL_METABOLIC_RATE * (selectedSpecimen.genome.eyes.length * 5 + selectedSpecimen.neuralHidden.length + selectedSpecimen.genome.mouths.length * 2)
+                          + NEURAL_EDGE_METABOLIC_RATE * (enabledBrainEdgeCount(selectedSpecimen.genome)
+                            - NUM_HIDDEN * (selectedSpecimen.neuralInputs.length + NUM_HIDDEN + selectedSpecimen.neuralOutputs.length)))).toFixed(2)} J/s
                       </span>
                     </div>
                     <div className="flex justify-between text-slate-300 pl-2">
