@@ -122,9 +122,20 @@ test('inherited somatic motor circuit innovations are bounded, isolated, mutable
   sim.mutateBrainTopology(comparison,'wire-injury-motor',new sim.XoshiroPRNG(seed));
   const h=actual.hiddenIds!.length-1, injury=actual.inputKeys!.indexOf('body:injury');
   comparison.weightsIH[h][injury]=0; // same genome, neuron, and upkeep; no sensory coupling.
-  const seen=run('neutral',0,10,2.5,actual);
-  const disconnected=run('neutral',0,10,2.5,comparison);
-  console.log('PHASE5C_GENETIC_INNOVATION '+JSON.stringify({candidate,seen,disconnected}));
+  const scored = [];
+  for (const gap of [8,10,16]) {
+    const seen=run('neutral',0,gap,2.5,actual);
+    const disconnected=run('neutral',0,gap,2.5,comparison);
+    assert.ok(disconnected.bites > 0, 'hunter must physically bite both variants');
+    assert.ok(seen.bites > 0 && seen.bites < disconnected.bites,
+      'one genetically generated sensorimotor innovation genuinely reduces subsequent bites');
+    assert.ok(seen.separation > disconnected.separation,
+      'the benefit must include actual physical separation from the hunter');
+    assert.equal(seen.alive, true);
+    scored.push({gap,seen:seen.bites,disconnected:disconnected.bites,
+      extraSeparation:+(seen.separation-disconnected.separation).toFixed(1)});
+  }
+  console.log('PHASE5C_GENETIC_INNOVATION '+JSON.stringify({candidate,scored}));
 });
 
 test('inherited injury circuit persists and resumes deterministically with unchanged founders', () => {
@@ -141,4 +152,29 @@ test('inherited injury circuit persists and resumes deterministically with uncha
   for(let i=0;i<8;i++){sim.stepSimulation(s,settings,dt);sim.stepSimulation(restored.state,settings,dt);}
   assert.deepEqual(createSnapshot(restored.state,settings),createSnapshot(s,settings));
   assert.ok(Math.abs(totalAccountedEnergy(s)-before)<1e-5);
+});
+
+test('ordinary genome reproduction can generate a new somatic-to-motor circuit through stochastic mutation', () => {
+  const parent=createFounderGenome('FND-001','unbiased'), original=structuredClone(parent);
+  let evolved: sim.Genome | undefined, seed=0;
+  for (let candidate=1;candidate<=350;candidate++) {
+    const child=sim.mutateGenome(parent,1,new sim.XoshiroPRNG(candidate));
+    const injuryIndex=child.inputKeys!.indexOf('body:injury');
+    const added=child.hiddenIds!.filter(id=>!parent.hiddenIds!.includes(id));
+    const wired=added.some(id=>{
+      const h=child.hiddenIds!.indexOf(id);
+      const ih=sim.brainEdgeKey('ih',id,'body:injury');
+      return !child.disabledConnections!.includes(ih)
+        && child.weightsIH[h][injuryIndex]!==0
+        && child.outputKeys!.some((output,o)=>
+          !child.disabledConnections!.includes(sim.brainEdgeKey('ho',output,id))
+          && child.weightsHO[o][h]!==0);
+    });
+    if(wired){evolved=child;seed=candidate;break;}
+  }
+  assert.ok(evolved, 'a real offspring mutation can create the complete inherited sensor-to-motor innovation');
+  assert.deepEqual(parent,original,'offspring mutations never edit the parent');
+  assert.deepEqual(sim.mutateGenome(parent,1,new sim.XoshiroPRNG(seed)),evolved,
+    'new genetic mutations stay deterministic for a fixed seed');
+  assert.deepEqual(validateGenome(evolved),evolved);
 });
