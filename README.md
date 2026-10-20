@@ -38,18 +38,22 @@ The existing **Bank** includes 50 built-in founders in ten body families, with b
 previews, family/diet filters and individual spawning. Built-ins do not consume
 saved-specimen slots. Standard seeding uses 18 founders with a herbivore majority;
 **Reset with Catalogue Showcase** starts a new world with up to 50 designs, subject
-to the current living-population cap. Older archetype buttons remain available.
+to the current living-population cap. The old six archetype shortcuts have been removed; use the Bank or Add Life.
 
 Settings include nutrients (0–800), tank width/height, gravity, population cap
 (1–150), viscosity, inflow, seed and founder brain mode. Resizing translates whole
 articulated bodies. Lowering the cap does not kill existing creatures. A zero food
-target disables environmental replenishment; decomposition can still create food.
+target stops automatic and manual nutrient creation. Existing particles are retained.
 **Clear Free Nutrients** removes plant food and records its energy in the ledger.
 Pink remains are separate animal food: carnivore and omnivore mouths can scavenge
 it; herbivore mouths cannot. Uneaten remains become plant nutrients after 60
-simulated seconds without adding energy. The HUD counts plant food and remains
+simulated seconds when a plant-food slot is available, without adding energy. The HUD counts plant food and remains
 separately. A mouth shares its intake limit across all contacted foods and stops
-removing food when storage is full.
+removing food when storage is full. All mouths absorb 80% of removed energy;
+20% becomes heat. The existing 85% carrion digestion factor also applies, so
+carrion's combined assimilation is 68%. Kin protection defaults on for living
+parents/offspring, same-generation siblings and related eggs; unrelated creatures
+of the same generation remain edible. Carrion carries no kin protection.
 
 Diet labels are herbivore, carnivore and omnivore. A creature with different
 specialist mouths has an omnivorous overall diet; each mouth retains its own
@@ -70,6 +74,24 @@ Neutral new outputs preserve starter gaits; their connections can evolve through
 mutation. These controls do not train founders or guarantee successful foraging.
 Nonzero longitudinal water resistance slows passive coasting. The inspector shows
 per-joint stroke amplitude and engagement alongside the live brain graph.
+
+Only physical creatures, food particles (including pink remains) and white eggs
+produce retinal colors. Walls, water, grid and display effects return black.
+Distance attenuates surface RGB toward black; the distance channel remains.
+Nutrient cores stay fixed while only their display glow pulses. Mouth openings
+animate during actual feeding. Display water and boundaries remain visible to
+the player.
+
+Solid rotated body rectangles collide with other creatures and their own
+nonadjacent parts. Directly hinged neighbors are exempt to allow bending. All
+bodies advance on one substep clock, with inelastic contact impulses and positional
+hinge repair before feeding. A spatial broad phase limits collision candidates.
+This is a discrete frictionless solver, not continuous collision detection.
+
+The canvas fills the area between the toolbars using equal X/Y world scale;
+changing screen shape changes the visible area rather than stretching bodies.
+Floating windows scroll, resize from their lower corner, and stay inside that
+area after dragging or viewport changes. The current build appears at bottom right.
 
 **Copy Diagnostic Report** provides settings, seed/PRNG, population, death history,
 energy balance and selected-creature telemetry. Current v6 snapshots preserve

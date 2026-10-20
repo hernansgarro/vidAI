@@ -115,9 +115,9 @@ test('oral feedback comes from actual ingestion, reaches the brain next tick, an
     radius: 18, bottomTimer: 0, pulseTimer: 0}); s.ledger.externalInflow += 3000;
   sim.stepSimulation(s, settings, 1 / 60);
   assert.equal(org.neuralInputs[contact], 0); assert.equal(org.neuralHidden[0], 0);
-  assert.deepEqual(org.mouthFeedback![mouth.id], {contact: 1, intake: 1});
+  assert.deepEqual(org.mouthFeedback![mouth.id], {contact: 1, intake: .8});
   sim.stepSimulation(s, settings, 1 / 60);
-  assert.equal(org.neuralInputs[contact], 1); assert.equal(org.neuralInputs[intake], 1);
+  assert.equal(org.neuralInputs[contact], 1); assert.equal(org.neuralInputs[intake], .8);
   assert.ok(org.neuralHidden[0] > .99);
   s.ledger.recordedLosses += s.nutrients.reduce((sum, n) => sum + n.energyValue, 0); s.nutrients = [];
   sim.stepSimulation(s, settings, 1 / 60); assert.equal(org.mouthFeedback![mouth.id].contact, 0);

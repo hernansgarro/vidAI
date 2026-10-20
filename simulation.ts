@@ -1,3 +1,4 @@
+import {resolveBodyContacts} from './contacts';
 // ============================================================================
 // 1. DETERMINISTIC PRNG (xoshiro128++)
 // ============================================================================
@@ -102,12 +103,14 @@ export const FOUNDER_DEFAULT_CAPACITY = 100000.0; // 100,000 J max capacity
 
 export const CONTINUOUS_EAT_RATE = 1200.0; // J/s max transfer (scaled for 100k J economy)
 export const OMNIVORE_EAT_RATE = CONTINUOUS_EAT_RATE * 0.5; // 50% rate
+export const MOUTH_ASSIMILATION = 0.8; // All mouths dissipate 20% of removed chemical energy.
 export const NUTRIENT_ENERGY_VALUE = 3000.0; // 3,000 J per nutrient
 export const BASE_NUTRIENT_RADIUS = 18.0;
 export const CARRION_DECAY_SECONDS = 60; // Unconsumed remains mineralize without adding energy.
 
-// Optical water ambient constant
-export const WATER_AMBIENT_RGB: [number, number, number] = [0.04, 0.12, 0.18];
+// Empty space is optically black. Display water, walls and effects are not sensed.
+export const WATER_AMBIENT_RGB: [number, number, number] = [0, 0, 0];
+export const EGG_RGB: [number, number, number] = [1, 1, 1];
 
 // Recurrent Brain Specs
 export const NUM_INPUT_RAYS = 5;
@@ -719,6 +722,27 @@ export function getNutrientRadius(energy: number): number {
   const ratio = Math.max(0.1, energy / NUTRIENT_ENERGY_VALUE);
   const scale = 1 + 0.35 * Math.log2(ratio);
   return Math.max(8.0, BASE_NUTRIENT_RADIUS * Math.max(0.4, scale));
+}
+
+/** Shared by initialization, environmental inflow, Feed and Feed All. */
+export function nutrientSpawnSlots(state: SimulationState, settings: SimulationSettings): number {
+  const plants = state.nutrients.filter(n => n.kind !== 'carrion').length;
+  return Math.max(0, Math.min(Math.floor(settings.targetNutrients) - plants, 2200 - state.nutrients.length));
+}
+
+export function addNutrients(state: SimulationState, settings: SimulationSettings, requested: number,
+  patch?: {x: number; y: number; spread: number}): number {
+  const count = Math.min(Math.max(0, Math.floor(requested)), nutrientSpawnSlots(state, settings));
+  const prng = state.prng;
+  for (let i = 0; i < count; i++) {
+    state.nutrients.push({id: `NUT-${prng.nextUint32().toString(36)}`,
+      x: patch ? clampVal(patch.x + prng.range(-patch.spread, patch.spread), 40, settings.worldWidth - 40) : prng.range(40, settings.worldWidth - 40),
+      y: patch ? clampVal(patch.y + prng.range(-patch.spread, patch.spread), 40, settings.worldHeight - 40) : prng.range(40, settings.worldHeight - 40),
+      vx: 0, vy: 0, energyValue: NUTRIENT_ENERGY_VALUE, radius: getNutrientRadius(NUTRIENT_ENERGY_VALUE),
+      bottomTimer: 0, pulseTimer: prng.range(0, Math.PI * 2)});
+    state.ledger.externalInflow += NUTRIENT_ENERGY_VALUE;
+  }
+  return count;
 }
 
 export function getOppositeCardinalDir(dir: CardinalDir): CardinalDir {
@@ -2004,6 +2028,288 @@ export function hslToRgb(h: number, s: number, l: number): [number, number, numb
   return [r, g, b];
 }
 
+/** Repair contact-induced hinge error without adding velocity or motor energy. */
+function projectBodyJoints(org: Organism, iterations: number): void {
+  const parts = org.genome.parts;
+  for (let iteration = 0; iteration < iterations; iteration++) {
+    for (let index = 1; index < parts.length; index++) {
+      const def = parts[index], pd = parts[def.parentIndex];
+      const a = org.segments[def.parentIndex], b = org.segments[index];
+      const am = Math.max(.35, pd.dimN * pd.dimM * BASE_PART_DENSITY);
+      const bm = Math.max(.35, def.dimN * def.dimM * BASE_PART_DENSITY);
+      const aim = 1 / am, bim = 1 / bm;
+      const aii = 12 / (am * (pd.width ** 2 + pd.height ** 2));
+      const bii = 12 / (bm * (def.width ** 2 + def.height ** 2));
+      const pa = getCardinalAnchor(def.attachmentPoint, pd.width, pd.height);
+      const pb = getChildAnchorForParentDir(def.attachmentPoint, def.width, def.height);
+      const ax = Math.cos(a.angle) * pa.x - Math.sin(a.angle) * pa.y;
+      const ay = Math.sin(a.angle) * pa.x + Math.cos(a.angle) * pa.y;
+      const bx = Math.cos(b.angle) * pb.x - Math.sin(b.angle) * pb.y;
+      const by = Math.sin(b.angle) * pb.x + Math.cos(b.angle) * pb.y;
+      const ex = b.x + bx - a.x - ax, ey = b.y + by - a.y - ay;
+      const k11 = aim + bim + ay * ay * aii + by * by * bii;
+      const k22 = aim + bim + ax * ax * aii + bx * bx * bii;
+      const k12 = -ax * ay * aii - bx * by * bii;
+      const det = k11 * k22 - k12 * k12;
+      const ix = (-k22 * ex + k12 * ey) * .8 / det;
+      const iy = (k12 * ex - k11 * ey) * .8 / det;
+      b.x += ix * bim; b.y += iy * bim; b.angle += (bx * iy - by * ix) * bii;
+      a.x -= ix * aim; a.y -= iy * aim; a.angle -= (ax * iy - ay * ix) * aii;
+      let relative = b.angle - a.angle - def.baseAngleOffset;
+      relative = Math.atan2(Math.sin(relative), Math.cos(relative));
+      const excess = relative - clampVal(relative, -def.maxAngle, def.maxAngle);
+      const angular = -.5 * excess / (aii + bii);
+      b.angle += angular * bii; a.angle -= angular * aii;
+    }
+  }
+}
+
+function advanceOrganismPhysics(org: Organism, settings: SimulationSettings, dt_sub: number): number {
+  const g = org.genome, numJoints = org.joints.length;
+  const mu = settings.waterViscosity ?? .22, gravity = settings.gravity ?? 0;
+  const {worldWidth, worldHeight} = settings;
+  const partCount = org.segments.length;
+  for (let i = 0; i < partCount; i++) {
+    const pDef = g.parts[i];
+    const mass = Math.max(0.35, pDef.dimN * pDef.dimM * BASE_PART_DENSITY);
+    const inertia = (1 / 12) * mass * (pDef.width * pDef.width + pDef.height * pDef.height);
+    scratchMasses[i] = mass;
+    scratchInvMasses[i] = 1 / mass;
+    scratchInertias[i] = inertia;
+    scratchInvInertias[i] = 1 / inertia;
+  }
+
+  let frameMechanicalWork = 0;
+  scratchFx.fill(0);
+  scratchFy.fill(0);
+  scratchTorque.fill(0);
+
+  // Motor torque computation across joints
+  for (let j = 0; j < numJoints; j++) {
+    const joint = org.joints[j];
+    const childIdx = j + 1;
+    const childDef = g.parts[childIdx];
+    const parentIdx = Math.max(0, Math.min(childIdx - 1, childDef.parentIndex));
+
+    const parentPhys = org.segments[parentIdx];
+    const childPhys = org.segments[childIdx];
+
+    const outBase = j * OUTPUTS_PER_JOINT;
+    const targetAngleOffset = (org.neuralOutputs[outBase] || 0) * 0.45;
+    const motorFreqDrive = 1.0 + (org.neuralOutputs[outBase + 1] || 0) * 0.35;
+    const peakTorqueMod = clampVal(1.0 + (org.neuralOutputs[outBase + 2] || 0) * 0.4, 0.5, 1.6);
+    const stiffnessDampingMod = clampVal(1.0 + (org.neuralOutputs[outBase + 3] || 0) * 0.4, 0.4, 1.8);
+    joint.stiffness = stiffnessDampingMod;
+    // Zero on new channels preserves the inherited gait. Negative commands can
+    // reach exactly zero; positive amplitude commands permit stronger strokes.
+    const amplitudeTarget = clampVal(1 + (org.neuralOutputs[outBase + 4] || 0) * 1.5, 0, 1.75);
+    const engagementTarget = clampVal(1 + (org.neuralOutputs[outBase + 5] || 0) * 1.5, 0, 1);
+    const response = 1 - Math.exp(-dt_sub / MOTOR_RESPONSE_SECONDS);
+    joint.amplitude = (joint.amplitude ?? 1) + (amplitudeTarget - (joint.amplitude ?? 1)) * response;
+    joint.engagement = (joint.engagement ?? 1) + (engagementTarget - (joint.engagement ?? 1)) * response;
+    if (amplitudeTarget === 0 && joint.amplitude < .001) joint.amplitude = 0;
+    if (engagementTarget === 0 && joint.engagement < .001) joint.engagement = 0;
+
+    const jointFreq = g.motorFrequency * childDef.cpgFreqMult * motorFreqDrive;
+    joint.phase = (joint.phase + 2 * Math.PI * jointFreq * dt_sub) % (2 * Math.PI);
+
+    const wave = Math.sin(joint.phase) * childDef.cpgAmp * joint.amplitude;
+    const targetAngle = clampVal((wave + targetAngleOffset) * childDef.maxAngle, -childDef.maxAngle, childDef.maxAngle);
+    joint.targetAngle = targetAngle;
+
+    let currentRelAngle = childPhys.angle - parentPhys.angle - (childDef.baseAngleOffset || 0);
+    while (currentRelAngle > Math.PI) currentRelAngle -= Math.PI * 2;
+    while (currentRelAngle < -Math.PI) currentRelAngle += Math.PI * 2;
+    joint.currentRelAngle = currentRelAngle;
+
+    const relAngVel = childPhys.angVel - parentPhys.angVel;
+    joint.currentRelAngVel = relAngVel;
+
+    const avgInertia = (scratchInertias[parentIdx] + scratchInertias[childIdx]) * 0.5;
+    const kp = g.motorForce * avgInertia * 480.0 * stiffnessDampingMod;
+    const kd = Math.sqrt(kp * avgInertia) * 1.4 * stiffnessDampingMod;
+
+    let motorTorque = kp * (targetAngle - currentRelAngle) - kd * relAngVel;
+    const maxTorque = avgInertia * 2200.0 * peakTorqueMod;
+    motorTorque = clampVal(motorTorque, -maxTorque, maxTorque) * joint.engagement;
+    if (isNaN(motorTorque)) motorTorque = 0;
+    joint.appliedTorque = motorTorque;
+
+    const deltaTheta = Math.abs(relAngVel * dt_sub);
+    const stepJointWork = Math.abs(motorTorque) * deltaTheta * FORCE_COST_MULTIPLIER;
+    if (!isNaN(stepJointWork) && isFinite(stepJointWork)) {
+      frameMechanicalWork += stepJointWork;
+    }
+
+    scratchTorque[childIdx] += motorTorque;
+    scratchTorque[parentIdx] -= motorTorque;
+  }
+
+  // Integrated Hydrodynamic Drag
+  for (let i = 0; i < partCount; i++) {
+    const seg = org.segments[i];
+    const def = g.parts[i];
+    const cosA = Math.cos(seg.angle);
+    const sinA = Math.sin(seg.angle);
+
+    const u = seg.vx * cosA + seg.vy * sinA;
+    const v = -seg.vx * sinA + seg.vy * cosA;
+
+    const fLocalX = -LONGITUDINAL_DRAG * mu * def.height * u; // Tangential resistance; normal drag remains stronger.
+    const fLocalY = -2.0 * mu * def.width * v;  // Normal anisotropic fluid drag
+
+    const fDragWorldX = fLocalX * cosA - fLocalY * sinA;
+    const fDragWorldY = fLocalX * sinA + fLocalY * cosA;
+    const fDragTorque = -(mu * seg.angVel * (def.width * def.width * def.width + def.height * def.height * def.height)) / 6.0;
+
+    scratchFx[i] += fDragWorldX;
+    scratchFy[i] += fDragWorldY + gravity * scratchMasses[i];
+    scratchTorque[i] += fDragTorque;
+
+    const corners = getPartCornerVertices(seg, def);
+    const kWallRepel = 24.0 * scratchMasses[i];
+    const kWallDamping = 4.0 * scratchMasses[i];
+
+    for (const pt of corners) {
+      const rx = pt.x - seg.x;
+      const ry = pt.y - seg.y;
+      const vPtX = seg.vx - seg.angVel * ry;
+      const vPtY = seg.vy + seg.angVel * rx;
+
+      if (pt.x < 0) {
+        const pen = -pt.x;
+        const fx = pen * kWallRepel - vPtX * kWallDamping;
+        scratchFx[i] += fx;
+        scratchTorque[i] += rx * 0 - ry * fx;
+      } else if (pt.x > worldWidth) {
+        const pen = pt.x - worldWidth;
+        const fx = -pen * kWallRepel - vPtX * kWallDamping;
+        scratchFx[i] += fx;
+        scratchTorque[i] += rx * 0 - ry * fx;
+      }
+
+      if (pt.y < 0) {
+        const pen = -pt.y;
+        const fy = pen * kWallRepel - vPtY * kWallDamping;
+        scratchFy[i] += fy;
+        scratchTorque[i] += rx * fy - ry * 0;
+      } else if (pt.y > worldHeight) {
+        const pen = pt.y - worldHeight;
+        const fy = -pen * kWallRepel - vPtY * kWallDamping;
+        scratchFy[i] += fy;
+        scratchTorque[i] += rx * fy - ry * 0;
+      }
+    }
+  }
+
+  for (let i = 0; i < partCount; i++) {
+    const seg = org.segments[i];
+    seg.vx += scratchFx[i] * scratchInvMasses[i] * dt_sub;
+    seg.vy += scratchFy[i] * scratchInvMasses[i] * dt_sub;
+    seg.angVel += scratchTorque[i] * scratchInvInertias[i] * dt_sub;
+
+    const spd = Math.hypot(seg.vx, seg.vy);
+    if (spd > 400.0) {
+      seg.vx = (seg.vx / spd) * 400.0;
+      seg.vy = (seg.vy / spd) * 400.0;
+    }
+    seg.angVel = clampVal(seg.angVel, -20.0, 20.0);
+  }
+
+  // Joint Constraint Solver (Iterative impulse resolution with exact momentum conservation)
+  for (let iter = 0; iter < 10; iter++) {
+    for (let j = 0; j < numJoints; j++) {
+      const childIdx = j + 1;
+      const childDef = g.parts[childIdx];
+      const parentIdx = Math.max(0, Math.min(childIdx - 1, childDef.parentIndex));
+
+      const parentPhys = org.segments[parentIdx];
+      const childPhys = org.segments[childIdx];
+      const parentDef = g.parts[parentIdx];
+
+      const parentAnchorLocal = getCardinalAnchor(childDef.attachmentPoint, parentDef.width, parentDef.height);
+      const childAnchorLocal = getChildAnchorForParentDir(childDef.attachmentPoint, childDef.width, childDef.height);
+
+      const cosP = Math.cos(parentPhys.angle);
+      const sinP = Math.sin(parentPhys.angle);
+      const rPx = cosP * parentAnchorLocal.x - sinP * parentAnchorLocal.y;
+      const rPy = sinP * parentAnchorLocal.x + cosP * parentAnchorLocal.y;
+
+      const cosC = Math.cos(childPhys.angle);
+      const sinC = Math.sin(childPhys.angle);
+      const rCx = cosC * childAnchorLocal.x - sinC * childAnchorLocal.y;
+      const rCy = sinC * childAnchorLocal.x + cosC * childAnchorLocal.y;
+
+      const anchorPx = parentPhys.x + rPx;
+      const anchorPy = parentPhys.y + rPy;
+      const anchorCx = childPhys.x + rCx;
+      const anchorCy = childPhys.y + rCy;
+
+      const vAnchorPx = parentPhys.vx - parentPhys.angVel * rPy;
+      const vAnchorPy = parentPhys.vy + parentPhys.angVel * rPx;
+      const vAnchorCx = childPhys.vx - childPhys.angVel * rCy;
+      const vAnchorCy = childPhys.vy + childPhys.angVel * rCx;
+
+      const vRelX = vAnchorCx - vAnchorPx;
+      const vRelY = vAnchorCy - vAnchorPy;
+
+      const posErrX = anchorCx - anchorPx;
+      const posErrY = anchorCy - anchorPy;
+      const beta = 0.35;
+      const biasX = (beta / dt_sub) * posErrX;
+      const biasY = (beta / dt_sub) * posErrY;
+
+      const wP = scratchInvMasses[parentIdx];
+      const wC = scratchInvMasses[childIdx];
+      const iP = scratchInvInertias[parentIdx];
+      const iC = scratchInvInertias[childIdx];
+
+      const k11 = wP + wC + rPy * rPy * iP + rCy * rCy * iC;
+      const k22 = wP + wC + rPx * rPx * iP + rCx * rCx * iC;
+      const k12 = -rPx * rPy * iP - rCx * rCy * iC;
+
+      const det = k11 * k22 - k12 * k12;
+      if (det > 1e-7) {
+        const rhsX = -(vRelX + biasX);
+        const rhsY = -(vRelY + biasY);
+
+        const impulseX = (k22 * rhsX - k12 * rhsY) / det;
+        const impulseY = (-k12 * rhsX + k11 * rhsY) / det;
+
+        childPhys.vx += impulseX * wC;
+        childPhys.vy += impulseY * wC;
+        childPhys.angVel += (rCx * impulseY - rCy * impulseX) * iC;
+
+        parentPhys.vx -= impulseX * wP;
+        parentPhys.vy -= impulseY * wP;
+        parentPhys.angVel -= (rPx * impulseY - rPy * impulseX) * iP;
+      }
+
+      // Enforce physical joint-angle limits
+      let relAngle = childPhys.angle - parentPhys.angle - (childDef.baseAngleOffset || 0);
+      while (relAngle > Math.PI) relAngle -= Math.PI * 2;
+      while (relAngle < -Math.PI) relAngle += Math.PI * 2;
+
+      if (Math.abs(relAngle) > childDef.maxAngle) {
+        const limitErr = Math.sign(relAngle) * (Math.abs(relAngle) - childDef.maxAngle);
+        const relAngVel = childPhys.angVel - parentPhys.angVel;
+        const angularBias = (0.2 / dt_sub) * limitErr;
+        const angImpulse = -(relAngVel + angularBias) / (iP + iC);
+        childPhys.angVel += angImpulse * iC;
+        parentPhys.angVel -= angImpulse * iP;
+      }
+    }
+  }
+
+  for (let i = 0; i < partCount; i++) {
+    const seg = org.segments[i];
+    seg.x += seg.vx * dt_sub;
+    seg.y += seg.vy * dt_sub;
+    seg.angle += seg.angVel * dt_sub;
+  }
+  return frameMechanicalWork;
+}
+
 // ============================================================================
 // 3. AUTHORITATIVE MODULAR SIMULATION KERNEL (`stepSimulation`)
 // ============================================================================
@@ -2039,37 +2345,21 @@ export function stepSimulation(
   } else {
     state.nutrientAccumulator += inflowRateVal * dt;
     if (state.nutrientAccumulator >= 1.0) {
-      const spawnCount = Math.min(
-        Math.floor(state.nutrientAccumulator),
-        targetNutrientsVal - plantCount,
-        2200 - nutrients.length,
-      );
+      const spawnCount = addNutrients(state, settings, Math.floor(state.nutrientAccumulator));
       state.nutrientAccumulator -= spawnCount;
-
-      for (let n = 0; n < spawnCount; n++) {
-        nutrients.push({
-          id: `NUT-${prng.nextUint32().toString(36)}`,
-          x: prng.range(40, worldWidth - 40),
-          y: prng.range(40, worldHeight - 40),
-          vx: 0,
-          vy: 0,
-          energyValue: NUTRIENT_ENERGY_VALUE,
-          radius: getNutrientRadius(NUTRIENT_ENERGY_VALUE),
-          bottomTimer: 0,
-          pulseTimer: prng.range(0, Math.PI * 2),
-        });
-        ledger.externalInflow += NUTRIENT_ENERGY_VALUE;
-      }
     }
   }
 
+  // Mineralization waits for a plant-food slot; stored carrion energy is never deleted.
+  let decaySlots = Math.max(0, targetNutrientsVal - nutrients.filter(n => n.kind !== 'carrion').length);
   // 2. Nutrients Motion
   const fluidDampingExp = Math.exp(-mu * 12.0 * dt);
   for (let i = 0; i < nutrients.length; i++) {
     const nut = nutrients[i];
     if (nut.kind === 'carrion') {
       nut.decayTimeRemaining = Math.max(0, (nut.decayTimeRemaining ?? CARRION_DECAY_SECONDS) - dt);
-      if (nut.decayTimeRemaining === 0) {
+      if (nut.decayTimeRemaining === 0 && decaySlots > 0) {
+        decaySlots--;
         nut.kind = 'nutrient';
         delete nut.decayTimeRemaining;
       }
@@ -2308,48 +2598,7 @@ export function stepSimulation(
         let hitB = WATER_AMBIENT_RGB[2];
         let hitType: RayHit['objectType'] = 'none';
 
-        // 1. Tank Boundary Walls
-        if (rayDirX < -1e-5) {
-          const t = (0 - eyeWorldX) / rayDirX;
-          if (t > 0 && t < closestDist) {
-            const yHit = eyeWorldY + rayDirY * t;
-            if (yHit >= 0 && yHit <= worldHeight) {
-              closestDist = t; hitHit = true; hitX = 0; hitY = yHit;
-              hitR = 0.02; hitG = 0.71; hitB = 0.83; hitType = 'wall';
-            }
-          }
-        }
-        if (rayDirX > 1e-5) {
-          const t = (worldWidth - eyeWorldX) / rayDirX;
-          if (t > 0 && t < closestDist) {
-            const yHit = eyeWorldY + rayDirY * t;
-            if (yHit >= 0 && yHit <= worldHeight) {
-              closestDist = t; hitHit = true; hitX = worldWidth; hitY = yHit;
-              hitR = 0.02; hitG = 0.71; hitB = 0.83; hitType = 'wall';
-            }
-          }
-        }
-        if (rayDirY < -1e-5) {
-          const t = (0 - eyeWorldY) / rayDirY;
-          if (t > 0 && t < closestDist) {
-            const xHit = eyeWorldX + rayDirX * t;
-            if (xHit >= 0 && xHit <= worldWidth) {
-              closestDist = t; hitHit = true; hitX = xHit; hitY = 0;
-              hitR = 0.02; hitG = 0.71; hitB = 0.83; hitType = 'wall';
-            }
-          }
-        }
-        if (rayDirY > 1e-5) {
-          const t = (worldHeight - eyeWorldY) / rayDirY;
-          if (t > 0 && t < closestDist) {
-            const xHit = eyeWorldX + rayDirX * t;
-            if (xHit >= 0 && xHit <= worldWidth) {
-              closestDist = t; hitHit = true; hitX = xHit; hitY = worldHeight;
-              hitR = 0.02; hitG = 0.71; hitB = 0.83; hitType = 'wall';
-            }
-          }
-        }
-
+        // Walls, grid, bubbles, rays, glows and other display effects are invisible.
         // 2. Nutrients
         for (let n = 0; n < nutrients.length; n++) {
           const nut = nutrients[n];
@@ -2368,7 +2617,7 @@ export function stepSimulation(
           const res = rayCircleIntersection(eyeWorldX, eyeWorldY, rayDirX, rayDirY, closestDist, egg.x, egg.y, 16.0);
           if (res.hit && res.dist < closestDist) {
             closestDist = res.dist; hitHit = true; hitX = res.pointX; hitY = res.pointY;
-            hitR = 0.95; hitG = 0.75; hitB = 0.15; hitType = 'egg';
+            [hitR, hitG, hitB] = EGG_RGB; hitType = 'egg';
           }
         }
 
@@ -2402,7 +2651,7 @@ export function stepSimulation(
           }
         }
 
-        // Realistic Optical Distance Attenuation: C_perceived = (1 - e^(-alpha*d))*C_water + e^(-alpha*d)*C_surface
+        // Beer-Lambert attenuation toward black; only physical object surfaces contribute RGB.
         const alpha = 1.0 / (maxRange * 0.55);
         const expTerm = Math.exp(-alpha * closestDist);
         const finalR = (1 - expTerm) * WATER_AMBIENT_RGB[0] + expTerm * hitR;
@@ -2471,250 +2720,20 @@ export function stepSimulation(
       org.neuralOutputs[o] = isNaN(sum) ? 0 : Math.tanh(sum);
     }
 
-    // C. RIGID BODY HYDRODYNAMICS & 6-CHANNEL MOTOR ACTUATION ACROSS 4 SUBSTEPS
-    const partCount = org.segments.length;
-    for (let i = 0; i < partCount; i++) {
-      const pDef = g.parts[i];
-      const mass = Math.max(0.35, pDef.dimN * pDef.dimM * BASE_PART_DENSITY);
-      const inertia = (1 / 12) * mass * (pDef.width * pDef.width + pDef.height * pDef.height);
-      scratchMasses[i] = mass;
-      scratchInvMasses[i] = 1 / mass;
-      scratchInertias[i] = inertia;
-      scratchInvInertias[i] = 1 / inertia;
-    }
+  }
 
-    let frameMechanicalWork = 0;
-    const dt_sub = dt / NUM_SUBSTEPS; // Fixed 1/240s substep
-
-    for (let sub = 0; sub < NUM_SUBSTEPS; sub++) {
-      scratchFx.fill(0);
-      scratchFy.fill(0);
-      scratchTorque.fill(0);
-
-      // Motor torque computation across joints
-      for (let j = 0; j < numJoints; j++) {
-        const joint = org.joints[j];
-        const childIdx = j + 1;
-        const childDef = g.parts[childIdx];
-        const parentIdx = Math.max(0, Math.min(childIdx - 1, childDef.parentIndex));
-
-        const parentPhys = org.segments[parentIdx];
-        const childPhys = org.segments[childIdx];
-
-        const outBase = j * OUTPUTS_PER_JOINT;
-        const targetAngleOffset = (org.neuralOutputs[outBase] || 0) * 0.45;
-        const motorFreqDrive = 1.0 + (org.neuralOutputs[outBase + 1] || 0) * 0.35;
-        const peakTorqueMod = clampVal(1.0 + (org.neuralOutputs[outBase + 2] || 0) * 0.4, 0.5, 1.6);
-        const stiffnessDampingMod = clampVal(1.0 + (org.neuralOutputs[outBase + 3] || 0) * 0.4, 0.4, 1.8);
-        joint.stiffness = stiffnessDampingMod;
-        // Zero on new channels preserves the inherited gait. Negative commands can
-        // reach exactly zero; positive amplitude commands permit stronger strokes.
-        const amplitudeTarget = clampVal(1 + (org.neuralOutputs[outBase + 4] || 0) * 1.5, 0, 1.75);
-        const engagementTarget = clampVal(1 + (org.neuralOutputs[outBase + 5] || 0) * 1.5, 0, 1);
-        const response = 1 - Math.exp(-dt_sub / MOTOR_RESPONSE_SECONDS);
-        joint.amplitude = (joint.amplitude ?? 1) + (amplitudeTarget - (joint.amplitude ?? 1)) * response;
-        joint.engagement = (joint.engagement ?? 1) + (engagementTarget - (joint.engagement ?? 1)) * response;
-        if (amplitudeTarget === 0 && joint.amplitude < .001) joint.amplitude = 0;
-        if (engagementTarget === 0 && joint.engagement < .001) joint.engagement = 0;
-
-        const jointFreq = g.motorFrequency * childDef.cpgFreqMult * motorFreqDrive;
-        joint.phase = (joint.phase + 2 * Math.PI * jointFreq * dt_sub) % (2 * Math.PI);
-
-        const wave = Math.sin(joint.phase) * childDef.cpgAmp * joint.amplitude;
-        const targetAngle = clampVal((wave + targetAngleOffset) * childDef.maxAngle, -childDef.maxAngle, childDef.maxAngle);
-        joint.targetAngle = targetAngle;
-
-        let currentRelAngle = childPhys.angle - parentPhys.angle - (childDef.baseAngleOffset || 0);
-        while (currentRelAngle > Math.PI) currentRelAngle -= Math.PI * 2;
-        while (currentRelAngle < -Math.PI) currentRelAngle += Math.PI * 2;
-        joint.currentRelAngle = currentRelAngle;
-
-        const relAngVel = childPhys.angVel - parentPhys.angVel;
-        joint.currentRelAngVel = relAngVel;
-
-        const avgInertia = (scratchInertias[parentIdx] + scratchInertias[childIdx]) * 0.5;
-        const kp = g.motorForce * avgInertia * 480.0 * stiffnessDampingMod;
-        const kd = Math.sqrt(kp * avgInertia) * 1.4 * stiffnessDampingMod;
-
-        let motorTorque = kp * (targetAngle - currentRelAngle) - kd * relAngVel;
-        const maxTorque = avgInertia * 2200.0 * peakTorqueMod;
-        motorTorque = clampVal(motorTorque, -maxTorque, maxTorque) * joint.engagement;
-        if (isNaN(motorTorque)) motorTorque = 0;
-        joint.appliedTorque = motorTorque;
-
-        const deltaTheta = Math.abs(relAngVel * dt_sub);
-        const stepJointWork = Math.abs(motorTorque) * deltaTheta * FORCE_COST_MULTIPLIER;
-        if (!isNaN(stepJointWork) && isFinite(stepJointWork)) {
-          frameMechanicalWork += stepJointWork;
-        }
-
-        scratchTorque[childIdx] += motorTorque;
-        scratchTorque[parentIdx] -= motorTorque;
-      }
-
-      // Integrated Hydrodynamic Drag
-      for (let i = 0; i < partCount; i++) {
-        const seg = org.segments[i];
-        const def = g.parts[i];
-        const cosA = Math.cos(seg.angle);
-        const sinA = Math.sin(seg.angle);
-
-        const u = seg.vx * cosA + seg.vy * sinA;
-        const v = -seg.vx * sinA + seg.vy * cosA;
-
-        const fLocalX = -LONGITUDINAL_DRAG * mu * def.height * u; // Tangential resistance; normal drag remains stronger.
-        const fLocalY = -2.0 * mu * def.width * v;  // Normal anisotropic fluid drag
-
-        const fDragWorldX = fLocalX * cosA - fLocalY * sinA;
-        const fDragWorldY = fLocalX * sinA + fLocalY * cosA;
-        const fDragTorque = -(mu * seg.angVel * (def.width * def.width * def.width + def.height * def.height * def.height)) / 6.0;
-
-        scratchFx[i] += fDragWorldX;
-        scratchFy[i] += fDragWorldY + gravity * scratchMasses[i];
-        scratchTorque[i] += fDragTorque;
-
-        const corners = getPartCornerVertices(seg, def);
-        const kWallRepel = 24.0 * scratchMasses[i];
-        const kWallDamping = 4.0 * scratchMasses[i];
-
-        for (const pt of corners) {
-          const rx = pt.x - seg.x;
-          const ry = pt.y - seg.y;
-          const vPtX = seg.vx - seg.angVel * ry;
-          const vPtY = seg.vy + seg.angVel * rx;
-
-          if (pt.x < 0) {
-            const pen = -pt.x;
-            const fx = pen * kWallRepel - vPtX * kWallDamping;
-            scratchFx[i] += fx;
-            scratchTorque[i] += rx * 0 - ry * fx;
-          } else if (pt.x > worldWidth) {
-            const pen = pt.x - worldWidth;
-            const fx = -pen * kWallRepel - vPtX * kWallDamping;
-            scratchFx[i] += fx;
-            scratchTorque[i] += rx * 0 - ry * fx;
-          }
-
-          if (pt.y < 0) {
-            const pen = -pt.y;
-            const fy = pen * kWallRepel - vPtY * kWallDamping;
-            scratchFy[i] += fy;
-            scratchTorque[i] += rx * fy - ry * 0;
-          } else if (pt.y > worldHeight) {
-            const pen = pt.y - worldHeight;
-            const fy = -pen * kWallRepel - vPtY * kWallDamping;
-            scratchFy[i] += fy;
-            scratchTorque[i] += rx * fy - ry * 0;
-          }
-        }
-      }
-
-      for (let i = 0; i < partCount; i++) {
-        const seg = org.segments[i];
-        seg.vx += scratchFx[i] * scratchInvMasses[i] * dt_sub;
-        seg.vy += scratchFy[i] * scratchInvMasses[i] * dt_sub;
-        seg.angVel += scratchTorque[i] * scratchInvInertias[i] * dt_sub;
-
-        const spd = Math.hypot(seg.vx, seg.vy);
-        if (spd > 400.0) {
-          seg.vx = (seg.vx / spd) * 400.0;
-          seg.vy = (seg.vy / spd) * 400.0;
-        }
-        seg.angVel = clampVal(seg.angVel, -20.0, 20.0);
-      }
-
-      // Joint Constraint Solver (Iterative impulse resolution with exact momentum conservation)
-      for (let iter = 0; iter < 10; iter++) {
-        for (let j = 0; j < numJoints; j++) {
-          const childIdx = j + 1;
-          const childDef = g.parts[childIdx];
-          const parentIdx = Math.max(0, Math.min(childIdx - 1, childDef.parentIndex));
-
-          const parentPhys = org.segments[parentIdx];
-          const childPhys = org.segments[childIdx];
-          const parentDef = g.parts[parentIdx];
-
-          const parentAnchorLocal = getCardinalAnchor(childDef.attachmentPoint, parentDef.width, parentDef.height);
-          const childAnchorLocal = getChildAnchorForParentDir(childDef.attachmentPoint, childDef.width, childDef.height);
-
-          const cosP = Math.cos(parentPhys.angle);
-          const sinP = Math.sin(parentPhys.angle);
-          const rPx = cosP * parentAnchorLocal.x - sinP * parentAnchorLocal.y;
-          const rPy = sinP * parentAnchorLocal.x + cosP * parentAnchorLocal.y;
-
-          const cosC = Math.cos(childPhys.angle);
-          const sinC = Math.sin(childPhys.angle);
-          const rCx = cosC * childAnchorLocal.x - sinC * childAnchorLocal.y;
-          const rCy = sinC * childAnchorLocal.x + cosC * childAnchorLocal.y;
-
-          const anchorPx = parentPhys.x + rPx;
-          const anchorPy = parentPhys.y + rPy;
-          const anchorCx = childPhys.x + rCx;
-          const anchorCy = childPhys.y + rCy;
-
-          const vAnchorPx = parentPhys.vx - parentPhys.angVel * rPy;
-          const vAnchorPy = parentPhys.vy + parentPhys.angVel * rPx;
-          const vAnchorCx = childPhys.vx - childPhys.angVel * rCy;
-          const vAnchorCy = childPhys.vy + childPhys.angVel * rCx;
-
-          const vRelX = vAnchorCx - vAnchorPx;
-          const vRelY = vAnchorCy - vAnchorPy;
-
-          const posErrX = anchorCx - anchorPx;
-          const posErrY = anchorCy - anchorPy;
-          const beta = 0.35;
-          const biasX = (beta / dt_sub) * posErrX;
-          const biasY = (beta / dt_sub) * posErrY;
-
-          const wP = scratchInvMasses[parentIdx];
-          const wC = scratchInvMasses[childIdx];
-          const iP = scratchInvInertias[parentIdx];
-          const iC = scratchInvInertias[childIdx];
-
-          const k11 = wP + wC + rPy * rPy * iP + rCy * rCy * iC;
-          const k22 = wP + wC + rPx * rPx * iP + rCx * rCx * iC;
-          const k12 = -rPx * rPy * iP - rCx * rCy * iC;
-
-          const det = k11 * k22 - k12 * k12;
-          if (det > 1e-7) {
-            const rhsX = -(vRelX + biasX);
-            const rhsY = -(vRelY + biasY);
-
-            const impulseX = (k22 * rhsX - k12 * rhsY) / det;
-            const impulseY = (-k12 * rhsX + k11 * rhsY) / det;
-
-            childPhys.vx += impulseX * wC;
-            childPhys.vy += impulseY * wC;
-            childPhys.angVel += (rCx * impulseY - rCy * impulseX) * iC;
-
-            parentPhys.vx -= impulseX * wP;
-            parentPhys.vy -= impulseY * wP;
-            parentPhys.angVel -= (rPx * impulseY - rPy * impulseX) * iP;
-          }
-
-          // Enforce physical joint-angle limits
-          let relAngle = childPhys.angle - parentPhys.angle - (childDef.baseAngleOffset || 0);
-          while (relAngle > Math.PI) relAngle -= Math.PI * 2;
-          while (relAngle < -Math.PI) relAngle += Math.PI * 2;
-
-          if (Math.abs(relAngle) > childDef.maxAngle) {
-            const limitErr = Math.sign(relAngle) * (Math.abs(relAngle) - childDef.maxAngle);
-            const relAngVel = childPhys.angVel - parentPhys.angVel;
-            const angularBias = (0.2 / dt_sub) * limitErr;
-            const angImpulse = -(relAngVel + angularBias) / (iP + iC);
-            childPhys.angVel += angImpulse * iC;
-            parentPhys.angVel -= angImpulse * iP;
-          }
-        }
-      }
-
-      for (let i = 0; i < partCount; i++) {
-        const seg = org.segments[i];
-        seg.x += seg.vx * dt_sub;
-        seg.y += seg.vy * dt_sub;
-        seg.angle += seg.angVel * dt_sub;
-      }
-    }
+  // All bodies advance on the same substep clock. Resolve solid body/self-contact
+  // before feeding, so mouths bite at the physical contact surface.
+  const active = organisms.filter(org => !org.dissolving);
+  const work = new Map(active.map(org => [org, 0]));
+  const substeps = Math.max(NUM_SUBSTEPS, Math.ceil(dt * 240));
+  for (let sub = 0; sub < substeps; sub++) {
+    for (const org of active) work.set(org, work.get(org)! + advanceOrganismPhysics(org, settings, dt / substeps));
+    resolveBodyContacts(active, BASE_PART_DENSITY, projectBodyJoints);
+  }
+  for (let index = active.length - 1; index >= 0; index--) {
+    const org = active[index], g = org.genome;
+    let frameMechanicalWork = work.get(org)!;
 
     // Clamp mechanical work to prevent frame 0 impulse spikes from draining reserves
     frameMechanicalWork = Math.min(MAX_FRAME_MOTOR_WORK, frameMechanicalWork);
@@ -2747,6 +2766,11 @@ export function stepSimulation(
     ledger.metabolicDissipation += totalBasalDissipation * paidFraction;
     ledger.mechanicalWorkHeat += frameMechanicalWork * paidFraction;
 
+  }
+  // Charge every active body's expenditure before any bites are exchanged.
+  for (let index = active.length - 1; index >= 0; index--) {
+    const org = active[index], g = org.genome;
+    if (org.dissolving) continue;
     // D. CONTACT FEEDING. One chemical-intake budget per mouth and simulated tick.
     const oralFeedback: NonNullable<Organism['mouthFeedback']> = Object.create(null);
     for (const mouth of g.mouths) {
@@ -2769,7 +2793,8 @@ export function stepSimulation(
       const allowance = (mouth.mouthType === 'omnivore' ? OMNIVORE_EAT_RATE : CONTINUOUS_EAT_RATE) * dt;
       let remainingIntake = allowance;
       const canEat = () => remainingIntake > 0 && org.energy < g.maxEnergyCapacity;
-      const consume = (available: number, category: FoodCategory, efficiency = 1): number => {
+      const consume = (available: number, category: FoodCategory, tissueEfficiency = 1): number => {
+        const efficiency = MOUTH_ASSIMILATION * tissueEfficiency;
         const transfer = Math.min(Math.max(0, available), remainingIntake,
           Math.max(0, g.maxEnergyCapacity - org.energy) / efficiency);
         if (transfer <= 0) return 0;
