@@ -48,6 +48,9 @@ test('real compatible mouth food writes a bounded retinal association that modif
   'physical RGB stimulus must reach neural channels');
   assert.ok(learnedSize(actual.org)>1e-5,'food-conditioned sensory associations must form');
   assert.equal(learnedSize(unfed.org),0,'no intake means no learned weight rewrite');
+  assert.ok(Math.abs((unfed.org.plasticityEnergyRate ?? 0)
+    - sim.plasticSensoryEdges(unfed.org.genome).length * sim.PLASTIC_UPKEEP_J_PER_EDGE_SECOND) < 1e-8,
+    'sensory-only learning expense meter must describe this tick, not the cumulative run');
   assert.equal(legacy.org.learnedSensoryWeights,undefined,'zero gene is fully inactive');
   assert.deepEqual(actual.org.genome,genes,'experience must not modify any inherited synapse');
   assert.ok(actual.org.learnedSensoryWeights!.length<=sim.MAX_PLASTIC_SENSORY_SYNAPSES);
