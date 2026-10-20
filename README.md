@@ -47,10 +47,10 @@ descendants only. Other founders and previously saved genomes are not
 rewritten. Escape from dangerous creatures remains unresolved because
 RGB pigments do not reliably encode predator threat.
 
-Current-feature documentation: [Senses and Visually Guided Behavior]
-(docs/wiki/Sensory-Behavior.md) and [Movement and Motor Control]
-(docs/wiki/Motor-Control.md). Both are maintained as current reference
-pages inside the repository until direct GitHub Wiki writes are available.
+Current-feature documentation: [Senses and Visually Guided Behavior](docs/wiki/Sensory-Behavior.md)
+and [Movement and Motor Control](docs/wiki/Motor-Control.md).
+Both are maintained as current reference pages inside the repository until
+direct GitHub Wiki writes are available.
 
 
 Articulated creatures have torque-driven, drag-based movement. The same
