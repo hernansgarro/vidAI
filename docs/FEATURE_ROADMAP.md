@@ -1,4 +1,4 @@
-# VIDA: remaining features — 2026-10-20 / v0.23.0
+# VIDA: remaining features — 2026-10-20 / v0.24.0
 
 This is a focused review of the current 2D source, not an implementation promise.
 Small changes fit the existing systems. Big changes affect simulation architecture,
@@ -101,6 +101,20 @@ outcomes rather than silently being marked solved.
   post-experience retinal response versus an erased
   learned-memory clone. No generalized adaptive behavior
   or long-term fitness improvement is claimed.
+  **v0.24 selective long-term retention:** an additional
+  inherited consolidation rate protects personally
+  learned visual and motor connections only when later
+  genuine reinforcement is consistent; contradictory
+  feedback and no-reward time weaken retention. Strong
+  memories cost more energy. Four seconds after the
+  last food, matched learned-weight clones retained
+  0.5673 vs 0.3869 total learned-weight magnitude
+  with/without stabilization (47% increase), not
+  proven better navigation or feeding. The remaining
+  **Phase 5 closure scope** is a bounded actual
+  behavior/energy-benefit comparison, and review
+  of limits/performance across the existing runtime.
+  **Phase 6 optional sleep/replay** remains separate.
 
 - **Original Phase 6 — optional rest/sleep and replay:** **not implemented**.
   Only consider after waking learning improves *physical behavior*, rather

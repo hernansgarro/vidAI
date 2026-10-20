@@ -124,6 +124,56 @@ A food-free control did not learn. This establishes personal
 perceptual adaptation—not discrimination between food and predators,
 generalization to unseen objects, better navigation or survival.
 
+## Selectively consolidated lifetime memories
+
+A rare, inherited **`memoryConsolidationRate`** allele (0–2/s)
+allows living individuals to preserve **some** of their acquired
+motor and retinal synaptic adjustments longer than others.
+The organism must already possess motor or retinal plasticity;
+an animal without learning has nothing to consolidate.
+
+- Eligibility and reward still come exclusively from the existing
+  recurrent neural activations and **actual food absorption** or
+  **physical bite damage**. A learned connection gains consolidation
+  only when a later signed teaching signal agrees with its previous
+  acquired weight change. Mere vision, contact without eating,
+  or memory replay is not reinforcement.
+- Conflicting reinforcement reduces the stored consolidation more
+  quickly. Unreinforced consolidation declines gradually. Between
+  experiences, stronger consolidation reduces the inherited
+  forgetting rate by up to **95%**; it never makes forgetting
+  impossible. The same existing ±0.8 weight-delta bounds apply.
+- Every living individual maintains a bounded 0–1
+  `consolidation` fraction on its *own* eligible learned retinal
+  and motor synapses. There are still at most **96 eligible
+  retinal and 96 eligible motor synapses**; no extra neuronal
+  layer, food-class labels, targeted navigation or new body
+  movements are introduced. Acquired weights and consolidation
+  are saved exactly in schema v11 and **never copied to children**.
+- Consolidation costs additional real energy:
+  **0.004 J per fully consolidated eligible synapse per second**
+  on top of the existing plastic synapse upkeep and rewriting
+  costs; partially stabilized synapses pay proportionally.
+  The current energy ledger accounts for this as metabolic heat.
+  When energy is insufficient, increases in stored
+  consolidation are limited rather than given away freely.
+- Old founders, old/current worlds without the new allele,
+  and original waking learners lacking consolidation retain
+  **their exact previous forgetting behavior**. The Brain
+  inspector now shows inherited consolidation rate and count
+  of stabilized retinal and motor connections.
+
+**Measured bounded result:** Following genuinely absorbed finite
+food, an earned-consolidation animal and a matched clone with the
+same already-learned weights but **no consolidation** were given
+four seconds with no new food. Their total remaining learned
+weight magnitudes were **0.5673 versus 0.3869**, roughly **47%
+more retention** in the protected creature. The strengthened
+connections still decayed, remained creature-specific and paid
+normal energy costs. This measures selective *synaptic
+retention*, not that a retained association reliably increases
+physical feeding, navigation or survival.
+
 ## Learning from genuine injury
 
 An additional **`injuryAversionRate`** allele (0–1 per second,
@@ -196,6 +246,10 @@ within-life topology growth exists today.
 - `tests/sensory-association.test.ts`: real food-conditioned RGB
   plasticity, matched erased-memory replay, conserved energy,
   strict saves and genetic/non-genetic separation
+- `tests/selective-memory.test.ts`: earned stabilization of retinal
+  and motor associations; real feeding and matched four-second
+  no-food forgetting, exact save continuation, conservation,
+  inheritance and malicious-save rejection
 
 The Wiki describes current features; experimental history belongs
 in `docs/PROJECT_STATUS.md`.

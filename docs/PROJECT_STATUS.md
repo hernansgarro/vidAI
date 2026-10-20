@@ -1,5 +1,48 @@
 # Project status — 2026-10-20
 
+## Original Phase 5: selective long-lasting memory — v0.24.0
+
+- New optional, ordinarily mutable and inherited
+  `memoryConsolidationRate` (0–2/s) applies to existing somatic
+  RGB eye-to-hidden and hidden-to-motor connections. A prior
+  learned weight is selectively stabilized only when later,
+  same-direction *genuine feeding or bite* reinforcement
+  agrees with that personal synaptic adjustment; contradictory
+  feedback undoes consolidation, and no-reward periods
+  slowly erode it. There is no new object recognizer,
+  target oracle, scripted behavior or neural activity bonus.
+- Stabilization (0–1 per eligible learned edge) reduces
+  forgetting by at most 95%, while memories eventually decay.
+  It pays proportional extra upkeep of 0.004 J/s per fully
+  consolidated synapse, additionally to v0.23 learning costs,
+  debited from creature energy to metabolic heat. Eligible
+  edge budgets remain 96 sensory + 96 motor. The original
+  55 founders and any saves with no retention allele preserve
+  old exact numerical learning behavior and schema v11.
+  Consolidation belongs only to the live organism, not
+  its genome or offspring; saved state is strictly bounded.
+- **Observed comparison:** real compatible-mouth feeding
+  conditioned an individual, then its exact-state counterpart
+  had only the retention gene/strength removed (acquired
+  sensory and motor weights preserved identically).
+  After **4 seconds with no further food**, the acquired
+  learned weight magnitude remained **0.5673** with selective
+  consolidation versus **0.3869** without, or about **47%
+  more retained weight**. Consolidated memory still
+  decayed, was energy-accounted and resumed exactly
+  from saved states. Three short added tests cover this,
+  uneventful old founders, ordinary allele mutation,
+  strict validation and conservation.
+- This validates **retention of personal learning**, not
+  learned fitness, generalization across distant contexts,
+  natural multigeneration ecological viability or
+  improved future food intake. Original Phase 5 remains
+  open for a targeted functional-acquisition benefit
+  and end-to-end scope review. Original Phase 6 rest/
+  replay remains unimplemented, not a prerequisite
+  to the existing waking plasticity.
+
+
 ## Original Phase 5: retained visual-context associations — v0.23.0
 
 - **Added:** optional, inherited and mutable `sensoryPlasticityRate`
