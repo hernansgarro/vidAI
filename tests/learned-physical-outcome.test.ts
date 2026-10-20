@@ -82,3 +82,31 @@ test('real learned experience is compared against its own erased-experience phys
    'experience must measurably change physical intake, and its benefit is not guaranteed');
  console.log('VIDA_PHASE5_PHYSICAL_LEARNING '+JSON.stringify({improved,worsened,tied,results}));
 });
+
+test('a populated tank can step 100 learning-capable articulated animals without unbounded synapse state',()=>{
+ const world=createInitialWorld(settings,861,'unbiased','standard',0);
+ const g=createFounderGenome('FND-001','balanced');
+ g.plasticityRate=.6;
+ g.plasticMotorScope='all';
+ g.sensoryPlasticityRate=.6;
+ g.memoryConsolidationRate=1;
+ g.forgettingRate=.1;
+ const born=[];
+ for(let row=0;row<10;row++)for(let col=0;col<10;col++){
+   const animal=addExternalOrganism(world,g,settings,155+col*208,132+row*126,0);
+   assert.ok(animal,'100 animals must fit in this tank without hidden culling');
+   born.push(animal!);
+ }
+ const start=totalAccountedEnergy(world);
+ for(let tick=0;tick<6;tick++)sim.stepSimulation(world,settings,dt);
+ assert.equal(world.organisms.filter(o=>!o.dissolving).length,100);
+ assert.ok(born.every(o=>Number.isFinite(o.energy)&&o.energy>0));
+ assert.ok(born.every(o=>(o.learnedSensoryWeights?.length??0)<=sim.MAX_PLASTIC_SENSORY_SYNAPSES
+   && (o.learnedMotorWeights?.length??0)<=sim.MAX_PLASTIC_MOTOR_SYNAPSES));
+ assert.ok(born.every(o=>(o.plasticityEnergyRate??0)>0));
+ assert.ok(Math.abs(totalAccountedEnergy(world)-start)<.001);
+ console.log('VIDA_PHASE5_POPULATION_SMOKE '+JSON.stringify({
+   alive:100,physicalParts:born.reduce((n,o)=>n+o.segments.length,0),
+   maxIndividualSensoryEdges:Math.max(...born.map(o=>o.learnedSensoryWeights?.length??0)),
+   maxIndividualMotorEdges:Math.max(...born.map(o=>o.learnedMotorWeights?.length??0))}));
+});
