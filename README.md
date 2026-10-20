@@ -23,7 +23,7 @@ or Playground SDK are required. Dependencies, CSS, images and audio are bundled
 locally into the build. Exported Playground configuration values are retained.
 
 ```sh
-npm test             # kernel regressions, 50 bodies, genetics, snapshots and seeded ecosystems
+npm test             # kernel regressions, 51 bodies, genetics, snapshots and seeded ecosystems
 npm run build        # TypeScript checks and production build
 npx playwright install --with-deps chromium
 npm run test:e2e     # production build at the Pages subpath
@@ -34,11 +34,38 @@ npm run benchmark:behavior # controlled motion and paired vision measurements
 
 ## Creatures and sandbox
 
-The existing **Bank** includes 50 built-in founders in ten body families, with body
+The existing **Bank** includes 51 built-in founders in eleven body families, with body
 previews, family/diet filters and individual spawning. Built-ins do not consume
-saved-specimen slots. Standard seeding uses 18 founders with a herbivore majority;
-**Reset with Catalogue Showcase** starts a new world with up to 50 designs, subject
+saved-specimen slots. Standard seeding uses 18 organisms drawn evenly from up to five randomly selected
+designs, without replacement at design selection. The same seed reproduces the
+same selection; each organism owns an independent genome and brain state. There
+is no forced diet quota; some random communities will fare better than others.
+The default plant-food target is 400;
+**Reset with Catalogue Showcase** starts a new world with up to 51 designs, subject
 to the current living-population cap. The old six archetype shortcuts have been removed; use the Bank or Add Life.
+
+Each body face holds either a physical connection (including a part's parent)
+or up to three organs **combined**, with stable center/side slots. Eyes and mouths
+use exactly those positions for drawing, sight rays and feeding. Eyes and mouths share an extensible surface-organ representation for future organ types. The former global limits of five eyes and three
+mouths have been removed; valid face capacity, seven body parts and bounded neural
+arrays still constrain anatomy. More eyes cost simulation time and metabolic energy.
+Body changes and ordinary mutations need not preserve symmetry.
+
+Twenty-eight existing designs now have more symmetric eye layouts. Five existing
+bodies (FND-021/022/024/034/035) have more balanced limbs, while the asymmetric and
+irregular families remain distinct. Moonbell Jellyfish (FND-051, **Bell swimmers**)
+uses five hinged rectangles—a bell, two rims and two trailing tentacles—with
+phased strokes. It is a rigid-part swimmer, not a deformable bell or fluid-jet model.
+Find and spawn it through the Bank's family filter. Its quiet initial neural motor
+weights are evolvable; both founder modes still use the same recurrent architecture.
+The retinal strip scrolls horizontally for creatures with many eyes.
+
+New saves use schema v7, with stable organ slots and current neural buffers. Versions
+v3–v6 remain importable. Imported legacy organ positions and live geometry are
+retained; offspring undergoing mutation acquire valid slots. Old fin presets are
+repaired for new organisms and mutated descendants, without moving their saved parents.
+Zero-mutation legacy clones retain the original anatomy. New imports are checked
+before the active world is replaced. Feeding in old saves uses the current rates.
 
 Settings include nutrients (0–800), tank width/height, gravity, population cap
 (1–150), viscosity, inflow, seed and founder brain mode. Resizing translates whole
@@ -48,7 +75,8 @@ target stops automatic and manual nutrient creation. Existing particles are reta
 Pink remains are separate animal food: carnivore and omnivore mouths can scavenge
 it; herbivore mouths cannot. Uneaten remains become plant nutrients after 60
 simulated seconds when a plant-food slot is available, without adding energy. The HUD counts plant food and remains
-separately. A mouth shares its intake limit across all contacted foods and stops
+separately. Transfer rates are now **2,400 J/s per specialist mouth** and **1,200 J/s per
+omnivore mouth**, twice the previous rates. A mouth shares its intake limit across all contacted foods and stops
 removing food when storage is full. All mouths absorb 80% of removed energy;
 20% becomes heat. The existing 85% carrion digestion factor also applies, so
 carrion's combined assimilation is 68%. Kin protection defaults on for living

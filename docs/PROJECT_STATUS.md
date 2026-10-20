@@ -1,4 +1,98 @@
-# Project status — 2026-10-19
+# Project status — 2026-10-20
+
+## Surface anatomy, founder selection and jellyfish — version 0.5.0
+
+### Implemented
+
+- Each face accepts no attachment, one physical connection, or up to three
+  nonphysical organs **combined**. Both ends of a hinge occupy their local faces.
+  Stable center/side slots are shared by eyes and mouths. The common `SurfaceOrgan`
+  representation supports defining future organ types without reserving fake organs.
+- The former five-eye/three-mouth global limits are removed. Import validation and
+  neural buffer bounds account for expanded layouts. Body trees remain limited to
+  seven parts. More eyes have real metabolic and computational costs.
+- Eye rays, mouth contact, body markers, debug ray origins and Bank previews use
+  `getOrganAnchor`. Glyphs scale to fit small faces; contact aperture overlays retain
+  their real physical size. The retinal strip scrolls rather than leaving the viewport.
+- Mutation chooses free slots, remaps pruned hosts by stable part IDs, and repairs
+  conflicting placements deterministically. A prune unable to carry all inherited
+  organs is rejected. Slot placement, IDs, brain channels and weights are inherited;
+  symmetry is not enforced on descendants. Zero mutation preserves the entire genotype.
+- Bank now contains **51 distinct designs**: 50 revised originals and Moonbell
+  Jellyfish. FND-021/022 have matching opposing limbs; FND-024/034/035 gain a
+  counterpart to an unpaired branch. Twenty-eight designs gain more symmetric eye
+  arrangements. Asymmetric and irregular families remain distinct.
+- Moonbell Jellyfish is a compact five-part bell/rim/tentacle swimmer. Phased joints
+  generate displacement through the existing drag model. Its initial motor weights
+  are quiet and evolvable; balanced mode adds the existing weak retinal steering prior.
+  No direct body thrust or swimming assistance is added.
+- Default startup distributes **18 organisms among five randomly selected distinct
+  designs**, or fewer designs if the requested population is below five. Selection
+  is uniform without replacement, using the world PRNG; each organism has its own
+  genome, recurrent state and identity. No forced diet quota is used.
+- Fresh worlds default to **400 plants**. Saved settings continue to override defaults.
+  Showcase starts up to all 51 designs, subject to the population cap.
+- Specialist gross intake is **2,400 J/s**; omnivore intake is **1,200 J/s**, twice
+  the old rates. Per-mouth shared budgets, diet permissions, storage limits,
+  kin protection and the 20% assimilation loss remain. Carrion still yields 68%
+  after its additional digestion factor. Anatomy panels show slots and current rates.
+- Save schema **v7** preserves slots and expanded neural buffers. v3–v6 remain
+  importable. Legacy live organ positions, body geometry, hidden memory and weights
+  are preserved. Mutated descendants fit the new organ slots. Old overlapping
+  Flapper/Glider fin anchors are repaired in new preset bodies and descendants,
+  without rewriting the saved parent. Feeding after import uses current rates.
+
+### Measured verification
+
+- `npm test`: **115/115 passed**. The 23 anatomy cases include mixed organ slots,
+  both hinge endpoints, atomic rejection, expanded neural buffers, actual slot-based
+  feeding, rotated retinal origins, 700 mutation generations, independent startup
+  clones, deterministic sampling and legacy compatibility.
+- `npm run build`: TypeScript and production build passed.
+- Isolated catalogue check: all **51** distinct bodies remained finite, alive and
+  translated more than 5 px over 15 simulated seconds at viscosity .22.
+- Jellyfish, 15s in still water, no food or reproduction:
+
+  | Brain mode | Viscosity | COM displacement | Final reserve |
+  | --- | ---: | ---: | ---: |
+  | Balanced | .18 | 139.81 px | 9,600.41 J |
+  | Balanced | .22 | 169.89 px | 9,600.65 J |
+  | Unbiased | .18 | 97.00 px | 9,600.26 J |
+  | Unbiased | .22 | 72.72 px | 9,600.37 J |
+
+  All four corresponding motor-off trials had **zero displacement**. It curves;
+  these are net displacements, not constant straight-line cruise speeds.
+- Reference swimmer remains **1,206.42 px / 15s**, motor-off drift zero, final
+  hinge error .1194 px. Existing forces, drag and reference gait were not boosted.
+- Actual default world at 60s: seed 4242 **18 living/0 deaths**, seed 71 **18/0**,
+  seed 1901 **17/1**, with one egg in the last seed. Absolute ledger error remained
+  below 2e-8 J. Population outcomes are not forced to match between seeds.
+- `npm run benchmark -- --seed 4242 --seconds 300`: **16 living**, 20 cumulative
+  births, 4 deaths, generation **2**, 400 plants and 12 remains. Absolute ledger
+  error **6.28e-7 J**. No hidden refills or rescue organisms are used.
+- `npm run benchmark:behavior`: seven isolated control trials, all 51 catalogue
+  bodies and 16 paired visual/blind scenarios (32 runs) completed. Mean credited
+  intake was **3,170 J with vision / 4,377.5 J blind** for the two tested founders.
+  This is evidence that the existing weak prior is not reliable food seeking;
+  the new slots and extra eyes do not imply trained intelligence.
+- **13 browser scenarios verified locally** (full run plus focused expanded-layout
+  rerun). Coverage includes existing UI/persistence scenarios plus 400-food
+  defaults, five-design seeding, jellyfish spawning/preview, and expanded organ
+  imports with a horizontally scrollable retina on a narrow screen. Final GitHub
+  checks gate deployment. Raw simulation/control results are in
+  `release-validation-0.5.0.json`.
+
+### Limits
+
+- The jellyfish has rigid rectangular parts, not deformable tissue or simulated jets.
+- Organ count can grow substantially; high-eye-count populations and large live
+  brain diagrams cost CPU. The existing 25 MB snapshot import limit remains.
+- Uniform random communities can be ecologically poor, including predator-heavy
+  samples. There are no diet quotas, automatic replacements or extinction guarantees.
+- Existing legacy individuals retain their prior layout until a future mutation;
+  legacy zero-mutation clones remain faithful to their saved anatomy.
+
+Earlier releases below are historical records of their own code and defaults.
 
 ## UI, vision, feeding and body contact — version 0.4.0
 

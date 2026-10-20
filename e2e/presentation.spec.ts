@@ -150,13 +150,11 @@ test('white eggs render white and actual feeding animates the mouth', async ({pa
   await page.addInitScript(() => {
     const translate = CanvasRenderingContext2D.prototype.translate;
     CanvasRenderingContext2D.prototype.translate = function(x, y) {
-      if (x < -100 && y < -100) (window as any).cameraTranslation = [x, y];
+      if (x < -100 && y < -100) {
+        (window as any).cameraTranslation = [x, y];
+        (window as any).cameraZoom = this.getTransform().a / window.devicePixelRatio;
+      }
       return translate.call(this, x, y);
-    };
-    const scale = CanvasRenderingContext2D.prototype.scale;
-    CanvasRenderingContext2D.prototype.scale = function(x, y) {
-      if (x === y) (window as any).cameraZoom = x;
-      return scale.call(this, x, y);
     };
     const original = CanvasRenderingContext2D.prototype.ellipse;
     (window as any).mouthOpenings = [];

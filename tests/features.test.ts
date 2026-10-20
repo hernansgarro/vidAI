@@ -14,10 +14,10 @@ function isolated(g: sim.Genome) {
   return {s, org};
 }
 
-test('all 50 exact catalogue bodies are distinct, valid, finite and able to swim', () => {
+test('all 51 catalogue bodies are distinct, valid, finite and able to swim', () => {
   const fingerprints = new Set<string>();
   const measurements = [];
-  assert.equal(FOUNDER_BLUEPRINTS.length, 50);
+  assert.equal(FOUNDER_BLUEPRINTS.length, 51);
   for (const d of FOUNDER_BLUEPRINTS) {
     const g = createFounderGenome(d.id);
     assert.deepEqual(sim.morphologyProblems(g.parts), [], d.id);
@@ -36,7 +36,7 @@ test('all 50 exact catalogue bodies are distinct, valid, finite and able to swim
   }
   console.log('CATALOGUE', JSON.stringify(measurements));
   assert.equal(FOUNDER_BLUEPRINTS.filter(d => d.diet === 'herbivore').length, 30);
-  assert.equal(FOUNDER_BLUEPRINTS.filter(d => d.diet === 'omnivore').length, 10);
+  assert.equal(FOUNDER_BLUEPRINTS.filter(d => d.diet === 'omnivore').length, 11);
   assert.equal(FOUNDER_BLUEPRINTS.filter(d => d.diet === 'carnivore').length, 10);
 });
 
@@ -207,7 +207,7 @@ test('in-game verification runs real checks without consuming the live/global PR
 
 for (const seed of [4242, 71, 1901]) test(`actual default initialization: 60 seconds, seed ${seed}`, () => {
   const s = createInitialWorld(DEFAULT_SETTINGS, seed);
-  assert.equal(s.organisms.length, 18); assert.equal(s.nutrients.length, 800);
+  assert.equal(s.organisms.length, 18); assert.equal(s.nutrients.length, 400);
   for (let i = 0; i < 3600; i++) sim.stepSimulation(s, DEFAULT_SETTINGS, 1 / 60);
   assert.ok(s.organisms.filter(o => !o.dissolving).length > 0);
   assert.ok(Math.abs(totalAccountedEnergy(s) - s.ledger.externalInflow) < 1e-4);

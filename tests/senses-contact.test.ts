@@ -79,7 +79,7 @@ for (const [type, kind, efficiency] of [
   const before = totalAccountedEnergy(s), energy = org.energy;
   step(s);
   const removed = 3000 - s.nutrients[0].energyValue;
-  close(removed, (type === 'omnivore' ? 600 : 1200) / 60);
+  close(removed, (type === 'omnivore' ? sim.OMNIVORE_EAT_RATE : sim.CONTINUOUS_EAT_RATE) / 60);
   close(org.energy - energy + org.totalEnergyRate! / 60, removed * efficiency);
   close(org.recentFeedings![0].energyTransferred, removed * efficiency);
   close(s.ledger.metabolicDissipation, org.totalEnergyRate! / 60 + removed * (1 - efficiency));
@@ -143,7 +143,7 @@ for (const relation of ['own', 'sibling', 'foreign'] as const) test(`carnivore e
     genome: g, fundedReserve: 10000, fundedStructural: g.bodyCost, incubationProgress: 0, totalIncubationTime: 100,
     pulseTimer: 0, colorHue: 40, readyToHatch: false});
   const before = totalAccountedEnergy(s); step(s);
-  if (relation === 'foreign') { close(org.recentFeedings![0].energyTransferred, 16); close(s.eggs[0].fundedReserve, 9980); }
+  if (relation === 'foreign') { close(org.recentFeedings![0].energyTransferred, 32); close(s.eggs[0].fundedReserve, 9960); }
   else { assert.equal(org.recentFeedings?.length ?? 0, 0); close(s.eggs[0].fundedReserve, 10000); }
   close(totalAccountedEnergy(s), before);
 });

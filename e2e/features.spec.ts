@@ -20,7 +20,7 @@ test('catalogue, saved specimens, live brain graph and draggable inspector', asy
   await page.getByRole('button', {name: 'SEED SIMULATION', exact: true}).click();
   await page.getByTitle('Specimen Bank (Save & Spawn Custom Genomes)').click();
   const rows = page.getByTestId('specimen-row');
-  await expect(rows).toHaveCount(50);
+  await expect(rows).toHaveCount(51);
   await expect(rows.first().getByRole('button')).toHaveCount(1);
   // Native select keyboard actions must not trigger simulation hotkeys.
   await page.getByLabel('Body family').focus();
@@ -48,7 +48,7 @@ test('catalogue, saved specimens, live brain graph and draggable inspector', asy
   await page.screenshot({path: test.info().outputPath('catalogue-inspector.png')});
   await page.reload(); await page.getByRole('button', {name: 'SEED SIMULATION', exact: true}).click();
   await page.getByTitle('Specimen Bank (Save & Spawn Custom Genomes)').click();
-  await expect(page.getByTestId('specimen-row')).toHaveCount(51);
+  await expect(page.getByTestId('specimen-row')).toHaveCount(52);
   expect(await page.evaluate(() => JSON.parse(localStorage.getItem('vida_specimen_bank_v3')!).length)).toBe(1);
   expect(errors).toEqual([]);
 });
@@ -65,7 +65,7 @@ test('v5 snapshots import through the UI and export all six motor channels witho
   await page.getByRole('button', {name: 'Export Snapshot', exact: true}).click();
   const download = await downloadPromise, saved = info.outputPath('migrated-motors.json'); await download.saveAs(saved);
   const snapshot = JSON.parse(await readFile(saved, 'utf8')), current = snapshot.state.organisms[0];
-  expect(snapshot.schemaVersion).toBe('6.0.0'); expect(current.genome.brainVersion).toBe(3);
+  expect(snapshot.schemaVersion).toBe('7.0.0'); expect(current.genome.brainVersion).toBe(3);
   expect(current.neuralOutputs).toHaveLength(36); expect(current.mouthFeedback).toBeDefined();
   original.genome.outputKeys.forEach((key: string, i: number) => {
     const currentIndex = current.genome.outputKeys.indexOf(key);

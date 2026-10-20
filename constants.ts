@@ -143,7 +143,7 @@ export const CONFIG = {
     group: 'Rules',
   },
   targetNutrientCount: {
-    value: 800,
+    value: 400,
     type: 'number',
     label: 'Nutrient Abundance Target',
     group: 'Rules',

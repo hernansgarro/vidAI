@@ -22,7 +22,7 @@
       "name": "targetNutrientCount",
       "type": "number",
       "label": "Nutrient Abundance Target / Inflow",
-      "default": 800,
+      "default": 400,
       "min": 0,
       "max": 800,
       "step": 50
@@ -76,7 +76,7 @@
   "values": {
     "initialOrganisms": 18,
     "maxOrganisms": 100,
-    "targetNutrientCount": 800,
+    "targetNutrientCount": 400,
     "reproductionEnergy": 0.65,
     "mutationRate": 0.25,
     "waterViscosity": 0.18,

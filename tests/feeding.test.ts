@@ -50,7 +50,7 @@ test('omnivore mouth shares one budget across living prey, eggs and free food', 
   sim.stepSimulation(s, settings, 1 / 60);
   const events = org.recentFeedings!;
   assert.deepEqual(events.map(e => e.foodCategory), ['Prey', 'Egg', 'Nutrient']);
-  assert.ok(Math.abs(events.reduce((sum, e) => sum + e.energyTransferred, 0) - 8) < 1e-6);
+  assert.ok(Math.abs(events.reduce((sum, e) => sum + e.energyTransferred, 0) - sim.OMNIVORE_EAT_RATE / 60 * sim.MOUTH_ASSIMILATION) < 1e-6);
   conserved(s, before);
 });
 
@@ -164,7 +164,7 @@ test('new saves continue exactly through carrion decay, and old v4 food remains 
   const {s, org, x} = setup(); org.genome.colorMutationRate = .4;
   s.nutrients = [food(x + 200, 'carrion')]; s.nutrients[0].decayTimeRemaining = .025;
   const snapshot = createSnapshot(s, settings), restored = restoreSnapshot(snapshot);
-  assert.equal(snapshot.schemaVersion, '6.0.0');
+  assert.equal(snapshot.schemaVersion, '7.0.0');
   assert.deepEqual(createSnapshot(restored.state, restored.settings), snapshot);
   for (let i = 0; i < 3; i++) { sim.stepSimulation(s, settings, 1 / 60); sim.stepSimulation(restored.state, settings, 1 / 60); }
   assert.deepEqual(createSnapshot(s, settings), createSnapshot(restored.state, settings));
