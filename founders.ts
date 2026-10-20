@@ -27,6 +27,15 @@ export function createFounderGenome(id: string, mode: FounderMode = 'balanced'):
   if (!blueprint) throw new Error(`Unknown founder ${id}`);
   const d = structuredClone(blueprint);
   const {parts, eyes, mouths, hue, saturation, lightness} = d.morphology;
+  // Physically verified head-first gait calibration (Phase 5): this axial
+  // swimmer's original tail wave carried its mouth/eyes *backwards* relative
+  // to food. Reversing the inherited joint phase progression, not adding a
+  // thrust force or steering override, restores forward food access.
+  // Do not apply to other founders (e.g. bell swimmers already move forward).
+  // Older saved genotypes keep their exact original joint phases.
+  if (d.id === 'FND-001') {
+    for (const part of parts.slice(1)) part.cpgPhaseOffset = -part.cpgPhaseOffset;
+  }
   const layout = getBrainLayout({parts, eyes, mouths});
   // Preserve the brain used when these gaits were calibrated, then expand it by ID.
   const localPrng = new XoshiroPRNG(d.seed);

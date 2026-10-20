@@ -23,7 +23,11 @@ test('all 55 catalogue bodies are distinct, valid, finite and able to swim', () 
     assert.deepEqual(sim.morphologyProblems(g.parts), [], d.id);
     const fingerprint = JSON.stringify(g.parts.map(p => [p.parentIndex, p.attachmentPoint, p.dimN, p.dimM]));
     assert.ok(!fingerprints.has(fingerprint), `duplicate anatomy ${d.id}`); fingerprints.add(fingerprint);
-    assert.deepEqual(g.parts, d.morphology.parts);
+    // Phase 5 intentionally corrects only FND-001's inherited joint wave
+    // direction; all raw geometries, organs and remaining founders are exact.
+    const expectedParts = structuredClone(d.morphology.parts);
+    if (d.id === 'FND-001') for (const p of expectedParts.slice(1)) p.cpgPhaseOffset *= -1;
+    assert.deepEqual(g.parts, expectedParts);
     const {s, org} = isolated(g), start = sim.calculateOrganismCOM(org);
     for (let i = 0; i < 900; i++) sim.stepSimulation(s, noFood, 1 / 60);
     const end = sim.calculateOrganismCOM(org);

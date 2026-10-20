@@ -1,4 +1,4 @@
-# VIDA: remaining features — 2026-10-20 / v0.11.0
+# VIDA: remaining features — 2026-10-20 / v0.12.0
 
 This is a focused review of the current 2D source, not an implementation promise.
 Small changes fit the existing systems. Big changes affect simulation architecture,
@@ -18,7 +18,7 @@ distinguished below from gaps in existing systems.
 
 | Work | Current state and intended improvement |
 | --- | --- |
-| Reliable sensory-driven behavior | Founders have phased gaits and a weak retinal steering prior, not demonstrated dependable foraging, pursuit or escape. Evaluate and improve inherited controllers using only their actual senses. Strong swimming alone does not demonstrate intelligent behavior. |
+| Reliable sensory-driven behavior | Phase 5 first proved a physical feeding/gait mismatch: FND-001's original tail wave drove its forward eyes/mouth backward. A measured, inheritable founder-phase reversal restored forward motion and single-food access (see Project Status). Four paired sensory experiments still found very small retinal-to-motor differences and no evidence of reliable off-axis food pursuit or threat avoidance. Next use measured paired trials on opt-in evolvable neural steering adjustments; do not add coordinate-based guidance or presume good swimming equals intelligence. |
 | Biological trait trade-offs | Egg reserve allocation now affects the actual funded hatchling reserve, parental energy cost and first-egg threshold; a higher allele improves starting reserves but delays reproduction. Parent survival floor and faster physical feeding were rebalanced in v0.10. Pending: review unused `reproductionThreshold` and other inherited efficiency/storage trade-offs separately without disguising them as guaranteed improvements. |
 | Evolvable neural structure | Phases 1–2 support changing hidden sizes (1–96), neuron identity, inherited connection masks and bounded upkeep. Phase 4 adds per-hidden-neuron inherited activation memory (0–4 s) with tau=0 original baseline and an explicit upkeep cost. Memory timescales are not synaptic learning or dreaming: living organisms still cannot update weights or grow structure within life. Controlled tests have not demonstrated improved foraging or long-term survival. |
 | Growth, injury and gradual aging | Juvenile/adult/aging labels exist, but real body growth, local tissue injury/repair and gradual senescence are absent. These require consistent mass, geometry, energy and controller updates. |
