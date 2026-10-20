@@ -1,6 +1,6 @@
 {
   "name": "vidai",
-  "version": "0.14.0",
+  "version": "0.15.0",
   "private": true,
   "type": "module",
   "description": "VIDA: a 2D aquatic artificial life and evolution simulator",
@@ -16,7 +16,7 @@
     "test:e2e": "playwright test",
     "benchmark": "node --import tsx scripts/benchmark.ts",
     "benchmark:behavior": "node --import tsx scripts/behavior-benchmark.ts",
-    "test:fast": "node --import tsx --test tests/feeding.test.ts tests/motor-control.test.ts tests/senses-contact.test.ts tests/hatching-senses.test.ts tests/jellyfish-variants.test.ts tests/brain-architecture.test.ts tests/brain-topology.test.ts tests/reproduction-economy.test.ts tests/brain-memory.test.ts tests/behavior-baseline.test.ts tests/evolvable-actuation.test.ts tests/visual-steering-survey.test.ts"
+    "test:fast": "node --import tsx --test tests/feeding.test.ts tests/motor-control.test.ts tests/senses-contact.test.ts tests/hatching-senses.test.ts tests/jellyfish-variants.test.ts tests/brain-architecture.test.ts tests/brain-topology.test.ts tests/reproduction-economy.test.ts tests/brain-memory.test.ts tests/behavior-baseline.test.ts tests/evolvable-actuation.test.ts tests/visual-steering-survey.test.ts tests/injury-sense.test.ts"
   },
   "dependencies": {
     "lucide-react": "1.59.0",

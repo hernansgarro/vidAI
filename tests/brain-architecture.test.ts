@@ -22,7 +22,7 @@ function resizeHidden(count: number) {
 test('all founders retain 24 uniquely identified neurons and mutable inherited sensory priors', () => {
   for (const d of FOUNDER_BLUEPRINTS) for (const mode of ['balanced', 'unbiased'] as const) {
     const g = createFounderGenome(d.id, mode);
-    assert.equal(g.brainVersion, 6);
+    assert.equal(g.brainVersion, 7);
     assert.deepEqual(g.hiddenIds, Array.from({length: 24}, (_, i) => `hidden:${i}`));
     assert.deepEqual(g.disabledConnections, []);
     assert.deepEqual(g.hiddenTimeConstants, new Array(24).fill(0));
@@ -49,19 +49,28 @@ test('legacy v8 dense controllers migrate losslessly to v9, retaining recurrent 
     delete g.hiddenIds;
     delete g.disabledConnections;
     delete g.hiddenTimeConstants;
+    const i = g.inputKeys!.indexOf('body:injury');
+    if (i >= 0) {
+      g.inputKeys!.splice(i, 1);
+      g.weightsIH.forEach(row => row.splice(i, 1));
+    }
   };
   downgrade(legacy.state.organisms[0].genome);
+  legacy.state.organisms[0].neuralInputs.pop();
+  delete legacy.state.organisms[0].biteFeedbackJ;
   for (const [, rec] of legacy.state.lineage) downgrade(rec.genome);
   const before = structuredClone(legacy.state.organisms[0]);
   const restored = restoreSnapshot(legacy), got = restored.state.organisms[0];
-  assert.equal(got.genome.brainVersion, 6);
-  assert.deepEqual(got.genome.weightsIH, before.genome.weightsIH);
+  assert.equal(got.genome.brainVersion, 7);
+  assert.deepEqual(got.genome.weightsIH.map(row => row.slice(0, -1)), before.genome.weightsIH);
+  assert.ok(got.genome.weightsIH.every(row => row.at(-1) === 0));
   assert.deepEqual(got.genome.weightsHH, before.genome.weightsHH);
   assert.deepEqual(got.genome.biasesH, before.genome.biasesH);
   assert.deepEqual(got.genome.weightsHO, before.genome.weightsHO);
   assert.deepEqual(got.genome.biasesO, before.genome.biasesO);
   assert.deepEqual(got.neuralHidden, before.neuralHidden);
-  assert.deepEqual(got.neuralInputs, before.neuralInputs);
+  assert.deepEqual(got.neuralInputs.slice(0, -1), before.neuralInputs);
+  assert.equal(got.neuralInputs.at(-1), 0);
   assert.deepEqual(got.neuralOutputs, before.neuralOutputs);
   assert.deepEqual(restored.state.prng.getState(), legacy.state.prngState);
   assert.deepEqual(createSnapshot(restored.state, settings), current);

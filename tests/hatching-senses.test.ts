@@ -86,13 +86,13 @@ test('v7 migration preserves old pathways, activations and PRNG; new channels st
   const s = world(), o = addExternalOrganism(s, single(), settings, 1200, 750, 0)!;
   o.neuralHidden[3] = .35;
   const old = createSnapshot(s, settings); old.schemaVersion = '7.0.0';
-  const downgrade = (g: sim.Genome) => {g.brainVersion = 3; g.inputKeys = g.inputKeys!.slice(0, -2); g.weightsIH = g.weightsIH.map(row => row.slice(0, -2));};
-  downgrade(old.state.organisms[0].genome); old.state.organisms[0].neuralInputs = old.state.organisms[0].neuralInputs.slice(0, -2);
+  const downgrade = (g: sim.Genome) => {g.brainVersion = 3; g.inputKeys = g.inputKeys!.slice(0, -3); g.weightsIH = g.weightsIH.map(row => row.slice(0, -3));};
+  downgrade(old.state.organisms[0].genome); old.state.organisms[0].neuralInputs = old.state.organisms[0].neuralInputs.slice(0, -3);
   for (const [, rec] of old.state.lineage) downgrade(rec.genome);
   const before = structuredClone(old.state.organisms[0]), restored = restoreSnapshot(old), current = restored.state.organisms[0];
-  assert.equal(current.genome.brainVersion, 6); assert.deepEqual(current.neuralHidden, before.neuralHidden);
-  current.genome.weightsIH.forEach((row, h) => {assert.deepEqual(row.slice(0, -2), before.genome.weightsIH[h]); assert.deepEqual(row.slice(-2), [0, 0]);});
-  assert.deepEqual(current.neuralInputs.slice(0, -2), before.neuralInputs); assert.deepEqual(current.neuralOutputs, before.neuralOutputs);
+  assert.equal(current.genome.brainVersion, 7); assert.deepEqual(current.neuralHidden, before.neuralHidden);
+  current.genome.weightsIH.forEach((row, h) => {assert.deepEqual(row.slice(0, -3), before.genome.weightsIH[h]); assert.deepEqual(row.slice(-2), [0, 0]);});
+  assert.deepEqual(current.neuralInputs.slice(0, -3), before.neuralInputs); assert.deepEqual(current.neuralOutputs, before.neuralOutputs);
   assert.deepEqual(restored.state.prng.getState(), old.state.prngState);
 });
 

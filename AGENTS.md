@@ -3,14 +3,14 @@
 - This is the 2D simulation. Keep the current visual style, movable windows,
   camera controls, effects, and audio unless a requested change concerns them.
 - `simulation.ts` is the production kernel. Founders retain 24 recurrent
-  hidden neurons and six outputs per joint; brain v6 supports identity-stable
+  hidden neurons and six outputs per joint; brain v7 supports identity-stable
   1–96 hidden neurons, at most 65,536 enabled connections, and explicit disabled
   synapse keys. Preserve existing dense weights, hidden activations, founder
   steering and stable eye/part/mouth/motor channels by ID. Brain v4 added
   aggregate feeding and normalized COM depth; do not duplicate reserve input.
   Migrate old four-channel motor commands by key, never array stride. Save
-  schema v10 imports v3–v9 and preserves exact current continuation. Brain
-  v6 supports rare inherited structural mutation (neurons and connection masks)
+  schema v11 imports v3–v10 and preserves exact current continuation. Brain
+  v7 supports rare inherited structural mutation (neurons and connection masks)
   and per-neuron inherited leaky activation memory (tau 0–4 seconds). Tau=0
   follows the exact original recurrence; every founder and earlier save
   migrates to tau=0. Offspring start with zero neural activations.
@@ -27,11 +27,22 @@
   allele validation. Use short tests in `tests/evolvable-actuation.test.ts`.
 - GitHub Wiki is the *current-feature reference*, not a historical changelog.
   Keep one succinct, maintainable page per currently reviewed feature with
-  accurate schematics and limitations; update it in place. Repository
+  accurate schematics and limitations; update it in place.
   The repository's `docs/wiki/` is the canonical editable source, published
   to the actual GitHub Wiki by `.github/workflows/publish-wiki.yml` on main.
   Only sync maintained pages; preserve unrelated Wiki pages. Keep historical
   investigations in `docs/PROJECT_STATUS.md`, not Wiki pages.
+- Phase 5C injury sensing: the seventh brain revision adds one
+  identity-stable `body:injury` input, sourced ONLY from actual energy
+  removed from a prey's reserves or tissue by physical carnivore/omnivore
+  mouth contact. Accumulate real bite joules and sample next neural tick
+  as clamp(joules/60, 0, 1), then clear. No predator identity, phantom
+  proximity, forced panic or energy creation. New founders keep this
+  channel disconnected; the old deterministic PRNG draws, retina and
+  oral weights must remain unchanged. Imported v10 brain v6 and older
+  snapshots remap neural inputs by key, add zero new weights/state and
+  preserve everything else; schema v11 current is strict brain v7.
+  Avoid claiming predator escape until physical comparative trials pass.
 - Phase 5C inherited visual steering: for newly created FND-001 in balanced
   mode only, retinal->hidden gain is 1.5 (other founders .2) and the
   hidden->joint Angle prior is (-.5, +.5) rather than (+.04, -.04).

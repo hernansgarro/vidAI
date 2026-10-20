@@ -1,4 +1,4 @@
-# VIDA: remaining features — 2026-10-20 / v0.14.0
+# VIDA: remaining features — 2026-10-20 / v0.15.0
 
 This is a focused review of the current 2D source, not an implementation promise.
 Small changes fit the existing systems. Big changes affect simulation architecture,
@@ -18,7 +18,7 @@ distinguished below from gaps in existing systems.
 
 | Work | Current state and intended improvement |
 | --- | --- |
-| Reliable sensory-driven behavior | Calibrated head-first FND-001 (balanced founder mode) now inherits retinal RGB-to-motor steering weights that permit verified food intake in 7/8 short off-axis real-physics cases versus none for vision-disconnected or weak-weight controls. This is **one measured genotype in controlled geometry**, not robust general foraging, species-wide pursuit or predator recognition. Next investigate threat cues and avoidance without interpreting arbitrary pigment as danger; expand cross-morphology comparisons before wider founder calibration. |
+| Reliable sensory-driven behavior | Balanced FND-001 has verified visually influenced food intake in seven of eight paired short trials. Somatic `body:injury` now reports actual energy lost to contacting predator bites to inherited recurrent brains, with no universal panic reflex or threat identity oracle. Founder channels start disconnected; descendants can evolve responses. Current gap: demonstrate measurable escape from real predation in paired physics trials, then generalize to other morphologies and establish long-run survival. |
 | Biological trait trade-offs | Egg reserve allocation now affects the actual funded hatchling reserve, parental energy cost and first-egg threshold; a higher allele improves starting reserves but delays reproduction. Parent survival floor and faster physical feeding were rebalanced in v0.10. Pending: review unused `reproductionThreshold` and other inherited efficiency/storage trade-offs separately without disguising them as guaranteed improvements. |
 | Evolvable neural structure | Phases 1–2 support changing hidden sizes (1–96), neuron identity, inherited connection masks and bounded upkeep. Phase 4 adds per-hidden-neuron inherited activation memory (0–4 s) with tau=0 original baseline and an explicit upkeep cost. Memory timescales are not synaptic learning or dreaming: living organisms still cannot update weights or grow structure within life. Controlled tests have not demonstrated improved foraging or long-term survival. |
 | Growth, injury and gradual aging | Juvenile/adult/aging labels exist, but real body growth, local tissue injury/repair and gradual senescence are absent. These require consistent mass, geometry, energy and controller updates. |
@@ -36,8 +36,11 @@ distinguished below from gaps in existing systems.
 - **Phase 5C: Sensory-driven foraging/avoidance — in progress.** The
   balanced Three-link Darter now demonstrably follows real off-axis green
   food using inherited retinal neural weights, without scripted steering.
-  Generalize beyond the measured body, study safe/unsafe visual ambiguity
-  and demonstrate real escape before calling the whole phase complete.
+  A physically grounded `body:injury` channel now permits an experienced
+  bite to influence evolved neural decisions, without classifying objects as
+  hostile from RGB. Generalize beyond the measured body, study safe/unsafe
+  visual ambiguity, and demonstrate real escape before calling the whole
+  phase complete.
 - **Phase 5D: Ecological validation — subsequently.** Assess actual nutrient
   income, survival and reproduction across multiple fixed seeds, without
   fabricating ecological fitness or inserting survival subsidies.

@@ -10,12 +10,44 @@ flowchart TD
   R --> A[Closest physical hit per ray]
   A --> C[RGB attenuated through water + normalized distance]
   C --> N[Inherited recurrent neural weights and activations]
-  F[Joint angle, speed, internal energy, oral feedback] --> N
+  F[Joint angle, speed, energy and oral feedback] --> N
+  Bite[Actual energy removed by a contacting predator mouth] --> S[Injury sensor: next tick]
+  S --> N
   N --> M[Six neural outputs per physical joint]
   M --> H[Muscle torque, hinges and water drag]
   H --> P[Actual trajectories and contact]
   P --> E[Food transfer if a compatible mouth contacts it]
 ```
+
+## Somatic injury sensing
+
+A creature now has a **body:injury** neural input that reports actual energy
+transferred out of its usable reserves or tissue by a predator's **physically
+contacting mouth**. The input is the previous tick's bite loss divided by
+60 joules and clamped to **0–1**. Multiple legitimate bites accumulate
+within a tick; the stimulus is read once on the following neural update,
+then cleared and replenished only by further real bites.
+
+This is *not* a general-purpose enemy radar. Mere proximity, a brightly
+colored predator, collisions, ordinary swimming metabolism or low energy
+do not trigger it. An animal must first experience a bite to get the cue.
+
+The sensory input enters the same inherited recurrent network as sight,
+mouth feedback and joint feedback; its synapses can evolve. **New founder
+brains start with this input disconnected**, preserving the previously
+calibrated founder behaviors and avoiding a hardcoded universal panic reflex.
+Descendants may inherit and mutate connections that use it. Importing older
+worlds preserves their weights and neural activations by identity, adding
+only a zeroed input.
+
+**Verified behavior:** a genuine carnivore bite makes a victim's next-tick
+injury signal nonzero; touching an herbivore does not. A genetically wired
+injury-to-neuron-to-Angle pathway produces a different physical hinge
+command than an otherwise identical disconnected control. The actual
+effectiveness of fleeing predators or avoiding repeated bites is **not yet
+established**.
+
+## Physical eye rays
 
 Each eye casts **five rays** across its inherited field of view, from the eye's true body-surface anchor. A ray returns attenuated red, green and blue levels plus a normalized hit distance. The brain also receives joint and movement feedback, energy level, central oscillator phase, and mouth feeding/contact feedback. Sensor and motor pathways are genetically mutable and may use the inherited neural memory timescales.
 
@@ -38,16 +70,19 @@ These results establish **short-range, visually influenced nutrient approach for
 ## What VIDA cannot yet do reliably
 
 - A creature cannot reliably identify a predator by its danger level from pigmentation alone. Pigment is inherited separately from diet and hostility.
-- Visual escape, predator classification and predictive pursuit **have not been demonstrated**.
+- Injured creatures can now sense being bitten, but **successful escape**,
+  predator classification and predictive pursuit have not yet been
+  demonstrated. The sensory input alone does not turn a creature away.
 - Other founder types may swim inefficiently or possess inadequate visual/motor coordination.
 - Ecological fitness, lifetime survival and reproductive advantages require controlled longer-term studies.
 - No hidden target tracking, automatic pursuit, guaranteed food handouts, scripted escape, synaptic lifetime training or sleeping is added.
 
 ## Implementation and regression checks
 
-- `simulation.ts`: organ raycast, RGB attenuation, neural input/output evaluation, true mouth contact
+- `simulation.ts`: organ raycast, RGB attenuation, real bite feedback into neural inputs, neural evaluation and true mouth contact
 - `founders.ts`: `addRetinalSteeringPrior` (genetic weight initialization)
 - `tests/visual-steering-survey.test.ts`: paired visible/legacy/blind physical food approach, conserved energy, old-save behavior and sensory limitations
+- `tests/injury-sense.test.ts`: real-bite-only injury cue, conservation, migration, invalid saves
 - `tests/senses-contact.test.ts`: light, geometry and feeding invariants
 - `tests/behavior-baseline.test.ts`: locomotion and baseline steering comparisons
 

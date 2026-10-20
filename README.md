@@ -35,6 +35,19 @@ npm run benchmark:behavior # controlled motion and paired vision measurements
 
 ## Creatures and sandbox
 
+**Somatic threat sensing:** Creature brains now receive a `body:injury`
+input from *real physical bites*, not nearby colors, generic collisions or
+predator labels. Energy physically transferred from a victim by a compatible
+mouth accumulates as a next-tick sensory signal (60 J fills its 0–1 range).
+Existing mouths and conservation accounting remain unchanged. Newly seeded
+founders begin with this neuron input disconnected, so their proven visual
+weights and swimming behaviors are unaffected; the connection may evolve
+in descendants. Existing worlds import into neural brain v7 / save schema
+v11 using stable synapse identities, with prior activation/motor state
+preserved. This is a prerequisite for evolvable danger responses, **not
+a hardcoded escape reflex** or proof of real predator avoidance.
+
+
 In **balanced founder mode**, the Three-link Darter now has stronger,
 ordinary inherited retinal-to-joint neural weights. Against physically
 identical retinal-blind and weak-weight comparison genotypes, its new
@@ -108,10 +121,10 @@ Find and spawn them through the Bank's family filter. Its quiet initial neural m
 weights are evolvable; both founder modes still use the same recurrent architecture.
 The retinal strip scrolls horizontally for creatures with many eyes.
 
-New saves use schema v10, with identity-stable variable hidden neurons,
+New saves use schema v11, with identity-stable variable hidden neurons,
 inherited memory timescales and explicit disabled neural connections. Founders retain calibrated 24-neuron
 brains; offspring can genetically add/remove neurons and mutate connections.
-Versions v3–v9 remain importable; lifetime learning is not yet enabled. Imported legacy organ positions and live geometry are
+Versions v3–v10 remain importable; lifetime learning is not yet enabled. Imported legacy organ positions and live geometry are
 retained; offspring undergoing mutation acquire valid slots. Old fin presets are
 repaired for new organisms and mutated descendants, without moving their saved parents.
 Zero-mutation legacy clones retain the original anatomy. New imports are checked

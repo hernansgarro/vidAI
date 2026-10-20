@@ -1,5 +1,45 @@
 # Project status — 2026-10-20
 
+## Phase 5C: physically grounded bite awareness — v0.15.0 (CI verified)
+
+- Predation previously transferred energy from victim to hunter but gave the
+  victim's neural network no distinct direct bite feedback. The new
+  `body:injury` sensory key reports **only joules actually taken by a
+  physically contacting predator mouth**. A victim accumulates bite
+  transfers during the feeding phase and samples
+  `clamp(previousTickBiteJ / 60, 0, 1)` during its following neural tick;
+  the buffer then resets. Standing near another organism, optical pigment,
+  touching without feeding and ordinary metabolism are not injury cues.
+- The recurrent network remains fully evolvable. The new input's synapses
+  start **zero on all 55 founders**, preserving identical previous retinal,
+  oral and motor initialization and local PRNG draws; descendants may mutate
+  and inherit them. No direct target coordinate, threat category, scripted
+  escape force, guaranteed survival, or extra metabolism is added.
+- Save **schema v11 / brain v7** adds one trailing identity-stable neural input
+  and a validated nonnegative pending bite buffer. Imported schemas v3–v10
+  are migrated by key with old weights, activation values, output channels
+  and PRNG preserved; v10 brain v6 inputs get a zeroed new synapse column,
+  zero activation and no retroactive harm. Lineage and egg genomes are
+  upgraded by the same strict genome validator.
+- Focused tests compare real carnivore contact against non-predatory contact,
+  show the victim's next-tick neural response, check metabolic losses cannot
+  impersonate attacks, verify both energy ledgers, queued feedback snapshot
+  continuation, authentic v10 migration, and reject malformed sensor state.
+  They establish **sensory availability and neural responsiveness**, not
+  directional flight, predator classification, reduced bite exposure, or
+  ecological improvements.
+- The actual GitHub Wiki is synchronized from
+  `docs/wiki/Sensory-Behavior.md` by GitHub Actions. Its content is
+  latest-state only; research and historical evidence stay here.
+- Verified on PR branch GitHub Actions run **#39410190409**, commit
+  `5ce3b401`: **132/132 fast tests passed**, TypeScript and Vite build
+  passed. An extra physical articulated-body control shows that a real bite
+  can drive a genetically connected Angle motor command versus a blind
+  (disconnected) comparator with identical physical contact; this is
+  **motor responsiveness**, not demonstrated displacement-based escape.
+  No browser tests or long ecological runs were performed.
+
+
 ## Phase 5C: causal visual approach for the balanced Darter — v0.14.0 (CI verified)
 
 - The prior FND-001 sensory experiment established weak, sometimes

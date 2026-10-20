@@ -151,7 +151,7 @@ test('current save continuation preserves optional motor genes, phases and energ
   command(org, 'Amp', -.8);
   tick(s, 11);
   const saved = createSnapshot(s, settings), restored = restoreSnapshot(saved);
-  assert.equal(saved.schemaVersion, '10.0.0', 'optional motor alleles do not require a new save format');
+  assert.equal(saved.schemaVersion, '11.0.0', 'motor alleles coexist with the new injury-sensing save schema');
   assert.deepEqual(createSnapshot(restored.state, settings), saved);
   tick(s, 9); tick(restored.state, 9);
   assert.deepEqual(createSnapshot(restored.state, settings), createSnapshot(s, settings));
