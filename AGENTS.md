@@ -3,16 +3,18 @@
 - This is the 2D simulation. Keep the current visual style, movable windows,
   camera controls, effects, and audio unless a requested change concerns them.
 - `simulation.ts` is the production kernel. Founders retain 24 recurrent
-  hidden neurons and six outputs per joint; brain v5 supports identity-stable
+  hidden neurons and six outputs per joint; brain v6 supports identity-stable
   1–96 hidden neurons, at most 65,536 enabled connections, and explicit disabled
   synapse keys. Preserve existing dense weights, hidden activations, founder
   steering and stable eye/part/mouth/motor channels by ID. Brain v4 added
   aggregate feeding and normalized COM depth; do not duplicate reserve input.
   Migrate old four-channel motor commands by key, never array stride. Save
-  schema v9 imports v3–v8 and preserves exact current continuation. Brain
-  v5 supports rare inherited structural mutation (neurons and connection masks)
-  as of v0.9; offspring remain memory-free. Lifetime plasticity/learning is
-  not implemented. Legacy dense-24 controllers retain their exact baseline
+  schema v10 imports v3–v9 and preserves exact current continuation. Brain
+  v6 supports rare inherited structural mutation (neurons and connection masks)
+  and per-neuron inherited leaky activation memory (tau 0–4 seconds). Tau=0
+  follows the exact original recurrence; every founder and earlier save
+  migrates to tau=0. Offspring start with zero neural activations.
+  Lifetime plasticity/weight learning is not implemented. Legacy dense-24 controllers retain their exact baseline
   neural upkeep through reference-normalized enabled-synapse cost.
 - `data/founders.json` contains 55 distinct blueprints (50 revised originals and
   five jellyfish designs). Preserve their actual anatomy and measured gaits; never

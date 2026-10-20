@@ -22,9 +22,10 @@ function resizeHidden(count: number) {
 test('all founders retain 24 uniquely identified neurons and mutable inherited sensory priors', () => {
   for (const d of FOUNDER_BLUEPRINTS) for (const mode of ['balanced', 'unbiased'] as const) {
     const g = createFounderGenome(d.id, mode);
-    assert.equal(g.brainVersion, 5);
+    assert.equal(g.brainVersion, 6);
     assert.deepEqual(g.hiddenIds, Array.from({length: 24}, (_, i) => `hidden:${i}`));
     assert.deepEqual(g.disabledConnections, []);
+    assert.deepEqual(g.hiddenTimeConstants, new Array(24).fill(0));
     const original = createFounderGenome(d.id, mode);
     assert.deepEqual(g, original);
     assert.deepEqual(validateGenome(g), g);
@@ -47,12 +48,13 @@ test('legacy v8 dense controllers migrate losslessly to v9, retaining recurrent 
     g.brainVersion = 4;
     delete g.hiddenIds;
     delete g.disabledConnections;
+    delete g.hiddenTimeConstants;
   };
   downgrade(legacy.state.organisms[0].genome);
   for (const [, rec] of legacy.state.lineage) downgrade(rec.genome);
   const before = structuredClone(legacy.state.organisms[0]);
   const restored = restoreSnapshot(legacy), got = restored.state.organisms[0];
-  assert.equal(got.genome.brainVersion, 5);
+  assert.equal(got.genome.brainVersion, 6);
   assert.deepEqual(got.genome.weightsIH, before.genome.weightsIH);
   assert.deepEqual(got.genome.weightsHH, before.genome.weightsHH);
   assert.deepEqual(got.genome.biasesH, before.genome.biasesH);

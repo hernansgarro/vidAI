@@ -65,14 +65,26 @@ Find and spawn them through the Bank's family filter. Its quiet initial neural m
 weights are evolvable; both founder modes still use the same recurrent architecture.
 The retinal strip scrolls horizontally for creatures with many eyes.
 
-New saves use schema v9, with identity-stable variable hidden neurons and
-explicit disabled neural connections. Founders retain calibrated 24-neuron
+New saves use schema v10, with identity-stable variable hidden neurons,
+inherited memory timescales and explicit disabled neural connections. Founders retain calibrated 24-neuron
 brains; offspring can genetically add/remove neurons and mutate connections.
-Versions v3–v8 remain importable; lifetime learning is not yet enabled. Imported legacy organ positions and live geometry are
+Versions v3–v9 remain importable; lifetime learning is not yet enabled. Imported legacy organ positions and live geometry are
 retained; offspring undergoing mutation acquire valid slots. Old fin presets are
 repaired for new organisms and mutated descendants, without moving their saved parents.
 Zero-mutation legacy clones retain the original anatomy. New imports are checked
 before the active world is replaced. Feeding in old saves uses the current rates.
+
+Each hidden neuron now has an inherited activation-memory timescale of 0–4
+seconds. A zero value preserves the previous instantaneous recurrent update
+exactly; all built-in founders and imported older genomes start at zero.
+Descendants may evolve longer memory through rare mutations; stored neuron
+activations are still personal, not inherited. Positive timescales blend
+previous activation with current sensory/recurrent targets, scaled by real
+simulated seconds rather than frame count. Memory costs 0.08 J/s per second
+of summed time constants and is charged through the normal conserved energy
+ledger. Hover a hidden node to inspect its timescale or inspect the brain
+summary for its memory/metabolic breakdown. This is **not** online learning,
+synaptic plasticity or sleep/dreaming.
 
 Settings include nutrients (0–800), tank width/height, gravity, population cap
 (1–150), viscosity, inflow, seed and founder brain mode. Resizing translates whole

@@ -72,6 +72,7 @@ import {
   NEURAL_EDGE_METABOLIC_RATE,
   NUM_HIDDEN,
   enabledBrainEdgeCount,
+  memoryUpkeep,
   BASE_FOUNDER_AREA,
   NUTRIENT_ENERGY_VALUE,
   CONTINUOUS_EAT_RATE,
@@ -2211,6 +2212,11 @@ export default function App() {
                       ? ` · ${selectedSpecimen.genome.disabledConnections.length.toLocaleString()} disabled` : ''}
                   </div>
 
+                  <div className="px-2 mb-1 text-[10px] text-slate-500 self-start" data-testid="brain-memory">
+                    {selectedSpecimen.genome.hiddenTimeConstants!.filter(tau => tau > 0).length} neurons with slow memory
+                    {' · '}max τ {Math.max(0, ...selectedSpecimen.genome.hiddenTimeConstants!).toFixed(2)} s
+                    {' · '}memory upkeep {memoryUpkeep(selectedSpecimen.genome).toFixed(2)} J/s
+                  </div>
                   <div className="w-full px-2 pb-2 text-[10px] text-slate-400" data-testid="motor-telemetry">
                     {selectedSpecimen.joints.map((j, i) => <span key={selectedSpecimen.genome.parts[i + 1].id} className="inline-block mr-3">
                       J{i + 1}: stroke {Math.round((j.amplitude ?? 1) * 100)}% · engaged {Math.round((j.engagement ?? 1) * 100)}%
@@ -2440,7 +2446,8 @@ export default function App() {
                         {(selectedSpecimen.sensoryEnergyRate ?? Math.max(0,
                           SENSORY_NEURAL_METABOLIC_RATE * (selectedSpecimen.genome.eyes.length * 5 + selectedSpecimen.neuralHidden.length + selectedSpecimen.genome.mouths.length * 2)
                           + NEURAL_EDGE_METABOLIC_RATE * (enabledBrainEdgeCount(selectedSpecimen.genome)
-                            - NUM_HIDDEN * (selectedSpecimen.neuralInputs.length + NUM_HIDDEN + selectedSpecimen.neuralOutputs.length)))).toFixed(2)} J/s
+                            - NUM_HIDDEN * (selectedSpecimen.neuralInputs.length + NUM_HIDDEN + selectedSpecimen.neuralOutputs.length))
+                          + memoryUpkeep(selectedSpecimen.genome))).toFixed(2)} J/s
                       </span>
                     </div>
                     <div className="flex justify-between text-slate-300 pl-2">

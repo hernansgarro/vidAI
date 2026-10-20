@@ -1,5 +1,38 @@
 # Project status — 2026-10-20
 
+## Genetic neural memory timescales — version 0.11.0 (CI verified)
+
+- Each hidden neuron can inherit a leaky activation-response time constant
+  τ in seconds (bounded 0–4 s). At zero, the original per-tick tanh response
+  remains exactly unchanged; positive τ blends the previous activation and
+  current tanh target with α = 1 − exp(−dt/τ). Slow responses store short-lived
+  activation traces without rewriting weights. This is *not* lifetime
+  plasticity, learning, episodic memory, or a sleep/dream system.
+- All 55 calibrated founders and imported v3–v9 saves receive τ=0 for every
+  existing neuron, without extra founder random draws or changes to their
+  default swimming. New neuron identities start at τ=0; remapping follows
+  stable hidden IDs rather than matrix order, retaining surviving tau values.
+- Rare inherited timescale mutations occur separately from topology/weight
+  changes, scaled by the existing world mutation-severity setting, and can
+  evolve positive and zero time constants. The parent genome is not modified;
+  neural activation contents are personal and are not inherited.
+- Memory upkeep adds 0.08 J/s per accumulated τ-second of hidden neurons
+  to the normal conserved energy budget, so old dense-24 controllers remain
+  exactly at their previous metabolism.
+- Brain inspector exposes each neuron's current τ in its tooltip, plus the
+  count of memory-enabled neurons, maximum τ and memory upkeep. New brain
+  version v6/save schema v10 validate exact arrays, bounds and active
+  neural state; earlier schemas remain supported.
+- GitHub Actions PR run #39385723158 on commit `a77f4bb4` passed
+  **108/108 fast tests**, TypeScript checking and the production build.
+  Eight new focused tests cover founder baseline, physical-time low-pass
+  responses, remapping, deterministic mutations, v9 migration, exact v10
+  continuation, malformed genes and conserved energy. Older v3–v8
+  compatibility checks remain in the fast suite. No manual browser,
+  long ecosystem, or behavioral learning benchmarks were run.
+
+
+
 ## Reproduction, feeding and egg inspection — version 0.10.0 (CI verified)
 
 - Reproduction was genuinely difficult because an adult needed 20% of its

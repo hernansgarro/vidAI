@@ -18,7 +18,7 @@ export default function BrainGraph({organism: org, threshold}: {organism: Organi
       ? `M${fromX},${fromY} C${fromX + 52},${fromY - 10} ${toX + 52},${toY + 10} ${toX},${toY}`
       : `M${fromX},${fromY} L${toX},${toY}`}
       fill="none" stroke={`rgba(${color},${opacity})`} strokeWidth={Math.min(2, .4 + Math.abs(weight) * .5)}>
-      <title>{key}: weight {weight.toFixed(4)}, source activation {activation.toFixed(4)}</title>
+      <title>{key + ': weight ' + weight.toFixed(4) + ', source activation ' + activation.toFixed(4)}</title>
     </path>);
   };
   for (let h = 0; h < hiddenIds.length; h++) {
@@ -40,17 +40,17 @@ export default function BrainGraph({organism: org, threshold}: {organism: Organi
       {links}
       {inputs.map((y, i) => <g key={layout.inputs[i]}>
         <circle cx={x[0]} cy={y} r={3} fill={`rgba(6,182,212,${.25 + Math.min(1, Math.abs(org.neuralInputs[i] ?? 0)) * .75})`}>
-          <title>{layout.labels[i]}: {(org.neuralInputs[i] ?? 0).toFixed(4)}</title>
+          <title>{layout.labels[i] + ': ' + (org.neuralInputs[i] ?? 0).toFixed(4)}</title>
         </circle>
         <text x={x[0] - 6} y={y + 2.5} fontSize="7" textAnchor="end" fill="#94a3b8" fontFamily="monospace">{layout.labels[i]}</text>
       </g>)}
       {hidden.map((y, i) => <circle data-hidden-neuron={hiddenIds[i]} key={hiddenIds[i]} cx={x[1]} cy={y} r={4}
         fill={`rgba(${(org.neuralHidden[i] ?? 0) >= 0 ? '168,85,247' : '244,63,94'},${.3 + Math.abs(org.neuralHidden[i] ?? 0) * .7})`}>
-        <title>{hiddenIds[i]}: {(org.neuralHidden[i] ?? 0).toFixed(4)}</title>
+        <title>{hiddenIds[i] + ': ' + (org.neuralHidden[i] ?? 0).toFixed(4) + ' · activation memory τ=' + (g.hiddenTimeConstants?.[i] ?? 0).toFixed(2) + ' s'}</title>
       </circle>)}
       {outputs.map((y, i) => <g key={layout.outputs[i]}>
         <circle cx={x[2]} cy={y} r={3.2} fill="#f59e0b">
-          <title>{layout.outputs[i]}: {(org.neuralOutputs[i] ?? 0).toFixed(4)}</title>
+          <title>{layout.outputs[i] + ': ' + (org.neuralOutputs[i] ?? 0).toFixed(4)}</title>
         </circle>
         <text x={x[2] + 6} y={y + 2.5} fontSize="7" fill="#fde68a" fontFamily="monospace">
           J{Math.floor(i / OUTPUTS_PER_JOINT) + 1}:{OUTPUT_LABELS[i % OUTPUTS_PER_JOINT]}
