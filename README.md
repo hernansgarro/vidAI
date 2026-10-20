@@ -100,7 +100,13 @@ mutate. This is genetic inheritance, not brain-controlled color changing.
 Balanced founders have a weak heritable retinal steering prior. Unbiased founders
 have random controllers and seeded swimming oscillators. Neither mode is trained,
 and neither uses hidden target positions. Both start with 24 recurrent hidden neurons, while the runtime supports 1–96
-with an enabled-edge budget of 65,536. Neuron count does not yet mutate at reproduction.
+with an enabled-edge budget of 65,536. Low-probability inherited topology
+mutations can add/remove neurons or enable, disable, prune, or reconnect synapses.
+New neurons start with only two weak active pathways and no inherited personal
+memory; existing neural motor steering remains encoded in mutable weights.
+More neurons are not guaranteed to evolve improved foraging or avoidance.
+Enabled-edge upkeep is calibrated to preserve the old dense-24 baseline and
+rewards lower-cost circuits. Lifetime learning and sleep remain future work.
 Every eye supplies five RGB/distance rays; every joint supplies angle and velocity.
 Each mouth reports edible contact and normalized absorbed intake from the previous
 completed tick. Each joint has six neural outputs: angle, frequency, torque,

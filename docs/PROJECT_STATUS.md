@@ -1,5 +1,43 @@
 # Project status — 2026-10-20
 
+## Inherited structural brain evolution — version 0.9.0 (CI verified)
+
+- Phase 2 introduces low-probability genetic topology events, separate from
+  inherited weight changes: neuron insertion/removal, connection enabling,
+  disabling, permanent pruning (zero plus mask) and rewiring. Existing 55
+  founders still spawn with unchanged dense 24-neuron networks and calibrated
+  steering/gaits. No forced learning, fitness selection, invisible target
+  knowledge or guaranteed survival is added.
+- New neurons receive stable unique IDs, zero initial bias/state and two
+  weak enabled sensory-to-neuron-to-motor pathways (each weight capped at
+  ±0.04). All their other inbound/outbound connections are disabled.
+  Removal targets the weakest estimated outgoing influence; this is a
+  heuristic, not a function-preserving guarantee.
+- Removed neurons and pruned organs drop only invalid connections. Survivor
+  weights, biases, identities and baseline neural state remain aligned;
+  inherited disabled weights do not mutate while dormant. Genetic mutation
+  copies the parent before migration, never rewrites it in place.
+- The world mutation-severity slider sets event chance 0–16% per birth;
+  failed operations are safe no-ops. A dense founder with severity 0 is
+  unchanged except for child identity, generation and parent IDs.
+- Neural upkeep includes 0.00025 J/s per enabled edge relative to the
+  anatomy-specific legacy dense-24 edge count. Thus legacy 24-node dense
+  controllers keep *exactly* their prior metabolic rate; extra enabled
+  edges cost energy, disabled/pruned ones save it. Metabolic accounting
+  remains in the same conserved reservoir/heat ledger.
+- Inspectors show each individual's actual enabled/disabled synapse counts
+  and metabolic costs. Current brain v5/save schema v9 remain unchanged;
+  v3–v8 import support and v9 deterministic continuation are preserved.
+- GitHub Actions PR run #39380193256 on commit `fbb688ef` passed
+  **95/95 fast tests**, TypeScript and production build. The eight new
+  controlled topology cases cover all operations, size limits, weak insertion,
+  parent isolation, zero-mutation inheritance, deterministic offspring,
+  snapshot continuation and energy conservation. No long ecosystem or
+  browser suites were run. Larger structures have not demonstrated
+  better behavior.
+
+
+
 ## Phase 1 neural architecture — version 0.8.0 (PR validated)
 
 - Short wiring audit: retinal channel ordering, body/mouth feedback, six-joint

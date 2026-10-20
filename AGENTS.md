@@ -9,8 +9,11 @@
   steering and stable eye/part/mouth/motor channels by ID. Brain v4 added
   aggregate feeding and normalized COM depth; do not duplicate reserve input.
   Migrate old four-channel motor commands by key, never array stride. Save
-  schema v9 imports v3–v8 and preserves exact current continuation. Structural
-  brain mutation and lifetime learning are pending, not already implemented.
+  schema v9 imports v3–v8 and preserves exact current continuation. Brain
+  v5 supports rare inherited structural mutation (neurons and connection masks)
+  as of v0.9; offspring remain memory-free. Lifetime plasticity/learning is
+  not implemented. Legacy dense-24 controllers retain their exact baseline
+  neural upkeep through reference-normalized enabled-synapse cost.
 - `data/founders.json` contains 55 distinct blueprints (50 revised originals and
   five jellyfish designs). Preserve their actual anatomy and measured gaits; never
   replace entries with renamed duplicates. Selective symmetry is not a mutation rule.
