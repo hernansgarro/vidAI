@@ -1,6 +1,6 @@
 # Project status — 2026-10-20
 
-## Optional, genetically evolvable articulated locomotion — v0.13.0 (CI pending)
+## Optional, genetically evolvable articulated locomotion — v0.13.0 (CI verified)
 
 - Phase 5B expands the existing six-output-per-joint controller without
   changing its hidden circuit, body morphology, torque solver, water drag or
@@ -22,12 +22,14 @@
   Mermaid diagrams live in `docs/wiki/Motor-Control.md`, pending access
   to publish the actual GitHub Wiki repository (not supported by the
   available GitHub connector).
-- Fast test coverage includes unchanged original motor formula, oscillator-off
-  direct positioning, harmonic periodicity and bounds, independent joints,
-  neural amplitude silencing, zero-force passive physics, mutation inheritance
-  and determinism, current/legacy save continuation and invalid gene rejects.
-  CI results will be recorded after the final PR-head run. No long ecology,
-  behavior benchmark or browser run was requested.
+- GitHub Actions PR run #39396177088 (commit `44fedc37`) passed
+  **122/122 fast tests**, TypeScript checks and production build. Ten new
+  controlled actuation tests cover unchanged original motor formula,
+  oscillator-off direct positioning, harmonic periodicity and bounds,
+  independent joints, neural amplitude silencing, zero-force passive physics,
+  mutation inheritance/determinism, current and legacy snapshot continuation,
+  and invalid motor gene rejection. No extended ecosystem suite or manual
+  browser tests were run; improved evolutionary fitness is not established.
 
 
 ## Phase 5A: causal sensory baseline and forward feeding gait — v0.12.0 (CI verified)
