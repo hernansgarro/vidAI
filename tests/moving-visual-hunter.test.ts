@@ -12,6 +12,7 @@ const wrap = (n: number) => Math.atan2(Math.sin(n), Math.cos(n));
 function createHunter(seed: number) {
   const g = createFounderGenome('FND-001', 'unbiased');
   g.maturityAge = 1000;
+  g.motorFrequency *= 1.4; // fixed inherited fast-swimming hunter gait, never runtime prey sensing
   g.mouths[0].mouthType = 'carnivore';
   g.mouths[0].intakeWidth = 30;
   g.bodyCost = sim.calculateBodyCost(g.parts, g.eyes, g.mouths);
@@ -43,7 +44,7 @@ function blind(g: sim.Genome, node: string) {
 }
 
 type Result = ReturnType<typeof run>;
-function run(seed: number, side: -1 | 1, coupled = true, preyMoving = true, steps = 240) {
+function run(seed: number, side: -1 | 1, coupled = true, preyMoving = true, steps = 300) {
   const {g, node} = createHunter(seed);
   if (!coupled) blind(g, node);
   const state = createInitialWorld(settings, 972, 'unbiased', 'standard', 0);
@@ -54,11 +55,11 @@ function run(seed: number, side: -1 | 1, coupled = true, preyMoving = true, step
   preyG.hue = 0; preyG.saturation = 0; preyG.lightness = 90;
   preyG.maturityAge = 1000;
   if (preyMoving) {
-    preyG.motorFrequency *= .75;
+    preyG.motorFrequency *= .4;
   } else {
     preyG.motorForce = 0;
   }
-  const x = 1100 + 145 * Math.cos(.5), y = 730 + side * 145 * Math.sin(.5);
+  const x = 1100 + 105 * Math.cos(.5), y = 730 + side * 105 * Math.sin(.5);
   const prey = addExternalOrganism(state, preyG, settings, x, y, side * .15)!;
   const startH = sim.calculateOrganismCOM(hunter), startP = sim.calculateOrganismCOM(prey);
   const startGap = Math.hypot(startH.x - startP.x, startH.y - startP.y);
@@ -120,14 +121,14 @@ test('new inherited retinal turn innovation is isolated, color-sensitive, stocha
 
 test('controlled moving prey produces physical pursuit observations against a disconnected retinal innovation', () => {
   const results = [];
-  for (const seed of [1,2,3,4,5,6,7,8,9,10,11,12]) {
-    const sighted = run(seed, 1, true);
-    const disconnected = run(seed, 1, false);
+  for (const side of [-1, 1] as const) for (const seed of [1,2,3,4,5,6,7,8,9,10,11,12]) {
+    const sighted = run(seed, side, true);
+    const disconnected = run(seed, side, false);
     assert.ok(sighted.preyTravel > 5 && disconnected.preyTravel > 5, 'moving prey must propel itself');
     assert.ok(sighted.hunterTravel > 10 && disconnected.hunterTravel > 10, 'hunter must propel itself');
     assert.ok(sighted.seen > 0 && disconnected.seen > 0, 'visible physical initial stimulus required');
     assert.equal(disconnected.signalAmplitude, 0, 'an unwired novel neuron never knows about prey');
-    results.push({seed, preyTravel:sighted.preyTravel, hunterTravel:sighted.hunterTravel,
+    results.push({seed, side, preyTravel:sighted.preyTravel, hunterTravel:sighted.hunterTravel,
       signal:sighted.signalAmplitude, visible:sighted.seen,
       trackedClosest:sighted.closest, blindClosest:disconnected.closest,
       trackedEnd:sighted.endingGap, blindEnd:disconnected.endingGap,
