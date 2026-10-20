@@ -1,5 +1,47 @@
 # Project status — 2026-10-20
 
+## Phase 5A: causal sensory baseline and forward feeding gait — v0.12.0 (CI pending)
+
+- Controlled baseline trials compare exactly matching FND-001 genomes with
+  retinal synapses enabled or disconnected (preserving dark-water baseline
+  biases), same target and seed, actual retina, neural outputs, hydrodynamic
+  motion, feeding, and conserved energy. Each trial is 3–6 simulated seconds,
+  not an ecology or lifetime fitness benchmark.
+- With the v0.11 gait, eyes and mouth on FND-001 faced EAST but the
+  undulating body moved **50.04 px WEST in 3 s**. Directly ahead, it moved
+  **166.6 px backward in 6 s and ate 0 J** from the test nutrient.
+  A reversed joint-phase progression (same parts, mass, torque, drag,
+  controller and food) moved **249 px forward and ate 2,520 J** in 6 s.
+  A blinded corrected control also ate 2,520 J: the demonstrated benefit is
+  correcting food access, *not* learning or visually guided foraging.
+- Consequently *only new FND-001 founder genotypes* are calibrated in
+  `createFounderGenome` by reversing each child joint's inherited
+  `cpgPhaseOffset`. This is ordinary physics, with no artificial thrust,
+  target position oracle, energy creation, or genome/snapshot migration.
+  The corrected phase genes are heritable and mutable. Existing snapshot
+  genotypes keep their exact original motion. FND-051 already moved
+  **47.14 px forward** in the three-second control and must not be reversed.
+- Other 3 s founder displacements for context: FND-006 (-1.31, +3.27),
+  FND-021 (-5.99, +2.86), FND-031 (-27.58, +7.30) px. Their poor or backward
+  progress is recorded as a *lead*, not a justified blanket correction.
+- Four paired target trials (food/threat at +/-0.5 rad, eyes physically hit
+  targets) changed the original neural turn-command output by about
+  0.00087–0.00422 compared with retinally blind controls. With corrected
+  FND-001 gait, all four moved substantially toward the initially visible
+  off-axis target over three seconds, but none ate off-axis food, and
+  sighted-versus-blind differences remained tiny. Reliable visual tracking,
+  predator avoidance and long-term reproductive survival are **not proved**.
+  Note that the short trial's “creature threat” is an observed foreign body,
+  not an evolved recognition of predator danger.
+- `tests/behavior-baseline.test.ts` preserves the meaningful paired
+  measures, founder locomotion check, accessible-food regression, and exact
+  legacy snapshot continuation. Existing founder integrity tests now
+  explicitly permit this single calibrated phase exception. Release CI
+  results will be recorded after exact-head verification.
+  No long behavioral/ecosystem suite or browser execution was performed.
+
+
+
 ## Genetic neural memory timescales — version 0.11.0 (CI verified)
 
 - Each hidden neuron can inherit a leaky activation-response time constant
