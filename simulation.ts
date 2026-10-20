@@ -1767,7 +1767,10 @@ export function mutateBrainTopology(g: Genome, operation: BrainTopologyOperation
   if (operation === 'add-neuron') {
     // All fresh synapses start disabled except one weak sensory input and one weak
     // motor output. This avoids a dense silent expansion and preserves old behavior.
-    if (count >= MAX_HIDDEN || !inputs || !outputs || enabledBrainEdgeCount(g) + 2 > MAX_ENABLED_BRAIN_EDGES) return false;
+    const freshDisabled = inputs + outputs + 2 * count - 1;
+    if (count >= MAX_HIDDEN || !inputs || !outputs
+      || enabledBrainEdgeCount(g) + 2 > MAX_ENABLED_BRAIN_EDGES
+      || g.disabledConnections!.length + freshDisabled > MAX_ENABLED_BRAIN_EDGES) return false;
     const previous = structuredClone(g);
     let newId: string;
     do { newId = `hidden:mut-${customPrng.nextUint32().toString(36)}`; }
@@ -2124,7 +2127,21 @@ export function mutateGenome(parent: Genome, severity = 0.25, customPrng: Xoshir
     storageTraitMultiplier,
     maxEnergyCapacity,
   };
-  remapBrain(child, {...parent, weightsIH, weightsHH, biasesH, weightsHO, biasesO});
+  const parentWithMutatedWeights = {...parent, weightsIH, weightsHH, biasesH, weightsHO, biasesO};
+  try {
+    remapBrain(child, parentWithMutatedWeights);
+  } catch (error) {
+    if (!(error instanceof Error) || !error.message.includes('edge budget')) throw error;
+    // Extra sensory organs can push a large valid inherited brain past the edge
+    // budget. Reject only that child's anatomy expansion, not the parent,
+    // neural inheritance, or the entire reproduction event.
+    child.parts = structuredClone(parent.parts);
+    child.eyes = structuredClone(parent.eyes);
+    child.mouths = structuredClone(parent.mouths);
+    child.bodyCost = calculateBodyCost(child.parts, child.eyes, child.mouths);
+    child.maxEnergyCapacity = calculateMaxEnergyCapacity(child.parts, child.storageTraitMultiplier);
+    remapBrain(child, parentWithMutatedWeights);
+  }
   // Rare topology event, independent of regular weight/anatomy changes. The
   // same PRNG controls both event choice and its internal deterministic details.
   if (customPrng.nextFloat() < mutChance * 0.16) {
