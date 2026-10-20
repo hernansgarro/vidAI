@@ -74,6 +74,30 @@
   energy conservation and save/offspring safety. Do not claim
   learned generalization or long-term ecological fitness, and
   do not reopen extended brain/founder tuning campaigns.
+- Original Phase 5 v0.24 selective waking consolidation:
+  optional heritable `memoryConsolidationRate` (0–2/s)
+  protects already acquired, sign-consistently
+  reinforced learned motor/retinal synapses from
+  forgetting (at most 95% reduction). Conflicting
+  true reinforcement reverses consolidation faster;
+  unreinforced memory naturally erodes. Personal
+  per-edge `consolidation` is bounded 0..1, strictly
+  validated and saved exactly in schema v11, never
+  inherited by offspring. Its additional living
+  cost of 0.004 J/s per fully consolidated edge
+  debits usable energy to metabolic heat; no
+  unearned refresh, scripted chase, category
+  oracle, sleep or free movement. Absence of
+  the allele must exactly preserve v0.23
+  learning, old genomes and 55 founders.
+  `tests/selective-memory.test.ts` has three bounded
+  checks; four-second food-free replay retained
+  0.5673 vs 0.3869 total acquired weight in a
+  matched nonconsolidated counterfactual. This
+  is **not demonstrated ecological survival**.
+  Keep tests compact; Phase 5 still needs
+  functional physical behavior validation, while
+  Phase 6 dreaming/replay remains optional.
 - Phase 5B motor architecture: every joint's original six neural outputs
   remain stable. Optional inherited `oscillatorMix` (0–1) and four
   `waveHarmonics` coefficients (each −1..1) permit wave-free direct Angle

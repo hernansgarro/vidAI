@@ -98,6 +98,23 @@ response. General food classification, robust foraging and
 survival benefits remain unproven. See
 [Waking Synaptic Learning](https://github.com/smeagol44/vidAI/wiki/Waking-Learning).
 
+### Selective lifelong retention (v0.24)
+
+A rare new inherited allele permits animals to **keep useful
+personal learning longer**. Existing learned retinal and
+motor connections consolidate only after additional
+consistent real-feeding or injury feedback. Conflicting
+experience weakens consolidation; both the memory and
+its maintenance cost remain individual and finite.
+After four food-free seconds, a controlled learner
+retained about **47% more acquired synaptic weight**
+than a matched clone without protection. This
+does not yet prove better acquired foraging or survival.
+Original Phase 5 still needs a bounded physical
+behavior benefit check; original Phase 6 sleep/
+replay remains unimplemented. See
+[Waking Learning](https://github.com/smeagol44/vidAI/wiki/Waking-Learning).
+
 ## Creatures and sandbox
 
 **Evolvable responses to bites:** Reproduction can now occasionally create a
