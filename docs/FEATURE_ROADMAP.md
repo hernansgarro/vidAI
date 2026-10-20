@@ -1,4 +1,4 @@
-# VIDA: remaining features — 2026-10-20 / v0.10.0
+# VIDA: remaining features — 2026-10-20 / v0.11.0
 
 This is a focused review of the current 2D source, not an implementation promise.
 Small changes fit the existing systems. Big changes affect simulation architecture,
@@ -20,7 +20,7 @@ distinguished below from gaps in existing systems.
 | --- | --- |
 | Reliable sensory-driven behavior | Founders have phased gaits and a weak retinal steering prior, not demonstrated dependable foraging, pursuit or escape. Evaluate and improve inherited controllers using only their actual senses. Strong swimming alone does not demonstrate intelligent behavior. |
 | Biological trait trade-offs | Egg reserve allocation now affects the actual funded hatchling reserve, parental energy cost and first-egg threshold; a higher allele improves starting reserves but delays reproduction. Parent survival floor and faster physical feeding were rebalanced in v0.10. Pending: review unused `reproductionThreshold` and other inherited efficiency/storage trade-offs separately without disguising them as guaranteed improvements. |
-| Evolvable neural structure | Phase 1–2 implemented: hidden sizes 1–96 with stable IDs, sparse masks, low-probability inheritable neuron/connection mutations, bounded computation, calibrated upkeep and exact snapshot continuation. Structural changes are genetic (at reproduction); individual organisms still cannot grow circuits during life or learn updated weights. Need controlled behavior evaluation before claiming increased intelligence. |
+| Evolvable neural structure | Phases 1–2 support changing hidden sizes (1–96), neuron identity, inherited connection masks and bounded upkeep. Phase 4 adds per-hidden-neuron inherited activation memory (0–4 s) with tau=0 original baseline and an explicit upkeep cost. Memory timescales are not synaptic learning or dreaming: living organisms still cannot update weights or grow structure within life. Controlled tests have not demonstrated improved foraging or long-term survival. |
 | Growth, injury and gradual aging | Juvenile/adult/aging labels exist, but real body growth, local tissue injury/repair and gradual senescence are absent. These require consistent mass, geometry, energy and controller updates. |
 | Environment and communication (optional) | Currents and resource patches could create niches. Chemical or acoustic organs would add new physical signals and sensory channels. Current sound effects are presentation, not creature communication. Implement these as separate systems, not one large update. |
 | Performance at larger populations | Body contacts have spatial indexing; sight still scans objects. Index perception and move the simulation to a Worker while preserving deterministic stepping and UI responsiveness. |
@@ -30,8 +30,9 @@ distinguished below from gaps in existing systems.
 
 Phase 1–3 foundational brain, reproduction and inspector work is complete.
 Next: controlled foraging/escape research, meaningful remaining life-history
-trade-offs and memory timescales, keeping lifetime plasticity and optional rest
-as later distinct phases. Monitor performance only if measured bottlenecks arise.
+trade-offs, and carefully isolated lifetime plasticity research. Sleep/rest
+or offline replay should follow only if needed by demonstrable learning
+mechanisms, not as a replacement for basic sensory behavior. Monitor performance only if measured bottlenecks arise.
 
 ## Limits that remain corrections rather than new features
 
