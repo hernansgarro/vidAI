@@ -35,6 +35,20 @@ npm run benchmark:behavior # controlled motion and paired vision measurements
 
 ## Creatures and sandbox
 
+**Phase 5 calibration:** Controlled short experiments revealed that FND-001
+(Three-link Darter) originally swam backward with its mouth and eyes pointed
+forward. Its newly seeded founder genome now uses a reversed *inherited joint
+phase sequence*, not added thrust or scripted target guidance. Under one
+repeatable six-second test, the previous gait moved 167 px backward and ate
+nothing from a single nutrient directly ahead; the corrected gait moved
+249 px forward and consumed 2,520 J from that same nutrient. Blind and
+sighted corrected controls both consumed the food, so this demonstrates
+physical food access, **not yet intelligent foraging**. Other founders are
+unchanged. Existing world snapshots and saved genotypes retain their actual
+gait phase values. Paired short vision-on/off tests show weak differences
+in steering commands and do not establish obstacle avoidance, learned prey
+pursuit or general ecosystem survival.
+
 The existing **Bank** includes 55 built-in founders in eleven body families, with body
 previews, family/diet filters and individual spawning. Built-ins do not consume
 saved-specimen slots. Standard seeding uses 18 organisms drawn evenly from up to five randomly selected
