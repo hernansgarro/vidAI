@@ -4,7 +4,7 @@ import {
   getBrainLayout, getDietClassification, brainEdgeKey, CARRION_DECAY_SECONDS, MAX_OUTPUTS, MAX_SURFACE_ORGANS, MAX_NEURAL_INPUTS, MAX_HIDDEN, MAX_ENABLED_BRAIN_EDGES, MAX_BRAIN_MEMORY_SECONDS, surfacePlacementProblems, morphologyProblems, type Genome, type SimulationSettings, type SimulationState, type Organism,
 } from './simulation';
 
-export const BUILD_VERSION = '0.12.0';
+export const BUILD_VERSION = '0.13.0';
 export const DEFAULT_SETTINGS: SimulationSettings = {
   worldWidth: 2400, worldHeight: 1500, waterViscosity: .18,
   targetNutrients: 400, inflowRate: 15, kinshipProtection: true,
@@ -89,6 +89,13 @@ export function validateGenome(raw: unknown): Genome {
     assert(p.width === p.dimN * 7 && p.height === p.dimM * 7 && dirs.includes(p.attachmentPoint), 'part geometry');
     assert(Number.isFinite(p.maxAngle) && Number.isFinite(p.baseAngleOffset) && Number.isFinite(p.cpgPhaseOffset)
       && Number.isFinite(p.cpgAmp) && Number.isFinite(p.cpgFreqMult), 'joint parameters');
+    assert(p.oscillatorMix === undefined ||
+      (typeof p.oscillatorMix === 'number' && Number.isFinite(p.oscillatorMix)
+        && p.oscillatorMix >= 0 && p.oscillatorMix <= 1), 'oscillator blend');
+    assert(p.waveHarmonics === undefined || (Array.isArray(p.waveHarmonics)
+      && p.waveHarmonics.length === 4
+      && p.waveHarmonics.every((x: unknown) => typeof x === 'number' && Number.isFinite(x)
+        && x >= -1 && x <= 1)), 'wave harmonics');
   }
   for (const organ of [...g.eyes, ...g.mouths]) {
     assert(typeof organ.id === 'string' && Number.isInteger(organ.partIndex) && organ.partIndex >= 0 && organ.partIndex < g.parts.length
