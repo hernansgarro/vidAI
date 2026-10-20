@@ -30,7 +30,7 @@ test('all 55 founders retain their original instantaneous update and seeded netw
   for (const d of FOUNDER_BLUEPRINTS) {
     for (const mode of ['balanced', 'unbiased'] as const) {
       const g = createFounderGenome(d.id, mode);
-      assert.equal(g.brainVersion, 6);
+      assert.equal(g.brainVersion, 7);
       assert.deepEqual(g.hiddenTimeConstants, new Array(24).fill(0));
       assert.deepEqual(g, createFounderGenome(d.id, mode));
       assert.deepEqual(validateGenome(g), g);
@@ -127,7 +127,7 @@ test('v9 snapshots upgrade with tau zero, preserving original network/activation
   for (const egg of old.state.eggs) {egg.genome.brainVersion = 5; delete egg.genome.hiddenTimeConstants;}
   for (const [, rec] of old.state.lineage) {rec.genome.brainVersion = 5; delete rec.genome.hiddenTimeConstants;}
   const restored = restoreSnapshot(old), next = restored.state.organisms[0];
-  assert.equal(next.genome.brainVersion, 6);
+  assert.equal(next.genome.brainVersion, 7);
   assert.deepEqual(next.genome.hiddenTimeConstants, [0]);
   assert.deepEqual(next.neuralHidden, org.neuralHidden);
   assert.deepEqual(next.genome.weightsIH, org.genome.weightsIH);
@@ -147,7 +147,7 @@ test('v10 snapshot resumes inherited slow-memory dynamics with exact continuatio
   o.neuralHidden[0] = .2;
   sim.stepSimulation(s, settings, 1 / 60);
   const saved = createSnapshot(s, settings), restored = restoreSnapshot(saved);
-  assert.equal(saved.schemaVersion, '10.0.0');
+  assert.equal(saved.schemaVersion, '11.0.0');
   assert.deepEqual(createSnapshot(restored.state, restored.settings), saved);
   for (let t = 0; t < 15; t++) {
     sim.stepSimulation(s, settings, 1 / 60);
