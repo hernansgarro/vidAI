@@ -67,10 +67,35 @@ weaker-stroke response made bites much worse. A separate genetically
 generated `Amp` microcircuit reduced stolen energy from **450 J to
 330 J** compared with its identical injury-disconnected control.
 
-These results demonstrate a **possible heritable defensive behavior**
-under measured stationary-predator conditions. They do not demonstrate
-successful escape from a moving or tracking hunter, learned predator
-recognition, or long-term ecological advantage.
+A further paired study uses a **self-propelled articulated hunter**
+that actually swims using muscle torque and water drag. In **nine
+physically biting Darter encounters**, the same inherited injury
+response reduced damage in **six**, had no difference in **two**,
+and increased damage in **one**. Six additional starts never
+produced a bite and were excluded from escape claims.
+
+The identical kind of injury response was also exercised across five
+different body plans with rear-surface bite starts. Of **15 genuine
+biting scenarios**, **five** improved, **six** worsened and **four**
+were unchanged. The correct response therefore depends on
+morphology and movement context; no universal panic/flight behavior
+has been added.
+
+**Limitation:** Mobile hunters in these tests swim forward on their
+existing genetically determined gaits; they do not dynamically
+turn toward or track fleeing prey. These experiments establish
+*possible damage reduction*, **not reliable escape from a pursuing
+predator**, learned recognition or long-term ecological fitness.
+
+## Observing injury in the Brain inspector
+
+For the selected creature, the recurrent Brain inspector displays
+**Bite signal** (the actual 0–1 activation read on the last neural
+tick), **queued energy** from physical bites to be read on the next
+neural tick, and the count of **enabled inherited injury-input
+synapses**. These are read-only telemetry from the same genome and
+energy ledger used by the simulation—not a new danger detector,
+experience bonus or instruction to flee.
 
 ## Physical eye rays
 
@@ -95,10 +120,10 @@ These results establish **short-range, visually influenced nutrient approach for
 ## What VIDA cannot yet do reliably
 
 - A creature cannot reliably identify a predator by its danger level from pigmentation alone. Pigment is inherited separately from diet and hostility.
-- A generated genotype can reduce repeated tail bites from a stationary
-  hunter, but **robust escape from mobile hunters**, anticipatory predator
-  classification and predictive pursuit have not yet been demonstrated.
-  The injury input alone has no guaranteed escape effect.
+- A generated genotype can reduce repeated biting in some mobile-hunter
+  encounters, but can make others worse; robust escape from **tracking or
+  pursuing hunters**, anticipatory predator classification, and generalization
+  across anatomy remain unproven. The injury input alone cannot guarantee escape.
 - Other founder types may swim inefficiently or possess inadequate visual/motor coordination.
 - Ecological fitness, lifetime survival and reproductive advantages require controlled longer-term studies.
 - No hidden target tracking, automatic pursuit, guaranteed food handouts, scripted escape, synaptic lifetime training or sleeping is added.
@@ -110,6 +135,7 @@ These results establish **short-range, visually influenced nutrient approach for
 - `tests/visual-steering-survey.test.ts`: paired visible/legacy/blind physical food approach, conserved energy, old-save behavior and sensory limitations
 - `tests/injury-sense.test.ts`: real-bite-only injury cue, conservation, migration, invalid saves
 - `tests/bite-escape-survey.test.ts`: real transferred bite joules, beneficial/harmful inherited actuation, randomly generated isolated injury-motor circuits, and exact-save continuation
+- `tests/moving-hunter.test.ts`: paired self-propelled hunters, real bite gates, physical displacement, and five prey morphologies
 - `tests/senses-contact.test.ts`: light, geometry and feeding invariants
 - `tests/behavior-baseline.test.ts`: locomotion and baseline steering comparisons
 
