@@ -65,10 +65,10 @@ Find and spawn them through the Bank's family filter. Its quiet initial neural m
 weights are evolvable; both founder modes still use the same recurrent architecture.
 The retinal strip scrolls horizontally for creatures with many eyes.
 
-New saves use schema v9, with identity-stable variable hidden neurons and explicit
-disabled neural connections. Existing 24-neuron founders and their mutable
-sensory/motor pathways retain their weights and memory. Versions v3–v8 remain
-importable; structural brain mutations and lifetime learning are not yet enabled. Imported legacy organ positions and live geometry are
+New saves use schema v9, with identity-stable variable hidden neurons and
+explicit disabled neural connections. Founders retain calibrated 24-neuron
+brains; offspring can genetically add/remove neurons and mutate connections.
+Versions v3–v8 remain importable; lifetime learning is not yet enabled. Imported legacy organ positions and live geometry are
 retained; offspring undergoing mutation acquire valid slots. Old fin presets are
 repaired for new organisms and mutated descendants, without moving their saved parents.
 Zero-mutation legacy clones retain the original anatomy. New imports are checked
@@ -82,13 +82,22 @@ target stops automatic and manual nutrient creation. Existing particles are reta
 Pink remains are separate animal food: carnivore and omnivore mouths can scavenge
 it; herbivore mouths cannot. Uneaten remains become plant nutrients after 60
 simulated seconds when a plant-food slot is available, without adding energy. The HUD counts plant food and remains
-separately. Transfer rates are now **2,400 J/s per specialist mouth** and **1,200 J/s per
-omnivore mouth**, twice the previous rates. A mouth shares its intake limit across all contacted foods and stops
+separately. Transfer rates are now **3,600 J/s per specialist mouth** and **1,800 J/s per
+omnivore mouth** (gross, 50% higher than v0.9). A mouth shares its intake limit across all contacted foods and stops
 removing food when storage is full. All mouths absorb 80% of removed energy;
 20% becomes heat. The existing 85% carrion digestion factor also applies, so
 carrion's combined assimilation is 68%. Kin protection defaults on for living
 parents/offspring, same-generation siblings and related eggs; unrelated creatures
 of the same generation remain edible. Carrion carries no kin protection.
+
+Egg costs now include the full inherited body cost plus
+`eggReserveFraction × 10,000 J` in funded hatchling reserve (default 3,500 J).
+Parents retain at least 12% of their capacity or 2,000 J, whichever is larger.
+A higher egg-reserve gene creates stronger-funded hatchlings at the expense of
+later reproduction; no energy is added. Select a white egg in the tank to inspect
+its parent, body/reserve funding, incubation progress and actual space, boundary
+or population-cap hatching blockers. Current/legacy saves preserve their funded
+egg energy; existing eggs are not silently rebalanced.
 
 Diet labels are herbivore, carnivore and omnivore. A creature with different
 specialist mouths has an omnivorous overall diet; each mouth retains its own
