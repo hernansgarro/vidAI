@@ -40,12 +40,37 @@ Descendants may inherit and mutate connections that use it. Importing older
 worlds preserves their weights and neural activations by identity, adding
 only a zeroed input.
 
-**Verified behavior:** a genuine carnivore bite makes a victim's next-tick
-injury signal nonzero; touching an herbivore does not. A genetically wired
-injury-to-neuron-to-Angle pathway produces a different physical hinge
-command than an otherwise identical disconnected control. The actual
-effectiveness of fleeing predators or avoiding repeated bites is **not yet
-established**.
+**Genetic injury-response innovation:** A rare offspring topology mutation,
+`wire-injury-motor`, can add an **isolated hidden neuron** connected to this
+injury sensor and to one randomly selected existing motor channel across
+the body's joints. It chooses independent positive or negative sensory
+and motor gains. The new neuron is silent until a real bite occurs, and
+its wiring is heritable and subject to later mutation. Nothing
+automatically decides which direction is safe or injects thrust; neurons,
+connections and muscles consume their usual energy.
+
+```mermaid
+flowchart LR
+  B[Real mouth transfers prey energy] --> S[Next-tick injury input]
+  S --> G[New inherited hidden neuron]
+  G --> M[Random joint motor channel and signed gain]
+  M --> H[Torque-driven joint motion]
+  H --> W[Actual water displacement]
+  W --> P[Next physical bite opportunity]
+```
+
+**Measured defensive capability:** In seven paired 2.5-second laboratory
+scenarios with a stationary predator biting the tail of a Three-link
+Darter, a stronger-stroke injury response reduced real stolen energy
+from **420–450 J** to **270–330 J**, increasing separation. The reversed,
+weaker-stroke response made bites much worse. A separate genetically
+generated `Amp` microcircuit reduced stolen energy from **450 J to
+330 J** compared with its identical injury-disconnected control.
+
+These results demonstrate a **possible heritable defensive behavior**
+under measured stationary-predator conditions. They do not demonstrate
+successful escape from a moving or tracking hunter, learned predator
+recognition, or long-term ecological advantage.
 
 ## Physical eye rays
 
@@ -70,9 +95,10 @@ These results establish **short-range, visually influenced nutrient approach for
 ## What VIDA cannot yet do reliably
 
 - A creature cannot reliably identify a predator by its danger level from pigmentation alone. Pigment is inherited separately from diet and hostility.
-- Injured creatures can now sense being bitten, but **successful escape**,
-  predator classification and predictive pursuit have not yet been
-  demonstrated. The sensory input alone does not turn a creature away.
+- A generated genotype can reduce repeated tail bites from a stationary
+  hunter, but **robust escape from mobile hunters**, anticipatory predator
+  classification and predictive pursuit have not yet been demonstrated.
+  The injury input alone has no guaranteed escape effect.
 - Other founder types may swim inefficiently or possess inadequate visual/motor coordination.
 - Ecological fitness, lifetime survival and reproductive advantages require controlled longer-term studies.
 - No hidden target tracking, automatic pursuit, guaranteed food handouts, scripted escape, synaptic lifetime training or sleeping is added.
@@ -83,6 +109,7 @@ These results establish **short-range, visually influenced nutrient approach for
 - `founders.ts`: `addRetinalSteeringPrior` (genetic weight initialization)
 - `tests/visual-steering-survey.test.ts`: paired visible/legacy/blind physical food approach, conserved energy, old-save behavior and sensory limitations
 - `tests/injury-sense.test.ts`: real-bite-only injury cue, conservation, migration, invalid saves
+- `tests/bite-escape-survey.test.ts`: real transferred bite joules, beneficial/harmful inherited actuation, randomly generated isolated injury-motor circuits, and exact-save continuation
 - `tests/senses-contact.test.ts`: light, geometry and feeding invariants
 - `tests/behavior-baseline.test.ts`: locomotion and baseline steering comparisons
 
