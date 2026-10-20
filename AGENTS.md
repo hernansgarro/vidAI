@@ -30,6 +30,16 @@
   accurate schematics and limitations; update it in place. Repository
   `docs/wiki` contains Wiki-ready content pending write access; preserve
   historical investigations in `docs/PROJECT_STATUS.md`, not Wiki pages.
+- Phase 5C inherited visual steering: for newly created FND-001 in balanced
+  mode only, retinal->hidden gain is 1.5 (other founders .2) and the
+  hidden->joint Angle prior is (-.5, +.5) rather than (+.04, -.04).
+  The genotype contains normal evolvable brain weights, not a target oracle
+  or runtime reflex. Existing snapshot genomes and unbiased mode are not
+  recalibrated. Short six-second, real-contact tests yield food intake in
+  7/8 off-axis positions versus 0/8 for retinal-blind and previous weak
+  weight controls. RGB pixels do not indicate predator intent: effective
+  escape remains unproven. Current-only documentation:
+  `docs/wiki/Sensory-Behavior.md`.
 - Phase 5: FND-001 gets an explicit head-first joint-phase reversal at
   `createFounderGenome` time only, justified by paired real-physics trials.
   Do not reverse the entire catalogue: FND-051 already swims forward. Maintain

@@ -73,12 +73,16 @@ export function createFounderGenome(id: string, mode: FounderMode = 'balanced'):
     g.weightsHO = g.weightsHO.map(row => row.map(w => w * .1));
     g.biasesO = g.biasesO.map(b => b * .1);
   }
-  if (mode === 'balanced') addRetinalSteeringPrior(g, d.diet);
+  if (mode === 'balanced') addRetinalSteeringPrior(g, d.diet, d.id === 'FND-001');
   return g;
 }
 
-/** A weak heritable neural prior, using perceived colors only; no target coordinates. */
-function addRetinalSteeringPrior(g: Genome, diet: MouthType): void {
+/** Heritable retinal-to-joint steering using only attenuated RGB ray inputs.
+ * The stronger FND-001 allele was selected by paired off-axis *physical*
+ * feeding trials; no target position, object type or danger flag is fed to
+ * the controller. Other founders retain their original weak prior exactly.
+ */
+function addRetinalSteeringPrior(g: Genome, diet: MouthType, calibratedDarter = false): void {
   // Green contrast for grazers, red/blue contrast for predators. Omnivores blend both.
   const color = diet === 'herbivore' ? [-.5, 1, -.25]
     : diet === 'carnivore' ? [.7, -.7, .5] : [.3, .5, .2];
@@ -87,7 +91,7 @@ function addRetinalSteeringPrior(g: Genome, diet: MouthType): void {
       const angle = getCardinalBaseAngle(eye.direction) + (r / (RAYS_PER_EYE - 1) - .5) * eye.fov;
       for (let c = 0; c < 3; c++) {
         const i = (e * RAYS_PER_EYE + r) * 4 + c;
-        const sensitivity = .2 * Math.sin(angle) * color[c] / Math.sqrt(g.eyes.length);
+        const sensitivity = (calibratedDarter ? 1.5 : .2) * Math.sin(angle) * color[c] / Math.sqrt(g.eyes.length);
         g.weightsIH[0][i] += sensitivity;
         g.weightsIH[1][i] -= sensitivity;
         g.biasesH[0] -= sensitivity * WATER_AMBIENT_RGB[c];
@@ -96,8 +100,8 @@ function addRetinalSteeringPrior(g: Genome, diet: MouthType): void {
     }
   });
   for (let j = 0; j < g.parts.length - 1; j++) {
-    g.weightsHO[j * OUTPUTS_PER_JOINT][0] += .04;
-    g.weightsHO[j * OUTPUTS_PER_JOINT][1] -= .04;
+    g.weightsHO[j * OUTPUTS_PER_JOINT][0] += calibratedDarter ? -.5 : .04;
+    g.weightsHO[j * OUTPUTS_PER_JOINT][1] += calibratedDarter ? .5 : -.04;
   }
 }
 

@@ -35,6 +35,24 @@ npm run benchmark:behavior # controlled motion and paired vision measurements
 
 ## Creatures and sandbox
 
+In **balanced founder mode**, the Three-link Darter now has stronger,
+ordinary inherited retinal-to-joint neural weights. Against physically
+identical retinal-blind and weak-weight comparison genotypes, its new
+brain reaches real plant food in seven of eight measured six-second
+off-axis target trials (distances 110–190 px). The brain sees only
+real attenuated RGB rays and sensory inputs; no target coordinates,
+object-type oracle, scripted velocity or energy subsidies are used.
+This change affects newly instantiated balanced Darters and their
+descendants only. Other founders and previously saved genomes are not
+rewritten. Escape from dangerous creatures remains unresolved because
+RGB pigments do not reliably encode predator threat.
+
+Current-feature documentation: [Senses and Visually Guided Behavior](docs/wiki/Sensory-Behavior.md)
+and [Movement and Motor Control](docs/wiki/Motor-Control.md).
+Both are maintained as current reference pages inside the repository until
+direct GitHub Wiki writes are available.
+
+
 Articulated creatures have torque-driven, drag-based movement. The same
 six brain outputs now support both an optional rhythmic oscillator and direct
 neural positioning. Descendants can inherit per-joint rhythmic/direct

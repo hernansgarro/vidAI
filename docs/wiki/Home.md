@@ -7,6 +7,7 @@ Documentation describes **what the latest game does**, not version history, mile
 ## Simulation systems
 
 - [Movement and Motor Control](Motor-Control.md) — optional oscillators, direct joint positioning, neural commands, inherited motor parameters, physical work and limitations.
+- [Senses and Visually Guided Behavior](Sensory-Behavior.md) — physical retinal rays, inherited sensory steering, test-supported food approach and unresolved threat recognition.
 
 Further pages belong here only as the corresponding systems are reviewed or modified; historical findings stay in `docs/PROJECT_STATUS.md`.
 
