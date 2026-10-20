@@ -2137,9 +2137,14 @@ export default function App() {
                   <div className="w-full flex justify-between text-[10px] text-slate-400 px-2 mb-1">
                     <span className="text-cyan-400 font-bold">{selectedSpecimen.neuralInputs.length} SENSORY</span>
                     <span className="text-purple-400 font-bold">24 RECURRENT HIDDEN (h_t)</span>
-                    <span className="text-amber-400 font-bold">4-CH MOTORS</span>
+                    <span className="text-amber-400 font-bold">6-CH MOTORS</span>
                   </div>
 
+                  <div className="w-full px-2 pb-2 text-[10px] text-slate-400" data-testid="motor-telemetry">
+                    {selectedSpecimen.joints.map((j, i) => <span key={selectedSpecimen.genome.parts[i + 1].id} className="inline-block mr-3">
+                      J{i + 1}: stroke {Math.round((j.amplitude ?? 1) * 100)}% · engaged {Math.round((j.engagement ?? 1) * 100)}%
+                    </span>)}
+                  </div>
                   <BrainGraph organism={selectedSpecimen} threshold={synapsePruningThreshold} />
                 </div>
               </div>
@@ -2352,7 +2357,7 @@ export default function App() {
                     <div className="flex justify-between text-slate-300 pl-2">
                       <span>• Sensory & Neural:</span>
                       <span className="text-indigo-300 font-bold">
-                        {(selectedSpecimen.sensoryEnergyRate ?? (SENSORY_NEURAL_METABOLIC_RATE * (selectedSpecimen.genome.eyes.length * 5 + NUM_HIDDEN))).toFixed(2)} J/s
+                        {(selectedSpecimen.sensoryEnergyRate ?? (SENSORY_NEURAL_METABOLIC_RATE * (selectedSpecimen.genome.eyes.length * 5 + NUM_HIDDEN + selectedSpecimen.genome.mouths.length * 2))).toFixed(2)} J/s
                       </span>
                     </div>
                     <div className="flex justify-between text-slate-300 pl-2">
@@ -2915,9 +2920,9 @@ export default function App() {
               </div>
 
               <div className="bg-slate-950/60 p-3 rounded-xl border border-amber-500/30">
-                <h4 className="font-bold text-amber-400 mb-1">2. 4-Channel Motor Actuation</h4>
+                <h4 className="font-bold text-amber-400 mb-1">2. 6-Channel Motor Actuation</h4>
                 <p>
-                  Every joint is driven by 4 neural channels: Target Angle Bias, Motor Drive/Frequency, Peak Torque Limit, and Dynamic Compliance Damping ($K_p, K_d$).
+                  Every joint has six neural controls: angle bias, frequency, torque limit, stiffness, stroke amplitude, and motor engagement. Disengaged motors apply no active torque; water resistance slows coasting. Oral sensors report edible contact and absorbed intake from the previous tick.
                 </p>
               </div>
 

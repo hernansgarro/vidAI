@@ -27,7 +27,7 @@ export function createFounderGenome(id: string, mode: FounderMode = 'balanced'):
   if (!blueprint) throw new Error(`Unknown founder ${id}`);
   const d = structuredClone(blueprint);
   const {parts, eyes, mouths, hue, saturation, lightness} = d.morphology;
-  const layout = getBrainLayout({parts, eyes});
+  const layout = getBrainLayout({parts, eyes, mouths});
   // Preserve the brain used when these gaits were calibrated, then expand it by ID.
   const localPrng = new XoshiroPRNG(d.seed);
   const brain = createXavierRecurrentNetwork(localPrng);
@@ -44,13 +44,18 @@ export function createFounderGenome(id: string, mode: FounderMode = 'balanced'):
   remapBrain(g);
   // New channels start weak and neutral in empty water, while remaining functional.
   for (let h = 0; h < g.weightsIH.length; h++) for (let i = 0; i < layout.inputs.length; i++) {
-    if (g.weightsIH[h][i] !== 0) continue;
+    if (g.weightsIH[h][i] !== 0 || layout.inputs[i].startsWith('mouth:')) continue;
     const w = localPrng.range(-.015, .015);
     g.weightsIH[h][i] = w;
     const channel = layout.inputs[i].split(':').at(-1);
     const baseline = channel === 'red' ? WATER_AMBIENT_RGB[0] : channel === 'green' ? WATER_AMBIENT_RGB[1]
       : channel === 'blue' ? WATER_AMBIENT_RGB[2] : channel === 'distance' ? 1 : 0;
     g.biasesH[h] -= baseline * w;
+  }
+  // Add oral feedback after the calibrated channel initialization so its PRNG
+  // draws cannot shift the old controller's weak sensory connections.
+  for (let h = 0; h < g.weightsIH.length; h++) for (let i = 0; i < layout.inputs.length; i++) {
+    if (layout.inputs[i].startsWith('mouth:')) g.weightsIH[h][i] = localPrng.range(-.015, .015);
   }
   if (mode === 'balanced') addRetinalSteeringPrior(g, d.diet);
   return g;

@@ -1,10 +1,10 @@
 import {
   XoshiroPRNG, migrateOrganismBrain, ensureBrainLayout, calculateBodyCost,
   calculateMaxEnergyCapacity, clampVal, getPartCornerVertices,
-  getBrainLayout, getDietClassification, CARRION_DECAY_SECONDS, type Genome, type SimulationSettings, type SimulationState, type Organism,
+  getBrainLayout, getDietClassification, CARRION_DECAY_SECONDS, MAX_OUTPUTS, type Genome, type SimulationSettings, type SimulationState, type Organism,
 } from './simulation';
 
-export const BUILD_VERSION = '0.2.1';
+export const BUILD_VERSION = '0.3.0';
 export const DEFAULT_SETTINGS: SimulationSettings = {
   worldWidth: 2400, worldHeight: 1500, waterViscosity: .18,
   targetNutrients: 800, inflowRate: 15, kinshipProtection: true,
@@ -53,7 +53,7 @@ export function resizeWorld(s: SimulationState, old: SimulationSettings, width: 
 
 export function createSnapshot(s: SimulationState, settings: SimulationSettings, metadata: Record<string, unknown> = {}) {
   const {prng, lineage, ...data} = s;
-  const snapshot = {schemaVersion: '5.0.0', build: BUILD_VERSION, metadata, settings,
+  const snapshot = {schemaVersion: '6.0.0', build: BUILD_VERSION, metadata, settings,
     state: {...data, prngState: prng.getState(), lineage: [...lineage]}};
   // Canonical JSON representation also drops optional undefined fields in memory.
   return JSON.parse(JSON.stringify(snapshot)) as typeof snapshot;
@@ -75,6 +75,9 @@ export function validateGenome(raw: unknown): Genome {
   assert(typeof g.id === 'string', 'genome ID');
   assert(Array.isArray(g.parts) && g.parts.length >= 1 && g.parts.length <= 7, 'body part count');
   assert(Array.isArray(g.eyes) && g.eyes.length <= 5 && Array.isArray(g.mouths) && g.mouths.length <= 3, 'organ count');
+  assert(new Set(g.eyes.map(e => e.id)).size === g.eyes.length
+    && new Set(g.mouths.map(m => m.id)).size === g.mouths.length, 'duplicate organ IDs');
+  assert(g.brainVersion === undefined || g.brainVersion === 2 || g.brainVersion === 3, 'brain version');
   const dirs = ['NORTH', 'SOUTH', 'EAST', 'WEST'];
   const ids = new Set<string>();
   for (const [i, p] of g.parts.entries()) {
@@ -92,11 +95,11 @@ export function validateGenome(raw: unknown): Genome {
   assert(g.eyes.every(e => e.fov > 0 && e.fov <= Math.PI * 2 && e.range > 0 && e.range <= 5000), 'eye parameters');
   assert(g.mouths.every(m => ['herbivore', 'omnivore', 'carnivore'].includes(m.mouthType) && m.intakeWidth > 0), 'mouth parameters');
   for (const matrix of [g.weightsIH, g.weightsHH, g.weightsHO]) {
-    assert(Array.isArray(matrix) && matrix.length <= 24 && matrix.every(row => Array.isArray(row) && row.length <= 128 && row.every(Number.isFinite)), 'neural weights');
+    assert(Array.isArray(matrix) && matrix.length <= MAX_OUTPUTS && matrix.every(row => Array.isArray(row) && row.length <= 128 && row.every(Number.isFinite)), 'neural weights');
   }
   assert(g.weightsIH.length === 24 && g.weightsHH.length === 24 && g.weightsHH.every(row => row.length === 24), 'hidden layer');
   assert(Array.isArray(g.biasesH) && g.biasesH.length === 24 && g.biasesH.every(Number.isFinite)
-    && Array.isArray(g.biasesO) && g.biasesO.length <= 24 && g.biasesO.every(Number.isFinite), 'neural biases');
+    && Array.isArray(g.biasesO) && g.biasesO.length <= MAX_OUTPUTS && g.biasesO.every(Number.isFinite), 'neural biases');
   assert([g.motorForce, g.motorFrequency, g.maturityAge, g.incubationTime, g.maxLifespan, g.metabolicEfficiency,
     g.eggReserveFraction, g.reproductionThreshold, g.reproductionCooldown, g.hue, g.saturation, g.lightness].every(Number.isFinite), 'life-history parameters');
   assert(g.motorForce >= 0 && g.motorForce <= 100 && g.motorFrequency >= 0 && g.motorFrequency <= 20
@@ -106,6 +109,11 @@ export function validateGenome(raw: unknown): Genome {
   assert(Array.isArray(g.parentIds) && g.parentIds.every(id => typeof id === 'string'), 'parent IDs');
   g.bodyCost = calculateBodyCost(g.parts, g.eyes, g.mouths);
   g.maxEnergyCapacity = calculateMaxEnergyCapacity(g.parts, g.storageTraitMultiplier ?? 1);
+  if (g.brainVersion === 3) {
+    const expected = getBrainLayout(g);
+    assert(JSON.stringify(g.inputKeys) === JSON.stringify(expected.inputs)
+      && JSON.stringify(g.outputKeys) === JSON.stringify(expected.outputs), 'current neural channel identities');
+  }
   ensureBrainLayout(g);
   const layout = getBrainLayout(g);
   assert(JSON.stringify(g.inputKeys) === JSON.stringify(layout.inputs) && JSON.stringify(g.outputKeys) === JSON.stringify(layout.outputs), 'neural channel identities');
@@ -119,7 +127,7 @@ export function restoreSnapshot(input: unknown): {state: SimulationState; settin
     assert(input.length <= 25_000_000, 'file exceeds 25 MB'); return JSON.parse(input);
   })() : structuredClone(input);
   assert(raw && typeof raw === 'object', 'document');
-  assert(['5.0.0', '4.0.0', '3.0.0'].includes(raw.schemaVersion), 'unsupported schema');
+  assert(['6.0.0', '5.0.0', '4.0.0', '3.0.0'].includes(raw.schemaVersion), 'unsupported schema');
   const legacy = raw.schemaVersion === '3.0.0';
   const data = legacy ? raw : raw.state;
   assert(data && typeof data === 'object', 'state');
@@ -138,19 +146,26 @@ export function restoreSnapshot(input: unknown): {state: SimulationState; settin
     && data.prngState.some((n: number) => n !== 0), 'PRNG state');
   const prng = new XoshiroPRNG(); prng.setState(data.prngState);
   const organisms: Organism[] = data.organisms.map((o: Organism) => {
-    if (legacy) migrateOrganismBrain(o);
+    if (raw.schemaVersion !== '6.0.0') migrateOrganismBrain(o);
+    else assert(o.genome.brainVersion === 3, 'current brain version');
     o.genome = validateGenome(o.genome);
     assert(typeof o.id === 'string' && Array.isArray(o.segments) && o.segments.length === o.genome.parts.length
       && Array.isArray(o.joints) && o.joints.length === o.segments.length - 1, 'organism articulation');
     assert(o.segments.every(p => [p.x, p.y, p.vx, p.vy, p.angle, p.angVel].every(Number.isFinite)), 'physical state');
     assert(o.joints.every(j => [j.phase, j.targetAngle, j.currentRelAngle, j.currentRelAngVel, j.appliedTorque, j.stiffness].every(Number.isFinite)), 'joint state');
+    assert(o.joints.every(j => Number.isFinite(j.amplitude) && j.amplitude! >= 0 && j.amplitude! <= 1.75
+      && Number.isFinite(j.engagement) && j.engagement! >= 0 && j.engagement! <= 1), 'motor control state');
+    assert(o.mouthFeedback && typeof o.mouthFeedback === 'object' && !Array.isArray(o.mouthFeedback), 'oral feedback');
+    for (const [id, feedback] of Object.entries(o.mouthFeedback)) assert(o.genome.mouths.some(m => m.id === id)
+      && feedback && (feedback.contact === 0 || feedback.contact === 1)
+      && Number.isFinite(feedback.intake) && feedback.intake >= 0 && feedback.intake <= 1, 'oral feedback value');
     assert(o.energy >= 0 && Number.isFinite(o.energy) && o.structuralBiomass >= 0 && Number.isFinite(o.structuralBiomass)
       && Number.isFinite(o.age) && Number.isFinite(o.maxLifespan) && typeof o.dissolving === 'boolean', 'organism state');
     assert(Array.isArray(o.neuralInputs) && o.neuralInputs.length <= 128 && o.neuralInputs.every(Number.isFinite)
       && Array.isArray(o.neuralHidden) && o.neuralHidden.length === 24 && o.neuralHidden.every(Number.isFinite)
-      && Array.isArray(o.neuralOutputs) && o.neuralOutputs.length <= 24 && o.neuralOutputs.every(Number.isFinite), 'activations');
+      && Array.isArray(o.neuralOutputs) && o.neuralOutputs.length <= MAX_OUTPUTS && o.neuralOutputs.every(Number.isFinite), 'activations');
     // Preserve exact activations for current saves; migrate only legacy buffers.
-    assert(o.neuralInputs.length === o.genome.inputKeys!.length, 'input buffer size');
+    assert(o.neuralInputs.length === o.genome.inputKeys!.length && o.neuralOutputs.length === o.genome.outputKeys!.length, 'activation buffer sizes');
     return o;
   });
   assert(new Set(organisms.map(o => o.id)).size === organisms.length, 'duplicate organism IDs');
@@ -205,5 +220,7 @@ export function diagnosticReport(s: SimulationState, settings: SimulationSetting
       bodyParts: selected.genome.parts.length, eyes: selected.genome.eyes.length, neuralInputs: selected.neuralInputs.length,
       speed: selected.speed, clutches: selected.clutchesLaid, offspring: selected.offspringCount,
       expenditureJPerSecond: {basal: selected.basalEnergyRate, sensory: selected.sensoryEnergyRate, motor: selected.motorEnergyRate},
+      oralFeedback: selected.mouthFeedback, motors: selected.joints.map((j, i) => ({partId: selected.genome.parts[i + 1].id,
+        amplitude: j.amplitude, engagement: j.engagement, torque: j.appliedTorque})),
       feedings: selected.recentFeedings} : null};
 }

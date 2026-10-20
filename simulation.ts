@@ -90,6 +90,8 @@ export const FORCE_COST_MULTIPLIER = 0.000000175; // Mechanical work to heat dis
 export const BASAL_METABOLIC_RATE = 12.0; // J/s for founder-sized body (BASE_FOUNDER_AREA = 36)
 export const SENSORY_NEURAL_METABOLIC_RATE = 0.45; // J/s per synapse / sensory eye
 export const MAX_FRAME_MOTOR_WORK = 40.0; // Max motor dissipation per sub-step clamp to prevent solver spikes
+export const LONGITUDINAL_DRAG = 0.05; // Calibrated nonzero resistance along each segment.
+export const MOTOR_RESPONSE_SECONDS = 0.12;
 
 export const MATURITY_AGE = 20.0; // 20.0s until sexual maturity
 export const MIN_PARENT_SURVIVAL_RESERVE_BASE = 2000.0; // 2,000 J minimum survival reserve floor
@@ -113,7 +115,9 @@ export const RAYS_PER_EYE = 5;
 export const NUM_INPUTS = NUM_INPUT_RAYS * 3 + 7; // 15 optical + 3 joint + speed + energy + sin + cos = 22
 export const NUM_HIDDEN = 24; // 24 Recurrent Neurons
 export const MAX_PARTS = 7;
-export const OUTPUTS_PER_JOINT = 4; // [targetAngleOffset, motorDrive, peakTorque, jointStiffness]
+export const LEGACY_OUTPUTS_PER_JOINT = 4;
+export const LEGACY_MAX_OUTPUTS = (MAX_PARTS - 1) * LEGACY_OUTPUTS_PER_JOINT;
+export const OUTPUTS_PER_JOINT = 6; // Angle, frequency, torque, stiffness, amplitude, engagement.
 export const MAX_OUTPUTS = (MAX_PARTS - 1) * OUTPUTS_PER_JOINT;
 export const MAX_CLUTCH_SIZE = 8;
 
@@ -128,7 +132,7 @@ export const INPUT_LABELS = [
   'CPG Sin', 'CPG Cos',
 ];
 
-export const OUTPUT_LABELS = ['Angle', 'Drive', 'Torque', 'Stiff'];
+export const OUTPUT_LABELS = ['Angle', 'Drive', 'Torque', 'Stiff', 'Amp', 'Engage'];
 
 export interface SensoryEye {
   id: string;
@@ -184,7 +188,7 @@ export interface Genome {
   biasesH: number[];     // [NUM_HIDDEN]
   weightsHO: number[][]; // [MAX_OUTPUTS x NUM_HIDDEN]
   biasesO: number[];     // [MAX_OUTPUTS]
-  brainVersion?: 2;
+  brainVersion?: 2 | 3;
   inputKeys?: string[];
   outputKeys?: string[];
   founderMode?: 'balanced' | 'unbiased';
@@ -218,6 +222,8 @@ export interface JointState {
   currentRelAngVel: number;
   appliedTorque: number;
   stiffness: number;
+  amplitude?: number;
+  engagement?: number;
 }
 
 export interface RayHit {
@@ -268,6 +274,7 @@ export interface Organism {
   isFeedingHighlight: number;
   traceHistory?: Array<{x: number; y: number; time: number}>;
   recentFeedings?: FeedingEvent[];
+  mouthFeedback?: Record<string, {contact: number; intake: number}>;
 }
 
 export interface Egg {
@@ -904,7 +911,7 @@ export function createPartDef(
 }
 
 // Xavier/Glorot Initialization for Recurrent Neural Controller
-export function createXavierRecurrentNetwork(customPrng: XoshiroPRNG = rng, inputCount = NUM_INPUTS, outputCount = MAX_OUTPUTS): {
+export function createXavierRecurrentNetwork(customPrng: XoshiroPRNG = rng, inputCount = NUM_INPUTS, outputCount = LEGACY_MAX_OUTPUTS): {
   weightsIH: number[][];
   weightsHH: number[][];
   biasesH: number[];
@@ -913,7 +920,7 @@ export function createXavierRecurrentNetwork(customPrng: XoshiroPRNG = rng, inpu
 } {
   const limitIH = Math.sqrt(6.0 / (inputCount + NUM_HIDDEN));
   const limitHH = Math.sqrt(6.0 / (NUM_HIDDEN + NUM_HIDDEN));
-  const limitHO = Math.sqrt(6.0 / (NUM_HIDDEN + MAX_OUTPUTS));
+  const limitHO = Math.sqrt(6.0 / (NUM_HIDDEN + outputCount));
 
   const weightsIH: number[][] = Array.from({length: NUM_HIDDEN}, () =>
     Array.from({length: inputCount}, () => customPrng.range(-limitIH, limitIH)),
@@ -930,7 +937,7 @@ export function createXavierRecurrentNetwork(customPrng: XoshiroPRNG = rng, inpu
   return {weightsIH, weightsHH, biasesH, weightsHO, biasesO};
 }
 
-export function getBrainLayout(g: Pick<Genome, 'eyes' | 'parts'>) {
+export function getBrainLayout(g: Pick<Genome, 'eyes' | 'parts'> & Partial<Pick<Genome, 'mouths'>>) {
   const inputs: string[] = [];
   const labels: string[] = [];
   g.eyes.forEach((eye, e) => {
@@ -949,6 +956,10 @@ export function getBrainLayout(g: Pick<Genome, 'eyes' | 'parts'>) {
   });
   inputs.push('body:speed', 'body:energy', 'body:sin', 'body:cos');
   labels.push('Speed', 'Energy', 'CPG sin', 'CPG cos');
+  for (const mouth of g.mouths ?? []) {
+    inputs.push(`mouth:${mouth.id}:contact`, `mouth:${mouth.id}:intake`);
+    labels.push('Food contact', 'Absorbed intake');
+  }
   const outputs = g.parts.slice(1).flatMap(p => OUTPUT_LABELS.map(channel => `joint:${p.id}:${channel}`));
   return {inputs, labels, outputs};
 }
@@ -969,11 +980,15 @@ function legacyInputKeys(g: Genome): string[] {
   return keys;
 }
 
+function legacyOutputKeys(g: Genome): string[] {
+  return g.parts.slice(1).flatMap(p => OUTPUT_LABELS.slice(0, LEGACY_OUTPUTS_PER_JOINT).map(channel => `joint:${p.id}:${channel}`));
+}
+
 /** Preserve surviving connections by organ/part IDs, never by shifted array positions. */
 export function remapBrain(g: Genome, previous: Genome = g): void {
   const layout = getBrainLayout(g);
   const oldInputs = previous.inputKeys ?? legacyInputKeys(previous);
-  const oldOutputs = previous.outputKeys ?? getBrainLayout(previous).outputs;
+  const oldOutputs = previous.outputKeys ?? legacyOutputKeys(previous);
   const inputIndex = new Map(oldInputs.map((key, i) => [key, i]));
   const outputIndex = new Map(oldOutputs.map((key, i) => [key, i]));
   const ih = previous.weightsIH;
@@ -982,7 +997,7 @@ export function remapBrain(g: Genome, previous: Genome = g): void {
   g.weightsIH = Array.from({length: NUM_HIDDEN}, (_, h) => layout.inputs.map(key => {
     const i = inputIndex.get(key);
     let weight = i === undefined ? 0 : ih[h]?.[i] ?? 0;
-    if (previous.brainVersion !== 2 && key.startsWith('joint:') && key.endsWith(':angle')) {
+    if (previous.brainVersion === undefined && key.startsWith('joint:') && key.endsWith(':angle')) {
       const part = previous.parts.find(p => key === `joint:${p.id}:angle`);
       weight *= part?.maxAngle ?? 1;
     }
@@ -998,15 +1013,16 @@ export function remapBrain(g: Genome, previous: Genome = g): void {
   });
   g.inputKeys = layout.inputs;
   g.outputKeys = layout.outputs;
-  g.brainVersion = 2;
+  g.brainVersion = 3;
 }
 
 export function ensureBrainLayout(g: Genome): void {
-  if (g.brainVersion !== 2 || !g.inputKeys || !g.outputKeys) remapBrain(g);
+  if (g.brainVersion !== 3 || !g.inputKeys || !g.outputKeys) remapBrain(g);
 }
 
 export function migrateOrganismBrain(org: Organism): void {
-  const legacy = org.genome.brainVersion !== 2;
+  const legacy = org.genome.brainVersion === undefined;
+  const outputValues = new Map((org.genome.outputKeys ?? legacyOutputKeys(org.genome)).map((key, i) => [key, org.neuralOutputs[i] ?? 0]));
   const oldKeys = org.genome.inputKeys ?? legacyInputKeys(org.genome);
   const values = new Map(oldKeys.map((key, i) => [key, org.neuralInputs[i] ?? 0]));
   ensureBrainLayout(org.genome);
@@ -1018,7 +1034,9 @@ export function migrateOrganismBrain(org: Organism): void {
     }
     return value;
   });
-  org.neuralOutputs = org.neuralOutputs.slice(0, org.genome.outputKeys!.length);
+  org.neuralOutputs = org.genome.outputKeys!.map(key => outputValues.get(key) ?? 0);
+  org.mouthFeedback ??= {};
+  for (const joint of org.joints) { joint.amplitude ??= 1; joint.engagement ??= 1; }
 }
 
 export function restSegments(parts: PartDef[], x = 0, y = 0): PartPhys[] {
@@ -1818,7 +1836,7 @@ export function spawnOrganism(
       currentRelAngle: 0,
       currentRelAngVel: 0,
       appliedTorque: 0,
-      stiffness: 1.0,
+      stiffness: 1.0, amplitude: 1, engagement: 1,
     });
   }
 
@@ -1860,7 +1878,7 @@ export function spawnOrganism(
     dissolveAlpha: 1.0,
     isFeedingHighlight: 0,
     traceHistory: [],
-    recentFeedings: [],
+    recentFeedings: [], mouthFeedback: {},
   };
 }
 
@@ -2421,6 +2439,13 @@ export function stepSimulation(
     org.neuralInputs[rayInputIdx++] = Math.sin(masterPhase);
     org.neuralInputs[rayInputIdx++] = Math.cos(masterPhase);
 
+    // Actual oral feedback from the previous completed tick, never future target data.
+    for (const mouth of g.mouths) {
+      const feedback = org.mouthFeedback?.[mouth.id];
+      org.neuralInputs[rayInputIdx++] = feedback?.contact ?? 0;
+      org.neuralInputs[rayInputIdx++] = feedback?.intake ?? 0;
+    }
+
     // B. RECURRENT NEURAL EVALUATION (h_t = tanh(W_in * x_t + W_rec * h_{t-1} + b))
     for (let h = 0; h < NUM_HIDDEN; h++) {
       scratchPrevHidden[h] = org.neuralHidden[h] || 0;
@@ -2446,7 +2471,7 @@ export function stepSimulation(
       org.neuralOutputs[o] = isNaN(sum) ? 0 : Math.tanh(sum);
     }
 
-    // C. RIGID BODY HYDRODYNAMICS & 4-CHANNEL MOTOR ACTUATION ACROSS 4 SUBSTEPS
+    // C. RIGID BODY HYDRODYNAMICS & 6-CHANNEL MOTOR ACTUATION ACROSS 4 SUBSTEPS
     const partCount = org.segments.length;
     for (let i = 0; i < partCount; i++) {
       const pDef = g.parts[i];
@@ -2482,11 +2507,20 @@ export function stepSimulation(
         const peakTorqueMod = clampVal(1.0 + (org.neuralOutputs[outBase + 2] || 0) * 0.4, 0.5, 1.6);
         const stiffnessDampingMod = clampVal(1.0 + (org.neuralOutputs[outBase + 3] || 0) * 0.4, 0.4, 1.8);
         joint.stiffness = stiffnessDampingMod;
+        // Zero on new channels preserves the inherited gait. Negative commands can
+        // reach exactly zero; positive amplitude commands permit stronger strokes.
+        const amplitudeTarget = clampVal(1 + (org.neuralOutputs[outBase + 4] || 0) * 1.5, 0, 1.75);
+        const engagementTarget = clampVal(1 + (org.neuralOutputs[outBase + 5] || 0) * 1.5, 0, 1);
+        const response = 1 - Math.exp(-dt_sub / MOTOR_RESPONSE_SECONDS);
+        joint.amplitude = (joint.amplitude ?? 1) + (amplitudeTarget - (joint.amplitude ?? 1)) * response;
+        joint.engagement = (joint.engagement ?? 1) + (engagementTarget - (joint.engagement ?? 1)) * response;
+        if (amplitudeTarget === 0 && joint.amplitude < .001) joint.amplitude = 0;
+        if (engagementTarget === 0 && joint.engagement < .001) joint.engagement = 0;
 
         const jointFreq = g.motorFrequency * childDef.cpgFreqMult * motorFreqDrive;
         joint.phase = (joint.phase + 2 * Math.PI * jointFreq * dt_sub) % (2 * Math.PI);
 
-        const wave = Math.sin(joint.phase) * childDef.cpgAmp;
+        const wave = Math.sin(joint.phase) * childDef.cpgAmp * joint.amplitude;
         const targetAngle = clampVal((wave + targetAngleOffset) * childDef.maxAngle, -childDef.maxAngle, childDef.maxAngle);
         joint.targetAngle = targetAngle;
 
@@ -2504,7 +2538,7 @@ export function stepSimulation(
 
         let motorTorque = kp * (targetAngle - currentRelAngle) - kd * relAngVel;
         const maxTorque = avgInertia * 2200.0 * peakTorqueMod;
-        motorTorque = clampVal(motorTorque, -maxTorque, maxTorque);
+        motorTorque = clampVal(motorTorque, -maxTorque, maxTorque) * joint.engagement;
         if (isNaN(motorTorque)) motorTorque = 0;
         joint.appliedTorque = motorTorque;
 
@@ -2528,7 +2562,7 @@ export function stepSimulation(
         const u = seg.vx * cosA + seg.vy * sinA;
         const v = -seg.vx * sinA + seg.vy * cosA;
 
-        const fLocalX = -0.0 * mu * def.height * u; // Tangential drag (0 for calibrated benchmark propulsion)
+        const fLocalX = -LONGITUDINAL_DRAG * mu * def.height * u; // Tangential resistance; normal drag remains stronger.
         const fLocalY = -2.0 * mu * def.width * v;  // Normal anisotropic fluid drag
 
         const fDragWorldX = fLocalX * cosA - fLocalY * sinA;
@@ -2693,7 +2727,7 @@ export function stepSimulation(
     // Area-Normalized Basal & Sensory Metabolism
     const sizeRatio = calculateTotalBodyArea(g.parts) / BASE_FOUNDER_AREA;
     const basalRate = BASAL_METABOLIC_RATE * sizeRatio * g.metabolicEfficiency;
-    const sensoryRate = SENSORY_NEURAL_METABOLIC_RATE * (g.eyes.length * 5 + NUM_HIDDEN);
+    const sensoryRate = SENSORY_NEURAL_METABOLIC_RATE * (g.eyes.length * 5 + NUM_HIDDEN + g.mouths.length * 2);
     const motorRate = frameMechanicalWork / dt;
 
     const basalMetabolism = basalRate * dt;
@@ -2714,7 +2748,9 @@ export function stepSimulation(
     ledger.mechanicalWorkHeat += frameMechanicalWork * paidFraction;
 
     // D. CONTACT FEEDING. One chemical-intake budget per mouth and simulated tick.
+    const oralFeedback: NonNullable<Organism['mouthFeedback']> = Object.create(null);
     for (const mouth of g.mouths) {
+      const feedback = oralFeedback[mouth.id] = {contact: 0, intake: 0};
       const host = Math.min(mouth.partIndex, org.segments.length - 1);
       const phys = org.segments[host], def = g.parts[host];
       const anchor = getCardinalAnchor(mouth.direction, def.width, def.height);
@@ -2730,13 +2766,15 @@ export function stepSimulation(
       const x2 = cx + tx * halfAperture, y2 = cy + ty * halfAperture;
       const eatsMeat = mouth.mouthType !== 'herbivore';
       const eatsPlants = mouth.mouthType !== 'carnivore';
-      let remainingIntake = (mouth.mouthType === 'omnivore' ? OMNIVORE_EAT_RATE : CONTINUOUS_EAT_RATE) * dt;
+      const allowance = (mouth.mouthType === 'omnivore' ? OMNIVORE_EAT_RATE : CONTINUOUS_EAT_RATE) * dt;
+      let remainingIntake = allowance;
       const canEat = () => remainingIntake > 0 && org.energy < g.maxEnergyCapacity;
       const consume = (available: number, category: FoodCategory, efficiency = 1): number => {
         const transfer = Math.min(Math.max(0, available), remainingIntake,
           Math.max(0, g.maxEnergyCapacity - org.energy) / efficiency);
         if (transfer <= 0) return 0;
         const absorbed = transfer * efficiency;
+        feedback.intake = clampVal(feedback.intake + absorbed / Math.max(1e-9, allowance), 0, 1);
         remainingIntake = Math.max(0, remainingIntake - transfer);
         org.energy += absorbed;
         ledger.metabolicDissipation += transfer - absorbed;
@@ -2746,7 +2784,7 @@ export function stepSimulation(
       };
 
       if (eatsMeat) {
-        for (let i = organisms.length - 1; i >= 0 && canEat(); i--) {
+        for (let i = organisms.length - 1; i >= 0 && (canEat() || !feedback.contact); i--) {
           const prey = organisms[i];
           if (prey.id === org.id || prey.dissolving || (isKinshipProtected && areSiblings(org, prey))) continue;
           let contact = false;
@@ -2761,6 +2799,7 @@ export function stepSimulation(
             }
           }
           if (!contact) continue;
+          feedback.contact = 1;
           const reserveBite = prey.energy > 0;
           const transfer = consume(reserveBite ? prey.energy : prey.structuralBiomass, 'Prey', reserveBite ? 1 : .85);
           if (transfer <= 0) continue;
@@ -2774,10 +2813,11 @@ export function stepSimulation(
             if (onEvent) onEvent('clash');
           }
         }
-        for (let i = eggs.length - 1; i >= 0 && canEat(); i--) {
+        for (let i = eggs.length - 1; i >= 0 && (canEat() || !feedback.contact); i--) {
           const egg = eggs[i];
           if (isKinshipProtected && isEggKin(org, egg)) continue;
           if (distPointToSegment(egg.x, egg.y, x1, y1, x2, y2) > 16 + mouthRadius) continue;
+          feedback.contact = 1;
           const transfer = consume(egg.fundedReserve + egg.fundedStructural, 'Egg');
           if (transfer <= 0) continue;
           const reserve = Math.min(egg.fundedReserve, transfer);
@@ -2792,12 +2832,13 @@ export function stepSimulation(
           }
         }
       }
-      for (let i = nutrients.length - 1; i >= 0 && canEat(); i--) {
+      for (let i = nutrients.length - 1; i >= 0 && (canEat() || !feedback.contact); i--) {
         const food = nutrients[i], carrion = food.kind === 'carrion';
         if (carrion ? !eatsMeat : !eatsPlants) continue;
         const reach = food.radius + halfAperture + mouthRadius;
         if (Math.abs(food.x - cx) > reach || Math.abs(food.y - cy) > reach) continue;
         if (distPointToSegment(food.x, food.y, x1, y1, x2, y2) > food.radius + mouthRadius) continue;
+        feedback.contact = 1;
         const transfer = consume(food.energyValue, carrion ? 'Carrion' : 'Nutrient', carrion ? .85 : 1);
         if (transfer <= 0) continue;
         food.energyValue = Math.max(0, food.energyValue - transfer);
@@ -2810,6 +2851,8 @@ export function stepSimulation(
         }
       }
     }
+
+    org.mouthFeedback = oralFeedback;
 
     // E. REPRODUCTION (Continuous Attempt with Scaled Clutch Size & Heritable DNA Traits)
     const maturityAge = g.maturityAge || MATURITY_AGE;

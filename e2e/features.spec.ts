@@ -34,6 +34,10 @@ test('catalogue, saved specimens, live brain graph and draggable inspector', asy
   await page.getByTitle('Inspect Specimen Brain & Vision Rays').click();
   const inspector = page.getByTestId('creature-inspector');
   await expect(page.getByRole('img', {name: 'Live recurrent neural network'})).toBeVisible();
+  await expect(inspector.getByText('6-CH MOTORS', {exact: true})).toBeVisible();
+  await expect(page.getByTestId('motor-telemetry')).toBeVisible();
+  await expect(inspector.locator('text').filter({hasText: /^J1:Amp$/})).toHaveCount(1);
+  await expect(inspector.locator('text').filter({hasText: /^J1:Engage$/})).toHaveCount(1);
   const before = await inspector.boundingBox();
   const header = inspector.getByText('RECURRENT BRAIN & DIAGNOSTICS');
   await header.hover(); await page.mouse.down(); await page.mouse.move(before!.x - 100, before!.y + 120, {steps: 8}); await page.mouse.up();
@@ -46,6 +50,30 @@ test('catalogue, saved specimens, live brain graph and draggable inspector', asy
   await page.getByTitle('Specimen Bank (Save & Spawn Custom Genomes)').click();
   await expect(page.getByTestId('specimen-row')).toHaveCount(51);
   expect(await page.evaluate(() => JSON.parse(localStorage.getItem('vida_specimen_bank_v3')!).length)).toBe(1);
+  expect(errors).toEqual([]);
+});
+
+test('v5 snapshots import through the UI and export all six motor channels without shifting old weights', async ({page}, info) => {
+  const errors: string[] = []; page.on('pageerror', e => errors.push(e.message));
+  const source = await readFile(new URL('../tests/fixtures/v5-motor-world.json', import.meta.url), 'utf8');
+  const original = JSON.parse(source).state.organisms[0];
+  await page.goto('./?autoplay');
+  await page.getByTitle('Ecology & Physical Settings').click();
+  await page.locator('input[type=file]').setInputFiles({name: 'v5-motor-world.json', mimeType: 'application/json', buffer: Buffer.from(source)});
+  await page.getByRole('button', {name: 'RESUME SIMULATION', exact: true}).click();
+  const downloadPromise = page.waitForEvent('download');
+  await page.getByRole('button', {name: 'Export Snapshot', exact: true}).click();
+  const download = await downloadPromise, saved = info.outputPath('migrated-motors.json'); await download.saveAs(saved);
+  const snapshot = JSON.parse(await readFile(saved, 'utf8')), current = snapshot.state.organisms[0];
+  expect(snapshot.schemaVersion).toBe('6.0.0'); expect(current.genome.brainVersion).toBe(3);
+  expect(current.neuralOutputs).toHaveLength(36); expect(current.mouthFeedback).toBeDefined();
+  original.genome.outputKeys.forEach((key: string, i: number) => {
+    const currentIndex = current.genome.outputKeys.indexOf(key);
+    expect(currentIndex).toBeGreaterThanOrEqual(0);
+    expect(current.genome.weightsHO[currentIndex]).toEqual(original.genome.weightsHO[i]);
+    expect(current.genome.biasesO[currentIndex]).toBe(original.genome.biasesO[i]);
+  });
+  expect(current.joints.every((j: sim.JointState) => j.amplitude === 1 && j.engagement === 1)).toBe(true);
   expect(errors).toEqual([]);
 });
 
