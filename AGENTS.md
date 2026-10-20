@@ -90,6 +90,23 @@
   Offspring mutations can produce exact 0 and later regain sensitivity,
   without prey identity, free movements or new brain inputs. Use
   `tests/spectral-vision.test.ts` for short causal controls.
+- B-D compact ecology baseline is now an observational, fixed-seed
+  diagnostic capability. `ecologyAudit.ts` and `ecologyBaseline.ts`
+  count actual absorbed-joule event deltas, completed death causes,
+  outstanding egg funding, laying separately from hatching, population,
+  stored reserves and conservation error. Receipts coalesce in place;
+  sample every tick and never sum the same receipt's lifetime amount
+  repeatedly. Eight event slots per organism prevent comprehensive
+  high-density event accounting. Run `tests/ecology-baseline.test.ts`
+  in the fast suite; optional JSON replay is `npm run benchmark:ecology`.
+  Measured three free-roaming worlds produced zero ingestion in three
+  seconds; controlled visual feeding, deliberately pre-funded adults
+  and deliberately depleted animals prove only localized mechanisms.
+  B-A–B-D is complete as a **bounded instrumented prototype**, NOT
+  established sustainable ecology, learned survival, or universal
+  predator tracking. No extra survivor subsidies or automatic feeding.
+  Original Phase 5 lifetime learning and original Phase 6 sleep remain
+  separate and unimplemented.
 - Labels B-A–B-D describe the supplemental behavior workstream, distinct
   from original Phase 5 (not-yet-implemented lifetime synaptic learning)
   and original Phase 6 (optional sleep/replay after learning works).
