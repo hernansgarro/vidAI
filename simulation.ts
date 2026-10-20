@@ -2677,19 +2677,52 @@ function bodyBounds(parts: PartDef[], segments: PartPhys[]): HatchBounds {
 }
 
 /** Conservative empty envelope also prevents spawning arms around an existing body. */
-export function findClearHatchHeading(egg: Egg, settings: SimulationSettings, organisms: Organism[]): number | null {
+/** Authoritative dry-run of the same eight-orientation clearance test used for hatching.
+ * Does not consume PRNG or move the egg or adults.
+ */
+function hatchPlacement(egg: Egg, settings: SimulationSettings, organisms: Organism[]) {
   const pose = restSegments(egg.genome.parts);
   const obstacles = organisms.filter(o => !o.dissolving).flatMap(o => o.segments.map((p, i) => bodyBounds([o.genome.parts[i]], [p])));
+  let containedOrientation = false;
   for (let attempt = 0; attempt < 8; attempt++) {
     const heading = (egg.hatchHeading ?? 0) + attempt * Math.PI / 4, c = Math.cos(heading), s = Math.sin(heading);
     const segments = pose.map(p => ({...p, x: egg.x + c * p.x - s * p.y, y: egg.y + s * p.x + c * p.y, angle: p.angle + heading}));
     const b = bodyBounds(egg.genome.parts, segments), margin = 2;
     if (b.left < margin || b.top < margin || b.right > settings.worldWidth - margin || b.bottom > settings.worldHeight - margin) continue;
+    containedOrientation = true;
     if (obstacles.some(a => a.left < b.right + margin && a.right > b.left - margin
       && a.top < b.bottom + margin && a.bottom > b.top - margin)) continue;
-    return heading;
+    return {heading, reason: 'clear' as const};
   }
-  return null;
+  return {heading: null, reason: containedOrientation ? 'occupied' as const : 'tank-boundary' as const};
+}
+
+export function findClearHatchHeading(egg: Egg, settings: SimulationSettings, organisms: Organism[]): number | null {
+  return hatchPlacement(egg, settings, organisms).heading;
+}
+
+export type EggHatchStatus = 'incubating' | 'nonviable' | 'population-cap' |
+  'orientation-pending' | 'space-blocked' | 'tank-boundary' | 'clear';
+
+/** Kernel-derived inspection, not a second, approximate hatching algorithm. */
+export function evaluateEggHatchStatus(egg: Egg, settings: SimulationSettings, organisms: Organism[]): {
+  status: EggHatchStatus; message: string; clearHeading: number | null;
+} {
+  if (egg.incubationProgress < 1) return {status: 'incubating',
+    message: 'Incubating — not ready yet', clearHeading: null};
+  if (egg.fundedReserve + egg.fundedStructural < egg.genome.bodyCost) return {
+    status: 'nonviable', message: 'Insufficient funded body energy; will become remains', clearHeading: null};
+  if (organisms.filter(o => !o.dissolving).length >= (settings.maxOrganisms ?? 50)) return {
+    status: 'population-cap', message: 'Ready, blocked by living population cap', clearHeading: null};
+  if (egg.hatchHeading === undefined) return {
+    status: 'orientation-pending', message: 'Ready; orientation will be chosen on the next tick', clearHeading: null};
+  const placement = hatchPlacement(egg, settings, organisms);
+  if (placement.heading !== null) return {status: 'clear',
+    message: 'Ready; full-body hatch space is clear', clearHeading: placement.heading};
+  if (placement.reason === 'tank-boundary') return {
+    status: 'tank-boundary', message: 'Ready, blocked by tank boundary', clearHeading: null};
+  return {status: 'space-blocked',
+    message: 'Ready, blocked by nearby creature bodies', clearHeading: null};
 }
 
 // ============================================================================
