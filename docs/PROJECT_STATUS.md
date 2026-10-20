@@ -1,6 +1,6 @@
 # Project status — 2026-10-20
 
-## Phase 5C: physically grounded bite awareness — v0.15.0 (CI pending)
+## Phase 5C: physically grounded bite awareness — v0.15.0 (CI verified)
 
 - Predation previously transferred energy from victim to hunter but gave the
   victim's neural network no distinct direct bite feedback. The new
@@ -31,7 +31,13 @@
 - The actual GitHub Wiki is synchronized from
   `docs/wiki/Sensory-Behavior.md` by GitHub Actions. Its content is
   latest-state only; research and historical evidence stay here.
-- Fast CI/build results will be recorded after the PR's final head runs.
+- Verified on PR branch GitHub Actions run **#39410190409**, commit
+  `5ce3b401`: **132/132 fast tests passed**, TypeScript and Vite build
+  passed. An extra physical articulated-body control shows that a real bite
+  can drive a genetically connected Angle motor command versus a blind
+  (disconnected) comparator with identical physical contact; this is
+  **motor responsiveness**, not demonstrated displacement-based escape.
+  No browser tests or long ecological runs were performed.
 
 
 ## Phase 5C: causal visual approach for the balanced Darter — v0.14.0 (CI verified)
