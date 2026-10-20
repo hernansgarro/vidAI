@@ -16,6 +16,14 @@
   migrates to tau=0. Offspring start with zero neural activations.
   Lifetime plasticity/weight learning is not implemented. Legacy dense-24 controllers retain their exact baseline
   neural upkeep through reference-normalized enabled-synapse cost.
+- Phase 5: FND-001 gets an explicit head-first joint-phase reversal at
+  `createFounderGenome` time only, justified by paired real-physics trials.
+  Do not reverse the entire catalogue: FND-051 already swims forward. Maintain
+  this single reviewed exception in founder integrity tests. Do not alter saved
+  genomes on import. Current sensory-driven pursuit/escape remains unproven.
+- Controlled `tests/behavior-baseline.test.ts` trials compare vision on/off,
+  ray detections, motor responses, physical travel, feeding and energy in
+  short seeded scenarios; they are not ecological fitness evidence.
 - `data/founders.json` contains 55 distinct blueprints (50 revised originals and
   five jellyfish designs). Preserve their actual anatomy and measured gaits; never
   replace entries with renamed duplicates. Selective symmetry is not a mutation rule.
