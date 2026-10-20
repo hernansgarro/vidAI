@@ -1,10 +1,10 @@
 import {
   XoshiroPRNG, migrateOrganismBrain, ensureBrainLayout, calculateBodyCost,
   calculateMaxEnergyCapacity, clampVal, getPartCornerVertices,
-  getBrainLayout, getDietClassification, brainEdgeKey, CARRION_DECAY_SECONDS, MAX_OUTPUTS, MAX_SURFACE_ORGANS, MAX_NEURAL_INPUTS, MAX_HIDDEN, MAX_ENABLED_BRAIN_EDGES, MAX_BRAIN_MEMORY_SECONDS, surfacePlacementProblems, morphologyProblems, type Genome, type SimulationSettings, type SimulationState, type Organism,
+  getBrainLayout, getDietClassification, brainEdgeKey, CARRION_DECAY_SECONDS, MAX_OUTPUTS, MAX_SURFACE_ORGANS, MAX_NEURAL_INPUTS, MAX_HIDDEN, MAX_ENABLED_BRAIN_EDGES, MAX_BRAIN_MEMORY_SECONDS, MAX_PLASTIC_MOTOR_SYNAPSES, MAX_LEARNED_MOTOR_DELTA, surfacePlacementProblems, morphologyProblems, type Genome, type SimulationSettings, type SimulationState, type Organism,
 } from './simulation';
 
-export const BUILD_VERSION = '0.20.0';
+export const BUILD_VERSION = '0.21.0';
 export const DEFAULT_SETTINGS: SimulationSettings = {
   worldWidth: 2400, worldHeight: 1500, waterViscosity: .18,
   targetNutrients: 400, inflowRate: 15, kinshipProtection: true,
@@ -149,6 +149,12 @@ export function validateGenome(raw: unknown): Genome {
   assert(g.motorForce >= 0 && g.motorForce <= 100 && g.motorFrequency >= 0 && g.motorFrequency <= 20
     && g.maturityAge >= 0 && g.maxLifespan > 0 && g.incubationTime > 0 && g.metabolicEfficiency > 0
     && Number.isInteger(g.targetClutchSize) && g.targetClutchSize >= 1 && g.targetClutchSize <= 8, 'trait bounds');
+  assert(g.plasticityRate === undefined ||
+    (typeof g.plasticityRate === 'number' && Number.isFinite(g.plasticityRate)
+      && g.plasticityRate >= 0 && g.plasticityRate <= 0.8), 'plastic learning rate');
+  assert(g.forgettingRate === undefined ||
+    (typeof g.forgettingRate === 'number' && Number.isFinite(g.forgettingRate)
+      && g.forgettingRate >= 0 && g.forgettingRate <= 1), 'learned forgetting rate');
   assert(g.colorMutationRate === undefined || (Number.isFinite(g.colorMutationRate) && g.colorMutationRate >= 0 && g.colorMutationRate <= 1), 'pigment variability');
   assert(Array.isArray(g.parentIds) && g.parentIds.every(id => typeof id === 'string'), 'parent IDs');
   g.bodyCost = calculateBodyCost(g.parts, g.eyes, g.mouths);
@@ -218,6 +224,30 @@ export function restoreSnapshot(input: unknown): {state: SimulationState; settin
     assert(Array.isArray(o.neuralInputs) && o.neuralInputs.length <= MAX_NEURAL_INPUTS && o.neuralInputs.every(Number.isFinite)
       && Array.isArray(o.neuralHidden) && o.neuralHidden.length === o.genome.hiddenIds!.length && o.neuralHidden.every(Number.isFinite)
       && Array.isArray(o.neuralOutputs) && o.neuralOutputs.length <= MAX_OUTPUTS && o.neuralOutputs.every(Number.isFinite), 'activations');
+    if (o.learnedMotorWeights !== undefined) {
+      assert((o.genome.plasticityRate ?? 0) > 0 && Array.isArray(o.learnedMotorWeights)
+        && o.learnedMotorWeights.length <= MAX_PLASTIC_MOTOR_SYNAPSES,
+        'somatic learned motor state');
+      const hidden = new Set(o.genome.hiddenIds), output = new Set(o.genome.outputKeys);
+      const inactive = new Set(o.genome.disabledConnections);
+      const seen = new Set<string>();
+      for (const record of o.learnedMotorWeights) {
+        assert(record && typeof record.edge === 'string'
+          && record.edge.length <= 320 && !seen.has(record.edge), 'unique plastic synapse ID');
+        seen.add(record.edge);
+        let edge: unknown;
+        try { edge = JSON.parse(record.edge); } catch { assert(false, 'plastic synapse ID'); }
+        assert(Array.isArray(edge) && edge.length === 3
+          && edge[0] === 'ho' && typeof edge[1] === 'string' && output.has(edge[1])
+          && edge[1].endsWith(':Angle') && typeof edge[2] === 'string' && hidden.has(edge[2])
+          && record.edge === brainEdgeKey('ho', edge[1], edge[2])
+          && !inactive.has(record.edge), 'plastic edge identity');
+        assert(typeof record.delta === 'number' && Number.isFinite(record.delta)
+          && Math.abs(record.delta) <= MAX_LEARNED_MOTOR_DELTA
+          && typeof record.eligibility === 'number' && Number.isFinite(record.eligibility)
+          && Math.abs(record.eligibility) <= 1, 'plastic state bounds');
+      }
+    }
     // Preserve exact activations for current saves; migrate only legacy buffers.
     assert(o.neuralInputs.length === o.genome.inputKeys!.length && o.neuralOutputs.length === o.genome.outputKeys!.length, 'activation buffer sizes');
     return o;

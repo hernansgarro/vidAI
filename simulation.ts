@@ -93,6 +93,13 @@ export const SENSORY_NEURAL_METABOLIC_RATE = 0.45; // J/s per sensory channel/ne
 export const NEURAL_EDGE_METABOLIC_RATE = 0.00025; // J/s per enabled synapse, relative to a legacy dense-24 budget.
 export const MAX_BRAIN_MEMORY_SECONDS = 4.0; // Upper bound for inherited hidden-neuron activation relaxation.
 export const MEMORY_METABOLIC_RATE = 0.08; // Extra J/s per second of combined neuronal time constants.
+// Phase 5: only heritably enabled organisms can adapt their own motor synapses.
+// No per-genome weight edit is performed while an organism lives.
+export const MAX_PLASTIC_MOTOR_SYNAPSES = 96;
+export const MAX_LEARNED_MOTOR_DELTA = 0.8;
+export const PLASTIC_ELIGIBILITY_SECONDS = 0.6;
+export const PLASTIC_UPKEEP_J_PER_EDGE_SECOND = 0.002;
+export const PLASTIC_REWRITE_J_PER_WEIGHT = 0.4;
 export const MAX_FRAME_MOTOR_WORK = 40.0; // Max motor dissipation per sub-step clamp to prevent solver spikes
 export const LONGITUDINAL_DRAG = 0.05; // Calibrated nonzero resistance along each segment.
 export const MOTOR_RESPONSE_SECONDS = 0.12;
@@ -221,6 +228,8 @@ export interface Genome {
   brainVersion?: 2 | 3 | 4 | 5 | 6 | 7;
   hiddenIds?: string[]; // Stable neuron identities; index order defines the matrix axes.
   hiddenTimeConstants?: number[]; // Seconds of leaky activation memory per hidden ID; 0 is the exact legacy update.
+  plasticityRate?: number; // Heritable motor-learning rate 0..0.8 / s. Absent or 0 = exact legacy brain.
+  forgettingRate?: number; // Heritable learned-weight relaxation 0..1 / s. Absent = 0.1 for learning-enabled descendants.
   disabledConnections?: string[]; // Canonical edge keys; absent/empty means legacy fully enabled.
   inputKeys?: string[];
   outputKeys?: string[];
@@ -300,6 +309,9 @@ export interface Organism {
   neuralInputs: number[];
   neuralHidden: number[]; // Recurrent state h_t
   neuralOutputs: number[];
+  // Somatic motor-synapse offsets and recent eligibility, keyed by stable HO
+  // identities. NEVER written into genome or inherited by offspring.
+  learnedMotorWeights?: Array<{edge: string; delta: number; eligibility: number}>;
   rayHits: RayHit[];
   glowPulse: number;
   dissolving: boolean;
@@ -1141,6 +1153,67 @@ export function memoryUpkeep(g: Pick<Genome, 'hiddenTimeConstants'>): number {
 }
 
 /** Count enabled directed synapses without allocating their keys. */
+/** Builds only enabled motor-Angle connections, in stable genetic ID order.
+ * Existing founders pay no plastic cost because they have no plastic allele. */
+export function plasticMotorEdges(g: Genome): Array<{edge: string; output: number; hidden: number}> {
+  if (!(g.plasticityRate && g.plasticityRate > 0)) return [];
+  const disabled = new Set(g.disabledConnections ?? []);
+  const result: Array<{edge: string; output: number; hidden: number}> = [];
+  for (let o = 0; o < g.outputKeys!.length; o++) {
+    if (!g.outputKeys![o].endsWith(':Angle')) continue;
+    for (let h = 0; h < g.hiddenIds!.length; h++) {
+      const edge = brainEdgeKey('ho', g.outputKeys![o], g.hiddenIds![h]);
+      if (!disabled.has(edge)) result.push({edge, output: o, hidden: h});
+      if (result.length >= MAX_PLASTIC_MOTOR_SYNAPSES) return result;
+    }
+  }
+  return result;
+}
+
+/** Applies reward-modulated, time-decaying motor eligibility after neural
+ * evaluation. Only REAL previous-tick mouth assimilation yields reward; no
+ * target coordinates, scores, hand-chosen movement directions or oracle.
+ * Upkeep + actual weight rewriting is debited from the creature's reserve
+ * and credited to metabolic heat before physical work is charged.
+ * Learned offsets are per-organism and NEVER copied into a genome.
+ */
+export function applyWakingPlasticity(
+  org: Organism, dt: number, ledger: SimulationState['ledger'],
+): number {
+  const g = org.genome;
+  if (!(g.plasticityRate && g.plasticityRate > 0) || dt <= 0 || org.dissolving) return 0;
+  const edges = plasticMotorEdges(g);
+  if (edges.length === 0) return 0;
+  const old = new Map((org.learnedMotorWeights ?? []).map(s => [s.edge, s]));
+  const factor = -Math.expm1(-dt / PLASTIC_ELIGIBILITY_SECONDS);
+  const forgetting = Math.exp(-(g.forgettingRate ?? 0.1) * dt);
+  // Each mouth reports absorbed energy / intake budget from the last tick.
+  // Do not use untrusted UI feeding counters or diagnostic objectType.
+  const reward = clampVal(Math.max(0, ...g.mouths.map(m => org.mouthFeedback?.[m.id]?.intake ?? 0)), 0, 1);
+  const next = edges.map(({edge, output, hidden}) => {
+    const previous = old.get(edge);
+    const eligibility = clampVal((previous?.eligibility ?? 0) * (1 - factor)
+      + factor * org.neuralHidden[hidden] * org.neuralOutputs[output], -1, 1);
+    const delta = previous?.delta ?? 0;
+    const requested = clampVal(delta * forgetting + g.plasticityRate! * reward * eligibility * dt,
+      -MAX_LEARNED_MOTOR_DELTA, MAX_LEARNED_MOTOR_DELTA);
+    return {edge, delta, requested, eligibility};
+  });
+  const upkeep = PLASTIC_UPKEEP_J_PER_EDGE_SECOND * edges.length * dt;
+  const upkeepPaid = Math.min(org.energy, upkeep);
+  const availableForUpdates = Math.max(0, org.energy - upkeepPaid);
+  const requestedChange = next.reduce((sum, s) => sum + Math.abs(s.requested - s.delta), 0);
+  const changePrice = requestedChange * PLASTIC_REWRITE_J_PER_WEIGHT;
+  const scale = changePrice > 0 ? Math.min(1, availableForUpdates / changePrice) : 1;
+  const rewritePaid = changePrice * scale;
+  const total = upkeepPaid + rewritePaid;
+  org.energy -= total;
+  ledger.metabolicDissipation += total;
+  org.learnedMotorWeights = next.map(s => ({edge:s.edge,
+    delta: s.delta + (s.requested - s.delta) * scale, eligibility:s.eligibility}));
+  return total;
+}
+
 export function enabledBrainEdgeCount(g: Genome): number {
   const h = g.hiddenIds?.length ?? g.biasesH.length;
   const inputs = g.inputKeys?.length ?? g.weightsIH[0]?.length ?? 0;
@@ -1239,6 +1312,12 @@ export function remapOrganismBrain(org: Organism, previous: Genome): void {
   org.neuralInputs = org.genome.inputKeys!.map(key => inputs.get(key) ?? 0);
   org.neuralHidden = org.genome.hiddenIds!.map(key => memory.get(key) ?? 0);
   org.neuralOutputs = org.genome.outputKeys!.map(key => outputs.get(key) ?? 0);
+  if (org.learnedMotorWeights) {
+    const valid = new Set(org.genome.outputKeys!.filter(k => k.endsWith(':Angle')).flatMap(output =>
+      org.genome.hiddenIds!.map(id => brainEdgeKey('ho', output, id))));
+    const disabled = new Set(org.genome.disabledConnections ?? []);
+    org.learnedMotorWeights = org.learnedMotorWeights.filter(s => valid.has(s.edge) && !disabled.has(s.edge));
+  }
 }
 
 export function migrateOrganismBrain(org: Organism): void {
@@ -2303,6 +2382,19 @@ export function mutateGenome(parent: Genome, severity = 0.25, customPrng: Xoshir
       part.waveHarmonics = harmonics;
     }
   }
+  // Rare inherited capacity for somatic learning. Appended to all old
+  // mutation draws to avoid perturbing established founder/offspring streams.
+  // The acquired motor offsets themselves exist only on living organisms.
+  if (customPrng.nextFloat() < mutChance * 0.12) {
+    const base = child.plasticityRate ?? 0;
+    child.plasticityRate = clampVal(base + customPrng.range(-0.15, 0.25) * mutScale,
+      0, 0.8);
+    if (child.plasticityRate > 0 && child.forgettingRate === undefined) child.forgettingRate = 0.1;
+  }
+  if ((child.plasticityRate ?? 0) > 0 && customPrng.nextFloat() < mutChance * 0.1) {
+    child.forgettingRate = clampVal((child.forgettingRate ?? 0.1)
+      + customPrng.range(-0.05, 0.05) * mutScale, 0, 1);
+  }
   // Independently inherited spectral gains arise in offspring without adding
   // neural channels or changing existing founder/save genotypes. A receptor can
   // disappear exactly (0), reappear, or change continuously; no diet oracle.
@@ -3354,8 +3446,24 @@ export function stepSimulation(
           sum += org.neuralHidden[h] * (g.weightsHO[o]?.[h] || 0);
         }
       }
+      // Acquired synapse offsets alter the neural motor command, not genome
+      // weights, and cannot activate a disabled connection.
+      if (org.learnedMotorWeights?.length && g.outputKeys![o].endsWith(':Angle')) {
+        for (const learned of org.learnedMotorWeights) {
+          if (learned.delta === 0) continue;
+          const parsed = JSON.parse(learned.edge) as string[];
+          if (parsed[0] !== 'ho' || parsed[1] !== g.outputKeys![o] ||
+            disabled?.has(learned.edge)) continue;
+          const h = g.hiddenIds!.indexOf(parsed[2]);
+          if (h >= 0) sum += org.neuralHidden[h] * learned.delta;
+        }
+      }
       org.neuralOutputs[o] = isNaN(sum) ? 0 : Math.tanh(sum);
     }
+    // Reward is from legitimate physical contact on the PREVIOUS tick.
+    // Mutations in a living animal's learned offsets change subsequent
+    // motor commands only, with their own debited metabolic cost.
+    applyWakingPlasticity(org, dt, ledger);
 
   }
 
