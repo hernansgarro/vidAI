@@ -90,7 +90,10 @@ test('queued real predation stimulus saves and continues exactly in schema 11', 
 });
 
 test('v10 brains migrate by stable sensory ID while preserving old connection weights and activations', () => {
-  const {s, prey} = fixture('herbivore');
+  const {s, prey, channel} = fixture('herbivore');
+  // A genuine v10 genome has no injury allele; the new channel starts
+  // disconnected (weight 0), not as a retroactively acquired learned reflex.
+  prey.genome.weightsIH[0][channel] = 0;
   sim.stepSimulation(s, settings, dt);
   const current = createSnapshot(s, settings), old = structuredClone(current);
   old.schemaVersion = '10.0.0';
