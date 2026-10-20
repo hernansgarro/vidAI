@@ -35,6 +35,20 @@ npm run benchmark:behavior # controlled motion and paired vision measurements
 
 ## Creatures and sandbox
 
+Articulated creatures have torque-driven, drag-based movement. The same
+six brain outputs now support both an optional rhythmic oscillator and direct
+neural positioning. Descendants can inherit per-joint rhythmic/direct
+`oscillatorMix` (0–1) and evolve smooth waveform harmonics (orders 2–5).
+Reducing an evolved joint's rhythmic amplitude to zero retains full neural
+`Angle` control; oscillation is not required for movement. Each joint can
+operate independently, and no force or energy is granted by this controller.
+Unchanged founder and imported genomes retain their original exact sine
+calculation. Live rhythmic genes are visible in the creature Brain inspector.
+Current-feature documentation with motor schematics is maintained under
+[`docs/wiki/Motor-Control.md`](docs/wiki/Motor-Control.md), ready to sync
+into the GitHub Wiki once direct Wiki writes are available.
+
+
 **Phase 5 calibration:** Controlled short experiments revealed that FND-001
 (Three-link Darter) originally swam backward with its mouth and eyes pointed
 forward. Its newly seeded founder genome now uses a reversed *inherited joint
