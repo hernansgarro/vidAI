@@ -75,13 +75,24 @@ All 18 default founders survived 60s for seeds 4242, 71 and 1901, with no eggs o
 deaths at that time. Absolute ledger discrepancies were 5.59e-9, 2.75e-8 and
 7.92e-9 J. Detailed current measurements are in `docs/release-validation-0.4.0.json`.
 
-All ten production-browser scenarios passed locally. These include 1920x900,
+All eleven production-browser scenarios passed across the full local suite and
+focused follow-up runs. These include 1920x900,
 520x900 and 1024x480 windows, native resizing, dragging against viewport edges,
 scrolling to each panel's final content, re-clamping after a 700x500 resize,
 version/obsolete-button checks, actual Feed/Feed All limits, and existing catalogue,
 snapshot/diet/remains behavior. A double-density canvas check verifies the white
 egg pixels and actual animated mouth openings. The same check also passed after
 adding quick selection, pan and wheel-zoom assertions. TypeScript/build passed.
+
+The first CI run caught an import race: the world ref changed before React's
+pause/settings render committed, so an old animation callback could step the new
+zero-food world using the previous inflow. World swaps/resizing now carry a render
+epoch; mismatched callbacks cannot advance the new world. A new browser regression
+imports the same snapshot three times from MAX speed with 4x CPU throttling,
+verifying exact saved time and zero food before resuming. The failing food-display
+case and this stress check both pass. CI now runs graphics-heavy browser cases
+serially: two simultaneous software-rendered canvases caused the wide-screen
+case to exceed its 90s budget, while its single-worker rerun passed unchanged.
 
 A controlled active swimmer struck a passive body moving at 100px/s: maximum
 hinge error over 5s was 0.1585px and contact penetration 0.0210px. A deliberately

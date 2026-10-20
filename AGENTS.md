@@ -22,6 +22,8 @@
   dimensions must follow its CSS area/device-pixel ratio without stretching.
 - No hidden refills, replacement creatures, death immunity, target-coordinate
   steering, or fabricated diagnostic pass flags.
+- World swaps/resizing use a UI render epoch so callbacks with old settings cannot
+  step replacement state before its matching pause/settings render.
 - New imports must be validated before replacing the active world. Current
   snapshots must continue exactly, including PRNG, activations, counters and IDs.
 - Run `npm test`, `npm run build`, and `npm run test:e2e` for simulation/UI changes.

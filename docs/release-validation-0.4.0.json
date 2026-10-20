@@ -376,7 +376,7 @@
     }
   ],
   "productionBrowserScenarios": {
-    "passed": 10,
+    "passed": 11,
     "failed": 0,
     "viewports": [
       [
@@ -397,6 +397,15 @@
       500
     ],
     "highDensityScale": 2,
-    "additionalPanZoomRegressionPassed": true
+    "additionalPanZoomRegressionPassed": true,
+    "atomicImportRegression": {
+      "imports": 3,
+      "cpuThrottle": 4,
+      "initialSpeed": "MAX",
+      "savedSimTime": 42,
+      "preservedExactPausedTime": true,
+      "preservedZeroFood": true
+    },
+    "execution": "Ten-case full local suite plus focused import/layout follow-up; CI configured for one software-rendered browser worker."
   }
 }

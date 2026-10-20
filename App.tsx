@@ -359,6 +359,15 @@ export default function App() {
     lastDragY: 0,
   });
 
+  // A replacement world must never be stepped by a render holding its old settings.
+  const [worldEpoch, setWorldEpoch] = useState(0);
+  const worldEpochRef = useRef(0);
+  const replaceWorld = useCallback((state: SimulationState) => {
+    worldEpochRef.current++;
+    simStateRef.current = state;
+    setWorldEpoch(worldEpochRef.current);
+  }, []);
+
   const statsTimerRef = useRef(0);
   const timeMultiplierRef = useRef(timeMultiplier);
   timeMultiplierRef.current = timeMultiplier;
@@ -429,6 +438,7 @@ export default function App() {
     cam.x = clampVal(cam.x + dx, 0, width); cam.targetX = clampVal(cam.targetX + dx, 0, width);
     cam.y = clampVal(cam.y + dy, 0, height); cam.targetY = clampVal(cam.targetY + dy, 0, height);
     setWorldWidth(width); setWorldHeight(height);
+    replaceWorld(simStateRef.current);
   };
 
   const copyDiagnosticReport = async () => {
@@ -442,12 +452,12 @@ export default function App() {
 
   // Fork a complete, independent state without changing simulation randomness.
   const branchEcosystem = useCallback(() => {
-    simStateRef.current = restoreSnapshot(createSnapshot(simStateRef.current, currentSettings())).state;
+    replaceWorld(restoreSnapshot(createSnapshot(simStateRef.current, currentSettings())).state);
     setSelectedOrgId(null); setSelectedSpecimen(null); setIsAutoTracking(false);
     setSaveNotification(`Branched ecosystem: ${customBranchName}`);
     setTimeout(() => setSaveNotification(null), 2500);
     gameAudio.playLevelUpStinger();
-  }, [customBranchName, currentSettings]);
+  }, [customBranchName, currentSettings, replaceWorld]);
 
   const exportEcosystemJSON = useCallback(() => {
     const s = simStateRef.current;
@@ -466,7 +476,7 @@ export default function App() {
     void file.text().then(text => {
       const restored = restoreSnapshot(text);
       const v = restored.settings;
-      simStateRef.current = restored.state;
+      replaceWorld(restored.state);
       setEcoStats(prev => ({...prev, ...collectWorldStats(restored.state, v.targetNutrients)}));
       setWorldWidth(v.worldWidth); setWorldHeight(v.worldHeight); setGravity(v.gravity ?? 0);
       setWaterViscosity(v.waterViscosity); setTargetNutrientAbundance(v.targetNutrients); setNutrientInflowRate(v.inflowRate);
@@ -481,7 +491,7 @@ export default function App() {
       setSaveNotification('Snapshot restored. Resume when ready.');
       gameAudio.playLevelUpStinger();
     }).catch(error => setSaveNotification(error instanceof Error ? error.message : 'Invalid snapshot.'));
-  }, []);
+  }, [replaceWorld]);
 
   const [diagnosticsRunning, setDiagnosticsRunning] = useState(false);
   const runDiagnosticSuite = useCallback(async () => {
@@ -494,7 +504,7 @@ export default function App() {
   // Initialize Simulation
   const initGame = useCallback(
     (preset = 'standard') => {
-      simStateRef.current = createInitialWorld(currentSettings(), simulationSeed, founderMode, preset, getConfig('initialOrganisms'));
+      replaceWorld(createInitialWorld(currentSettings(), simulationSeed, founderMode, preset, getConfig('initialOrganisms')));
       popHistoryRef.current = [simStateRef.current.organisms.length];
       setEcoStats(prev => ({...prev, ...collectWorldStats(simStateRef.current, targetNutrientAbundance)}));
 
@@ -516,7 +526,7 @@ export default function App() {
 
       gameAudio.playConfirmSelect();
     },
-    [worldWidth, worldHeight, currentSettings, simulationSeed, founderMode],
+    [worldWidth, worldHeight, currentSettings, simulationSeed, founderMode, replaceWorld],
   );
 
 
@@ -693,7 +703,7 @@ export default function App() {
 
   // Update Loop
   const update = (deltaTime: number) => {
-    if (gameState.status !== 'PLAYING' || isGameMenuOpen) return;
+    if (worldEpoch !== worldEpochRef.current || gameState.status !== 'PLAYING' || isGameMenuOpen) return;
 
     const multiplier = timeMultiplierRef.current;
     const fixedDt = 1 / 60;

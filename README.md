@@ -98,7 +98,8 @@ energy balance and selected-creature telemetry. Current v6 snapshots preserve
 motor ramps, oral feedback, pigment variability, decomposition timers and complete
 simulation state/settings for exact continuation in this build. Older v3/v4/v5
 JSON worlds import under the updated rules; existing neural commands and memory
-migrate by eye/part/mouth channel IDs and omitted environment settings use defaults. Imported worlds pause for inspection before resuming.
+migrate by eye/part/mouth channel IDs and omitted environment settings use defaults. Imported worlds preserve their exact saved time while pausing for inspection;
+callbacks holding the previous settings cannot advance replacement state.
 
 ## GitHub Pages
 

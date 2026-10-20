@@ -90,6 +90,39 @@ test('manual food buttons respect zero and saturated limits through the actual U
   const report = await read(); expect(report.population.nutrients).toBe(3); expect(Math.abs(report.energy.errorJ)).toBeLessThan(.001);
 });
 
+test('import keeps the exact snapshot paused while replacing a fast-running world and its settings', async ({page}) => {
+  const settings = {...DEFAULT_SETTINGS, targetNutrients: 0, inflowRate: 0};
+  const state = emptyWorld(99); state.simTime = 42;
+  const g = sim.createReferenceNematodeGenome(new sim.XoshiroPRNG(99));
+  g.parts = [g.parts[0]]; g.eyes = []; g.mouths = []; g.motorForce = 0;
+  g.bodyCost = sim.calculateBodyCost(g.parts, g.eyes, g.mouths); sim.ensureBrainLayout(g);
+  const org = sim.spawnOrganism(g, 1200, 750, 0, undefined, undefined, state.prng);
+  state.organisms.push(org); state.totalBirths = 1; state.ledger.externalInflow = org.energy + org.structuralBiomass;
+  const snapshot = Buffer.from(JSON.stringify(createSnapshot(state, settings)));
+  const session = await page.context().newCDPSession(page);
+  await session.send('Emulation.setCPUThrottlingRate', {rate: 4});
+  await page.goto('./?autoplay'); await page.getByTitle('Ecology & Physical Settings').click();
+  const setRange = async (label: string | null, value: number) => {
+    const input = label ? page.getByLabel(label, {exact: true}) : page.getByTestId('settings-window').locator('input[type=range]').first();
+    await input.evaluate((node, v) => {
+      Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!.call(node, String(v));
+      node.dispatchEvent(new Event('input', {bubbles: true})); node.dispatchEvent(new Event('change', {bubbles: true}));
+    }, value);
+  };
+  for (let attempt = 0; attempt < 3; attempt++) {
+    await setRange('Nutrient target', 800); await setRange(null, 150);
+    await page.getByRole('button', {name: 'MAX', exact: true}).click();
+    await page.locator('input[type=file]').setInputFiles({name: 'atomic.json', mimeType: 'application/json', buffer: snapshot});
+    await expect(page.getByRole('button', {name: 'RESUME SIMULATION', exact: true})).toBeVisible();
+    await page.getByRole('button', {name: 'Copy Diagnostic Report', exact: true}).click();
+    const report = JSON.parse(await page.getByLabel('Diagnostic report', {exact: true}).inputValue());
+    expect(report.simTime).toBe(42); expect(report.population.nutrients).toBe(0);
+    expect(report.settings.targetNutrients).toBe(0); expect(report.settings.inflowRate).toBe(0);
+    expect(Math.abs(report.energy.errorJ)).toBeLessThan(.001);
+    await page.getByRole('button', {name: 'RESUME SIMULATION', exact: true}).click();
+  }
+});
+
 test.describe('high-density canvas', () => {
 test.use({deviceScaleFactor: 2});
 test('white eggs render white and actual feeding animates the mouth', async ({page}, info) => {
