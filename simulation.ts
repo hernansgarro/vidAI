@@ -91,6 +91,8 @@ export const FORCE_COST_MULTIPLIER = 0.000000175; // Mechanical work to heat dis
 export const BASAL_METABOLIC_RATE = 12.0; // J/s for founder-sized body (BASE_FOUNDER_AREA = 36)
 export const SENSORY_NEURAL_METABOLIC_RATE = 0.45; // J/s per sensory channel/neuron.
 export const NEURAL_EDGE_METABOLIC_RATE = 0.00025; // J/s per enabled synapse, relative to a legacy dense-24 budget.
+export const MAX_BRAIN_MEMORY_SECONDS = 4.0; // Upper bound for inherited hidden-neuron activation relaxation.
+export const MEMORY_METABOLIC_RATE = 0.08; // Extra J/s per second of combined neuronal time constants.
 export const MAX_FRAME_MOTOR_WORK = 40.0; // Max motor dissipation per sub-step clamp to prevent solver spikes
 export const LONGITUDINAL_DRAG = 0.05; // Calibrated nonzero resistance along each segment.
 export const MOTOR_RESPONSE_SECONDS = 0.12;
@@ -202,8 +204,9 @@ export interface Genome {
   biasesH: number[];     // [hidden neuron]
   weightsHO: number[][]; // [motor key x hidden neuron]
   biasesO: number[];     // [motor key]
-  brainVersion?: 2 | 3 | 4 | 5;
+  brainVersion?: 2 | 3 | 4 | 5 | 6;
   hiddenIds?: string[]; // Stable neuron identities; index order defines the matrix axes.
+  hiddenTimeConstants?: number[]; // Seconds of leaky activation memory per hidden ID; 0 is the exact legacy update.
   disabledConnections?: string[]; // Canonical edge keys; absent/empty means legacy fully enabled.
   inputKeys?: string[];
   outputKeys?: string[];
@@ -1106,6 +1109,21 @@ function defaultHiddenIds(count: number): string[] {
   return Array.from({length: count}, (_, i) => `hidden:${i}`);
 }
 
+/** First-order, frame-duration-aware neuron response. Tau=0 preserves the exact
+ * original recurrence, with no extra floating-point arithmetic in that path.
+ * Positive tau uses the old tick's hidden activation to blend the new target.
+ */
+export function integrateNeuronMemory(previous: number, target: number, tauSeconds: number, dtSeconds: number): number {
+  if (tauSeconds === 0) return target;
+  const alpha = -Math.expm1(-dtSeconds / tauSeconds);
+  return previous + alpha * (target - previous);
+}
+
+/** Live maintenance cost for stored activation timescales; legacy networks pay zero. */
+export function memoryUpkeep(g: Pick<Genome, 'hiddenTimeConstants'>): number {
+  return MEMORY_METABOLIC_RATE * (g.hiddenTimeConstants?.reduce((sum, tau) => sum + tau, 0) ?? 0);
+}
+
 /** Count enabled directed synapses without allocating their keys. */
 export function enabledBrainEdgeCount(g: Genome): number {
   const h = g.hiddenIds?.length ?? g.biasesH.length;
@@ -1137,6 +1155,7 @@ export function remapBrain(g: Genome, previous: Genome = g): void {
   const hiddenIndex = new Map(oldHidden.map((key, i) => [key, i]));
   const ih = previous.weightsIH, hh = previous.weightsHH, ho = previous.weightsHO;
   const hiddenBias = previous.biasesH, outputBias = previous.biasesO;
+  const previousTimes = previous.hiddenTimeConstants ?? oldHidden.map(() => 0);
   g.weightsIH = nextHidden.map(id => layout.inputs.map(key => {
     const h = hiddenIndex.get(id), i = inputIndex.get(key);
     let weight = h === undefined || i === undefined ? 0 : ih[h]?.[i] ?? 0;
@@ -1153,6 +1172,10 @@ export function remapBrain(g: Genome, previous: Genome = g): void {
   g.biasesH = nextHidden.map(id => {
     const i = hiddenIndex.get(id);
     return i === undefined ? 0 : hiddenBias[i] ?? 0;
+  });
+  g.hiddenTimeConstants = nextHidden.map(id => {
+    const i = hiddenIndex.get(id);
+    return i === undefined ? 0 : previousTimes[i] ?? 0;
   });
   g.weightsHO = layout.outputs.map(key => {
     const i = outputIndex.get(key);
@@ -1179,12 +1202,12 @@ export function remapBrain(g: Genome, previous: Genome = g): void {
   g.hiddenIds = [...nextHidden];
   g.inputKeys = layout.inputs;
   g.outputKeys = layout.outputs;
-  g.brainVersion = 5;
+  g.brainVersion = 6;
   checkBrainBudget(g);
 }
 
 export function ensureBrainLayout(g: Genome): void {
-  if (g.brainVersion !== 5 || !g.inputKeys || !g.outputKeys || !g.hiddenIds || !g.disabledConnections) remapBrain(g);
+  if (g.brainVersion !== 6 || !g.inputKeys || !g.outputKeys || !g.hiddenIds || !g.disabledConnections || !g.hiddenTimeConstants) remapBrain(g);
   checkBrainBudget(g);
 }
 
@@ -2156,6 +2179,18 @@ export function mutateGenome(parent: Genome, severity = 0.25, customPrng: Xoshir
       'disable-connection', 'prune-connection', 'reconnect',
     ];
     mutateBrainTopology(child, operations[customPrng.rangeInt(0, operations.length - 1)], customPrng);
+  }
+  // An inherited, independently mutable low-pass timescale for each neuron.
+  // Ordinary founder/controller math is untouched until one of these rare
+  // events occurs in an offspring. No lifetime weight learning is introduced.
+  if (customPrng.nextFloat() < mutChance * 0.22) {
+    const index = customPrng.rangeInt(0, child.hiddenTimeConstants!.length - 1);
+    const previousTau = child.hiddenTimeConstants![index];
+    const change = customPrng.range(-0.30, 0.45) * mutScale;
+    child.hiddenTimeConstants![index] = clampVal(
+      previousTau === 0 ? Math.max(0, change) : previousTau + change,
+      0, MAX_BRAIN_MEMORY_SECONDS,
+    );
   }
   return child;
 }
@@ -3134,7 +3169,8 @@ export function stepSimulation(
           sum += scratchPrevHidden[rh] * (g.weightsHH[h]?.[rh] || 0);
         }
       }
-      org.neuralHidden[h] = isNaN(sum) ? 0 : Math.tanh(sum);
+      const next = isNaN(sum) ? 0 : Math.tanh(sum);
+      org.neuralHidden[h] = integrateNeuronMemory(scratchPrevHidden[h], next, g.hiddenTimeConstants![h], dt);
     }
 
     const numJoints = org.segments.length - 1;
@@ -3180,7 +3216,8 @@ export function stepSimulation(
     const referenceEdges = NUM_HIDDEN * (g.inputKeys!.length + NUM_HIDDEN + g.outputKeys!.length);
     const sensoryRate = Math.max(0,
       SENSORY_NEURAL_METABOLIC_RATE * (g.eyes.length * 5 + g.hiddenIds!.length + g.mouths.length * 2)
-      + NEURAL_EDGE_METABOLIC_RATE * (enabledBrainEdgeCount(g) - referenceEdges));
+      + NEURAL_EDGE_METABOLIC_RATE * (enabledBrainEdgeCount(g) - referenceEdges)
+      + memoryUpkeep(g));
     const motorRate = frameMechanicalWork / dt;
 
     const basalMetabolism = basalRate * dt;
