@@ -1,4 +1,4 @@
-# VIDA: remaining features — 2026-10-20 / v0.24.0
+# VIDA: remaining features — 2026-10-20 / v0.25.0
 
 This is a focused review of the current 2D source, not an implementation promise.
 Small changes fit the existing systems. Big changes affect simulation architecture,
@@ -20,7 +20,7 @@ distinguished below from gaps in existing systems.
 | --- | --- |
 | Reliable sensory-driven behavior | The balanced Darter has measured retinal food approach and evolving injury-sensing motor circuits. New paired real-physics tests against self-propelled hunters report 6 improved, 2 tied, 1 worsened outcomes among 9 biting starts, with 6 no-bite setups excluded. Across five body types and 15 genuine biting encounters, the same injury response improves 5, worsens 6, ties 4. The Brain inspector exposes the actual injury signal, pending energy and active inherited synapses. Per-eye inherited RGB receptor gains (including zero) and metabolic sensing costs now evolve, without altering legacy genomes; spectral suppression can hide purely green surfaces but does not erase red/blue reflections from real food. A heritable lateral RGB-to-joint circuit now produces genuine late bites in 4 of 24 paired self-propelled-prey trials versus none in blinded controls; center-of-mass approach was worse than the controls. This is limited evidence for sensory-driven moving-prey attacks, **not reliable pursuit**. Move to the bounded B-D ecological baseline rather than prolonged founder/brain tuning. |
 | Biological trait trade-offs | Egg reserve allocation now affects the actual funded hatchling reserve, parental energy cost and first-egg threshold; a higher allele improves starting reserves but delays reproduction. Parent survival floor and faster physical feeding were rebalanced in v0.10. Pending: review unused `reproductionThreshold` and other inherited efficiency/storage trade-offs separately without disguising them as guaranteed improvements. |
-| Evolvable neural structure | Phases 1–2 support changing hidden sizes (1–96), neuron identity, inherited connection masks and bounded upkeep. Phase 4 adds per-hidden-neuron inherited activation memory (0–4 s) with tau=0 original baseline and an explicit upkeep cost. Memory timescales are not synaptic learning or dreaming: living organisms still cannot update weights or grow structure within life. Controlled tests have not demonstrated improved foraging or long-term survival. |
+| Evolvable neural structure | Phases 1–2 support inherited hidden sizes (1–96), neuron identity, connection masks and bounded upkeep. Phase 4 adds inherited activation memory time constants (0–4 s). Phase 5 now permits bounded personal changes in existing retinal and motor synapses, with energy-paid consolidation and forgetting, but **not** within-life neuron/topology growth. One controlled later feeding arrangement improved by 180 J; another worsened by 420 J. General ecological fitness remains unproven. |
 | Growth, injury and gradual aging | Juvenile/adult/aging labels exist, but real body growth, local tissue injury/repair and gradual senescence are absent. These require consistent mass, geometry, energy and controller updates. |
 | Environment and communication (optional) | Currents and resource patches could create niches. Chemical or acoustic organs would add new physical signals and sensory channels. Current sound effects are presentation, not creature communication. Implement these as separate systems, not one large update. |
 | Performance at larger populations | Body contacts have spatial indexing; sight still scans objects. Index perception and move the simulation to a Worker while preserving deterministic stepping and UI responsiveness. |
@@ -67,7 +67,7 @@ food acquisition; therefore ecological viability, robust active predator
 pursuit and multigeneration adaptation stay separate open scientific
 outcomes rather than silently being marked solved.
 
-- **Original Phase 5 — waking lifetime learning:** **in progress**.
+- **Original Phase 5 — waking lifetime learning:** **COMPLETE as an implemented, bounded capability**; ecological learning reliability remains an independent unresolved outcome.
   The first bounded implementation includes rare heritable plasticity
   and forgetting rates, up to 96 individual somatic motor-synapse
   adjustments, eligibility over recent activity and **reward solely from
@@ -111,10 +111,21 @@ outcomes rather than silently being marked solved.
   0.5673 vs 0.3869 total learned-weight magnitude
   with/without stabilization (47% increase), not
   proven better navigation or feeding. The remaining
-  **Phase 5 closure scope** is a bounded actual
-  behavior/energy-benefit comparison, and review
-  of limits/performance across the existing runtime.
-  **Phase 6 optional sleep/replay** remains separate.
+  **v0.25 functional closure:** a freely swimming articulated
+  learning-capable Darter genuinely fed from a finite patch,
+  and an exact-state trained-versus-erased-memory comparison
+  tested another physical food target. One of four
+  post-learning setups benefited by **180 gross J**,
+  one was harmed by **420 gross J**, two tied.
+  True swimming, ingestion and conserved energy were
+  checked; a short 100-creature bounded smoke check
+  exercises the combined learning machinery.
+  This closes the **core waking-learning implementation**,
+  NOT reliable foraging, generalization, 1000-part performance,
+  effective natural selection or ecosystem sustainability.
+  Remaining behavioral reliability belongs to future
+  fitness/niche work. **Phase 6 optional sleep/replay**
+  remains separate and not implemented.
 
 - **Original Phase 6 — optional rest/sleep and replay:** **not implemented**.
   Only consider after waking learning improves *physical behavior*, rather

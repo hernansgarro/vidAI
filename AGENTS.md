@@ -14,9 +14,11 @@
   and per-neuron inherited leaky activation memory (tau 0–4 seconds). Tau=0
   follows the exact original recurrence; every founder and earlier save
   migrates to tau=0. Offspring start with zero neural activations.
-  Phase 5 optional somatic motor plasticity is now implemented as a first
-  bounded slice, but physically improved foraging/survival is NOT yet
-  demonstrated. Legacy dense-24 controllers retain their exact baseline
+  Original Phase 5 waking learning is now implemented as a bounded
+  feature set. Actual retained-vs-erased experience comparisons
+  physically improved later food intake in one short offset
+  (+180 gross J), worsened another (-420 gross J), and tied
+  two. Reliable foraging or survival is NOT demonstrated. Legacy dense-24 controllers retain their exact baseline
   neural upkeep through reference-normalized enabled-synapse cost.
 - Original Phase 5, v0.21 first waking plasticity increment:
   optional heritable `plasticityRate` and `forgettingRate` permit
@@ -98,6 +100,22 @@
   Keep tests compact; Phase 5 still needs
   functional physical behavior validation, while
   Phase 6 dreaming/replay remains optional.
+- Original Phase 5 v0.25 closure: physically swimming
+  Darter learns from true finite patch intake, then
+  matched exact post-training worlds keep or clear
+  only acquired synapse state and physically seek
+  another finite nutrient. Four bounded second-food
+  setups yielded +180 J, -420 J and two ties,
+  with 100-organism short combined plasticity smoke,
+  energy accounting and all prior fast regressions.
+  Waking learning is COMPLETE AS A BOUNDED FEATURE,
+  not a robust adaptive forager, genotype-wide
+  generalization or demonstrated population fitness.
+  The 55 founders and schema v11 remain unchanged.
+  Original Phase 6 is optional/unimplemented.
+  Future work should prioritize novel meaningful
+  features or ecological fitness, not unbounded
+  retuning of these four scenarios.
 - Phase 5B motor architecture: every joint's original six neural outputs
   remain stable. Optional inherited `oscillatorMix` (0–1) and four
   `waveHarmonics` coefficients (each −1..1) permit wave-free direct Angle

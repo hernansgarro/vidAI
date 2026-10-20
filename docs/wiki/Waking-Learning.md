@@ -6,10 +6,14 @@ are individual experience, not inherited weights; genuine food intake
 reinforces active circuits, and real bites may punish them. The changes
 consume energy and fade at genetically determined rates.
 
-Original Phase 5 now includes a third functional increment:
-**sensory-context learning** alongside full-body motor plasticity and
-injury aversion. General learned food seeking and ecological fitness
-are **not yet demonstrated**.
+The **original Phase 5 waking-learning feature set is now
+implemented as a bounded prototype**: inherited learning
+capacity, personal retinal/motor adaptation, physical feedback,
+energy-paid upkeep, forgetting, and selective consolidation.
+Learned experience has now changed real subsequent feeding in
+both helpful and harmful directions. **Robust learned food seeking,
+long-term ecological fitness, and reliable generalization remain
+unproven.**
 
 ## Mechanism
 
@@ -198,6 +202,59 @@ upkeep, rewriting cost, forgetting and strict save validation
 apply. Older genomes lacking these genes retain the exact old
 learning scope and zero pain aversion.
 
+## Physically useful—and harmful—learning
+
+A short native-physics experiment starts with an articulated,
+freely swimming Darter carrying optional evolvable plasticity
+traits. It travels through a finite patch of ordinary, static
+nutrients and physically feeds, thereby changing its own
+retinal and motor synapses. The resulting world is cloned:
+the baseline genome, muscles, other physics, initial position,
+energy, neural activation and PRNG are the same. In the
+counterfactual, **only personal learned weight deltas, eligibility
+and consolidation are erased**; the genetic capacity to learn
+remains intact.
+
+The two versions then encounter one new finite nutrient
+at the same off-axis or centered position. Their **actual
+gross nutrient removals** during the next five seconds were:
+
+| Second-food condition | Experience retained | Experience erased | Effect |
+| --- | ---: | ---: | ---: |
+| Forward, 120 px | 3,000 J | 3,000 J | Tie |
+| Forward 130 px, -34 px lateral | 3,000 J | 2,820 J | **+180 J** from learning |
+| Forward 130 px, +34 px lateral | 2,580 J | 3,000 J | **-420 J** from learning |
+| Forward, 130 px | 3,000 J | 3,000 J | Tie |
+
+All comparisons conserve physical energy. These are **controlled
+possibilities**, not statistically independent genotype wins:
+the same genetically defined Darter is reused and the two centered
+comparisons largely agree. A single useful side is evidence that
+learning *can* improve actual physical feeding, while the
+worse side demonstrates why this does **not** imply
+reliable generalization or overall survival improvement.
+
+The bounded integration check includes a short world with
+100 learning-capable, physically articulated organisms and
+verifies finite reserves, capped synapses and conservation.
+It is **not a guaranteed simulation FPS, long-duration
+population benchmark, or the target 100 creatures ×
+10 parts performance certification**.
+
+### What remains outside the original Phase 5 implementation
+
+The core mechanisms of waking within-life learning are
+implemented. Still open as actual biological results:
+consistent food-finding improvement across many contexts,
+adaptively avoiding predators, generations of self-sustaining
+evolution, measurable fitness gains and appropriate
+performance at long-lived 1000-part ecosystems.
+These are not prerequisites for claiming that individual
+synaptic learning exists, nor are they secretly solved.
+
+**Original Phase 6 rest/sleep and experience replay is
+optional, separate, and not yet implemented.**
+
 ## Verified and not yet verified
 
 - In a narrow physical-contact operant test, a one-neuron policy
@@ -224,12 +281,8 @@ learning scope and zero pain aversion.
   synapse IDs/weights. All 55 existing founders have the allele
   absent and retain their former behavior exactly.
 
-**Original Phase 5 is in progress, not complete.** The next
-meaningful validation should compare *physical* food intake/survival
-under paired learning-enabled versus same-genome learning-disabled
-creatures across multiple post-experience trials. Only after
-demonstrating behavioral benefit should the project consider
-original **Phase 6 optional sleep/replay**. No sleeping, replay,
+**Original Phase 5 is complete as a bounded feature implementation,
+not as general ecological learning competence.** No sleeping, replay,
 experience handouts, extra thrust, hardcoded target selection or
 within-life topology growth exists today.
 
@@ -250,6 +303,9 @@ within-life topology growth exists today.
   and motor associations; real feeding and matched four-second
   no-food forgetting, exact save continuation, conservation,
   inheritance and malicious-save rejection
+- `tests/learned-physical-outcome.test.ts`: actual swimming,
+  earned food exposure and cloned second-food outcomes,
+  conserved usable energy and bounded population sanity
 
 The Wiki describes current features; experimental history belongs
 in `docs/PROJECT_STATUS.md`.

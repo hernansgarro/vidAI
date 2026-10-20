@@ -1,5 +1,57 @@
 # Project status — 2026-10-20
 
+## Original Phase 5 — bounded waking-learning implementation complete (v0.25.0)
+
+- The production 2D neural kernel now supports genetically evolvable
+  waking sensory and motor plasticity, physical-reward/pain eligibility,
+  genetically adjustable forgetting, repeated-feedback consolidation,
+  finite energy upkeep/rewrites, and per-individual saved learned state.
+  Learning changes subsequent neural outputs and physically actuated
+  body trajectories without touching inherited weights. All
+  55 founders and old save/brain layouts remain compatible.
+- **New post-experience physical result:** a regular articulated,
+  independently swimming FND-001 with *experimental optional learning
+  alleles* travels through a **finite static food patch**, truly absorbs
+  nutrient energy and develops individual motor/retinal weight changes.
+  Its exact resulting position, body state, neural memory, baseline
+  genome, and PRNG are cloned for four short second-food encounters.
+  Only one clone's acquired synaptic weights/eligibility/consolidation
+  are cleared; both retain identical inherited learning capacities,
+  and each sees the same new physical nutrient at the same initial
+  position. Feeding is measured by **actual nutrient resource removal**,
+  not by the separate `foodEaten` object counter.
+- Across four bounded 5-second second-food encounters,
+  **learned vs. learned-erased intake** was:
+  centered 120 px **3,000 vs 3,000 J (tie)**;
+  lateral -34 px at 130 px **3,000 vs 2,820 J (+180 gross J learned)**;
+  lateral +34 px **2,580 vs 3,000 J (-420 gross J learned)**;
+  centered 130 px **3,000 vs 3,000 J (tie)**.
+  Both twins physically swam; each result conserved full world energy.
+  The positive case also retained about **143 J more organism energy**
+  after the different oral intake and neural/physical upkeep.
+  This establishes that learned experience CAN improve an
+  actual later feeding outcome, and CAN worsen one; the response
+  is **context-dependent and unreliable**, not a broadly
+  successful foraging policy.
+- The final bounded integration gate exercises the existing
+  full fast suite, build and 100 independently positioned
+  learning-capable articulated animals for six native physics
+  ticks with strict neural/energy bounds. This is a
+  **functional 100-organism smoke check, not a measured FPS
+  guarantee or a 1000-part long-run benchmark**.
+- **Phase decision:** original Phase 5 is **complete as a
+  bounded, energy-conserving waking-learning FEATURE SET**.
+  The remaining open problem is **robust learned ecological
+  competence**, including repeated improvement in natural
+  nutrient search, predators and whole populations. That is a
+  future behavioral/evolutionary evaluation objective rather
+  than a claim proved by this closure. No long tuning survey,
+  hardcoded navigation, free memory or automatic founder
+  modifications were added.
+  Original Phase 6 sleeping/replay is **optional and
+  not implemented**. VIDA 3D is entirely untouched.
+
+
 ## Original Phase 5: selective long-lasting memory — v0.24.0
 
 - New optional, ordinarily mutable and inherited
