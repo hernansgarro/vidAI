@@ -84,6 +84,20 @@ pass to offspring. These systems are functional but are not
 yet proof of improved lifetime food acquisition or survival;
 see the [Waking Learning Wiki](https://github.com/smeagol44/vidAI/wiki/Waking-Learning).
 
+### Learned retinal contexts (v0.23)
+
+Creatures may now evolve an individual **visual memory**:
+real RGB rays can acquire and retain changed retina-to-hidden
+connections following actual compatible-mouth feeding or
+real predator bites. The resulting sensory adjustment affects
+future neural and motor output; it costs finite energy,
+forgets gradually and is saved without being passed to offspring.
+A small controlled physical feeding check demonstrated that
+acquired retinal connections causally changed a later neural
+response. General food classification, robust foraging and
+survival benefits remain unproven. See
+[Waking Synaptic Learning](https://github.com/smeagol44/vidAI/wiki/Waking-Learning).
+
 ## Creatures and sandbox
 
 **Evolvable responses to bites:** Reproduction can now occasionally create a

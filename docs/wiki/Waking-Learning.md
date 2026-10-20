@@ -1,15 +1,15 @@
 # Waking Synaptic Learning
 
-VIDA creatures can now **acquire motor-synapse adjustments during their
-own lifetimes**, provided they inherit a nonzero plasticity allele. These
-changes are separate from the inherited genome, adapt only existing
-enabled synapses, use physical mouth intake as reinforcement, cost usable
-energy, and gradually fade when not reinforced.
+VIDA creatures can now **acquire motor and retinal synapse adjustments
+while alive**, if those optional capabilities evolve. Learned changes
+are individual experience, not inherited weights; genuine food intake
+reinforces active circuits, and real bites may punish them. The changes
+consume energy and fade at genetically determined rates.
 
-Original Phase 5 now includes a second functional increment:
-evolvable full-body motor learning and real-bite aversion. These are
-real within-life changes to motor policy, **not yet proven to improve
-lifetime food-gathering or survival outcomes**.
+Original Phase 5 now includes a third functional increment:
+**sensory-context learning** alongside full-body motor plasticity and
+injury aversion. General learned food seeking and ecological fitness
+are **not yet demonstrated**.
 
 ## Mechanism
 
@@ -24,6 +24,9 @@ flowchart LR
   F[Inherited forgetting rate] --> P
   P --> S[Creature-specific save state]
   G --> O[Offspring receive inherited genes]
+  V[True water-attenuated RGB eye rays] --> IH[Individual retinal synapse adjustments]
+  IH --> G
+  R --> IH
 ```
 
 ### Inherited capability, acquired experience
@@ -63,9 +66,11 @@ flowchart LR
 
 ### Lifetime memory versus inheritance and previous brain memory
 
-The inherited recurrent neural weights remain in `genome.weightsHO`.
-The per-creature `learnedMotorWeights` entries contain the acquired
-`delta` and recent `eligibility`, identified by stable synapse key.
+Inherited recurrent weights remain in `genome.weightsIH` and
+`genome.weightsHO`. Per-creature `learnedSensoryWeights`
+(eye → hidden) and `learnedMotorWeights` (hidden → motor) contain
+individual acquired `delta` and recent `eligibility` under
+stable synapse keys.
 **Newborns inherit the ability to learn and the genetic baseline,
 never the parent's learned offsets or eligibility.** Their learned
 state begins empty. Old saves continue unchanged. Current schema
@@ -78,11 +83,46 @@ leaky recurrent activations remember recent neural *activity*; Phase
 Neither feature is simulated dreaming or replay.
 
 The selected creature's Brain diagram uses the **effective weight**
-(inherited weight plus acquired offset) for each motor connection.
+(inherited weight plus acquired offset) for both retinal and motor
+connections.
 When learning is enabled it also displays genetic learning/forgetting
 rates, motor scope, injury-aversion rate, count of adapted motor
-synapses and metabolic plasticity cost.
+and retinal synapses, and metabolic plasticity cost.
 It does not show an invented food target or prescribe behavior.
+
+## Learning from similar sensory context
+
+A separately heritable, mutable **`sensoryPlasticityRate`**
+(0–0.8 per second) allows a creature to change up to **96 enabled
+existing eye RGB → hidden neuron synapses** during life. Actual
+water-attenuated physical rays are the only visible input: no food
+category, enemy identity, target coordinates, object-type diagnostic
+or steering direction is provided.
+
+A 0.6-second eligibility trace combines recent RGB activity with
+hidden-neuron activation. Physically absorbed food gives positive
+reinforcement and, if aversion evolved, real bite damage gives
+negative reinforcement. A colored object alone cannot reward an
+animal. Acquired weights apply on the next neural evaluation, when
+similar retinal input can change hidden and downstream motor
+activations. Old founders lacking the gene are unaffected.
+
+Offsets are bounded to ±0.8, forget according to the organism's
+inherited rate, and cost **0.002 J per eligible synapse per second**
+plus **0.4 J per unit changed weight**. All costs are debited from
+the organism into metabolic heat. The acquired retina and trace
+belong only to the individual, persist through current schema-v11
+save/load, and never enter offspring DNA.
+
+**Short causal evidence:** A creature absorbed **1,440 J of real
+finite nutrient energy** from physical mouth contact, developing
+RGB-to-hidden associations. A matched clone whose learned retinal
+deltas were erased then produced a different hidden response
+(maximum difference approximately **0.255**) and different neural
+motor output when exposed to the same subsequent stimulus.
+A food-free control did not learn. This establishes personal
+perceptual adaptation—not discrimination between food and predators,
+generalization to unseen objects, better navigation or survival.
 
 ## Learning from genuine injury
 
@@ -145,13 +185,17 @@ within-life topology growth exists today.
 
 ## Code and checks
 
-- `simulation.ts`: `plasticMotorEdges`, `applyWakingPlasticity`,
-  real feedback and motor evaluation
+- `simulation.ts`: `plasticMotorEdges`, `plasticSensoryEdges`,
+  `applyWakingPlasticity`, `applySensoryAssociations`,
+  physical feedback and recurrent evaluation
 - `persistence.ts`: save validation and diagnostic report
 - `BrainGraph.tsx`: effective live weights and read-only acquired
   learning statistics
 - `tests/waking-plasticity.test.ts`: controls, real reward,
   forgetting, mutation, inheritance, conservation and save integrity
+- `tests/sensory-association.test.ts`: real food-conditioned RGB
+  plasticity, matched erased-memory replay, conserved energy,
+  strict saves and genetic/non-genetic separation
 
 The Wiki describes current features; experimental history belongs
 in `docs/PROJECT_STATUS.md`.

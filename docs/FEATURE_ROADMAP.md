@@ -1,4 +1,4 @@
-# VIDA: remaining features — 2026-10-20 / v0.22.0
+# VIDA: remaining features — 2026-10-20 / v0.23.0
 
 This is a focused review of the current 2D source, not an implementation promise.
 Small changes fit the existing systems. Big changes affect simulation architecture,
@@ -91,6 +91,16 @@ outcomes rather than silently being marked solved.
   not improved survival or ecological fitness. Follow up with
   normal feature development and only bounded physical benefit
   checks as each new capability warrants.
+  **v0.23 adds sensory-context learning:** rare inherited
+  retinal-plasticity capability modifies an individual's
+  enabled RGB-eye-to-hidden synapses following real food
+  intake or injury. The acquired associations affect
+  subsequent neural and motor responses and are saved
+  but never inherited as experience. A compact physical
+  food test showed 1,440 J of ingestion and a changed
+  post-experience retinal response versus an erased
+  learned-memory clone. No generalized adaptive behavior
+  or long-term fitness improvement is claimed.
 
 - **Original Phase 6 — optional rest/sleep and replay:** **not implemented**.
   Only consider after waking learning improves *physical behavior*, rather

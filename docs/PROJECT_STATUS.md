@@ -1,5 +1,39 @@
 # Project status — 2026-10-20
 
+## Original Phase 5: retained visual-context associations — v0.23.0
+
+- **Added:** optional, inherited and mutable `sensoryPlasticityRate`
+  (0–0.8/s) unlocks a personal set of up to 96 enabled eye
+  RGB-to-hidden synapse changes. Real spectral ray inputs and recent
+  hidden activity establish eligibility; physical compatible-mouth
+  intake is positive reinforcement, actual bite damage optional
+  negative reinforcement. The only information originates from
+  the creature's existing sensors, never debugging labels or a
+  predefined food/predator category.
+- **Personal, funded state:** `learnedSensoryWeights` stores bounded
+  individual IH synapse adjustments and eligibility traces.
+  They alter future brain evaluation, cost real organism energy
+  at 0.002 J per eligible synapse per second and 0.4 J
+  per absolute weight unit rewritten, decay with inherited
+  forgetting, survive exact schema-v11 save/load, and never
+  transfer as acquired experience to offspring.
+- **Causal short result:** real oral contact absorbed **1,440 J**
+  and produced retinal associations. Under identical later
+  sensory inputs, a paired clone retaining the acquired retina
+  differed in hidden response by max **0.2546** and had changed
+  motor output compared with a clone with only retinal deltas
+  cleared. An unfed comparator did not rewrite sensory weights.
+  Three targeted tests also check the 55 legacy founders,
+  energy conservation, trait mutation, strict validation and
+  saved continuation. No long sweep or founder tuning.
+- **Limits:** perceptual plasticity does not establish learned
+  food/prey category discrimination, generalized recognition,
+  reliable food approach or population fitness. Phase 5 remains
+  in progress; Phase 6 sleep/replay remains future work.
+  Brain v7, save schema v11, 55 founders and the entire
+  separate 3D project remain unchanged.
+
+
 ## Original Phase 5: full-body motor learning and injury aversion — v0.22.0
 
 - Two optional heritable, ordinarily mutable additions expand waking
