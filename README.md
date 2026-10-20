@@ -35,6 +35,19 @@ npm run benchmark:behavior # controlled motion and paired vision measurements
 
 ## Creatures and sandbox
 
+**Evolvable responses to bites:** Reproduction can now occasionally create a
+new, isolated neural microcircuit linking **actual injury** to a random
+muscle-control channel. Both the sign and gain are inherited and mutable;
+it is not a built-in flee command. In paired short physical trials against
+a stationary biting hunter, a sensor-connected Darter increased swimming
+stroke amplitude, moved farther away and reduced bite damage (270–330 J
+versus 420–450 J in seven bite-contacting setups). Other mutations can
+increase damage, so evolution must select useful circuits. Existing
+founders are not rewritten and no extra thrust or energy is granted.
+These results do not establish escape from pursuing predators or long-term
+survival. The current mechanism is documented in the
+[GitHub Wiki](https://github.com/smeagol44/vidAI/wiki/Sensory-Behavior).
+
 **Somatic threat sensing:** Creature brains now receive a `body:injury`
 input from *real physical bites*, not nearby colors, generic collisions or
 predator labels. Energy physically transferred from a victim by a compatible
