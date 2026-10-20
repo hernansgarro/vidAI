@@ -146,7 +146,7 @@ export const CARDINAL_DIRS: CardinalDir[] = ['EAST', 'WEST', 'NORTH', 'SOUTH'];
 export const ORGAN_SLOTS_PER_FACE = 3;
 // Absolute import bounds. Physical joints reduce the actual number of available slots.
 export const MAX_SURFACE_ORGANS = MAX_PARTS * 4 * ORGAN_SLOTS_PER_FACE;
-export const MAX_NEURAL_INPUTS = MAX_SURFACE_ORGANS * RAYS_PER_EYE * 4 + (MAX_PARTS - 1) * 2 + 6;
+export const MAX_NEURAL_INPUTS = MAX_SURFACE_ORGANS * RAYS_PER_EYE * 4 + (MAX_PARTS - 1) * 2 + 7;
 
 export interface SurfaceOrgan {
   id: string;
@@ -206,7 +206,7 @@ export interface Genome {
   biasesH: number[];     // [hidden neuron]
   weightsHO: number[][]; // [motor key x hidden neuron]
   biasesO: number[];     // [motor key]
-  brainVersion?: 2 | 3 | 4 | 5 | 6;
+  brainVersion?: 2 | 3 | 4 | 5 | 6 | 7;
   hiddenIds?: string[]; // Stable neuron identities; index order defines the matrix axes.
   hiddenTimeConstants?: number[]; // Seconds of leaky activation memory per hidden ID; 0 is the exact legacy update.
   disabledConnections?: string[]; // Canonical edge keys; absent/empty means legacy fully enabled.
@@ -296,6 +296,7 @@ export interface Organism {
   traceHistory?: Array<{x: number; y: number; time: number}>;
   recentFeedings?: FeedingEvent[];
   mouthFeedback?: Record<string, {contact: number; intake: number}>;
+  biteFeedbackJ?: number; // Actual reserve/tissue energy physically bitten since the last neural tick.
 }
 
 export interface Egg {
@@ -1052,7 +1053,7 @@ export function createXavierRecurrentNetwork(customPrng: XoshiroPRNG = rng, inpu
   return {weightsIH, weightsHH, biasesH, weightsHO, biasesO};
 }
 
-export function getBrainLayout(g: Pick<Genome, 'eyes' | 'parts'> & Partial<Pick<Genome, 'mouths'>>, internalSenses = true) {
+export function getBrainLayout(g: Pick<Genome, 'eyes' | 'parts'> & Partial<Pick<Genome, 'mouths'>>, internalSenses = true, injurySense = true) {
   const inputs: string[] = [];
   const labels: string[] = [];
   g.eyes.forEach((eye, e) => {
@@ -1077,6 +1078,7 @@ export function getBrainLayout(g: Pick<Genome, 'eyes' | 'parts'> & Partial<Pick<
   }
   if (internalSenses) {
     inputs.push('body:feeding', 'body:depth'); labels.push('Currently feeding', 'Depth / pressure');
+    if (injurySense) {inputs.push('body:injury'); labels.push('Recently bitten (real energy loss)');}
   }
   const outputs = g.parts.slice(1).flatMap(p => OUTPUT_LABELS.map(channel => `joint:${p.id}:${channel}`));
   return {inputs, labels, outputs};
@@ -1204,12 +1206,12 @@ export function remapBrain(g: Genome, previous: Genome = g): void {
   g.hiddenIds = [...nextHidden];
   g.inputKeys = layout.inputs;
   g.outputKeys = layout.outputs;
-  g.brainVersion = 6;
+  g.brainVersion = 7;
   checkBrainBudget(g);
 }
 
 export function ensureBrainLayout(g: Genome): void {
-  if (g.brainVersion !== 6 || !g.inputKeys || !g.outputKeys || !g.hiddenIds || !g.disabledConnections || !g.hiddenTimeConstants) remapBrain(g);
+  if (g.brainVersion !== 7 || !g.inputKeys || !g.outputKeys || !g.hiddenIds || !g.disabledConnections || !g.hiddenTimeConstants) remapBrain(g);
   checkBrainBudget(g);
 }
 
@@ -1246,6 +1248,7 @@ export function migrateOrganismBrain(org: Organism): void {
   org.neuralHidden = org.genome.hiddenIds!.map(key => memory.get(key) ?? 0);
   org.neuralOutputs = org.genome.outputKeys!.map(key => outputValues.get(key) ?? 0);
   org.mouthFeedback ??= {};
+  org.biteFeedbackJ ??= 0;
   for (const joint of org.joints) { joint.amplitude ??= 1; joint.engagement ??= 1; }
 }
 
@@ -2314,7 +2317,7 @@ export function spawnOrganism(
     dissolveAlpha: 1.0,
     isFeedingHighlight: 0,
     traceHistory: [],
-    recentFeedings: [], mouthFeedback: {},
+    recentFeedings: [], mouthFeedback: {}, biteFeedbackJ: 0;
   };
 }
 
@@ -3200,6 +3203,11 @@ export function stepSimulation(
 
     org.neuralInputs[rayInputIdx++] = g.mouths.some(m => (org.mouthFeedback?.[m.id]?.intake ?? 0) > 0) ? 1 : 0;
     org.neuralInputs[rayInputIdx++] = clampVal(calculateOrganismCOM(org).y / Math.max(1, worldHeight), 0, 1);
+    // The only injury cue is actual energy removed by a *physical mouth bite*,
+    // never nearby color, predator identity, proximity, or ordinary metabolism.
+    // Read once per neural tick, then clear before this tick's feeding pass.
+    org.neuralInputs[rayInputIdx++] = clampVal((org.biteFeedbackJ ?? 0) / 60, 0, 1);
+    org.biteFeedbackJ = 0;
 
     // B. RECURRENT NEURAL EVALUATION. The original dense 24-node loop retains its
     // arithmetic order; explicit disabled keys opt individual edges out.
@@ -3351,6 +3359,10 @@ export function stepSimulation(
           if (transfer <= 0) continue;
           if (reserveBite) prey.energy = Math.max(0, prey.energy - transfer);
           else prey.structuralBiomass = Math.max(0, prey.structuralBiomass - transfer);
+          // Deliver a next-tick proprioceptive injury cue to the victim only.
+          // Transfer is capped by real available reserve/tissue and the mouth's
+          // budget; no phantom damage or energy source is introduced.
+          prey.biteFeedbackJ = (prey.biteFeedbackJ ?? 0) + transfer;
           // The bite that exhausts a living victim is lethal predation, not later starvation.
           // Its remaining tissue is conserved in the edible remains below.
           if (prey.energy <= 0) {
