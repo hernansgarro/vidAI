@@ -24,7 +24,10 @@
   unless their explicit slots say otherwise; do not rewrite living legacy anatomy.
 - Default seeding distributes 18 organisms across up to five uniformly sampled
   distinct designs, with independent genomes. Default nutrients are 400.
-  Specialist mouths transfer 2400 J/s and omnivore mouths 1200 J/s, gross before loss.
+  Specialist mouths transfer 3600 J/s and omnivores 1800 J/s gross
+  before 80% assimilation. Egg reserve funding uses the parent's inherited
+  eggReserveFraction × 10,000 J; retain at least 12% of storage capacity
+  (minimum 2,000 J) in the parent. No unfunded egg or automatic survival aid.
 - Maintenance uses geometric body area, not construction joules. Keep reserve,
   construction energy, storage capacity, and heat/removal accounting distinct.
 - Vision is black except for physical creatures, food and white eggs. Display
