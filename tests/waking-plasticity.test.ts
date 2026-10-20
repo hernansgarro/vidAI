@@ -96,7 +96,7 @@ test('real food absorption, not proximity or mere neural activity, reinforces a 
  close(totalAccountedEnergy(inactive.world),inactive.world.ledger.externalInflow);
  console.log('VIDA_PHASE5_OPERANT '+JSON.stringify({rewardedAngle:rewarded.org.neuralOutputs[motor],
     controlAngle:unrewarded.org.neuralOutputs[motor],
-    somaDeltaJ:learnedTotal(rewarded.org),
+    somaticWeightDeltaMagnitude:learnedTotal(rewarded.org),
     learnedSynapses:rewarded.org.learnedMotorWeights!.length,
     physicalFoodAbsorbed:rewarded.org.recentFeedings!.reduce((sum,e)=>sum+e.energyTransferred,0)}));
 });

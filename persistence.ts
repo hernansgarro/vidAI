@@ -213,6 +213,10 @@ export function restoreSnapshot(input: unknown): {state: SimulationState; settin
     assert(o.joints.every(j => [j.phase, j.targetAngle, j.currentRelAngle, j.currentRelAngVel, j.appliedTorque, j.stiffness].every(Number.isFinite)), 'joint state');
     assert(o.joints.every(j => Number.isFinite(j.amplitude) && j.amplitude! >= 0 && j.amplitude! <= 1.75
       && Number.isFinite(j.engagement) && j.engagement! >= 0 && j.engagement! <= 1), 'motor control state');
+    assert(o.plasticityEnergyRate === undefined ||
+      (typeof o.plasticityEnergyRate === 'number' && Number.isFinite(o.plasticityEnergyRate)
+      && o.plasticityEnergyRate >= 0 && o.plasticityEnergyRate <= 1e6),
+      'plasticity energy meter');
     assert(o.mouthFeedback && typeof o.mouthFeedback === 'object' && !Array.isArray(o.mouthFeedback), 'oral feedback');
     assert(typeof o.biteFeedbackJ === 'number' && Number.isFinite(o.biteFeedbackJ)
       && o.biteFeedbackJ >= 0 && o.biteFeedbackJ <= 1e9, 'bite sensory feedback');
@@ -307,5 +311,9 @@ export function diagnosticReport(s: SimulationState, settings: SimulationSetting
       expenditureJPerSecond: {basal: selected.basalEnergyRate, sensory: selected.sensoryEnergyRate, motor: selected.motorEnergyRate},
       oralFeedback: selected.mouthFeedback, biteFeedbackJ: selected.biteFeedbackJ, motors: selected.joints.map((j, i) => ({partId: selected.genome.parts[i + 1].id,
         amplitude: j.amplitude, engagement: j.engagement, torque: j.appliedTorque})),
-      feedings: selected.recentFeedings} : null};
+      feedings: selected.recentFeedings,
+      lifetimeLearning: {inheritedRate: selected.genome.plasticityRate ?? 0,
+        inheritedForgetRate: selected.genome.forgettingRate ?? 0.1,
+        adaptedMotorSynapses: (selected.learnedMotorWeights ?? []).filter(edge => Math.abs(edge.delta) > 1e-8).length,
+        plasticityEnergyRate: selected.plasticityEnergyRate ?? 0}} : null};
 }

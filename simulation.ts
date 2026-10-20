@@ -3423,6 +3423,9 @@ export function stepSimulation(
     // arithmetic order; explicit disabled keys opt individual edges out.
     const hiddenCount = g.hiddenIds!.length;
     const disabled = g.disabledConnections?.length ? new Set(g.disabledConnections) : null;
+    const learnedMotor = org.learnedMotorWeights?.length
+      ? new Map(org.learnedMotorWeights.map(s => [s.edge, s.delta]))
+      : null;
     for (let h = 0; h < hiddenCount; h++) scratchPrevHidden[h] = org.neuralHidden[h] || 0;
 
     for (let h = 0; h < hiddenCount; h++) {
@@ -3451,14 +3454,10 @@ export function stepSimulation(
       }
       // Acquired synapse offsets alter the neural motor command, not genome
       // weights, and cannot activate a disabled connection.
-      if (org.learnedMotorWeights?.length && g.outputKeys![o].endsWith(':Angle')) {
-        for (const learned of org.learnedMotorWeights) {
-          if (learned.delta === 0) continue;
-          const parsed = JSON.parse(learned.edge) as string[];
-          if (parsed[0] !== 'ho' || parsed[1] !== g.outputKeys![o] ||
-            disabled?.has(learned.edge)) continue;
-          const h = g.hiddenIds!.indexOf(parsed[2]);
-          if (h >= 0) sum += org.neuralHidden[h] * learned.delta;
+      if (learnedMotor && g.outputKeys![o].endsWith(':Angle')) {
+        for (let h = 0; h < hiddenCount; h++) {
+          const edge = brainEdgeKey('ho', g.outputKeys![o], g.hiddenIds![h]);
+          if (!disabled?.has(edge)) sum += org.neuralHidden[h] * (learnedMotor.get(edge) ?? 0);
         }
       }
       org.neuralOutputs[o] = isNaN(sum) ? 0 : Math.tanh(sum);
