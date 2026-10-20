@@ -73,7 +73,6 @@ import {
   NUTRIENT_ENERGY_VALUE,
   CONTINUOUS_EAT_RATE,
   OMNIVORE_EAT_RATE,
-  NUM_HIDDEN,
   ArchetypeId,
   Genome,
   Organism,
@@ -2133,7 +2132,7 @@ export default function App() {
                 <div className="w-full bg-slate-950/90 rounded-2xl p-2 border border-cyan-500/30 flex flex-col items-center shrink-0">
                   <div className="w-full flex justify-between text-[10px] text-slate-400 px-2 mb-1">
                     <span className="text-cyan-400 font-bold">{selectedSpecimen.neuralInputs.length} SENSORY</span>
-                    <span className="text-purple-400 font-bold">24 RECURRENT HIDDEN (h_t)</span>
+                    <span className="text-purple-400 font-bold">{selectedSpecimen.neuralHidden.length} RECURRENT HIDDEN (h_t)</span>
                     <span className="text-amber-400 font-bold">6-CH MOTORS</span>
                   </div>
 
@@ -2363,7 +2362,7 @@ export default function App() {
                     <div className="flex justify-between text-slate-300 pl-2">
                       <span>• Sensory & Neural:</span>
                       <span className="text-indigo-300 font-bold">
-                        {(selectedSpecimen.sensoryEnergyRate ?? (SENSORY_NEURAL_METABOLIC_RATE * (selectedSpecimen.genome.eyes.length * 5 + NUM_HIDDEN + selectedSpecimen.genome.mouths.length * 2))).toFixed(2)} J/s
+                        {(selectedSpecimen.sensoryEnergyRate ?? (SENSORY_NEURAL_METABOLIC_RATE * (selectedSpecimen.genome.eyes.length * 5 + selectedSpecimen.neuralHidden.length + selectedSpecimen.genome.mouths.length * 2))).toFixed(2)} J/s
                       </span>
                     </div>
                     <div className="flex justify-between text-slate-300 pl-2">
@@ -2713,7 +2712,7 @@ export default function App() {
               Recurrent Neural Brains & Hydrodynamic Artificial Life
             </p>
             <p className="text-slate-300 text-sm leading-relaxed mb-6">
-              Observe swimming creatures driven by 24-neuron recurrent neural networks, genuine fluid hydrodynamics, and closed-loop thermodynamics!
+              Observe swimming creatures driven by inherited recurrent neural networks, genuine fluid hydrodynamics, and closed-loop thermodynamics!
             </p>
 
             <div className="w-full flex flex-col gap-3">
@@ -2856,7 +2855,7 @@ export default function App() {
               <div className="bg-slate-950/60 p-3 rounded-xl border border-cyan-500/30">
                 <h4 className="font-bold text-cyan-400 mb-1">1. Recurrent Neural Networks (RNN)</h4>
                 <p>
-                  Eyes see creatures, food and white eggs fading into black with distance; walls and visual effects are invisible. Each organism is powered by a 24-neuron recurrent neural controller (h_t = tanh(W_in &middot; x_t + W_rec &middot; h_t-1 + b)), capable of short-term memory, rhythmic oscillators, and goal-directed swimming.
+                  Eyes see creatures, food and white eggs fading into black with distance; walls and visual effects are invisible. Each organism has an inherited recurrent neural controller (24 hidden neurons in original founders, with support for other bounded sizes). Its tanh recurrence provides short-term state for steering and rhythmic control; reliable goal-directed foraging is not yet established.
                 </p>
               </div>
 
