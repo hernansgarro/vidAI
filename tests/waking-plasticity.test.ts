@@ -1,5 +1,8 @@
 import assert from 'node:assert/strict';
 import {test} from 'node:test';
+import React from 'react';
+import {renderToStaticMarkup} from 'react-dom/server';
+import BrainGraph from '../BrainGraph';
 import * as sim from '../simulation';
 import {createFounderGenome, FOUNDER_BLUEPRINTS} from '../founders';
 import {createInitialWorld, addExternalOrganism} from '../world';
@@ -88,6 +91,11 @@ test('real food absorption, not proximity or mere neural activity, reinforces a 
  assert.ok(rewarded.org.neuralOutputs[motor]>unrewarded.org.neuralOutputs[motor]+.03,
    'the same internal stimulus produces a measurably stronger rewarded Angle command in the same lifetime');
  close(unrewarded.org.neuralOutputs[motor], inactive.org.neuralOutputs[motor],1e-12);
+ const inspector=renderToStaticMarkup(React.createElement(BrainGraph,
+   {organism:rewarded.org,threshold:.01}));
+ assert.match(inspector,/Lifetime learning/);
+ assert.match(inspector,/acquired/);
+ assert.match(inspector,/energy cost/);
  assert.deepEqual(rewarded.org.genome,immutable,'acquired changes never rewrite heritable genome weights');
  assert.equal(rewarded.org.genome.weightsHO[motor][0],1);
  assert.ok(Math.abs(rewarded.org.neuralOutputs[motor])<=1);
@@ -178,4 +186,28 @@ test('malicious acquired weights are rejected on load: identity, bounds, disable
   s.state.organisms[0].genome.disabledConnections!.push(rec.edge);
  });
  reject(s=>{s.state.organisms[0].genome.plasticityRate=0;});
+});
+
+test('learned plasticity charges finite upkeep and rewrite energy even without external feeding',()=>{
+ const {world,org}=setup(.8,false);
+ const before=totalAccountedEnergy(world);
+ // An inactive, quiet network still spends maintenance for plastic potential,
+ // even if there was no food feedback and no synapse could be reinforced.
+ const heat=world.ledger.metabolicDissipation;
+ const reserve=org.energy;
+ const cost=sim.applyWakingPlasticity(org,dt,world.ledger);
+ close(cost,sim.plasticMotorEdges(org.genome).length*sim.PLASTIC_UPKEEP_J_PER_EDGE_SECOND*dt,1e-10);
+ close(reserve-org.energy,cost,1e-10);
+ close(world.ledger.metabolicDissipation-heat,cost,1e-10);
+ assert.equal(learnedTotal(org),0);
+ close(totalAccountedEnergy(world),before);
+ // No imaginary energy line of credit: underfunded creatures can do no
+ // more rewriting than their remaining usable energy can actually pay for.
+ org.energy=.00001;
+ world.ledger.recordedLosses+=reserve-cost-org.energy;
+ const low=sim.applyWakingPlasticity(org,dt,world.ledger);
+ assert.ok(low<=.00001 && low>0);
+ close(org.energy,0,1e-8);
+ assert.equal(learnedTotal(org),0);
+ close(totalAccountedEnergy(world),before);
 });
