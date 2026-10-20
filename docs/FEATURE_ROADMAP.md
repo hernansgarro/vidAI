@@ -1,4 +1,4 @@
-# VIDA: remaining features — 2026-10-20 / v0.7.0
+# VIDA: remaining features — 2026-10-20 / v0.8.0
 
 This is a focused review of the current 2D source, not an implementation promise.
 Small changes fit the existing systems. Big changes affect simulation architecture,
@@ -21,7 +21,7 @@ distinguished below from gaps in existing systems.
 | --- | --- |
 | Reliable sensory-driven behavior | Founders have phased gaits and a weak retinal steering prior, not demonstrated dependable foraging, pursuit or escape. Evaluate and improve inherited controllers using only their actual senses. Strong swimming alone does not demonstrate intelligent behavior. |
 | Biological trait trade-offs | `eggReserveFraction` is inherited/mutated but not used when funding eggs; egg cost currently uses a fixed 10,000 J reserve plus construction. Maintenance efficiency also needs a meaningful benefit/cost trade-off. Preserve energy conservation when completing or retiring these traits. |
-| Evolvable neural structure | Hidden size is fixed at 24; dense weights evolve, hidden neurons/connections are not structurally added or removed. Add bounded topology changes, stable identities, migration and appropriate upkeep. More neurons alone do not guarantee better behavior. |
+| Evolvable neural structure | Phase 1 now supports stable hidden IDs, 1–96 neurons, explicit disabled edges and schema migration; founders remain unchanged at 24. **Pending Phase 2:** inherited structural growth/pruning, safe connection mutation, deterministic limits and calibrated upkeep. Increased size alone does not guarantee better behavior. |
 | Growth, injury and gradual aging | Juvenile/adult/aging labels exist, but real body growth, local tissue injury/repair and gradual senescence are absent. These require consistent mass, geometry, energy and controller updates. |
 | Environment and communication (optional) | Currents and resource patches could create niches. Chemical or acoustic organs would add new physical signals and sensory channels. Current sound effects are presentation, not creature communication. Implement these as separate systems, not one large update. |
 | Performance at larger populations | Body contacts have spatial indexing; sight still scans objects. Index perception and move the simulation to a Worker while preserving deterministic stepping and UI responsiveness. |
