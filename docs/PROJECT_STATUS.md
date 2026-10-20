@@ -1,5 +1,32 @@
 # Project status — 2026-10-20
 
+## Inherited spectral sensitivity — v0.18.0
+
+- Per-eye optional red/green/blue receptor gains, each 0–1, now multiply
+  physically attenuated ray RGB. An undetectable surface cannot leak its
+  range through the neural distance channel. Physical occlusion and
+  read-only diagnostic hit types remain; no classification oracle or
+  hidden prey guidance is added.
+- All 55 founders and imported genomes missing the trait retain exactly
+  their previous visual signals and metabolic rates. Descendants can
+  independently lose, weaken and re-evolve receptors; sensory upkeep
+  falls with mean receptor sensitivity but never below 25% of an eye's
+  original neural sensory cost. Actual energy leaves the conserved ledger.
+- Green-only organism pigment can be invisible to an eye with its green
+  receptor absent. Plant nutrients also reflect red/blue, so that same
+  eye is **not** necessarily blind to real food. No guaranteed camouflage,
+  hunting or survival outcomes are claimed.
+- Save schema remains v11 / brain v7 with an optional strictly validated
+  eye allele; current and historical saves retain exact continuation.
+  New fast tests cover realistic retinal controls, inheritance, mutation,
+  save exactness, metabolic trade-offs and strict invalid-input rejection.
+  Wiki reference is maintained in place and published after merging.
+- Roadmap now separates supplemental behavior work B-A–B-D from **original
+  Phase 5 lifetime learning** and **original Phase 6 optional sleep/replay**.
+  Mobile retinal pursuit and B-D ecological survival/funded-reproduction
+  measurement remain for subsequent bounded releases.
+
+
 ## Phase 5C: moving hunters and morphology dependence — v0.17.0 (CI verified)
 
 - Controlled, deterministic, short physical trials paired identical

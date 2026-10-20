@@ -158,6 +158,18 @@ export interface SurfaceOrgan {
 export interface SensoryEye extends SurfaceOrgan {
   fov: number; // in radians
   range: number; // optical distance
+  spectralSensitivity?: [number, number, number]; // Inherited red/green/blue receptor gains (0..1). Absent = legacy [1,1,1].
+}
+
+/** Five physical rays per eye remain; attenuated receptor activity has an
+ * energy cost, while even a fully blind eye retains 25% structural upkeep.
+ * Omitted alleles exactly preserve the original sensory metabolic rate. */
+export function eyeSensoryUpkeep(eyes: readonly SensoryEye[]): number {
+  return eyes.reduce((sum, eye) => {
+    const receptors = eye.spectralSensitivity;
+    const active = receptors ? (receptors[0] + receptors[1] + receptors[2]) / 3 : 1;
+    return sum + RAYS_PER_EYE * (0.25 + 0.75 * active);
+  }, 0);
 }
 
 export interface SensoryMouth extends SurfaceOrgan {
@@ -2247,6 +2259,21 @@ export function mutateGenome(parent: Genome, severity = 0.25, customPrng: Xoshir
       part.waveHarmonics = harmonics;
     }
   }
+  // Independently inherited spectral gains arise in offspring without adding
+  // neural channels or changing existing founder/save genotypes. A receptor can
+  // disappear exactly (0), reappear, or change continuously; no diet oracle.
+  for (const eye of child.eyes) {
+    if (customPrng.nextFloat() < mutChance * 0.55) {
+      const gains = [...(eye.spectralSensitivity ?? [1, 1, 1])] as [number, number, number];
+      const channel = customPrng.rangeInt(0, 2);
+      if (customPrng.nextFloat() < 0.15) {
+        gains[channel] = gains[channel] === 0 ? customPrng.range(0.1, 0.5) : 0;
+      } else {
+        gains[channel] = clampVal(gains[channel] + customPrng.range(-0.85, 0.35) * mutScale, 0, 1);
+      }
+      eye.spectralSensitivity = gains;
+    }
+  }
   return child;
 }
 
@@ -3198,10 +3225,20 @@ export function stepSimulation(
         const finalG = (1 - expTerm) * WATER_AMBIENT_RGB[1] + expTerm * hitG;
         const finalB = (1 - expTerm) * WATER_AMBIENT_RGB[2] + expTerm * hitB;
 
-        org.neuralInputs[rayInputIdx++] = finalR;
-        org.neuralInputs[rayInputIdx++] = finalG;
-        org.neuralInputs[rayInputIdx++] = finalB;
-        org.neuralInputs[rayInputIdx++] = clampVal(closestDist / maxRange, 0, 1);
+        // Receptors filter received light, not geometry. A fully invisible
+        // surface still occludes what is physically behind it; crucially the
+        // distance input cannot reveal a surface with no spectral response.
+        // A legacy eye omitting the allele receives exactly the old values.
+        const gains = eye.spectralSensitivity;
+        const sensedR = gains ? finalR * gains[0] : finalR;
+        const sensedG = gains ? finalG * gains[1] : finalG;
+        const sensedB = gains ? finalB * gains[2] : finalB;
+        const opticallyDetected = sensedR > 1e-12 || sensedG > 1e-12 || sensedB > 1e-12;
+        org.neuralInputs[rayInputIdx++] = sensedR;
+        org.neuralInputs[rayInputIdx++] = sensedG;
+        org.neuralInputs[rayInputIdx++] = sensedB;
+        org.neuralInputs[rayInputIdx++] = opticallyDetected
+          ? clampVal(closestDist / maxRange, 0, 1) : 1;
 
         org.rayHits.push({
           eyeId: eye.id, rayIndex: r,
@@ -3209,9 +3246,9 @@ export function stepSimulation(
           dist: closestDist,
           pointX: hitX,
           pointY: hitY,
-          r: finalR,
-          g: finalG,
-          b: finalB,
+          r: sensedR,
+          g: sensedG,
+          b: sensedB,
           objectType: hitType,
         });
       }
@@ -3307,7 +3344,7 @@ export function stepSimulation(
     // enabled synapses cost energy; disabled/pruned edges save it.
     const referenceEdges = NUM_HIDDEN * (g.inputKeys!.length + NUM_HIDDEN + g.outputKeys!.length);
     const sensoryRate = Math.max(0,
-      SENSORY_NEURAL_METABOLIC_RATE * (g.eyes.length * 5 + g.hiddenIds!.length + g.mouths.length * 2)
+      SENSORY_NEURAL_METABOLIC_RATE * (eyeSensoryUpkeep(g.eyes) + g.hiddenIds!.length + g.mouths.length * 2)
       + NEURAL_EDGE_METABOLIC_RATE * (enabledBrainEdgeCount(g) - referenceEdges)
       + memoryUpkeep(g));
     const motorRate = frameMechanicalWork / dt;

@@ -68,6 +68,18 @@
   not active visual pursuit. The Brain inspector shows the real injury
   neural signal, next-tick queued bite energy, and enabled inherited
   input synapses without introducing a new simulation cue.
+- B-C inherited eye spectra: each eye may optionally store `spectralSensitivity` as
+  three validated 0–1 RGB gains; absent means [1,1,1] and must preserve
+  legacy retina, costs, saves and founder reproduction baselines. Filter
+  water-attenuated RGB, mask neural distance to 1 when *no* spectral response,
+  and retain physical occlusion. Sensor upkeep is 5 × (0.25 + 0.75 ×
+  mean gains) per eye, charged through the existing conserved sensory ledger.
+  Offspring mutations can produce exact 0 and later regain sensitivity,
+  without prey identity, free movements or new brain inputs. Use
+  `tests/spectral-vision.test.ts` for short causal controls.
+- Labels B-A–B-D describe the supplemental behavior workstream, distinct
+  from original Phase 5 (not-yet-implemented lifetime synaptic learning)
+  and original Phase 6 (optional sleep/replay after learning works).
 - Phase 5C inherited visual steering: for newly created FND-001 in balanced
   mode only, retinal->hidden gain is 1.5 (other founders .2) and the
   hidden->joint Angle prior is (-.5, +.5) rather than (+.04, -.04).

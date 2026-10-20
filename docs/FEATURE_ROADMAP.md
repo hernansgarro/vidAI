@@ -1,4 +1,4 @@
-# VIDA: remaining features — 2026-10-20 / v0.17.0
+# VIDA: remaining features — 2026-10-20 / v0.18.0
 
 This is a focused review of the current 2D source, not an implementation promise.
 Small changes fit the existing systems. Big changes affect simulation architecture,
@@ -18,7 +18,7 @@ distinguished below from gaps in existing systems.
 
 | Work | Current state and intended improvement |
 | --- | --- |
-| Reliable sensory-driven behavior | The balanced Darter has measured retinal food approach and evolving injury-sensing motor circuits. New paired real-physics tests against self-propelled hunters report 6 improved, 2 tied, 1 worsened outcomes among 9 biting starts, with 6 no-bite setups excluded. Across five body types and 15 genuine biting encounters, the same injury response improves 5, worsens 6, ties 4. The Brain inspector exposes the actual injury signal, pending energy and active inherited synapses. Next: demonstrate sensory pursuit by **turning/tracking hunters**, morphology-specific adaptation, and heritable fitness under selection before Phase 5D. |
+| Reliable sensory-driven behavior | The balanced Darter has measured retinal food approach and evolving injury-sensing motor circuits. New paired real-physics tests against self-propelled hunters report 6 improved, 2 tied, 1 worsened outcomes among 9 biting starts, with 6 no-bite setups excluded. Across five body types and 15 genuine biting encounters, the same injury response improves 5, worsens 6, ties 4. The Brain inspector exposes the actual injury signal, pending energy and active inherited synapses. Per-eye inherited RGB receptor gains (including zero) and metabolic sensing costs now evolve, without altering legacy genomes; spectral suppression can hide purely green surfaces but does not erase red/blue reflections from real food. Next: test mobile **turning/tracking hunters** against blinded/disconnected controls before behavior baseline B-D. |
 | Biological trait trade-offs | Egg reserve allocation now affects the actual funded hatchling reserve, parental energy cost and first-egg threshold; a higher allele improves starting reserves but delays reproduction. Parent survival floor and faster physical feeding were rebalanced in v0.10. Pending: review unused `reproductionThreshold` and other inherited efficiency/storage trade-offs separately without disguising them as guaranteed improvements. |
 | Evolvable neural structure | Phases 1–2 support changing hidden sizes (1–96), neuron identity, inherited connection masks and bounded upkeep. Phase 4 adds per-hidden-neuron inherited activation memory (0–4 s) with tau=0 original baseline and an explicit upkeep cost. Memory timescales are not synaptic learning or dreaming: living organisms still cannot update weights or grow structure within life. Controlled tests have not demonstrated improved foraging or long-term survival. |
 | Growth, injury and gradual aging | Juvenile/adult/aging labels exist, but real body growth, local tissue injury/repair and gradual senescence are absent. These require consistent mass, geometry, energy and controller updates. |
@@ -26,29 +26,46 @@ distinguished below from gaps in existing systems.
 | Performance at larger populations | Body contacts have spatial indexing; sight still scans objects. Index perception and move the simulation to a Worker while preserving deterministic stepping and UI responsiveness. |
 | Experiment archives and comparison | Current branching replaces the active world with a cloned snapshot; it does not retain multiple named worlds for switching/comparison. Add an archive, event history and repeatable cross-seed comparisons. Deterministic snapshot continuation already exists; playback/rewind does not. |
 
-## Recommended order
+## Milestones, without overlapping phase numbers
 
-- **Phase 5B: Evolvable locomotion — implemented.** Inherited oscillator
-  mixing (including no wave), independently controlled direct joint-angle
-  commands, smooth inherited waveform harmonics, maintained torque/drag
-  physics and backward-compatible sine-only founders. Coordinate evolving
-  motor strategies with measurable foraging rather than scripted thrust.
-- **Phase 5C: Sensory-driven foraging/avoidance — in progress.** The
-  balanced Three-link Darter now demonstrably follows real off-axis green
-  food using inherited retinal neural weights, without scripted steering.
-  Physically grounded injury feedback can now grow an isolated inherited
-  neuron-to-joint circuit through stochastic mutation, with proven lower
-  damage against a *stationary biting hunter* for one genotype. Continue
-  with **sight-guided hunters that actually turn and track prey** rather
-  than only moving in a preexisting heading. Evolve body-specific motor
-  policies instead of assuming that one Amp response generalizes, and
-  demonstrate selection across generations before finishing this phase.
-- **Phase 5D: Ecological validation — subsequently.** Assess actual nutrient
-  income, survival and reproduction across multiple fixed seeds, without
-  fabricating ecological fitness or inserting survival subsidies.
-- Research optional lifetime neural plasticity/rest separately once basic
-  motor and sensory behavior is demonstrably effective.
+The **original implementation handoff** specified Phases **1–6**. Phases 1
+(variable brain size), 2 (inherited brain-structure mutations), 3 (biological
+trait/egg trade-offs in the completed core scope) and 4 (evolvable activation
+memory timescales) are implemented. They are **not** evidence of learning
+within one creature's life.
 
+The subsequently added behavior sequence is now labeled **B-A through B-D**,
+rather than confusingly reusing the original Phase 5:
+
+- **B-A — movement/retinal diagnostics:** completed (previously 5A).
+- **B-B — evolvable physical motor control:** completed (previously 5B).
+- **B-C — sensory-driven feeding/predation/defense:** in progress (previously
+  5C). Short real-physics trials show the balanced Darter tracking food
+  using inherited neural weights; certain inherited injury circuits reduce
+  biting in some conditions. RGB receptor sensitivities and their sensing
+  costs now evolve. Remaining bounded closure: **a genuinely turning,
+  retinal-guided mobile hunter**, compared to blinded/disconnected genetic
+  controls. Neither passive swimming nor pre-existing feeding guarantees
+  pursuit.
+- **B-D — compact ecology baseline:** next (previously 5D). Short seeded
+  measures of real feeding, survival, death and funded reproduction,
+  recording negative outcomes without survival subsidies or mass tuning of
+  the 55 founders.
+
+- **Original Phase 5 — waking lifetime learning:** **not implemented**.
+  Evolve bounded plasticity and forgetting; track personal learned synaptic
+  changes separate from genome weights, charge energy for updates and preserve
+  exact saved state. Demonstrate *within-life* learned improvement, not
+  inherited selection or neuron activation memory.
+- **Original Phase 6 — optional rest/sleep and replay:** **not implemented**.
+  Only consider after waking learning demonstrably works. Bound experience
+  buffers and computation, leave resting organisms physically vulnerable and
+  energetically accountable, and compare against equal-compute waking learning.
+  World-model dreaming is a later optional idea, not an existing feature.
+
+Do not prune the 55 founders now. Once core behavior, learning and ecological
+evaluation exist, curate approximately eight differentiated **featured**
+starters while keeping archive Bank designs and old saves usable.
 
 Monitor performance only if measured bottlenecks arise.
 
