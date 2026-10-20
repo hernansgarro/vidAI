@@ -72,6 +72,7 @@ import {
   NEURAL_EDGE_METABOLIC_RATE,
   NUM_HIDDEN,
   enabledBrainEdgeCount,
+  brainEdgeKey,
   memoryUpkeep,
   BASE_FOUNDER_AREA,
   NUTRIENT_ENERGY_VALUE,
@@ -2217,6 +2218,22 @@ export default function App() {
                     {' · '}max τ {Math.max(0, ...selectedSpecimen.genome.hiddenTimeConstants!).toFixed(2)} s
                     {' · '}memory upkeep {memoryUpkeep(selectedSpecimen.genome).toFixed(2)} J/s
                   </div>
+                  {(() => {
+                    const injuryIndex = selectedSpecimen.genome.inputKeys?.indexOf('body:injury') ?? -1;
+                    if (injuryIndex < 0) return null;
+                    const actualConnections = selectedSpecimen.genome.weightsIH.reduce((n, row, h) =>
+                      n + Number(Math.abs(row[injuryIndex] ?? 0) > 1e-10
+                        && !selectedSpecimen.genome.disabledConnections?.includes(
+                          brainEdgeKey('ih', selectedSpecimen.genome.hiddenIds![h], 'body:injury'))), 0);
+                    return (
+                      <div className="px-2 mb-1 text-[10px] text-slate-400 self-start" data-testid="injury-telemetry"
+                        title="The injury signal comes only from actual energy removed by biting mouths. The pending energy will be sensed on the next neural update; a wired neuron does not guarantee escape.">
+                        Bite signal {(selectedSpecimen.neuralInputs[injuryIndex] ?? 0).toFixed(2)} / 1
+                        {' · '}queued {formatJoules(selectedSpecimen.biteFeedbackJ ?? 0)}
+                        {' · '}{actualConnections} active injury-input synapses
+                      </div>
+                    );
+                  })()}
                   <div className="w-full px-2 pb-2 text-[10px] text-slate-400" data-testid="motor-telemetry">
                     {selectedSpecimen.joints.map((j, i) => <span key={selectedSpecimen.genome.parts[i + 1].id} className="inline-block mr-3">
                       J{i + 1}: stroke {Math.round((j.amplitude ?? 1) * 100)}% · engaged {Math.round((j.engagement ?? 1) * 100)}%

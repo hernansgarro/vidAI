@@ -48,6 +48,18 @@ These results do not establish escape from pursuing predators or long-term
 survival. The current mechanism is documented in the
 [GitHub Wiki](https://github.com/smeagol44/vidAI/wiki/Sensory-Behavior).
 
+**Moving-predator results:** Against a self-propelled articulated
+omnivore, an inherited injury-to-motor circuit reduced actual bite
+damage in **6 of 9 biting scenarios**, tied twice, and increased it
+once. Six other starting positions produced no bite and were excluded
+from escape claims. When applied to five very different body plans,
+the response improved **5 of 15** biting setups, worsened **6**, and
+tied **4**. The result is useful as evidence that morphology matters,
+not that predators can be reliably escaped. These hunters swim using
+real joints and water drag but **do not actively home toward prey**.
+The selected creature's Brain inspector now displays actual neural
+injury signal, queued bitten joules and enabled injury-input wiring.
+
 **Somatic threat sensing:** Creature brains now receive a `body:injury`
 input from *real physical bites*, not nearby colors, generic collisions or
 predator labels. Energy physically transferred from a victim by a compatible

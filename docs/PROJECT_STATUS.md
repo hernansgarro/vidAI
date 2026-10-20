@@ -1,5 +1,51 @@
 # Project status — 2026-10-20
 
+## Phase 5C: moving hunters and morphology dependence — v0.17.0 (CI verified)
+
+- Controlled, deterministic, short physical trials paired identical
+  inherited injury-to-motor genes with their **disconnected injury**
+  counterfactual, using a self-propelled articulated omnivore as
+  hunter. The hunter moves via its own joint torque and water drag;
+  there is NO target-coordinate guidance or artificial movement. It
+  swims at a fixed inherited gait/heading and **does not actively
+  turn to pursue fleeing prey**. Energy conservation is checked on
+  every scenario.
+- For the Three-link Darter, 15 paired starts sampled hunter frequency
+  factors 1, 1.5 and 2.2 × separations 82, 94, 106, 118, 130 px.
+  In **nine truly biting** setups the same injury-linked circuit
+  reduced stolen energy in **six**, tied in **two** and increased it
+  in **one**. The other six had no bite at all, so cannot establish
+  escape. One condition (speed factor 1, gap 106) showed 360 versus
+  2,490 J, but another (factor 1.5, gap 106) showed **270 versus
+  210 J**: genetic benefit is context-dependent.
+- In a separate 2-second probe, the predator was positioned by the
+  actual **rear body surface** of five prey body plans—Three-link
+  Darter, Twin Oar, Fourway Fan, Barrelfin and Moonbell Jellyfish.
+  All 15 matched starts involved real bites. Outcome counts:
+  **five reduced damage, six increased damage and four ties**,
+  despite identical input wiring policy. Morphology-specific
+  coordination and selection, not a guaranteed reflex, are needed.
+- In some mobile encounters a reduction in damage did *not*
+  coincide with increased final separation; both outcomes are
+  reported independently. Unobserved pursuit behavior, population
+  survival, predator recognition, ecological selection, and long-term
+  reproduction remain unproven. Phase 5C is still in progress.
+- The selected creature's Brain inspector now displays actual
+  neural injury signal (0–1), queued energy from physical bites,
+  and enabled hidden-neuron injury synapses. Read-only telemetry
+  cannot change creature state, behavior or energy accounting.
+- The current-state feature page `docs/wiki/Sensory-Behavior.md`
+  is synchronized into the real GitHub Wiki by Actions when merged.
+  `tests/moving-hunter.test.ts` adds paired, contact-validated,
+  energy-conserving fast checks, with no long ecosystem/browser run.
+- GitHub Actions PR workflow **#39416455376** on commit
+  `585a5d10` passed **138/138 fast tests**, TypeScript checking and
+  the production Vite build. Tests cover real hunter displacement,
+  bite-contact gating, paired somatic wiring, five body shapes,
+  energy conservation and the pre-existing brain/save invariants.
+  No long ecosystem runs or browser tests were performed.
+
+
 ## Phase 5C: inherited motor-escape innovation — v0.16.0 (CI verified)
 
 - Real-physics paired tests used identical FND-001 Three-link Darters
