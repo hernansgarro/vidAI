@@ -57,21 +57,58 @@ function trial(response:Response, hunterSpeed:number, separation:number, hunterA
    finalSeparation:+Math.hypot(endH.x-endP.x,endH.y-endP.y).toFixed(1),surviving:!prey.dissolving,
    predatorEnergy:hunter.energy, victimEnergy:prey.energy};
 }
-test('baseline moving-hunter/contact geometry sweep (short physical trial, no scripted movement)',()=>{
+test('a mobile, swimming hunter exposes protective and harmful inherited bite responses', () => {
  const results=[];
- for(const hunterSpeed of [1,1.5,2.2])for(const separation of [82,94,106,118,130])
-  for(const response of ['connected','disconnected'] as Response[])
-   results.push(trial(response,hunterSpeed,separation));
- console.log('PHASE5C_MOBILE_SCOUT '+JSON.stringify(results));
+ let wins=0,losses=0,ties=0,contacts=0,untouched=0;
+ for(const hunterSpeed of [1,1.5,2.2])for(const separation of [82,94,106,118,130]) {
+   const connected=trial('connected',hunterSpeed,separation);
+   const disconnected=trial('disconnected',hunterSpeed,separation);
+   assert.ok(Math.abs(connected.hunterDx)>15 && Math.abs(disconnected.hunterDx)>15,
+     'hunter must swim physically rather than being a stationary target');
+   assert.ok(connected.surviving && disconnected.surviving);
+   if(disconnected.biteJ===0) {
+     assert.equal(connected.biteJ,0,'no bite is not evidence of escaping one');
+     untouched++;
+   } else {
+     assert.ok(connected.peakSignal>0 && disconnected.peakSignal>0);
+     contacts++;
+     if(connected.biteJ<disconnected.biteJ) wins++;
+     else if(connected.biteJ>disconnected.biteJ) losses++;
+     else ties++;
+   }
+   results.push({speed:hunterSpeed,startSeparation:separation,withInjury:connected.biteJ,
+     withoutInjury:disconnected.biteJ,hunterTravel:connected.hunterDx,
+     withSeparation:connected.finalSeparation,withoutSeparation:disconnected.finalSeparation});
+ }
+ assert.equal(contacts,9);
+ assert.equal(untouched,6);
+ assert.ok(wins>=6 && losses>=1 && ties>=1,
+   'a somatic circuit is useful in some moving encounters, but not universally protective');
+ console.log('PHASE5C_MOBILE_VALIDATION '+JSON.stringify({wins,losses,ties,untouched,results}));
 });
 
-test('different body plans: physical rear-edge contact and freely moving predator diagnostic',()=>{
+test('five morphologies show both beneficial and harmful physical injury responses, not universal escape', () => {
  const observations=[];
+ let wins=0,losses=0,ties=0;
  for(const preyId of ['FND-001','FND-006','FND-021','FND-031','FND-051']) {
    for(const overlap of [3,6,9]) {
-     for(const response of ['connected','disconnected'] as Response[])
-       observations.push(trial(response,1.5,overlap,0,preyId,120,true));
+     const connected=trial('connected',1.5,overlap,0,preyId,120,true);
+     const disconnected=trial('disconnected',1.5,overlap,0,preyId,120,true);
+     assert.ok(Number.isFinite(connected.finalSeparation)&&Number.isFinite(disconnected.finalSeparation));
+     assert.ok(connected.biteJ>0 && disconnected.biteJ>0,
+       'all included body geometries must have real predation');
+     assert.ok(Math.abs(connected.hunterDx)>1 && Math.abs(disconnected.hunterDx)>1);
+     assert.ok(connected.peakSignal>0 && disconnected.peakSignal>0);
+     if(connected.biteJ<disconnected.biteJ) wins++;
+     else if(connected.biteJ>disconnected.biteJ) losses++;
+     else ties++;
+     observations.push({preyId,rearOverlap:overlap,withInjury:connected.biteJ,
+       withoutInjury:disconnected.biteJ,hunterTravel:connected.hunterDx,
+       withSeparation:connected.finalSeparation,withoutSeparation:disconnected.finalSeparation});
    }
  }
- console.log('PHASE5C_MULTIMORPH_SCOUT '+JSON.stringify(observations));
+ assert.equal(observations.length,15);
+ assert.ok(wins>=5 && losses>=6 && ties>=3,
+   'one inherited neural circuit must not be advertised as broadly beneficial');
+ console.log('PHASE5C_MULTIMORPH_VALIDATION '+JSON.stringify({wins,losses,ties,observations}));
 });
