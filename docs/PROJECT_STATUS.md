@@ -1,6 +1,6 @@
 # Project status — 2026-10-20
 
-## Phase 1 neural architecture — version 0.8.0 (PR validation pending)
+## Phase 1 neural architecture — version 0.8.0 (PR validated)
 
 - Short wiring audit: retinal channel ordering, body/mouth feedback, six-joint
   motor outputs, recurrent state and founder steering priors agree with the
@@ -20,9 +20,11 @@
   Existing neural energy upkeep is scaled by actual neuron count, without
   introducing extra edge charges ahead of Phase 2 cost calibration.
 - New focused tests cover identity migration, variable sizes, masked-edge
-  execution/display, v8 compatibility, exact continuation, and bad imports.
-  Validation results will be recorded after CI runs; no long simulations or
-  browser checks are needed for this foundation.
+  execution/display, v8 compatibility, exact continuation, invalid imports
+  and a truly over-budget genome built from valid anatomy.
+  GitHub Actions PR run #39378991393 on commit `8e97e7b4`: **87/87
+  fast tests passed**, TypeScript and production build passed. The full suite
+  and browser tests were intentionally skipped; this PR did not deploy Pages.
 
 
 
