@@ -62,6 +62,7 @@ import organismEggUrl from './assets/images/organism_egg.png';
 import nutrientParticleUrl from './assets/images/nutrient_particle.png';
 import dnaHelixIconUrl from './assets/images/dna_helix_icon.png';
 import ambientMusicUrl from './assets/audio/ambient_deep_water_bgm.mp3';
+import alternateMusicUrl from './assets/audio/coral_depths.mp3';
 
 import {
   XoshiroPRNG,
@@ -167,10 +168,11 @@ function readAudioVolume(key: string, fallback: number): number {
 }
 
 function AudioControls({sfxVolume, musicVolume, sfxMuted, musicMuted,
-  onSfxVolume, onMusicVolume, onSfxMute, onMusicMute}: {
+  onSfxVolume, onMusicVolume, onSfxMute, onMusicMute, musicTrack, onMusicTrack}: {
   sfxVolume: number; musicVolume: number; sfxMuted: boolean; musicMuted: boolean;
   onSfxVolume: (volume: number) => void; onMusicVolume: (volume: number) => void;
   onSfxMute: () => void; onMusicMute: () => void;
+  musicTrack: 'track1' | 'track2'; onMusicTrack: (track: 'track1' | 'track2') => void;
 }) {
   return <div className="w-full grid grid-cols-2 gap-3 my-1">
     {[
@@ -193,6 +195,15 @@ function AudioControls({sfxVolume, musicVolume, sfxMuted, musicMuted,
           className="w-full accent-cyan-400 cursor-pointer" />
       </label>
     </div>)}
+    <label className="col-span-2 flex items-center justify-between gap-3 text-xs font-mono text-slate-300">
+      Music track
+      <select aria-label="Music track" value={musicTrack}
+        onChange={(e) => onMusicTrack(e.target.value === 'track2' ? 'track2' : 'track1')}
+        className="bg-slate-800 border border-slate-700 rounded-lg px-3 py-1.5 text-cyan-300">
+        <option value="track1">Track 1</option>
+        <option value="track2">Track 2</option>
+      </select>
+    </label>
   </div>;
 }
 
@@ -247,6 +258,13 @@ export default function App() {
   const [sfxMuted, setSfxMuted] = useState(false);
   const [sfxVolume, setSfxVolume] = useState(() => readAudioVolume('vida:sfxVolume', 0.6));
   const [musicVolume, setMusicVolume] = useState(() => readAudioVolume('vida:musicVolume', getConfig('defaultMusicVolume')));
+  const [musicTrack, setMusicTrack] = useState<'track1' | 'track2'>(() => {
+    try { return localStorage.getItem('vida:musicTrack') === 'track2' ? 'track2' : 'track1'; }
+    catch { return 'track1'; }
+  });
+  useEffect(() => {
+    try { localStorage.setItem('vida:musicTrack', musicTrack); } catch {}
+  }, [musicTrack]);
   useEffect(() => {
     gameAudio.setVolume(sfxVolume);
     try { localStorage.setItem('vida:sfxVolume', String(sfxVolume)); } catch {}
@@ -1316,7 +1334,7 @@ export default function App() {
         </div>
       )}
 
-      <BackgroundMusic url={ambientMusicUrl} isPlaying={isMusicPlaying} isMuted={musicMuted} volume={musicVolume} />
+      <BackgroundMusic key={musicTrack} url={musicTrack === 'track2' ? alternateMusicUrl : ambientMusicUrl} isPlaying={isMusicPlaying} isMuted={musicMuted} volume={musicVolume} />
 
       {/* TOP DEDICATED TELEMETRY HUD BAR */}
       <header className="w-full bg-slate-900/95 border-b border-cyan-500/20 backdrop-blur-md px-3 py-2 flex flex-wrap items-center justify-between gap-2 z-20 shrink-0">
@@ -2711,7 +2729,8 @@ export default function App() {
                 sfxMuted={sfxMuted} musicMuted={musicMuted}
                 onSfxVolume={setSfxVolume} onMusicVolume={setMusicVolume}
                 onSfxMute={() => setSfxMuted(gameAudio.toggleMute())}
-                onMusicMute={() => setMusicMuted(prev => !prev)} />
+                onMusicMute={() => setMusicMuted(prev => !prev)}
+                musicTrack={musicTrack} onMusicTrack={setMusicTrack} />
 
               <div className="grid grid-cols-2 gap-2">
                 <button
@@ -2778,7 +2797,8 @@ export default function App() {
                 sfxMuted={sfxMuted} musicMuted={musicMuted}
                 onSfxVolume={setSfxVolume} onMusicVolume={setMusicVolume}
                 onSfxMute={() => setSfxMuted(gameAudio.toggleMute())}
-                onMusicMute={() => setMusicMuted(prev => !prev)} />
+                onMusicMute={() => setMusicMuted(prev => !prev)}
+                musicTrack={musicTrack} onMusicTrack={setMusicTrack} />
 
               <button
                 onClick={(e) => {
