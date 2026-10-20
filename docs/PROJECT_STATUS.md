@@ -1,6 +1,119 @@
 # Project status — 2026-10-19
 
-## Feeding and pigment repair — version 0.2.1
+## Neural motor control and longitudinal drag — version 0.3.0
+
+### Implemented
+
+- Six outputs per joint: the original angle, frequency, torque and stiffness
+  channels, plus stroke amplitude and motor engagement. Amplitude ranges from
+  0 to 1.75 times the inherited gait. Engagement ranges from 0 to 1; zero applies
+  no active motor torque or active motor damping. Passive constraints remain.
+- New commands ramp with a 0.12-second response time. This smooths transitions;
+  an off command settles to exact zero. Gait phases continue during rest so
+  resuming does not reset the inherited oscillator.
+- New outputs initialize neutrally (full inherited amplitude/engagement). Legacy
+  commands and weights map by part ID/channel, never by a changed array stride.
+  Founders keep their 24-neuron recurrent core, original bodies and gait genes.
+  New output connections can evolve; this is not within-lifetime learning.
+- Two oral inputs per mouth: edible contact and normalized actual absorbed intake.
+  Signals arrive from the previous completed tick, so no future target data is
+  exposed. Contact sensing still functions at full storage. Oral sensing adds
+  0.9 J/s per mouth to the existing approximate sensory upkeep calculation.
+- Longitudinal drag coefficient 0.05 replaces zero in the existing anisotropic
+  model. Normal and angular drag, torque constants, metabolic conversion and
+  10,000 J founder reserves remain unchanged. No propulsion boost was added.
+- Live inspector/brain graph/report expose the six commands and actual motor
+  engagement/amplitude. The established interface, windows, effects and audio
+  remain intact.
+- Brain schema 3 and save schema v6 preserve ramps and oral feedback for exact
+  continuation. V3/v4/v5 worlds and saved genomes migrate old commands and hidden
+  memory by channel identity. New channels initialize neutral, not randomized.
+  Current malformed channel identities and invalid motor/feedback values reject.
+
+### Executed validation
+
+- 62 simulation tests passed, including 13 new controller/physics/migration cases.
+  Tests cover independent joint disengagement, zero motor work after settling,
+  smooth rest/resume, zero amplitude with active pose holding, opposite turns,
+  a faster-rhythm burst, energy costs at 1/30, 1/60 and 1/120s, passive coasting,
+  causal oral feedback driving the real recurrent controller, and exact save
+  continuation during a ramp. The legacy fixture was produced by 0.2.1's actual
+  kernel: seven body parts, 24 old motor outputs, existing memory and PRNG state.
+- All five production-browser scenarios passed locally. They include old v5
+  import/export with unchanged old motor weights, all 36 new output slots,
+  inspector telemetry, catalogue, settings, food/remains, save/load, dragging,
+  and production-path startup/pause. TypeScript and the production build passed.
+- All 50 original founders remained finite, alive and swimming for 15 isolated
+  simulated seconds. Net displacements were 55.35–880.48px at viscosity 0.18.
+  Median displacement was 87.4% of the 0.2.1 baseline at unchanged gait/force
+  genes; individual ratios ranged from 68.9% to 106.0%. Net displacement includes
+  turning, not just cruising speed. No universal faster-swimming claim is made.
+- Six longitudinal drag candidates (0, .02, .05, .1, .2, .4) were compared before
+  selecting .05. Stronger values increasingly reduced catalogue movement.
+  The reference passive-coast check at viscosity .18 starts at 60px/s; speed
+  after 10s was 45.85px/s with .05 versus 60px/s with zero drag. Resting does not
+  mean an instant stop. At zero viscosity, momentum remains conserved.
+
+Controlled reference swimmer, 10 seconds, viscosity .18, no food/reproduction:
+
+| Neural command | Net displacement | Motor work heat | Basal + sensory heat |
+| --- | ---: | ---: | ---: |
+| Neutral inherited gait | 728.46 px | 11.286 J | 303.50 J |
+| Motors disengaged, including initial ramp | 46.67 px | 0.167 J | 303.50 J |
+| Gentle amplitude (0.4×) | 305.98 px | 1.729 J | 303.50 J |
+| Faster rhythm (+28%) | 867.66 px | 16.615 J | 303.50 J |
+| Maximum amplitude (1.75×) | 274.41 px | 11.658 J | 303.50 J |
+
+Motor work after disengagement settles is exactly zero; initial ramp/coasting
+explains residual displacement. Maximum amplitude is not automatically efficient:
+it causes the reference to turn/fold more. Opposite angle commands produced
+opposite lateral displacements (+161.31 and -163.81px). These are controlled
+actuation results, not evolved hunting. The in-game 15s reference verification
+at viscosity .22 measured 1206.42px, zero motor-off drift and .1194px anchor error.
+
+Paired food-seeking protocol: two untrained balanced founder types, eight seeds
+each, 40 food particles in the same 1000px-square patch, 30 simulated seconds,
+no inflow and reproduction disabled. The comparison holds retinal input at its
+empty-water baseline while keeping anatomy, costs and internal feedback intact.
+
+| Build | Mean intake with vision | Mean intake with retinal input held at baseline |
+| --- | ---: | ---: |
+| 0.2.1 baseline | 2323.75 J | 2106.25 J |
+| 0.3.0 | 2092.50 J | 2175.00 J |
+
+This small heterogeneous sample establishes no consistent vision advantage and
+no improved foraging claim. Bodies, drag and temporal feedback affect encounters;
+these means are not a general intelligence score. New motor authority works,
+but reliable food-seeking/escape still needs deliberate controller evaluation.
+Reproduce current measurements with `npm run benchmark:behavior`; recorded
+trial data and the drag sweep are in `docs/behavior-results-0.3.0.json`.
+
+Default initialization, 60 seconds at 1/60s: all 18 founders survived for seeds
+4242, 71 and 1901. Seed 4242 also hatched one offspring (19 living). Absolute
+ledger discrepancies were 1.21e-8, 6.98e-9 and 1.40e-9 J respectively.
+
+Five-minute default ecosystem, seed 4242:
+
+| Simulated time | Living | Eggs | Highest living generation | Recorded deaths |
+| --- | ---: | ---: | ---: | ---: |
+| 60 s | 19 | 0 | 2 | 0 |
+| 120 s | 23 | 1 | 2 | 0 |
+| 180 s | 28 | 0 | 2 | 0 |
+| 240 s | 33 | 2 | 3 | 0 |
+| 300 s | 41 | 1 | 3 | 0 |
+
+Final ledger discrepancy: 3.29e-7 J. Reproduce with the standard 300s benchmark.
+This sample does not establish indefinite ecological stability; founder age
+turnover, natural selection and hunting need longer dedicated evaluation.
+
+### Remaining focused work
+
+Solid inter-organism and nonadjacent self-contact remains next. Other pending
+work includes unused reproduction genes/trade-offs, growth/injury/repair,
+controller training or stronger evaluated founder priors, evolving brain
+structure, spatial indexing, UI-thread separation, niches and experiment archives.
+
+## Previous release — version 0.2.1
 
 This release changes ecological outcomes. The 0.2.0 results below are historical,
 not expected results for the corrected feeding model.

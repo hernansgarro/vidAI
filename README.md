@@ -29,6 +29,7 @@ npx playwright install --with-deps chromium
 npm run test:e2e     # production build at the Pages subpath
 npm run preview      # serve dist locally after building
 npm run benchmark -- --seed 4242 --seconds 300
+npm run benchmark:behavior # controlled motion and paired vision measurements
 ```
 
 ## Creatures and sandbox
@@ -61,13 +62,21 @@ Balanced founders have a weak heritable retinal steering prior. Unbiased founder
 have random controllers and seeded swimming oscillators. Neither mode is trained,
 and neither uses hidden target positions. Both keep 24 recurrent hidden neurons.
 Every eye supplies five RGB/distance rays; every joint supplies angle and velocity.
+Each mouth reports edible contact and normalized absorbed intake from the previous
+completed tick. Each joint has six neural outputs: angle, frequency, torque,
+stiffness, stroke amplitude and engagement. Commands ramp over 0.12 seconds;
+disengaged motors apply zero torque while passive joints and water drag remain.
+Neutral new outputs preserve starter gaits; their connections can evolve through
+mutation. These controls do not train founders or guarantee successful foraging.
+Nonzero longitudinal water resistance slows passive coasting. The inspector shows
+per-joint stroke amplitude and engagement alongside the live brain graph.
 
 **Copy Diagnostic Report** provides settings, seed/PRNG, population, death history,
-energy balance and selected-creature telemetry. Current v5 snapshots preserve
-pigment variability, decomposition timers and complete simulation state/settings
-for exact continuation in this build. Older v3/v4 JSON worlds import under the
-updated simulation rules; v3 neural channels migrate and omitted environment
-settings use defaults. Imported worlds pause for inspection before resuming.
+energy balance and selected-creature telemetry. Current v6 snapshots preserve
+motor ramps, oral feedback, pigment variability, decomposition timers and complete
+simulation state/settings for exact continuation in this build. Older v3/v4/v5
+JSON worlds import under the updated rules; existing neural commands and memory
+migrate by eye/part/mouth channel IDs and omitted environment settings use defaults. Imported worlds pause for inspection before resuming.
 
 ## GitHub Pages
 
