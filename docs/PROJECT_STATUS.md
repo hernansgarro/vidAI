@@ -1,6 +1,6 @@
 # Project status — 2026-10-20
 
-## Phase 5C: causal visual approach for the balanced Darter — v0.14.0 (CI pending)
+## Phase 5C: causal visual approach for the balanced Darter — v0.14.0 (CI verified)
 
 - The prior FND-001 sensory experiment established weak, sometimes
   incorrectly directed retinal-to-muscle weights. A controlled sweep across
@@ -35,10 +35,13 @@
   alongside `Motor-Control.md`. Direct GitHub Wiki publishing is not
   supported by the current connector; these are version-controlled
   ready-to-publish source pages, not claims of Wiki publication.
-- This is a **focused improvement in tested food approach**, not proof
-  that Phase 5C's entire predator escape objective is complete. CI
-  verification will be recorded before merge. No full ecosystem/browser
-  tests were used.
+- **CI verified:** GitHub Actions PR workflow #39398654973 on
+  commit `e15f6c1f` passed **126/126 fast tests**, TypeScript checks
+  and the production build. Calibrated total food ingestion in the eight
+  scenarios was **11,580 J**, versus **0 J** for each matched comparator.
+  These are paired short trials, not independent long-life ecosystems.
+  This is a focused improvement in food approach; Phase 5C's predator
+  escape objective is not complete. No full ecosystem/browser tests were run.
 
 
 ## Optional, genetically evolvable articulated locomotion — v0.13.0 (CI verified)
