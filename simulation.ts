@@ -1099,6 +1099,22 @@ function defaultHiddenIds(count: number): string[] {
   return Array.from({length: count}, (_, i) => `hidden:${i}`);
 }
 
+/** Count enabled directed synapses without allocating their keys. */
+export function enabledBrainEdgeCount(g: Genome): number {
+  const h = g.hiddenIds?.length ?? g.biasesH.length;
+  const inputs = g.inputKeys?.length ?? g.weightsIH[0]?.length ?? 0;
+  const outputs = g.outputKeys?.length ?? g.weightsHO.length;
+  return h * (inputs + h + outputs) - (g.disabledConnections?.length ?? 0);
+}
+
+function checkBrainBudget(g: Genome): void {
+  const count = g.hiddenIds?.length ?? g.biasesH.length;
+  if (!Number.isInteger(count) || count < 1 || count > MAX_HIDDEN
+    || enabledBrainEdgeCount(g) < 0 || enabledBrainEdgeCount(g) > MAX_ENABLED_BRAIN_EDGES) {
+    throw new Error('Invalid hidden neuron or enabled neural edge budget');
+  }
+}
+
 /** Preserve connections and hidden biases by stable identity, not shifting matrix indices. */
 export function remapBrain(g: Genome, previous: Genome = g): void {
   const layout = getBrainLayout(g);
@@ -1157,10 +1173,12 @@ export function remapBrain(g: Genome, previous: Genome = g): void {
   g.inputKeys = layout.inputs;
   g.outputKeys = layout.outputs;
   g.brainVersion = 5;
+  checkBrainBudget(g);
 }
 
 export function ensureBrainLayout(g: Genome): void {
   if (g.brainVersion !== 5 || !g.inputKeys || !g.outputKeys || !g.hiddenIds || !g.disabledConnections) remapBrain(g);
+  checkBrainBudget(g);
 }
 
 /** Remap an organism's live sensory, recurrent and motor states by their original IDs. */
