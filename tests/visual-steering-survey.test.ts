@@ -78,3 +78,14 @@ test('measure targeted retinal neural priors through real physics before deployi
  }
  console.log('PHASE5C_RETINAL_SURVEY '+JSON.stringify(rows));
 });
+
+test('check target distances and physically colored red-body avoidance without a threat oracle',()=>{
+ const rows=[];
+ for(const type of ['food','body'] as const) for(const side of [-1,1] as const) for(const distance of [110,135,160,190]){
+  for(const [gain,output,label] of [[-1,0,'old'],[1.5,.5,'tuned']] as const) for(const sight of [true,false]){
+    const result=run(side,gain,output,sight,type,distance,6);
+    rows.push({...result,label});
+  }
+ }
+ console.log('PHASE5C_POSITION_SWEEP '+JSON.stringify(rows));
+});
