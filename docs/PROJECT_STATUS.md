@@ -1,6 +1,6 @@
 # Project status — 2026-10-20
 
-## Phase 5C: inherited motor-escape innovation — v0.16.0 (CI pending)
+## Phase 5C: inherited motor-escape innovation — v0.16.0 (CI verified)
 
 - Real-physics paired tests used identical FND-001 Three-link Darters
   exposed to a **stationary omnivore biting behind the tail**. Only
@@ -39,7 +39,13 @@
 - The live GitHub Wiki source `docs/wiki/Sensory-Behavior.md` is
   updated in place; Actions publishes its current-state explanation
   and schematics to the actual Wiki on merge.
-- Final exact-head fast tests and TypeScript/Vite build pending.
+- On PR branch commit `c7ec3cee`, GitHub Actions run **#39414409443**
+  passed **136/136 fast tests**, TypeScript checks and the Vite production
+  build. The genetically generated seed-13 `Amp` response lowered bite
+  transfer at gaps **8, 10, 16 px** from **450, 450, 420 J** to
+  **330, 330, 270 J**, while increasing physical predator separation by
+  **9.9, 9.9, 8.4 px**. Tests remain short, reproducible and conservative;
+  no long ecology runs or browser tests were performed.
 
 
 ## Phase 5C: physically grounded bite awareness — v0.15.0 (CI verified)
