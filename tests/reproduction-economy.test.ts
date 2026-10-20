@@ -91,7 +91,6 @@ test('inherited egg allocation trades earlier reproduction for hatchling reserve
 test('egg inspector status reports incubation, funding, capacity and true spatial blockers without PRNG', () => {
   const s = world(), egg = makeEgg();
   const check = () => sim.evaluateEggHatchStatus(egg, settings, s.organisms);
-  const rng = s.prng.getState();
   egg.incubationProgress = .4;
   assert.equal(check().status, 'incubating');
   egg.incubationProgress = 1;
@@ -101,6 +100,7 @@ test('egg inspector status reports incubation, funding, capacity and true spatia
   assert.equal(sim.evaluateEggHatchStatus(egg, {...settings, maxOrganisms: 1}, [
     addExternalOrganism(s, createFounderGenome('FND-001'), settings, 1200, 750, 0)!
   ]).status, 'population-cap');
+  const rng = s.prng.getState();
   assert.equal(check().status, 'space-blocked');
   s.organisms[0].segments.forEach(seg => {seg.x += 700;});
   assert.equal(check().status, 'clear');
