@@ -8,8 +8,9 @@ VIDA organisms sense their environment through real organ geometry and a recurre
 flowchart TD
   O[Nearby food, eggs and other organisms] --> R[Eye rays cast from physical organ anchors]
   R --> A[Closest physical hit per ray]
-  A --> C[RGB attenuated through water + normalized distance]
-  C --> N[Inherited recurrent neural weights and activations]
+  A --> C[Water attenuation and inherited red/green/blue receptor gains]
+  C --> D[Distance only when at least one receptor detects light]
+  D --> N[Inherited recurrent neural weights and activations]
   F[Joint angle, speed, energy and oral feedback] --> N
   Bite[Actual energy removed by a contacting predator mouth] --> S[Injury sensor: next tick]
   S --> N
@@ -103,6 +104,16 @@ Each eye casts **five rays** across its inherited field of view, from the eye's 
 
 **Visual rays do not encode object type, identity, diet, hostility, future position or desired steering direction.** The diagnostic display can label hit objects, but those labels do not enter the neural controller. Water and tank walls are black in the eye's perception; presentation glows do not create signals.
 
+## Inherited spectral sensitivity and camouflage
+
+An eye can carry three independent **red, green and blue sensitivity genes**, each bounded from **0 (no response)** to **1 (full response)**. Missing genes in the existing founders, Bank specimens and saved worlds mean **[1, 1, 1]**, preserving their original retina and sensory metabolism exactly. Offspring can acquire and inherit changed sensitivities, lose any one receptor completely or regain a lost receptor, using the ordinary deterministic mutation process. No extra neural inputs or target-classification switches are introduced.
+
+Each eye still casts five physically grounded rays. After attenuation through water, the RGB signals are multiplied by that eye's receptor gains. The **distance** input reports the closest physical surface only if at least one receptor detects its light; otherwise distance is **1** (empty-ray baseline). A spectrally invisible solid surface still occludes objects behind it. Debug hit labels and positions remain available to inspectors, **never** to the creature's brain.
+
+For a precise green-only organism surface, an eye with **[1, 0, 1]** gets no RGB or distance cue. Actual plant nutrients are *green-dominant, not green-only*: they also reflect red and blue, so suppressing green does **not** completely hide them from the same eye. Likewise, pigmentation is not a guaranteed camouflage mechanism: multiple rays, shape, other pigments and physical contact remain relevant.
+
+There is an energetic trade-off. Each eye's sensory upkeep contribution is **5 × (0.25 + 0.75 × mean(R,G,B))** sensing units, multiplied by the existing sensory energy rate. Lower sensitivity saves some metabolic energy, but also discards optical information; even a fully blind eye retains one-quarter of the original eye cost, and its underlying physical structure and neural network remain. No calories or free motion are created.
+
 ## Current inherited visual behavior
 
 - The **balanced** founder mode adds a weak, mutable color-contrast-to-joint prior to the default founder brains. Unbiased mode does not add that prior.
@@ -137,6 +148,7 @@ These results establish **short-range, visually influenced nutrient approach for
 - `tests/bite-escape-survey.test.ts`: real transferred bite joules, beneficial/harmful inherited actuation, randomly generated isolated injury-motor circuits, and exact-save continuation
 - `tests/moving-hunter.test.ts`: paired self-propelled hunters, real bite gates, physical displacement, and five prey morphologies
 - `tests/senses-contact.test.ts`: light, geometry and feeding invariants
+- `tests/spectral-vision.test.ts`: inherited gains, green-only creature and real greenish food contrast, distance gating, sensory upkeep, reversible mutation, validation and exact current-save continuation
 - `tests/behavior-baseline.test.ts`: locomotion and baseline steering comparisons
 
 This page is a reference to the **current implementation**. It is updated in place; it is not a changelog.
