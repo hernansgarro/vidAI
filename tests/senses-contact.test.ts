@@ -143,7 +143,7 @@ for (const relation of ['own', 'sibling', 'foreign'] as const) test(`carnivore e
     genome: g, fundedReserve: 10000, fundedStructural: g.bodyCost, incubationProgress: 0, totalIncubationTime: 100,
     pulseTimer: 0, colorHue: 40, readyToHatch: false});
   const before = totalAccountedEnergy(s); step(s);
-  if (relation === 'foreign') { close(org.recentFeedings![0].energyTransferred, 32); close(s.eggs[0].fundedReserve, 9960); }
+  if (relation === 'foreign') { close(org.recentFeedings![0].energyTransferred, sim.CONTINUOUS_EAT_RATE / 60 * sim.MOUTH_ASSIMILATION); close(s.eggs[0].fundedReserve, 10000 - sim.CONTINUOUS_EAT_RATE / 60); }
   else { assert.equal(org.recentFeedings?.length ?? 0, 0); close(s.eggs[0].fundedReserve, 10000); }
   close(totalAccountedEnergy(s), before);
 });
