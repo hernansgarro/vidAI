@@ -16,6 +16,20 @@
   migrates to tau=0. Offspring start with zero neural activations.
   Lifetime plasticity/weight learning is not implemented. Legacy dense-24 controllers retain their exact baseline
   neural upkeep through reference-normalized enabled-synapse cost.
+- Phase 5B motor architecture: every joint's original six neural outputs
+  remain stable. Optional inherited `oscillatorMix` (0–1) and four
+  `waveHarmonics` coefficients (each −1..1) permit wave-free direct Angle
+  actuation or smooth mixed periodic strokes; absent alleles must execute
+  the *exact* old sine formula in older genomes and founders. `Amp` can
+  silence an evolved oscillator without disabling physical muscle torque.
+  All commands remain torque-limited, substep-integrated and paid from the
+  conserved energy ledger. Snapshot schema remains v10, with strict optional
+  allele validation. Use short tests in `tests/evolvable-actuation.test.ts`.
+- GitHub Wiki is the *current-feature reference*, not a historical changelog.
+  Keep one succinct, maintainable page per currently reviewed feature with
+  accurate schematics and limitations; update it in place. Repository
+  `docs/wiki` contains Wiki-ready content pending write access; preserve
+  historical investigations in `docs/PROJECT_STATUS.md`, not Wiki pages.
 - Phase 5: FND-001 gets an explicit head-first joint-phase reversal at
   `createFounderGenome` time only, justified by paired real-physics trials.
   Do not reverse the entire catalogue: FND-051 already swims forward. Maintain
