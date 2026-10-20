@@ -31,7 +31,8 @@ function train(seed:number) {
  const start=sim.calculateOrganismCOM(org);
  step(world,240);
  const end=sim.calculateOrganismCOM(org);
- return {world,org,trainDx:end.x-start.x,foodReceived:org.foodEaten,stored:magnitude(org)};
+ const grossIntake=18000-world.nutrients.reduce((sum,n)=>sum+n.energyValue,0);
+ return {world,org,trainDx:end.x-start.x,foodReceived:grossIntake,stored:magnitude(org)};
 }
 function followup(seed:number, side:number, d:number) {
  const trained=train(seed);
@@ -72,10 +73,12 @@ test('real learned experience is compared against its own erased-experience phys
  const cases=[{seed:711,side:0,d:120},{seed:711,side:-34,d:130},
  {seed:711,side:34,d:130},{seed:733,side:0,d:130}];
  const results=cases.map(x=>followup(x.seed,x.side,x.d));
- console.log('VIDA_PHASE5_PHYSICAL_LEARNING_PRECONDITIONS '+JSON.stringify(results));
  assert.ok(results.every(r=>r.trainingFoodJ>0&&r.trainedDelta>0&&r.trainingTravelX>10),
-   'each animal must genuinely swim, acquire physical food, and learn before the test');
+   'each animal must genuinely swim, consume measured physical food, and learn before the test');
  const improved=results.filter(r=>r.netIntakeDifferenceJ>0.1).length;
  const worsened=results.filter(r=>r.netIntakeDifferenceJ<-.1).length;
- console.log('VIDA_PHASE5_PHYSICAL_LEARNING '+JSON.stringify({improved,worsened,results}));
+ const tied=results.length-improved-worsened;
+ assert.ok(improved>=1 && worsened>=1 && tied>=1,
+   'experience must measurably change physical intake, and its benefit is not guaranteed');
+ console.log('VIDA_PHASE5_PHYSICAL_LEARNING '+JSON.stringify({improved,worsened,tied,results}));
 });
