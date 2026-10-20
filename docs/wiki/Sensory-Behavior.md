@@ -40,6 +40,13 @@ Descendants may inherit and mutate connections that use it. Importing older
 worlds preserves their weights and neural activations by identity, adding
 only a zeroed input.
 
+**Verified behavior:** a genuine carnivore bite makes a victim's next-tick
+injury signal nonzero; touching an herbivore does not. A genetically wired
+injury-to-neuron-to-Angle pathway produces a different physical hinge
+command than an otherwise identical disconnected control. The actual
+effectiveness of fleeing predators or avoiding repeated bites is **not yet
+established**.
+
 ## Physical eye rays
 
 Each eye casts **five rays** across its inherited field of view, from the eye's true body-surface anchor. A ray returns attenuated red, green and blue levels plus a normalized hit distance. The brain also receives joint and movement feedback, energy level, central oscillator phase, and mouth feeding/contact feedback. Sensor and motor pathways are genetically mutable and may use the inherited neural memory timescales.
