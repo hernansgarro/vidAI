@@ -1,5 +1,31 @@
 # Project status — 2026-10-20
 
+## Phase 1 neural architecture — version 0.8.0 (PR validation pending)
+
+- Short wiring audit: retinal channel ordering, body/mouth feedback, six-joint
+  motor outputs, recurrent state and founder steering priors agree with the
+  source's stable channel IDs; no justified behavioral fix was found.
+- Supports 1–96 identity-stable hidden neurons, bounded at 65,536 enabled
+  synapses, with explicit disabled-edge identities. All original 55 founders
+  retain their 24 dense hidden nodes, initialization PRNG sequence, weights,
+  biases, gait parameters and mutable retinal steering pathways.
+- Identity-aware remapping preserves surviving hidden weights, biases and live
+  recurrent memory alongside eye/mouth/joint input and output channels.
+  New hidden neurons and pathways start neutral; no structural mutation,
+  lifetime weight learning or behavior assistance is added.
+- Brain v5/schema v9 validate IDs, dimensions, edge references and node/edge
+  bounds. Previous schemas v3–v8 remain importable. Current snapshots preserve
+  neural state and exact continuation; pre-v9 dense weights remain enabled.
+- Inspector shows the real hidden-node count/IDs and only enabled synapses.
+  Existing neural energy upkeep is scaled by actual neuron count, without
+  introducing extra edge charges ahead of Phase 2 cost calibration.
+- New focused tests cover identity migration, variable sizes, masked-edge
+  execution/display, v8 compatibility, exact continuation, and bad imports.
+  Validation results will be recorded after CI runs; no long simulations or
+  browser checks are needed for this foundation.
+
+
+
 ## Four jellyfish variants — version 0.7.0
 
 - Bank expanded to **55 designs**, including five Bell swimmers. Existing 51
