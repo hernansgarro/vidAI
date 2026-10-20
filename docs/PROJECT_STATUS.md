@@ -1,5 +1,35 @@
 # Project status — 2026-10-20
 
+## Optional, genetically evolvable articulated locomotion — v0.13.0 (CI pending)
+
+- Phase 5B expands the existing six-output-per-joint controller without
+  changing its hidden circuit, body morphology, torque solver, water drag or
+  cost accounting. New optional per-joint `oscillatorMix` (0–1) permits
+  fully non-rhythmic Angle positioning at zero and smooth rhythmic/direct
+  mixes otherwise; the brain's Amp output can turn off the oscillator of
+  an evolved joint without turning off its muscle. Joints can act independently.
+- An optional four-coefficient `waveHarmonics` genotype modulates the
+  second through fifth harmonics of the base sine wave. The waveform is
+  normalized and smooth; abrupt sawtooth impulses, scripted paddling,
+  world-space steering and artificial propulsion are deliberately absent.
+  Mix and harmonics are inheritable and mutate independently in offspring.
+- Old founders and saved genomes **without** new alleles use the exact
+  original sine/Angle formula; no migration or randomness is added to their
+  controller. Snapshot schema remains **v10**; optional motor fields are
+  strictly validated. Newly born descendants may evolve new alleles.
+- Creature Brain inspector displays each joint's current inherited rhythm
+  fraction and harmonics. Wiki-ready, current-only documentation and
+  Mermaid diagrams live in `docs/wiki/Motor-Control.md`, pending access
+  to publish the actual GitHub Wiki repository (not supported by the
+  available GitHub connector).
+- Fast test coverage includes unchanged original motor formula, oscillator-off
+  direct positioning, harmonic periodicity and bounds, independent joints,
+  neural amplitude silencing, zero-force passive physics, mutation inheritance
+  and determinism, current/legacy save continuation and invalid gene rejects.
+  CI results will be recorded after the final PR-head run. No long ecology,
+  behavior benchmark or browser run was requested.
+
+
 ## Phase 5A: causal sensory baseline and forward feeding gait — v0.12.0 (CI verified)
 
 - Controlled baseline trials compare exactly matching FND-001 genomes with
