@@ -152,12 +152,12 @@ test('invalid neuron counts, layouts, dangling or duplicate edges, and over-budg
   assert.throws(() => resizeHidden(97), /Invalid hidden/);
   const {g: big} = resizeHidden(96);
   // Use genuinely valid free organ faces to exceed the synapse budget.
-  const base = createFounderGenome('FND-055');
-  const manyEyes = structuredClone(base);
-  manyEyes.eyes = structuredClone(base.eyes);
+  const bell = createFounderGenome('FND-055');
+  const manyEyes = structuredClone(bell);
+  manyEyes.eyes = structuredClone(bell.eyes);
   for (let p = 0; p < manyEyes.parts.length; p++) {
     for (const direction of sim.CARDINAL_DIRS) for (const slot of [0, 1, 2] as const) {
-      manyEyes.eyes.push({...base.eyes[0], id: `extra-eye:${p}:${direction}:${slot}`, partIndex: p, direction, slot});
+      manyEyes.eyes.push({...bell.eyes[0], id: `extra-eye:${p}:${direction}:${slot}`, partIndex: p, direction, slot});
       if (sim.surfacePlacementProblems(manyEyes).length) manyEyes.eyes.pop();
     }
   }
@@ -166,7 +166,7 @@ test('invalid neuron counts, layouts, dangling or duplicate edges, and over-budg
   const layout = sim.getBrainLayout(manyEyes);
   const totalEdges = 96 * (layout.inputs.length + 96 + layout.outputs.length);
   assert.ok(totalEdges > sim.MAX_ENABLED_BRAIN_EDGES, 'the valid anatomy must exceed the enabled-edge budget');
-  assert.throws(() => sim.remapBrain(manyEyes, base), /edge budget/);
+  assert.throws(() => sim.remapBrain(manyEyes, bell), /edge budget/);
   const disableCount = totalEdges - sim.MAX_ENABLED_BRAIN_EDGES;
   const disabled: string[] = [];
   for (const hidden of manyEyes.hiddenIds!) {
