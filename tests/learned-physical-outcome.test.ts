@@ -72,6 +72,7 @@ test('real learned experience is compared against its own erased-experience phys
  const cases=[{seed:711,side:0,d:120},{seed:711,side:-34,d:130},
  {seed:711,side:34,d:130},{seed:733,side:0,d:130}];
  const results=cases.map(x=>followup(x.seed,x.side,x.d));
+ console.log('VIDA_PHASE5_PHYSICAL_LEARNING_PRECONDITIONS '+JSON.stringify(results));
  assert.ok(results.every(r=>r.trainingFoodJ>0&&r.trainedDelta>0&&r.trainingTravelX>10),
    'each animal must genuinely swim, acquire physical food, and learn before the test');
  const improved=results.filter(r=>r.netIntakeDifferenceJ>0.1).length;
