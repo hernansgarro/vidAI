@@ -53,8 +53,11 @@ export function createFounderGenome(id: string, mode: FounderMode = 'balanced'):
   normalizeSurfaceOrgans(g);
   remapBrain(g);
   // New channels start weak and neutral in empty water, while remaining functional.
+  // Keep new injury synapses initially disconnected: the historical founder
+  // PRNG sequence and old retinal/oral alleles must remain identical until a
+  // descendant actually evolves a response to experienced predation.
   for (let h = 0; h < g.weightsIH.length; h++) for (let i = 0; i < layout.inputs.length; i++) {
-    if (g.weightsIH[h][i] !== 0 || layout.inputs[i].startsWith('mouth:')) continue;
+    if (g.weightsIH[h][i] !== 0 || layout.inputs[i].startsWith('mouth:') || layout.inputs[i] === 'body:injury') continue;
     const w = localPrng.range(-.015, .015);
     g.weightsIH[h][i] = w;
     const channel = layout.inputs[i].split(':').at(-1);
