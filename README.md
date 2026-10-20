@@ -51,6 +51,26 @@ the reproducible seeded JSON report and see
 for methods and limits. **Original Phase 5 lifetime synaptic learning**
 and **original Phase 6 optional sleep/replay** are still pending.
 
+## First waking lifetime learning (original Phase 5, in progress)
+
+Descendants can now *evolve the capacity to learn while alive*.
+A rare inherited plasticity gene enables short-term eligibility
+traces and reward-modulated changes to an individual's Angle-motor
+synapse weights after actual mouth intake; a second inherited trait
+determines forgetting. These acquired changes are **not** copied to
+offspring, do not alter genomic neural weights, cost finite metabolic
+energy, and are saved exactly. The Brain inspector visualizes effective
+inherited-plus-learned motor synapses.
+
+In a controlled experiment with real plant-food contact and **no
+physical motor force**, the same learned Angle response increased
+from about **0.642 to 0.691** while the unfed control stayed
+about **0.642**. This establishes conditioned neural changes inside
+a lifetime, **not proven better swimming or food acquisition**.
+Physical learning-versus-disabled fitness comparisons remain the
+next Phase 5 milestone. Sleeping/replay (original Phase 6) is
+not implemented. See [Waking Synaptic Learning](https://github.com/smeagol44/vidAI/wiki/Waking-Learning).
+
 ## Creatures and sandbox
 
 **Evolvable responses to bites:** Reproduction can now occasionally create a

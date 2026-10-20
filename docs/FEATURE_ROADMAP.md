@@ -1,4 +1,4 @@
-# VIDA: remaining features — 2026-10-20 / v0.20.0
+# VIDA: remaining features — 2026-10-20 / v0.21.0
 
 This is a focused review of the current 2D source, not an implementation promise.
 Small changes fit the existing systems. Big changes affect simulation architecture,
@@ -67,13 +67,24 @@ food acquisition; therefore ecological viability, robust active predator
 pursuit and multigeneration adaptation stay separate open scientific
 outcomes rather than silently being marked solved.
 
-- **Original Phase 5 — waking lifetime learning:** **not implemented**.
-  Evolve bounded plasticity and forgetting; track personal learned synaptic
-  changes separate from genome weights, charge energy for updates and preserve
-  exact saved state. Demonstrate *within-life* learned improvement, not
-  inherited selection or neuron activation memory.
+- **Original Phase 5 — waking lifetime learning:** **in progress**.
+  The first bounded implementation includes rare heritable plasticity
+  and forgetting rates, up to 96 individual somatic motor-synapse
+  adjustments, eligibility over recent activity and **reward solely from
+  genuine mouth absorption**. Changing learned weights and their
+  upkeep cost conserved reserves; newborns inherit only the baseline
+  genes, not their parent's experience; brain inspector shows effective
+  learned motor weights. In a controlled non-swimming operant trial,
+  actual 2,400 J absorbed food raised one Angle neural response from
+  ~0.642 to ~0.691; unfed same-genotype control stayed ~0.642.
+  This proves within-life conditioned neural adaptation but
+  **does NOT yet prove improved physical food-seeking, life expectancy,
+  predation or ecological fitness**. Next: short paired multi-episode
+  physical acquisition/survival tests of *learning versus no learning*,
+  with relevant control conditions and no hand-injected rewards.
 - **Original Phase 6 — optional rest/sleep and replay:** **not implemented**.
-  Only consider after waking learning demonstrably works. Bound experience
+  Only consider after waking learning improves *physical behavior*, rather
+  than merely adapting a motor response in an immobile laboratory animal. Bound experience
   buffers and computation, leave resting organisms physically vulnerable and
   energetically accountable, and compare against equal-compute waking learning.
   World-model dreaming is a later optional idea, not an existing feature.
