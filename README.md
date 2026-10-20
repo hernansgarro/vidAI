@@ -47,10 +47,9 @@ descendants only. Other founders and previously saved genomes are not
 rewritten. Escape from dangerous creatures remains unresolved because
 RGB pigments do not reliably encode predator threat.
 
-Current-feature documentation: [Senses and Visually Guided Behavior](docs/wiki/Sensory-Behavior.md)
-and [Movement and Motor Control](docs/wiki/Motor-Control.md).
-Both are maintained as current reference pages inside the repository until
-direct GitHub Wiki writes are available.
+Current-feature documentation is published to the [VIDA GitHub Wiki](https://github.com/smeagol44/vidAI/wiki), including [Senses and Visually Guided Behavior](https://github.com/smeagol44/vidAI/wiki/Sensory-Behavior)
+and [Movement and Motor Control](https://github.com/smeagol44/vidAI/wiki/Motor-Control).
+The corresponding Markdown files in `docs/wiki/` are kept in sync by GitHub Actions.
 
 
 Articulated creatures have torque-driven, drag-based movement. The same
@@ -62,9 +61,7 @@ Reducing an evolved joint's rhythmic amplitude to zero retains full neural
 operate independently, and no force or energy is granted by this controller.
 Unchanged founder and imported genomes retain their original exact sine
 calculation. Live rhythmic genes are visible in the creature Brain inspector.
-Current-feature documentation with motor schematics is maintained under
-[`docs/wiki/Motor-Control.md`](docs/wiki/Motor-Control.md), ready to sync
-into the GitHub Wiki once direct Wiki writes are available.
+Current-feature motor schematics are published in the [Wiki's movement reference](https://github.com/smeagol44/vidAI/wiki/Motor-Control) from the source file `docs/wiki/Motor-Control.md`.
 
 
 **Phase 5 calibration:** Controlled short experiments revealed that FND-001

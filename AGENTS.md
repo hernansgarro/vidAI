@@ -28,8 +28,10 @@
 - GitHub Wiki is the *current-feature reference*, not a historical changelog.
   Keep one succinct, maintainable page per currently reviewed feature with
   accurate schematics and limitations; update it in place. Repository
-  `docs/wiki` contains Wiki-ready content pending write access; preserve
-  historical investigations in `docs/PROJECT_STATUS.md`, not Wiki pages.
+  The repository's `docs/wiki/` is the canonical editable source, published
+  to the actual GitHub Wiki by `.github/workflows/publish-wiki.yml` on main.
+  Only sync maintained pages; preserve unrelated Wiki pages. Keep historical
+  investigations in `docs/PROJECT_STATUS.md`, not Wiki pages.
 - Phase 5C inherited visual steering: for newly created FND-001 in balanced
   mode only, retinal->hidden gain is 1.5 (other founders .2) and the
   hidden->joint Angle prior is (-.5, +.5) rather than (+.04, -.04).

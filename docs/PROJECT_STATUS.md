@@ -32,9 +32,10 @@
   retuning. The preceding Phase 5A gait test is explicitly unbiased-mode
   to keep locomotion results independent of newer retinal priors.
 - The latest-only feature reference is `docs/wiki/Sensory-Behavior.md`,
-  alongside `Motor-Control.md`. Direct GitHub Wiki publishing is not
-  supported by the current connector; these are version-controlled
-  ready-to-publish source pages, not claims of Wiki publication.
+  alongside `Motor-Control.md`. The GitHub connector's Contents API cannot
+  directly write the special Wiki repository; the current publication route
+  is instead `.github/workflows/publish-wiki.yml`, which pushes the maintained
+  pages using GitHub Actions with `contents: write`.
 - **CI verified:** GitHub Actions PR workflow #39398654973 on
   commit `e15f6c1f` passed **126/126 fast tests**, TypeScript checks
   and the production build. Calibrated total food ingestion in the eight
@@ -63,9 +64,8 @@
   strictly validated. Newly born descendants may evolve new alleles.
 - Creature Brain inspector displays each joint's current inherited rhythm
   fraction and harmonics. Wiki-ready, current-only documentation and
-  Mermaid diagrams live in `docs/wiki/Motor-Control.md`, pending access
-  to publish the actual GitHub Wiki repository (not supported by the
-  available GitHub connector).
+  Mermaid diagrams live in `docs/wiki/Motor-Control.md` and synchronize
+  to the actual GitHub Wiki via the dedicated publishing workflow.
 - GitHub Actions PR run #39396177088 (commit `44fedc37`) passed
   **122/122 fast tests**, TypeScript checks and production build. Ten new
   controlled actuation tests cover unchanged original motor formula,
