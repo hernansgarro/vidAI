@@ -86,7 +86,7 @@ test('every eye and every joint supplies RGB, distance, angle and velocity input
   const {s, org} = isolated(g);
   sim.stepSimulation(s, noFood, 1 / 60);
   assert.equal(org.rayHits.length, g.eyes.length * 5);
-  assert.equal(org.neuralInputs.length, g.eyes.length * 20 + (g.parts.length - 1) * 2 + 4 + g.mouths.length * 2);
+  assert.equal(org.neuralInputs.length, g.eyes.length * 20 + (g.parts.length - 1) * 2 + 6 + g.mouths.length * 2);
   for (const eye of g.eyes) {
     assert.equal(org.rayHits.filter(r => r.eyeId === eye.id).length, 5);
     assert.ok(g.inputKeys!.includes(`eye:${eye.id}:ray:4:distance`));
@@ -189,8 +189,8 @@ test('legacy v3 saves migrate sensory weights and activations without dropping h
     ledger: s.ledger, prngState: s.prng.getState(), lineage: []};
   const loaded = restoreSnapshot(JSON.stringify(raw));
   const migrated = loaded.state.organisms[0];
-  assert.equal(migrated.genome.brainVersion, 3);
-  assert.equal(migrated.neuralInputs.length, 30);
+  assert.equal(migrated.genome.brainVersion, 4);
+  assert.equal(migrated.neuralInputs.length, 32);
   assert.ok(migrated.neuralHidden.every(value => value === .37));
   const angleIndex = migrated.genome.inputKeys!.indexOf('joint:part-1:angle');
   assert.equal(migrated.neuralInputs[angleIndex], .25 / oldGenome.parts[1].maxAngle);

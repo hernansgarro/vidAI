@@ -4,7 +4,7 @@ import {
   getBrainLayout, getDietClassification, CARRION_DECAY_SECONDS, MAX_OUTPUTS, MAX_SURFACE_ORGANS, MAX_NEURAL_INPUTS, surfacePlacementProblems, morphologyProblems, type Genome, type SimulationSettings, type SimulationState, type Organism,
 } from './simulation';
 
-export const BUILD_VERSION = '0.5.0';
+export const BUILD_VERSION = '0.6.0';
 export const DEFAULT_SETTINGS: SimulationSettings = {
   worldWidth: 2400, worldHeight: 1500, waterViscosity: .18,
   targetNutrients: 400, inflowRate: 15, kinshipProtection: true,
@@ -53,7 +53,7 @@ export function resizeWorld(s: SimulationState, old: SimulationSettings, width: 
 
 export function createSnapshot(s: SimulationState, settings: SimulationSettings, metadata: Record<string, unknown> = {}) {
   const {prng, lineage, ...data} = s;
-  const snapshot = {schemaVersion: '7.0.0', build: BUILD_VERSION, metadata, settings,
+  const snapshot = {schemaVersion: '8.0.0', build: BUILD_VERSION, metadata, settings,
     state: {...data, prngState: prng.getState(), lineage: [...lineage]}};
   // Canonical JSON representation also drops optional undefined fields in memory.
   return JSON.parse(JSON.stringify(snapshot)) as typeof snapshot;
@@ -79,7 +79,7 @@ export function validateGenome(raw: unknown): Genome {
   assert(g.anatomyVersion === undefined || g.anatomyVersion === 1, 'anatomy version');
   assert(new Set(g.eyes.map(e => e.id)).size === g.eyes.length
     && new Set(g.mouths.map(m => m.id)).size === g.mouths.length, 'duplicate organ IDs');
-  assert(g.brainVersion === undefined || g.brainVersion === 2 || g.brainVersion === 3, 'brain version');
+  assert(g.brainVersion === undefined || g.brainVersion === 2 || g.brainVersion === 3 || g.brainVersion === 4, 'brain version');
   const dirs = ['NORTH', 'SOUTH', 'EAST', 'WEST'];
   const ids = new Set<string>();
   for (const [i, p] of g.parts.entries()) {
@@ -116,8 +116,8 @@ export function validateGenome(raw: unknown): Genome {
   assert(Array.isArray(g.parentIds) && g.parentIds.every(id => typeof id === 'string'), 'parent IDs');
   g.bodyCost = calculateBodyCost(g.parts, g.eyes, g.mouths);
   g.maxEnergyCapacity = calculateMaxEnergyCapacity(g.parts, g.storageTraitMultiplier ?? 1);
-  if (g.brainVersion === 3) {
-    const expected = getBrainLayout(g);
+  if (g.brainVersion === 3 || g.brainVersion === 4) {
+    const expected = getBrainLayout(g, g.brainVersion === 4);
     assert(JSON.stringify(g.inputKeys) === JSON.stringify(expected.inputs)
       && JSON.stringify(g.outputKeys) === JSON.stringify(expected.outputs), 'current neural channel identities');
   }
@@ -134,7 +134,7 @@ export function restoreSnapshot(input: unknown): {state: SimulationState; settin
     assert(input.length <= 25_000_000, 'file exceeds 25 MB'); return JSON.parse(input);
   })() : structuredClone(input);
   assert(raw && typeof raw === 'object', 'document');
-  assert(['7.0.0', '6.0.0', '5.0.0', '4.0.0', '3.0.0'].includes(raw.schemaVersion), 'unsupported schema');
+  assert(['8.0.0', '7.0.0', '6.0.0', '5.0.0', '4.0.0', '3.0.0'].includes(raw.schemaVersion), 'unsupported schema');
   const legacy = raw.schemaVersion === '3.0.0';
   const data = legacy ? raw : raw.state;
   assert(data && typeof data === 'object', 'state');
@@ -153,8 +153,8 @@ export function restoreSnapshot(input: unknown): {state: SimulationState; settin
     && data.prngState.some((n: number) => n !== 0), 'PRNG state');
   const prng = new XoshiroPRNG(); prng.setState(data.prngState);
   const organisms: Organism[] = data.organisms.map((o: Organism) => {
-    if (!['6.0.0', '7.0.0'].includes(raw.schemaVersion)) migrateOrganismBrain(o);
-    else assert(o.genome.brainVersion === 3, 'current brain version');
+    if (raw.schemaVersion !== '8.0.0') migrateOrganismBrain(o);
+    else assert(o.genome.brainVersion === 4, 'current brain version');
     o.genome = validateGenome(o.genome);
     assert(typeof o.id === 'string' && Array.isArray(o.segments) && o.segments.length === o.genome.parts.length
       && Array.isArray(o.joints) && o.joints.length === o.segments.length - 1, 'organism articulation');
@@ -179,6 +179,7 @@ export function restoreSnapshot(input: unknown): {state: SimulationState; settin
   for (const egg of data.eggs) {
     egg.genome = validateGenome(egg.genome);
     assert([egg.x, egg.y, egg.vx, egg.vy, egg.fundedReserve, egg.fundedStructural, egg.incubationProgress, egg.totalIncubationTime].every(Number.isFinite)
+      && (egg.hatchHeading === undefined || Number.isFinite(egg.hatchHeading))
       && egg.fundedReserve >= 0 && egg.fundedStructural >= 0 && egg.totalIncubationTime > 0, 'egg state');
   }
   for (const n of data.nutrients) {

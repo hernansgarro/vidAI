@@ -1,5 +1,30 @@
 # Project status — 2026-10-20
 
+## Hatch clearance and internal senses — version 0.6.0
+
+- Confirmed existing normalized reserve/capacity and per-mouth contact/intake
+  inputs. Added aggregate actual-feeding flag (previous completed tick) and
+  normalized COM depth, clamped surface 0 / floor 1. No duplicate raw-J energy input.
+- Brain v4/schema v8 preserve old channels and activations by stable IDs, with
+  zero weights/values for added old-save channels. Founder pathways are evolvable.
+  v3–v7 snapshots remain importable; current snapshots continue exactly.
+- Root cause of tangled births: completion checked funding and population only,
+  then spawned the full body at the egg regardless of occupied space. Hatching
+  now requires a clear whole-body envelope, including gaps between limbs, and
+  tank containment. Eight fixed orientations are checked at the same egg location.
+  A blocked egg remains ready, funded and edible; its initial random heading is
+  stored once. Same-tick siblings see previously hatched bodies as obstacles.
+- Does not rearrange existing tangled adults or add continuous collision detection.
+  Empty-envelope checks are conservative, so dense surroundings may delay hatching.
+- Validation is deliberately short: **72 fast automated tests**, including nine
+  targeted sense/migration/hatching cases, plus TypeScript/production build.
+  No long ecosystem runs, manual playthroughs, or browser suite for this release.
+- Per user direction, routine CI uses fast tests/build; full simulations and browser
+  checks are available only through explicit extended workflow validation. This
+  replaces the former mandatory full-suite/browser policy.
+
+Earlier release measurements below describe their own versions, not this update.
+
 ## Surface anatomy, founder selection and jellyfish — version 0.5.0
 
 ### Implemented
