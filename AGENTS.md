@@ -5,10 +5,19 @@
 - `simulation.ts` is the production kernel. Controllers use 24 recurrent hidden
   neurons and six outputs per joint; channel identities follow stable eye/part/mouth
   IDs. Migrate old four-channel commands by key, never by the new array stride.
-  Save schema v6 includes motor ramps and oral feedback; legacy migration must
+  Save schema v7 includes stable organ slots, motor ramps and oral feedback; legacy migration must
   preserve recurrent memory and existing weights.
-- `data/founders.json` contains the 50 original blueprints. Preserve their actual
-  anatomy and gait data; do not replace entries with renamed duplicates.
+- `data/founders.json` contains 51 distinct blueprints (50 revised originals and
+  Moonbell Jellyfish). Preserve their actual anatomy and measured gaits; never
+  replace entries with renamed duplicates. Selective symmetry is not a mutation rule.
+- Anatomy v1 uses one physical connection OR three organs combined per face.
+  Count both ends of hinges. Preserve stable organ slots and IDs across mutation,
+  pruning, imports and brain remapping. Use getOrganAnchor for vision, bites,
+  markers, previews and debug ray origins. Legacy saved positions stay centered
+  unless their explicit slots say otherwise; do not rewrite living legacy anatomy.
+- Default seeding distributes 18 organisms across up to five uniformly sampled
+  distinct designs, with independent genomes. Default nutrients are 400.
+  Specialist mouths transfer 2400 J/s and omnivore mouths 1200 J/s, gross before loss.
 - Maintenance uses geometric body area, not construction joules. Keep reserve,
   construction energy, storage capacity, and heat/removal accounting distinct.
 - Vision is black except for physical creatures, food and white eggs. Display

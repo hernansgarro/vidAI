@@ -70,6 +70,8 @@ import {
   SENSORY_NEURAL_METABOLIC_RATE,
   BASE_FOUNDER_AREA,
   NUTRIENT_ENERGY_VALUE,
+  CONTINUOUS_EAT_RATE,
+  OMNIVORE_EAT_RATE,
   NUM_HIDDEN,
   ArchetypeId,
   Genome,
@@ -91,6 +93,7 @@ import {
   getDietClassification,
   getNutrientRadius,
   getCardinalAnchor,
+  getOrganAnchor,
   getChildAnchorForParentDir,
   getCardinalOutwardNormal,
   calculateTotalBodyArea,
@@ -98,7 +101,7 @@ import {
   createArchetypeGenome,
   stepSimulation
 } from './simulation';
-import {FOUNDER_FAMILIES, createFounderBankItems, type FounderMode} from './founders';
+import {FOUNDER_BLUEPRINTS, FOUNDER_FAMILIES, createFounderBankItems, type FounderMode} from './founders';
 import {BUILD_VERSION, CREDITS, createSnapshot, restoreSnapshot, validateGenome,
   clearFreeNutrients, resizeWorld, diagnosticReport} from './persistence';
 export * from './simulation';
@@ -149,6 +152,12 @@ function useDraggableModal(initialX: number, initialY: number) {
 // ============================================================================
 // 4. MAIN REACT COMPONENT (App)
 // ============================================================================
+function organSlotLabel(organ: {direction: string; slot?: number}): string {
+  if (organ.slot === undefined || organ.slot === 0) return 'center';
+  const horizontalFace = organ.direction === 'NORTH' || organ.direction === 'SOUTH';
+  return organ.slot === 1 ? (horizontalFace ? 'left' : 'upper') : (horizontalFace ? 'right' : 'lower');
+}
+
 export default function App() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const viewportRef = useRef<HTMLDivElement>(null);
@@ -202,7 +211,7 @@ export default function App() {
 
   // Settings & Configuration Sliders
   const [waterViscosity, setWaterViscosity] = useState<number>((getConfig('waterViscosity') as number) ?? 0.22);
-  const [targetNutrientAbundance, setTargetNutrientAbundance] = useState<number>(clampVal(getConfig('targetNutrientCount') ?? 800, 0, 800));
+  const [targetNutrientAbundance, setTargetNutrientAbundance] = useState<number>(clampVal(getConfig('targetNutrientCount') ?? 400, 0, 800));
   const [nutrientInflowRate, setNutrientInflowRate] = useState<number>((getConfig('nutrientInflowRate') as number) ?? 15);
   const [kinshipProtectionEnabled, setKinshipProtectionEnabled] = useState<boolean>(true);
   const [gravity, setGravity] = useState(0);
@@ -1020,8 +1029,12 @@ export default function App() {
         ctx.stroke();
 
         for (const ray of org.rayHits) {
+          const eye = g.eyes.find(e => e.id === ray.eyeId);
+          const host = eye ? org.segments[eye.partIndex] : org.segments[0];
+          const anchor = eye ? getOrganAnchor(eye, g.parts[eye.partIndex].width, g.parts[eye.partIndex].height) : {x: 0, y: 0};
           ctx.beginPath();
-          ctx.moveTo(org.segments[0].x, org.segments[0].y);
+          ctx.moveTo(host.x + Math.cos(host.angle) * anchor.x - Math.sin(host.angle) * anchor.y,
+            host.y + Math.sin(host.angle) * anchor.x + Math.cos(host.angle) * anchor.y);
           ctx.lineTo(ray.pointX, ray.pointY);
           ctx.strokeStyle = `rgba(${Math.round(ray.r * 255)}, ${Math.round(ray.g * 255)}, ${Math.round(ray.b * 255)}, 0.45)`;
           ctx.lineWidth = 1.2 / zoom;
@@ -1095,9 +1108,10 @@ export default function App() {
         // Sensory Eyes
         const partEyes = g.eyes.filter((e) => e.partIndex === sIdx);
         for (const eye of partEyes) {
-          const eyeLoc = getCardinalAnchor(eye.direction, w, h);
+          const eyeLoc = getOrganAnchor(eye, w, h);
+          const eyeScale = eye.slot === undefined ? 1 : Math.min(1, (eye.direction === 'NORTH' || eye.direction === 'SOUTH' ? w : h) / 30);
           ctx.beginPath();
-          ctx.arc(eyeLoc.x, eyeLoc.y, 4.5, 0, Math.PI * 2);
+          ctx.arc(eyeLoc.x, eyeLoc.y, 4.5 * eyeScale, 0, Math.PI * 2);
           ctx.fillStyle = '#ffffff';
           ctx.fill();
           ctx.strokeStyle = '#06b6d4';
@@ -1106,7 +1120,7 @@ export default function App() {
 
           const lookDir = getCardinalAnchor(eye.direction, 2.5, 2.5);
           ctx.beginPath();
-          ctx.arc(eyeLoc.x + lookDir.x * 0.5, eyeLoc.y + lookDir.y * 0.5, 2.0, 0, Math.PI * 2);
+          ctx.arc(eyeLoc.x + lookDir.x * 0.5 * eyeScale, eyeLoc.y + lookDir.y * 0.5 * eyeScale, 2.0 * eyeScale, 0, Math.PI * 2);
           ctx.fillStyle = '#06b6d4';
           ctx.fill();
         }
@@ -1114,7 +1128,7 @@ export default function App() {
         // Sensory Mouths with Exact Physical Aperture Outlines
         const partMouths = g.mouths.filter((m) => m.partIndex === sIdx);
         for (const mouth of partMouths) {
-          const mouthLoc = getCardinalAnchor(mouth.direction, w, h);
+          const mouthLoc = getOrganAnchor(mouth, w, h);
           const isCarn = mouth.mouthType === 'carnivore';
           const isOmni = mouth.mouthType === 'omnivore';
 
@@ -1156,6 +1170,8 @@ export default function App() {
             ctx.restore();
           }
 
+          const markerScale = mouth.slot === undefined ? 1 : Math.min(1, (mouth.direction === 'NORTH' || mouth.direction === 'SOUTH' ? w : h) / 42);
+          ctx.save(); ctx.translate(mouthLoc.x, mouthLoc.y); ctx.scale(markerScale, markerScale); ctx.translate(-mouthLoc.x, -mouthLoc.y);
           if (isCarn) {
             ctx.save();
             ctx.beginPath();
@@ -1199,6 +1215,7 @@ export default function App() {
             ctx.beginPath(); ctx.arc(mouthLoc.x, mouthLoc.y, 7 + opening * 5, 0, Math.PI * 2);
             ctx.strokeStyle = `rgba(255,255,255,${activity * .65})`; ctx.lineWidth = 1.2; ctx.stroke();
           }
+          ctx.restore();
         }
 
         ctx.restore();
@@ -1441,14 +1458,14 @@ export default function App() {
 
         {/* CREATURE'S-EYE RETINAL HUD STRIP (When creature is selected) */}
         {selectedSpecimen && (
-          <div className="absolute top-2 left-1/2 -translate-x-1/2 bg-slate-900/90 backdrop-blur-md border border-cyan-500/40 rounded-2xl px-3 py-1.5 flex items-center gap-3 z-30 font-mono text-[11px] shadow-lg">
-            <div className="flex items-center gap-1.5 text-cyan-300 font-bold">
+          <div style={{maxWidth: 'calc(100% - 1rem)'}} className="absolute top-2 left-1/2 -translate-x-1/2 bg-slate-900/90 backdrop-blur-md border border-cyan-500/40 rounded-2xl px-3 py-1.5 flex items-center gap-3 z-30 font-mono text-[11px] shadow-lg">
+            <div className="flex items-center gap-1.5 text-cyan-300 font-bold shrink-0">
               <Eye size={14} className="text-cyan-400" />
               <span>RETINAL VIEW:</span>
             </div>
-            <div className="flex items-center gap-1">
+            <div aria-label="Retinal samples" tabIndex={0} className="flex min-w-0 items-center gap-1 overflow-x-auto touch-pan-x">
               {selectedSpecimen.rayHits.map((ray, idx) => (
-                <div key={idx} className="flex flex-col items-center">
+                <div key={idx} className="flex shrink-0 flex-col items-center">
                   <div
                     className="w-4 h-4 rounded border border-white/30 shadow-inner"
                     style={{backgroundColor: `rgb(${Math.round(ray.r * 255)}, ${Math.round(ray.g * 255)}, ${Math.round(ray.b * 255)})`}}
@@ -1886,7 +1903,7 @@ export default function App() {
             </div>
 
             <div className="space-y-2 mb-2 text-[10px] shrink-0">
-              <div className="text-purple-300">50 built-in founders · {specimenBank.length} saved specimens</div>
+              <div className="text-purple-300">{FOUNDER_BLUEPRINTS.length} built-in founders · {specimenBank.length} saved specimens</div>
               <input aria-label="Search specimens" placeholder="Search creatures…" value={bankSearch} onChange={e => setBankSearch(e.target.value)} className="w-full bg-slate-950 border border-purple-900 rounded px-2 py-1" />
               <div className="flex gap-2">
                 <select aria-label="Body family" value={bankFamily} onChange={e => setBankFamily(e.target.value)} className="min-w-0 flex-1 bg-slate-950 border border-purple-900 rounded px-1 py-1">
@@ -1896,7 +1913,7 @@ export default function App() {
                   <option value="All">All diets</option>{['herbivore', 'omnivore', 'carnivore'].map(d => <option key={d}>{d}</option>)}
                 </select>
               </div>
-              <button onClick={() => {initGame('showcase'); setIsSpecimenBankOpen(false);}} className="w-full py-1 border border-purple-500/40 rounded text-purple-300">Reset with Catalogue Showcase (up to 50)</button>
+              <button onClick={() => {initGame('showcase'); setIsSpecimenBankOpen(false);}} className="w-full py-1 border border-purple-500/40 rounded text-purple-300">Reset with Catalogue Showcase (up to {FOUNDER_BLUEPRINTS.length})</button>
             </div>
             <div className="flex-1 min-h-0 overflow-y-auto space-y-2 pr-1">
               {displayedSpecimenBank.length === 0 ? (
@@ -2127,6 +2144,14 @@ export default function App() {
                       ))}
                     </div>
 
+                    <div className="mt-1 pt-2 border-t border-slate-800 space-y-1 text-[10px]">
+                      <div className="font-bold text-cyan-400">EYES ({selectedSpecimen.genome.eyes.length})</div>
+                      <div className="text-slate-400">A face holds one body connection or up to three organs.</div>
+                      {selectedSpecimen.genome.eyes.map((eye, i) => <div key={eye.id} className="text-slate-300">
+                        Eye #{i + 1}: Part {eye.partIndex}, {eye.direction}, {organSlotLabel(eye)}
+                      </div>)}
+                    </div>
+
                     {/* Detailed Per-Mouth Telemetry & Rules */}
                     <div className="mt-1 pt-2 border-t border-slate-800 space-y-1.5">
                       <div className="text-[10px] font-bold text-cyan-400 tracking-wider">
@@ -2142,14 +2167,14 @@ export default function App() {
                           ? 'bg-purple-950/80 border-purple-500/40 text-purple-300'
                           : 'bg-emerald-950/80 border-emerald-500/40 text-emerald-300';
                         const rules = isCarn
-                          ? 'Permitted: Non-kin Prey, Foreign Eggs. Rejected: Nutrients (0 J).'
+                          ? 'Permitted: Prey, Eggs, Remains. Kin protection applies to living prey and eggs when enabled. Rejected: Plant Nutrients.'
                           : isOmni
-                          ? 'Permitted: Nutrients, Prey, Eggs (at 50% rate).'
-                          : 'Permitted: Plant Nutrients ONLY. Rejected: Prey, Eggs.';
+                          ? 'Permitted: Plant Nutrients, Prey, Eggs, Remains (at 50% specialist rate). Kin protection applies when enabled.'
+                          : 'Permitted: Plant Nutrients ONLY. Rejected: Prey, Eggs, Remains.';
                         return (
                           <div key={m.id || idx} className="p-2 bg-slate-900/80 rounded-lg border border-slate-800 text-[10px] space-y-1">
                             <div className="flex items-center justify-between">
-                              <span className="font-bold text-white">Mouth #{idx + 1} (Part {m.partIndex}, {m.direction})</span>
+                              <span className="font-bold text-white">Mouth #{idx + 1} (Part {m.partIndex}, {m.direction}, {organSlotLabel(m)})</span>
                               <span className={`px-1.5 py-0.5 rounded border text-[9px] font-bold ${typeBadge}`}>
                                 {typeLabel}
                               </span>
@@ -2159,6 +2184,7 @@ export default function App() {
                             </div>
                             <div className="text-[9px] text-slate-300 italic">
                               {rules}
+                              <div>Transfer limit: {isOmni ? OMNIVORE_EAT_RATE : CONTINUOUS_EAT_RATE} J/s · Absorbs 80% (68% from remains).</div>
                             </div>
                           </div>
                         );

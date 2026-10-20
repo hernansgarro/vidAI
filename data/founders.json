@@ -56,7 +56,16 @@
           "partIndex": 0,
           "direction": "EAST",
           "fov": 2,
-          "range": 450
+          "range": 450,
+          "slot": 1
+        },
+        {
+          "id": "FND-001-E0-mirror",
+          "partIndex": 0,
+          "direction": "EAST",
+          "fov": 2,
+          "range": 450,
+          "slot": 2
         }
       ],
       "mouths": [
@@ -65,7 +74,8 @@
           "partIndex": 0,
           "direction": "EAST",
           "intakeWidth": 17.849999999999998,
-          "mouthType": "herbivore"
+          "mouthType": "herbivore",
+          "slot": 0
         }
       ],
       "hue": 242,
@@ -157,14 +167,32 @@
           "partIndex": 0,
           "direction": "EAST",
           "fov": 2,
-          "range": 475
+          "range": 475,
+          "slot": 1
         },
         {
           "id": "FND-002-E1",
           "partIndex": 0,
           "direction": "NORTH",
           "fov": 1.8,
-          "range": 420
+          "range": 420,
+          "slot": 0
+        },
+        {
+          "id": "FND-002-E0-mirror",
+          "partIndex": 0,
+          "direction": "EAST",
+          "fov": 2,
+          "range": 475,
+          "slot": 2
+        },
+        {
+          "id": "FND-002-E1-mirror",
+          "partIndex": 0,
+          "direction": "SOUTH",
+          "fov": 1.8,
+          "range": 420,
+          "slot": 0
         }
       ],
       "mouths": [
@@ -173,7 +201,8 @@
           "partIndex": 0,
           "direction": "EAST",
           "intakeWidth": 17.849999999999998,
-          "mouthType": "herbivore"
+          "mouthType": "herbivore",
+          "slot": 0
         }
       ],
       "hue": 289,
@@ -279,14 +308,32 @@
           "partIndex": 0,
           "direction": "EAST",
           "fov": 2,
-          "range": 500
+          "range": 500,
+          "slot": 1
         },
         {
           "id": "FND-003-E1",
           "partIndex": 0,
           "direction": "NORTH",
           "fov": 1.8,
-          "range": 440
+          "range": 440,
+          "slot": 0
+        },
+        {
+          "id": "FND-003-E0-mirror",
+          "partIndex": 0,
+          "direction": "EAST",
+          "fov": 2,
+          "range": 500,
+          "slot": 2
+        },
+        {
+          "id": "FND-003-E1-mirror",
+          "partIndex": 0,
+          "direction": "SOUTH",
+          "fov": 1.8,
+          "range": 440,
+          "slot": 0
         }
       ],
       "mouths": [
@@ -295,7 +342,8 @@
           "partIndex": 0,
           "direction": "EAST",
           "intakeWidth": 17.849999999999998,
-          "mouthType": "herbivore"
+          "mouthType": "herbivore",
+          "slot": 0
         }
       ],
       "hue": 336,
@@ -415,21 +463,32 @@
           "partIndex": 0,
           "direction": "EAST",
           "fov": 2,
-          "range": 525
+          "range": 525,
+          "slot": 1
         },
         {
           "id": "FND-004-E1",
           "partIndex": 0,
           "direction": "NORTH",
           "fov": 1.8,
-          "range": 460
+          "range": 460,
+          "slot": 0
         },
         {
           "id": "FND-004-E2",
           "partIndex": 0,
           "direction": "SOUTH",
           "fov": 1.8,
-          "range": 460
+          "range": 460,
+          "slot": 0
+        },
+        {
+          "id": "FND-004-E0-mirror",
+          "partIndex": 0,
+          "direction": "EAST",
+          "fov": 2,
+          "range": 525,
+          "slot": 2
         }
       ],
       "mouths": [
@@ -438,7 +497,8 @@
           "partIndex": 0,
           "direction": "EAST",
           "intakeWidth": 17.849999999999998,
-          "mouthType": "omnivore"
+          "mouthType": "omnivore",
+          "slot": 0
         }
       ],
       "hue": 23,
@@ -572,21 +632,32 @@
           "partIndex": 0,
           "direction": "EAST",
           "fov": 2,
-          "range": 550
+          "range": 550,
+          "slot": 1
         },
         {
           "id": "FND-005-E1",
           "partIndex": 0,
           "direction": "NORTH",
           "fov": 1.8,
-          "range": 480
+          "range": 480,
+          "slot": 0
         },
         {
           "id": "FND-005-E2",
           "partIndex": 0,
           "direction": "SOUTH",
           "fov": 1.8,
-          "range": 480
+          "range": 480,
+          "slot": 0
+        },
+        {
+          "id": "FND-005-E0-mirror",
+          "partIndex": 0,
+          "direction": "EAST",
+          "fov": 2,
+          "range": 550,
+          "slot": 2
         }
       ],
       "mouths": [
@@ -595,7 +666,8 @@
           "partIndex": 0,
           "direction": "EAST",
           "intakeWidth": 17.849999999999998,
-          "mouthType": "carnivore"
+          "mouthType": "carnivore",
+          "slot": 0
         }
       ],
       "hue": 180,
@@ -687,7 +759,16 @@
           "partIndex": 0,
           "direction": "EAST",
           "fov": 2,
-          "range": 450
+          "range": 450,
+          "slot": 1
+        },
+        {
+          "id": "FND-006-E0-mirror",
+          "partIndex": 0,
+          "direction": "EAST",
+          "fov": 2,
+          "range": 450,
+          "slot": 2
         }
       ],
       "mouths": [
@@ -696,7 +777,8 @@
           "partIndex": 0,
           "direction": "EAST",
           "intakeWidth": 23.8,
-          "mouthType": "herbivore"
+          "mouthType": "herbivore",
+          "slot": 0
         }
       ],
       "hue": 227,
@@ -788,14 +870,32 @@
           "partIndex": 0,
           "direction": "EAST",
           "fov": 2,
-          "range": 475
+          "range": 475,
+          "slot": 1
         },
         {
           "id": "FND-007-E1",
           "partIndex": 1,
           "direction": "NORTH",
           "fov": 1.8,
-          "range": 420
+          "range": 420,
+          "slot": 0
+        },
+        {
+          "id": "FND-007-E0-mirror",
+          "partIndex": 0,
+          "direction": "EAST",
+          "fov": 2,
+          "range": 475,
+          "slot": 2
+        },
+        {
+          "id": "FND-007-E1-mirror",
+          "partIndex": 2,
+          "direction": "SOUTH",
+          "fov": 1.8,
+          "range": 420,
+          "slot": 0
         }
       ],
       "mouths": [
@@ -804,7 +904,8 @@
           "partIndex": 0,
           "direction": "EAST",
           "intakeWidth": 23.8,
-          "mouthType": "herbivore"
+          "mouthType": "herbivore",
+          "slot": 0
         }
       ],
       "hue": 164,
@@ -910,14 +1011,32 @@
           "partIndex": 0,
           "direction": "EAST",
           "fov": 2,
-          "range": 500
+          "range": 500,
+          "slot": 1
         },
         {
           "id": "FND-008-E1",
           "partIndex": 1,
           "direction": "NORTH",
           "fov": 1.8,
-          "range": 440
+          "range": 440,
+          "slot": 0
+        },
+        {
+          "id": "FND-008-E0-mirror",
+          "partIndex": 0,
+          "direction": "EAST",
+          "fov": 2,
+          "range": 500,
+          "slot": 2
+        },
+        {
+          "id": "FND-008-E1-mirror",
+          "partIndex": 2,
+          "direction": "SOUTH",
+          "fov": 1.8,
+          "range": 440,
+          "slot": 0
         }
       ],
       "mouths": [
@@ -926,7 +1045,8 @@
           "partIndex": 0,
           "direction": "EAST",
           "intakeWidth": 23.8,
-          "mouthType": "herbivore"
+          "mouthType": "herbivore",
+          "slot": 0
         }
       ],
       "hue": 211,
@@ -1032,21 +1152,32 @@
           "partIndex": 0,
           "direction": "EAST",
           "fov": 2,
-          "range": 525
+          "range": 525,
+          "slot": 1
         },
         {
           "id": "FND-009-E1",
           "partIndex": 1,
           "direction": "NORTH",
           "fov": 1.8,
-          "range": 460
+          "range": 460,
+          "slot": 0
         },
         {
           "id": "FND-009-E2",
           "partIndex": 2,
           "direction": "SOUTH",
           "fov": 1.8,
-          "range": 460
+          "range": 460,
+          "slot": 0
+        },
+        {
+          "id": "FND-009-E0-mirror",
+          "partIndex": 0,
+          "direction": "EAST",
+          "fov": 2,
+          "range": 525,
+          "slot": 2
         }
       ],
       "mouths": [
@@ -1055,7 +1186,8 @@
           "partIndex": 0,
           "direction": "EAST",
           "intakeWidth": 23.8,
-          "mouthType": "omnivore"
+          "mouthType": "omnivore",
+          "slot": 0
         }
       ],
       "hue": 258,
@@ -1175,21 +1307,32 @@
           "partIndex": 5,
           "direction": "EAST",
           "fov": 2,
-          "range": 550
+          "range": 550,
+          "slot": 1
         },
         {
           "id": "FND-010-E1",
           "partIndex": 1,
           "direction": "NORTH",
           "fov": 1.8,
-          "range": 480
+          "range": 480,
+          "slot": 0
         },
         {
           "id": "FND-010-E2",
           "partIndex": 2,
           "direction": "SOUTH",
           "fov": 1.8,
-          "range": 480
+          "range": 480,
+          "slot": 0
+        },
+        {
+          "id": "FND-010-E0-mirror",
+          "partIndex": 5,
+          "direction": "EAST",
+          "fov": 2,
+          "range": 550,
+          "slot": 2
         }
       ],
       "mouths": [
@@ -1198,7 +1341,8 @@
           "partIndex": 5,
           "direction": "EAST",
           "intakeWidth": 11.9,
-          "mouthType": "carnivore"
+          "mouthType": "carnivore",
+          "slot": 0
         }
       ],
       "hue": 305,
@@ -1318,7 +1462,16 @@
           "partIndex": 0,
           "direction": "EAST",
           "fov": 2,
-          "range": 450
+          "range": 450,
+          "slot": 1
+        },
+        {
+          "id": "FND-011-E0-mirror",
+          "partIndex": 0,
+          "direction": "EAST",
+          "fov": 2,
+          "range": 450,
+          "slot": 2
         }
       ],
       "mouths": [
@@ -1327,7 +1480,8 @@
           "partIndex": 0,
           "direction": "EAST",
           "intakeWidth": 17.849999999999998,
-          "mouthType": "herbivore"
+          "mouthType": "herbivore",
+          "slot": 0
         }
       ],
       "hue": 352,
@@ -1447,14 +1601,32 @@
           "partIndex": 0,
           "direction": "EAST",
           "fov": 2,
-          "range": 475
+          "range": 475,
+          "slot": 1
         },
         {
           "id": "FND-012-E1",
           "partIndex": 4,
           "direction": "NORTH",
           "fov": 1.8,
-          "range": 420
+          "range": 420,
+          "slot": 0
+        },
+        {
+          "id": "FND-012-E0-mirror",
+          "partIndex": 0,
+          "direction": "EAST",
+          "fov": 2,
+          "range": 475,
+          "slot": 2
+        },
+        {
+          "id": "FND-012-E1-mirror",
+          "partIndex": 5,
+          "direction": "SOUTH",
+          "fov": 1.8,
+          "range": 420,
+          "slot": 0
         }
       ],
       "mouths": [
@@ -1463,7 +1635,8 @@
           "partIndex": 0,
           "direction": "EAST",
           "intakeWidth": 17.849999999999998,
-          "mouthType": "herbivore"
+          "mouthType": "herbivore",
+          "slot": 0
         }
       ],
       "hue": 39,
@@ -1583,14 +1756,32 @@
           "partIndex": 0,
           "direction": "EAST",
           "fov": 2,
-          "range": 500
+          "range": 500,
+          "slot": 1
         },
         {
           "id": "FND-013-E1",
           "partIndex": 2,
           "direction": "NORTH",
           "fov": 1.8,
-          "range": 440
+          "range": 440,
+          "slot": 0
+        },
+        {
+          "id": "FND-013-E0-mirror",
+          "partIndex": 0,
+          "direction": "EAST",
+          "fov": 2,
+          "range": 500,
+          "slot": 2
+        },
+        {
+          "id": "FND-013-E1-mirror",
+          "partIndex": 3,
+          "direction": "SOUTH",
+          "fov": 1.8,
+          "range": 440,
+          "slot": 0
         }
       ],
       "mouths": [
@@ -1599,7 +1790,8 @@
           "partIndex": 0,
           "direction": "EAST",
           "intakeWidth": 17.849999999999998,
-          "mouthType": "herbivore"
+          "mouthType": "herbivore",
+          "slot": 0
         }
       ],
       "hue": 196,
@@ -1733,21 +1925,32 @@
           "partIndex": 0,
           "direction": "EAST",
           "fov": 2,
-          "range": 525
+          "range": 525,
+          "slot": 1
         },
         {
           "id": "FND-014-E1",
           "partIndex": 4,
           "direction": "NORTH",
           "fov": 1.8,
-          "range": 460
+          "range": 460,
+          "slot": 0
         },
         {
           "id": "FND-014-E2",
           "partIndex": 5,
           "direction": "SOUTH",
           "fov": 1.8,
-          "range": 460
+          "range": 460,
+          "slot": 0
+        },
+        {
+          "id": "FND-014-E0-mirror",
+          "partIndex": 0,
+          "direction": "EAST",
+          "fov": 2,
+          "range": 525,
+          "slot": 2
         }
       ],
       "mouths": [
@@ -1756,7 +1959,8 @@
           "partIndex": 0,
           "direction": "EAST",
           "intakeWidth": 17.849999999999998,
-          "mouthType": "omnivore"
+          "mouthType": "omnivore",
+          "slot": 0
         }
       ],
       "hue": 243,
@@ -1890,21 +2094,32 @@
           "partIndex": 0,
           "direction": "EAST",
           "fov": 2,
-          "range": 550
+          "range": 550,
+          "slot": 1
         },
         {
           "id": "FND-015-E1",
           "partIndex": 4,
           "direction": "NORTH",
           "fov": 1.8,
-          "range": 480
+          "range": 480,
+          "slot": 0
         },
         {
           "id": "FND-015-E2",
           "partIndex": 5,
           "direction": "SOUTH",
           "fov": 1.8,
-          "range": 480
+          "range": 480,
+          "slot": 0
+        },
+        {
+          "id": "FND-015-E0-mirror",
+          "partIndex": 0,
+          "direction": "EAST",
+          "fov": 2,
+          "range": 550,
+          "slot": 2
         }
       ],
       "mouths": [
@@ -1913,7 +2128,8 @@
           "partIndex": 0,
           "direction": "EAST",
           "intakeWidth": 17.849999999999998,
-          "mouthType": "carnivore"
+          "mouthType": "carnivore",
+          "slot": 0
         }
       ],
       "hue": 180,
@@ -2005,7 +2221,16 @@
           "partIndex": 0,
           "direction": "EAST",
           "fov": 2,
-          "range": 450
+          "range": 450,
+          "slot": 1
+        },
+        {
+          "id": "FND-016-E0-mirror",
+          "partIndex": 0,
+          "direction": "EAST",
+          "fov": 2,
+          "range": 450,
+          "slot": 2
         }
       ],
       "mouths": [
@@ -2014,7 +2239,8 @@
           "partIndex": 0,
           "direction": "EAST",
           "intakeWidth": 17.849999999999998,
-          "mouthType": "herbivore"
+          "mouthType": "herbivore",
+          "slot": 0
         }
       ],
       "hue": 227,
@@ -2120,14 +2346,16 @@
           "partIndex": 0,
           "direction": "EAST",
           "fov": 2,
-          "range": 475
+          "range": 475,
+          "slot": 1
         },
         {
           "id": "FND-017-E1",
           "partIndex": 4,
           "direction": "NORTH",
           "fov": 1.8,
-          "range": 420
+          "range": 420,
+          "slot": 0
         }
       ],
       "mouths": [
@@ -2136,7 +2364,8 @@
           "partIndex": 0,
           "direction": "EAST",
           "intakeWidth": 17.849999999999998,
-          "mouthType": "herbivore"
+          "mouthType": "herbivore",
+          "slot": 0
         }
       ],
       "hue": 274,
@@ -2242,14 +2471,32 @@
           "partIndex": 0,
           "direction": "EAST",
           "fov": 2,
-          "range": 500
+          "range": 500,
+          "slot": 1
         },
         {
           "id": "FND-018-E1",
           "partIndex": 2,
           "direction": "NORTH",
           "fov": 1.8,
-          "range": 440
+          "range": 440,
+          "slot": 0
+        },
+        {
+          "id": "FND-018-E0-mirror",
+          "partIndex": 0,
+          "direction": "EAST",
+          "fov": 2,
+          "range": 500,
+          "slot": 2
+        },
+        {
+          "id": "FND-018-E1-mirror",
+          "partIndex": 3,
+          "direction": "SOUTH",
+          "fov": 1.8,
+          "range": 440,
+          "slot": 0
         }
       ],
       "mouths": [
@@ -2258,7 +2505,8 @@
           "partIndex": 0,
           "direction": "EAST",
           "intakeWidth": 17.849999999999998,
-          "mouthType": "herbivore"
+          "mouthType": "herbivore",
+          "slot": 0
         }
       ],
       "hue": 321,
@@ -2378,21 +2626,24 @@
           "partIndex": 0,
           "direction": "EAST",
           "fov": 2,
-          "range": 525
+          "range": 525,
+          "slot": 1
         },
         {
           "id": "FND-019-E1",
           "partIndex": 4,
           "direction": "NORTH",
           "fov": 1.8,
-          "range": 460
+          "range": 460,
+          "slot": 0
         },
         {
           "id": "FND-019-E2",
           "partIndex": 3,
           "direction": "SOUTH",
           "fov": 1.8,
-          "range": 460
+          "range": 460,
+          "slot": 0
         }
       ],
       "mouths": [
@@ -2401,7 +2652,8 @@
           "partIndex": 0,
           "direction": "EAST",
           "intakeWidth": 17.849999999999998,
-          "mouthType": "omnivore"
+          "mouthType": "omnivore",
+          "slot": 0
         }
       ],
       "hue": 8,
@@ -2507,21 +2759,32 @@
           "partIndex": 0,
           "direction": "EAST",
           "fov": 2,
-          "range": 550
+          "range": 550,
+          "slot": 1
         },
         {
           "id": "FND-020-E1",
           "partIndex": 2,
           "direction": "NORTH",
           "fov": 1.8,
-          "range": 480
+          "range": 480,
+          "slot": 0
         },
         {
           "id": "FND-020-E2",
           "partIndex": 3,
           "direction": "SOUTH",
           "fov": 1.8,
-          "range": 480
+          "range": 480,
+          "slot": 0
+        },
+        {
+          "id": "FND-020-E0-mirror",
+          "partIndex": 0,
+          "direction": "EAST",
+          "fov": 2,
+          "range": 550,
+          "slot": 2
         }
       ],
       "mouths": [
@@ -2530,7 +2793,8 @@
           "partIndex": 0,
           "direction": "EAST",
           "intakeWidth": 17.849999999999998,
-          "mouthType": "carnivore"
+          "mouthType": "carnivore",
+          "slot": 0
         }
       ],
       "hue": 55,
@@ -2592,9 +2856,9 @@
           "parentIndex": 0,
           "attachmentPoint": "SOUTH",
           "dimN": 2,
-          "dimM": 5,
+          "dimM": 4,
           "width": 14,
-          "height": 35,
+          "height": 28,
           "maxAngle": 0.9,
           "baseAngleOffset": 0,
           "cpgPhaseOffset": 5.090897089623878,
@@ -2636,7 +2900,16 @@
           "partIndex": 4,
           "direction": "EAST",
           "fov": 2,
-          "range": 450
+          "range": 450,
+          "slot": 1
+        },
+        {
+          "id": "FND-021-E0-mirror",
+          "partIndex": 4,
+          "direction": "EAST",
+          "fov": 2,
+          "range": 450,
+          "slot": 2
         }
       ],
       "mouths": [
@@ -2645,7 +2918,8 @@
           "partIndex": 4,
           "direction": "EAST",
           "intakeWidth": 11.9,
-          "mouthType": "herbivore"
+          "mouthType": "herbivore",
+          "slot": 0
         }
       ],
       "hue": 212,
@@ -2707,9 +2981,9 @@
           "parentIndex": 0,
           "attachmentPoint": "SOUTH",
           "dimN": 2,
-          "dimM": 4,
+          "dimM": 5,
           "width": 14,
-          "height": 28,
+          "height": 35,
           "maxAngle": 0.9,
           "baseAngleOffset": 0,
           "cpgPhaseOffset": 4.71238898038469,
@@ -2751,14 +3025,32 @@
           "partIndex": 4,
           "direction": "EAST",
           "fov": 2,
-          "range": 475
+          "range": 475,
+          "slot": 1
         },
         {
           "id": "FND-022-E1",
           "partIndex": 1,
           "direction": "NORTH",
           "fov": 1.8,
-          "range": 420
+          "range": 420,
+          "slot": 0
+        },
+        {
+          "id": "FND-022-E0-mirror",
+          "partIndex": 4,
+          "direction": "EAST",
+          "fov": 2,
+          "range": 475,
+          "slot": 2
+        },
+        {
+          "id": "FND-022-E1-mirror",
+          "partIndex": 2,
+          "direction": "SOUTH",
+          "fov": 1.8,
+          "range": 420,
+          "slot": 0
         }
       ],
       "mouths": [
@@ -2767,7 +3059,8 @@
           "partIndex": 4,
           "direction": "EAST",
           "intakeWidth": 11.9,
-          "mouthType": "herbivore"
+          "mouthType": "herbivore",
+          "slot": 0
         }
       ],
       "hue": 259,
@@ -2873,14 +3166,16 @@
           "partIndex": 4,
           "direction": "EAST",
           "fov": 2,
-          "range": 500
+          "range": 500,
+          "slot": 1
         },
         {
           "id": "FND-023-E1",
           "partIndex": 1,
           "direction": "NORTH",
           "fov": 1.8,
-          "range": 440
+          "range": 440,
+          "slot": 0
         }
       ],
       "mouths": [
@@ -2889,7 +3184,8 @@
           "partIndex": 4,
           "direction": "EAST",
           "intakeWidth": 11.9,
-          "mouthType": "herbivore"
+          "mouthType": "herbivore",
+          "slot": 0
         }
       ],
       "hue": 196,
@@ -3001,6 +3297,20 @@
           "cpgPhaseOffset": 3.0529623176662626,
           "cpgAmp": 0.7232848472893239,
           "cpgFreqMult": 1
+        },
+        {
+          "id": "FND-024-P6",
+          "parentIndex": 2,
+          "attachmentPoint": "SOUTH",
+          "dimN": 2,
+          "dimM": 2,
+          "width": 14,
+          "height": 14,
+          "maxAngle": 0.9,
+          "baseAngleOffset": 0,
+          "cpgPhaseOffset": 6.194554971256055,
+          "cpgAmp": 0.7232848472893239,
+          "cpgFreqMult": 1
         }
       ],
       "eyes": [
@@ -3009,21 +3319,24 @@
           "partIndex": 4,
           "direction": "EAST",
           "fov": 2,
-          "range": 525
+          "range": 525,
+          "slot": 1
         },
         {
           "id": "FND-024-E1",
           "partIndex": 5,
           "direction": "NORTH",
           "fov": 1.8,
-          "range": 460
+          "range": 460,
+          "slot": 0
         },
         {
           "id": "FND-024-E2",
           "partIndex": 2,
-          "direction": "SOUTH",
+          "direction": "EAST",
           "fov": 1.8,
-          "range": 460
+          "range": 460,
+          "slot": 0
         }
       ],
       "mouths": [
@@ -3032,7 +3345,8 @@
           "partIndex": 4,
           "direction": "EAST",
           "intakeWidth": 11.9,
-          "mouthType": "omnivore"
+          "mouthType": "omnivore",
+          "slot": 0
         }
       ],
       "hue": 243,
@@ -3166,21 +3480,24 @@
           "partIndex": 4,
           "direction": "EAST",
           "fov": 2,
-          "range": 550
+          "range": 550,
+          "slot": 1
         },
         {
           "id": "FND-025-E1",
           "partIndex": 5,
           "direction": "NORTH",
           "fov": 1.8,
-          "range": 480
+          "range": 480,
+          "slot": 0
         },
         {
           "id": "FND-025-E2",
           "partIndex": 2,
           "direction": "SOUTH",
           "fov": 1.8,
-          "range": 480
+          "range": 480,
+          "slot": 0
         }
       ],
       "mouths": [
@@ -3189,7 +3506,8 @@
           "partIndex": 4,
           "direction": "EAST",
           "intakeWidth": 11.9,
-          "mouthType": "carnivore"
+          "mouthType": "carnivore",
+          "slot": 0
         }
       ],
       "hue": 290,
@@ -3295,7 +3613,16 @@
           "partIndex": 0,
           "direction": "EAST",
           "fov": 2,
-          "range": 450
+          "range": 450,
+          "slot": 1
+        },
+        {
+          "id": "FND-026-E0-mirror",
+          "partIndex": 0,
+          "direction": "EAST",
+          "fov": 2,
+          "range": 450,
+          "slot": 2
         }
       ],
       "mouths": [
@@ -3304,7 +3631,8 @@
           "partIndex": 0,
           "direction": "EAST",
           "intakeWidth": 17.849999999999998,
-          "mouthType": "herbivore"
+          "mouthType": "herbivore",
+          "slot": 0
         }
       ],
       "hue": 337,
@@ -3410,14 +3738,32 @@
           "partIndex": 1,
           "direction": "EAST",
           "fov": 2,
-          "range": 475
+          "range": 475,
+          "slot": 1
         },
         {
           "id": "FND-027-E1",
           "partIndex": 1,
           "direction": "NORTH",
           "fov": 1.8,
-          "range": 420
+          "range": 420,
+          "slot": 0
+        },
+        {
+          "id": "FND-027-E0-mirror",
+          "partIndex": 2,
+          "direction": "EAST",
+          "fov": 2,
+          "range": 475,
+          "slot": 2
+        },
+        {
+          "id": "FND-027-E1-mirror",
+          "partIndex": 2,
+          "direction": "SOUTH",
+          "fov": 1.8,
+          "range": 420,
+          "slot": 0
         }
       ],
       "mouths": [
@@ -3426,7 +3772,8 @@
           "partIndex": 1,
           "direction": "EAST",
           "intakeWidth": 11.9,
-          "mouthType": "herbivore"
+          "mouthType": "herbivore",
+          "slot": 0
         }
       ],
       "hue": 24,
@@ -3532,14 +3879,32 @@
           "partIndex": 1,
           "direction": "EAST",
           "fov": 2,
-          "range": 500
+          "range": 500,
+          "slot": 1
         },
         {
           "id": "FND-028-E1",
           "partIndex": 1,
           "direction": "NORTH",
           "fov": 1.8,
-          "range": 440
+          "range": 440,
+          "slot": 0
+        },
+        {
+          "id": "FND-028-E0-mirror",
+          "partIndex": 2,
+          "direction": "EAST",
+          "fov": 2,
+          "range": 500,
+          "slot": 2
+        },
+        {
+          "id": "FND-028-E1-mirror",
+          "partIndex": 2,
+          "direction": "SOUTH",
+          "fov": 1.8,
+          "range": 440,
+          "slot": 0
         }
       ],
       "mouths": [
@@ -3548,7 +3913,8 @@
           "partIndex": 1,
           "direction": "EAST",
           "intakeWidth": 11.9,
-          "mouthType": "herbivore"
+          "mouthType": "herbivore",
+          "slot": 0
         }
       ],
       "hue": 181,
@@ -3668,21 +4034,24 @@
           "partIndex": 0,
           "direction": "EAST",
           "fov": 2,
-          "range": 525
+          "range": 525,
+          "slot": 1
         },
         {
           "id": "FND-029-E1",
           "partIndex": 5,
           "direction": "NORTH",
           "fov": 1.8,
-          "range": 460
+          "range": 460,
+          "slot": 0
         },
         {
           "id": "FND-029-E2",
           "partIndex": 2,
           "direction": "SOUTH",
           "fov": 1.8,
-          "range": 460
+          "range": 460,
+          "slot": 0
         }
       ],
       "mouths": [
@@ -3691,7 +4060,8 @@
           "partIndex": 0,
           "direction": "EAST",
           "intakeWidth": 17.849999999999998,
-          "mouthType": "omnivore"
+          "mouthType": "omnivore",
+          "slot": 0
         }
       ],
       "hue": 228,
@@ -3811,21 +4181,24 @@
           "partIndex": 1,
           "direction": "EAST",
           "fov": 2,
-          "range": 550
+          "range": 550,
+          "slot": 1
         },
         {
           "id": "FND-030-E1",
           "partIndex": 5,
           "direction": "NORTH",
           "fov": 1.8,
-          "range": 480
+          "range": 480,
+          "slot": 0
         },
         {
           "id": "FND-030-E2",
           "partIndex": 2,
           "direction": "SOUTH",
           "fov": 1.8,
-          "range": 480
+          "range": 480,
+          "slot": 0
         }
       ],
       "mouths": [
@@ -3834,7 +4207,8 @@
           "partIndex": 1,
           "direction": "EAST",
           "intakeWidth": 11.9,
-          "mouthType": "carnivore"
+          "mouthType": "carnivore",
+          "slot": 0
         }
       ],
       "hue": 165,
@@ -3940,7 +4314,16 @@
           "partIndex": 0,
           "direction": "EAST",
           "fov": 2,
-          "range": 450
+          "range": 450,
+          "slot": 1
+        },
+        {
+          "id": "FND-031-E0-mirror",
+          "partIndex": 0,
+          "direction": "EAST",
+          "fov": 2,
+          "range": 450,
+          "slot": 2
         }
       ],
       "mouths": [
@@ -3949,7 +4332,8 @@
           "partIndex": 0,
           "direction": "EAST",
           "intakeWidth": 29.75,
-          "mouthType": "herbivore"
+          "mouthType": "herbivore",
+          "slot": 0
         }
       ],
       "hue": 212,
@@ -4055,14 +4439,32 @@
           "partIndex": 0,
           "direction": "EAST",
           "fov": 2,
-          "range": 475
+          "range": 475,
+          "slot": 1
         },
         {
           "id": "FND-032-E1",
           "partIndex": 3,
           "direction": "NORTH",
           "fov": 1.8,
-          "range": 420
+          "range": 420,
+          "slot": 0
+        },
+        {
+          "id": "FND-032-E0-mirror",
+          "partIndex": 0,
+          "direction": "EAST",
+          "fov": 2,
+          "range": 475,
+          "slot": 2
+        },
+        {
+          "id": "FND-032-E1-mirror",
+          "partIndex": 4,
+          "direction": "SOUTH",
+          "fov": 1.8,
+          "range": 420,
+          "slot": 0
         }
       ],
       "mouths": [
@@ -4071,7 +4473,8 @@
           "partIndex": 0,
           "direction": "EAST",
           "intakeWidth": 34,
-          "mouthType": "herbivore"
+          "mouthType": "herbivore",
+          "slot": 0
         }
       ],
       "hue": 259,
@@ -4177,14 +4580,32 @@
           "partIndex": 0,
           "direction": "EAST",
           "fov": 2,
-          "range": 500
+          "range": 500,
+          "slot": 1
         },
         {
           "id": "FND-033-E1",
           "partIndex": 3,
           "direction": "NORTH",
           "fov": 1.8,
-          "range": 440
+          "range": 440,
+          "slot": 0
+        },
+        {
+          "id": "FND-033-E0-mirror",
+          "partIndex": 0,
+          "direction": "EAST",
+          "fov": 2,
+          "range": 500,
+          "slot": 2
+        },
+        {
+          "id": "FND-033-E1-mirror",
+          "partIndex": 4,
+          "direction": "SOUTH",
+          "fov": 1.8,
+          "range": 440,
+          "slot": 0
         }
       ],
       "mouths": [
@@ -4193,7 +4614,8 @@
           "partIndex": 0,
           "direction": "EAST",
           "intakeWidth": 34,
-          "mouthType": "herbivore"
+          "mouthType": "herbivore",
+          "slot": 0
         }
       ],
       "hue": 306,
@@ -4305,6 +4727,20 @@
           "cpgPhaseOffset": 3.141592653589793,
           "cpgAmp": 0.65,
           "cpgFreqMult": 1
+        },
+        {
+          "id": "FND-034-P6",
+          "parentIndex": 1,
+          "attachmentPoint": "SOUTH",
+          "dimN": 1,
+          "dimM": 2,
+          "width": 7,
+          "height": 14,
+          "maxAngle": 0.9,
+          "baseAngleOffset": 0,
+          "cpgPhaseOffset": 0,
+          "cpgAmp": 0.65,
+          "cpgFreqMult": 1
         }
       ],
       "eyes": [
@@ -4313,21 +4749,32 @@
           "partIndex": 0,
           "direction": "EAST",
           "fov": 2,
-          "range": 525
+          "range": 525,
+          "slot": 1
         },
         {
           "id": "FND-034-E1",
           "partIndex": 3,
           "direction": "NORTH",
           "fov": 1.8,
-          "range": 460
+          "range": 460,
+          "slot": 0
         },
         {
           "id": "FND-034-E2",
           "partIndex": 4,
           "direction": "SOUTH",
           "fov": 1.8,
-          "range": 460
+          "range": 460,
+          "slot": 0
+        },
+        {
+          "id": "FND-034-E0-mirror",
+          "partIndex": 0,
+          "direction": "EAST",
+          "fov": 2,
+          "range": 525,
+          "slot": 2
         }
       ],
       "mouths": [
@@ -4336,7 +4783,8 @@
           "partIndex": 0,
           "direction": "EAST",
           "intakeWidth": 29.75,
-          "mouthType": "omnivore"
+          "mouthType": "omnivore",
+          "slot": 0
         }
       ],
       "hue": 353,
@@ -4448,6 +4896,20 @@
           "cpgPhaseOffset": 3.141592653589793,
           "cpgAmp": 0.65,
           "cpgFreqMult": 1
+        },
+        {
+          "id": "FND-035-P6",
+          "parentIndex": 1,
+          "attachmentPoint": "SOUTH",
+          "dimN": 1,
+          "dimM": 2,
+          "width": 7,
+          "height": 14,
+          "maxAngle": 0.9,
+          "baseAngleOffset": 0,
+          "cpgPhaseOffset": 0,
+          "cpgAmp": 0.65,
+          "cpgFreqMult": 1
         }
       ],
       "eyes": [
@@ -4456,21 +4918,32 @@
           "partIndex": 0,
           "direction": "EAST",
           "fov": 2,
-          "range": 550
+          "range": 550,
+          "slot": 1
         },
         {
           "id": "FND-035-E1",
           "partIndex": 3,
           "direction": "NORTH",
           "fov": 1.8,
-          "range": 480
+          "range": 480,
+          "slot": 0
         },
         {
           "id": "FND-035-E2",
           "partIndex": 4,
           "direction": "SOUTH",
           "fov": 1.8,
-          "range": 480
+          "range": 480,
+          "slot": 0
+        },
+        {
+          "id": "FND-035-E0-mirror",
+          "partIndex": 0,
+          "direction": "EAST",
+          "fov": 2,
+          "range": 550,
+          "slot": 2
         }
       ],
       "mouths": [
@@ -4479,7 +4952,8 @@
           "partIndex": 0,
           "direction": "EAST",
           "intakeWidth": 34,
-          "mouthType": "carnivore"
+          "mouthType": "carnivore",
+          "slot": 0
         }
       ],
       "hue": 40,
@@ -4571,7 +5045,8 @@
           "partIndex": 0,
           "direction": "EAST",
           "fov": 2,
-          "range": 450
+          "range": 450,
+          "slot": 1
         }
       ],
       "mouths": [
@@ -4580,7 +5055,8 @@
           "partIndex": 0,
           "direction": "EAST",
           "intakeWidth": 17.849999999999998,
-          "mouthType": "herbivore"
+          "mouthType": "herbivore",
+          "slot": 0
         }
       ],
       "hue": 197,
@@ -4686,14 +5162,16 @@
           "partIndex": 0,
           "direction": "EAST",
           "fov": 2,
-          "range": 475
+          "range": 475,
+          "slot": 1
         },
         {
           "id": "FND-037-E1",
           "partIndex": 2,
           "direction": "NORTH",
           "fov": 1.8,
-          "range": 420
+          "range": 420,
+          "slot": 0
         }
       ],
       "mouths": [
@@ -4702,7 +5180,8 @@
           "partIndex": 0,
           "direction": "EAST",
           "intakeWidth": 17.849999999999998,
-          "mouthType": "herbivore"
+          "mouthType": "herbivore",
+          "slot": 0
         }
       ],
       "hue": 244,
@@ -4808,14 +5287,16 @@
           "partIndex": 0,
           "direction": "EAST",
           "fov": 2,
-          "range": 500
+          "range": 500,
+          "slot": 1
         },
         {
           "id": "FND-038-E1",
           "partIndex": 2,
           "direction": "NORTH",
           "fov": 1.8,
-          "range": 440
+          "range": 440,
+          "slot": 0
         }
       ],
       "mouths": [
@@ -4824,7 +5305,8 @@
           "partIndex": 0,
           "direction": "EAST",
           "intakeWidth": 17.849999999999998,
-          "mouthType": "herbivore"
+          "mouthType": "herbivore",
+          "slot": 0
         }
       ],
       "hue": 181,
@@ -4944,21 +5426,24 @@
           "partIndex": 0,
           "direction": "EAST",
           "fov": 2,
-          "range": 525
+          "range": 525,
+          "slot": 1
         },
         {
           "id": "FND-039-E1",
           "partIndex": 2,
           "direction": "NORTH",
           "fov": 1.8,
-          "range": 460
+          "range": 460,
+          "slot": 0
         },
         {
           "id": "FND-039-E2",
           "partIndex": 4,
           "direction": "SOUTH",
           "fov": 1.8,
-          "range": 460
+          "range": 460,
+          "slot": 0
         }
       ],
       "mouths": [
@@ -4967,7 +5452,8 @@
           "partIndex": 0,
           "direction": "EAST",
           "intakeWidth": 17.849999999999998,
-          "mouthType": "omnivore"
+          "mouthType": "omnivore",
+          "slot": 0
         }
       ],
       "hue": 228,
@@ -5101,21 +5587,24 @@
           "partIndex": 0,
           "direction": "EAST",
           "fov": 2,
-          "range": 550
+          "range": 550,
+          "slot": 1
         },
         {
           "id": "FND-040-E1",
           "partIndex": 6,
           "direction": "NORTH",
           "fov": 1.8,
-          "range": 480
+          "range": 480,
+          "slot": 0
         },
         {
           "id": "FND-040-E2",
           "partIndex": 4,
           "direction": "SOUTH",
           "fov": 1.8,
-          "range": 480
+          "range": 480,
+          "slot": 0
         }
       ],
       "mouths": [
@@ -5124,7 +5613,8 @@
           "partIndex": 0,
           "direction": "EAST",
           "intakeWidth": 17.849999999999998,
-          "mouthType": "carnivore"
+          "mouthType": "carnivore",
+          "slot": 0
         }
       ],
       "hue": 275,
@@ -5202,7 +5692,8 @@
           "partIndex": 0,
           "direction": "EAST",
           "fov": 2,
-          "range": 450
+          "range": 450,
+          "slot": 1
         }
       ],
       "mouths": [
@@ -5211,7 +5702,8 @@
           "partIndex": 0,
           "direction": "EAST",
           "intakeWidth": 17.849999999999998,
-          "mouthType": "herbivore"
+          "mouthType": "herbivore",
+          "slot": 0
         }
       ],
       "hue": 322,
@@ -5303,14 +5795,16 @@
           "partIndex": 0,
           "direction": "EAST",
           "fov": 2,
-          "range": 475
+          "range": 475,
+          "slot": 1
         },
         {
           "id": "FND-042-E1",
           "partIndex": 2,
           "direction": "NORTH",
           "fov": 1.8,
-          "range": 420
+          "range": 420,
+          "slot": 0
         }
       ],
       "mouths": [
@@ -5319,7 +5813,8 @@
           "partIndex": 0,
           "direction": "EAST",
           "intakeWidth": 17.849999999999998,
-          "mouthType": "herbivore"
+          "mouthType": "herbivore",
+          "slot": 0
         }
       ],
       "hue": 9,
@@ -5425,14 +5920,16 @@
           "partIndex": 0,
           "direction": "EAST",
           "fov": 2,
-          "range": 500
+          "range": 500,
+          "slot": 1
         },
         {
           "id": "FND-043-E1",
           "partIndex": 4,
           "direction": "NORTH",
           "fov": 1.8,
-          "range": 440
+          "range": 440,
+          "slot": 0
         }
       ],
       "mouths": [
@@ -5441,7 +5938,8 @@
           "partIndex": 0,
           "direction": "EAST",
           "intakeWidth": 17.849999999999998,
-          "mouthType": "herbivore"
+          "mouthType": "herbivore",
+          "slot": 0
         }
       ],
       "hue": 56,
@@ -5561,21 +6059,24 @@
           "partIndex": 0,
           "direction": "EAST",
           "fov": 2,
-          "range": 525
+          "range": 525,
+          "slot": 1
         },
         {
           "id": "FND-044-E1",
           "partIndex": 4,
           "direction": "NORTH",
           "fov": 1.8,
-          "range": 460
+          "range": 460,
+          "slot": 0
         },
         {
           "id": "FND-044-E2",
           "partIndex": 0,
           "direction": "SOUTH",
           "fov": 1.8,
-          "range": 460
+          "range": 460,
+          "slot": 0
         }
       ],
       "mouths": [
@@ -5584,7 +6085,8 @@
           "partIndex": 0,
           "direction": "EAST",
           "intakeWidth": 17.849999999999998,
-          "mouthType": "omnivore"
+          "mouthType": "omnivore",
+          "slot": 0
         }
       ],
       "hue": 213,
@@ -5718,21 +6220,24 @@
           "partIndex": 0,
           "direction": "EAST",
           "fov": 2,
-          "range": 550
+          "range": 550,
+          "slot": 1
         },
         {
           "id": "FND-045-E1",
           "partIndex": 6,
           "direction": "NORTH",
           "fov": 1.8,
-          "range": 480
+          "range": 480,
+          "slot": 0
         },
         {
           "id": "FND-045-E2",
           "partIndex": 0,
           "direction": "SOUTH",
           "fov": 1.8,
-          "range": 480
+          "range": 480,
+          "slot": 0
         }
       ],
       "mouths": [
@@ -5741,7 +6246,8 @@
           "partIndex": 0,
           "direction": "EAST",
           "intakeWidth": 17.849999999999998,
-          "mouthType": "carnivore"
+          "mouthType": "carnivore",
+          "slot": 0
         }
       ],
       "hue": 260,
@@ -5833,7 +6339,8 @@
           "partIndex": 3,
           "direction": "EAST",
           "fov": 2,
-          "range": 450
+          "range": 450,
+          "slot": 1
         }
       ],
       "mouths": [
@@ -5842,7 +6349,8 @@
           "partIndex": 3,
           "direction": "EAST",
           "intakeWidth": 29.75,
-          "mouthType": "herbivore"
+          "mouthType": "herbivore",
+          "slot": 0
         }
       ],
       "hue": 197,
@@ -5948,14 +6456,16 @@
           "partIndex": 4,
           "direction": "EAST",
           "fov": 2,
-          "range": 475
+          "range": 475,
+          "slot": 1
         },
         {
           "id": "FND-047-E1",
           "partIndex": 1,
           "direction": "NORTH",
           "fov": 1.8,
-          "range": 420
+          "range": 420,
+          "slot": 0
         }
       ],
       "mouths": [
@@ -5964,7 +6474,8 @@
           "partIndex": 4,
           "direction": "EAST",
           "intakeWidth": 34,
-          "mouthType": "herbivore"
+          "mouthType": "herbivore",
+          "slot": 0
         }
       ],
       "hue": 244,
@@ -6084,14 +6595,16 @@
           "partIndex": 4,
           "direction": "EAST",
           "fov": 2,
-          "range": 500
+          "range": 500,
+          "slot": 1
         },
         {
           "id": "FND-048-E1",
           "partIndex": 5,
           "direction": "NORTH",
           "fov": 1.8,
-          "range": 440
+          "range": 440,
+          "slot": 0
         }
       ],
       "mouths": [
@@ -6100,7 +6613,8 @@
           "partIndex": 4,
           "direction": "EAST",
           "intakeWidth": 34,
-          "mouthType": "herbivore"
+          "mouthType": "herbivore",
+          "slot": 0
         }
       ],
       "hue": 291,
@@ -6234,21 +6748,24 @@
           "partIndex": 3,
           "direction": "EAST",
           "fov": 2,
-          "range": 525
+          "range": 525,
+          "slot": 1
         },
         {
           "id": "FND-049-E1",
           "partIndex": 1,
           "direction": "NORTH",
           "fov": 1.8,
-          "range": 460
+          "range": 460,
+          "slot": 0
         },
         {
           "id": "FND-049-E2",
           "partIndex": 2,
           "direction": "SOUTH",
           "fov": 1.8,
-          "range": 460
+          "range": 460,
+          "slot": 0
         }
       ],
       "mouths": [
@@ -6257,7 +6774,8 @@
           "partIndex": 3,
           "direction": "EAST",
           "intakeWidth": 17.849999999999998,
-          "mouthType": "omnivore"
+          "mouthType": "omnivore",
+          "slot": 0
         }
       ],
       "hue": 338,
@@ -6349,21 +6867,24 @@
           "partIndex": 0,
           "direction": "EAST",
           "fov": 2,
-          "range": 550
+          "range": 550,
+          "slot": 1
         },
         {
           "id": "FND-050-E1",
           "partIndex": 1,
           "direction": "NORTH",
           "fov": 1.8,
-          "range": 480
+          "range": 480,
+          "slot": 0
         },
         {
           "id": "FND-050-E2",
           "partIndex": 3,
           "direction": "SOUTH",
           "fov": 1.8,
-          "range": 480
+          "range": 480,
+          "slot": 0
         }
       ],
       "mouths": [
@@ -6372,7 +6893,8 @@
           "partIndex": 0,
           "direction": "EAST",
           "intakeWidth": 17.849999999999998,
-          "mouthType": "carnivore"
+          "mouthType": "carnivore",
+          "slot": 0
         }
       ],
       "hue": 25,
@@ -6390,6 +6912,131 @@
       "reproductionCooldown": 18,
       "maxLifespan": 380,
       "metabolicEfficiency": 1,
+      "storageTraitMultiplier": 1
+    }
+  },
+  {
+    "id": "FND-051",
+    "name": "Moonbell Jellyfish",
+    "family": "Bell swimmers",
+    "diet": "omnivore",
+    "seed": 715051,
+    "morphology": {
+      "parts": [
+        {
+          "id": "FND-051-P0",
+          "parentIndex": -1,
+          "attachmentPoint": "EAST",
+          "dimN": 2,
+          "dimM": 6,
+          "width": 14,
+          "height": 42,
+          "maxAngle": 1.15,
+          "baseAngleOffset": 0,
+          "cpgPhaseOffset": 0,
+          "cpgAmp": 0,
+          "cpgFreqMult": 1
+        },
+        {
+          "id": "FND-051-P1",
+          "parentIndex": 0,
+          "attachmentPoint": "NORTH",
+          "dimN": 3,
+          "dimM": 1,
+          "width": 21,
+          "height": 7,
+          "maxAngle": 1.15,
+          "baseAngleOffset": 0,
+          "cpgPhaseOffset": 0,
+          "cpgAmp": 0.7,
+          "cpgFreqMult": 1
+        },
+        {
+          "id": "FND-051-P2",
+          "parentIndex": 0,
+          "attachmentPoint": "SOUTH",
+          "dimN": 3,
+          "dimM": 1,
+          "width": 21,
+          "height": 7,
+          "maxAngle": 1.15,
+          "baseAngleOffset": 0,
+          "cpgPhaseOffset": 3.141592653589793,
+          "cpgAmp": 0.7,
+          "cpgFreqMult": 1
+        },
+        {
+          "id": "FND-051-P3",
+          "parentIndex": 1,
+          "attachmentPoint": "WEST",
+          "dimN": 5,
+          "dimM": 1,
+          "width": 35,
+          "height": 7,
+          "maxAngle": 1.15,
+          "baseAngleOffset": 0,
+          "cpgPhaseOffset": 4.883185307179586,
+          "cpgAmp": 0.85,
+          "cpgFreqMult": 1
+        },
+        {
+          "id": "FND-051-P4",
+          "parentIndex": 2,
+          "attachmentPoint": "WEST",
+          "dimN": 5,
+          "dimM": 1,
+          "width": 35,
+          "height": 7,
+          "maxAngle": 1.15,
+          "baseAngleOffset": 0,
+          "cpgPhaseOffset": 1.7415926535897932,
+          "cpgAmp": 0.85,
+          "cpgFreqMult": 1
+        }
+      ],
+      "eyes": [
+        {
+          "id": "FND-051-E0",
+          "partIndex": 0,
+          "direction": "EAST",
+          "slot": 1,
+          "fov": 2,
+          "range": 560
+        },
+        {
+          "id": "FND-051-E1",
+          "partIndex": 0,
+          "direction": "EAST",
+          "slot": 2,
+          "fov": 2,
+          "range": 560
+        }
+      ],
+      "mouths": [
+        {
+          "id": "FND-051-M0",
+          "partIndex": 0,
+          "direction": "EAST",
+          "slot": 0,
+          "intakeWidth": 15,
+          "mouthType": "omnivore"
+        }
+      ],
+      "hue": 285,
+      "saturation": 75,
+      "lightness": 70
+    },
+    "locomotion": {
+      "motorFrequency": 2.4,
+      "motorForce": 3.4
+    },
+    "lifeHistory": {
+      "targetClutchSize": 1,
+      "maturityAge": 22,
+      "incubationTime": 11,
+      "reproductionCooldown": 18,
+      "maxLifespan": 360,
+      "metabolicEfficiency": 1.05,
       "storageTraitMultiplier": 1
     }
   }

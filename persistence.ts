@@ -1,13 +1,13 @@
 import {
   XoshiroPRNG, migrateOrganismBrain, ensureBrainLayout, calculateBodyCost,
   calculateMaxEnergyCapacity, clampVal, getPartCornerVertices,
-  getBrainLayout, getDietClassification, CARRION_DECAY_SECONDS, MAX_OUTPUTS, type Genome, type SimulationSettings, type SimulationState, type Organism,
+  getBrainLayout, getDietClassification, CARRION_DECAY_SECONDS, MAX_OUTPUTS, MAX_SURFACE_ORGANS, MAX_NEURAL_INPUTS, surfacePlacementProblems, morphologyProblems, type Genome, type SimulationSettings, type SimulationState, type Organism,
 } from './simulation';
 
-export const BUILD_VERSION = '0.4.0';
+export const BUILD_VERSION = '0.5.0';
 export const DEFAULT_SETTINGS: SimulationSettings = {
   worldWidth: 2400, worldHeight: 1500, waterViscosity: .18,
-  targetNutrients: 800, inflowRate: 15, kinshipProtection: true,
+  targetNutrients: 400, inflowRate: 15, kinshipProtection: true,
   mutationSeverity: .25, gravity: 0, maxOrganisms: 100,
 };
 export const CREDITS = 'By Hernán Garro & Federico Regueira';
@@ -53,7 +53,7 @@ export function resizeWorld(s: SimulationState, old: SimulationSettings, width: 
 
 export function createSnapshot(s: SimulationState, settings: SimulationSettings, metadata: Record<string, unknown> = {}) {
   const {prng, lineage, ...data} = s;
-  const snapshot = {schemaVersion: '6.0.0', build: BUILD_VERSION, metadata, settings,
+  const snapshot = {schemaVersion: '7.0.0', build: BUILD_VERSION, metadata, settings,
     state: {...data, prngState: prng.getState(), lineage: [...lineage]}};
   // Canonical JSON representation also drops optional undefined fields in memory.
   return JSON.parse(JSON.stringify(snapshot)) as typeof snapshot;
@@ -74,7 +74,9 @@ export function validateGenome(raw: unknown): Genome {
   finiteTree(g);
   assert(typeof g.id === 'string', 'genome ID');
   assert(Array.isArray(g.parts) && g.parts.length >= 1 && g.parts.length <= 7, 'body part count');
-  assert(Array.isArray(g.eyes) && g.eyes.length <= 5 && Array.isArray(g.mouths) && g.mouths.length <= 3, 'organ count');
+  assert(Array.isArray(g.eyes) && Array.isArray(g.mouths)
+    && g.eyes.length + g.mouths.length <= MAX_SURFACE_ORGANS, 'organ count');
+  assert(g.anatomyVersion === undefined || g.anatomyVersion === 1, 'anatomy version');
   assert(new Set(g.eyes.map(e => e.id)).size === g.eyes.length
     && new Set(g.mouths.map(m => m.id)).size === g.mouths.length, 'duplicate organ IDs');
   assert(g.brainVersion === undefined || g.brainVersion === 2 || g.brainVersion === 3, 'brain version');
@@ -92,10 +94,15 @@ export function validateGenome(raw: unknown): Genome {
     assert(typeof organ.id === 'string' && Number.isInteger(organ.partIndex) && organ.partIndex >= 0 && organ.partIndex < g.parts.length
       && dirs.includes(organ.direction), 'organ placement');
   }
+  for (const o of [...g.eyes, ...g.mouths]) assert(o.slot === undefined || [0, 1, 2].includes(o.slot), 'organ slot');
+  if (g.anatomyVersion === 1) {
+    assert(morphologyProblems(g.parts).length === 0, 'body geometry');
+    assert(surfacePlacementProblems(g).length === 0, 'exclusive face occupancy');
+  }
   assert(g.eyes.every(e => e.fov > 0 && e.fov <= Math.PI * 2 && e.range > 0 && e.range <= 5000), 'eye parameters');
   assert(g.mouths.every(m => ['herbivore', 'omnivore', 'carnivore'].includes(m.mouthType) && m.intakeWidth > 0), 'mouth parameters');
   for (const matrix of [g.weightsIH, g.weightsHH, g.weightsHO]) {
-    assert(Array.isArray(matrix) && matrix.length <= MAX_OUTPUTS && matrix.every(row => Array.isArray(row) && row.length <= 128 && row.every(Number.isFinite)), 'neural weights');
+    assert(Array.isArray(matrix) && matrix.length <= MAX_OUTPUTS && matrix.every(row => Array.isArray(row) && row.length <= MAX_NEURAL_INPUTS && row.every(Number.isFinite)), 'neural weights');
   }
   assert(g.weightsIH.length === 24 && g.weightsHH.length === 24 && g.weightsHH.every(row => row.length === 24), 'hidden layer');
   assert(Array.isArray(g.biasesH) && g.biasesH.length === 24 && g.biasesH.every(Number.isFinite)
@@ -127,7 +134,7 @@ export function restoreSnapshot(input: unknown): {state: SimulationState; settin
     assert(input.length <= 25_000_000, 'file exceeds 25 MB'); return JSON.parse(input);
   })() : structuredClone(input);
   assert(raw && typeof raw === 'object', 'document');
-  assert(['6.0.0', '5.0.0', '4.0.0', '3.0.0'].includes(raw.schemaVersion), 'unsupported schema');
+  assert(['7.0.0', '6.0.0', '5.0.0', '4.0.0', '3.0.0'].includes(raw.schemaVersion), 'unsupported schema');
   const legacy = raw.schemaVersion === '3.0.0';
   const data = legacy ? raw : raw.state;
   assert(data && typeof data === 'object', 'state');
@@ -146,7 +153,7 @@ export function restoreSnapshot(input: unknown): {state: SimulationState; settin
     && data.prngState.some((n: number) => n !== 0), 'PRNG state');
   const prng = new XoshiroPRNG(); prng.setState(data.prngState);
   const organisms: Organism[] = data.organisms.map((o: Organism) => {
-    if (raw.schemaVersion !== '6.0.0') migrateOrganismBrain(o);
+    if (!['6.0.0', '7.0.0'].includes(raw.schemaVersion)) migrateOrganismBrain(o);
     else assert(o.genome.brainVersion === 3, 'current brain version');
     o.genome = validateGenome(o.genome);
     assert(typeof o.id === 'string' && Array.isArray(o.segments) && o.segments.length === o.genome.parts.length
@@ -161,7 +168,7 @@ export function restoreSnapshot(input: unknown): {state: SimulationState; settin
       && Number.isFinite(feedback.intake) && feedback.intake >= 0 && feedback.intake <= 1, 'oral feedback value');
     assert(o.energy >= 0 && Number.isFinite(o.energy) && o.structuralBiomass >= 0 && Number.isFinite(o.structuralBiomass)
       && Number.isFinite(o.age) && Number.isFinite(o.maxLifespan) && typeof o.dissolving === 'boolean', 'organism state');
-    assert(Array.isArray(o.neuralInputs) && o.neuralInputs.length <= 128 && o.neuralInputs.every(Number.isFinite)
+    assert(Array.isArray(o.neuralInputs) && o.neuralInputs.length <= MAX_NEURAL_INPUTS && o.neuralInputs.every(Number.isFinite)
       && Array.isArray(o.neuralHidden) && o.neuralHidden.length === 24 && o.neuralHidden.every(Number.isFinite)
       && Array.isArray(o.neuralOutputs) && o.neuralOutputs.length <= MAX_OUTPUTS && o.neuralOutputs.every(Number.isFinite), 'activations');
     // Preserve exact activations for current saves; migrate only legacy buffers.

@@ -1,10 +1,10 @@
-import rawFounders from './data/founders.json';
+import rawFounders from './data/founders.json' with {type: 'json'};
 import {
   XoshiroPRNG, createXavierRecurrentNetwork, calculateBodyCost,
   calculateMaxEnergyCapacity, getBrainLayout, getCardinalBaseAngle,
   RAYS_PER_EYE, OUTPUTS_PER_JOINT, remapBrain, WATER_AMBIENT_RGB,
   type Genome, type PartDef, type SensoryEye, type SensoryMouth,
-  type SpecimenBankItem, type MouthType,
+  type SpecimenBankItem, type MouthType, normalizeSurfaceOrgans,
 } from './simulation';
 
 export type FounderMode = 'balanced' | 'unbiased';
@@ -34,13 +34,14 @@ export function createFounderGenome(id: string, mode: FounderMode = 'balanced'):
   brain.weightsHO = brain.weightsHO.map(row => row.map(w => w * .1));
   brain.biasesO = brain.biasesO.map(b => b * .1);
   const g: Genome = {
-    id: d.id, name: d.name, archetype: d.family, generation: 1, parentIds: [],
+    anatomyVersion: 1, id: d.id, name: d.name, archetype: d.family, generation: 1, parentIds: [],
     hue, saturation, lightness, parts, eyes, mouths, ...d.locomotion, ...d.lifeHistory,
     ...brain,
     founderMode: mode, eggReserveFraction: .35, reproductionThreshold: .6,
     bodyCost: calculateBodyCost(parts, eyes, mouths),
     maxEnergyCapacity: calculateMaxEnergyCapacity(parts, d.lifeHistory.storageTraitMultiplier),
   };
+  normalizeSurfaceOrgans(g);
   remapBrain(g);
   // New channels start weak and neutral in empty water, while remaining functional.
   for (let h = 0; h < g.weightsIH.length; h++) for (let i = 0; i < layout.inputs.length; i++) {
@@ -56,6 +57,12 @@ export function createFounderGenome(id: string, mode: FounderMode = 'balanced'):
   // draws cannot shift the old controller's weak sensory connections.
   for (let h = 0; h < g.weightsIH.length; h++) for (let i = 0; i < layout.inputs.length; i++) {
     if (layout.inputs[i].startsWith('mouth:')) g.weightsIH[h][i] = localPrng.range(-.015, .015);
+  }
+  // The compact bell swimmer starts with a quiet controller around its phased gait.
+  // All pathways remain evolvable; balanced mode adds the same retinal prior below.
+  if (d.family === 'Bell swimmers') {
+    g.weightsHO = g.weightsHO.map(row => row.map(w => w * .1));
+    g.biasesO = g.biasesO.map(b => b * .1);
   }
   if (mode === 'balanced') addRetinalSteeringPrior(g, d.diet);
   return g;
@@ -90,17 +97,17 @@ export function createFounderBankItems(mode: FounderMode = 'balanced'): Specimen
     savedAt: 'Built-in', genome: createFounderGenome(d.id, mode), tags: [d.family, d.diet]}));
 }
 
-/** Eighteen diverse starters, twelve herbivores, four omnivores and two predators. */
+/** Up to five distinct designs, sampled without replacement; clones get independent brains.
+ */
 export function sampleFounderGenomes(prng: XoshiroPRNG, count = 18, mode: FounderMode = 'balanced'): Genome[] {
-  const used = new Set<string>();
-  return Array.from({length: count}, (_, i) => {
-    const diet = i % 18 < 12 ? 'herbivore' : i % 18 < 16 ? 'omnivore' : 'carnivore';
-    let candidates = FOUNDER_BLUEPRINTS.filter(d => d.family === FOUNDER_FAMILIES[i % FOUNDER_FAMILIES.length]
-      && d.diet === diet && !used.has(d.id));
-    if (!candidates.length) candidates = FOUNDER_BLUEPRINTS.filter(d => d.diet === diet && !used.has(d.id));
-    if (!candidates.length) candidates = FOUNDER_BLUEPRINTS.filter(d => d.diet === diet);
-    const d = candidates[prng.rangeInt(0, candidates.length - 1)];
-    used.add(d.id);
-    return createFounderGenome(d.id, mode);
-  });
+  if (count <= 0) return [];
+  const available = [...FOUNDER_BLUEPRINTS];
+  const designs: FounderBlueprint[] = [];
+  const number = Math.min(5, count, available.length);
+  for (let i = 0; i < number; i++) {
+    const d = available[prng.rangeInt(0, available.length - 1)];
+    designs.push(d); available.splice(available.indexOf(d), 1);
+  }
+  // Selection order randomizes which designs receive the extra individuals.
+  return Array.from({length: count}, (_, i) => createFounderGenome(designs[i % number].id, mode));
 }

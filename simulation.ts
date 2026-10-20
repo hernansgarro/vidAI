@@ -101,7 +101,7 @@ export const BASE_FOUNDER_AREA = 36.0; // Baseline body grid area (e.g. 3 segmen
 export const FOUNDER_DEFAULT_RESERVE = 10000.0; // 10,000 J starting usable reserve
 export const FOUNDER_DEFAULT_CAPACITY = 100000.0; // 100,000 J max capacity
 
-export const CONTINUOUS_EAT_RATE = 1200.0; // J/s max transfer (scaled for 100k J economy)
+export const CONTINUOUS_EAT_RATE = 2400.0; // J/s max transfer (scaled for 100k J economy)
 export const OMNIVORE_EAT_RATE = CONTINUOUS_EAT_RATE * 0.5; // 50% rate
 export const MOUTH_ASSIMILATION = 0.8; // All mouths dissipate 20% of removed chemical energy.
 export const NUTRIENT_ENERGY_VALUE = 3000.0; // 3,000 J per nutrient
@@ -137,18 +137,25 @@ export const INPUT_LABELS = [
 
 export const OUTPUT_LABELS = ['Angle', 'Drive', 'Torque', 'Stiff', 'Amp', 'Engage'];
 
-export interface SensoryEye {
+export const CARDINAL_DIRS: CardinalDir[] = ['EAST', 'WEST', 'NORTH', 'SOUTH'];
+export const ORGAN_SLOTS_PER_FACE = 3;
+// Absolute import bounds. Physical joints reduce the actual number of available slots.
+export const MAX_SURFACE_ORGANS = MAX_PARTS * 4 * ORGAN_SLOTS_PER_FACE;
+export const MAX_NEURAL_INPUTS = MAX_SURFACE_ORGANS * RAYS_PER_EYE * 4 + (MAX_PARTS - 1) * 2 + 4;
+
+export interface SurfaceOrgan {
   id: string;
   partIndex: number;
   direction: CardinalDir;
+  slot?: 0 | 1 | 2; // 0=center, 1/2=mirrored side slots; absent preserves legacy center placement.
+}
+
+export interface SensoryEye extends SurfaceOrgan {
   fov: number; // in radians
   range: number; // optical distance
 }
 
-export interface SensoryMouth {
-  id: string;
-  partIndex: number;
-  direction: CardinalDir;
+export interface SensoryMouth extends SurfaceOrgan {
   intakeWidth: number; // aperture contact width
   mouthType: MouthType;
 }
@@ -171,6 +178,7 @@ export interface PartDef {
 export type ArchetypeId = 'eel' | 'flapper' | 'tadpole' | 'glider' | 'predator' | 'nematode' | 'random';
 
 export interface Genome {
+  anatomyVersion?: 1; // Absent in legacy saves; new anatomy uses exclusive physical/organ faces.
   id: string;
   name?: string;
   archetype?: string;
@@ -836,6 +844,71 @@ export function getCardinalAnchor(dir: CardinalDir, width: number, height: numbe
     case 'NORTH': return {x: 0, y: -halfH};
     case 'SOUTH': return {x: 0, y: halfH};
   }
+}
+
+/** Both ends of every hinge occupy their respective local faces. */
+export function physicalFaces(parts: PartDef[]): Set<string> {
+  const faces = new Set<string>();
+  for (let i = 1; i < parts.length; i++) {
+    const p = parts[i];
+    faces.add(`${p.parentIndex}:${p.attachmentPoint}`);
+    faces.add(`${i}:${getOppositeCardinalDir(p.attachmentPoint)}`);
+  }
+  return faces;
+}
+
+type SurfaceAnatomy = Pick<Genome, 'parts' | 'eyes' | 'mouths'>;
+export function availableOrganSlots(g: SurfaceAnatomy): Array<Required<Pick<SurfaceOrgan, 'partIndex' | 'direction' | 'slot'>>> {
+  const physical = physicalFaces(g.parts);
+  const occupied = new Set([...g.eyes, ...g.mouths].map(o => `${o.partIndex}:${o.direction}:${o.slot ?? 0}`));
+  return g.parts.flatMap((_, partIndex) => CARDINAL_DIRS.flatMap(direction =>
+    physical.has(`${partIndex}:${direction}`) ? [] : ([0, 1, 2] as const)
+      .filter(slot => !occupied.has(`${partIndex}:${direction}:${slot}`))
+      .map(slot => ({partIndex, direction, slot}))));
+}
+
+export function surfacePlacementProblems(g: SurfaceAnatomy): string[] {
+  const physical = physicalFaces(g.parts), occupied = new Set<string>(), problems: string[] = [];
+  for (const organ of [...g.eyes, ...g.mouths]) {
+    const face = `${organ.partIndex}:${organ.direction}`, key = `${face}:${organ.slot}`;
+    if (!Number.isInteger(organ.partIndex) || organ.partIndex < 0 || organ.partIndex >= g.parts.length
+      || !CARDINAL_DIRS.includes(organ.direction) || ![0, 1, 2].includes(organ.slot!)) problems.push(`Invalid organ slot ${organ.id}`);
+    if (physical.has(face)) problems.push(`Physical face occupied by organ ${organ.id}`);
+    if (occupied.has(key)) problems.push(`Duplicate organ slot ${organ.id}`);
+    occupied.add(key);
+  }
+  return problems;
+}
+
+/** Deterministic repair after host pruning or a physical topology change. IDs survive. */
+export function normalizeSurfaceOrgans(g: SurfaceAnatomy): void {
+  const physical = physicalFaces(g.parts), occupied = new Set<string>();
+  // Mouths keep their apertures before new eyes are fitted around them.
+  for (const organ of [...g.mouths, ...g.eyes]) {
+    const slots = g.parts.flatMap((_, partIndex) => CARDINAL_DIRS.flatMap(direction =>
+      physical.has(`${partIndex}:${direction}`) ? [] : ([0, 1, 2] as const)
+        .filter(slot => !occupied.has(`${partIndex}:${direction}:${slot}`))
+        .map(slot => ({partIndex, direction, slot}))));
+    const preferred = organ.slot ?? 0;
+    slots.sort((a, b) => {
+      const score = (p: typeof a) => (p.partIndex === organ.partIndex ? 0 : 100 + Math.abs(p.partIndex - organ.partIndex))
+        + (p.direction === organ.direction ? 0 : 10) + (p.slot === preferred ? 0 : p.slot + 1);
+      return score(a) - score(b);
+    });
+    const placement = slots[0];
+    if (!placement) throw new Error('No free surface slot for organ');
+    Object.assign(organ, placement);
+    occupied.add(`${placement.partIndex}:${placement.direction}:${placement.slot}`);
+  }
+}
+
+/** Shared by the renderer, retinal rays and contact feeding; never animated. */
+export function getOrganAnchor(organ: SurfaceOrgan, width: number, height: number): {x: number; y: number} {
+  const center = getCardinalAnchor(organ.direction, width, height);
+  const offset = organ.slot === 1 ? -1 / 3 : organ.slot === 2 ? 1 / 3 : 0;
+  if (organ.direction === 'NORTH' || organ.direction === 'SOUTH') center.x += width * offset;
+  else center.y += height * offset;
+  return center;
 }
 
 export function getChildAnchorForParentDir(dir: CardinalDir, width: number, height: number): {x: number; y: number} {
@@ -1533,23 +1606,37 @@ export function createRandomGenome(generation = 1, parentIds: string[] = [], cus
   };
 }
 
+/** Repair the two old fin presets when creating new bodies, never in a live imported body. */
+function alignLegacyFinDimensions(parts: PartDef[]): void {
+  for (const part of parts.slice(1)) if (Math.abs(Math.abs(part.baseAngleOffset) - Math.PI / 2) < 1e-7) {
+    [part.dimN, part.dimM] = [part.dimM, part.dimN];
+    [part.width, part.height] = [part.height, part.width]; part.baseAngleOffset = 0;
+  }
+}
+
 export function createArchetypeGenome(
   archetype: ArchetypeId,
   generation = 1,
   parentIds: string[] = [],
   customPrng = rng,
 ): Genome {
+  let genome: Genome;
   switch (archetype) {
-    case 'eel': return createEelFlagellateGenome(generation, parentIds, customPrng);
-    case 'flapper': return createMantaFlapperGenome(generation, parentIds, customPrng);
-    case 'tadpole': return createTadpoleCruiserGenome(generation, parentIds, customPrng);
-    case 'glider': return createHydrofoilGliderGenome(generation, parentIds, customPrng);
-    case 'predator': return createApexPredatorGenome(generation, parentIds, customPrng);
-    case 'nematode': return createReferenceNematodeGenome();
+    case 'eel': genome = createEelFlagellateGenome(generation, parentIds, customPrng); break;
+    case 'flapper': genome = createMantaFlapperGenome(generation, parentIds, customPrng); break;
+    case 'tadpole': genome = createTadpoleCruiserGenome(generation, parentIds, customPrng); break;
+    case 'glider': genome = createHydrofoilGliderGenome(generation, parentIds, customPrng); break;
+    case 'predator': genome = createApexPredatorGenome(generation, parentIds, customPrng); break;
+    case 'nematode': genome = createReferenceNematodeGenome(); break;
     case 'random':
     default:
-      return createRandomGenome(generation, parentIds, customPrng);
+      genome = createRandomGenome(generation, parentIds, customPrng);
   }
+  // Old preset fins used a quarter-turn around the wrong face anchor, interpenetrating
+  // the body. Store the same long fin axis in its dimensions and keep mating faces flush.
+  if (archetype === 'flapper' || archetype === 'glider') alignLegacyFinDimensions(genome.parts);
+  normalizeSurfaceOrgans(genome); genome.anatomyVersion = 1;
+  return genome;
 }
 
 // Structural Topology Mutation with Strict No-Wide-to-Wide Validation
@@ -1560,6 +1647,11 @@ export function mutateGenome(parent: Genome, severity = 0.25, customPrng: Xoshir
     return {...structuredClone(parent),
       id: `GEN-${customPrng.nextUint32().toString(36).toUpperCase()}`,
       generation: parent.generation + 1, parentIds: [parent.id]};
+  }
+  if (parent.anatomyVersion === undefined && morphologyProblems(parent.parts).length > 0) {
+    const parts = parent.parts.map(p => ({...p}));
+    alignLegacyFinDimensions(parts);
+    if (morphologyProblems(parts).length === 0) parent = {...parent, parts};
   }
   ensureBrainLayout(parent);
   const mutate = (value: number, delta: number, min: number, max: number) =>
@@ -1648,6 +1740,9 @@ export function mutateGenome(parent: Genome, severity = 0.25, customPrng: Xoshir
     p.cpgFreqMult = mutate(p.cpgFreqMult, .2, .5, 2.5);
   }
 
+  // Reject a prune that cannot carry all surviving organs; never silently erase a sensor.
+  const capacity = (4 * parts.length - 2 * (parts.length - 1)) * ORGAN_SLOTS_PER_FACE;
+  if (parent.eyes.length + parent.mouths.length > capacity) parts = parent.parts.map(p => ({...p}));
   const remapHost = (oldIndex: number) => {
     let index = oldIndex;
     while (index >= 0) {
@@ -1665,14 +1760,14 @@ export function mutateGenome(parent: Genome, severity = 0.25, customPrng: Xoshir
     range: mutate(eye.range, 30, 280, 680),
   }));
 
-  const cardinalDirs: CardinalDir[] = ['EAST', 'WEST', 'NORTH', 'SOUTH'];
-  if (customPrng.nextFloat() < mutChance * 0.25 && eyes.length < 5) {
-    const pIdx = customPrng.rangeInt(0, parts.length - 1);
-    const dir = cardinalDirs[customPrng.rangeInt(0, cardinalDirs.length - 1)];
-    eyes.push({
+  const inheritedMouths = parent.mouths.map(m => ({...m, partIndex: remapHost(m.partIndex)}));
+  normalizeSurfaceOrgans({parts, eyes, mouths: inheritedMouths});
+  if (customPrng.nextFloat() < mutChance * 0.25 && eyes.length + parent.mouths.length < MAX_SURFACE_ORGANS) {
+    const free = availableOrganSlots({parts, eyes, mouths: inheritedMouths});
+    const placement = free.length ? free[customPrng.rangeInt(0, free.length - 1)] : null;
+    if (placement) eyes.push({
       id: `eye-${customPrng.nextUint32().toString(36)}`,
-      partIndex: pIdx,
-      direction: dir,
+      ...placement,
       fov: customPrng.range(1.5, 2.3),
       range: customPrng.range(450, 620),
     });
@@ -1682,7 +1777,7 @@ export function mutateGenome(parent: Genome, severity = 0.25, customPrng: Xoshir
 
   // Sensory Mouths mutations
   const mouthTypesList: MouthType[] = ['herbivore', 'carnivore', 'omnivore'];
-  let mouths: SensoryMouth[] = parent.mouths.map((m) => {
+  let mouths: SensoryMouth[] = inheritedMouths.map((m) => {
     let mutatedType: MouthType = m.mouthType || 'herbivore';
     if (customPrng.nextFloat() < mutChance * 0.18) {
       const candidates = mouthTypesList.filter((t) => t !== mutatedType);
@@ -1690,26 +1785,26 @@ export function mutateGenome(parent: Genome, severity = 0.25, customPrng: Xoshir
     }
     return {
       ...m,
-      partIndex: remapHost(m.partIndex),
       mouthType: mutatedType,
       intakeWidth: mutate(m.intakeWidth, 2, 3, 38),
     };
   });
 
-  if (customPrng.nextFloat() < mutChance * 0.20 && mouths.length < 3) {
-    const pIdx = customPrng.rangeInt(0, parts.length - 1);
-    const dir = cardinalDirs[customPrng.rangeInt(0, cardinalDirs.length - 1)];
+  if (customPrng.nextFloat() < mutChance * 0.20 && eyes.length + mouths.length < MAX_SURFACE_ORGANS) {
+    const free = availableOrganSlots({parts, eyes, mouths});
+    const placement = free.length ? free[customPrng.rangeInt(0, free.length - 1)] : null;
     const chosenType = mouthTypesList[customPrng.rangeInt(0, mouthTypesList.length - 1)];
-    mouths.push({
+    if (placement) mouths.push({
       id: `mouth-${customPrng.nextUint32().toString(36)}`,
-      partIndex: pIdx,
-      direction: dir,
+      ...placement,
       intakeWidth: customPrng.range(14, 28),
       mouthType: chosenType,
     });
   } else if (customPrng.nextFloat() < mutChance * 0.12 && mouths.length > 1) {
     mouths.pop();
   }
+
+  normalizeSurfaceOrgans({parts, eyes, mouths});
 
   // Neural Weights Mutations
   const weightsIH = parent.weightsIH.map((row) =>
@@ -1768,6 +1863,7 @@ export function mutateGenome(parent: Genome, severity = 0.25, customPrng: Xoshir
   }
 
   const child: Genome = {
+    anatomyVersion: 1,
     id: `GEN-${customPrng.nextUint32().toString(36).substring(0, 5).toUpperCase()}`,
     name: parent.name,
     archetype: parent.archetype,
@@ -2572,7 +2668,7 @@ export function stepSimulation(
       const eyePhys = org.segments[eyePartIdx];
       const eyeDef = g.parts[eyePartIdx];
 
-      const eyeAnchorLocal = getCardinalAnchor(eye.direction, eyeDef.width, eyeDef.height);
+      const eyeAnchorLocal = getOrganAnchor(eye, eyeDef.width, eyeDef.height);
       const cosA = Math.cos(eyePhys.angle);
       const sinA = Math.sin(eyePhys.angle);
       const eyeWorldX = eyePhys.x + cosA * eyeAnchorLocal.x - sinA * eyeAnchorLocal.y;
@@ -2777,7 +2873,7 @@ export function stepSimulation(
       const feedback = oralFeedback[mouth.id] = {contact: 0, intake: 0};
       const host = Math.min(mouth.partIndex, org.segments.length - 1);
       const phys = org.segments[host], def = g.parts[host];
-      const anchor = getCardinalAnchor(mouth.direction, def.width, def.height);
+      const anchor = getOrganAnchor(mouth, def.width, def.height);
       const cos = Math.cos(phys.angle), sin = Math.sin(phys.angle);
       const cx = phys.x + cos * anchor.x - sin * anchor.y;
       const cy = phys.y + sin * anchor.x + cos * anchor.y;

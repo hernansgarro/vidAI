@@ -22,7 +22,7 @@ export function createInitialWorld(settings: SimulationSettings, seed = 4242, mo
   const s: SimulationState = {initialSeed: seed, simTime: 0, organisms: [], eggs: [], nutrients: [], bubbles: [], caustics: [],
     ledger: {externalInflow: 0, metabolicDissipation: 0, mechanicalWorkHeat: 0, recordedLosses: 0},
     nutrientAccumulator: 0, totalBirths: 0, totalDeaths: 0, prng, lineage: new Map(), recentDeaths: []};
-  const count = Math.min(settings.maxOrganisms ?? 100, preset === 'showcase' ? 50 : preset === 'megafauna' ? 12 : requestedCount);
+  const count = Math.min(settings.maxOrganisms ?? 100, preset === 'showcase' ? FOUNDER_BLUEPRINTS.length : preset === 'megafauna' ? 12 : requestedCount);
   const oldPresets: Record<string, ArchetypeId> = {eel_swarm: 'eel', manta_colony: 'flapper', tadpole_school: 'tadpole', glider_fleet: 'glider', predator_cove: 'predator'};
   const genomes = oldPresets[preset] ? Array.from({length: count}, () => createArchetypeGenome(oldPresets[preset], 1, [], prng))
     : preset === 'showcase' ? FOUNDER_BLUEPRINTS.slice(0, count).map(d => createFounderGenome(d.id, mode))
