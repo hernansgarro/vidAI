@@ -67,7 +67,27 @@ test('controlled seeded retina on/off microtrials report seeing, motor response 
       turnOutputDifference: sight.angleOutput - blind.angleOutput,
       sightedProgressPx: sight.progressPx, blindProgressPx: blind.progressPx,
       sightedConsumedJ: sight.eatenJ, blindConsumedJ: blind.eatenJ,
+      sightedDx: sight.deltaX, blindDx: blind.deltaX,
       sightedDy: sight.deltaY, blindDy: blind.deltaY});
   }
   console.log('VIDA_PHASE5_BASELINE '+JSON.stringify(pairs));
+});
+
+test('calibrated founder movement is measured against actual eye/mouth orientation', () => {
+  const results = [];
+  for (const id of ['FND-001', 'FND-006', 'FND-021', 'FND-031', 'FND-051']) {
+    const g = createFounderGenome(id);
+    const s = createInitialWorld(settings, 210, 'balanced', 'standard', 0);
+    const org = addExternalOrganism(s, g, settings, ox, oy, 0)!;
+    org.genome.maturityAge = 1000;
+    const before = sim.calculateOrganismCOM(org), energy = totalAccountedEnergy(s);
+    for (let i = 0; i < seconds * 60; i++) sim.stepSimulation(s, settings, dt);
+    const after = sim.calculateOrganismCOM(org);
+    assert.ok(Math.abs(totalAccountedEnergy(s) - energy) < 1e-5);
+    results.push({id, name: g.name, diet: g.mouths.map(m => m.mouthType),
+      eyes: g.eyes.map(e => e.direction), mouths: g.mouths.map(m => m.direction),
+      displacementX: after.x - before.x, displacementY: after.y - before.y,
+      heading: org.segments[0].angle});
+  }
+  console.log('VIDA_PHASE5_LOCOMOTION '+JSON.stringify(results));
 });
