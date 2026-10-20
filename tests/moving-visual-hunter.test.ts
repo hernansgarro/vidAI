@@ -65,7 +65,7 @@ function run(seed: number, side: -1 | 1, coupled = true, preyMoving = true, step
   const startGap = Math.hypot(startH.x - startP.x, startH.y - startP.y);
   const initialEnergy = totalAccountedEnergy(state);
   let seen = 0, firstSignal = 0, peakMotor = 0, closest = Infinity, biteJ = 0;
-  let firstHeading = 0, turn=0, signalAmplitude = 0;
+  let firstHeading = 0, turn=0, signalAmplitude = 0, firstBiteTick = -1, preyMovedAtBite = 0;
   for (let tick = 0; tick < steps; tick++) {
     sim.stepSimulation(state, settings, dt);
     if (tick === 0) {
@@ -80,7 +80,12 @@ function run(seed: number, side: -1 | 1, coupled = true, preyMoving = true, step
     closest = Math.min(closest, Math.hypot(a.x-b.x, a.y-b.y));
     const h = hunter.genome.hiddenIds!.indexOf(node);
     signalAmplitude = Math.max(signalAmplitude, Math.abs(hunter.neuralHidden[h]));
-    biteJ += Math.max(0, prey.biteFeedbackJ ?? 0);
+    const bitten = Math.max(0, prey.biteFeedbackJ ?? 0);
+    if (bitten > 0 && firstBiteTick < 0) {
+      firstBiteTick = tick;
+      preyMovedAtBite = Math.hypot(b.x - startP.x, b.y - startP.y);
+    }
+    biteJ += bitten;
     turn = wrap(hunter.segments[0].angle);
   }
   const endH = sim.calculateOrganismCOM(hunter), endP = sim.calculateOrganismCOM(prey);
@@ -89,7 +94,7 @@ function run(seed: number, side: -1 | 1, coupled = true, preyMoving = true, step
   return {seed, side, coupled, seen, firstSignal, peakMotor, signalAmplitude, firstHeading, turn,
     hunterTravel: Math.hypot(endH.x-startH.x, endH.y-startH.y),
     preyTravel: Math.hypot(endP.x-startP.x,endP.y-startP.y),
-    startGap, closest, endingGap, biteJ};
+    startGap, closest, endingGap, biteJ, firstBiteTick, preyMovedAtBite};
 }
 
 test('new inherited retinal turn innovation is isolated, color-sensitive, stochastically signed, and saved exactly', () => {
@@ -133,7 +138,8 @@ test('controlled moving prey produces physical pursuit observations against a di
       trackedClosest:sighted.closest, blindClosest:disconnected.closest,
       trackedEnd:sighted.endingGap, blindEnd:disconnected.endingGap,
       trackedTurn:sighted.turn, blindTurn:disconnected.turn,
-      biteJ:sighted.biteJ, blindBiteJ:disconnected.biteJ});
+      biteJ:sighted.biteJ, blindBiteJ:disconnected.biteJ,
+      firstBiteTick:sighted.firstBiteTick, preyMovedAtBite:sighted.preyMovedAtBite});
   }
   console.log('VIDA_BC_MOVING_VISUAL_HUNTER ' + JSON.stringify(results));
 });
