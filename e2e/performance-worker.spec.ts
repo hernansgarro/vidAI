@@ -9,6 +9,38 @@ test.use({viewport: {width: 1280, height: 850}});
 // Software-rendered tanks plus repeated import/download interactions can exceed
 // 30s in CI. Keep individual assertion timeouts and all state checks unchanged.
 test.setTimeout(60000);
+for (const mainthread of [false, true]) test(`notifications expire and replacement/repeat restarts their lifetime (${mainthread ? 'fallback' : 'Worker'})`, async ({page}) => {
+  await page.clock.install({time: new Date('2026-01-01T00:00:00Z')});
+  // Freeze before navigation, so a busy canvas cannot outrun a pause deadline.
+  await page.clock.pauseAt(new Date('2026-01-02T00:00:00Z'));
+  await page.goto(`./?autoplay${mainthread ? '&mainthread' : ''}`);
+  await page.getByTitle('Ecology & Physical Settings').click();
+  const settings = {...DEFAULT_SETTINGS, maxOrganisms: 1, targetNutrients: 0, inflowRate: 0};
+  const source = createSnapshot(createInitialWorld(settings, 91, 'balanced', 'standard', 1), settings);
+  await page.locator('input[type=file]').setInputFiles({name: 'full-population.json', mimeType: 'application/json',
+    buffer: Buffer.from(JSON.stringify(source))});
+  await expect(page.getByRole('button', {name: 'RESUME SIMULATION', exact: true})).toBeVisible();
+  const notice = page.getByTestId('notification');
+  await expect(notice).toContainText('Snapshot restored.');
+  // Advance wall-clock timers while physics is paused. Skip intermediate canvas
+  // frames: replaying every frame makes a wall-clock timer test renderer-bound.
+  const addLife = () => page.getByRole('button', {name: 'Add Life', exact: true}).dispatchEvent('click');
+  const capacityText = /No population slot|Population slots full/;
+  await addLife(); await expect(notice).toContainText(capacityText);
+  await page.clock.fastForward(1500);
+  await addLife(); await expect(notice).toContainText(capacityText);
+  await page.clock.fastForward(1500);
+  await expect(notice).toContainText(capacityText); // repeated identical text gets a fresh lifetime
+  await page.getByRole('button', {name: 'Clear Free Nutrients', exact: true}).dispatchEvent('click');
+  await expect(notice).toContainText('Free nutrients cleared');
+  await page.clock.fastForward(1500);
+  await expect(notice).toContainText('Free nutrients cleared'); // predecessor must not clear replacement
+  await page.clock.fastForward(1500);
+  await expect(notice).toHaveCount(0);
+  await addLife(); await expect(notice).toContainText(capacityText);
+  await page.clock.fastForward(3000);
+  await expect(notice).toHaveCount(0);
+});
 for (const mainthread of [false, true]) test(`closed-budget conversion, controls and exact export (${mainthread ? 'fallback' : 'Worker'})`, async ({page}) => {
   const errors: string[] = []; page.on('pageerror', error => errors.push(error.message));
   await page.goto(`./?autoplay${mainthread ? '&mainthread' : ''}`);
