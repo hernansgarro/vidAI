@@ -24,7 +24,9 @@ port.onmessage = ({data}: MessageEvent) => {
     if (data.type === 'control') {
       if (host.running !== data.running) {accumulator = 0; previous = performance.now();}
       if (host.selected !== data.selected) dirty = true;
-      host.settings = data.settings as SimulationSettings; host.speed = data.speed;
+      if ((data.settings.physicsRegime ?? 'legacy-v0') !== (host.settings.physicsRegime ?? 'legacy-v0'))
+        throw new Error('Physics regime can change only by resetting the world');
+      host.settings = {...data.settings, physicsRegime: host.settings.physicsRegime ?? 'legacy-v0'} as SimulationSettings; host.speed = data.speed;
       host.running = data.running; host.selected = data.selected; return;
     }
     if (data.type === 'action') {
