@@ -15,11 +15,12 @@ test('fresh defaults, five-design population, slotted bank preview and jellyfish
   await page.keyboard.press('Space');
   await expect(page.getByRole('button', {name: 'RESUME SIMULATION', exact: true})).toBeVisible();
   await page.getByTitle('Ecology & Physical Settings').click();
-  await expect(page.getByLabel('Nutrient target', {exact: true})).toHaveValue('275');
+  // The fresh closed-economy world intentionally hides the open-economy nutrient slider.
+  // Verify the configured target in the exported snapshot below instead.
   const download = page.waitForEvent('download');
   await page.getByRole('button', {name: 'Export Snapshot', exact: true}).click();
   const snapshot = JSON.parse(await readFile((await (await download).path())!, 'utf8'));
-  expect(snapshot.schemaVersion).toBe('8.0.0');
+  expect(snapshot.schemaVersion).toBe('15.0.0');
   expect(snapshot.settings.targetNutrients).toBe(275);
   expect(snapshot.state.organisms).toHaveLength(18);
   expect(new Set(snapshot.state.organisms.map((o: any) => o.genome.id)).size).toBe(5);
@@ -29,6 +30,7 @@ test('fresh defaults, five-design population, slotted bank preview and jellyfish
   }
   await page.getByTitle('Close settings (✕)').click();
   await page.getByTitle('Specimen Bank (Save & Spawn Custom Genomes)').click();
+  await page.getByLabel('Bank collection').selectOption('legacy');
   await expect(page.getByTestId('specimen-row')).toHaveCount(55);
   await page.getByLabel('Body family').selectOption('Bell swimmers');
   const jelly = page.getByTestId('specimen-row'); await expect(jelly).toHaveCount(1);
@@ -66,8 +68,10 @@ test('expanded organ layouts import and their retinal strip scrolls on a narrow 
   await expect(page.getByRole('button', {name: 'RESUME SIMULATION', exact: true})).toBeVisible();
   await page.getByTitle('Close settings (✕)').click();
   await page.getByRole('button', {name: 'RESUME SIMULATION', exact: true}).click();
-  const rect = (await page.getByLabel('Aquatic simulation').boundingBox())!;
-  await page.mouse.click(rect.x + rect.width / 2, rect.y + rect.height / 2);
+  // Open the inspector through its toolbar control; canvas clicks are not a stable
+  // way to select a creature at narrow viewports and under the software renderer.
+  await page.getByTitle('Inspect Specimen Brain & Vision Rays').click();
+  await expect(page.getByTitle('Close Diagnostics Window (✕)')).toBeVisible();
   await page.getByTitle('Close Diagnostics Window (✕)').click();
   const badgeHeader = page.getByTestId('badge-window').locator('[class*=cursor-grab]').first();
   const h = (await badgeHeader.boundingBox())!;
