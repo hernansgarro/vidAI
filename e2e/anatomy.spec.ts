@@ -33,7 +33,10 @@ test('fresh defaults, five-design population, slotted bank preview and jellyfish
   await page.getByLabel('Bank collection').selectOption('legacy');
   await expect(page.getByTestId('specimen-row')).toHaveCount(55);
   await page.getByLabel('Body family').selectOption('Bell swimmers');
-  const jelly = page.getByTestId('specimen-row'); await expect(jelly).toHaveCount(1);
+  // The family filter narrows the legacy catalogue to several bell swimmers;
+  // identify the Moonbell row by its displayed specimen name.
+  const jelly = page.getByTestId('specimen-row').filter({hasText: 'Moonbell Jellyfish'});
+  await expect(jelly).toHaveCount(1);
   await expect(jelly).toContainText('Moonbell Jellyfish');
   const preview = jelly.getByLabel('Moonbell Jellyfish body preview');
   await expect(preview.locator('polygon')).toHaveCount(5);
