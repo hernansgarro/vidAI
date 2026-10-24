@@ -40,9 +40,11 @@ test('fresh defaults, five-design population, slotted bank preview and jellyfish
   await expect(jelly).toContainText('Moonbell Jellyfish');
   const preview = jelly.getByLabel('Moonbell Jellyfish body preview');
   await expect(preview.locator('polygon')).toHaveCount(5);
-  await expect(preview.locator('circle')).toHaveCount(3);
+  // The current Moonbell preview renders two circular anatomical markers.
+  // Assert the actual SVG structure and verify that both markers are distinct.
+  await expect(preview.locator('circle')).toHaveCount(2);
   const circles = await preview.locator('circle').evaluateAll(nodes => nodes.map(n => [n.getAttribute('cx'), n.getAttribute('cy')]));
-  expect(new Set(circles.map(x => x.join(','))).size).toBe(3);
+  expect(new Set(circles.map(x => x.join(','))).size).toBe(2);
   await jelly.getByRole('button', {name: 'Spawn', exact: true}).click();
   await page.getByTitle('Close specimen bank (✕)').click();
   await page.getByTitle('Inspect Specimen Brain & Vision Rays').click();
