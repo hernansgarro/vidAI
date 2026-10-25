@@ -38,8 +38,11 @@ test('catalogue, saved specimens, live brain graph and draggable inspector', asy
   await page.getByLabel('Diet filter').selectOption('carnivore'); await expect(rows).toHaveCount(1);
   await rows.first().getByRole('button', {name: 'Spawn', exact: true}).click();
   await page.getByTitle('Close specimen bank (✕)').click();
-  await page.getByTitle('Save to Specimen Bank', {exact: true}).click();
+  // Open the inspector first so the app establishes a selected specimen and renders
+  // its quick badge, which contains the "Save to Specimen Bank" action.
   await page.getByTitle('Inspect Specimen Brain & Vision Rays').click();
+  await expect(page.getByTestId('badge-window')).toBeVisible();
+  await page.getByTitle('Save to Specimen Bank', {exact: true}).click();
   const inspector = page.getByTestId('creature-inspector');
   await expect(page.getByRole('img', {name: 'Live recurrent neural network'})).toBeVisible();
   await expect(inspector.getByText('6-CH MOTORS', {exact: true})).toBeVisible();
@@ -50,7 +53,10 @@ test('catalogue, saved specimens, live brain graph and draggable inspector', asy
   const header = inspector.getByText('RECURRENT BRAIN & DIAGNOSTICS');
   await header.hover(); await page.mouse.down(); await page.mouse.move(before!.x - 100, before!.y + 120, {steps: 8}); await page.mouse.up();
   const after = await inspector.boundingBox(); expect(after!.x).not.toBe(before!.x);
-  const title = inspector.locator('circle title').filter({hasText: /^Hidden 1:/});
+  // Hidden-neuron labels are generated from genome IDs (for example, hidden:0),
+  // not the old presentation label "Hidden 1:".
+  const title = inspector.locator('circle[data-hidden-neuron] title').first();
+  await expect(title).toHaveCount(1);
   const activation = await title.textContent();
   await expect.poll(() => title.textContent()).not.toBe(activation);
   await page.screenshot({path: test.info().outputPath('catalogue-inspector.png')});
