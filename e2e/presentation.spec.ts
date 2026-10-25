@@ -110,6 +110,11 @@ test('import keeps the exact snapshot paused while replacing a fast-running worl
   const session = await page.context().newCDPSession(page);
   await session.send('Emulation.setCPUThrottlingRate', {rate: 4});
   await page.goto('./?autoplay'); await page.getByTitle('Ecology & Physical Settings').click();
+  // Range controls for open-economy nutrients are hidden in the default closed world.
+  // Load an empty open-economy snapshot before exercising the settings sliders.
+  const openSettings = {...DEFAULT_SETTINGS, targetNutrients: 275, inflowRate: 15};
+  await page.locator('input[type=file]').setInputFiles({name: 'open-world.json', mimeType: 'application/json',
+    buffer: Buffer.from(JSON.stringify(createSnapshot(emptyWorld(98), openSettings)))});
   const setRange = async (label: string | null, value: number) => {
     const input = label ? page.getByLabel(label, {exact: true}) : page.getByTestId('settings-window').locator('input[type=range]').first();
     await input.evaluate((node, v) => {
