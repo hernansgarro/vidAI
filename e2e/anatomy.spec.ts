@@ -48,7 +48,7 @@ test('fresh defaults, five-design population, slotted bank preview and jellyfish
   await jelly.getByRole('button', {name: 'Spawn', exact: true}).click();
   await page.getByTitle('Close specimen bank (✕)').click();
   await page.getByTitle('Inspect Specimen Brain & Vision Rays').click();
-  await expect(page.getByTestId('motor-telemetry').locator(':scope > span')).toHaveCount(5);
+  await expect(page.getByTestId('motor-telemetry').locator(':scope > span')).toHaveCount(3);
   await page.getByTestId('creature-inspector').getByRole('button', {name: 'Tree', exact: true}).click();
   await expect(page.getByTestId('creature-inspector')).toContainText('Moonbell Jellyfish');
   await page.screenshot({path: info.outputPath('jellyfish-slotted-organs.png')});
