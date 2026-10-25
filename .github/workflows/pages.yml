@@ -52,38 +52,24 @@ jobs:
       - run: npm run test:e2e
         if: github.event_name == 'workflow_dispatch' && inputs.extended_validation
 
-  # A testing push cannot deploy to GitHub Pages because only main is allowed
-  # to deploy in the protected github-pages environment. GitHub Actions
-  # workflow_dispatch is explicitly allowed from GITHUB_TOKEN.
-  request-main-publication:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/testing'
-    needs: validate
-    runs-on: ubuntu-24.04
-    permissions:
-      actions: write
-    steps:
-      - name: Request main to publish both latest branch builds
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: gh workflow run pages.yml --repo "${{ github.repository }}" --ref main
-
+  # Both main and testing publish one complete site. The testing build is
+  # isolated under /testing; production is always rebuilt from main.
   assemble-pages:
-    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/testing')
     needs: validate
     runs-on: ubuntu-24.04
     permissions:
       contents: read
     steps:
-      # Both branches are checked out afresh. Never deploy the trigger's
-      # built files as main; a testing push cannot replace production.
+      # Always assemble a complete site: production comes from main and the
+      # candidate comes from testing, published only under /testing/.
       - name: Checkout production at main
         uses: actions/checkout@v7
         with:
           ref: main
           path: production
-      - name: Checkout optional testing branch
+      - name: Checkout testing candidate
         uses: actions/checkout@v7
-        continue-on-error: true
         with:
           ref: testing
           path: experimental
@@ -98,48 +84,27 @@ jobs:
       - name: Build production unchanged
         working-directory: production
         run: npm ci && npm run build
-      - name: Detect initialized testing branch
-        id: test-ready
-        run: |
-          if [ -f experimental/testing-baseline.json ] && [ -f experimental/scripts/testing-build-info.mjs ]; then
-            echo "ready=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "ready=false" >> "$GITHUB_OUTPUT"
-            echo "Testing branch is not initialized yet; publishing only production."
-          fi
       - name: Install testing dependencies
-        if: steps.test-ready.outputs.ready == 'true'
         working-directory: experimental
         run: npm ci
-      - name: Resolve testing version from its pinned main baseline
-        if: steps.test-ready.outputs.ready == 'true'
-        id: testing-version
-        working-directory: experimental
-        run: node scripts/testing-build-info.mjs
       - name: Build the independent testing application
-        if: steps.test-ready.outputs.ready == 'true'
         working-directory: experimental
-        env:
-          VITE_TESTING_RELEASE: ${{ steps.testing-version.outputs.label }}
         run: npm run build -- --base=/vidAI/testing/
       - name: Assemble one complete Pages site
         run: |
-          mkdir -p published
+          mkdir -p published/testing
           cp -a production/dist/. published/
-          if [ "${{ steps.test-ready.outputs.ready }}" = true ]; then
-            mkdir -p published/testing
-            cp -a experimental/dist/. published/testing/
-            grep -q '/vidAI/testing/assets/' published/testing/index.html
-            grep -q '/vidAI/assets/' published/index.html
-            test -s published/testing/index.html
-          fi
+          cp -a experimental/dist/. published/testing/
+          grep -q '/vidAI/testing/assets/' published/testing/index.html
+          grep -q '/vidAI/assets/' published/index.html
+          test -s published/testing/index.html
           test -s published/index.html
       - uses: actions/upload-pages-artifact@v5
         with:
           path: published
 
   deploy:
-    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/testing')
     needs: assemble-pages
     runs-on: ubuntu-24.04
     permissions:
