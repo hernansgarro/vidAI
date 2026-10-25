@@ -112,8 +112,13 @@ jobs:
       id-token: write
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      # Pages deploys one combined site; show the relevant branch's URL in Actions.
+      url: ${{ github.ref == 'refs/heads/testing' && format('{0}testing/', steps.deployment.outputs.page_url) || steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/configure-pages@v6
       - uses: actions/deploy-pages@v5
         id: deployment
+      - name: Publish both URLs in the run summary
+        run: |
+          echo "- Stable production (built from main): ${{ steps.deployment.outputs.page_url }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Testing candidate (built from testing): ${{ steps.deployment.outputs.page_url }}testing/" >> "$GITHUB_STEP_SUMMARY"
