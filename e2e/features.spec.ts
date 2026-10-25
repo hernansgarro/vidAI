@@ -5,6 +5,13 @@ import {DEFAULT_SETTINGS, createSnapshot} from '../persistence';
 
 test.use({viewport: {width: 1360, height: 900}});
 test.setTimeout(90000);
+function emptyWorld(seed: number): sim.SimulationState {
+  return {simTime: 0, initialSeed: seed, organisms: [], eggs: [], nutrients: [], bubbles: [], caustics: [],
+    nutrientAccumulator: 0, totalBirths: 0, totalDeaths: 0, prng: new sim.XoshiroPRNG(seed),
+    lineage: new Map(), recentDeaths: [],
+    ledger: {externalInflow: 0, metabolicDissipation: 0, mechanicalWorkHeat: 0, recordedLosses: 0}};
+}
+
 async function range(input: Locator, value: number) {
   await input.evaluate((node, v) => {
     Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!.call(node, String(v));
@@ -19,6 +26,7 @@ test('catalogue, saved specimens, live brain graph and draggable inspector', asy
   await expect(page.getByText('By Hernán Garro & Federico Regueira', {exact: true}).last()).toBeVisible();
   await page.getByRole('button', {name: 'SEED SIMULATION', exact: true}).click();
   await page.getByTitle('Specimen Bank (Save & Spawn Custom Genomes)').click();
+  await page.getByLabel('Bank collection').selectOption('legacy');
   const rows = page.getByTestId('specimen-row');
   await expect(rows).toHaveCount(55);
   await expect(rows.first().getByRole('button')).toHaveCount(1);
@@ -30,8 +38,11 @@ test('catalogue, saved specimens, live brain graph and draggable inspector', asy
   await page.getByLabel('Diet filter').selectOption('carnivore'); await expect(rows).toHaveCount(1);
   await rows.first().getByRole('button', {name: 'Spawn', exact: true}).click();
   await page.getByTitle('Close specimen bank (✕)').click();
-  await page.getByTitle('Save to Specimen Bank', {exact: true}).click();
+  // Open the inspector first so the app establishes a selected specimen and renders
+  // its quick badge, which contains the "Save to Specimen Bank" action.
   await page.getByTitle('Inspect Specimen Brain & Vision Rays').click();
+  await expect(page.getByTestId('badge-window')).toBeVisible();
+  await page.getByTitle('Save to Specimen Bank', {exact: true}).click();
   const inspector = page.getByTestId('creature-inspector');
   await expect(page.getByRole('img', {name: 'Live recurrent neural network'})).toBeVisible();
   await expect(inspector.getByText('6-CH MOTORS', {exact: true})).toBeVisible();
@@ -42,13 +53,17 @@ test('catalogue, saved specimens, live brain graph and draggable inspector', asy
   const header = inspector.getByText('RECURRENT BRAIN & DIAGNOSTICS');
   await header.hover(); await page.mouse.down(); await page.mouse.move(before!.x - 100, before!.y + 120, {steps: 8}); await page.mouse.up();
   const after = await inspector.boundingBox(); expect(after!.x).not.toBe(before!.x);
-  const title = inspector.locator('circle title').filter({hasText: /^Hidden 1:/});
+  // Hidden-neuron labels are generated from genome IDs (for example, hidden:0),
+  // not the old presentation label "Hidden 1:".
+  const title = inspector.locator('circle[data-hidden-neuron] title').first();
+  await expect(title).toHaveCount(1);
   const activation = await title.textContent();
   await expect.poll(() => title.textContent()).not.toBe(activation);
   await page.screenshot({path: test.info().outputPath('catalogue-inspector.png')});
   await page.reload(); await page.getByRole('button', {name: 'SEED SIMULATION', exact: true}).click();
   await page.getByTitle('Specimen Bank (Save & Spawn Custom Genomes)').click();
-  await expect(page.getByTestId('specimen-row')).toHaveCount(52);
+  await page.getByLabel('Bank collection').selectOption('saved');
+  await expect(page.getByTestId('specimen-row')).toHaveCount(1);
   expect(await page.evaluate(() => JSON.parse(localStorage.getItem('vida_specimen_bank_v3')!).length)).toBe(1);
   expect(errors).toEqual([]);
 });
@@ -65,7 +80,7 @@ test('v5 snapshots import through the UI and export all six motor channels witho
   await page.getByRole('button', {name: 'Export Snapshot', exact: true}).click();
   const download = await downloadPromise, saved = info.outputPath('migrated-motors.json'); await download.saveAs(saved);
   const snapshot = JSON.parse(await readFile(saved, 'utf8')), current = snapshot.state.organisms[0];
-  expect(snapshot.schemaVersion).toBe('8.0.0'); expect(current.genome.brainVersion).toBe(4);
+  expect(snapshot.schemaVersion).toBe('12.0.0'); expect(current.genome.brainVersion).toBe(7);
   expect(current.neuralOutputs).toHaveLength(36); expect(current.mouthFeedback).toBeDefined();
   original.genome.outputKeys.forEach((key: string, i: number) => {
     const currentIndex = current.genome.outputKeys.indexOf(key);
@@ -81,6 +96,11 @@ test('sandbox controls, zero food, diagnostic report and snapshot restore', asyn
   const errors: string[] = []; page.on('pageerror', e => errors.push(e.message));
   await page.goto('./?autoplay');
   await page.getByTitle('Ecology & Physical Settings').click();
+  // Import an open-economy empty world: the nutrient target slider is intentionally
+  // unavailable for the default closed-economy world.
+  const openSettings = {...DEFAULT_SETTINGS, targetNutrients: 275, inflowRate: 15};
+  await page.locator('input[type=file]').setInputFiles({name: 'open-world.json', mimeType: 'application/json',
+    buffer: Buffer.from(JSON.stringify(createSnapshot(emptyWorld(41), openSettings)))});
   await range(page.getByLabel('Nutrient target', {exact: true}), 0);
   await page.getByRole('button', {name: 'Clear Free Nutrients', exact: true}).click();
   await range(page.getByLabel('Tank width', {exact: true}), 1800);
@@ -143,6 +163,7 @@ test('imported green omnivore and edible remains retain three diet labels and di
   expect(Math.abs(report.energy.errorJ)).toBeLessThan(.001);
   await page.screenshot({path: test.info().outputPath('pigment-and-remains.png')});
   await page.getByTitle('Specimen Bank (Save & Spawn Custom Genomes)').click();
+  await page.getByLabel('Bank collection').selectOption('saved');
   await page.getByLabel('Diet filter').selectOption('omnivore');
   await expect(page.getByTestId('specimen-row').filter({hasText: 'Green two-mouth specimen'})).toHaveCount(1);
   await page.getByLabel('Diet filter').selectOption('carnivore');
