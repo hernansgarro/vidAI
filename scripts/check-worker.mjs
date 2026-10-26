@@ -91,7 +91,7 @@ try {
   const closedSource = createSnapshot(closed, closedSettings);
   send({type: 'reset', snapshot: closedSource, epoch: 4});
   await receive(value => value.type === 'frame' && value.frame.epoch === 4);
-  assert.equal((await request('snapshot', {}, 4)).schemaVersion, '13.0.0');
+  assert.equal((await request('snapshot', {}, 4)).schemaVersion, '16.0.0');
   assert.equal(await request('action', {action: {kind: 'feed', count: 1, x: 800, y: 600}}, 4), 0);
   const raised = closed.energyPool.budget + 6000;
   await request('action', {action: {kind: 'energy-budget', joules: raised}}, 4);
