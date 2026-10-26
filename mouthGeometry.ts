@@ -8,7 +8,7 @@ export function mouthDimensions(mouth: Pick<SensoryMouth, 'mouthType' | 'intakeW
   const radius = mouth.mouthType === 'carnivore' ? 4.5 : mouth.mouthType === 'omnivore' ? 4 : 3.5;
   const diameter = radius * 2;
   const length = Math.max(diameter, mouth.intakeLength ?? mouth.intakeWidth);
-  return {radius, diameter, length};}
+  return {radius, diameter, length};
 }
 
 function pointSegmentDistanceSquared(px: number, py: number, ax: number, ay: number, bx: number, by: number) {
