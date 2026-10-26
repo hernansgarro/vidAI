@@ -90,7 +90,7 @@ export function validateGenome(raw: unknown): Genome {
   assert(raw && typeof raw === 'object', 'genome');
   const g = structuredClone(raw) as Genome;
   // Idempotent migration shared by standalone exports and embedded genomes.
-  for (const m of g.mouths ?? []) {
+  for (const m of (Array.isArray(g.mouths) ? g.mouths : [])) {
     const radius = m.mouthType === 'carnivore' ? 4.5 : m.mouthType === 'omnivore' ? 4 : 3.5;
     const diameter = radius * 2;
     if (m.intakeLength === undefined) { m.intakeLength = Math.max(diameter, m.intakeWidth); m.intakeWidth = diameter; }
