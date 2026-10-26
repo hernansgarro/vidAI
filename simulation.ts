@@ -2410,7 +2410,8 @@ export function mutateGenome(parent: Genome, severity = 0.25, customPrng: Xoshir
     return {
       ...m,
       mouthType: mutatedType,
-      intakeWidth: mutate(m.intakeWidth, 2, 3, 38),
+      intakeLength: mutate(m.intakeLength ?? m.intakeWidth, 2, 3, 38),
+      intakeWidth: mutatedType === 'carnivore' ? 9 : mutatedType === 'omnivore' ? 8 : 7,
     };
   });
 
@@ -2421,7 +2422,8 @@ export function mutateGenome(parent: Genome, severity = 0.25, customPrng: Xoshir
     if (placement) mouths.push({
       id: `mouth-${customPrng.nextUint32().toString(36)}`,
       ...placement,
-      intakeWidth: customPrng.range(14, 28),
+      intakeLength: customPrng.range(14, 28),
+      intakeWidth: chosenType === 'carnivore' ? 9 : chosenType === 'omnivore' ? 8 : 7,
       mouthType: chosenType,
     });
   } else if (customPrng.nextFloat() < mutChance * 0.12 && mouths.length > 1) {
