@@ -8,7 +8,7 @@ const settings = {...DEFAULT_SETTINGS, targetNutrients: 0, inflowRate: 0, mutati
 function genome(type?: sim.MouthType) {
   const g = sim.createReferenceNematodeGenome(new sim.XoshiroPRNG(7));
   g.parts = [g.parts[0]]; g.motorForce = 0; g.eyes = [];
-  g.mouths = type ? [{id: 'mouth', partIndex: 0, direction: 'EAST', intakeWidth: 12, mouthType: type}] : [];
+  g.mouths = type ? [{id: 'mouth', partIndex: 0, direction: 'EAST', intakeWidth: type === 'carnivore' ? 9 : type === 'omnivore' ? 8 : 7, intakeLength: 12, mouthType: type}] : [];
   g.bodyCost = sim.calculateBodyCost(g.parts, g.eyes, g.mouths);
   g.maxEnergyCapacity = sim.calculateMaxEnergyCapacity(g.parts, g.storageTraitMultiplier);
   sim.remapBrain(g);
