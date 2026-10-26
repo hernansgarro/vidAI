@@ -78,8 +78,12 @@ test('old saves keep original contact and schema; malformed contact models canno
   }
 });
 
-test('mouth width stays inherited and the visible build version matches the package release', () => {
-  assert.deepEqual(mouthDimensions({mouthType: 'carnivore', intakeWidth: 20}), {radius: 4.5, diameter: 9, length: 20});
+test('mouth diameter is fixed by diet and the visible build version matches the package release', () => {
+  assert.deepEqual(mouthDimensions({mouthType: 'carnivore', intakeWidth: 9, intakeLength: 20}),
+    {radius: 4.5, diameter: 9, length: 20});
+  const malformed = createFounderGenome('FND-001');
+  malformed.mouths[0].intakeWidth = 8;
+  assert.throws(() => validateGenome(malformed), /mouth parameters/);
   assert.equal(BUILD_VERSION, JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')).version);
 });
 
