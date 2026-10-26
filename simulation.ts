@@ -4090,7 +4090,7 @@ export function stepSimulation(
         if (!(canEat() || !feedback.contact)) break;
         const food = nutrients[i], carrion = food.kind === 'carrion';
         if (carrion ? !eatsMeat : !eatsPlants) continue;
-        const reach = food.radius + halfAperture + mouthRadius;
+        const reach = food.radius + intakeLength + mouthRadius;
         if (Math.abs(food.x - cx) > reach || Math.abs(food.y - cy) > reach) continue;
         if (distPointToSegment(food.x, food.y, x1, y1, x2, y2) > food.radius + mouthRadius) continue;
         feedback.contact = 1;
