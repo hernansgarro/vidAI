@@ -68,7 +68,7 @@ export function createSnapshot(s: SimulationState, settings: SimulationSettings,
   }};
   for (const organism of snapshotData.organisms) migrateMouths(organism.genome);
   for (const egg of snapshotData.eggs) migrateMouths(egg.genome);
-  for (const record of snapshotLineage) migrateMouths(record.genome);
+  for (const [, record] of snapshotLineage) migrateMouths(record.genome);
   const snapshot = {schemaVersion: '16.0.0', build: BUILD_VERSION, metadata, settings: {...settings,
     ...(s.energyPool ? {ecologyRegime: 'closed-v1' as const, nutrientLimit: settings.nutrientLimit ?? null} : {}),
     physicsRegime: settings.physicsRegime ?? 'legacy-v0'},
