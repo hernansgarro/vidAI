@@ -12,7 +12,7 @@ export function mouthContactFixture(model?: 'capsule-v1', encounter = 'endpoint'
     const g = createFounderGenome('FND-001');
     g.parts = g.parts.slice(0, 1); g.eyes = []; g.motorForce = 0;
     Object.assign(g.parts[0], {dimN: mouth ? 3 : 1, dimM: mouth ? 3 : 1, width: mouth ? 21 : 7, height: mouth ? 21 : 7});
-    g.mouths = mouth ? [{id: 'test-mouth', partIndex: 0, direction: 'EAST', slot: 0, intakeWidth: 20, mouthType: 'carnivore'}] : [];
+    g.mouths = mouth ? [{id: 'test-mouth', partIndex: 0, direction: 'EAST', slot: 0, intakeWidth: 9, intakeLength: 20, mouthType: 'carnivore'}] : [];
     g.bodyCost = calculateBodyCost(g.parts, [], g.mouths);
     g.maxEnergyCapacity = calculateMaxEnergyCapacity(g.parts, g.storageTraitMultiplier); remapBrain(g);
     return g;
