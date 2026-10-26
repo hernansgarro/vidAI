@@ -32,7 +32,17 @@ test.skip('Twin Oar reaches off-axis finite food through inherited visual steeri
 test('calibration changes only new Twin Oar genes; old saves and the other 63 designs remain intact', () => {
   const unaffected = [...FEATURED_BLUEPRINTS, ...FOUNDER_BLUEPRINTS]
     .filter(f => f.id !== 'CUR-002').map(f => createFounderGenome(f.id));
-  assert.equal(hash(unaffected), '075d05d5db45a2cd821749601518716bd7e8d717178f28156e66bbf6bf24f535');
+  // The historical golden predates the mouth schema split. Reconstruct only
+  // that legacy serialization so the hash still guards every unrelated gene.
+  const legacyMouthProjection = unaffected.map(genome => {
+    const copy = structuredClone(genome);
+    for (const mouth of copy.mouths) {
+      mouth.intakeWidth = mouth.intakeLength ?? mouth.intakeWidth;
+      delete mouth.intakeLength;
+    }
+    return copy;
+  });
+  assert.equal(hash(legacyMouthProjection), '075d05d5db45a2cd821749601518716bd7e8d717178f28156e66bbf6bf24f535');
   const original = createFounderGenome('CUR-002', 'balanced', {foraging: 'catalogue'});
   const current = createFounderGenome('CUR-002');
   validateGenome(current);
