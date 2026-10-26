@@ -121,7 +121,7 @@ try {
     send({type: 'reset', epoch, snapshot: source});
     await receive(value => value.type === 'frame' && value.frame.epoch === epoch);
     const initial = await request('snapshot', {}, epoch);
-    assert.equal(initial.schemaVersion, physicsRegime === 'passive-work-v3' ? '15.0.0' : '14.0.0'); assert.deepEqual(initial, source);
+    assert.equal(initial.schemaVersion, '16.0.0'); assert.deepEqual(initial, source);
     const direct = restoreSnapshot(initial).state;
     send({type: 'ack', epoch});
     send({type: 'control', epoch, settings: probe.config, speed: 1, selected: null, running: true});
