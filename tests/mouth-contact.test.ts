@@ -84,6 +84,29 @@ test('mouth width stays inherited and the visible build version matches the pack
 });
 
 
+test('legacy save migration covers all diets, clamps reach to diameter, and survives save/load', () => {
+  const cases = [{type: 'herbivore' as const, diameter: 7}, {type: 'omnivore' as const, diameter: 8}, {type: 'carnivore' as const, diameter: 9}];
+  for (const item of cases) {
+    const {state, config} = mouthContactFixture();
+    const current = createSnapshot(state, config);
+    const legacy = structuredClone(current);
+    legacy.schemaVersion = '12.0.0';
+    const mouth = legacy.state.organisms[0].genome.mouths[0];
+    mouth.mouthType = item.type;
+    mouth.intakeWidth = 2;
+    delete mouth.intakeLength;
+    const restored = restoreSnapshot(legacy);
+    const migrated = restored.state.organisms[0].genome.mouths[0];
+    assert.equal(migrated.intakeWidth, item.diameter);
+    assert.equal(migrated.intakeLength, item.diameter);
+    const saved = createSnapshot(restored.state, restored.settings);
+    assert.equal(saved.schemaVersion, '16.0.0');
+    const loaded = restoreSnapshot(saved);
+    assert.deepEqual(createSnapshot(loaded.state, loaded.settings), saved);
+    assert.deepEqual(validateGenome(loaded.state.organisms[0].genome), loaded.state.organisms[0].genome);
+  }
+});
+
 test('legacy mouth dimensions migrate once to fixed width and forward reach', () => {
   const legacy = createFounderGenome('FND-001');
   const oldWidth = legacy.mouths[0].intakeWidth;
