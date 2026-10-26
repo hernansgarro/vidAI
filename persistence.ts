@@ -86,11 +86,11 @@ function finiteTree(value: unknown, depth = 0): void {
   if (value && typeof value === 'object') for (const v of Object.values(value)) finiteTree(v, depth + 1);
 }
 
-export function validateGenome(raw: unknown): Genome {
+export function validateGenome(raw: unknown, migrateLegacyMouths = false): Genome {
   assert(raw && typeof raw === 'object', 'genome');
   const g = structuredClone(raw) as Genome;
   // Idempotent migration shared by standalone exports and embedded genomes.
-  for (const m of (Array.isArray(g.mouths) ? g.mouths : [])) {
+  if (migrateLegacyMouths) for (const m of (Array.isArray(g.mouths) ? g.mouths : [])) {
     const radius = m.mouthType === 'carnivore' ? 4.5 : m.mouthType === 'omnivore' ? 4 : 3.5;
     const diameter = radius * 2;
     if (m.intakeLength === undefined) { m.intakeLength = Math.max(diameter, m.intakeWidth); m.intakeWidth = diameter; }
@@ -266,7 +266,7 @@ export function restoreSnapshot(input: unknown): {state: SimulationState; settin
       if (raw.schemaVersion === '8.0.0') assert(o.genome.brainVersion === 4, 'previous brain version');
       migrateOrganismBrain(o); // Keep original activations and PRNG; tau=0 preserves earlier dynamics.
     }
-    o.genome = validateGenome(o.genome);
+    o.genome = validateGenome(o.genome, true);
     if (o.motorDiagnostics !== undefined) {
       const d = o.motorDiagnostics;
       assert(d && [d.positiveWorkJ, d.negativeWorkJ, d.energyLimitedImpulses, d.numericalGuardEvents]
@@ -357,7 +357,7 @@ export function restoreSnapshot(input: unknown): {state: SimulationState; settin
   });
   assert(new Set(organisms.map(o => o.id)).size === organisms.length, 'duplicate organism IDs');
   for (const egg of data.eggs) {
-    egg.genome = validateGenome(egg.genome);
+    egg.genome = validateGenome(egg.genome, true);
     assert([egg.x, egg.y, egg.vx, egg.vy, egg.fundedReserve, egg.fundedStructural, egg.incubationProgress, egg.totalIncubationTime].every(Number.isFinite)
       && (egg.hatchHeading === undefined || Number.isFinite(egg.hatchHeading))
       && egg.fundedReserve >= 0 && egg.fundedStructural >= 0 && egg.totalIncubationTime > 0, 'egg state');
@@ -391,7 +391,7 @@ export function restoreSnapshot(input: unknown): {state: SimulationState; settin
     recentDeaths: data.recentDeaths ?? [],
   };
   delete (state as unknown as Record<string, unknown>).prngState;
-  for (const rec of state.lineage.values()) rec.genome = validateGenome(rec.genome);
+  for (const rec of state.lineage.values()) rec.genome = validateGenome(rec.genome, true);
   if (closed) assert(Math.abs(totalAccountedEnergy(state) - state.energyPool!.budget)
     <= Math.max(1e-5, state.energyPool!.budget * 1e-10), 'world energy conservation');
   return {state, settings, metadata: raw.metadata ?? {legacyImport: true}};
