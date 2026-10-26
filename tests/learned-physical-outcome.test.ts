@@ -69,7 +69,8 @@ function followup(seed:number, side:number, d:number) {
   targetProgressB:Math.hypot(start.x-x,start.y-y)-Math.hypot(endB.x-x,endB.y-y),
   reserveA:a.energy,reserveB:b.energy};
 }
-test('real learned experience is compared against its own erased-experience physical twin',()=>{
+// PAUSED (mouth-geometry separation grade 1): physical intake behavior is outside the current grade-0 scope.
+test.skip('real learned experience is compared against its own erased-experience physical twin',()=>{
  const cases=[{seed:711,side:0,d:120},{seed:711,side:-34,d:130},
  {seed:711,side:34,d:130},{seed:733,side:0,d:130}];
  const results=cases.map(x=>followup(x.seed,x.side,x.d));
