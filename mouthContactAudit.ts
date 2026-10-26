@@ -21,8 +21,11 @@ export function mouthContactFixture(model?: 'capsule-v1', encounter = 'endpoint'
   // Keep the endpoint case just outside the legacy aperture while within
   // the forward capsule's reach and vertical radius. The old model must miss;
   // capsule-v1 must make physical contact with the prey rectangle.
-  const prey = addExternalOrganism(state, make(false), config, encounter === 'far' ? 1220 : encounter === 'overlap' ? 1213.75 : 1214.5,
-    encounter === 'head-on' || encounter === 'overlap' ? 750 : 757.5, 0)!;
+  const placement = encounter === 'endpoint' ? {x: 1234.5, y: 756}
+    : encounter === 'head-on' ? {x: 1214.5, y: 750}
+    : encounter === 'overlap' ? {x: 1213.75, y: 750}
+    : {x: 1245, y: 765};
+  const prey = addExternalOrganism(state, make(false), config, placement.x, placement.y, 0)!;
   return {state, config, hunter, prey};
 }
 
