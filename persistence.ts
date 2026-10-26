@@ -61,7 +61,7 @@ export function createSnapshot(s: SimulationState, settings: SimulationSettings,
   const {prng, lineage, ...data} = s;
   const snapshotData = structuredClone(data);
   const snapshotLineage = structuredClone([...lineage]);
-  const migrateMouths = (genome: Genome) => { for (const mouth of genome.mouths ?? []) {
+  const migrateMouths = (genome: Genome | undefined) => { if (!genome || !Array.isArray(genome.mouths)) return; for (const mouth of genome.mouths) {
     const radius = mouth.mouthType === 'carnivore' ? 4.5 : mouth.mouthType === 'omnivore' ? 4 : 3.5;
     const diameter = radius * 2;
     if (mouth.intakeLength === undefined) { mouth.intakeLength = Math.max(diameter, mouth.intakeWidth); mouth.intakeWidth = diameter; }
