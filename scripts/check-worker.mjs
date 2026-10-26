@@ -115,7 +115,7 @@ try {
   assert.match((await receive(value => value.id === -78)).message, /Ecology regime/);
   let mouthEpoch = 10;
   for (const physicsRegime of ['legacy-v0', 'surface-work-v1', 'paid-work-v2', 'passive-work-v3']) for (const closed of [false, true]) {
-    const probe = mouthContactFixture('capsule-v1'); probe.config.physicsRegime = physicsRegime;
+    const probe = mouthContactFixture('capsule-v1', 'overlap'); probe.config.physicsRegime = physicsRegime;
     if (closed) {enableClosedEconomy(probe.state); probe.config.ecologyRegime = 'closed-v1'; probe.config.nutrientLimit = null;}
     const source = createSnapshot(probe.state, probe.config), epoch = mouthEpoch++;
     send({type: 'reset', epoch, snapshot: source});
