@@ -2410,7 +2410,7 @@ export function mutateGenome(parent: Genome, severity = 0.25, customPrng: Xoshir
     return {
       ...m,
       mouthType: mutatedType,
-      intakeLength: mutate(m.intakeLength ?? m.intakeWidth, 2, 3, 38),
+      intakeLength: Math.max(mutatedType === 'carnivore' ? 9 : mutatedType === 'omnivore' ? 8 : 7, mutate(m.intakeLength ?? m.intakeWidth, 2, 3, 38)),
       intakeWidth: mutatedType === 'carnivore' ? 9 : mutatedType === 'omnivore' ? 8 : 7,
     };
   });
