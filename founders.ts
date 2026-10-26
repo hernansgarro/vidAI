@@ -19,24 +19,10 @@ interface FounderBlueprint {
     storageTraitMultiplier: number};
 }
 
-/** Founder catalogue is normalized once at its ingestion boundary. Legacy intakeWidth
- * encoded reach; the new format stores that reach in intakeLength and reserves
- * intakeWidth for the fixed visible/contact diameter of each mouth type.
+/** Canonical founder catalogue. Mouth geometry is stored directly in the current
+ * format: fixed diameter in intakeWidth and forward reach in intakeLength.
  */
-const MOUTH_DIAMETER: Record<MouthType, number> = {
-  herbivore: 7,
-  omnivore: 8,
-  carnivore: 9,
-};
-export const FOUNDER_BLUEPRINTS = (rawFounders as FounderBlueprint[]).map(founder => {
-  const normalized = structuredClone(founder);
-  normalized.morphology.mouths = normalized.morphology.mouths.map(mouth => {
-    const diameter = MOUTH_DIAMETER[mouth.mouthType];
-    const legacyReach = mouth.intakeLength ?? mouth.intakeWidth;
-    return {...mouth, intakeWidth: diameter, intakeLength: Math.max(diameter, legacyReach)};
-  });
-  return normalized;
-});
+export const FOUNDER_BLUEPRINTS = rawFounders as FounderBlueprint[];
 export const FOUNDER_FAMILIES = [...new Set(FOUNDER_BLUEPRINTS.map(f => f.family))];
 
 /**
