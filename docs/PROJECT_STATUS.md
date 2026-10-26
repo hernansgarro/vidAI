@@ -1,19 +1,27 @@
 # Project status — 2026-10-21
 
-## Contributor fork: paused-test recovery — 2026-10-26, incomplete
+## Contributor fork: all eleven paused checks recovered — 2026-10-26
 
 Upstream tracking: #107. On `hernansgarro/vidAI:feature/restore-paused-regression-tests`,
-seven historical full-state checks retain their original hashes through a test-only
-projection of the mouth field split. Full non-mouth state matches the verified
-pre-mouth reference exactly. All eleven paused cases are active; four behavioral
-checks still fail. Fast suite:290 total,286pass,4fail,0skip; build and actual
-production Worker pass. No runtime, physical parameters, brains, expectations,
-main/testing integration or publication changed. The geometry-only diagnostic
-control reproduces the historical learning/hunter outcomes, so the original
-separation grades do not establish independent motor defects. Further work
-requires resolving the four behavioral acceptance contracts; no automatic search.
-See [complete diagnosis and retained evidence](experiments/paused-tests-107/README.md).
-This fork-only checkpoint is not upstream acceptance or a released feature.
+all eleven checks are active and pass. The owner authorized reviewing guarantees
+against original test intent and accepted forward-mouth geometry. Seven original
+hashes remain unchanged with a strictly oral representation projection; all other
+state is exact against the pre-mouth reference. Four behavioral contracts now
+protect actual causal feeding, conserved absorption, isolated acquired experience,
+funded articulated motion and real injury, rather than complete meals, end-X
+displacement or historical outcome quotas. No simulation/controller/physics,
+mouth behavior, release or save change was needed. One invalid omnivore fixture
+diameter was corrected to8 without changing its physical outcomes.
+
+Fast suite:291pass,0fail,0skip; npm ci, build and actual Worker pass. Twin Oar
+still absorbs1440J rather than2400J in one case; learned twins still show one
+benefit/three ties/no harm in four cases. Hunter response signs remain mixed.
+These measured facts are disclosed, not tuned away. See the
+[final intent review and validation](experiments/paused-tests-107/final/report.md)
+and the preserved [initial diagnosis/evidence](experiments/paused-tests-107/README.md).
+Integration is authorized only through a verified fork PR to testing, then owner
+practical review. This checkpoint claims neither a main merge nor upstream
+acceptance/Wiki publication; review actual PR/deployment evidence in #107.
 
 ## Coherent fluid drag and anatomical muscle trial — rejected without runtime changes
 
