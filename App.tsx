@@ -517,7 +517,7 @@ export default function App() {
       if (saved) {
         const items = JSON.parse(saved);
         if (Array.isArray(items)) setSpecimenBank(items.slice(0, 25).flatMap(item => {
-          try { return [{...item, genome: validateGenome(item.genome)}]; } catch { return []; }
+          try { return [{...item, genome: validateGenome(item.genome, true)}]; } catch { return []; }
         }));
       }
     } catch {
