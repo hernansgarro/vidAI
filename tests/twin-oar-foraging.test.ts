@@ -68,7 +68,17 @@ test('calibration changes only new Twin Oar genes; old saves and the other 63 de
     stepSimulation(state, settings, 1 / 60); stepSimulation(restored.state, restored.settings, 1 / 60);
   }
   assert.deepEqual(createSnapshot(state, settings), createSnapshot(restored.state, restored.settings));
-  assert.equal(hash(createSnapshot(restored.state, restored.settings).state),
+  const historicalState = structuredClone(createSnapshot(restored.state, restored.settings).state);
+  const projectGenomeMouths = (genome: typeof original) => {
+    for (const mouth of genome.mouths) {
+      mouth.intakeWidth = mouth.intakeLength ?? mouth.intakeWidth;
+      delete mouth.intakeLength;
+    }
+  };
+  for (const organism of historicalState.organisms) projectGenomeMouths(organism.genome);
+  for (const egg of historicalState.eggs) projectGenomeMouths(egg.genome);
+  for (const [, record] of historicalState.lineage) projectGenomeMouths(record.genome);
+  assert.equal(hash(historicalState),
     '28e177bac9b543eb91d2d6948124e4dcb85a8f44f9563f657d3a45568b20aa90',
-    'exact v0.33.0 pre-calibration Twin Oar continuation');
+    'exact v0.33.0 pre-calibration Twin Oar continuation outside the intentional mouth schema change');
 });
