@@ -57,8 +57,7 @@ function trial(response:Response, hunterSpeed:number, separation:number, hunterA
    finalSeparation:+Math.hypot(endH.x-endP.x,endH.y-endP.y).toFixed(1),surviving:!prey.dissolving,
    predatorEnergy:hunter.energy, victimEnergy:prey.energy};
 }
-// PAUSED (mouth-geometry separation grade 3): currently fails on hunter locomotion, not mouth geometry.
-test.skip('a mobile, swimming hunter exposes protective and harmful inherited bite responses', () => {
+test('a mobile, swimming hunter exposes protective and harmful inherited bite responses', () => {
  const results=[];
  let wins=0,losses=0,ties=0,contacts=0,untouched=0;
  for(const hunterSpeed of [1,1.5,2.2])for(const separation of [82,94,106,118,130]) {
@@ -88,8 +87,7 @@ test.skip('a mobile, swimming hunter exposes protective and harmful inherited bi
  console.log('PHASE5C_MOBILE_VALIDATION '+JSON.stringify({wins,losses,ties,untouched,results}));
 });
 
-// PAUSED (mouth-geometry separation grade 3): currently fails on hunter displacement, not mouth geometry.
-test.skip('five morphologies show both beneficial and harmful physical injury responses, not universal escape', () => {
+test('five morphologies show both beneficial and harmful physical injury responses, not universal escape', () => {
  const observations=[];
  let wins=0,losses=0,ties=0;
  for(const preyId of ['FND-001','FND-006','FND-021','FND-031','FND-051']) {

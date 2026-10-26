@@ -8,8 +8,7 @@ import {createSnapshot, restoreSnapshot, LEGACY_SETTINGS, validateGenome} from '
 import {stepSimulation, mutateGenome, XoshiroPRNG} from '../simulation';
 const hash = (value: unknown) => createHash('sha256').update(JSON.stringify(value)).digest('hex');
 
-// PAUSED (mouth-geometry separation grade 1): whole-foraging intake outcome is outside the current grade-0 scope.
-test.skip('Twin Oar reaches off-axis finite food through inherited visual steering and physical muscles', () => {
+test('Twin Oar reaches off-axis finite food through inherited visual steering and physical muscles', () => {
   for (const c of TWIN_OAR_APPROACH_CONDITIONS) {
     const current = runTwinOarApproach('current', c);
     const original = runTwinOarApproach('catalogue', c);

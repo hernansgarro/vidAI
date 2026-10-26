@@ -1,5 +1,20 @@
 # Project status — 2026-10-21
 
+## Contributor fork: paused-test recovery — 2026-10-26, incomplete
+
+Upstream tracking: #107. On `hernansgarro/vidAI:feature/restore-paused-regression-tests`,
+seven historical full-state checks retain their original hashes through a test-only
+projection of the mouth field split. Full non-mouth state matches the verified
+pre-mouth reference exactly. All eleven paused cases are active; four behavioral
+checks still fail. Fast suite:290 total,286pass,4fail,0skip; build and actual
+production Worker pass. No runtime, physical parameters, brains, expectations,
+main/testing integration or publication changed. The geometry-only diagnostic
+control reproduces the historical learning/hunter outcomes, so the original
+separation grades do not establish independent motor defects. Further work
+requires resolving the four behavioral acceptance contracts; no automatic search.
+See [complete diagnosis and retained evidence](experiments/paused-tests-107/README.md).
+This fork-only checkpoint is not upstream acceptance or a released feature.
+
 ## Coherent fluid drag and anatomical muscle trial — rejected without runtime changes
 
 - A bounded experiment compared two proposed replacements independently and
