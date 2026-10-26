@@ -135,10 +135,12 @@ export function validateGenome(raw: unknown, migrateLegacyMouths = false): Genom
     || (Array.isArray(e.spectralSensitivity) && e.spectralSensitivity.length === 3
       && e.spectralSensitivity.every((v: unknown) => typeof v === 'number'
         && Number.isFinite(v) && v >= 0 && v <= 1))), 'eye spectral sensitivity');
-  assert(g.mouths.every(m => ['herbivore', 'omnivore', 'carnivore'].includes(m.mouthType)
-    && Number.isFinite(m.intakeWidth) && m.intakeWidth > 0
-    && Number.isFinite(m.intakeLength) && m.intakeLength! > 0
-    && m.intakeLength! >= m.intakeWidth), 'mouth parameters');
+  assert(g.mouths.every(m => {
+    if (!['herbivore', 'omnivore', 'carnivore'].includes(m.mouthType)) return false;
+    const diameter = m.mouthType === 'carnivore' ? 9 : m.mouthType === 'omnivore' ? 8 : 7;
+    return Number.isFinite(m.intakeWidth) && m.intakeWidth === diameter
+      && Number.isFinite(m.intakeLength) && m.intakeLength! >= diameter;
+  }), 'mouth parameters');
   for (const matrix of [g.weightsIH, g.weightsHH, g.weightsHO]) {
     assert(Array.isArray(matrix) && matrix.length <= MAX_HIDDEN && matrix.every(row =>
       Array.isArray(row) && row.length <= MAX_NEURAL_INPUTS && row.every(Number.isFinite)), 'neural weights');
