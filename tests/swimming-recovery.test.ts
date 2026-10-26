@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import {test} from 'node:test';
+import {legacyMouthState} from './support/legacy-mouth-state';
 import {createHash} from 'node:crypto';
 import {createFounderGenome,FEATURED_BLUEPRINTS} from '../founders';
 import {DEFAULT_SETTINGS,createSnapshot,restoreSnapshot,totalAccountedEnergy} from '../persistence';
@@ -67,11 +68,10 @@ const surfaceGolden={
   'CUR-001':'0c047eb7d77179a8416653908504ca302daaebf319f0ea4a173461f90be53a5f',
   'CUR-006':'08a677b9922d03a0a06a494b50bd1ebe481492fa6b19a3d49a2e9c6c0bd50370',
 };
-// PAUSED (mouth-geometry separation grade 2): historical full-state hashes are outside the current grade-0 scope.
-for(const [id,expected]of Object.entries(surfaceGolden))test.skip(`${id}: v0.34.0 saves retain exact surface-model continuation`,()=>{
+for(const [id,expected]of Object.entries(surfaceGolden))test(`${id}: v0.34.0 saves retain exact surface-model continuation`,()=>{
   const {state,config}=world(id,'surface-work-v1');
   for(let i=0;i<120;i++)stepSimulation(state,config,dt);
-  assert.equal(createHash('sha256').update(JSON.stringify(createSnapshot(state,config).state)).digest('hex'),expected);
+  assert.equal(createHash('sha256').update(JSON.stringify(legacyMouthState(createSnapshot(state,config).state))).digest('hex'),expected);
 });
 test('recovery snapshots fork and continue exactly in Worker host and direct kernel',()=>{
   const {state,config}=world('CUR-001','paid-work-v2');
