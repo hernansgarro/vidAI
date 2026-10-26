@@ -34,7 +34,7 @@ function trial(response:Response, hunterSpeed:number, separation:number, hunterA
  hunterGenome.maturityAge=1000;
  hunterGenome.motorFrequency *= hunterSpeed;
  hunterGenome.mouths[0].mouthType='omnivore';
- hunterGenome.mouths[0].intakeWidth=30;
+ hunterGenome.mouths[0].intakeWidth=9; hunterGenome.mouths[0].intakeLength=30;
  hunterGenome.bodyCost=sim.calculateBodyCost(hunterGenome.parts,hunterGenome.eyes,hunterGenome.mouths);
  const rearEdge=Math.min(...prey.segments.map((p,i)=>p.x-prey.genome.parts[i].width/2));
  const hunterX=placeByRearEdge ? rearEdge - hunterGenome.parts[0].width/2 + separation : 1200-separation;
