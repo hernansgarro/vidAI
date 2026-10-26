@@ -88,10 +88,10 @@ test('legacy mouth dimensions migrate once to fixed width and forward reach', ()
   const legacy = createFounderGenome('FND-001');
   const oldWidth = legacy.mouths[0].intakeWidth;
   delete legacy.mouths[0].intakeLength;
-  const migrated = validateGenome(legacy);
+  const migrated = validateGenome(legacy, true);
   const mouth = migrated.mouths[0];
   const diameter = mouth.mouthType === 'carnivore' ? 9 : mouth.mouthType === 'omnivore' ? 8 : 7;
   assert.equal(mouth.intakeWidth, diameter);
   assert.equal(mouth.intakeLength, Math.max(diameter, oldWidth));
-  assert.deepEqual(validateGenome(migrated).mouths, migrated.mouths, 'new-format genome is not migrated twice');
+  assert.deepEqual(validateGenome(migrated, true).mouths, migrated.mouths, 'new-format genome is not migrated twice');
 });
