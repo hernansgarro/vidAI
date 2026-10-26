@@ -22,7 +22,7 @@ export function mouthContactFixture(model?: 'capsule-v1', encounter = 'endpoint'
   // the forward capsule's reach and vertical radius. The old model must miss;
   // capsule-v1 must make physical contact with the prey rectangle.
   const prey = addExternalOrganism(state, make(false), config, encounter === 'far' ? 1220 : encounter === 'overlap' ? 1213.75 : 1214.5,
-    encounter === 'head-on' || encounter === 'overlap' ? 750 : 758, 0)!;
+    encounter === 'head-on' || encounter === 'overlap' ? 750 : 757.5, 0)!;
   return {state, config, hunter, prey};
 }
 
