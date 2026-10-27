@@ -44,6 +44,25 @@ flowchart TD
 Painting does not advance simulation time. The main-thread fallback retains
 fixed-tick behavior when the Worker is unavailable or explicitly disabled.
 
+## Stable toolbar layout (fork testing only)
+
+The fork testing candidate reserves numeric space and uses viewport-driven grids
+for general telemetry, organism counters and actions. At desktop widths of at
+least 1536 CSS pixels, general telemetry and controls share the first row;
+counters occupy the second. Counters use a single row from 1152 CSS pixels,
+with space for wider emoji font metrics. Smaller windows use explicit additional rows and
+control columns. Changing statistics never chooses a new toolbar row or changes
+the tank bounds at a fixed viewport.
+
+Six monospace characters are reserved per count, generation and rate, and twelve
+for elapsed seconds. This exceeds current population/particle save limits;
+values beyond the reservation use scientific notation with the full value in
+the hover title. These are display rules only. All simulation values, controls,
+Worker behavior and save formats retain their existing meanings.
+
+This layout is a fork testing candidate awaiting Hernan's manual visual review;
+it is not an upstream release or an approved fork-main promotion.
+
 ## Current optimizations
 
 | Area | Strategy |

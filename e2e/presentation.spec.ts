@@ -211,3 +211,134 @@ test('white eggs render white and actual feeding animates the mouth', async ({pa
 });
 
 });
+
+// Valid imported worlds exercise React/Worker updates without an expensive ecosystem.
+function toolbarWorld(time: number, generation: number) {
+  const state = emptyWorld(109);
+  state.simTime = time;
+  const genome = sim.createReferenceNematodeGenome(state.prng);
+  genome.parts = [genome.parts[0]]; genome.eyes = []; genome.mouths = []; genome.motorForce = 0;
+  genome.generation = generation; sim.ensureBrainLayout(genome);
+  genome.bodyCost = sim.calculateBodyCost(genome.parts, genome.eyes, genome.mouths);
+  const org = sim.spawnOrganism(genome, 1200, 750, 0, undefined, undefined, state.prng);
+  state.organisms.push(org); state.totalBirths = 1;
+  state.ledger.externalInflow = org.energy + org.structuralBiomass;
+  return createSnapshot(state, {...DEFAULT_SETTINGS, targetNutrients: 0, inflowRate: 0, gravity: 0});
+}
+
+for (const viewport of [
+  {width: 1920, height: 1080}, {width: 1536, height: 864}, {width: 1366, height: 768},
+  {width: 1280, height: 720}, {width: 1152, height: 768}, {width: 1151, height: 768},
+  {width: 1024, height: 768}, {width: 1023, height: 768},
+  {width: 768, height: 768}, {width: 640, height: 768}, {width: 520, height: 900},
+  {width: 390, height: 844}, {width: 320, height: 720},
+]) {
+  test(`toolbar stays fixed across statistics and interactions at ${viewport.width}x${viewport.height}`, async ({page}, info) => {
+    const errors: string[] = []; page.on('pageerror', e => errors.push(e.message));
+    await page.setViewportSize(viewport); await page.goto('./?autoplay');
+    const toolbar = page.locator('header');
+    const settings = page.getByTitle('Ecology & Physical Settings');
+    const load = async (time: number, generation: number) => {
+      await settings.click();
+      await page.locator('input[type=file]').setInputFiles({name: 'toolbar.json', mimeType: 'application/json',
+        buffer: Buffer.from(JSON.stringify(toolbarWorld(time, generation)))});
+      await expect(page.getByRole('button', {name: 'RESUME SIMULATION', exact: true})).toBeVisible();
+      await page.getByTitle('Close settings (✕)').click();
+    };
+    const measure = () => page.evaluate(() => {
+      const rect = (node: Element) => {
+        const r = node.getBoundingClientRect(); return {x: r.x, y: r.y, width: r.width, height: r.height};
+      };
+      const h = document.querySelector('header')!;
+      return [h, document.querySelector('[data-testid=tank-viewport]')!, document.querySelector('canvas')!,
+        ...h.querySelectorAll('button'), ...h.children[1].children, ...Array.from(h.children[0].children).slice(1)].map(rect);
+    });
+    const stable = async (before: Awaited<ReturnType<typeof measure>>) => {
+      const after = await measure(); expect(after.length).toBe(before.length);
+      after.forEach((r, i) => {
+        for (const key of ['x', 'y', 'width', 'height'] as const)
+          expect(Math.abs(r[key] - before[i][key]), `element ${i} ${key}`).toBeLessThan(.5);
+      });
+    };
+    const reachable = async () => {
+      const problems = await toolbar.evaluate(h => {
+        const failures: string[] = [], bounds = h.getBoundingClientRect();
+        const nodes = [...h.querySelectorAll('button'), ...h.children[1].children, ...h.children[0].children]
+          .filter(n => n.getBoundingClientRect().width > 0);
+        const rectangles = nodes.map(n => ({n, r: n.getBoundingClientRect()}));
+        for (const {n, r} of rectangles) {
+          if (r.left < 0 || r.right > innerWidth + 1 || r.top < bounds.top || r.bottom > bounds.bottom + 1)
+            failures.push(`outside: ${n.textContent || n.getAttribute('title')} (${r.left}..${r.right})`);
+          if (n.scrollWidth > n.clientWidth + 1) failures.push(`overflow: ${n.textContent}`);
+          const hit = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2);
+          if (!hit || !n.contains(hit)) failures.push(`occluded: ${n.textContent || n.getAttribute('title')}`);
+        }
+        for (let i = 0; i < rectangles.length; i++) for (let j = i + 1; j < rectangles.length; j++) {
+          const a = rectangles[i].r, b = rectangles[j].r;
+          if (Math.min(a.right, b.right) - Math.max(a.left, b.left) > .5
+            && Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top) > .5) failures.push('overlap');
+        }
+        for (const n of h.querySelectorAll('.toolbar-value')) {
+          if (n.scrollWidth > n.clientWidth + 1) failures.push(`numeric overflow: ${n.textContent}`);
+        }
+        return failures;
+      });
+      expect(problems).toEqual([]);
+    };
+    await load(0, 1); const small = await measure();
+    // Both imports go through normal application state, including large generation/time.
+    await load(9999999999.9, 999999); await stable(small); await reachable();
+    await expect(toolbar.locator('.toolbar-generation .toolbar-value')).toHaveText('999999');
+    await expect(toolbar.locator('.toolbar-time .toolbar-value')).toHaveText('9999999999.9');
+    await load(1e20, 1e9); await stable(small); await reachable();
+    await expect(toolbar.locator('.toolbar-generation .toolbar-value')).toHaveText('1e+9');
+    await expect(toolbar.locator('.toolbar-time .toolbar-value')).toHaveText('1e+20');
+    await expect(toolbar.locator('.toolbar-time .toolbar-value')).toHaveAttribute('title', String(1e20));
+    // Stress all reserved slots, including FPS/rate/count extremes, without simulating
+    // hundreds of organisms or changing production data/Worker behavior for the test.
+    for (let iteration = 0; iteration < 12; iteration++) {
+      await toolbar.locator('.toolbar-value').evaluateAll((nodes, i) => {
+        for (const node of nodes) node.textContent = i % 2 ? '0' : '9'.repeat(parseInt((node as HTMLElement).style.width));
+      }, iteration);
+      await stable(small); await reachable();
+    }
+    await toolbar.locator('.toolbar-value').evaluateAll(nodes => {
+      for (const node of nodes) node.textContent = (node as HTMLElement).title;
+    });
+    await load(0, 1);
+    // Real advancing telemetry must also leave the toolbar and the hit target fixed.
+    await page.getByRole('button', {name: 'RESUME SIMULATION', exact: true}).click();
+    const time = toolbar.locator('.toolbar-time .toolbar-value');
+    await expect.poll(async () => Number(await time.textContent())).toBeGreaterThan(0);
+    for (let sample = 0; sample < 8; sample++) {
+      await page.waitForTimeout(150); await stable(small); await reachable();
+    }
+    const canvas = page.getByLabel('Aquatic simulation'), c = (await canvas.boundingBox())!;
+    await page.mouse.click(c.x + c.width / 2, c.y + c.height / 2);
+    await expect(page.getByTestId('badge-window')).toBeVisible();
+    await toolbar.getByTitle('Inspect Specimen Brain & Vision Rays').click();
+    await expect(page.getByTestId('creature-inspector')).toBeVisible();
+    await page.getByTitle('Close Diagnostics Window (✕)').click();
+    await toolbar.getByTitle('Specimen Bank (Save & Spawn Custom Genomes)').click();
+    await expect(page.getByTestId('bank-window')).toBeVisible();
+    await page.getByTitle('Close specimen bank (✕)').click();
+    await toolbar.getByTitle('Ecosystem Telemetry Graph').click();
+    await expect(page.getByTestId('ledger-window')).toBeVisible();
+    await toolbar.getByTitle('Ecosystem Telemetry Graph').click();
+    for (const speed of ['MAX', '1x']) {
+      await toolbar.getByRole('button', {name: speed, exact: true}).click();
+      await expect(toolbar.getByRole('button', {name: speed, exact: true})).toHaveClass(/bg-cyan-500/);
+    }
+    await toolbar.getByTitle('Seed Primordial Specimen').click();
+    await expect.poll(async () => Number(await toolbar.locator('.toolbar-counters .toolbar-value').first().textContent())).toBe(2);
+    await toolbar.getByTitle('Game Menu').click();
+    await expect(page.getByRole('button', {name: 'RESUME', exact: true})).toBeVisible();
+    await page.getByRole('button', {name: 'RESUME', exact: true}).click();
+    await stable(small); await reachable();
+    await page.screenshot({path: info.outputPath('stable-toolbar.png')});
+    // Resize away and back: row changes must follow the viewport and be reversible.
+    await page.setViewportSize({width: 520, height: 900}); await reachable();
+    await page.setViewportSize(viewport); await stable(small); await reachable();
+    expect(errors).toEqual([]);
+  });
+}

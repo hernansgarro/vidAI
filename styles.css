@@ -27,3 +27,82 @@ button, input, select {font: inherit;}
   scrollbar-width: thin;
 }
 .vida-window > div { min-width: 0; }
+
+/* Content never chooses toolbar rows. Numeric slots include room beyond save caps. */
+.simulation-toolbar {
+  display: grid;
+  grid-template-areas: "general" "counters" "controls";
+  grid-template-columns: minmax(0, 1fr);
+  gap: 8px;
+  align-items: center;
+}
+.toolbar-general, .toolbar-counters, .toolbar-controls { min-width: 0; }
+.toolbar-value {
+  display: inline-block;
+  font-family: ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  white-space: nowrap;
+}
+.toolbar-general {
+  grid-area: general;
+  display: grid;
+  grid-template-columns: max-content max-content max-content;
+  grid-template-areas: "brand generation time" "performance performance performance";
+  align-items: center;
+  justify-content: start;
+  gap: 6px 8px;
+  white-space: nowrap;
+}
+.toolbar-brand { grid-area: brand; }
+.toolbar-credits { grid-area: credits; }
+.toolbar-generation { grid-area: generation; }
+.toolbar-performance { grid-area: performance; }
+.toolbar-time { grid-area: time; }
+.toolbar-counters {
+  grid-area: counters;
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  gap: 6px 8px;
+}
+.toolbar-counters > div { white-space: nowrap; }
+.toolbar-counters > div:last-child { grid-column: 1 / -1; }
+.toolbar-controls {
+  grid-area: controls;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+  align-items: center;
+}
+.toolbar-controls > * { white-space: nowrap; justify-content: center; }
+.toolbar-controls > :nth-child(2) { grid-column: 2 / -1; }
+@media (min-width: 640px) {
+  .toolbar-counters { grid-template-columns: repeat(4, max-content); }
+  .toolbar-counters > div:last-child { grid-column: 3 / 5; }
+}
+@media (min-width: 768px) {
+  .toolbar-general {
+    grid-template-areas: "brand generation performance time";
+    grid-template-columns: repeat(4, max-content);
+  }
+  .toolbar-controls { grid-template-columns: repeat(7, max-content); justify-content: end; }
+  .toolbar-controls > :nth-child(2) { grid-column: auto; }
+}
+@media (min-width: 1024px) {
+  .toolbar-general {
+    grid-template-areas: "brand credits generation performance time";
+    grid-template-columns: repeat(5, max-content);
+  }
+}
+/* Emoji fonts require 1017px for the counter row, before 24px outer padding. */
+@media (min-width: 1152px) {
+  .toolbar-counters { grid-template-columns: repeat(7, max-content); }
+  .toolbar-counters > div:last-child { grid-column: auto; }
+}
+/* Measured general (706px) + controls (730px) + gap/padding fit within 1536px. */
+@media (min-width: 1536px) {
+  .simulation-toolbar {
+    grid-template-areas: "general controls" "counters counters";
+    grid-template-columns: max-content minmax(0, 1fr);
+  }
+}
