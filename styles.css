@@ -31,7 +31,7 @@ button, input, select {font: inherit;}
 /* Keep reserved numeric slots and stable viewport-driven toolbar rows. */
 .simulation-toolbar {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr) max-content;
   grid-template-areas: "general controls" "counters controls";
   gap: 8px;
   align-items: start;
@@ -45,22 +45,19 @@ button, input, select {font: inherit;}
   white-space: nowrap;
 }
 
-/* Left side: identity stays above performance metrics. */
+/* Reserve the existing numeric widths, but only wrap general telemetry when
+   the controls leave insufficient horizontal space. */
 .toolbar-general {
   grid-area: general;
-  display: grid;
-  grid-template-columns: max-content max-content;
-  grid-template-areas: "brand credits" "generation time" "performance performance";
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: start;
+  align-content: start;
+  justify-content: flex-start;
   gap: 6px 8px;
   white-space: nowrap;
 }
-.toolbar-brand { grid-area: brand; }
-.toolbar-credits { grid-area: credits; }
-.toolbar-generation { grid-area: generation; }
-.toolbar-performance { grid-area: performance; }
-.toolbar-time { grid-area: time; }
+.toolbar-general > * { flex: 0 0 auto; }
 
 /* Counters may fill the whole lower band when right-hand controls only need two rows. */
 .toolbar-counters {
@@ -117,14 +114,6 @@ button, input, select {font: inherit;}
   }
 }
 
-/* General telemetry gets two deliberate lines instead of competing with controls. */
-@media (min-width: 1280px) {
-  .toolbar-general {
-    grid-template-columns: repeat(3, max-content);
-    grid-template-areas: "brand credits credits" "generation performance time";
-  }
-}
-
 /* All controls fit comfortably in their half only on wider desktop layouts. */
 @media (min-width: 1600px) {
   .toolbar-controls {
@@ -141,7 +130,8 @@ button, input, select {font: inherit;}
     grid-template-columns: minmax(0, 1fr);
     grid-template-areas: "general" "controls" "counters";
   }
-  .toolbar-general { padding-right: 60px; }
+  /* Only the first mobile row competes with the pinned Menu button. */
+  .toolbar-general { padding-right: 40px; }
   .toolbar-controls {
     grid-template-columns: repeat(3, max-content);
     grid-template-areas:
@@ -157,6 +147,9 @@ button, input, select {font: inherit;}
   }
 }
 @media (max-width: 389px) {
+  /* On very narrow phones, the identity and Menu still fit side by side;
+     the performance chip needs the full available width on later lines. */
+  .toolbar-general { padding-right: 0; }
   .toolbar-counters { grid-template-columns: max-content; }
   .toolbar-counters > div:last-child { grid-column: auto; }
 }
