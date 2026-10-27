@@ -226,7 +226,7 @@ function toolbarWorld(time: number, generation: number) {
   return createSnapshot(state, {...DEFAULT_SETTINGS, targetNutrients: 0, inflowRate: 0, gravity: 0});
 }
 
-test('toolbar keeps Menu top-right and wraps controls in priority order', async ({page}) => {
+test('toolbar stays top-right with priority-ordered controls across widths', async ({page}) => {
   await page.goto('./?autoplay');
   const widths = [1920, 1600, 1536, 1512, 1511, 1500, 1366, 1280, 1152, 1151, 1024, 768, 640, 520, 390, 320];
   let at1512: {height: number; counterY: number; speedY: number; menuY: number} | undefined;
