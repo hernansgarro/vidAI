@@ -1534,7 +1534,7 @@ export default function App() {
           <span className="font-mono font-black text-xs md:text-sm tracking-wider text-cyan-300">
             VIDA
           </span></div>
-          <span className="toolbar-credits hidden lg:inline text-[9px] text-slate-400">{CREDITS}</span>
+          <span className="toolbar-credits text-[9px] text-slate-400">{CREDITS}</span>
           <span className="toolbar-generation px-1.5 py-0.5 text-[10px] rounded bg-cyan-950/80 border border-cyan-500/30 text-cyan-400">
             GEN <ToolbarValue value={ecoStats.maxGeneration} />
           </span>
