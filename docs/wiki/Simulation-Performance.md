@@ -46,13 +46,16 @@ fixed-tick behavior when the Worker is unavailable or explicitly disabled.
 
 ## Stable toolbar layout (fork testing only)
 
-The fork testing candidate reserves numeric space and uses viewport-driven grids
-for general telemetry, organism counters and actions. At desktop widths of at
-least 1536 CSS pixels, general telemetry and controls share the first row;
-counters occupy the second. Counters use a single row from 1152 CSS pixels,
-with space for wider emoji font metrics. Smaller windows use explicit additional rows and
-control columns. Changing statistics never chooses a new toolbar row or changes
-the tank bounds at a fixed viewport.
+The fork testing candidate reserves numeric space and uses responsive,
+right-anchored control tracks, with Menu kept at the top-right. Controls use
+one, two or three rows depending on the viewport; narrow phones use a
+full-width controls band. General telemetry takes the horizontal space left by
+the controls and wraps only when its fixed-width items no longer fit, rather
+than forcing a second line at desktop widths. App identity and author credits
+remain visible at all widths, including phones. Organism counters use the lower
+full-width band from 1152 CSS pixels and narrower tracks below that, reserving
+space for wider emoji metrics. Changing statistics never chooses a new row or
+changes the tank bounds at a fixed viewport.
 
 Six monospace characters are reserved per count, generation and rate, and twelve
 for elapsed seconds. This exceeds current population/particle save limits;
