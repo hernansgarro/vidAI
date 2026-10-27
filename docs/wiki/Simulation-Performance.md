@@ -49,7 +49,8 @@ fixed-tick behavior when the Worker is unavailable or explicitly disabled.
 The fork testing candidate reserves numeric space and uses viewport-driven grids
 for general telemetry, organism counters and actions. At desktop widths of at
 least 1536 CSS pixels, general telemetry and controls share the first row;
-counters occupy the second. Smaller windows use explicit additional rows and
+counters occupy the second. Counters use a single row from 1152 CSS pixels,
+with space for wider emoji font metrics. Smaller windows use explicit additional rows and
 control columns. Changing statistics never chooses a new toolbar row or changes
 the tank bounds at a fixed viewport.
 

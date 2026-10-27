@@ -228,7 +228,8 @@ function toolbarWorld(time: number, generation: number) {
 
 for (const viewport of [
   {width: 1920, height: 1080}, {width: 1536, height: 864}, {width: 1366, height: 768},
-  {width: 1280, height: 720}, {width: 1024, height: 768},
+  {width: 1280, height: 720}, {width: 1152, height: 768}, {width: 1151, height: 768},
+  {width: 1024, height: 768}, {width: 1023, height: 768},
   {width: 768, height: 768}, {width: 640, height: 768}, {width: 520, height: 900},
   {width: 390, height: 844}, {width: 320, height: 720},
 ]) {
@@ -262,11 +263,12 @@ for (const viewport of [
     const reachable = async () => {
       const problems = await toolbar.evaluate(h => {
         const failures: string[] = [], bounds = h.getBoundingClientRect();
-        const nodes = [...h.querySelectorAll('button'), ...h.children[1].children];
+        const nodes = [...h.querySelectorAll('button'), ...h.children[1].children, ...h.children[0].children]
+          .filter(n => n.getBoundingClientRect().width > 0);
         const rectangles = nodes.map(n => ({n, r: n.getBoundingClientRect()}));
         for (const {n, r} of rectangles) {
           if (r.left < 0 || r.right > innerWidth + 1 || r.top < bounds.top || r.bottom > bounds.bottom + 1)
-            failures.push(`outside: ${n.textContent || n.getAttribute('title')}`);
+            failures.push(`outside: ${n.textContent || n.getAttribute('title')} (${r.left}..${r.right})`);
           if (n.scrollWidth > n.clientWidth + 1) failures.push(`overflow: ${n.textContent}`);
           const hit = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2);
           if (!hit || !n.contains(hit)) failures.push(`occluded: ${n.textContent || n.getAttribute('title')}`);

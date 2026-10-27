@@ -32,9 +32,11 @@ button, input, select {font: inherit;}
 .simulation-toolbar {
   display: grid;
   grid-template-areas: "general" "counters" "controls";
+  grid-template-columns: minmax(0, 1fr);
   gap: 8px;
   align-items: center;
 }
+.toolbar-general, .toolbar-counters, .toolbar-controls { min-width: 0; }
 .toolbar-value {
   display: inline-block;
   font-family: ui-monospace, monospace;
@@ -91,6 +93,9 @@ button, input, select {font: inherit;}
     grid-template-areas: "brand credits generation performance time";
     grid-template-columns: repeat(5, max-content);
   }
+}
+/* Emoji fonts require 1017px for the counter row, before 24px outer padding. */
+@media (min-width: 1152px) {
   .toolbar-counters { grid-template-columns: repeat(7, max-content); }
   .toolbar-counters > div:last-child { grid-column: auto; }
 }
