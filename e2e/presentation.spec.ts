@@ -296,7 +296,7 @@ test('toolbar stays top-right with priority-ordered controls across widths', asy
   }
 });
 
-test('toolbar shows authors and only wraps general telemetry when space requires it', async ({page}) => {
+test('toolbar stays compact and shows authors whenever space allows', async ({page}) => {
   await page.goto('./?autoplay');
   // These are deliberate width expectations; numeric slots must not change the arrangement.
   const widths = [1920, 1600, 1536, 1512, 1511, 1366, 1280, 1152, 1024, 768, 640, 520, 390, 320];
