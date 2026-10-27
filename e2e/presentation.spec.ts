@@ -309,9 +309,13 @@ test('toolbar stays compact and shows authors whenever space allows', async ({pa
       const time = rect('.toolbar-time'), menu = header.querySelector('.toolbar-controls')!.lastElementChild!.getBoundingClientRect();
       const general = rect('.toolbar-general');
       const firstLine = [brand.y, credits.y, generation.y, performance.y, time.y];
+      const style = getComputedStyle(header.querySelector('.toolbar-general')!);
+      const availableWidth = general.width - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+      const requiredWidth = [brand, credits, generation, performance, time]
+        .reduce((total, item) => total + item.width, 0) + parseFloat(style.columnGap) * 4;
       return {
         brandY: brand.y, creditsY: credits.y,
-        firstLine, generalHeight: general.height,
+        firstLine, generalHeight: general.height, requiredWidth, availableWidth,
         creditsVisible: getComputedStyle(header.querySelector('.toolbar-credits')!).display !== 'none',
         creditsContent: header.querySelector('.toolbar-credits')!.textContent!.trim(),
         creditsInside: credits.left >= general.left - 1 && credits.right <= general.right + 1,
@@ -325,9 +329,16 @@ test('toolbar stays compact and shows authors whenever space allows', async ({pa
     expect(geometry.creditsInside, 'credits outside general region at ' + width).toBe(true);
     expect(geometry.creditsClearMenu, 'authors overlap Menu at ' + width).toBe(true);
     expect(geometry.horizontallyContained, 'header overflow at ' + width).toBe(true);
-    if (width >= 1152) {
+    // No arbitrary breakpoint may create a row when all five fixed-width
+    // items fit the actual space remaining beside the control group.
+    if (geometry.requiredWidth + 2 <= geometry.availableWidth) {
       for (const y of geometry.firstLine) {
         expect(Math.abs(y - geometry.brandY), 'unnecessary general row at ' + width).toBeLessThan(4);
+      }
+    }
+    if (width >= 1280) {
+      for (const y of geometry.firstLine) {
+        expect(Math.abs(y - geometry.brandY), 'general telemetry should fit at ' + width).toBeLessThan(4);
       }
     }
     if (width >= 390) expect(Math.abs(geometry.creditsY - geometry.brandY)).toBeLessThan(4);
