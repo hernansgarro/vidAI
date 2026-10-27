@@ -296,6 +296,44 @@ test('toolbar stays top-right with priority-ordered controls across widths', asy
   }
 });
 
+test('toolbar shows authors and only wraps general telemetry when space requires it', async ({page}) => {
+  await page.goto('./?autoplay');
+  // These are deliberate width expectations; numeric slots must not change the arrangement.
+  const widths = [1920, 1600, 1536, 1512, 1511, 1366, 1280, 1152, 1024, 768, 640, 520, 390, 320];
+  for (const width of widths) {
+    await page.setViewportSize({width, height: 900});
+    const geometry = await page.getByTestId('simulation-toolbar').evaluate(header => {
+      const rect = (selector: string) => header.querySelector(selector)!.getBoundingClientRect();
+      const brand = rect('.toolbar-brand'), credits = rect('.toolbar-credits');
+      const generation = rect('.toolbar-generation'), performance = rect('.toolbar-performance');
+      const time = rect('.toolbar-time'), menu = header.querySelector('.toolbar-controls')!.lastElementChild!.getBoundingClientRect();
+      const general = rect('.toolbar-general');
+      const firstLine = [brand.y, credits.y, generation.y, performance.y, time.y];
+      return {
+        brandY: brand.y, creditsY: credits.y,
+        firstLine, generalHeight: general.height,
+        creditsVisible: getComputedStyle(header.querySelector('.toolbar-credits')!).display !== 'none',
+        creditsContent: header.querySelector('.toolbar-credits')!.textContent!.trim(),
+        creditsInside: credits.left >= general.left - 1 && credits.right <= general.right + 1,
+        creditsClearMenu: Math.min(credits.right, menu.right) - Math.max(credits.left, menu.left) <= 0 ||
+          Math.min(credits.bottom, menu.bottom) - Math.max(credits.top, menu.top) <= 0,
+        horizontallyContained: header.scrollWidth <= header.clientWidth + 1,
+      };
+    });
+    expect(geometry.creditsVisible, 'authors hidden at ' + width).toBe(true);
+    expect(geometry.creditsContent).toContain('Hern');
+    expect(geometry.creditsInside, 'credits outside general region at ' + width).toBe(true);
+    expect(geometry.creditsClearMenu, 'authors overlap Menu at ' + width).toBe(true);
+    expect(geometry.horizontallyContained, 'header overflow at ' + width).toBe(true);
+    if (width >= 1152) {
+      for (const y of geometry.firstLine) {
+        expect(Math.abs(y - geometry.brandY), 'unnecessary general row at ' + width).toBeLessThan(4);
+      }
+    }
+    if (width >= 390) expect(Math.abs(geometry.creditsY - geometry.brandY)).toBeLessThan(4);
+  }
+});
+
 for (const viewport of [
   {width: 1920, height: 1080}, {width: 1536, height: 864}, {width: 1366, height: 768},
   {width: 1280, height: 720}, {width: 1152, height: 768}, {width: 1151, height: 768},
