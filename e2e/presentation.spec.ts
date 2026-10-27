@@ -226,6 +226,76 @@ function toolbarWorld(time: number, generation: number) {
   return createSnapshot(state, {...DEFAULT_SETTINGS, targetNutrients: 0, inflowRate: 0, gravity: 0});
 }
 
+test('toolbar stays top-right with priority-ordered controls across widths', async ({page}) => {
+  await page.goto('./?autoplay');
+  const widths = [1920, 1600, 1536, 1512, 1511, 1500, 1366, 1280, 1152, 1151, 1024, 768, 640, 520, 390, 320];
+  let at1512: {height: number; counterY: number; speedY: number; menuY: number} | undefined;
+
+  for (const width of widths) {
+    await page.setViewportSize({width, height: 900});
+    const layout = await page.getByTestId('simulation-toolbar').evaluate(header => {
+      const box = (element: Element) => {
+        const r = element.getBoundingClientRect();
+        return {x: r.x, y: r.y, width: r.width, height: r.height, right: r.right, bottom: r.bottom};
+      };
+      const controls = header.querySelector('.toolbar-controls')!;
+      const action = (index: number) => box(controls.children[index]);
+      const nodes = Array.from(controls.children).map(box);
+      const collisions: string[] = [];
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const a = nodes[i], b = nodes[j];
+          if (Math.min(a.right, b.right) - Math.max(a.x, b.x) > 1 &&
+              Math.min(a.bottom, b.bottom) - Math.max(a.y, b.y) > 1) collisions.push(i + ':' + j);
+        }
+      }
+      return {
+        header: box(header),
+        general: box(header.querySelector('.toolbar-general')!),
+        counters: box(header.querySelector('.toolbar-counters')!),
+        controls: box(controls),
+        add: action(0), speed: action(1), bank: action(2),
+        inspector: action(3), settings: action(4), ledger: action(5), menu: action(6),
+        collisions, overflow: header.scrollWidth - header.clientWidth,
+      };
+    });
+
+    expect(layout.collisions, 'overlapping controls at ' + width).toEqual([]);
+    expect(layout.overflow, 'horizontal toolbar overflow at ' + width).toBeLessThan(2);
+    expect(layout.menu.right, 'Menu must touch right padding at ' + width).toBeCloseTo(width - 12, 0);
+    expect(layout.menu.y, 'Menu must remain in the first row at ' + width).toBeLessThan(layout.counters.y);
+    if (width >= 640) {
+      expect(layout.general.right, 'left and right regions intersect at ' + width)
+        .toBeLessThanOrEqual(layout.controls.x + 1);
+    }
+    if (width >= 1600) {
+      expect(Math.abs(layout.speed.y - layout.menu.y)).toBeLessThan(4);
+      expect(Math.abs(layout.add.y - layout.menu.y)).toBeLessThan(4);
+    } else if (width >= 1152) {
+      expect(Math.abs(layout.bank.y - layout.menu.y)).toBeLessThan(4);
+      expect(layout.add.y).toBeGreaterThan(layout.menu.y + 12);
+      expect(Math.abs(layout.speed.y - layout.add.y)).toBeLessThan(4);
+    } else if (width >= 640) {
+      expect(Math.abs(layout.settings.y - layout.menu.y)).toBeLessThan(4);
+      expect(layout.add.y).toBeGreaterThan(layout.menu.y + 12);
+      expect(layout.speed.y).toBeGreaterThan(layout.add.y + 12);
+    } else {
+      expect(layout.menu.y).toBeLessThan(layout.settings.y);
+      expect(layout.speed.y).toBeGreaterThan(layout.add.y + 12);
+    }
+    if (width === 1512) {
+      at1512 = {height: layout.header.height, counterY: layout.counters.y,
+        speedY: layout.speed.y, menuY: layout.menu.y};
+    } else if (width === 1511) {
+      expect(at1512).toBeDefined();
+      expect(Math.abs(layout.header.height - at1512!.height)).toBeLessThan(1);
+      expect(Math.abs(layout.counters.y - at1512!.counterY)).toBeLessThan(1);
+      expect(Math.abs(layout.speed.y - at1512!.speedY)).toBeLessThan(1);
+      expect(Math.abs(layout.menu.y - at1512!.menuY)).toBeLessThan(1);
+    }
+  }
+});
+
 for (const viewport of [
   {width: 1920, height: 1080}, {width: 1536, height: 864}, {width: 1366, height: 768},
   {width: 1280, height: 720}, {width: 1152, height: 768}, {width: 1151, height: 768},

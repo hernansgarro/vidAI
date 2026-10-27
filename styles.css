@@ -28,13 +28,13 @@ button, input, select {font: inherit;}
 }
 .vida-window > div { min-width: 0; }
 
-/* Content never chooses toolbar rows. Numeric slots include room beyond save caps. */
+/* Keep reserved numeric slots and stable viewport-driven toolbar rows. */
 .simulation-toolbar {
   display: grid;
-  grid-template-areas: "general" "counters" "controls";
-  grid-template-columns: minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-areas: "general controls" "counters controls";
   gap: 8px;
-  align-items: center;
+  align-items: start;
 }
 .toolbar-general, .toolbar-counters, .toolbar-controls { min-width: 0; }
 .toolbar-value {
@@ -44,11 +44,13 @@ button, input, select {font: inherit;}
   text-align: right;
   white-space: nowrap;
 }
+
+/* Left side: identity stays above performance metrics. */
 .toolbar-general {
   grid-area: general;
   display: grid;
-  grid-template-columns: max-content max-content max-content;
-  grid-template-areas: "brand generation time" "performance performance performance";
+  grid-template-columns: max-content max-content;
+  grid-template-areas: "brand credits" "generation time" "performance performance";
   align-items: center;
   justify-content: start;
   gap: 6px 8px;
@@ -59,50 +61,102 @@ button, input, select {font: inherit;}
 .toolbar-generation { grid-area: generation; }
 .toolbar-performance { grid-area: performance; }
 .toolbar-time { grid-area: time; }
+
+/* Counters may fill the whole lower band when right-hand controls only need two rows. */
 .toolbar-counters {
   grid-area: counters;
   display: grid;
   grid-template-columns: repeat(2, max-content);
   gap: 6px 8px;
+  justify-content: start;
 }
 .toolbar-counters > div { white-space: nowrap; }
 .toolbar-counters > div:last-child { grid-column: 1 / -1; }
+
+/* Explicit right-side priorities avoid content-dependent flex wrapping. */
 .toolbar-controls {
   grid-area: controls;
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(3, max-content);
+  grid-template-areas:
+    "settings ledger menu"
+    "add bank inspector"
+    "speed speed speed";
   gap: 6px;
   align-items: center;
+  justify-content: end;
 }
 .toolbar-controls > * { white-space: nowrap; justify-content: center; }
-.toolbar-controls > :nth-child(2) { grid-column: 2 / -1; }
-@media (min-width: 640px) {
-  .toolbar-counters { grid-template-columns: repeat(4, max-content); }
-  .toolbar-counters > div:last-child { grid-column: 3 / 5; }
-}
-@media (min-width: 768px) {
-  .toolbar-general {
-    grid-template-areas: "brand generation performance time";
-    grid-template-columns: repeat(4, max-content);
-  }
-  .toolbar-controls { grid-template-columns: repeat(7, max-content); justify-content: end; }
-  .toolbar-controls > :nth-child(2) { grid-column: auto; }
-}
+.toolbar-controls > :nth-child(1) { grid-area: add; }
+.toolbar-controls > :nth-child(2) { grid-area: speed; justify-self: end; }
+.toolbar-controls > :nth-child(3) { grid-area: bank; }
+.toolbar-controls > :nth-child(4) { grid-area: inspector; }
+.toolbar-controls > :nth-child(5) { grid-area: settings; }
+.toolbar-controls > :nth-child(6) { grid-area: ledger; }
+.toolbar-controls > :nth-child(7) { grid-area: menu; }
+
+/* Half-width counters can use more columns on medium screens. */
 @media (min-width: 1024px) {
-  .toolbar-general {
-    grid-template-areas: "brand credits generation performance time";
-    grid-template-columns: repeat(5, max-content);
-  }
-}
-/* Emoji fonts require 1017px for the counter row, before 24px outer padding. */
-@media (min-width: 1152px) {
-  .toolbar-counters { grid-template-columns: repeat(7, max-content); }
+  .toolbar-counters { grid-template-columns: repeat(3, max-content); }
   .toolbar-counters > div:last-child { grid-column: auto; }
 }
-/* Measured general (706px) + controls (730px) + gap/padding fit within 1536px. */
-@media (min-width: 1536px) {
+
+/* Both sides of the first band get equal space; counters extend across the second band. */
+@media (min-width: 1152px) {
   .simulation-toolbar {
     grid-template-areas: "general controls" "counters counters";
-    grid-template-columns: max-content minmax(0, 1fr);
   }
+  .toolbar-counters {
+    grid-template-columns: repeat(7, max-content);
+  }
+  .toolbar-controls {
+    grid-template-columns: repeat(5, max-content);
+    grid-template-areas:
+      "bank inspector settings ledger menu"
+      "add speed speed speed speed";
+  }
+}
+
+/* General telemetry gets two deliberate lines instead of competing with controls. */
+@media (min-width: 1280px) {
+  .toolbar-general {
+    grid-template-columns: repeat(3, max-content);
+    grid-template-areas: "brand credits credits" "generation performance time";
+  }
+}
+
+/* All controls fit comfortably in their half only on wider desktop layouts. */
+@media (min-width: 1600px) {
+  .toolbar-controls {
+    grid-template-columns: repeat(7, max-content);
+    grid-template-areas: "add speed bank inspector settings ledger menu";
+  }
+}
+
+/* Below 640px, the full-width control area prevents the speed group from
+   overflowing a half column. Menu still owns the absolute top-right corner. */
+@media (max-width: 639px) {
+  .simulation-toolbar {
+    position: relative;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "general" "controls" "counters";
+  }
+  .toolbar-general { padding-right: 60px; }
+  .toolbar-controls {
+    grid-template-columns: repeat(3, max-content);
+    grid-template-areas:
+      "settings ledger menu"
+      "add bank inspector"
+      "speed speed speed";
+  }
+  .toolbar-controls > :nth-child(7) {
+    grid-area: auto;
+    position: absolute;
+    top: 8px;
+    right: 12px;
+  }
+}
+@media (max-width: 389px) {
+  .toolbar-counters { grid-template-columns: max-content; }
+  .toolbar-counters > div:last-child { grid-column: auto; }
 }
