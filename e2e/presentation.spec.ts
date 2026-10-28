@@ -1,5 +1,6 @@
 import {test, expect} from '@playwright/test';
 import * as sim from '../simulation';
+import {enableClosedEconomy, setWorldEnergy} from '../energyEconomy';
 import {BUILD_VERSION, DEFAULT_SETTINGS, createSnapshot} from '../persistence';
 
 test.setTimeout(90000);
@@ -227,7 +228,9 @@ function toolbarWorld(time: number, generation: number) {
   const org = sim.spawnOrganism(genome, 1200, 750, 0, undefined, undefined, state.prng);
   state.organisms.push(org); state.totalBirths = 1;
   state.ledger.externalInflow = org.energy + org.structuralBiomass;
-  return createSnapshot(state, {...DEFAULT_SETTINGS, targetNutrients: 0, inflowRate: 0, gravity: 0});
+  enableClosedEconomy(state);
+  setWorldEnergy(state, state.energyPool!.budget + 500000);
+  return createSnapshot(state, {...DEFAULT_SETTINGS, ecologyRegime: 'closed-v1', nutrientLimit: null, targetNutrients: 0, inflowRate: 0, gravity: 0});
 }
 
 // ResizeObserver-based presentation decisions settle after the resize frame.
@@ -519,6 +522,10 @@ for (const viewport of [
       await toolbar.getByRole('button', {name: speed, exact: true}).click();
       await expect(toolbar.getByRole('button', {name: speed, exact: true})).toHaveClass(/bg-cyan-500/);
     }
+    // Unlimited MAX can age the fixture substantially; isolate the add-life
+    // interaction from intentional elapsed-time effects of that speed check.
+    await load(0, 1);
+    await page.getByRole('button', {name: 'Resume', exact: true}).click();
     await toolbar.getByTitle('Seed Primordial Specimen').click();
     await expect.poll(async () => Number(await toolbar.locator('.toolbar-counters .toolbar-value').first().textContent())).toBe(2);
     await toolbar.getByTitle('Game Menu').click();

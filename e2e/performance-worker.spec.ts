@@ -249,33 +249,32 @@ for (const fallback of [false, true]) test(`x0 unifies Pause, Space and speed se
   const speed = (value: number) => speeds.getByRole('button', {name: `${value}x`, exact: true});
   const indicator = page.getByTestId('simulation-activity');
   await speed(5).click(); await expect(speed(5)).toHaveAttribute('aria-pressed', 'true');
-  await expect(indicator).toHaveCSS('animation-name', 'ping');
-  await expect(indicator).toHaveAccessibleName('Simulation running');
+  await expect(indicator).toHaveAttribute('data-state', 'valid');
+  await expect(indicator).toHaveAccessibleName(/Requested: x5.*Actual:/);
   await page.getByRole('button', {name: 'Pause', exact: true}).click();
   await expect(speed(0)).toHaveAttribute('aria-pressed', 'true');
-  await expect(indicator).toHaveCSS('animation-name', 'none');
-  await expect(indicator).toHaveCSS('opacity', '1');
-  await expect(indicator).toHaveAccessibleName('Simulation paused (0x)');
+  await expect(indicator).toHaveAttribute('data-state', 'paused');
+  await expect(indicator).toHaveAccessibleName('Simulation advancement paused (0x).');
   await expect(page.getByText('SIMULATION PAUSED', {exact: true})).toHaveCount(0);
   await page.getByRole('button', {name: 'Resume', exact: true}).click();
   await expect(speed(5)).toHaveAttribute('aria-pressed', 'true');
-  await expect(indicator).toHaveCSS('animation-name', 'ping');
+  await expect(indicator).toHaveAttribute('data-state', 'valid');
   await speed(0).click(); await expect(page.getByRole('button', {name: 'Resume', exact: true})).toBeVisible();
-  await expect(indicator).toHaveCSS('animation-name', 'none');
+  await expect(indicator).toHaveAttribute('data-state', 'paused');
   await page.keyboard.press('Space'); await expect(speed(5)).toHaveAttribute('aria-pressed', 'true');
-  await expect(indicator).toHaveCSS('animation-name', 'ping');
+  await expect(indicator).toHaveAttribute('data-state', 'valid');
   await page.keyboard.press('Space'); await expect(speed(0)).toHaveAttribute('aria-pressed', 'true');
-  await expect(indicator).toHaveCSS('animation-name', 'none');
+  await expect(indicator).toHaveAttribute('data-state', 'paused');
   await speed(2).click(); await expect(page.getByRole('button', {name: 'Pause', exact: true})).toBeVisible();
   await page.keyboard.press('Space'); await expect(speed(0)).toHaveAttribute('aria-pressed', 'true');
   await page.keyboard.press('Space'); await expect(speed(2)).toHaveAttribute('aria-pressed', 'true');
   await page.getByRole('button', {name: 'Menu', exact: true}).click();
   await expect(speed(0)).toHaveAttribute('aria-pressed', 'true');
   await expect(page.getByText('SIMULATION MENU', {exact: true})).toBeVisible();
-  await expect(indicator).toHaveCSS('animation-name', 'none');
+  await expect(indicator).toHaveAttribute('data-state', 'paused');
   await page.getByRole('button', {name: 'RESUME', exact: true}).click();
   await expect(speed(2)).toHaveAttribute('aria-pressed', 'true');
-  await expect(indicator).toHaveCSS('animation-name', 'ping');
+  await expect(indicator).toHaveAttribute('data-state', 'valid');
   for (const name of ['0x', '1x', '2x', '5x', '10x', '20x', 'MAX'])
     await expect(speeds.getByRole('button', {name, exact: true})).toBeVisible();
 });
@@ -313,7 +312,7 @@ for (const fallback of [false, true]) test(`x0 allows inspection, navigation and
   await page.getByTitle('Ecology & Physical Settings').click();
   await upload(source);
   await expect(page.getByRole('button', {name: '0x', exact: true})).toHaveAttribute('aria-pressed', 'true');
-  await expect(page.getByTestId('simulation-activity')).toHaveCSS('animation-name', 'none');
+  await expect(page.getByTestId('simulation-activity')).toHaveAttribute('data-state', 'paused');
   expect((await read()).state).toEqual(source.state);
   await page.getByTitle('Close settings (✕)').click();
   const canvas = page.getByLabel('Aquatic simulation'), bounds = (await canvas.boundingBox())!;
@@ -365,4 +364,88 @@ for (const fallback of [false, true]) test(`x0 allows inspection, navigation and
   expect((await read()).state).toEqual(exact.state);
   await expect(page.getByRole('button', {name: '0x', exact: true})).toHaveAttribute('aria-pressed', 'true');
   expect(errors).toEqual([]);
+});
+
+for (const fallback of [false, true]) test(`performance pulse preserves exact phase/color across pause and manual edits (${fallback ? 'fallback' : 'Worker'})`, async ({page}) => {
+  await page.goto(`./?autoplay${fallback ? '&mainthread' : ''}`);
+  const settings = {...DEFAULT_SETTINGS, ecologyRegime: 'closed-v1' as const, nutrientLimit: null,
+    physicsRegime: 'passive-work-v3' as const, targetNutrients: 0, inflowRate: 0};
+  const world = createInitialWorld(settings, 11, 'balanced', 'standard', 0); setWorldEnergy(world, 500000);
+  await page.getByTitle('Ecology & Physical Settings').click();
+  await page.locator('input[type=file]').setInputFiles({name: 'performance.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(createSnapshot(world, settings)))});
+  const dot = page.getByTestId('simulation-activity');
+  await expect(dot).toHaveAttribute('data-state', 'paused');
+  await page.getByTitle('Close settings (✕)').click();
+  await page.getByRole('button', {name: '5x', exact: true}).click();
+  await expect(dot).toHaveAttribute('data-state', 'valid');
+  await expect.poll(() => dot.evaluate(node => node.getAnimations().find(a => a.id === 'simulation-throughput-pulse')?.playState)).toBe('running');
+  await expect(dot).not.toHaveAttribute('title');
+  await dot.hover(); await expect(page.getByRole('tooltip')).toHaveCount(0);
+  await page.getByRole('button', {name: 'Pause', exact: true}).evaluate(button => {
+    button.addEventListener('click', () => {
+      const node = document.querySelector('[data-testid=simulation-activity]')!;
+      const a = node.getAnimations().find(a => a.id === 'simulation-throughput-pulse')!;
+      const style = getComputedStyle(node);
+      (window as any).pulseAtPause = {time: a.currentTime, opacity: style.opacity, transform: style.transform, color: style.backgroundColor, animation: a};
+    }, {capture: true, once: true});
+  });
+  await page.getByRole('button', {name: 'Pause', exact: true}).click();
+  await expect(dot).toHaveAttribute('data-state', 'paused');
+  const held = await dot.evaluate(node => {
+    const a = node.getAnimations().find(a => a.id === 'simulation-throughput-pulse')!;
+    const style = getComputedStyle(node), before = (window as any).pulseAtPause;
+    return {time: Number(a.currentTime), before: Number(before.time), opacity: style.opacity, beforeOpacity: before.opacity,
+      transform: style.transform, beforeTransform: before.transform, color: style.backgroundColor, beforeColor: before.color, sameAnimation: a === before.animation};
+  });
+  expect(Math.abs(held.time - held.before)).toBeLessThan(1);
+  expect(held.opacity).toBe(held.beforeOpacity); expect(held.transform).toBe(held.beforeTransform);
+  expect(held.color).toBe(held.beforeColor); expect(held.sameAnimation).toBe(true);
+  await page.getByRole('button', {name: 'Feed (F)', exact: true}).click();
+  await expect(page.getByRole('group', {name: /^Food: 15 /})).toBeVisible();
+  await page.waitForTimeout(400);
+  const after = await dot.evaluate(node => {
+    const style = getComputedStyle(node), a = node.getAnimations().find(a => a.id === 'simulation-throughput-pulse')!;
+    return {time: Number(a.currentTime), opacity: style.opacity, transform: style.transform, color: style.backgroundColor};
+  });
+  expect(after).toEqual({time: held.time, opacity: held.opacity, transform: held.transform, color: held.color});
+  await page.getByRole('button', {name: 'Resume', exact: true}).click();
+  await expect(dot).toHaveAttribute('data-state', 'valid');
+  await expect.poll(() => dot.evaluate(node => Number(node.getAnimations().find(a => a.id === 'simulation-throughput-pulse')!.currentTime))).toBeGreaterThan(held.time);
+  expect(await dot.evaluate(node => node.getAnimations().find(a => a.id === 'simulation-throughput-pulse') === (window as any).pulseAtPause.animation)).toBe(true);
+  await expect(dot).not.toHaveAttribute('title');
+});
+
+for (const fallback of [false, true]) test(`MAX exceeds its visual reference, remains white and respects reduced motion without hover UI (${fallback ? 'fallback' : 'Worker'})`, async ({page}) => {
+  await page.emulateMedia({reducedMotion: 'reduce'});
+  await page.goto(`./?autoplay${fallback ? '&mainthread' : ''}`);
+  const settings = {...DEFAULT_SETTINGS, ecologyRegime: 'closed-v1' as const, nutrientLimit: null, targetNutrients: 0, inflowRate: 0};
+  const source = createSnapshot(createInitialWorld(settings, 11, 'balanced', 'standard', 0), settings);
+  await page.getByTitle('Ecology & Physical Settings').click();
+  await page.locator('input[type=file]').setInputFiles({name:'empty-max.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(source))});
+  await page.getByTitle('Close settings (✕)').click();
+  await page.getByRole('button', {name:'MAX',exact:true}).click();
+  const dot=page.getByTestId('simulation-activity');
+  await expect(dot).toHaveAttribute('data-state','valid');
+  await expect.poll(async()=>Number(await dot.getAttribute('data-actual-speed'))).toBeGreaterThan(75);
+  await expect(dot).toHaveAttribute('data-pulse-frequency','2.5');
+  await expect(dot).toHaveCSS('background-color','rgb(255, 255, 255)');
+  await expect(dot).not.toHaveAttribute('title'); await dot.hover(); await expect(page.getByRole('tooltip')).toHaveCount(0);
+  await expect(dot).toHaveAccessibleName(/MAX mode.*not an execution limit/);
+  const before=await dot.evaluate(n=>Number(n.getAnimations().find(a=>a.id==='simulation-throughput-pulse')!.currentTime));
+  await page.waitForTimeout(300);
+  expect(await dot.evaluate(n=>Number(n.getAnimations().find(a=>a.id==='simulation-throughput-pulse')!.currentTime))).toBe(before);
+  await page.emulateMedia({reducedMotion:'no-preference'});
+  await expect.poll(()=>dot.evaluate(n=>n.getAnimations().find(a=>a.id==='simulation-throughput-pulse')!.playState)).toBe('running');
+  if (fallback) return;
+  // Small paired render-cost check in the same empty closed world. Hiding this
+  // 12px presentation element does not touch the Worker, world or measurement.
+  const visible:number[]=[], hidden:number[]=[];
+  for(let i=0;i<3;i++){
+    await dot.evaluate(n=>(n as HTMLElement).style.visibility='visible'); await page.waitForTimeout(750);
+    visible.push(Number(await dot.getAttribute('data-actual-speed')));
+    await dot.evaluate(n=>(n as HTMLElement).style.visibility='hidden'); await page.waitForTimeout(750);
+    hidden.push(Number(await dot.getAttribute('data-actual-speed')));
+  }
+  await dot.evaluate(n=>(n as HTMLElement).style.visibility='visible');
+  console.log('Indicator paired empty-world throughput (presentation visible/hidden; not gameplay FPS):',JSON.stringify({visible,hidden}));
 });
