@@ -1,3 +1,30 @@
+# Observer-only egg reserve display — contributor fork (2026-10-28)
+
+Refs upstream #116 and #57. Implemented on `feature/egg-reserve-display` from
+fork main `5d9be26`, retaining upstream `6f8f80c`. No upstream submission approval.
+White/pink reserve-loss sectors grow counterclockwise; clockwise incubation,
+texture/glow/selection and white sensory RGB remain. Optional v16
+`initialFundedReserve` is assigned at laying and never spent or updated;
+`initialReserveIsLegacy` identifies current-reserve migration with unknown past loss.
+No simulation model, energy stock, genes, controls or version changes.
+
+Local validation: 329 fast checks (including physical egg predation and exact
+white retina at all loss levels), build/typecheck and production Worker passed. Eight bounded pre-change comparisons (four physics regimes × both economies,
+120 ticks each) matched complete snapshots at every tick after removing only the two
+observer metadata fields. Laying and hatching occurred in all eight; closed-world
+expiry occurred in all four closed cases. Maximum stock/ledger floating-point error
+was 1.27e-9 J and was identical to baseline. No baseline refresh or ecology/FPS claim.
+The comparison script is `scripts/check-egg-reserve-baseline.ts`; baseline is the
+unchanged fork commit `5d9be26b78c818303cfa5f2f1160fa834929864b`.
+
+Local Chromium installation failed with a truncated/non-ZIP download. The bounded
+Worker/fallback canvas path/pixel/selection/x0/5x browser test is wired into existing
+Chromium and Firefox smoke CI; remote results and fork integration are recorded in
+#116/#57. Wiki source labels this as fork-only pending upstream acceptance.
+Preserve unrelated main work, testing and #113/#115 review.
+
+---
+
 # Project status — 2026-10-21
 
 ## Contributor fork: wider translucent energy glow — 2026-10-28
