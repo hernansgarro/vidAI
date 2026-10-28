@@ -1,5 +1,25 @@
 # Project status — 2026-10-21
 
+## Contributor fork: unified pause and speed 0x — 2026-10-28
+
+Tracking: upstream #111; fork branch `feature/unified-pause-x0`, based on
+fork main `af671e8`. Speed 0x owns user pause; Pause/Space remember the last
+nonzero speed and speed selection resumes directly. Existing nonzero speeds
+remain unchanged (the requirement's x4 was only illustrative).
+
+The pause overlay is removed. Inspection, panels, camera navigation and existing
+manual world commands stay available with time stopped. The Worker receives
+only effective speed, clears pacing debt on speed transitions, and publishes
+accepted manual edits without ticks. Fallback camera/UI refresh is independent
+of autonomous stepping. Imports remain paused, and saves/rules are unchanged.
+
+Local fast validation: 292 passed, 0 failed, 0 skipped. The production Worker
+verifies funded edits/caps and immediate frames at 0x, unchanged full state over
+stopped wall time, no catch-up on resume and exact saved-state continuation.
+Existing golden physics/brain/energy continuation checks remain unchanged.
+Browser and integration receipts are recorded in #111 and the fork-internal PR.
+This is contributor-fork behavior, not upstream acceptance or Wiki publication.
+
 ## Contributor fork: all eleven paused checks recovered — 2026-10-26
 
 Upstream tracking: #107. On `hernansgarro/vidAI:feature/restore-paused-regression-tests`,

@@ -44,6 +44,31 @@ flowchart TD
 Painting does not advance simulation time. The main-thread fallback retains
 fixed-tick behavior when the Worker is unavailable or explicitly disabled.
 
+## Stopped time and manual interaction (fork)
+
+In Hernan's fork, **0x is the paused simulation speed**. Pause and Space toggle
+between 0x and the last selected nonzero speed. Selecting another speed resumes
+immediately. Existing speeds remain 1x, 2x, 5x, 10x, 20x and MAX (50x).
+Imports start at 0x. The speed selector shows the effective speed, including 0x
+while the application menu is open; closing that menu restores the prior state.
+
+At 0x, simulation time and all autonomous processes stop. The tank stays
+interactive: select and inspect creatures/eggs, open diagnostics and other
+panels, pan/zoom, add creatures/food, clear free nutrients, edit applicable
+settings and import/export exact worlds. The pause screen no longer covers
+these controls. Start, application-menu and extinction overlays retain their
+own behavior.
+
+Manual actions still use the authoritative Worker commands and existing
+validation, energy funding and population/food limits. Accepted edits refresh
+the rendered world without a simulation tick; added food is not eaten until
+time resumes. Stopped wall time and unfinished pacing debt are discarded when
+the speed changes. The main-thread fallback follows the same pause controls.
+Save schemas, physics, genetics, feeding and learning rules are unchanged.
+
+This behavior is implemented in the contributor fork; it is not yet accepted
+upstream or published in the upstream Wiki.
+
 ## Stable toolbar layout (fork)
 
 The fork uses right-anchored desktop controls, with Menu kept
