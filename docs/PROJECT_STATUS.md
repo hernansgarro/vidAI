@@ -1,5 +1,49 @@
 # Project status — 2026-10-21
 
+## Contributor fork: observer-only energy activity — 2026-10-28
+
+Tracking: upstream #114; branch `feature/energy-transfer-pulses`, based on fork
+main `ee066a8`. The kernel exposes primitive actual absorbed/extracted joules
+and its existing first contacting prey segment. Separate host-owned transient
+windows produce green whole-body and red localized activity, independently,
+without organism/save fields or new sensing/physics decisions. No arithmetic,
+feed order, contact geometry, founder, version or energy rule was changed.
+
+The rolling 250ms simulation window uses 0.5% on / 0.35% off relative to stable
+pre-transfer reserve plus biomass, with a capacity-relative depleted-stock
+floor. A shared 400ms presentation cycle alternates red/green peaks by 200ms;
+only one restrained lobe exceeds a faint 0.025-alpha trough at a time.
+The trough preserves short completed intervals even between peaks. Ended activity
+fades for 100ms; accelerated crossed intervals are retained once without replay queues.
+All phase/decay stops at x0; late metadata waits until resume. Resets and
+removed/dissolving creatures clear activity. One mouth reports its established
+first contacting part; multiple mouths can mark several parts. Lethal damage
+retains normal mortality and does not create a new corpse effect.
+
+Validation includes focused threshold/hysteresis, true source categories,
+structural extraction, ordinary-cost/funded-egg negative controls, concurrent
+signals, multiple contacts, pause/in-flight/resume, speeds and cleanup checks.
+Full host snapshots match observer-free continuation including optical rays,
+neural/learning state, physics, energy, genes and PRNG. Production Worker checks
+verify real concurrent frame metadata and exact observer-free continuation.
+Current verification: 309/309 fast tests, production build and actual Worker
+checks passed locally. Focused Chromium smoke could not launch because the
+browser binary is absent; installation failed with a truncated download. The
+existing CI Worker workflow includes both focused Worker/fallback browser cases;
+remote results and integration receipts are recorded in #114.
+
+Bounded CPU observation: three paired 60-tick worlds with 30 creatures and
+100 nutrients measured collector OFF/ON 472.344/480.752ms,
+306.526/280.484ms and 331.883/318.718ms (alternating order). Median ON was
+about 4.0% lower, while pair one was 1.8% higher; warmup/noise prevents a
+performance benefit or zero-overhead claim. This is one second of controlled
+simulation per run, not a gameplay FPS/ecology benchmark. A 6000-tick
+single-organism collector microcheck takes roughly 4–13ms locally. Additional
+cost is bounded rings per recently feeding/bitten creature, small frame rows
+and at most two restrained tint fills per visible segment; no per-creature timers.
+No new ecological/evolutionary campaign, baseline refresh or VIDA 3D changes.
+Fork integration is not upstream acceptance or Wiki publication.
+
 ## Contributor fork: expanding and dissolving performance pulse — 2026-10-28
 
 Approved follow-up to #112: the existing animation now expands from scale 1 to

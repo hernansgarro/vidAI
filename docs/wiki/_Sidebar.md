@@ -7,6 +7,7 @@
 - [[Senses and Visually Guided Behavior|Sensory-Behavior]]
 - [[Waking Synaptic Learning|Waking-Learning]]
 - [[Ecology and Energy Auditing|Ecology-Baseline]]
+- [[Energy Activity Overlays (fork only)|Energy-Activity]]
 - [[Simulation Performance|Simulation-Performance]]
 
 [Play VIDA](https://smeagol44.github.io/vidAI/)

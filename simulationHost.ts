@@ -1,3 +1,4 @@
+import {EnergyActivityCollector, type EnergyActivityFrame} from './energyActivity';
 import type {SimulationSpeed} from './simulationSpeed';
 import {watchLineage} from './lineageChanges';
 import {occupiedPopulation, setWorldEnergy} from './energyEconomy';
@@ -18,6 +19,7 @@ type LiveOrganism = Omit<Organism, 'genome'> & {genomeKey: string};
 type LiveEgg = Omit<Egg, 'genome'> & {genomeKey: string};
 export interface RenderFrame {
   epoch: number; steps: number; events: string[];
+  energyActivity: EnergyActivityFrame;
   genomes: Array<[string, Genome]>;
   lineage: Array<[string, Omit<LineageRecord, 'genome'> & {genomeKey: string}]>;
   state: Omit<SimulationState, 'prng' | 'lineage' | 'organisms' | 'eggs'>
@@ -33,6 +35,7 @@ export class SimulationHost {
   private genomeIds = new WeakMap<Genome, string>();
   private nextGenome = 0;
   private lineageChanges?: ReturnType<typeof watchLineage>;
+  readonly energyActivity = new EnergyActivityCollector();
   private steps = 0;
   private events = new Set<string>();
 
@@ -40,12 +43,14 @@ export class SimulationHost {
     const restored = restoreSnapshot(snapshot);
     this.lineageChanges?.dispose();
     this.state = restored.state; this.settings = restored.settings; this.epoch = epoch;
+    this.energyActivity.clear();
     this.speed = 0; this.steps = 0; this.events.clear();
     this.genomeIds = new WeakMap(); this.nextGenome = 0;
     this.lineageChanges = watchLineage(this.state.lineage);
   }
   tick(): void {
-    stepSimulation(this.state, this.settings, 1 / 60, event => this.events.add(event));
+    stepSimulation(this.state, this.settings, 1 / 60, event => this.events.add(event), undefined, this.energyActivity.record);
+    this.energyActivity.advance(this.state);
     this.steps++;
   }
   snapshot(metadata: Record<string, unknown> = {}): WorldSnapshot {
@@ -110,6 +115,7 @@ export class SimulationHost {
     }
     this.lineageChanges!.pending.clear();
     const result = {epoch: this.epoch, steps: this.steps, events: [...this.events], genomes, lineage,
+      energyActivity: this.energyActivity.frame(),
       state: {...rest, organisms: live, eggs: liveEggs}};
     this.steps = 0; this.events.clear();
     return result;
