@@ -16,6 +16,7 @@
 | Simplifying hatch blockers | population occupancy, clearance, debt, expiry, hatching | Hypothesis only; needs careful review |
 | Fractional nutrient recycling rate | recycling, 0.5/s, 0.1/s, deterministic accumulator | Deferred; excluded from scenario selector |
 | Named custom environmental scenarios | environment profiles, reusable settings, mnemonic names | Deferred; first version has only Default / Harsh World |
+| Selective lateral portals / interconnected aquariums | side windows, linked tanks, cylindrical world, transfer protocol, rearm threshold, server validation | Future concept only; excluded from window-marker prototype |
 
 ## 1. Genetically controlled decision to lay eggs
 
@@ -76,7 +77,18 @@ roadmap's named environment profiles idea; no separate implementation issue is
 requested now. Define storage, versioning, snapshot independence and founder
 independence in a future decision. The first selector has only Default / Harsh World.
 
-## Reuse protocol
+## 8. Selective lateral portals and multi-aquarium travel
 
+**Deferred idea (2026-10-28):** After a separate observer-only prototype verifies dynamically numbered lateral window markers, consider allowing selected left/right wall windows to act as traversable connections. Closed windows remain ordinary solid boundaries. A window may connect a left edge to a right edge of the **same** aquarium (a possible periodic/cylindrical lateral topology), or to a specific window in another aquarium. Connections could be sparse (for example only the top or bottom window), making access dependent on an organism's own physically achieved position and movement. This is **not** an implementation authorization or a request for an upstream issue.
+
+**Window concept:** Each lateral edge has five vertically indexed windows at the default world height, bottom-up from zero, with left/right identifiers. When the actual simulated world height grows, window heights expand until another window of the baseline size can fit; at that threshold, the count increases and all windows are redistributed evenly. The initial visual prototype only tests this partitioning, with bright observer-only markers outside the sensing boundaries. The connection/portal behavior is outside that prototype's scope.
+
+**Open geometry/physics decisions:** Define how the complete articulated body (not just its center) crosses an opening, what happens when its width/height exceeds a window, how joints, forces, velocities, collisions and contacts behave during transfer, and how a destination with different dimensions or occupied space is handled. Define whether body parts can straddle two worlds, or whether an atomic transfer is ever acceptable. A rearm/deadband or hysteresis condition must prevent immediate back-and-forth transfers across a portal; a chosen x-coordinate or cooldown alone should not create exploitable motion. Current VIDA rules explicitly prohibit artificial teleportation/scripted locomotion, so any future topology/transfer feature requires an explicit owner-approved exception or revised physical-boundary model. Do not bypass present movement, energy or conservation safeguards.
+
+**Possible multi-world protocol (exploratory):** A mediator/server could route an organism only between explicitly linked windows and accept only a strict, versioned, size-bounded, validated organism-transfer schema rather than commands or arbitrary client data. Authenticate/authorize source and destination, reject unknown fields and executable content, and design idempotent handoff/acknowledgment to prevent duplication, loss or replay. The minimal payload is unresolved: genetic blueprint alone would not preserve live anatomy, age, health, reserve, neural/learning state, velocities and deterministic continuation. Determine authoritative Worker ownership, capacity, conservation ledgers, timing across separate ticks, compatibility with snapshots/legacy saves, disconnected recipients and cross-world identity before approving any actual transfer. A server is not necessarily required for a single-world periodic topology.
+
+**Scope protection:** The present requirement remains visual-only window partition markers; do not open walls, create traversal logic, alter creature sensing, change physics, exchange organism state, create a service, or redefine world topology. Revisit these deferred questions only with a separately approved bounded design.
+
+## Reuse protocol
 
 When a new requirement touches one of the indexed topics, re-read the relevant note, mention the potential connection to Hernan, and ask whether the idea should be considered. The file is a contributor discussion journal, not a parallel upstream roadmap or automatically authorized task list.
