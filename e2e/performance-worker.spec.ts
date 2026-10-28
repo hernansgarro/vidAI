@@ -382,6 +382,50 @@ for (const fallback of [false, true]) test(`performance pulse preserves exact ph
   await page.getByRole('button', {name: '5x', exact: true}).click();
   await expect(dot).toHaveAttribute('data-state', 'valid');
   await expect.poll(() => dot.evaluate(node => node.getAnimations().find(a => a.id === 'simulation-throughput-pulse')?.playState)).toBe('running');
+  const expansion = await dot.evaluate(node => {
+    const animation = node.getAnimations().find(a => a.id === 'simulation-throughput-pulse')!;
+    const originalTime = animation.currentTime, wasRunning = animation.playState === 'running';
+    const header = node.closest('header')!;
+    const surroundings = () => [header, node.nextElementSibling!, header.querySelector('.toolbar-controls')!].map(element => {
+      const box = element.getBoundingClientRect();
+      return [box.x, box.y, box.width, box.height];
+    });
+    animation.pause();
+    try {
+      // Sample one real browser-rendered cycle synchronously, then restore it.
+      return [0, 250, 500, 999.9].map(time => {
+        animation.currentTime = time;
+        const box = node.getBoundingClientRect(), style = getComputedStyle(node);
+        const matrix = new DOMMatrixReadOnly(style.transform);
+        return {width: box.width, height: box.height, opacity: Number(style.opacity),
+          layoutWidth: node.clientWidth, layoutHeight: node.clientHeight,
+          layoutPosition: [(node as HTMLElement).offsetLeft, (node as HTMLElement).offsetTop],
+          origin: style.transformOrigin.split(/\s+/).slice(0, 2).map(Number.parseFloat),
+          translation: [matrix.e, matrix.f], surroundings: surroundings()};
+      });
+    } finally {
+      animation.currentTime = originalTime;
+      if (wasRunning) animation.play();
+    }
+  });
+  expect(expansion[0].width).toBeCloseTo(12, 1);
+  expect(expansion[0].opacity).toBe(1);
+  expect(expansion[3].width).toBeCloseTo(30, 1);
+  expect(expansion[3].height).toBeCloseTo(30, 1);
+  expect(expansion[3].opacity).toBeLessThan(.001);
+  for (let i = 0; i < expansion.length; i++) {
+    expect(expansion[i].layoutWidth).toBe(12); expect(expansion[i].layoutHeight).toBe(12);
+    expect(expansion[i].surroundings).toEqual(expansion[0].surroundings);
+    // Transformed DOMRects can be rounded differently by browser engines.
+    // Assert the exact layout position and centered, translation-free transform.
+    expect(expansion[i].layoutPosition).toEqual(expansion[0].layoutPosition);
+    expect(expansion[i].origin).toEqual([6, 6]);
+    expect(expansion[i].translation).toEqual([0, 0]);
+    if (i > 0) {
+      expect(expansion[i].width).toBeGreaterThan(expansion[i - 1].width);
+      expect(expansion[i].opacity).toBeLessThan(expansion[i - 1].opacity);
+    }
+  }
   await expect(dot).not.toHaveAttribute('title');
   // The pulsing transform never becomes stable for Playwright's hover action.
   // Move the real pointer to its center while leaving the animation running.

@@ -75,6 +75,12 @@ The existing 12px header circle shows actual simulation throughput. Pulse freque
 is `2.5 * log(1 + min(actualSpeed, 50)) / log(51)` Hz: about 0.44 at 1x,
 1.52 at 10x and 2.5 at 50x and above. Only the visual frequency saturates.
 
+Each pulse expands outward from its normal radius to 2.5 times that radius while
+fading from full opacity to transparent, then repeats. Its visual diameter grows
+from 12px to 30px; its layout box stays 12px square, so neighboring elements do not
+move. The existing animation changes only transform and opacity, without adding
+per-frame JavaScript, particles, blur or shadow effects.
+
 Finite speed colors show actual/requested achievement, capped at 100%:
 red at 10% or less, orange at 30%, yellow at 60% and green at 100% or more.
 MAX uses 50x as a **visual reference**, with the same anchors through green,

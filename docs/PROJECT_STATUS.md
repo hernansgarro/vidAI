@@ -1,5 +1,21 @@
 # Project status — 2026-10-21
 
+## Contributor fork: expanding and dissolving performance pulse — 2026-10-28
+
+Approved follow-up to #112: the existing animation now expands from scale 1 to
+2.5 with opacity 1 to 0 and ease-out, retaining its fixed 12px layout box. Only
+the production keyframes/easing changed; frequency, color, exact pause/resume,
+reduced motion, Worker and simulation behavior are unchanged. No new runtime
+elements, per-frame JavaScript, timers, blur or particle effects were added.
+
+Four focused Chromium scenarios passed in Worker/fallback modes. Sampled rendered
+frames approach a 30px diameter and opacity below 0.001 while the layout box stays
+12px square and neighboring/header/control bounds remain exactly unchanged.
+The existing exact paused-frame/color, manual-edit, resume, reduced-motion and
+no-tooltip assertions remain active. This is geometry/state verification, not a
+new FPS or zero-overhead claim. Sequential validation/integration receipts are
+tracked in #112; contributor-fork work is not upstream acceptance.
+
 ## Contributor fork: measured performance circle and unlimited MAX — 2026-10-28
 
 Tracking: upstream #112; branch `feature/live-performance-indicator`, based on

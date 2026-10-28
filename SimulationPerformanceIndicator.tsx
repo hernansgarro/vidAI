@@ -15,10 +15,9 @@ export const SimulationPerformanceIndicator = memo(function SimulationPerformanc
     const node = nodeRef.current!;
     node.style.backgroundColor = NEUTRAL;
     const pulse = node.animate([
-      {opacity: .6, transform: 'scale(.9)'},
-      {opacity: 1, transform: 'scale(1.08)'},
-      {opacity: .6, transform: 'scale(.9)'},
-    ], {duration: 1000, iterations: Infinity, easing: 'ease-in-out'});
+      {opacity: 1, transform: 'scale(1)'},
+      {opacity: 0, transform: 'scale(2.5)'},
+    ], {duration: 1000, iterations: Infinity, easing: 'ease-out'});
     pulse.id = 'simulation-throughput-pulse'; pulse.pause(); pulse.currentTime = 0;
     const motion = matchMedia('(prefers-reduced-motion: reduce)');
     let previousKey = '', stopped = false, frequency = 0;
