@@ -4,6 +4,26 @@ import {DEFAULT_SETTINGS, createSnapshot} from '../persistence';
 import {createInitialWorld} from '../world';
 import {createScenarioWorld} from '../environmentScenarios';
 
+type SnapshotState = ReturnType<typeof createSnapshot>['state'];
+function expectInitialState(actual: SnapshotState, expected: SnapshotState) {
+  // Node and browser transcendental math can differ by one ULP when placing
+  // rotated body parts. Allow only subnanopixel initial x/y differences;
+  // every other field and all imported/continued snapshots stay exact.
+  const normalized = structuredClone(actual);
+  expect(actual.organisms).toHaveLength(expected.organisms.length);
+  for (let i = 0; i < expected.organisms.length; i++) {
+    expect(actual.organisms[i].segments).toHaveLength(expected.organisms[i].segments.length);
+    for (let j = 0; j < expected.organisms[i].segments.length; j++) {
+      for (const key of ['x', 'y'] as const) {
+        const value = expected.organisms[i].segments[j][key];
+        expect(Math.abs(actual.organisms[i].segments[j][key] - value)).toBeLessThanOrEqual(1e-9);
+        normalized.organisms[i].segments[j][key] = value;
+      }
+    }
+  }
+  expect(normalized).toEqual(expected);
+}
+
 test.setTimeout(60000);
 for (const fallback of [false, true]) test(`environment dropdown, initial conditions, editable controls and exact imports (${fallback ? 'fallback' : 'Worker'})`, async ({page}, info) => {
   await page.setViewportSize(fallback ? {width: 375, height: 812} : {width: 1280, height: 850});
@@ -45,7 +65,7 @@ for (const fallback of [false, true]) test(`environment dropdown, initial condit
   const start = fallback ? normal : await page.evaluate(() => (window as any).scenarioResets.at(-1));
   expect(start.state.simTime).toBe(0); expect(start.state.nutrients).toHaveLength(275);
   const expected = createSnapshot(createInitialWorld(start.settings, start.state.initialSeed), start.settings);
-  expect(start.state).toEqual(expected.state);
+  expectInitialState(start.state, expected.state);
   await page.getByTitle('Ecology & Physical Settings').dispatchEvent('click');
   await page.keyboard.press('Escape');
   await page.getByRole('button', {name: 'MAIN MENU', exact: true}).dispatchEvent('click');
@@ -63,7 +83,7 @@ for (const fallback of [false, true]) test(`environment dropdown, initial condit
   expect(harshStart.state.simTime).toBe(0); expect(harshStart.state.nutrients).toHaveLength(0);
   expect(harshStart.state.organisms).toHaveLength(fallback ? 12 : 18);
   const planned = createScenarioWorld(normal.settings, 'harsh-world', harshStart.state.initialSeed, 'balanced', preset);
-  expect(harshStart.state).toEqual(createSnapshot(planned.state, planned.settings).state);
+  expectInitialState(harshStart.state, createSnapshot(planned.state, planned.settings).state);
   const matchingDefault = createInitialWorld(normal.settings, harshStart.state.initialSeed, 'balanced', preset);
   expect(harshStart.state.energyPool.budget).toBe(matchingDefault.energyPool!.budget);
   expect(harshStart.state.energyPool.reserve).toBe(825000);
