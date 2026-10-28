@@ -280,6 +280,9 @@ for (const fallback of [false, true]) test(`x0 unifies Pause, Space and speed se
 });
 
 for (const fallback of [false, true]) test(`x0 allows inspection, navigation and authoritative manual edits without ticks (${fallback ? 'fallback' : 'Worker'})`, async ({page}) => {
+  // Multiple authoritative downloads plus camera/panel interactions exceed 60s
+  // on a busy software-rendered CI runner. Keep each assertion's limit unchanged.
+  test.setTimeout(90000);
   const errors: string[] = []; page.on('pageerror', error => errors.push(error.message));
   // Observe the actual tank camera matrix without adding application test hooks.
   await page.addInitScript(() => {
