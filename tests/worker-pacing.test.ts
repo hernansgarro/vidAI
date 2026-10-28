@@ -1,6 +1,24 @@
 import assert from 'node:assert/strict';
 import {test} from 'node:test';
 import {workerWakeDelay, FIXED_TICK_SECONDS} from '../workerPacing';
+import {selectSimulationSpeed, toggleSimulationSpeed, SIMULATION_SPEEDS, isSimulationSpeed,
+  type PlaybackSpeed} from '../simulationSpeed';
+
+test('x0 remembers every supported nonzero speed and either pause entry resumes identically', () => {
+  for (const speed of SIMULATION_SPEEDS) {
+    if (speed === 0) continue;
+    const playing = selectSimulationSpeed({speed: 0, lastNonzero: 1}, speed);
+    const paused = selectSimulationSpeed(playing, 0);
+    assert.deepEqual(paused, {speed: 0, lastNonzero: speed});
+    assert.deepEqual(toggleSimulationSpeed(playing), paused);
+    assert.deepEqual(toggleSimulationSpeed(paused), playing);
+    assert.deepEqual(toggleSimulationSpeed(selectSimulationSpeed(paused, 0)), playing);
+    const changed: PlaybackSpeed = selectSimulationSpeed(paused, 2);
+    assert.deepEqual(changed, {speed: 2, lastNonzero: 2});
+  }
+  assert.deepEqual(SIMULATION_SPEEDS, [0, 1, 2, 5, 10, 20, 50]);
+  for (const value of [NaN, Infinity, -1, .5, 4, '0', null, undefined]) assert.equal(isSimulationSpeed(value), false);
+});
 
 test('overdue simulation yields to commands without introducing timer idle time', () => {
   assert.equal(workerWakeDelay(FIXED_TICK_SECONDS, 1, 0, true), 0);
