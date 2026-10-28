@@ -1,4 +1,224 @@
+# Initial environmental scenarios — contributor fork (2026-10-28)
+
+Tracking upstream #119 / #57. Branch `feature/environment-scenarios` from fork
+main `d5218b4`, retaining canonical upstream `6f8f80c`. Default is preselected
+and preserves configured initialization. Harsh applies the requested larger
+tank, gravity, viscosity, combined capacity and limited recycling; existing
+Clear Free Nutrients runs synchronously during creation, banking the full
+825,000 J nutrient grant before any Worker reset or simulated tick.
+Founder populations/brain modes remain independent; controls stay editable;
+imports never pass through a scenario. No kernel/physics/feeding/egg/genetic
+rule, save schema, release version, testing overlay or VIDA 3D changes.
+
+Local npm ci, 334 fast tests, build/typecheck and actual production Worker checks
+passed. Against unchanged `d5218b4`, 16 seed/mode/preset combinations matched
+complete Default initialization and every tick; Harsh matched the old manual
+configuration plus Clear Free Nutrients equally exactly. Two worlds × 30 ticks
+× 16 combinations = 960 exact continuation comparisons, with no excluded fields
+or baseline refresh. Both environments have equal initial budgets for matching
+founders. Maximum observed stock error was 9.32e-10 J. Raw comparisons:
+`docs/experiments/environment-scenarios-v1.json`; reproducible script:
+`scripts/check-environment-scenarios-baseline.ts BASE_CHECKOUT`.
+
+The requested harsher settings intentionally change physical/ecological
+conditions; this verifies equivalence to existing manual controls, not improved
+survival, sustainable ecology or performance. No ecological search or retuning.
+The empty-population rate fixture confirms 1/s funded conversion and the
+200-nutrient cap. Real Worker checks cover time-zero state, matching grant,
+edited settings, exact stepping and snapshot reset.
+
+Local Chromium installation failed with truncated/non-ZIP archives. Focused
+browser coverage is added to existing Chromium/Firefox CI for native icons,
+desktop/phone start menus, Default/Harsh initialization, founder buttons, editable
+controls, Harsh-to-Default switching and exact imports in Worker/fallback.
+Remote validation, fork PR/merge and actual publication receipts are tracked in
+#119/#57. Wiki source is explicitly fork-only pending upstream acceptance.
+Fractional recycling and named custom profiles are recorded only as deferred
+contributor ideas. Upstream submission remains unapproved.
+
+---
+
+# Observer-only egg reserve display — contributor fork (2026-10-28)
+
+Refs upstream #116 and #57. Implemented on `feature/egg-reserve-display` from
+fork main `5d9be26`, retaining upstream `6f8f80c`. No upstream submission approval.
+White/pink reserve-loss sectors grow counterclockwise; clockwise incubation,
+texture/glow/selection and white sensory RGB remain. Optional v16
+`initialFundedReserve` is assigned at laying and never spent or updated;
+`initialReserveIsLegacy` identifies current-reserve migration with unknown past loss.
+No simulation model, energy stock, genes, controls or version changes.
+
+Local validation: 329 fast checks (including physical egg predation and exact
+white retina at all loss levels), build/typecheck and production Worker passed. Eight bounded pre-change comparisons (four physics regimes × both economies,
+120 ticks each) matched complete snapshots at every tick after removing only the two
+observer metadata fields. Laying and hatching occurred in all eight; closed-world
+expiry occurred in all four closed cases. Maximum stock/ledger floating-point error
+was 1.27e-9 J and was identical to baseline. No baseline refresh or ecology/FPS claim.
+The comparison script is `scripts/check-egg-reserve-baseline.ts`; baseline is the
+unchanged fork commit `5d9be26b78c818303cfa5f2f1160fa834929864b`.
+
+Local Chromium installation failed with a truncated/non-ZIP download. The bounded
+Worker/fallback canvas path/pixel/selection/x0/5x browser test is wired into existing
+Chromium and Firefox smoke CI; remote results and fork integration are recorded in
+#116/#57. Wiki source labels this as fork-only pending upstream acceptance.
+Preserve unrelated main work, testing and #113/#115 review.
+
+---
+
 # Project status — 2026-10-21
+
+## Contributor fork: wider translucent energy glow — 2026-10-28
+
+User-approved refinement of #114 on `feature/stronger-energy-glow`, based on
+fork main `e694120`. Clarification superseded the initial opacity-tripling idea:
+the requested change is a wider glass-like translucent halo, not a brighter edge.
+Five contours (21/15/10/6/2 CSS pixels) replace the compact three-band glow;
+outward reach is 10.5 pixels, exactly three times the former 3.5px reach.
+Peak band alpha stays translucent: green .06/.084/.12/.168/.312, red
+.07/.098/.14/.196/.364, from outside to core. The unchanged normal body fill and
+outline now paint over the glow, preserving pigmentation and anatomy.
+
+Relative thresholds, transfer detection, cadence, alternating phases, decay,
+x0, contacts, Worker, perception and saves remain unchanged. No blur/filter,
+body scaling, timers or simulation changes. Five strokes replace three per
+active color; no new FPS or zero-overhead claim. Nearby halos can overlap.
+Focused browser checks cover actual width, translucency, body-over-glow paint
+order, green/red activity, zoom and Worker/fallback x0/cleanup. Fast/build/CI
+receipts are recorded in #114. Wiki source remains fork-only; upstream submission
+and publication are still unapproved.
+
+## Contributor fork: compact energy contour glow — 2026-10-28
+
+Approved visual follow-up to #114, branch `feature/energy-contour-glow` from
+fork main `6d9db35`: replace activity skin fills with a softly luminous contour.
+Three stroke widths (7/4/1.5 CSS pixels) follow each existing body path; the
+outermost band reaches only 3.5 pixels outside it. Alpha falls from the moderately
+brighter core (peak green .48/red .56) to middle and outer bands. No shadow blur,
+filter, body scaling or per-creature timers. Canvas drawing state is restored.
+Green remains whole-body, red remains localized; close contours can overlap.
+
+The collector, relative thresholds, 400ms cadence, alternating phases, short
+fade and x0 semantics are unchanged. This follow-up touches presentation only;
+no simulation, Worker, persistence or sensing code changed. Focused browser
+coverage checks real stroked geometry, no activity-colored fills, bounded widths
+before/after zoom, Worker/fallback pause/resume and replacement cleanup. Fast/build
+and CI receipts are recorded in #114. Three strokes per active color replace one
+fill; there is no measured gameplay FPS or zero-overhead claim. Wiki source is
+updated as fork-only; upstream submission/publication remains unapproved.
+
+## Contributor fork: observer-only energy activity — 2026-10-28
+
+Tracking: upstream #114; branch `feature/energy-transfer-pulses`, based on fork
+main `ee066a8`. The kernel exposes primitive actual absorbed/extracted joules
+and its existing first contacting prey segment. Separate host-owned transient
+windows produce green whole-body and red localized activity, independently,
+without organism/save fields or new sensing/physics decisions. No arithmetic,
+feed order, contact geometry, founder, version or energy rule was changed.
+
+The rolling 250ms simulation window uses 0.5% on / 0.35% off relative to stable
+pre-transfer reserve plus biomass, with a capacity-relative depleted-stock
+floor. A shared 400ms presentation cycle alternates red/green peaks by 200ms;
+only one restrained lobe exceeds a faint 0.025-alpha trough at a time.
+The trough preserves short completed intervals even between peaks. Ended activity
+fades for 100ms; accelerated crossed intervals are retained once without replay queues.
+All phase/decay stops at x0; late metadata waits until resume. Resets and
+removed/dissolving creatures clear activity. One mouth reports its established
+first contacting part; multiple mouths can mark several parts. Lethal damage
+retains normal mortality and does not create a new corpse effect.
+
+Validation includes focused threshold/hysteresis, true source categories,
+structural extraction, ordinary-cost/funded-egg negative controls, concurrent
+signals, multiple contacts, pause/in-flight/resume, speeds and cleanup checks.
+Full host snapshots match observer-free continuation including optical rays,
+neural/learning state, physics, energy, genes and PRNG. Production Worker checks
+verify real concurrent frame metadata and exact observer-free continuation.
+Current verification: 309/309 fast tests, production build and actual Worker
+checks passed locally. Focused Chromium smoke could not launch because the
+browser binary is absent; installation failed with a truncated download. The
+existing CI Worker workflow includes both focused Worker/fallback browser cases;
+remote results and integration receipts are recorded in #114.
+
+Bounded CPU observation: three paired 60-tick worlds with 30 creatures and
+100 nutrients measured collector OFF/ON 472.344/480.752ms,
+306.526/280.484ms and 331.883/318.718ms (alternating order). Median ON was
+about 4.0% lower, while pair one was 1.8% higher; warmup/noise prevents a
+performance benefit or zero-overhead claim. This is one second of controlled
+simulation per run, not a gameplay FPS/ecology benchmark. A 6000-tick
+single-organism collector microcheck takes roughly 4–13ms locally. Additional
+cost is bounded rings per recently feeding/bitten creature, small frame rows
+and at most two restrained tint fills per visible segment; no per-creature timers.
+No new ecological/evolutionary campaign, baseline refresh or VIDA 3D changes.
+Fork integration is not upstream acceptance or Wiki publication.
+
+## Contributor fork: expanding and dissolving performance pulse — 2026-10-28
+
+Approved follow-up to #112: the existing animation now expands from scale 1 to
+2.5 with opacity 1 to 0 and ease-out, retaining its fixed 12px layout box. Only
+the production keyframes/easing changed; frequency, color, exact pause/resume,
+reduced motion, Worker and simulation behavior are unchanged. No new runtime
+elements, per-frame JavaScript, timers, blur or particle effects were added.
+
+Four focused Chromium scenarios passed in Worker/fallback modes. Sampled rendered
+frames approach a 30px diameter and opacity below 0.001 while the layout box stays
+12px square and neighboring/header/control bounds remain exactly unchanged.
+The existing exact paused-frame/color, manual-edit, resume, reduced-motion and
+no-tooltip assertions remain active. This is geometry/state verification, not a
+new FPS or zero-overhead claim. Sequential validation/integration receipts are
+tracked in #112; contributor-fork work is not upstream acceptance.
+
+## Contributor fork: measured performance circle and unlimited MAX — 2026-10-28
+
+Tracking: upstream #112; branch `feature/live-performance-indicator`, based on
+fork main `ddd19a4`. Hernan resolved the specification's MAX contradiction by
+explicitly choosing unlimited execution in place of the old paced 50x alias.
+Worker batches remain bounded/yielding; finite speeds and exact 1/60-second
+simulation rules/saves are preserved. More world time can pass per wall second
+in MAX, so worlds can also age/extinguish sooner in wall time.
+
+The compact circle and existing speed readout share authoritative simulated-time
+versus wall-time sampling. A retained Web Animation communicates actual speed,
+with perceptual red/orange/yellow/green achievement colors and MAX-only cyan/white
+above the 50x visual reference. The pulse alone saturates at 2.5Hz. Pause freezes
+exact phase and displayed color; resume waits for fresh data. Reduced motion is
+respected. The latest correction removes all tooltip/hover/popover/explanatory
+UI from the circle; screen-reader descriptions remain nonvisual.
+
+Local validation: 299 fast checks, build/typecheck, actual production Worker,
+exact populated/empty MAX continuation and pause/finite resume checks pass.
+Focused browser scenarios cover controls, phase/color/manual edits,
+reduced motion, MAX above 50x, persistent white and absent tooltip. Representative
+1920px/320px toolbar interaction checks pass. Final CI receipts are recorded in #112.
+
+Bounded overhead observations: 100,000 sampler/mapping observations took 9.786ms
+(about 0.098 microseconds/observation; CPU microcheck, not gameplay FPS).
+In a three-pair empty-world browser probe, visible/hidden presentation achieved
+[4601.900,2595.199,3498.086] / [3581.940,3224.894,3585.193] simulated-time ratios.
+Their medians differ by about -2.34%, within substantial run-to-run variation.
+This hides only the 12px presentation and does not establish whole-app or populated
+world performance. There are no new Worker messages or simulation-tick observers;
+indicator DOM updates are limited to 4Hz. Physics/energy/brain golden references
+were not changed. Full evidence/limits and integration status remain in #112;
+this is contributor-fork implementation, not upstream acceptance/publication.
+
+## Contributor fork: unified pause and speed 0x — 2026-10-28
+
+Tracking: upstream #111; fork branch `feature/unified-pause-x0`, based on
+fork main `af671e8`. Speed 0x owns user pause; Pause/Space remember the last
+nonzero speed and speed selection resumes directly. Existing nonzero speeds
+remain unchanged (the requirement's x4 was only illustrative).
+
+The pause overlay is removed. Inspection, panels, camera navigation and existing
+manual world commands stay available with time stopped. The Worker receives
+only effective speed, clears pacing debt on speed transitions, and publishes
+accepted manual edits without ticks. Fallback camera/UI refresh is independent
+of autonomous stepping. Imports remain paused, and saves/rules are unchanged.
+
+Local fast validation: 292 passed, 0 failed, 0 skipped. The production Worker
+verifies funded edits/caps and immediate frames at 0x, unchanged full state over
+stopped wall time, no catch-up on resume and exact saved-state continuation.
+Existing golden physics/brain/energy continuation checks remain unchanged.
+Browser and integration receipts are recorded in #111 and the fork-internal PR.
+This is contributor-fork behavior, not upstream acceptance or Wiki publication.
 
 ## Contributor fork: all eleven paused checks recovered — 2026-10-26
 

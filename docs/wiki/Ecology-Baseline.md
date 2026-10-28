@@ -4,6 +4,26 @@ Physical feeding, finite reserves, funded eggs, hatching and death exist.
 Reliable unassisted food acquisition and self-sustaining populations across
 generations remain open outcomes. Startup survival alone does not show viability.
 
+## Initial environmental scenarios — contributor fork
+
+**Fork-only: implemented in hernansgarro/vidAI; pending upstream acceptance.**
+The start-menu Environment dropdown offers world-icon **Default** (preselected)
+and mountain-icon **Harsh World**, independently of founder population/brain mode.
+Default retains configured initialization. Harsh starts a 4800 × 3000 px tank,
+20 px/s² gravity, viscosity 0.40, a combined creature/egg cap of 50 and 1 nutrient/s
+recycling with a finite 200-nutrient cap. Initial population stays preset-dependent
+(normally 18). All other settings use configured defaults.
+
+Harsh has **zero free nutrients before the first tick**. The normal initial
+nutrient grant is returned to the existing reserve using Clear Free Nutrients
+during creation, retaining the same global budget as Default for the same
+seed/population (currently 825,000 J of food energy banked). Recycling and all
+feeding, egg and energy rules remain unchanged; extinction remains valid.
+Controls remain editable. Imports keep exact saved conditions and never reapply
+a scenario. Returning to the start menu can select a fresh Default; existing
+in-world reseed controls keep their current-settings semantics. No custom profiles
+or fractional-rate control is included.
+
 ## Closed world budget
 
 New application worlds use a finite recycled ecological energy budget. Its
@@ -115,6 +135,26 @@ flowchart TD
 This retained diagram describes the open-economy saved-world rules. Closed
 worlds use the reserve flow above. Neither diagram certifies mechanical work
 conservation.
+
+## Egg reserve observation
+
+**Contributor fork feature; upstream acceptance pending.** The egg's white interior
+shows remaining original usable reserve. A pink sector grows counterclockwise from
+12 o'clock as reserve is lost: 25% loss gives 25% pink. Exhausted reserve stays
+fully pink through subsequent structural damage. Existing uptake can shrink the
+sector; reserves above the original reference remain fully white. The outer
+incubation ring still advances clockwise; glow and selection remain decorative.
+
+This is not a hatch-readiness or viability indicator. It adds no incubation cost,
+energy recovery, hatch rule or forced conversion to carrion. Organisms still see
+the same white egg (`EGG_RGB`), without any display sector or ring information.
+
+The reference is stored at laying, independently of the parent and offspring
+genome, and retained through save/export/import/Worker restore. Older eggs lacking
+it use their known current reserve once and carry `initialReserveIsLegacy: true`;
+loss before migration is unknown. A migrated positive-reserve egg starts white;
+an empty egg starts pink. With a zero reference, any later positive reserve is
+white. These optional v16 metadata fields do not change ecology or physics.
 
 ## Funded eggs and lifecycle
 
