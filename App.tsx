@@ -1,4 +1,5 @@
 import {EnergyActivityCollector, EnergyActivityPresentation, drawEnergyGlow} from './energyActivity';
+import {drawSideWindows} from './sideWindows';
 import {mouthDimensions} from './mouthGeometry';
 import {NEW_PHYSICS_REGIME, type PhysicsRegime} from './foundationPhysics';
 import {enableClosedEconomy, occupiedPopulation, setWorldEnergy, EGG_LIFETIME_MULTIPLIER,
@@ -1531,6 +1532,7 @@ export default function App() {
       }
     }
 
+    drawSideWindows(ctx, worldWidth, worldHeight, zoom);
     ctx.restore();
   };
 

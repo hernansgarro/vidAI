@@ -1,3 +1,35 @@
+# Side-window markers — fork/testing only (2026-10-28)
+
+Tracking upstream #121 / #57. Dedicated fork branch `feature/side-window-markers`
+starts from testing `7644f11`, under explicit authorization to integrate only
+into testing. Fork main `e45b408` and canonical upstream remain unchanged.
+
+Stage 1 is exclusively visual: the fixed independent `MIN_WINDOW_HEIGHT = 300`
+world units yields `N = max(1, floor(H / 300))`, with uniformly redistributed
+sections on each vertical side. Below 300 units, one full-height section is the
+only minimum-height exception. Bottom-up L/R labels sit at section midpoints;
+N-1 yellow circles per side align exactly with internal boundaries, never the
+floor or ceiling. Existing world-size controls remain 600–3000 units high.
+
+`sideWindows.ts` is imported only by the UI renderer. It receives existing tank
+dimensions and camera zoom, writes only canvas commands and stores no world or
+save state. Markers/text stay outside the physical walls with stable screen
+sizes. Physics, retinal RGB, collision geometry, energy, brains, PRNG, Worker,
+historical continuation, version and hosting configuration are unchanged.
+Future caller names, connections, agreements, portals and transfers remain deferred.
+
+Unit coverage includes all supplied examples, adjacent representable floating-point
+thresholds, exact internal boundary centers, bottom-up labels, zero divisions
+for a single section, uniform growth/shrinkage, zoom/width independence and no
+logical count cap. Bounded browser coverage checks real resize controls, exact
+paused imports/exports, actual yellow pixels, pan/zoom and viewport changes in
+Worker and fallback modes. The existing CI smoke retains preview screenshots.
+Remote checks, visual review and publication receipts are recorded in #121.
+Wiki source explicitly identifies this as fork/testing-only; no upstream Wiki
+publication or submission is authorized by this stage.
+
+---
+
 # Initial environmental scenarios — contributor fork (2026-10-28)
 
 Tracking upstream #119 / #57. Branch `feature/environment-scenarios` from fork

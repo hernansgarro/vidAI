@@ -5,6 +5,9 @@ on:
       - 'environmentScenarios.ts'
       - 'tests/environment-scenarios.test.ts'
       - 'e2e/environment-scenarios.spec.ts'
+      - 'sideWindows.ts'
+      - 'tests/side-windows.test.ts'
+      - 'e2e/side-windows.spec.ts'
       - 'simulation.worker.ts'
       - 'energyEconomy.ts'
       - 'energyActivity.ts'
@@ -57,6 +60,13 @@ jobs:
       - run: npx playwright install --with-deps chromium firefox
       - run: npm run build
       - run: npm run test:worker
+      - name: Verify testing-only side-window geometry and camera rendering
+        run: npx playwright test e2e/side-windows.spec.ts --workers=1
+      - name: Preserve side-window visual acceptance screenshots
+        uses: actions/upload-artifact@v4
+        with:
+          name: side-window-previews
+          path: test-results/**/side-windows-*.png
       - name: Verify stable toolbar geometry and interactions
         run: npx playwright test e2e/presentation.spec.ts --grep 'toolbar stays' --workers=1
       - run: npx playwright test e2e/performance-worker.spec.ts e2e/energy-activity.spec.ts e2e/egg-reserve.spec.ts e2e/environment-scenarios.spec.ts --workers=1

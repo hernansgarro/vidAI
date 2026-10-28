@@ -83,6 +83,11 @@ independence in a future decision. The first selector has only Default / Harsh W
 
 ### Visual window geometry — phase 1 candidate
 
+**Stage-1 correction:** The implemented fork/testing specification uses the fixed
+`MIN_WINDOW_HEIGHT = 300` world units, superseding the historical `H0 / 5`
+proposal below. See [Side Window Markers](wiki/Side-Windows.md). Later stages
+and all deferred decisions in this journal remain unimplemented.
+
 - Both physical left and right edges are partitioned vertically into identical **sections/windows**, indexed upward from the floor as `L0, L1, ...` and `R0, R1, ...`. At the default simulated world height `H0`, there are exactly five windows on each edge, with reference height `S0 = H0 / 5`.
 - Growing or **shrinking** the simulated world height `H` follows the same discrete rule in both directions. Candidate formula: `N(H) = max(1, floor(H / S0))`, `sectionHeight = H / N(H)`, subject to confirming actual world-height constraints. The windows expand or contract evenly between integer-count thresholds; crossing a threshold adds or removes a window and redistributes all boundaries. This may cause the remaining windows to grow suddenly when one disappears during shrinking, as intended.
 - **Corrected marker placement:** A small, conspicuous **yellow circle is centered exactly on each INTERNAL boundary between adjacent windows**, just outside the left/right wall. Its *center*, not the circle's entire area, aligns with the height where sections change. It is **not** located at a window's center. The tank floor and top already visibly define the outer boundaries, so markers at those two extremes are unnecessary unless later requested.
