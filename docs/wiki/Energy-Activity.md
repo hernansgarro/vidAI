@@ -28,15 +28,16 @@ These presentation constants are in `energyActivity.ts`, not simulation settings
 
 Both signals share a 400ms pause-aware **presentation** cycle, independent of
 transfer count, amount and playback multiplier. Smooth squared-cosine lobes
-alternate their peaks by 200ms. A faint 0.025-alpha trough keeps even short
+alternate their peaks by 200ms. A faint 0.025 activity-envelope trough keeps even short
 completed intervals visible between peaks; only one color exceeds that faint
 trough at any phase, avoiding strong mixed-color peaks. The existing rounded
-body path is stroked with three soft contour bands, never filled with activity
-color. Their total widths are 7, 4 and 1.5 CSS pixels, independent of zoom; the
-outermost band reaches only 3.5 pixels outside the body. Peak alpha is 0.06/0.156/
-0.48 for green and 0.07/0.182/0.56 for red (outer/middle/core). The brighter core
-and compact falloff improve readability while preserving inherited pigmentation,
-eyes and internal anatomy. No shadow blur, canvas filter or body scaling is used.
+body path is stroked with five translucent contour bands, never filled with activity
+color. Their total widths are 21, 15, 10, 6 and 2 CSS pixels, independent of zoom;
+the outermost band reaches 10.5 pixels outside the body, three times the original
+compact halo's reach. Individual peak alpha is .06/.084/.12/.168/.312 green and
+.07/.098/.14/.196/.364 red (outside to core). The broad translucent falloff gives
+a glass-like glow rather than a brighter hard edge. The normal body fill and
+outline are painted over the glow, retaining pigmentation and readable anatomy. No shadow blur, canvas filter or body scaling is used.
 An inactive signal fades for at most 100ms of unpaused presentation time.
 
 At x0, phase and fade freeze. Late in-flight activity packets cannot start new
@@ -64,5 +65,5 @@ including optical and neural data, energy and PRNG, with exact equality.
 
 Lethal extraction follows existing mortality: a dissolving victim loses its
 transient indication immediately. No extra corpse animation or altered lifespan
-is introduced. The compact glow keeps a stable screen width at different zoom levels without
+is introduced. The translucent glow keeps a stable screen width at different zoom levels without
 enlarging collision geometry. Closely packed contours can overlap briefly.
