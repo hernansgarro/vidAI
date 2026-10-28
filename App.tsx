@@ -1597,32 +1597,32 @@ export default function App() {
 
         {/* Viewport-driven counter columns with reserved numeric slots */}
         <div className="toolbar-counters text-[11px] md:text-xs font-mono">
-          <div title={`Alive: ${ecoStats.livingCount}`} aria-label={`Alive: ${ecoStats.livingCount}`} className="flex items-center gap-1 text-emerald-400 bg-slate-950/60 px-2 py-0.5 rounded border border-slate-800">
+          <div role="group" title={`Alive: ${ecoStats.livingCount}`} aria-label={`Alive: ${ecoStats.livingCount}`} className="flex items-center gap-1 text-emerald-400 bg-slate-950/60 px-2 py-0.5 rounded border border-slate-800">
             <Activity size={13} aria-hidden="true" />
             <span><span className="toolbar-counter-label">Alive: </span><strong className="text-white"><ToolbarValue value={ecoStats.livingCount} /></strong></span>
           </div>
 
-          <div title={`Herbivores: ${ecoStats.herbivoreCount}`} aria-label={`Herbivores: ${ecoStats.herbivoreCount}`} className="flex items-center gap-1 text-emerald-300 bg-emerald-950/40 px-2 py-0.5 rounded border border-emerald-500/30">
+          <div role="group" title={`Herbivores: ${ecoStats.herbivoreCount}`} aria-label={`Herbivores: ${ecoStats.herbivoreCount}`} className="flex items-center gap-1 text-emerald-300 bg-emerald-950/40 px-2 py-0.5 rounded border border-emerald-500/30">
             <span className="toolbar-counter-icon" aria-hidden="true">🌿</span><span><span className="toolbar-counter-label">Herb: </span><strong className="text-white"><ToolbarValue value={ecoStats.herbivoreCount} /></strong></span>
           </div>
 
-          <div title={`Carnivores: ${ecoStats.carnivoreCount}`} aria-label={`Carnivores: ${ecoStats.carnivoreCount}`} className="flex items-center gap-1 text-rose-300 bg-rose-950/40 px-2 py-0.5 rounded border border-rose-500/30">
+          <div role="group" title={`Carnivores: ${ecoStats.carnivoreCount}`} aria-label={`Carnivores: ${ecoStats.carnivoreCount}`} className="flex items-center gap-1 text-rose-300 bg-rose-950/40 px-2 py-0.5 rounded border border-rose-500/30">
             <span className="toolbar-counter-icon" aria-hidden="true">🥩</span><span><span className="toolbar-counter-label">Carn: </span><strong className="text-white"><ToolbarValue value={ecoStats.carnivoreCount} /></strong></span>
           </div>
 
-          <div title={`Omnivores: ${ecoStats.omnivoreCount}`} aria-label={`Omnivores: ${ecoStats.omnivoreCount}`} className="flex items-center gap-1 text-purple-300 bg-purple-950/40 px-2 py-0.5 rounded border border-purple-500/30">
+          <div role="group" title={`Omnivores: ${ecoStats.omnivoreCount}`} aria-label={`Omnivores: ${ecoStats.omnivoreCount}`} className="flex items-center gap-1 text-purple-300 bg-purple-950/40 px-2 py-0.5 rounded border border-purple-500/30">
             <span className="toolbar-counter-icon" aria-hidden="true">🟣</span><span><span className="toolbar-counter-label">Omni: </span><strong className="text-white"><ToolbarValue value={ecoStats.omnivoreCount} /></strong></span>
           </div>
 
-          <div title={`Remains: ${ecoStats.carrionCount}`} aria-label={`Remains: ${ecoStats.carrionCount}`} className="flex items-center gap-1 text-amber-300 bg-amber-950/40 px-2 py-0.5 rounded border border-amber-500/30">
+          <div role="group" title={`Remains: ${ecoStats.carrionCount}`} aria-label={`Remains: ${ecoStats.carrionCount}`} className="flex items-center gap-1 text-amber-300 bg-amber-950/40 px-2 py-0.5 rounded border border-amber-500/30">
             <span className="toolbar-counter-icon" aria-hidden="true">🦴</span><span><span className="toolbar-counter-label">Remains: </span><strong className="text-white"><ToolbarValue value={ecoStats.carrionCount} /></strong></span>
           </div>
 
-          <div title={`Eggs: ${ecoStats.eggCount}`} aria-label={`Eggs: ${ecoStats.eggCount}`} className="flex items-center gap-1 text-cyan-300 bg-cyan-950/40 px-2 py-0.5 rounded border border-cyan-500/30">
+          <div role="group" title={`Eggs: ${ecoStats.eggCount}`} aria-label={`Eggs: ${ecoStats.eggCount}`} className="flex items-center gap-1 text-cyan-300 bg-cyan-950/40 px-2 py-0.5 rounded border border-cyan-500/30">
             <span className="toolbar-counter-icon" aria-hidden="true">🥚</span><span><span className="toolbar-counter-label">Eggs: </span><strong className="text-white"><ToolbarValue value={ecoStats.eggCount} /></strong></span>
           </div>
 
-          <div title={`Food: ${ecoStats.nutrientCount} / ${energyPool ? nutrientLimit ?? '∞' : ecoStats.targetNutrients}`} aria-label={`Food: ${ecoStats.nutrientCount} / ${energyPool ? nutrientLimit ?? '∞' : ecoStats.targetNutrients}`} className="flex items-center gap-1.5 text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-500/30">
+          <div role="group" title={`Food: ${ecoStats.nutrientCount} / ${energyPool ? nutrientLimit ?? '∞' : ecoStats.targetNutrients}`} aria-label={`Food: ${ecoStats.nutrientCount} / ${energyPool ? nutrientLimit ?? '∞' : ecoStats.targetNutrients}`} className="flex items-center gap-1.5 text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-500/30">
             <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
             <span><span className="toolbar-counter-label">Food: </span><strong className="text-white"><ToolbarValue value={ecoStats.nutrientCount} /></strong><span className="toolbar-food-limit text-emerald-300/60"> / <ToolbarValue value={energyPool ? nutrientLimit ?? '∞' : ecoStats.targetNutrients} /></span></span>
           </div>

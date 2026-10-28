@@ -376,7 +376,7 @@ test('toolbar stays grouped and hides credits only to avoid an extra row', async
         return {actions:actions.map(r=>({y:r.y,width:r.width,bottom:r.bottom})),speed:{y:speed.y,width:speed.width},
           controlsWidth:controls.getBoundingClientRect().width,
           labels:[...h.querySelectorAll('.toolbar-counter-label,.toolbar-food-limit')].every(n=>getComputedStyle(n).display === 'none'),
-          names:[...h.querySelector('.toolbar-counters')!.children].every(n=>!!n.getAttribute('aria-label') && !!n.getAttribute('title'))};
+          names:[...h.querySelector('.toolbar-counters')!.children].every(n=>n.getAttribute('role') === 'group' && !!n.getAttribute('aria-label') && !!n.getAttribute('title'))};
       });
       expect(mobile.labels).toBe(true); expect(mobile.names).toBe(true);
       for (const action of mobile.actions) {
