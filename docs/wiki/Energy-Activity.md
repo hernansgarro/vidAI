@@ -3,8 +3,8 @@
 **Contributor fork only:** implemented in `hernansgarro/vidAI`; this page does
 not assert acceptance or publication in upstream VIDA. Applies only to VIDA 2D.
 
-Green tint follows every body segment during significant actual feeding uptake
-from nutrients, carrion, eggs or living prey. Red tint follows the body segment
+Green glow follows every body segment during significant actual feeding uptake
+from nutrients, carrion, eggs or living prey. Red glow follows the body segment
 identified by an actual extracting predator mouth. Several mouths can mark
 several contacted segments. A single mouth uses the first contacting segment
 already selected by the authoritative feeding path; it does not run a new
@@ -30,9 +30,13 @@ Both signals share a 400ms pause-aware **presentation** cycle, independent of
 transfer count, amount and playback multiplier. Smooth squared-cosine lobes
 alternate their peaks by 200ms. A faint 0.025-alpha trough keeps even short
 completed intervals visible between peaks; only one color exceeds that faint
-trough at any phase, avoiding strong mixed-color overlays. Peak overlay alpha
-is 0.24 green / 0.28 red. The existing rounded
-body path is filled again, without geometry expansion, halos or body scaling.
+trough at any phase, avoiding strong mixed-color peaks. The existing rounded
+body path is stroked with three soft contour bands, never filled with activity
+color. Their total widths are 7, 4 and 1.5 CSS pixels, independent of zoom; the
+outermost band reaches only 3.5 pixels outside the body. Peak alpha is 0.06/0.156/
+0.48 for green and 0.07/0.182/0.56 for red (outer/middle/core). The brighter core
+and compact falloff improve readability while preserving inherited pigmentation,
+eyes and internal anatomy. No shadow blur, canvas filter or body scaling is used.
 An inactive signal fades for at most 100ms of unpaused presentation time.
 
 At x0, phase and fade freeze. Late in-flight activity packets cannot start new
@@ -54,11 +58,11 @@ individual completed intervals may be brief; no decorative history is replayed.
 The main-thread fallback shares the same collector and renderer. All metadata
 stays outside genomes, authoritative world state and persistent schemas. Optical
 sensing still reads the original inherited pigmentation and physical geometry.
-The decorative tint never enters RGB rays, neural inputs, decisions or physics.
+The decorative glow never enters RGB rays, neural inputs, decisions or physics.
 Tests compare complete observer-free and instrumented saved-state continuation,
 including optical and neural data, energy and PRNG, with exact equality.
 
 Lethal extraction follows existing mortality: a dissolving victim loses its
 transient indication immediately. No extra corpse animation or altered lifespan
-is introduced. Very small on-screen bodies naturally show very small tinted
-areas; zoom improves readability without enlarging collision geometry.
+is introduced. The compact glow keeps a stable screen width at different zoom levels without
+enlarging collision geometry. Closely packed contours can overlap briefly.

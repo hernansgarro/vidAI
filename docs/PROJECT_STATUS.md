@@ -1,5 +1,24 @@
 # Project status — 2026-10-21
 
+## Contributor fork: compact energy contour glow — 2026-10-28
+
+Approved visual follow-up to #114, branch `feature/energy-contour-glow` from
+fork main `6d9db35`: replace activity skin fills with a softly luminous contour.
+Three stroke widths (7/4/1.5 CSS pixels) follow each existing body path; the
+outermost band reaches only 3.5 pixels outside it. Alpha falls from the moderately
+brighter core (peak green .48/red .56) to middle and outer bands. No shadow blur,
+filter, body scaling or per-creature timers. Canvas drawing state is restored.
+Green remains whole-body, red remains localized; close contours can overlap.
+
+The collector, relative thresholds, 400ms cadence, alternating phases, short
+fade and x0 semantics are unchanged. This follow-up touches presentation only;
+no simulation, Worker, persistence or sensing code changed. Focused browser
+coverage checks real stroked geometry, no activity-colored fills, bounded widths
+before/after zoom, Worker/fallback pause/resume and replacement cleanup. Fast/build
+and CI receipts are recorded in #114. Three strokes per active color replace one
+fill; there is no measured gameplay FPS or zero-overhead claim. Wiki source is
+updated as fork-only; upstream submission/publication remains unapproved.
+
 ## Contributor fork: observer-only energy activity — 2026-10-28
 
 Tracking: upstream #114; branch `feature/energy-transfer-pulses`, based on fork

@@ -1,4 +1,4 @@
-import {EnergyActivityCollector, EnergyActivityPresentation, drawEnergyTint} from './energyActivity';
+import {EnergyActivityCollector, EnergyActivityPresentation, drawEnergyGlow} from './energyActivity';
 import {mouthDimensions} from './mouthGeometry';
 import {NEW_PHYSICS_REGIME, type PhysicsRegime} from './foundationPhysics';
 import {enableClosedEconomy, occupiedPopulation, setWorldEnergy, EGG_LIFETIME_MULTIPLIER,
@@ -1357,7 +1357,7 @@ export default function App() {
         ctx.fill();
         ctx.stroke();
 
-        drawEnergyTint(ctx, energyPresentationRef.current, org.id, sIdx);
+        drawEnergyGlow(ctx, energyPresentationRef.current, org.id, sIdx, zoom);
 
         // Discrete NxM Grid Internal Cell Lines
         ctx.strokeStyle = 'rgba(255, 255, 255, 0.22)';
