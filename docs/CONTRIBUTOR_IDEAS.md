@@ -14,6 +14,8 @@
 | Review passive egg energy recovery / shared-world uptake | egg energy, osmosis, replenishment, shared reserve, hatching | Deferred review and possible removal; not part of display change |
 | Egg buoyancy as a paid inherited trait | buoyancy, gravity, egg dispersal, predation, inherited physics | Separate possible requirement |
 | Simplifying hatch blockers | population occupancy, clearance, debt, expiry, hatching | Hypothesis only; needs careful review |
+| Fractional nutrient recycling rate | recycling, 0.5/s, 0.1/s, deterministic accumulator | Deferred; excluded from scenario selector |
+| Named custom environmental scenarios | environment profiles, reusable settings, mnemonic names | Deferred; first version has only Default / Harsh World |
 
 ## 1. Genetically controlled decision to lay eggs
 
@@ -59,6 +61,22 @@
 
 **Design direction agreed 2026-10-28; implementation not started:** Store the originally parent-funded usable egg reserve for a persistent observer-only reference. Render a white egg with a pink sector growing counterclockwise as the original usable reserve falls, and shrinking when existing code actually replenishes that reserve; clamp the white area at 100%. At zero remaining usable reserve, keep the egg fully pink even if predators then consume structural funding. Do not display structural damage as an additional color or treat the sector as a hatch-readiness indicator. Preserve the clockwise outer incubation-progress ring, sensory egg white (`EGG_RGB`) and all ecology/genetics/physics. A fully pink egg does **not** necessarily fail or immediately become carrion under the current closed-world rules, because present uptake may restore funding before expiry; avoid claiming otherwise in the UI. Historic eggs without stored original reserve need a clearly documented, noninvented compatibility fallback. Work prompt may be drafted when requested; no implementation or upstream submission authorization is inferred from these notes.
 
+## 6. Fractional nutrient recycling rate
+
+**Deferred with #119 (2026-10-28):** Allow rates below one nutrient per second,
+such as 0.5/s or 0.1/s, with correct deterministic accumulation over simulation
+time. The current UI uses integer steps; #119 retains that behavior and uses
+1/s for Harsh World. No slider-step or recycling-rule change is authorized here.
+
+## 7. Named custom environmental scenarios
+
+**Deferred with #119 (2026-10-28):** Save user-configured environmental conditions
+under a memorable name for later new simulations. This consolidates the existing
+roadmap's named environment profiles idea; no separate implementation issue is
+requested now. Define storage, versioning, snapshot independence and founder
+independence in a future decision. The first selector has only Default / Harsh World.
+
 ## Reuse protocol
+
 
 When a new requirement touches one of the indexed topics, re-read the relevant note, mention the potential connection to Hernan, and ask whether the idea should be considered. The file is a contributor discussion journal, not a parallel upstream roadmap or automatically authorized task list.

@@ -1,3 +1,43 @@
+# Initial environmental scenarios — contributor fork (2026-10-28)
+
+Tracking upstream #119 / #57. Branch `feature/environment-scenarios` from fork
+main `d5218b4`, retaining canonical upstream `6f8f80c`. Default is preselected
+and preserves configured initialization. Harsh applies the requested larger
+tank, gravity, viscosity, combined capacity and limited recycling; existing
+Clear Free Nutrients runs synchronously during creation, banking the full
+825,000 J nutrient grant before any Worker reset or simulated tick.
+Founder populations/brain modes remain independent; controls stay editable;
+imports never pass through a scenario. No kernel/physics/feeding/egg/genetic
+rule, save schema, release version, testing overlay or VIDA 3D changes.
+
+Local npm ci, 334 fast tests, build/typecheck and actual production Worker checks
+passed. Against unchanged `d5218b4`, 16 seed/mode/preset combinations matched
+complete Default initialization and every tick; Harsh matched the old manual
+configuration plus Clear Free Nutrients equally exactly. Two worlds × 30 ticks
+× 16 combinations = 960 exact continuation comparisons, with no excluded fields
+or baseline refresh. Both environments have equal initial budgets for matching
+founders. Maximum observed stock error was 9.32e-10 J. Raw comparisons:
+`docs/experiments/environment-scenarios-v1.json`; reproducible script:
+`scripts/check-environment-scenarios-baseline.ts BASE_CHECKOUT`.
+
+The requested harsher settings intentionally change physical/ecological
+conditions; this verifies equivalence to existing manual controls, not improved
+survival, sustainable ecology or performance. No ecological search or retuning.
+The empty-population rate fixture confirms 1/s funded conversion and the
+200-nutrient cap. Real Worker checks cover time-zero state, matching grant,
+edited settings, exact stepping and snapshot reset.
+
+Local Chromium installation failed with truncated/non-ZIP archives. Focused
+browser coverage is added to existing Chromium/Firefox CI for native icons,
+desktop/phone start menus, Default/Harsh initialization, founder buttons, editable
+controls, Harsh-to-Default switching and exact imports in Worker/fallback.
+Remote validation, fork PR/merge and actual publication receipts are tracked in
+#119/#57. Wiki source is explicitly fork-only pending upstream acceptance.
+Fractional recycling and named custom profiles are recorded only as deferred
+contributor ideas. Upstream submission remains unapproved.
+
+---
+
 # Observer-only egg reserve display — contributor fork (2026-10-28)
 
 Refs upstream #116 and #57. Implemented on `feature/egg-reserve-display` from
