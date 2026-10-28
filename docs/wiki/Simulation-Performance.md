@@ -51,6 +51,8 @@ between 0x and the last selected nonzero speed. Selecting another speed resumes
 immediately. Existing speeds remain 1x, 2x, 5x, 10x, 20x and MAX (50x).
 Imports start at 0x. The speed selector shows the effective speed, including 0x
 while the application menu is open; closing that menu restores the prior state.
+The top-left activity dot animates only at nonzero effective speed. At 0x it
+stays steady and visible; its tooltip and accessible label identify the state.
 
 At 0x, simulation time and all autonomous processes stop. The tank stays
 interactive: select and inspect creatures/eggs, open diagnostics and other
