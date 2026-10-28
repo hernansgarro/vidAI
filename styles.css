@@ -96,6 +96,7 @@ button, input, select {font: inherit;}
 .toolbar-performance { grid-area: performance; }
 .toolbar-time { grid-area: time; }
 .toolbar-counter-icon { flex: 0 0 auto; }
+.toolbar-counter-mobile-icon { display: none; }
 
 
 /* Counters may fill the whole lower band when right-hand controls only need two rows. */
@@ -197,5 +198,6 @@ button, input, select {font: inherit;}
     min-width: 0;
   }
   .toolbar-counters > div:last-child { grid-column: auto; }
-  .toolbar-counter-label, .toolbar-food-limit { display: none; }
+  .toolbar-counter-label, .toolbar-food-limit, .toolbar-counter-emoji { display: none; }
+  .toolbar-counter-mobile-icon { display: block; }
 }
