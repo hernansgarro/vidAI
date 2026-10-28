@@ -46,22 +46,28 @@ fixed-tick behavior when the Worker is unavailable or explicitly disabled.
 
 ## Stable toolbar layout (fork testing only)
 
-The fork testing candidate reserves numeric space and uses responsive,
-right-anchored control tracks, with Menu kept at the top-right. Controls use
-one, two or three rows depending on the viewport; narrow phones use a
-full-width controls band. General telemetry takes the horizontal space left by
-the controls and wraps only when its fixed-width items no longer fit, rather
-than forcing a second line at desktop widths. App identity and author credits
-remain visible at all widths, including phones. Organism counters use the lower
-full-width band from 1152 CSS pixels and narrower tracks below that, reserving
-space for wider emoji metrics. Changing statistics never chooses a new row or
-changes the tank bounds at a fixed viewport.
+The fork testing candidate uses right-anchored desktop controls, with Menu kept
+at the top-right. General telemetry uses the horizontal space left by controls.
+Generation, achieved speed/FPS/steps and elapsed time move together as one group;
+only a container narrower than the group requires its compact internal layout.
 
-Six monospace characters are reserved per count, generation and rate, and twelve
-for elapsed seconds. This exceeds current population/particle save limits;
-values beyond the reservation use scientific notation with the full value in
-the hover title. These are display rules only. All simulation values, controls,
-Worker behavior and save formats retain their existing meanings.
+Author credits are optional when space is scarce. Measured item widths keep them
+visible whenever they do not add a row. They can hide to retain a single general
+row, and fit alongside the identity again when the metrics already need their
+own row. The decision uses reserved geometry, never changing statistic values.
+
+Six monospace characters are reserved per count/generation and twelve for elapsed
+seconds. The performance chip reserves the whole readout while its text remains
+naturally packed, without individual numeric padding. Oversized numbers use
+scientific notation with their full values in hover titles. These are display
+rules only; simulation values, controls, Worker behavior and saves are unchanged.
+
+Phones use five evenly spaced icon action buttons and one full-width speed row,
+with Menu pinned beside the identity. Counters show distinguishable icons and
+reserved values in two rows; names and the food target remain in accessible
+labels/tooltips. Desktop counters retain their text labels and food target.
+Changing statistics does not reflow the toolbar or alter tank bounds at a fixed
+viewport.
 
 This layout is a fork testing candidate awaiting Hernan's manual visual review;
 it is not an upstream release or an approved fork-main promotion.

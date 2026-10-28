@@ -27,7 +27,11 @@ for (const viewport of [{width: 1920, height: 900}, {width: 520, height: 900}, {
       await expect(page.getByRole('button', {name, exact: true})).toHaveCount(0);
     const area = page.getByTestId('tank-viewport'), canvas = page.getByLabel('Aquatic simulation');
     const assertFilled = async () => {
-      const a = (await area.boundingBox())!, c = (await canvas.boundingBox())!;
+      // Read both rectangles in the same browser frame while resizing.
+      const [a,c] = await page.evaluate(() => ['[data-testid=tank-viewport]','canvas'].map(selector => {
+        const r=document.querySelector(selector)!.getBoundingClientRect();
+        return {x:r.x,y:r.y,width:r.width,height:r.height};
+      }));
       for (const key of ['x', 'y', 'width', 'height'] as const) expect(Math.abs(a[key] - c[key])).toBeLessThan(1);
       await expect.poll(() => canvas.evaluate(node => {
         const c = node as HTMLCanvasElement;
@@ -66,7 +70,7 @@ for (const viewport of [{width: 1920, height: 900}, {width: 520, height: 900}, {
     await page.getByTitle('Close specimen bank (✕)').click();
     await page.getByTitle('Inspect Specimen Brain & Vision Rays').click();
     await contained('creature-inspector'); await contained('badge-window');
-    await page.setViewportSize({width: 700, height: 500});
+    await page.setViewportSize({width: 700, height: 500}); await settleToolbarLayout(page);
     await assertFilled(); await contained('creature-inspector'); await contained('badge-window');
     await page.getByTitle('Ecosystem Telemetry Graph').click();
     await contained('ledger-window');
@@ -226,13 +230,19 @@ function toolbarWorld(time: number, generation: number) {
   return createSnapshot(state, {...DEFAULT_SETTINGS, targetNutrients: 0, inflowRate: 0, gravity: 0});
 }
 
+// ResizeObserver-based presentation decisions settle after the resize frame.
+// Statistic-only checks below keep their immediate, unchanged geometry tolerance.
+async function settleToolbarLayout(page: import('@playwright/test').Page) {
+  await page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
+}
+
 test('toolbar stays top-right with priority-ordered controls across widths', async ({page}) => {
   await page.goto('./?autoplay');
   const widths = [1920, 1600, 1536, 1512, 1511, 1500, 1366, 1280, 1152, 1151, 1024, 768, 640, 520, 390, 320];
   let at1512: {height: number; counterY: number; speedY: number; menuY: number} | undefined;
 
   for (const width of widths) {
-    await page.setViewportSize({width, height: 900});
+    await page.setViewportSize({width, height: 900}); await settleToolbarLayout(page);
     const layout = await page.getByTestId('simulation-toolbar').evaluate(header => {
       const box = (element: Element) => {
         const r = element.getBoundingClientRect();
@@ -296,52 +306,112 @@ test('toolbar stays top-right with priority-ordered controls across widths', asy
   }
 });
 
-test('toolbar stays compact and shows authors whenever space allows', async ({page}) => {
+test('toolbar stays grouped and hides credits only to avoid an extra row', async ({page}) => {
   await page.goto('./?autoplay');
-  // These are deliberate width expectations; numeric slots must not change the arrangement.
-  const widths = [1920, 1600, 1536, 1512, 1511, 1366, 1280, 1152, 1024, 768, 640, 520, 390, 320];
-  for (const width of widths) {
-    await page.setViewportSize({width, height: 900});
-    const geometry = await page.getByTestId('simulation-toolbar').evaluate(header => {
-      const rect = (selector: string) => header.querySelector(selector)!.getBoundingClientRect();
-      const brand = rect('.toolbar-brand'), credits = rect('.toolbar-credits');
-      const generation = rect('.toolbar-generation'), performance = rect('.toolbar-performance');
-      const time = rect('.toolbar-time'), menu = header.querySelector('.toolbar-controls')!.lastElementChild!.getBoundingClientRect();
-      const general = rect('.toolbar-general');
-      const firstLine = [brand.y, credits.y, generation.y, performance.y, time.y];
-      const style = getComputedStyle(header.querySelector('.toolbar-general')!);
-      const availableWidth = general.width - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
-      const requiredWidth = [brand, credits, generation, performance, time]
-        .reduce((total, item) => total + item.width, 0) + parseFloat(style.columnGap) * 4;
-      return {
-        brandY: brand.y, creditsY: credits.y,
-        firstLine, generalHeight: general.height, requiredWidth, availableWidth,
-        creditsVisible: getComputedStyle(header.querySelector('.toolbar-credits')!).display !== 'none',
-        creditsContent: header.querySelector('.toolbar-credits')!.textContent!.trim(),
-        creditsInside: credits.left >= general.left - 1 && credits.right <= general.right + 1,
-        creditsClearMenu: Math.min(credits.right, menu.right) - Math.max(credits.left, menu.left) <= 0 ||
-          Math.min(credits.bottom, menu.bottom) - Math.max(credits.top, menu.top) <= 0,
-        horizontallyContained: header.scrollWidth <= header.clientWidth + 1,
-      };
+  await page.getByTitle('Ecology & Physical Settings').click();
+  await page.locator('input[type=file]').setInputFiles({name: 'grouped.json', mimeType: 'application/json',
+    buffer: Buffer.from(JSON.stringify(toolbarWorld(0, 1)))});
+  await expect(page.getByRole('button', {name: 'RESUME SIMULATION', exact: true})).toBeVisible();
+  await page.getByTitle('Close settings (✕)').click();
+  const header = page.getByTestId('simulation-toolbar');
+  let hidden = 0, visible = 0;
+  for (const width of [1920,1600,1536,1512,1511,1366,1280,1200,1152,1100,1024,900,768,700,640,639,520,390,375,320,700,768,700,768]) {
+    await page.setViewportSize({width, height: 900}); await settleToolbarLayout(page);
+    await expect.poll(() => header.locator('.toolbar-general').evaluate(g => {
+      const metrics = g.querySelector('.toolbar-metrics')!;
+      const gap = parseFloat(getComputedStyle(metrics).columnGap);
+      const required = [...metrics.children].reduce((n, el) => n + el.getBoundingClientRect().width, gap * 2);
+      return (g.getAttribute('data-compact-metrics') === 'true') === (required > g.getBoundingClientRect().width);
+    })).toBe(true);
+    const geometry = await header.evaluate(h => {
+      const g = h.querySelector<HTMLElement>('.toolbar-general')!;
+      const m = h.querySelector<HTMLElement>('.toolbar-metrics')!;
+      const c = h.querySelector<HTMLElement>('.toolbar-credits')!;
+      const rect = (n: Element) => {const r=n.getBoundingClientRect();return {x:r.x,y:r.y,right:r.right,bottom:r.bottom,width:r.width,height:r.height};};
+      return {general:rect(g), metrics:rect(m), credits:rect(c), height:g.getBoundingClientRect().height,
+        shown:getComputedStyle(c).visibility !== 'hidden', compact:g.dataset.compactMetrics === 'true',
+        chips:[...m.children].map(rect), overflow:h.scrollWidth-h.clientWidth,
+        menu:rect(h.querySelector('.toolbar-controls')!.lastElementChild!),
+        parents:[...m.children].every(n=>n.parentElement === m)};
     });
-    expect(geometry.creditsVisible, 'authors hidden at ' + width).toBe(true);
-    expect(geometry.creditsContent).toContain('Hern');
-    expect(geometry.creditsInside, 'credits outside general region at ' + width).toBe(true);
-    expect(geometry.creditsClearMenu, 'authors overlap Menu at ' + width).toBe(true);
-    expect(geometry.horizontallyContained, 'header overflow at ' + width).toBe(true);
-    // No arbitrary breakpoint may create a row when all five fixed-width
-    // items fit the actual space remaining beside the control group.
-    if (geometry.requiredWidth + 2 <= geometry.availableWidth) {
-      for (const y of geometry.firstLine) {
-        expect(Math.abs(y - geometry.brandY), 'unnecessary general row at ' + width).toBeLessThan(4);
-      }
+    expect(geometry.overflow, 'toolbar overflow at '+width).toBeLessThan(2);
+    expect(geometry.parents).toBe(true);
+    for (const chip of geometry.chips) {
+      expect(chip.x).toBeGreaterThanOrEqual(geometry.metrics.x - 1);
+      expect(chip.right).toBeLessThanOrEqual(geometry.metrics.right + 1);
+      expect(chip.y).toBeGreaterThanOrEqual(geometry.metrics.y - 1);
+      expect(chip.bottom).toBeLessThanOrEqual(geometry.metrics.bottom + 1);
     }
-    if (width >= 1280) {
-      for (const y of geometry.firstLine) {
-        expect(Math.abs(y - geometry.brandY), 'general telemetry should fit at ' + width).toBeLessThan(4);
-      }
+    if (!geometry.compact) {
+      for (const chip of geometry.chips) expect(Math.abs(chip.y-geometry.chips[0].y)).toBeLessThan(4);
+    } else {
+      expect(Math.abs(geometry.chips[0].y-geometry.chips[2].y)).toBeLessThan(4);
+      expect(geometry.chips[1].y).toBeGreaterThan(geometry.chips[0].y);
     }
-    if (width >= 390) expect(Math.abs(geometry.creditsY - geometry.brandY)).toBeLessThan(4);
+    if (geometry.shown) {
+      visible++;
+      expect(geometry.credits.right).toBeLessThanOrEqual(geometry.general.right+1);
+      expect(Math.min(geometry.credits.right,geometry.menu.right)-Math.max(geometry.credits.x,geometry.menu.x)<=0
+        || Math.min(geometry.credits.bottom,geometry.menu.bottom)-Math.max(geometry.credits.y,geometry.menu.y)<=0).toBe(true);
+    } else hidden++;
+    // Counterfactual layout proof: displaying hidden credits must add a row;
+    // hiding visible credits must not reduce the already minimal height.
+    const alternateHeight = await header.evaluate((h, shown) => {
+      const c = h.querySelector<HTMLElement>('.toolbar-credits')!;
+      const original = c.getAttribute('style');
+      c.style.position = shown ? 'absolute' : 'static';
+      c.style.visibility = shown ? 'hidden' : 'visible';
+      const height = h.querySelector('.toolbar-general')!.getBoundingClientRect().height;
+      if (original === null) c.removeAttribute('style'); else c.setAttribute('style', original);
+      return height;
+    }, geometry.shown);
+    if (geometry.shown) expect(alternateHeight, 'credits add an unnecessary row at '+width).toBeGreaterThanOrEqual(geometry.height-1);
+    else expect(alternateHeight, 'credits hidden without saving a row at '+width).toBeGreaterThan(geometry.height+1);
+    if (width <= 639) {
+      const mobile = await header.evaluate(h => {
+        const controls=h.querySelector('.toolbar-controls')!;
+        const indices=[0,2,3,4,5];
+        const actions=indices.map(i=>controls.children[i].getBoundingClientRect());
+        const speed=controls.children[1].getBoundingClientRect();
+        return {actions:actions.map(r=>({y:r.y,width:r.width,bottom:r.bottom})),speed:{y:speed.y,width:speed.width},
+          controlsWidth:controls.getBoundingClientRect().width,
+          labels:[...h.querySelectorAll('.toolbar-counter-label,.toolbar-food-limit')].every(n=>getComputedStyle(n).display === 'none'),
+          names:[...h.querySelector('.toolbar-counters')!.children].every(n=>!!n.getAttribute('aria-label') && !!n.getAttribute('title'))};
+      });
+      expect(mobile.labels).toBe(true); expect(mobile.names).toBe(true);
+      for (const action of mobile.actions) {
+        expect(Math.abs(action.y-mobile.actions[0].y)).toBeLessThan(1);
+        expect(Math.abs(action.width-mobile.actions[0].width)).toBeLessThan(1);
+        expect(action.bottom).toBeLessThan(mobile.speed.y);
+      }
+      expect(Math.abs(mobile.speed.width-mobile.controlsWidth)).toBeLessThan(1);
+    }
+  }
+  expect(hidden).toBeGreaterThan(0); expect(visible).toBeGreaterThan(0);
+});
+
+test('toolbar stays stable with naturally packed performance text', async ({page}) => {
+  await page.setViewportSize({width:1920,height:1080}); await page.goto('./?autoplay');
+  await page.getByTitle('Ecology & Physical Settings').click();
+  await page.locator('input[type=file]').setInputFiles({name:'packed.json',mimeType:'application/json',
+    buffer:Buffer.from(JSON.stringify(toolbarWorld(0,1)))});
+  await expect(page.getByRole('button',{name:'RESUME SIMULATION',exact:true})).toBeVisible();
+  await page.getByTitle('Close settings (✕)').click();
+  const performance = page.locator('.toolbar-performance');
+  await expect(performance.locator('.toolbar-value')).toHaveCount(0);
+  const box=(await performance.boundingBox())!;
+  const tank=(await page.getByTestId('tank-viewport').boundingBox())!;
+  for (const text of ['0x (1 FPS · 0 Steps/s)','50x (144 FPS · 3000 Steps/s)','999999x (999999 FPS · 999999 Steps/s)']) {
+    const measured=await performance.evaluate((node,text)=>{
+      node.querySelector('.toolbar-performance-text')!.textContent=text;
+      const range=document.createRange();range.selectNodeContents(node.querySelector('.toolbar-performance-text')!);
+      const r=node.getBoundingClientRect(),t=range.getBoundingClientRect();
+      return {x:r.x,y:r.y,width:r.width,height:r.height,text:t.width,available:node.clientWidth-12};
+    },text);
+    for (const key of ['x','y','width','height'] as const) expect(Math.abs(measured[key]-box[key])).toBeLessThan(.5);
+    expect(measured.text).toBeLessThanOrEqual(measured.available+1);
+    expect(text).not.toMatch(/ {2,}/);
+    expect(await page.getByTestId('tank-viewport').boundingBox()).toEqual(tank);
   }
 });
 
@@ -456,8 +526,8 @@ for (const viewport of [
     await stable(small); await reachable();
     await page.screenshot({path: info.outputPath('stable-toolbar.png')});
     // Resize away and back: row changes must follow the viewport and be reversible.
-    await page.setViewportSize({width: 520, height: 900}); await reachable();
-    await page.setViewportSize(viewport); await stable(small); await reachable();
+    await page.setViewportSize({width: 520, height: 900}); await settleToolbarLayout(page); await reachable();
+    await page.setViewportSize(viewport); await settleToolbarLayout(page); await stable(small); await reachable();
     expect(errors).toEqual([]);
   });
 }
