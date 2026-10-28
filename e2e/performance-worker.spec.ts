@@ -396,9 +396,12 @@ for (const fallback of [false, true]) test(`performance pulse preserves exact ph
       return [0, 250, 500, 999.9].map(time => {
         animation.currentTime = time;
         const box = node.getBoundingClientRect(), style = getComputedStyle(node);
+        const matrix = new DOMMatrixReadOnly(style.transform);
         return {width: box.width, height: box.height, opacity: Number(style.opacity),
           layoutWidth: node.clientWidth, layoutHeight: node.clientHeight,
-          centerX: box.x + box.width / 2, centerY: box.y + box.height / 2, surroundings: surroundings()};
+          layoutPosition: [(node as HTMLElement).offsetLeft, (node as HTMLElement).offsetTop],
+          origin: style.transformOrigin.split(/\s+/).slice(0, 2).map(Number.parseFloat),
+          translation: [matrix.e, matrix.f], surroundings: surroundings()};
       });
     } finally {
       animation.currentTime = originalTime;
@@ -413,8 +416,11 @@ for (const fallback of [false, true]) test(`performance pulse preserves exact ph
   for (let i = 0; i < expansion.length; i++) {
     expect(expansion[i].layoutWidth).toBe(12); expect(expansion[i].layoutHeight).toBe(12);
     expect(expansion[i].surroundings).toEqual(expansion[0].surroundings);
-    expect(expansion[i].centerX).toBeCloseTo(expansion[0].centerX, 3);
-    expect(expansion[i].centerY).toBeCloseTo(expansion[0].centerY, 3);
+    // Transformed DOMRects can be rounded differently by browser engines.
+    // Assert the exact layout position and centered, translation-free transform.
+    expect(expansion[i].layoutPosition).toEqual(expansion[0].layoutPosition);
+    expect(expansion[i].origin).toEqual([6, 6]);
+    expect(expansion[i].translation).toEqual([0, 0]);
     if (i > 0) {
       expect(expansion[i].width).toBeGreaterThan(expansion[i - 1].width);
       expect(expansion[i].opacity).toBeLessThan(expansion[i - 1].opacity);
