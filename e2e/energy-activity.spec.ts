@@ -4,11 +4,11 @@ import {createSnapshot} from '../persistence';
 
 test.use({viewport: {width: 1280, height: 850}});
 test.setTimeout(60000);
-for (const fallback of [false, true]) test(`energy overlays follow real body paths and freeze at x0 (${fallback ? 'fallback' : 'Worker'})`, async ({page}, info) => {
+for (const fallback of [false, true]) test(`energy contour glows follow real body paths and freeze at x0 (${fallback ? 'fallback' : 'Worker'})`, async ({page}, info) => {
   const errors: string[] = []; page.on('pageerror', e => errors.push(e.message));
   await page.addInitScript(() => {
-    const capture = {green: [] as Array<{alpha: number; path: number[]; at: number; scale: number}>,
-      red: [] as Array<{alpha: number; path: number[]; at: number; scale: number}>};
+    const capture = {skinFills: 0, totals: {green: 0, red: 0}, green: [] as Array<{alpha: number; path: number[]; at: number; scale: number; width: number}>,
+      red: [] as Array<{alpha: number; path: number[]; at: number; scale: number; width: number}>};
     Object.assign(window, {energyTintCapture: capture});
     const paths = new WeakMap<CanvasRenderingContext2D, number[]>();
     const originalRect = CanvasRenderingContext2D.prototype.roundRect;
@@ -17,16 +17,22 @@ for (const fallback of [false, true]) test(`energy overlays follow real body pat
     };
     const originalFill = CanvasRenderingContext2D.prototype.fill;
     CanvasRenderingContext2D.prototype.fill = function(this: CanvasRenderingContext2D, ...args: Parameters<typeof originalFill>) {
-      const style = String(this.fillStyle);
+      if (/rgba\((34, 220, 105|245, 55, 65),/.test(String(this.fillStyle))) capture.skinFills++;
+      return originalFill.apply(this, args);
+    } as typeof originalFill;
+    const originalStroke = CanvasRenderingContext2D.prototype.stroke;
+    CanvasRenderingContext2D.prototype.stroke = function(this: CanvasRenderingContext2D, ...args: Parameters<typeof originalStroke>) {
+      const style = String(this.strokeStyle);
       const color = /rgba\(34, 220, 105, ([\d.]+)\)/.exec(style) ? 'green'
         : /rgba\(245, 55, 65, ([\d.]+)\)/.exec(style) ? 'red' : null;
       if (color) {
         const alpha = Number(style.match(/([\d.]+)\)$/)![1]);
-        capture[color].push({alpha, path: paths.get(this) ?? [], at: performance.now(), scale: Math.hypot(this.getTransform().a, this.getTransform().b)});
+        capture.totals[color]++;
+        capture[color].push({width: this.lineWidth, alpha, path: paths.get(this) ?? [], at: performance.now(), scale: Math.hypot(this.getTransform().a, this.getTransform().b)});
         if (capture[color].length > 1000) capture[color].shift();
       }
-      return originalFill.apply(this, args);
-    } as typeof originalFill;
+      return originalStroke.apply(this, args);
+    } as typeof originalStroke;
   });
   await page.goto(`./?autoplay${fallback ? '&mainthread' : ''}`);
   await page.getByTitle('Ecology & Physical Settings').click();
@@ -34,7 +40,7 @@ for (const fallback of [false, true]) test(`energy overlays follow real body pat
   await page.locator('input[type=file]').setInputFiles({name: 'activity.json', mimeType: 'application/json',
     buffer: Buffer.from(JSON.stringify(createSnapshot(state, config)))});
   await expect(page.getByRole('button', {name: 'Resume', exact: true})).toBeVisible();
-  await page.evaluate(() => {const c = (window as any).energyTintCapture; c.green.length = c.red.length = 0;});
+  await page.evaluate(() => {const c = (window as any).energyTintCapture; c.green.length = c.red.length = c.totals.green = c.totals.red = 0;});
   await page.getByRole('button', {name: '1x', exact: true}).click();
   await expect.poll(() => page.evaluate(() => {
     const c = (window as any).energyTintCapture; return c.green.length > 2 && c.red.length > 2;
@@ -44,7 +50,7 @@ for (const fallback of [false, true]) test(`energy overlays follow real body pat
   await expect(page.getByRole('button', {name: 'Resume', exact: true})).toBeVisible();
   const sample = () => page.evaluate(() => {
     const c = (window as any).energyTintCapture;
-    return {green: c.green.at(-1), red: c.red.at(-1), counts: [c.green.length, c.red.length]};
+    return {green: c.green.at(-1), red: c.red.at(-1), counts: [c.totals.green, c.totals.red]};
   });
   await page.waitForTimeout(150);
   const paused = await sample();
@@ -59,8 +65,15 @@ for (const fallback of [false, true]) test(`energy overlays follow real body pat
   const capture = await page.evaluate(() => (window as any).energyTintCapture);
   expect(capture.green.some((s: any) => s.path[2] === 7 && s.path[3] === 7)).toBe(true);
   expect(capture.red.every((s: any) => s.path[2] === 7 && s.path[3] === 7)).toBe(true);
-  expect(Math.max(...capture.green.map((s: any) => s.alpha))).toBeLessThanOrEqual(.24);
-  expect(Math.max(...capture.red.map((s: any) => s.alpha))).toBeLessThanOrEqual(.28);
+  expect(Math.max(...capture.green.map((s: any) => s.alpha))).toBeLessThanOrEqual(.48);
+  expect(Math.max(...capture.red.map((s: any) => s.alpha))).toBeLessThanOrEqual(.56);
+  expect(capture.skinFills).toBe(0);
+  for (const color of ['green', 'red']) {
+    // Every glow uses the body path, with at most 3.5 CSS pixels outside it.
+    const widths = capture[color].map((s: any) => s.width * s.scale);
+    expect(widths.some((w: number) => Math.abs(w - 7) < .001)).toBe(true);
+    expect(Math.max(...widths)).toBeLessThanOrEqual(7.001);
+  }
   const beforeZoom = await sample();
   await page.mouse.move(800, 450); await page.mouse.wheel(0, -500);
   await expect.poll(async () => {
@@ -68,6 +81,11 @@ for (const fallback of [false, true]) test(`energy overlays follow real body pat
     return (latest.green?.scale !== beforeZoom.green?.scale && latest.counts[0] > beforeZoom.counts[0])
       || (latest.red?.scale !== beforeZoom.red?.scale && latest.counts[1] > beforeZoom.counts[1]);
   }).toBe(true);
+  const zoomed = await page.evaluate(() => (window as any).energyTintCapture);
+  for (const color of ['green', 'red']) {
+    const last = zoomed[color].at(-1);
+    expect(last.width * last.scale).toBeCloseTo(1.5, 3);
+  }
   await page.screenshot({path: info.outputPath('energy-pulses-paused.png')});
   await page.getByRole('button', {name: '5x', exact: true}).click();
   await page.waitForTimeout(350);

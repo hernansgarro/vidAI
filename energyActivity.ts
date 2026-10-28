@@ -140,10 +140,20 @@ export class EnergyActivityPresentation {
   }
 }
 
-/** Reuse the renderer's current rounded body path; anatomy is drawn above it. */
-export function drawEnergyTint(ctx: CanvasRenderingContext2D, presentation: EnergyActivityPresentation,
-  id: string, part: number) {
+/** Short, soft contours in CSS pixels; never fill the body or blur the canvas. */
+export function drawEnergyGlow(ctx: CanvasRenderingContext2D, presentation: EnergyActivityPresentation,
+  id: string, part: number, zoom: number) {
   const [green, red] = presentation.intensity(id, part);
-  if (green > 0) {ctx.fillStyle = `rgba(34,220,105,${green})`; ctx.fill();}
-  if (red > 0) {ctx.fillStyle = `rgba(245,55,65,${red})`; ctx.fill();}
+  if (!(green > 0 || red > 0)) return;
+  ctx.save();
+  ctx.lineJoin = 'round';
+  // Three bounded strokes approximate a compact glow without shadow/filter
+  // surfaces. The existing path, phase and localized activity are unchanged.
+  for (let pass = 0; pass < 3; pass++) {
+    ctx.lineWidth = (pass === 0 ? 7 : pass === 1 ? 4 : 1.5) / zoom;
+    const strength = pass === 0 ? .25 : pass === 1 ? .65 : 2;
+    if (green > 0) {ctx.strokeStyle = `rgba(34,220,105,${green * strength})`; ctx.stroke();}
+    if (red > 0) {ctx.strokeStyle = `rgba(245,55,65,${red * strength})`; ctx.stroke();}
+  }
+  ctx.restore();
 }
