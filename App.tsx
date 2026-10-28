@@ -1,3 +1,4 @@
+import {EnergyActivityCollector, EnergyActivityPresentation, drawEnergyTint} from './energyActivity';
 import {mouthDimensions} from './mouthGeometry';
 import {NEW_PHYSICS_REGIME, type PhysicsRegime} from './foundationPhysics';
 import {enableClosedEconomy, occupiedPopulation, setWorldEnergy, EGG_LIFETIME_MULTIPLIER,
@@ -277,6 +278,8 @@ export default function App() {
   const workerClientRef = useRef<SimulationClient | null>(null);
   const workerSettingsRef = useRef<SimulationSettings | null>(null);
   const workerStepsRef = useRef(0);
+  const energyCollectorRef = useRef(new EnergyActivityCollector());
+  const energyPresentationRef = useRef(new EnergyActivityPresentation());
   const throughputRef = useRef(new ThroughputMeter());
   const statsWallRef = useRef(0);
   const viewportRef = useRef<HTMLDivElement>(null);
@@ -532,6 +535,8 @@ export default function App() {
   }, [energyPool?.budget, energyBudgetDraft]);
   const replaceWorld = useCallback((state: SimulationState, settings?: SimulationSettings) => {
     worldEpochRef.current++;
+    energyCollectorRef.current.clear();
+    energyPresentationRef.current.clear();
     simStateRef.current = state;
     workerStepsRef.current = 0;
     const config = settings ?? workerSettingsRef.current;
@@ -1029,12 +1034,14 @@ export default function App() {
         if (evt === 'clash') gameAudio.playSwordClash();
         else if (evt === 'eat') gameAudio.playCoinPickup();
         else if (evt === 'birth') gameAudio.playPowerupChime();
-      });
+      }, undefined, energyCollectorRef.current.record);
+      energyCollectorRef.current.advance(s);
       realTimeTrackerRef.current.physicsStepsThisSec += 1;
       stepsRun++;
       if (unlimited && performance.now() - frameStartTime >= 16) break;
     }
 
+    if (!workerClientRef.current) energyPresentationRef.current.accept(energyCollectorRef.current.frame());
     const tracker = realTimeTrackerRef.current;
     const now = performance.now();
     if (!workerClientRef.current) throughputRef.current.observe(s.simTime, now);
@@ -1127,6 +1134,7 @@ export default function App() {
     prepareCanvas(ctx, canvasWidth, canvasHeight);
 
     const s = simStateRef.current;
+    energyPresentationRef.current.advance(performance.now(), timeMultiplierRef.current === 0, s.organisms);
     const cam = cameraRef.current;
     const zoom = cam.zoom;
 
@@ -1349,6 +1357,8 @@ export default function App() {
         ctx.fill();
         ctx.stroke();
 
+        drawEnergyTint(ctx, energyPresentationRef.current, org.id, sIdx);
+
         // Discrete NxM Grid Internal Cell Lines
         ctx.strokeStyle = 'rgba(255, 255, 255, 0.22)';
         ctx.lineWidth = 1;
@@ -1513,6 +1523,7 @@ export default function App() {
     let client: SimulationClient;
     try { client = new SimulationClient(() => simStateRef.current, (state, frame) => {
       simStateRef.current = state;
+      energyPresentationRef.current.accept(frame.energyActivity);
       workerStepsRef.current += frame.steps;
       throughputRef.current.observe(state.simTime, performance.now());
       if (workerPausedRef.current) {
@@ -1546,6 +1557,7 @@ export default function App() {
     // Stop/resume starts a fresh wall-clock interval, including fallback mode.
     stepperRef.current = createFixedStepper(getConfig('stepMs'), getConfig('maxSubSteps'));
     throughputRef.current.configure(effectiveSpeed, worldEpoch);
+    energyPresentationRef.current.setPaused(effectiveSpeed === 0, performance.now());
     const tracker = realTimeTrackerRef.current;
     tracker.lastFPSUpdate = performance.now(); tracker.framesThisSec = 0; tracker.physicsStepsThisSec = 0;
     setEcoStats(previous => ({...previous, simTimeRatio: effectiveSpeed === 0 ? 0 : null}));

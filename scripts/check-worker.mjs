@@ -6,6 +6,9 @@ import {DEFAULT_SETTINGS, createSnapshot, restoreSnapshot} from '../persistence.
 import {enableClosedEconomy, setWorldEnergy} from '../energyEconomy.ts';
 import {totalAccountedEnergy} from '../persistence.ts';
 import {mouthContactFixture} from '../mouthContactAudit.ts';
+import {energyActivityFixture} from '../tests/support/energy-activity.ts';
+import {createFounderGenome} from '../founders.ts';
+import {addExternalOrganism} from '../world.ts';
 import {stepSimulation} from '../simulation.ts';
 
 // Exercise the actual production-built Worker with real cross-thread cloning.
@@ -226,6 +229,32 @@ try {
   for (let i = 0; i < populatedTicks; i++) stepSimulation(populatedDirect, zeroSettings, 1 / 60);
   assert.deepEqual(populatedMax.state, createSnapshot(populatedDirect, zeroSettings).state,
     'Populated MAX preserves physics, energy, brain state, genetics and PRNG for the same fixed ticks');
+  // Actual cross-thread activity is render-only. Compare every authoritative
+  // optical ray/neural value and all other saved state against an observer-free run.
+  const activityProbe = energyActivityFixture();
+  addExternalOrganism(activityProbe.state, createFounderGenome('FND-001'), activityProbe.config, 1160, 750, 0);
+  const activitySource = createSnapshot(activityProbe.state, activityProbe.config);
+  send({type: 'reset', epoch: 103, snapshot: activitySource});
+  const cleanActivity = await receive(v => v.type === 'frame' && v.frame.epoch === 103);
+  assert.deepEqual(cleanActivity.frame.energyActivity, []);
+  send({type: 'ack', epoch: 103});
+  send({type: 'control', epoch: 103, settings: activityProbe.config, speed: 1, selected: null});
+  let concurrent = false;
+  for (let i = 0; i < 10 && !concurrent; i++) {
+    const packet = await receive(v => v.type === 'frame' && v.frame.epoch === 103);
+    concurrent = packet.frame.energyActivity.some(row => row.id === activityProbe.prey.id && row.gain && row.loss && row.parts.includes(0));
+    send({type: 'ack', epoch: 103});
+  }
+  send({type: 'control', epoch: 103, settings: activityProbe.config, speed: 0, selected: null});
+  const activityPaused = await request('snapshot', {}, 103);
+  assert.ok(concurrent, 'Actual Worker publishes independent concurrent activity and contacted segment');
+  const activityDirect = restoreSnapshot(activitySource).state;
+  for (let i = 0; i < Math.round(activityPaused.state.simTime * 60); i++) stepSimulation(activityDirect, activityProbe.config, 1 / 60);
+  assert.deepEqual(activityPaused.state, createSnapshot(activityDirect, activityProbe.config).state);
+  assert.ok(activityPaused.state.organisms.some(org => org.rayHits.length > 0));
+  await new Promise(resolve => setTimeout(resolve, 80));
+  assert.deepEqual((await request('snapshot', {}, 103)).state, activityPaused.state);
+  console.log('Energy activity Worker: concurrent real feeding/predation, contacted segment, exact observer-free optical/neural/PRNG/save continuation and x0 freeze passed.');
   console.log('Unlimited MAX: measured x'+(maximum.state.simTime / elapsed).toFixed(1)+'; '+maxTicks+' exact ticks, responsive pause, frozen snapshots and finite resume passed.');
   console.log('x0 Worker: zero ticks during manual food/spawn/clear/inspection, funded budget and caps, immediate frames, no stopped-wall-time catch-up, exact continuation and paused reset passed.');
   console.log('Production Worker: open/closed exact exports, funded commands, independent stepping, debt, direct equivalence, all physics regimes, mouth contact in all eight physics/ecology combinations, regime-switch and stale-world rejection passed.');

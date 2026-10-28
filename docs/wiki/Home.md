@@ -50,6 +50,7 @@ flowchart TD
 | [Senses and Visually Guided Behavior](Sensory-Behavior) | Retina, spectral sensitivity, feedback and inherited sensory responses |
 | [Waking Synaptic Learning](Waking-Learning) | Brain architecture, activation memory, personal learning and inheritance |
 | [Ecology and Energy Auditing](Ecology-Baseline) | Feeding, funded eggs, food distribution and ecological measurements |
+| [Energy Activity Overlays](Energy-Activity) | Fork-only observer tint for real absorption and localized predation |
 | [Simulation Performance](Simulation-Performance) | Worker ownership, rendering, optimizations, saves and throughput limits |
 
 ## Original plan and current status
