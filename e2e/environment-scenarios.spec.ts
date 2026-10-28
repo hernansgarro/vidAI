@@ -47,7 +47,7 @@ for (const fallback of [false, true]) test(`environment dropdown, initial condit
   const expected = createSnapshot(createInitialWorld(start.settings, start.state.initialSeed), start.settings);
   expect(start.state).toEqual(expected.state);
   await page.getByTitle('Ecology & Physical Settings').dispatchEvent('click');
-  await page.getByTitle('Game Menu').dispatchEvent('click');
+  await page.keyboard.press('Escape');
   await page.getByRole('button', {name: 'MAIN MENU', exact: true}).dispatchEvent('click');
   await selector.selectOption('harsh-world');
   await page.screenshot({path: info.outputPath('environment-menu.png')});
@@ -90,7 +90,7 @@ for (const fallback of [false, true]) test(`environment dropdown, initial condit
   await page.clock.runFor(50); // paint the paused, imported tank for visual smoke
   await page.screenshot({path: info.outputPath('environment-restored.png')});
   await page.getByTitle('Ecology & Physical Settings').dispatchEvent('click');
-  await page.getByTitle('Game Menu').dispatchEvent('click');
+  await page.keyboard.press('Escape');
   await page.getByRole('button', {name: 'MAIN MENU', exact: true}).dispatchEvent('click');
   await selector.selectOption('default');
   await page.getByRole('button', {name: 'SEED SIMULATION', exact: true}).dispatchEvent('click');
