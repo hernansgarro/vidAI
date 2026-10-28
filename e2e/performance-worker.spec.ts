@@ -380,7 +380,13 @@ for (const fallback of [false, true]) test(`performance pulse preserves exact ph
   await expect(dot).toHaveAttribute('data-state', 'valid');
   await expect.poll(() => dot.evaluate(node => node.getAnimations().find(a => a.id === 'simulation-throughput-pulse')?.playState)).toBe('running');
   await expect(dot).not.toHaveAttribute('title');
-  await dot.hover(); await expect(page.getByRole('tooltip')).toHaveCount(0);
+  // The pulsing transform never becomes stable for Playwright's hover action.
+  // Move the real pointer to its center while leaving the animation running.
+  const bounds = await dot.boundingBox();
+  expect(bounds).not.toBeNull();
+  await page.mouse.move(bounds!.x + bounds!.width / 2, bounds!.y + bounds!.height / 2);
+  await expect.poll(() => dot.evaluate(node => node.matches(':hover'))).toBe(true);
+  await expect(page.getByRole('tooltip')).toHaveCount(0);
   await page.getByRole('button', {name: 'Pause', exact: true}).evaluate(button => {
     button.addEventListener('click', () => {
       const node = document.querySelector('[data-testid=simulation-activity]')!;
