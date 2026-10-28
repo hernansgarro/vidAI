@@ -169,6 +169,8 @@ button, input, select {font: inherit;}
     grid-template-columns: minmax(0, 1fr);
     grid-template-areas: "general" "controls" "counters";
   }
+  /* The pinned Menu sets the actual height of the phone identity row. */
+  .toolbar-identity { min-height: 32px; }
   .toolbar-controls {
     width: 100%;
     grid-template-columns: repeat(5, minmax(0, 1fr));
