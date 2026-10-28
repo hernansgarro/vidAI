@@ -7,7 +7,7 @@ test.setTimeout(60000);
 for (const fallback of [false, true]) test(`energy contour glows follow real body paths and freeze while paused (${fallback ? 'fallback' : 'Worker'})`, async ({page}, info) => {
   const errors: string[] = []; page.on('pageerror', e => errors.push(e.message));
   await page.addInitScript(() => {
-    const capture = {skinFills: 0, bodyOverGlow: 0, totals: {green: 0, red: 0}, green: [] as Array<{alpha: number; path: number[]; at: number; scale: number; width: number}>,
+    const capture = {armPause: false, skinFills: 0, bodyOverGlow: 0, totals: {green: 0, red: 0}, green: [] as Array<{alpha: number; path: number[]; at: number; scale: number; width: number}>,
       red: [] as Array<{alpha: number; path: number[]; at: number; scale: number; width: number}>};
     Object.assign(window, {energyTintCapture: capture});
     const paths = new WeakMap<CanvasRenderingContext2D, number[]>();
@@ -33,6 +33,14 @@ for (const fallback of [false, true]) test(`energy contour glows follow real bod
         capture.totals[color]++;
         capture[color].push({width: this.lineWidth, alpha, path: paths.get(this) ?? [], at: performance.now(), scale: Math.hypot(this.getTransform().a, this.getTransform().b)});
         if (capture[color].length > 1000) capture[color].shift();
+        // Pause via the real host control as soon as both rendered waves have
+        // been observed. The independent Worker must not exhaust the victim
+        // while the software-rendered browser waits for another test command.
+        if (capture.armPause && capture.green.some(s => s.alpha > .20)
+          && capture.red.some(s => s.alpha > .25)) {
+          capture.armPause = false;
+          queueMicrotask(() => document.querySelector<HTMLButtonElement>('[data-testid="action-toolbar"] button')!.click());
+        }
       }
       return originalStroke.apply(this, args);
     } as typeof originalStroke;
@@ -43,14 +51,13 @@ for (const fallback of [false, true]) test(`energy contour glows follow real bod
   await page.locator('input[type=file]').setInputFiles({name: 'activity.json', mimeType: 'application/json',
     buffer: Buffer.from(JSON.stringify(createSnapshot(state, config)))});
   await expect(page.getByRole('button', {name: 'RESUME SIMULATION', exact: true})).toBeVisible();
-  await page.evaluate(() => {const c = (window as any).energyTintCapture; c.green.length = c.red.length = c.totals.green = c.totals.red = 0;});
+  await page.evaluate(() => {const c = (window as any).energyTintCapture; c.green.length = c.red.length = c.totals.green = c.totals.red = 0; c.armPause = true;});
   await page.getByRole('button', {name: '1x', exact: true}).dispatchEvent('click');
   await page.getByRole('button', {name: 'RESUME SIMULATION', exact: true}).click();
   await expect.poll(() => page.evaluate(() => {
     const c = (window as any).energyTintCapture; return c.green.some((s: any) => s.alpha > .20) && c.red.some((s: any) => s.alpha > .25);
   })).toBe(true);
   // Freeze activity using the existing upstream pause control and overlay.
-  await page.getByRole('button', {name: 'Pause', exact: true}).click();
   await expect(page.getByRole('button', {name: 'RESUME SIMULATION', exact: true})).toBeVisible();
   const sample = () => page.evaluate(() => {
     const c = (window as any).energyTintCapture;
