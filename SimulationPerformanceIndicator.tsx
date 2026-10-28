@@ -22,9 +22,18 @@ export const SimulationPerformanceIndicator = memo(function SimulationPerformanc
     pulse.id = 'simulation-throughput-pulse'; pulse.pause(); pulse.currentTime = 0;
     const motion = matchMedia('(prefers-reduced-motion: reduce)');
     let previousKey = '', stopped = false, frequency = 0;
-    const hold = () => {
+    const holdPulse = () => {
+      const displayed = getComputedStyle(node);
+      const opacity = displayed.opacity, transform = displayed.transform;
       const time = pulse.currentTime;
       pulse.pause(); if (time !== null) pulse.currentTime = time;
+      // Firefox can round the exposed animation time differently from its sampled
+      // frame. Retain that displayed frame while the same animation stays paused.
+      node.style.setProperty('opacity', opacity, 'important');
+      node.style.setProperty('transform', transform, 'important');
+    };
+    const hold = () => {
+      holdPulse();
       // Freeze an interpolating color at its displayed value, not at its target.
       const color = getComputedStyle(node).backgroundColor;
       node.style.transition = 'none'; node.style.backgroundColor = color;
@@ -55,8 +64,11 @@ export const SimulationPerformanceIndicator = memo(function SimulationPerformanc
       node.style.transition = 'background-color 300ms linear';
       node.style.backgroundColor = performanceColor(reading.speed, requested);
       if (motion.matches || frequency === 0) {
-        const time = pulse.currentTime; pulse.pause(); if (time !== null) pulse.currentTime = time;
-      } else if (pulse.playState !== 'running') pulse.play();
+        holdPulse();
+      } else {
+        node.style.removeProperty('opacity'); node.style.removeProperty('transform');
+        if (pulse.playState !== 'running') pulse.play();
+      }
     };
     refreshRef.current = refresh;
     motion.addEventListener('change', refresh);

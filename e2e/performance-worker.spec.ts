@@ -417,6 +417,7 @@ for (const fallback of [false, true]) test(`performance pulse preserves exact ph
   await page.getByRole('button', {name: 'Resume', exact: true}).click();
   await expect(dot).toHaveAttribute('data-state', 'valid');
   await expect.poll(() => dot.evaluate(node => Number(node.getAnimations().find(a => a.id === 'simulation-throughput-pulse')!.currentTime))).toBeGreaterThan(held.time);
+  await expect.poll(() => dot.evaluate(node => getComputedStyle(node).transform)).not.toBe(held.transform);
   expect(await dot.evaluate(node => node.getAnimations().find(a => a.id === 'simulation-throughput-pulse') === (window as any).pulseAtPause.animation)).toBe(true);
   await expect(dot).not.toHaveAttribute('title');
 });
