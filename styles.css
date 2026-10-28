@@ -67,7 +67,8 @@ button, input, select {font: inherit;}
 }
 .toolbar-credits { display: inline-block; width: max-content; }
 .toolbar-general[data-credits="false"] .toolbar-credits {
-  position: absolute;
+  /* Keep the measurable hidden text outside the identity's scroll box. */
+  position: fixed;
   top: 0;
   left: 0;
   visibility: hidden;
