@@ -1,5 +1,25 @@
 # Project status — 2026-10-21
 
+## Contributor fork: wider translucent energy glow — 2026-10-28
+
+User-approved refinement of #114 on `feature/stronger-energy-glow`, based on
+fork main `e694120`. Clarification superseded the initial opacity-tripling idea:
+the requested change is a wider glass-like translucent halo, not a brighter edge.
+Five contours (21/15/10/6/2 CSS pixels) replace the compact three-band glow;
+outward reach is 10.5 pixels, exactly three times the former 3.5px reach.
+Peak band alpha stays translucent: green .06/.084/.12/.168/.312, red
+.07/.098/.14/.196/.364, from outside to core. The unchanged normal body fill and
+outline now paint over the glow, preserving pigmentation and anatomy.
+
+Relative thresholds, transfer detection, cadence, alternating phases, decay,
+x0, contacts, Worker, perception and saves remain unchanged. No blur/filter,
+body scaling, timers or simulation changes. Five strokes replace three per
+active color; no new FPS or zero-overhead claim. Nearby halos can overlap.
+Focused browser checks cover actual width, translucency, body-over-glow paint
+order, green/red activity, zoom and Worker/fallback x0/cleanup. Fast/build/CI
+receipts are recorded in #114. Wiki source remains fork-only; upstream submission
+and publication are still unapproved.
+
 ## Contributor fork: compact energy contour glow — 2026-10-28
 
 Approved visual follow-up to #114, branch `feature/energy-contour-glow` from

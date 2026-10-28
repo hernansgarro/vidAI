@@ -1354,10 +1354,9 @@ export default function App() {
         const cornerRad = Math.min(w * 0.35, h * 0.35, 6);
         ctx.beginPath();
         ctx.roundRect(-w * 0.5, -h * 0.5, w, h, [cornerRad, cornerRad, cornerRad, cornerRad]);
+        drawEnergyGlow(ctx, energyPresentationRef.current, org.id, sIdx, zoom);
         ctx.fill();
         ctx.stroke();
-
-        drawEnergyGlow(ctx, energyPresentationRef.current, org.id, sIdx, zoom);
 
         // Discrete NxM Grid Internal Cell Lines
         ctx.strokeStyle = 'rgba(255, 255, 255, 0.22)';

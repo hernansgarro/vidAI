@@ -140,18 +140,21 @@ export class EnergyActivityPresentation {
   }
 }
 
-/** Short, soft contours in CSS pixels; never fill the body or blur the canvas. */
+const GLOW_WIDTHS = [21, 15, 10, 6, 2];
+const GLOW_STRENGTHS = [.25, .35, .50, .70, 1.3];
+
+/** Translucent contours in CSS pixels, painted underneath the normal body. */
 export function drawEnergyGlow(ctx: CanvasRenderingContext2D, presentation: EnergyActivityPresentation,
   id: string, part: number, zoom: number) {
   const [green, red] = presentation.intensity(id, part);
   if (!(green > 0 || red > 0)) return;
   ctx.save();
   ctx.lineJoin = 'round';
-  // Three bounded strokes approximate a compact glow without shadow/filter
-  // surfaces. The existing path, phase and localized activity are unchanged.
-  for (let pass = 0; pass < 3; pass++) {
-    ctx.lineWidth = (pass === 0 ? 7 : pass === 1 ? 4 : 1.5) / zoom;
-    const strength = pass === 0 ? .25 : pass === 1 ? .65 : 2;
+  // Wider, translucent falloff without blur/filter surfaces or extra geometry.
+  // The existing path, phase and localized activity are unchanged.
+  for (let pass = 0; pass < GLOW_WIDTHS.length; pass++) {
+    ctx.lineWidth = GLOW_WIDTHS[pass] / zoom;
+    const strength = GLOW_STRENGTHS[pass];
     if (green > 0) {ctx.strokeStyle = `rgba(34,220,105,${green * strength})`; ctx.stroke();}
     if (red > 0) {ctx.strokeStyle = `rgba(245,55,65,${red * strength})`; ctx.stroke();}
   }
