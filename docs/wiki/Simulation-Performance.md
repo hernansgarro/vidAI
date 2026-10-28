@@ -48,11 +48,9 @@ fixed-tick behavior when the Worker is unavailable or explicitly disabled.
 
 In Hernan's fork, **0x is the paused simulation speed**. Pause and Space toggle
 between 0x and the last selected nonzero speed. Selecting another speed resumes
-immediately. Existing speeds remain 1x, 2x, 5x, 10x, 20x and MAX (50x).
+immediately. Finite speeds remain 1x, 2x, 5x, 10x and 20x; MAX runs without a multiplier ceiling.
 Imports start at 0x. The speed selector shows the effective speed, including 0x
 while the application menu is open; closing that menu restores the prior state.
-The top-left activity dot animates only at nonzero effective speed. At 0x it
-stays steady and visible; its tooltip and accessible label identify the state.
 
 At 0x, simulation time and all autonomous processes stop. The tank stays
 interactive: select and inspect creatures/eggs, open diagnostics and other
@@ -70,6 +68,43 @@ Save schemas, physics, genetics, feeding and learning rules are unchanged.
 
 This behavior is implemented in the contributor fork; it is not yet accepted
 upstream or published in the upstream Wiki.
+
+## Live performance circle (fork)
+
+The existing 12px header circle shows actual simulation throughput. Pulse frequency
+is `2.5 * log(1 + min(actualSpeed, 50)) / log(51)` Hz: about 0.44 at 1x,
+1.52 at 10x and 2.5 at 50x and above. Only the visual frequency saturates.
+
+Finite speed colors show actual/requested achievement, capped at 100%:
+red at 10% or less, orange at 30%, yellow at 60% and green at 100% or more.
+MAX uses 50x as a **visual reference**, with the same anchors through green,
+then pure cyan at 65x and pure white at 75x and above. Colors interpolate
+continuously in Oklab. White never resets at higher throughput.
+
+MAX is an explicit unlimited mode, replacing the old paced 50x alias after
+contributor approval. Worker batches yield after 8ms or 256 ticks and immediately
+queue the next batch; fallback execution shares the UI thread with a 16ms batch
+budget. These are responsiveness budgets, not simulated-speed multipliers.
+Fixed 1/60-second ticks, finite-speed pacing, physics, ecology and saves are unchanged.
+A world can age much faster in wall time in MAX; this does not change its rules.
+
+The circle and existing speed readout share a constant-size sampler of authoritative
+simulation time divided by monotonic wall time. It uses 250ms windows and 350ms
+exponential smoothing. Mode/world changes establish a fresh baseline; missing
+measurements expire after 1.25s. No speed is inferred from selected multipliers,
+render FPS or CPU utilization. World-stat rendering is bounded to four updates/s.
+
+At 0x, the retained animation holds its exact current phase, opacity and scale.
+Any in-progress color transition is frozen at the displayed color. Manual world
+commands do not advance the pulse. Resume waits for fresh measurements and adjusts
+playback rate without resetting the animation timeline. Reduced-motion preferences
+hold the movement while keeping performance color available.
+
+There is **no tooltip, hover content, popover, visible explanatory text or new
+interaction**. Nonvisual screen-reader descriptions distinguish paused, measuring,
+unavailable, finite achievement and MAX's visual reference. During startup or a
+mode change, the pulse waits for fresh data; stale running data becomes neutral.
+This behavior is implemented in the contributor fork, not accepted upstream.
 
 ## Stable toolbar layout (fork)
 

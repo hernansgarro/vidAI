@@ -1,5 +1,39 @@
 # Project status — 2026-10-21
 
+## Contributor fork: measured performance circle and unlimited MAX — 2026-10-28
+
+Tracking: upstream #112; branch `feature/live-performance-indicator`, based on
+fork main `ddd19a4`. Hernan resolved the specification's MAX contradiction by
+explicitly choosing unlimited execution in place of the old paced 50x alias.
+Worker batches remain bounded/yielding; finite speeds and exact 1/60-second
+simulation rules/saves are preserved. More world time can pass per wall second
+in MAX, so worlds can also age/extinguish sooner in wall time.
+
+The compact circle and existing speed readout share authoritative simulated-time
+versus wall-time sampling. A retained Web Animation communicates actual speed,
+with perceptual red/orange/yellow/green achievement colors and MAX-only cyan/white
+above the 50x visual reference. The pulse alone saturates at 2.5Hz. Pause freezes
+exact phase and displayed color; resume waits for fresh data. Reduced motion is
+respected. The latest correction removes all tooltip/hover/popover/explanatory
+UI from the circle; screen-reader descriptions remain nonvisual.
+
+Local validation: 299 fast checks, build/typecheck, actual production Worker,
+exact populated/empty MAX continuation and pause/finite resume checks pass.
+Focused browser scenarios cover controls, phase/color/manual edits,
+reduced motion, MAX above 50x, persistent white and absent tooltip. Representative
+1920px/320px toolbar interaction checks pass. Final CI receipts are recorded in #112.
+
+Bounded overhead observations: 100,000 sampler/mapping observations took 9.786ms
+(about 0.098 microseconds/observation; CPU microcheck, not gameplay FPS).
+In a three-pair empty-world browser probe, visible/hidden presentation achieved
+[4601.900,2595.199,3498.086] / [3581.940,3224.894,3585.193] simulated-time ratios.
+Their medians differ by about -2.34%, within substantial run-to-run variation.
+This hides only the 12px presentation and does not establish whole-app or populated
+world performance. There are no new Worker messages or simulation-tick observers;
+indicator DOM updates are limited to 4Hz. Physics/energy/brain golden references
+were not changed. Full evidence/limits and integration status remain in #112;
+this is contributor-fork implementation, not upstream acceptance/publication.
+
 ## Contributor fork: unified pause and speed 0x — 2026-10-28
 
 Tracking: upstream #111; fork branch `feature/unified-pause-x0`, based on

@@ -1,7 +1,7 @@
 import {SimulationHost, type WorldSnapshot, type WorldAction} from './simulationHost';
 import type {SimulationSettings} from './simulation';
 import {isSimulationSpeed} from './simulationSpeed';
-import {workerWakeDelay} from './workerPacing';
+import {workerWakeDelay, MAX_BATCH_TICKS} from './workerPacing';
 
 const host = new SimulationHost();
 const port = self as unknown as {postMessage(message: unknown): void;
@@ -54,12 +54,16 @@ const wake = new MessageChannel();
 wake.port1.onmessage = () => pump();
 function pump() {
   const now = performance.now();
-  if (initialized && host.speed > 0) {
-    accumulator = Math.min(2, accumulator + Math.min(.25, (now - previous) / 1000) * host.speed);
+  if (initialized && host.speed !== 0) {
+    const speed = host.speed;
+    const unlimited = speed === 'max';
+    if (!unlimited) accumulator = Math.min(2, accumulator + Math.min(.25, (now - previous) / 1000) * speed);
     const deadline = now + 8;
     try {
-      while (accumulator >= 1 / 60 && performance.now() < deadline) {
-        host.tick(); dirty = true; accumulator -= 1 / 60;
+      let batchTicks = 0;
+      while ((unlimited || accumulator >= 1 / 60) && performance.now() < deadline && batchTicks < MAX_BATCH_TICKS) {
+        host.tick(); dirty = true; batchTicks++;
+        if (!unlimited) accumulator -= 1 / 60;
       }
     } catch (error) {
       host.speed = 0; accumulator = 0; previous = performance.now();
@@ -69,7 +73,7 @@ function pump() {
   previous = now;
   if (initialized && dirty && now - lastFrame >= 1000 / 30) sendFrame();
   const delay = workerWakeDelay(accumulator, host.speed, performance.now() - previous,
-    initialized && host.speed > 0);
+    initialized && host.speed !== 0);
   if (delay === 0) wake.port2.postMessage(null);
   else setTimeout(pump, delay);
 }

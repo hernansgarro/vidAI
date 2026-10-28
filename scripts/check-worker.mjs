@@ -191,6 +191,42 @@ try {
   await receive(value => value.type === 'frame' && value.frame.epoch === 100);
   await new Promise(resolve => setTimeout(resolve, 80));
   assert.deepEqual((await request('snapshot', {}, 100)).state, zeroCleared.state, 'Reset/import starts at x0');
+  // MAX has no multiplier ceiling, but still yields to commands between batches.
+  const maxSettings = {...zeroSettings, targetNutrients: 0};
+  const empty = createInitialWorld(maxSettings, 123, 'balanced', 'standard', 0);
+  send({type: 'reset', epoch: 101, snapshot: createSnapshot(empty, maxSettings)});
+  await receive(value => value.type === 'frame' && value.frame.epoch === 101);
+  const maxStart = performance.now();
+  send({type: 'control', epoch: 101, settings: maxSettings, speed: 'max', selected: null});
+  await new Promise(resolve => setTimeout(resolve, 150));
+  send({type: 'control', epoch: 101, settings: maxSettings, speed: 0, selected: null});
+  const maximum = await request('snapshot', {}, 101);
+  const elapsed = (performance.now() - maxStart) / 1000;
+  assert.ok(maximum.state.simTime / elapsed > 50, 'Lightweight MAX must exceed x50');
+  const directMax = restoreSnapshot(createSnapshot(empty, maxSettings)).state;
+  const maxTicks = Math.round(maximum.state.simTime * 60);
+  for (let i = 0; i < maxTicks; i++) stepSimulation(directMax, maxSettings, 1 / 60);
+  assert.deepEqual(maximum.state, createSnapshot(directMax, maxSettings).state);
+  await new Promise(resolve => setTimeout(resolve, 100));
+  assert.deepEqual((await request('snapshot', {}, 101)).state, maximum.state);
+  send({type: 'control', epoch: 101, settings: maxSettings, speed: 1, selected: null});
+  await new Promise(resolve => setTimeout(resolve, 100));
+  send({type: 'control', epoch: 101, settings: maxSettings, speed: 0, selected: null});
+  const maxResumed = await request('snapshot', {}, 101);
+  assert.ok(maxResumed.state.simTime - maximum.state.simTime < .4, 'MAX cannot leak backlog into finite resume');
+  send({type: 'reset', epoch: 102, snapshot: zeroCleared});
+  await receive(value => value.type === 'frame' && value.frame.epoch === 102);
+  send({type: 'control', epoch: 102, settings: zeroSettings, speed: 'max', selected: null});
+  await new Promise(resolve => setTimeout(resolve, 60));
+  send({type: 'control', epoch: 102, settings: zeroSettings, speed: 0, selected: null});
+  const populatedMax = await request('snapshot', {}, 102);
+  const populatedDirect = restoreSnapshot(zeroCleared).state;
+  const populatedTicks = Math.round((populatedMax.state.simTime - zeroCleared.state.simTime) * 60);
+  assert.ok(populatedTicks > 0);
+  for (let i = 0; i < populatedTicks; i++) stepSimulation(populatedDirect, zeroSettings, 1 / 60);
+  assert.deepEqual(populatedMax.state, createSnapshot(populatedDirect, zeroSettings).state,
+    'Populated MAX preserves physics, energy, brain state, genetics and PRNG for the same fixed ticks');
+  console.log('Unlimited MAX: measured x'+(maximum.state.simTime / elapsed).toFixed(1)+'; '+maxTicks+' exact ticks, responsive pause, frozen snapshots and finite resume passed.');
   console.log('x0 Worker: zero ticks during manual food/spawn/clear/inspection, funded budget and caps, immediate frames, no stopped-wall-time catch-up, exact continuation and paused reset passed.');
   console.log('Production Worker: open/closed exact exports, funded commands, independent stepping, debt, direct equivalence, all physics regimes, mouth contact in all eight physics/ecology combinations, regime-switch and stale-world rejection passed.');
 } finally { await worker.terminate(); }

@@ -1,4 +1,4 @@
-export const SIMULATION_SPEEDS = [0, 1, 2, 5, 10, 20, 50] as const;
+export const SIMULATION_SPEEDS = [0, 1, 2, 5, 10, 20, 'max'] as const;
 export type SimulationSpeed = typeof SIMULATION_SPEEDS[number];
 export interface PlaybackSpeed {
   speed: SimulationSpeed;

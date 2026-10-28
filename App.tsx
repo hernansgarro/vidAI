@@ -49,6 +49,8 @@ import {getConfig} from './constants';
 import BackgroundMusic from './utils/BackgroundMusic';
 import BrainGraph from './BrainGraph';
 import {drawFoodGlow} from './foodGlow';
+import {ThroughputMeter} from './simulationPerformance';
+import {SimulationPerformanceIndicator} from './SimulationPerformanceIndicator';
 import {SimulationClient} from './simulationClient';
 import type {WorldAction} from './simulationHost';
 import {runProductionChecks} from './diagnostics';
@@ -275,6 +277,8 @@ export default function App() {
   const workerClientRef = useRef<SimulationClient | null>(null);
   const workerSettingsRef = useRef<SimulationSettings | null>(null);
   const workerStepsRef = useRef(0);
+  const throughputRef = useRef(new ThroughputMeter());
+  const statsWallRef = useRef(0);
   const viewportRef = useRef<HTMLDivElement>(null);
   const [{width: canvasWidth, height: canvasHeight}, setViewportSize] = useState({width: 1280, height: 720});
   useEffect(() => {
@@ -454,7 +458,7 @@ export default function App() {
     carnivoreCount: 0,
     omnivoreCount: 0,
     carrionCount: 0,
-    simTimeRatio: 1.0,
+    simTimeRatio: null as number | null,
     renderFPS: 60,
     physicsStepsPerSec: 60,
   });
@@ -500,10 +504,6 @@ export default function App() {
 
   // Telemetry Performance Tracker
   const realTimeTrackerRef = useRef({
-    lastRealTime: performance.now(),
-    simulatedSecsThisInterval: 0,
-    realSecsThisInterval: 0,
-    achievedRatio: 1.0,
     framesThisSec: 0,
     physicsStepsThisSec: 0,
     lastFPSUpdate: performance.now(),
@@ -1023,7 +1023,8 @@ export default function App() {
     workerStepsRef.current = 0;
     if (workerClientRef.current) realTimeTrackerRef.current.physicsStepsThisSec += stepsRun;
 
-    for (let step = 0; !workerClientRef.current && step < multiplier; step++) {
+    const unlimited = multiplier === 'max';
+    for (let step = 0; !workerClientRef.current && step < (unlimited ? Infinity : multiplier); step++) {
       stepSimulation(s, settings, fixedDt, (evt) => {
         if (evt === 'clash') gameAudio.playSwordClash();
         else if (evt === 'eat') gameAudio.playCoinPickup();
@@ -1031,22 +1032,12 @@ export default function App() {
       });
       realTimeTrackerRef.current.physicsStepsThisSec += 1;
       stepsRun++;
-      if (performance.now() - frameStartTime > 16.0 && multiplier > 20) break;
+      if (unlimited && performance.now() - frameStartTime >= 16) break;
     }
 
     const tracker = realTimeTrackerRef.current;
     const now = performance.now();
-    const realSecs = (now - tracker.lastRealTime) / 1000;
-    tracker.lastRealTime = now;
-    tracker.realSecsThisInterval += realSecs;
-    tracker.simulatedSecsThisInterval += fixedDt * stepsRun;
-
-    if (tracker.realSecsThisInterval >= 0.5) {
-      tracker.achievedRatio = tracker.simulatedSecsThisInterval / Math.max(0.001, tracker.realSecsThisInterval);
-      tracker.realSecsThisInterval = 0;
-      tracker.simulatedSecsThisInterval = 0;
-    }
-
+    if (!workerClientRef.current) throughputRef.current.observe(s.simTime, now);
     if (now - tracker.lastFPSUpdate >= 1000) {
       tracker.renderFPS = tracker.framesThisSec;
       tracker.physicsStepsPerSec = tracker.physicsStepsThisSec;
@@ -1056,19 +1047,22 @@ export default function App() {
     }
 
     statsTimerRef.current += fixedDt * stepsRun;
-    if (statsTimerRef.current >= 0.25) {
-      statsTimerRef.current = 0;
+    if (now - statsWallRef.current >= 250) {
+      statsWallRef.current = now;
 
       const stats = collectWorldStats(s, targetNutrientAbundance);
       const maxGen = stats.maxGeneration;
-      setEcoStats({...stats, simTimeRatio: Math.round(tracker.achievedRatio * 10) / 10,
+      setEcoStats({...stats, simTimeRatio: throughputRef.current.read(now).speed,
         renderFPS: tracker.renderFPS, physicsStepsPerSec: tracker.physicsStepsPerSec});
 
       const selected = selectedOrgId ? s.organisms.find((o) => o.id === selectedOrgId) : null;
       setSelectedSpecimen(selected || null);
       if (selectedEggId && !s.eggs.some(egg => egg.id === selectedEggId)) setSelectedEggId(null);
 
-      popHistoryRef.current.push(s.organisms.filter(o => !o.dissolving).length);
+      if (statsTimerRef.current >= .25) {
+        statsTimerRef.current = 0;
+        popHistoryRef.current.push(s.organisms.filter(o => !o.dissolving).length);
+      }
       if (popHistoryRef.current.length > 60) popHistoryRef.current.shift();
 
       if (!s.energyPool && s.organisms.length === 0 && s.eggs.length === 0) {
@@ -1520,6 +1514,7 @@ export default function App() {
     try { client = new SimulationClient(() => simStateRef.current, (state, frame) => {
       simStateRef.current = state;
       workerStepsRef.current += frame.steps;
+      throughputRef.current.observe(state.simTime, performance.now());
       if (workerPausedRef.current) {
         setEcoStats(previous => ({...previous, ...collectWorldStats(state, workerSettingsRef.current!.targetNutrients)}));
         setSelectedSpecimen(state.organisms.find(o => o.id === workerSelectionRef.current) ?? null);
@@ -1550,9 +1545,10 @@ export default function App() {
   useLayoutEffect(() => {
     // Stop/resume starts a fresh wall-clock interval, including fallback mode.
     stepperRef.current = createFixedStepper(getConfig('stepMs'), getConfig('maxSubSteps'));
+    throughputRef.current.configure(effectiveSpeed, worldEpoch);
     const tracker = realTimeTrackerRef.current;
-    tracker.lastRealTime = performance.now();
-    tracker.realSecsThisInterval = 0; tracker.simulatedSecsThisInterval = 0;
+    tracker.lastFPSUpdate = performance.now(); tracker.framesThisSec = 0; tracker.physicsStepsThisSec = 0;
+    setEcoStats(previous => ({...previous, simTimeRatio: effectiveSpeed === 0 ? 0 : null}));
   }, [effectiveSpeed, worldEpoch]);
 
   useEffect(() => {
@@ -1567,7 +1563,8 @@ export default function App() {
   useEffect(() => {
     let raf = 0;
     const loop = (time: number) => {
-      stepperRef.current?.(time, (dt) => updateRef.current(dt));
+      if (timeMultiplierRef.current === 'max') updateRef.current(1 / 60);
+      else stepperRef.current?.(time, (dt) => updateRef.current(dt));
 
       const ctx = canvasRef.current?.getContext('2d');
       if (ctx) drawRef.current(ctx);
@@ -1579,8 +1576,7 @@ export default function App() {
     return () => cancelAnimationFrame(raf);
   }, [canvasWidth, canvasHeight]);
 
-  const isMusicPlaying = !musicMuted && effectiveSpeed > 0;
-  const activityLabel = effectiveSpeed > 0 ? 'Simulation running' : 'Simulation paused (0x)';
+  const isMusicPlaying = !musicMuted && effectiveSpeed !== 0;
 
   return (
     <div className="fixed inset-0 overflow-hidden touch-none flex flex-col items-center justify-between bg-slate-950 text-white select-none">
@@ -1601,9 +1597,7 @@ export default function App() {
           data-credits={toolbarLayout.credits} data-compact-metrics={toolbarLayout.compact}
           style={{'--toolbar-menu-space': `${toolbarLayout.menuSpace}px`} as React.CSSProperties}>
           <div className="toolbar-identity">
-          <div className="toolbar-brand flex items-center gap-2"><div data-testid="simulation-activity"
-            role="img" aria-label={activityLabel} title={activityLabel}
-            className={`w-3 h-3 rounded-full bg-emerald-400 shrink-0 ${effectiveSpeed > 0 ? 'animate-ping' : ''}`} />
+          <div className="toolbar-brand flex items-center gap-2"><SimulationPerformanceIndicator meter={throughputRef.current} requested={effectiveSpeed} epoch={worldEpoch} />
           <span className="font-mono font-black text-xs md:text-sm tracking-wider text-cyan-300">
             VIDA
           </span></div>
@@ -1614,8 +1608,8 @@ export default function App() {
             GEN <ToolbarValue value={ecoStats.maxGeneration} />
           </span>
           <span className="toolbar-performance px-1.5 py-0.5 text-[10px] rounded bg-purple-950/80 border border-purple-500/30 text-purple-300 font-mono" title="Simulation-to-Real Time Ratio & FPS">
-            <span className="toolbar-performance-text" title={`${ecoStats.simTimeRatio}x (${ecoStats.renderFPS} FPS · ${ecoStats.physicsStepsPerSec} Steps/s)`}>
-              {formatToolbarValue(ecoStats.simTimeRatio)}x ({formatToolbarValue(ecoStats.renderFPS)} FPS · {formatToolbarValue(ecoStats.physicsStepsPerSec)} Steps/s)
+            <span className="toolbar-performance-text" title={`${ecoStats.simTimeRatio === null ? 'Measuring speed' : `${ecoStats.simTimeRatio.toFixed(2)}x`} (${ecoStats.renderFPS} FPS · ${ecoStats.physicsStepsPerSec} Steps/s)`}>
+              {formatToolbarValue(ecoStats.simTimeRatio === null ? '—' : Math.round(ecoStats.simTimeRatio * 10) / 10)}x ({formatToolbarValue(ecoStats.renderFPS)} FPS · {formatToolbarValue(ecoStats.physicsStepsPerSec)} Steps/s)
             </span>
           </span>
           <span className="toolbar-time px-1.5 py-0.5 text-[10px] rounded bg-slate-800 border border-slate-700 text-slate-300 font-mono">
@@ -1686,7 +1680,7 @@ export default function App() {
                     ? 'bg-cyan-500 text-slate-950 shadow-sm'
                     : 'text-slate-400 hover:text-white'
                 }`}>
-                {spd === 50 ? 'MAX' : `${spd}x`}
+                {spd === 'max' ? 'MAX' : `${spd}x`}
               </button>
             ))}
           </div>
@@ -3080,8 +3074,8 @@ export default function App() {
               gameAudio.playCrispClick();
             }}
             className="min-w-[44px] min-h-[44px] px-3.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold flex items-center justify-center gap-2 transition-transform active:scale-95 shadow-md text-xs md:text-sm">
-            {effectiveSpeed > 0 ? <Pause size={16} /> : <Play size={16} />}
-            <span>{effectiveSpeed > 0 ? 'Pause' : 'Resume'}</span>
+            {effectiveSpeed !== 0 ? <Pause size={16} /> : <Play size={16} />}
+            <span>{effectiveSpeed !== 0 ? 'Pause' : 'Resume'}</span>
           </button>
 
           <button
