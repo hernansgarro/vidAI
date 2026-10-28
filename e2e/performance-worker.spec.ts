@@ -382,6 +382,44 @@ for (const fallback of [false, true]) test(`performance pulse preserves exact ph
   await page.getByRole('button', {name: '5x', exact: true}).click();
   await expect(dot).toHaveAttribute('data-state', 'valid');
   await expect.poll(() => dot.evaluate(node => node.getAnimations().find(a => a.id === 'simulation-throughput-pulse')?.playState)).toBe('running');
+  const expansion = await dot.evaluate(node => {
+    const animation = node.getAnimations().find(a => a.id === 'simulation-throughput-pulse')!;
+    const originalTime = animation.currentTime, wasRunning = animation.playState === 'running';
+    const header = node.closest('header')!;
+    const surroundings = () => [header, node.nextElementSibling!, header.querySelector('.toolbar-controls')!].map(element => {
+      const box = element.getBoundingClientRect();
+      return [box.x, box.y, box.width, box.height];
+    });
+    animation.pause();
+    try {
+      // Sample one real browser-rendered cycle synchronously, then restore it.
+      return [0, 250, 500, 999.9].map(time => {
+        animation.currentTime = time;
+        const box = node.getBoundingClientRect(), style = getComputedStyle(node);
+        return {width: box.width, height: box.height, opacity: Number(style.opacity),
+          layoutWidth: node.clientWidth, layoutHeight: node.clientHeight,
+          centerX: box.x + box.width / 2, centerY: box.y + box.height / 2, surroundings: surroundings()};
+      });
+    } finally {
+      animation.currentTime = originalTime;
+      if (wasRunning) animation.play();
+    }
+  });
+  expect(expansion[0].width).toBeCloseTo(12, 1);
+  expect(expansion[0].opacity).toBe(1);
+  expect(expansion[3].width).toBeCloseTo(30, 1);
+  expect(expansion[3].height).toBeCloseTo(30, 1);
+  expect(expansion[3].opacity).toBeLessThan(.001);
+  for (let i = 0; i < expansion.length; i++) {
+    expect(expansion[i].layoutWidth).toBe(12); expect(expansion[i].layoutHeight).toBe(12);
+    expect(expansion[i].surroundings).toEqual(expansion[0].surroundings);
+    expect(expansion[i].centerX).toBeCloseTo(expansion[0].centerX, 3);
+    expect(expansion[i].centerY).toBeCloseTo(expansion[0].centerY, 3);
+    if (i > 0) {
+      expect(expansion[i].width).toBeGreaterThan(expansion[i - 1].width);
+      expect(expansion[i].opacity).toBeLessThan(expansion[i - 1].opacity);
+    }
+  }
   await expect(dot).not.toHaveAttribute('title');
   // The pulsing transform never becomes stable for Playwright's hover action.
   // Move the real pointer to its center while leaving the animation running.
