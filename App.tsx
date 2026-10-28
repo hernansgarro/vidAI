@@ -1580,6 +1580,7 @@ export default function App() {
   }, [canvasWidth, canvasHeight]);
 
   const isMusicPlaying = !musicMuted && effectiveSpeed > 0;
+  const activityLabel = effectiveSpeed > 0 ? 'Simulation running' : 'Simulation paused (0x)';
 
   return (
     <div className="fixed inset-0 overflow-hidden touch-none flex flex-col items-center justify-between bg-slate-950 text-white select-none">
@@ -1600,7 +1601,9 @@ export default function App() {
           data-credits={toolbarLayout.credits} data-compact-metrics={toolbarLayout.compact}
           style={{'--toolbar-menu-space': `${toolbarLayout.menuSpace}px`} as React.CSSProperties}>
           <div className="toolbar-identity">
-          <div className="toolbar-brand flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-emerald-400 animate-ping shrink-0" />
+          <div className="toolbar-brand flex items-center gap-2"><div data-testid="simulation-activity"
+            role="img" aria-label={activityLabel} title={activityLabel}
+            className={`w-3 h-3 rounded-full bg-emerald-400 shrink-0 ${effectiveSpeed > 0 ? 'animate-ping' : ''}`} />
           <span className="font-mono font-black text-xs md:text-sm tracking-wider text-cyan-300">
             VIDA
           </span></div>
