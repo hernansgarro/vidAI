@@ -10,7 +10,8 @@
 | --- | --- | --- |
 | Genetically controlled decision to lay | reproduction, egg laying trigger, threshold, energy sufficiency, behavior | Deferred for future design |
 | Heritable parental risk / retained reserve | reproduction, parent survival floor, reproductive sacrifice, selection | Deferred for future design |
-| Prepaid incubation instead of shared-world uptake | egg energy, ecology, incubation, energy conservation, hatching | Deferred simulation-model review |
+| Prepaid incubation energy (parent-funded) | egg energy, parental budget, incubation, conservation, hatching | Deferred; explicitly excluded from egg-display requirement |
+| Review passive egg energy recovery / shared-world uptake | egg energy, osmosis, replenishment, shared reserve, hatching | Deferred review and possible removal; not part of display change |
 | Egg buoyancy as a paid inherited trait | buoyancy, gravity, egg dispersal, predation, inherited physics | Separate possible requirement |
 | Simplifying hatch blockers | population occupancy, clearance, debt, expiry, hatching | Hypothesis only; needs careful review |
 
@@ -36,7 +37,13 @@
 
 **Current behavior:** Closed-economy eggs receive parent-funded structure and reserve, but `fundIncubatingEggs` can transfer additional available world-reserve energy; incubation progress itself currently consumes no egg energy. Closed-world hatching uses a reserve target which includes a 10% top-up, subject to storage capacity.
 
-**Scope gate:** This is a future simulation-economy change requiring explicit authorization, conservation accounting, migration/legacy-save behavior, and ecology tests. The present egg-energy visualization should initially continue to reflect the existing funding/recovery behavior, not silently alter it.
+**Scope gate (2026-10-28):** Explicitly **exclude all incubation energy costs, parent prepayment changes, and incubation-funding mechanics** from the observer-only egg-display requirement. This is a future simulation-economy change requiring separate authorization, conservation accounting, migration/legacy-save behavior, and ecology tests. Preserve existing runtime behavior and historical saves for now; no implicit replenishment mechanism is being proposed by the contributor.
+
+## 3a. Review passive egg energy recovery from the shared world reserve
+
+**Pending review / possible adjustment (2026-10-28):** Hernan does **not** propose that eggs replenish their energy, and questions the existing `fundIncubatingEggs` transfer from the shared world reserve as an unnatural, osmosis-like mechanism. In a future requirement, reconsider removing this uptake entirely and making the parent fund all egg energy before laying. This is **not approval to alter or remove existing uptake in the current visualization change**. Present observational data must reflect whatever the authoritative runtime currently does, including possible reserve restoration, without introducing another energy source or recovery path.
+
+**Related:** Parent-paid incubation energy above is a separate design decision; no egg energy conservation, reproduction, hatching, migration, or genetics rules are to be changed just to deliver the visual indicator.
 
 ## 4. Genetically influenced egg buoyancy
 
@@ -44,15 +51,13 @@
 
 ## 5. Hatching restrictions and occupied space
 
-**Hypothesis:** Once incubation is complete and its energy is prepaid, the parent would like only population capacity to prevent hatching.
+**Current agreement (2026-10-28):** Keep existing population slots reserved at laying; this already addresses the population cap for closed-world eggs. Retain physical hatch-space clearance and world-energy debt as acceptable hatch blockers. Hernan questions the *additional energy-target requirement* that can block a fully incubated egg; study that separately, not in the visual indicator requirement. Leave existing incubation, reserve-uptake, space, expiry, debt, and legacy-world hatching behavior unchanged for now.
 
-**Current conflict:** Closed-world eggs reserve population slots at laying, so the cap does not generally block hatching. Hatch clearance currently prevents body overlap and wall penetration, world energy debt can block hatching, and closed eggs expire after three incubation periods. Legacy open-economy worlds differ.
-
-**Decision needed:** Reconcile the user's desired simplicity with physical collision clearance, existing reserved slots and historical-save compatibility. This is **not** an approved removal of existing protections.
+**Pending review:** Simplify remaining hatching-energy requirements in a future authorized simulation-model change, preserving conservation, clearance, and historical saves. No current change is approved.
 
 ## Related discussion: observer-only egg energy display
 
-The ongoing visualization idea is **not yet finalized**. Tentative direction: an egg stays perceptually white to organisms, while a human-only pink sector expands counterclockwise as a fraction of its original usable reserve is consumed; the sector may shrink if the present closed-economy implementation restores that reserve. Keep the existing outer incubation ring and organism sensory semantics. Do not confuse energy depletion, structural damage, recovery prospects, or incubation completion. No Work prompt or implementation authorization has been issued.
+**Design direction agreed 2026-10-28; implementation not started:** Store the originally parent-funded usable egg reserve for a persistent observer-only reference. Render a white egg with a pink sector growing counterclockwise as the original usable reserve falls, and shrinking when existing code actually replenishes that reserve; clamp the white area at 100%. At zero remaining usable reserve, keep the egg fully pink even if predators then consume structural funding. Do not display structural damage as an additional color or treat the sector as a hatch-readiness indicator. Preserve the clockwise outer incubation-progress ring, sensory egg white (`EGG_RGB`) and all ecology/genetics/physics. A fully pink egg does **not** necessarily fail or immediately become carrion under the current closed-world rules, because present uptake may restore funding before expiry; avoid claiming otherwise in the UI. Historic eggs without stored original reserve need a clearly documented, noninvented compatibility fallback. Work prompt may be drafted when requested; no implementation or upstream submission authorization is inferred from these notes.
 
 ## Reuse protocol
 
