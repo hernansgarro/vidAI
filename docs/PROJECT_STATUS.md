@@ -18,7 +18,7 @@ through open ends. Closing occupied channels returns contents intact horizontall
 Topology is Worker-owned, paused-safe, epoch-guarded and saved in schema 17;
 ordinary topology-free worlds remain schema 16. No remote server, sensory wrap,
 body rescaling, physics coefficient, starter tuning or energy subsidy is added.
-361 fast tests, typecheck/build and production Worker checks pass locally,
+362 fast tests, typecheck/build and production Worker checks pass locally,
 including exact direct-kernel/Worker continuation and left/right crossings.
 Browser, PR and deployment receipts are maintained in #122 as they complete.
 This bounded validation does not establish long-term ecological balance or

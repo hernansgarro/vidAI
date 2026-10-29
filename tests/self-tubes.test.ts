@@ -59,6 +59,20 @@ test('arrival at 200 does not retransfer or jitter; returning requires a fresh o
   assert.equal(transferSelfOrganisms(state, settings, new Map([[id, -200]])), 0);
 });
 
+test('a soft wall edge overshoot cannot strand a living record beyond an uncapped exit', () => {
+  for (const side of ['L', 'R'] as const) {
+    const {state, settings} = selfTubeFixture(side), org = state.organisms[0], root = org.segments[0];
+    const direction = side === 'L' ? -1 : 1, before = new Map([[org.id, root.x]]);
+    translateLiveOrganism(org, direction * 10, 299 - root.y);
+    assert.equal(transferSelfOrganisms(state, settings, before), 0, 'closed side of the roof is not a transfer');
+    const past = root.x; translateLiveOrganism(org, direction, 2);
+    assert.equal(transferSelfOrganisms(state, settings, new Map([[org.id, past]])), 1);
+    assert.equal(state.organisms.length, 1);
+    assert.equal(state.organisms[0].segments[0].x, side === 'L' ? settings.worldWidth + 200 : -200);
+    assert.equal(transferSelfOrganisms(state, settings, new Map([[org.id, state.organisms[0].segments[0].x]])), 0);
+  }
+});
+
 test('normal kernel physics crosses the open exit; a closed index retains repulsion and cannot transfer', () => {
   const open = selfTubeFixture(), closed = selfTubeFixture();
   closed.state.selfTubes!.accepted = [1];

@@ -99,8 +99,11 @@ export function transferSelfOrganisms(state: SimulationState, settings: Simulati
   for (let i = 0; i < state.organisms.length; i++) {
     const source = state.organisms[i], root = source.segments[0], before = previous.get(source.id);
     if (source.dissolving || before === undefined || !g.runs.some(r => root.y > r.top && root.y < r.bottom)) continue;
-    const left = before >= -300 && root.x <= -300 && root.x < before;
-    const right = before <= g.width + 300 && root.x >= g.width + 300 && root.x > before;
+    // Soft roof/floor contacts can briefly move the reference outside the open
+    // y interval at the crossing tick. Finish a delayed outward handoff once it
+    // is back in channel water; arrival at 200 still enforces the 100-unit rearm.
+    const left = root.x <= -300 && root.x < before;
+    const right = root.x >= g.width + 300 && root.x > before;
     if (!left && !right) continue;
     const record = structuredClone(source); record.genome = source.genome;
     translateLiveOrganism(record, (left ? g.width + TUBE_ARRIVAL : -TUBE_ARRIVAL) - root.x);
