@@ -33,6 +33,11 @@ for (const fallback of [false, true]) test(`versioned nutrient radii, paused imp
     await page.locator('input[type=file]').setInputFiles({name: 'nutrient-cycle.json', mimeType: 'application/json',
       buffer: Buffer.from(JSON.stringify(snapshot))});
     await expect(page.getByRole('button', {name: 'Resume', exact: true})).toBeVisible();
+    // An already-paused world also has Resume visible before File.text resolves.
+    // Wait for the exact replacement, not that stale UI acknowledgement.
+    await expect.poll(async () => {
+      const current = await read(); return {state: current.state, settings: current.settings};
+    }, {timeout: 10000}).toEqual({state: (snapshot as any).state, settings: (snapshot as any).settings});
   };
   // New startup must explicitly opt in, while old imports retain their semantics.
   const startup = await read(); expect(startup.schemaVersion).toBe('18.0.0');
