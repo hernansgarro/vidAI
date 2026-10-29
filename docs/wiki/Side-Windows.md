@@ -1,8 +1,8 @@
-# Side Windows, Local Caller and Glass Tubes — fork testing only
+# Self-Linked Windows and Physical Tubes — fork testing only
 
-**Available only in `hernansgarro/vidAI:testing`.** Stage 1 provides a visual
-preview of lateral channels; stage 2 adds a local display name. The phone menu
-also rehearses the local self-call workflow. Production/main and the upstream
+**Available only in `hernansgarro/vidAI:testing`.** Stages 1–2 provide window geometry, local names and explicit call/window consent.
+Stage 3 opens accepted self-linked channels and transfers complete living
+organisms between their opposite ends, locally without a server. Production/main and the upstream
 application do not include these controls.
 
 ## Window geometry
@@ -66,12 +66,14 @@ Labels keep an 11-CSS-pixel font and sit 10 CSS pixels outside the wall.
 This replaces the former Pair L ↔ R simulation button. The menu can edit the
 name, change availability, or **Disconnect · retain agreements**. Disconnection
 suspends accepted windows and hides their tubes; reconnecting to the same local
-self restores them. **Reset local connections** explicitly clears the local
-name, availability, call and all agreements. Reload also clears the session.
+self restores them. There is no floating call-reset control. Display names and
+pending calls remain session-only; physical topology is saved with the world.
+Reload starts the ordinary new world; importing a topology snapshot restores its
+connection and agreements without inventing a saved name.
 Menus remain within the visible canvas viewport and close with their close
 button or Escape. All name/menu typing is isolated from simulation shortcuts.
 
-## Separate window consent and visual tubes
+## Separate window consent and physical tubes
 
 Window controls are unavailable until the local phone call is accepted. Press
 any closed/rejected section to offer it: the sender shows an outgoing hand and
@@ -88,28 +90,60 @@ adjacent accepted windows. Isolated and nonconsecutive groups work independently
 Opening every window extends only the tank floor and upper boundary.
 
 The water/glass fades outward over the same 300 units, including the outer
-100 units reserved in the design for future transport/rearm. The distal end is
+100 units used for transport rearm. The distal end is
 visually uncapped: no perpendicular end wall, membrane or plug. The original
-tank wall remains physically closed. These tubes contain no transported entities
-and do not fade, move, duplicate or hide real organisms.
+lateral wall opens only at accepted windows. Closed sections remain solid.
+Organisms, food and eggs occupy the channel water and obey the same local
+physics, feeding and ecological rules as the tank. Ordinary nutrient generation
+samples this additional area without increasing its rate or creating energy.
+Closed-world generation spends the same available reserve.
 
-Press either handshake to close that preview tube and cancel its agreement.
+Press either handshake to close that tube and cancel its agreement.
 Window controls remain beyond the 300-unit tip with 12 CSS pixels of clearance
 and constant 30-pixel hit targets. Phone indicators remain separate below the floor.
 Painting and camera positioning reuse the existing draw pass; there is no extra
 animation loop or per-frame React update.
 
-## Suspended agreements and simulation boundary
+## Suspension, closing and world state
 
-When reducing height removes an accepted index, its control and tube disappear;
-a lost-signal chip beside each phone identifies the retained agreement. No
-nonexistent section is drawn. Growing restores it. Click a chip to explicitly
-cancel both endpoints' agreement. Disconnecting also shows the retained
-agreements as suspended; availability alone does not cancel them.
+Disconnection replaces the handshake **in the same section button** with the
+lost-signal icon and removes its tube. Click that icon to cancel the retained
+agreement. Hidden accepted indices, removed by a height reduction, instead have
+lost-signal chips beside the phone. Regrowth or reconnection restores retained
+agreements; availability alone does not cancel them.
 
-All state and graphics belong to the human-observer interface. They are absent
-from Worker data, snapshots and the organisms' sensory/physical scene. Physics,
-forces, vision, genetics, learning, energy, ecology, PRNG and exact historical
-continuation are unchanged. No wall openings, organism transfer, server, remote
-presence, accounts or cross-browser communication are implemented. This local
-interaction does not complete stage 3; physical transfer remains later work.
+Closing/disconnecting an occupied channel returns outside organisms intact into
+the main tank by horizontal whole-body translation. Food and eggs return without
+losing their energy. This is an explicit geometry edit, not ordinary locomotion.
+Resizing retains the existing whole-body placement rules and hidden agreements.
+Commands run in the authoritative Worker (or existing fallback) even while paused;
+old-world commands cannot change a newly imported/reset world.
+
+## Local full-state handoff
+
+A living organism transfers when its root-segment center moves outward across
+300 units beyond an accepted side. One complete live record replaces that same
+array entry at the end of the normal tick. Every segment, trace and ray-debug
+point receives the same translation; articulated shape, velocities, joints,
+genome, neural memory/learning, age, reserves and lineage remain intact. No spawn
+routine, new ID, PRNG draw, duplicate organism or birth event is involved.
+
+Left exit arrives 200 units beyond the right wall; right exit arrives 200 units
+beyond the left wall. Velocity is unchanged, so outward source motion becomes
+inward destination motion. The organism must travel another 100 units outward
+before it could return. Matching self-sections have equal heights, so signed
+proportional vertical mapping preserves the same world y coordinate without
+scaling the body. Food and eggs crossing an open end continue locally as well.
+Destination contacts are resolved normally on subsequent ticks.
+
+Observer opacity decreases cubically with outward distance: about 3.7% at 200
+units and zero at 300. This changes no organism sensor or physical property.
+Vision uses the actual local scene; there are no wrapped rays, remote views or
+destination copies before handoff. Consecutive windows share glass geometry,
+while the crossed section still determines its matching opposite section.
+
+Snapshots carrying physical topology use schema 17; worlds without topology
+retain schema 16 and exact historical continuation. Old schemas reject embedded
+new topology. Display names, availability and pending invitations are not save
+fields. Full-state single-creature file exchange, remote users, accounts,
+network discovery and cross-world identity/statistics remain outside this stage.

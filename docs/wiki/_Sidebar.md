@@ -9,6 +9,6 @@
 - [[Ecology and Energy Auditing|Ecology-Baseline]]
 - [[Energy Activity Overlays (fork only)|Energy-Activity]]
 - [[Simulation Performance|Simulation-Performance]]
-- [[Local Caller and Glass Tubes (fork testing only)|Side-Windows]]
+- [[Self-Linked Windows and Physical Tubes (fork testing only)|Side-Windows]]
 
 [Play VIDA](https://smeagol44.github.io/vidAI/)

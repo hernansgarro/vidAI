@@ -1,15 +1,16 @@
+import type {SelfTubes} from './selfTubes';
 /** Session-only local caller UI. Never import into simulation, Worker or saves. */
 export type DemoSide = 'L' | 'R';
-export const WINDOW_DEMO_STATES = ['closed', 'outgoing', 'incoming', 'accepted', 'rejected', 'unavailable'] as const;
+export const WINDOW_DEMO_STATES = ['closed', 'outgoing', 'incoming', 'accepted', 'rejected', 'unavailable', 'suspended'] as const;
 export type WindowDemoState = typeof WINDOW_DEMO_STATES[number];
 export const WINDOW_DEMO_LABELS: Record<WindowDemoState, string> = {
   closed: 'Closed', outgoing: 'Outgoing offer', incoming: 'Incoming offer',
-  accepted: 'Accepted', rejected: 'Rejected', unavailable: 'Unavailable',
+  accepted: 'Accepted', rejected: 'Rejected', unavailable: 'Unavailable', suspended: 'Signal lost — agreement retained',
 };
 export type WindowDemo = {name: string; available: Record<DemoSide, boolean>;
   call: null | {from: DemoSide; status: 'pending' | 'connected'};
   windows: Record<DemoSide, Record<number, WindowDemoState>>};
-export type WindowDemoAction = {type: 'name'; name: string} | {type: 'availability'; side: DemoSide}
+export type WindowDemoAction = {type: 'hydrate'; topology?: SelfTubes} | {type: 'name'; name: string} | {type: 'availability'; side: DemoSide}
   | {type: 'call'; side: DemoSide} | {type: 'cancel-call'; side: DemoSide} | {type: 'disconnect'; side: DemoSide}
   | {type: 'answer'; side: DemoSide; accept: boolean}
   | {type: 'window'; side: DemoSide; index: number; count: number}
@@ -49,6 +50,15 @@ function endCall(demo: WindowDemo): WindowDemo {
   return {...demo, call: null, windows};
 }
 export function windowDemoReducer(demo: WindowDemo, action: WindowDemoAction): WindowDemo {
+  if (action.type === 'hydrate') {
+    const next = createWindowDemo(), topology = action.topology;
+    next.name = demo.name; next.available = demo.available;
+    if (topology) {
+      if (topology.connected) {next.call = {from: 'L', status: 'connected'}; next.available = {L: true, R: true};}
+      for (const index of topology.accepted) {next.windows.L[index] = 'accepted'; next.windows.R[index] = 'accepted';}
+    }
+    return next;
+  }
   if (action.type === 'reset') return createWindowDemo();
   if (action.type === 'name') {
     const name = Array.from(action.name.replace(/[\u0000-\u001f\u007f]/g, '').trim()).slice(0, 32).join('');
@@ -79,4 +89,14 @@ export function windowDemoReducer(demo: WindowDemo, action: WindowDemoAction): W
   // Only the receiving endpoint accepts. A caller cannot accept its own offer.
   const next = current === 'incoming' ? 'accepted' : current === 'outgoing' || current === 'accepted' ? 'closed' : 'outgoing';
   return setWindow(demo, action.side, action.index, next);
+}
+
+export function physicalSelfTubes(demo: WindowDemo): SelfTubes {
+  return {version: 1, connected: demo.call?.status === 'connected', accepted: Object.entries(demo.windows.L)
+    .filter(([index, state]) => state === 'accepted' && demo.windows.R[Number(index)] === 'accepted')
+    .map(([index]) => Number(index)).sort((a, b) => a - b)};
+}
+export function visibleWindowState(demo: WindowDemo, side: DemoSide, index: number): WindowDemoState {
+  const stored = windowDemoState(demo, side, index);
+  return demo.call?.status === 'connected' ? stored : stored === 'accepted' ? 'suspended' : 'unavailable';
 }
