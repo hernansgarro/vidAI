@@ -1,3 +1,4 @@
+import {cycleFixture, food as cycleFood} from '../tests/support/nutrient-cycle.ts';
 import {selfTubeFixture} from '../tests/support/self-tubes.ts';
 import assert from 'node:assert/strict';
 import {Worker} from 'node:worker_threads';
@@ -352,6 +353,37 @@ try {
     send({type: 'action', id: -201, epoch, action: {kind: 'self-tubes', topology: {version: 1, connected: false, accepted: []}}});
     assert.deepEqual(await request('snapshot', {}, epoch + 10), crossed, 'stale topology command is ignored');
   }
+  for (const tubes of [false, true]) {
+    const probe = cycleFixture([cycleFood(9300, true), cycleFood(75, false, 1000, 500)]);
+    probe.state.nutrients[0].decayTimeRemaining = .1;
+    if (tubes) {
+      probe.settings.worldHeight = 600;
+      probe.state.selfTubes = {version: 1, connected: true, accepted: [0]};
+      probe.state.nutrients[0].x = -200; probe.state.nutrients[0].y = 450;
+    }
+    const epoch = tubes ? 151 : 150, source = createSnapshot(probe.state, probe.settings);
+    send({type: 'reset', snapshot: source, epoch});
+    await receive(value => value.type === 'frame' && value.frame.epoch === epoch);
+    assert.deepEqual(await request('snapshot', {}, epoch), source);
+    send({type: 'ack', epoch});
+    send({type: 'control', epoch, settings: probe.settings, speed: 5, selected: null});
+    await new Promise(resolve => setTimeout(resolve, 100));
+    send({type: 'control', epoch, settings: probe.settings, speed: 0, selected: null});
+    const after = await request('snapshot', {}, epoch), direct = restoreSnapshot(source);
+    const ticks = Math.round(after.state.simTime * 60); assert.ok(ticks >= 6);
+    for (let i = 0; i < ticks; i++) stepSimulation(direct.state, direct.settings, 1 / 60);
+    assert.deepEqual(after, createSnapshot(direct.state, direct.settings));
+    assert.ok(after.state.nutrients.every(n => n.kind !== 'carrion' && n.energyValue <= 3000));
+    assert.ok(Math.abs(totalAccountedEnergy(direct.state) - direct.state.energyPool.budget) < 1e-6);
+    send({type: 'reset', snapshot: after, epoch: epoch + 10});
+    await receive(value => value.type === 'frame' && value.frame.epoch === epoch + 10);
+    assert.deepEqual(await request('snapshot', {}, epoch + 10), after);
+    send({type: 'control', epoch: epoch + 10, id: -300 - epoch,
+      settings: {...probe.settings, nutrientCycle: undefined}, speed: 1});
+    assert.match((await receive(value => value.id === -300 - epoch)).message, /Nutrient cycle/);
+    assert.deepEqual(await request('snapshot', {}, epoch + 10), after);
+  }
+  console.log('Nutrient-cycle Worker: schema-18 tank/tube reset, 5x exact direct decay/mineralization/PRNG continuation, paused restoration and control-switch rejection passed.');
   console.log('Self-tube Worker: schema-17 reset, full-state L/R transfer, exact direct continuation, unchanged IDs/births/stock, paused closure and stale-command rejection passed.');
   console.log('Environment Worker: Harsh time-zero empty food/full Default grant, editable controls, exact direct continuation and snapshot reset passed.');
   console.log('Egg reserve Worker: original reference/frame/export/reset, legacy-current migration, exact 5x funded recovery, structure-only pink and x0 freeze passed.');

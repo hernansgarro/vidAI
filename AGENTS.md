@@ -1,3 +1,17 @@
+# Contributor fork nutrient cycle (#125)
+
+- Fork main implements `nutrientCycle: decay-v1` for new closed application
+  worlds, schema 18. Historical omitted settings preserve exact lifetimes/radii.
+  This authorized contributor change supersedes the earlier no-abiotic-decay
+  decision below only for new fork worlds; canonical upstream is unchanged.
+- Food loses 30 J/s to reserve; 60-second carrion mineralizes its remaining
+  energy into <=3000 J nearby plant fragments, bounded by target/count/safety
+  limits. Overflow banks once. No organism/feeding/physics coefficient tuning.
+- Preserve historical schemas and Worker control-switch rejection. Acceptance:
+  tests/nutrient-cycle.test.ts, scripts/check-worker.mjs and focused browser
+  checks. Fixed ecological observations are in docs/experiments/nutrient-cycle-v1.json;
+  never silently repeat the registered conditions or claim improved ecology.
+
 # VIDA 2D issue-backed development and handoffs
 
 - Read [issue #57](https://github.com/smeagol44/vidAI/issues/57) for the
