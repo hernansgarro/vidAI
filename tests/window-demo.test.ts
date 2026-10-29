@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {test} from 'node:test';
 import {createWindowDemo, demoHandDirection, suspendedDemoAgreements, windowDemoReducer as reduce,
-  windowDemoState as state, type WindowDemo, type DemoSide} from '../windowDemo';
+  windowDemoState as state, type WindowDemo, type DemoSide, visibleWindowState, physicalSelfTubes} from '../windowDemo';
 
 function connect(side: DemoSide = 'L') {
   let demo = reduce(createWindowDemo(), {type: 'name', name: 'Hernan'});
@@ -93,4 +93,18 @@ test('height loss and disconnection suspend agreements; availability and renamin
   demo = reduce(demo, {type: 'clear', side: 'L', index: 4});
   assert.equal(state(demo, 'L', 4), 'closed'); assert.equal(state(demo, 'R', 4), 'closed');
   assert.deepEqual(reduce(demo, {type: 'reset'}), createWindowDemo());
+});
+
+
+test('lost signal replaces visible handshakes; retained agreements remain authoritative and hydratable', () => {
+  let demo = accept(connect(), 0);
+  assert.equal(visibleWindowState(demo, 'L', 0), 'accepted');
+  demo = reduce(demo, {type: 'disconnect', side: 'R'});
+  assert.equal(visibleWindowState(demo, 'L', 0), 'suspended');
+  assert.equal(visibleWindowState(demo, 'R', 0), 'suspended');
+  assert.deepEqual(physicalSelfTubes(demo), {version: 1, connected: false, accepted: [0]});
+  const restored = reduce(createWindowDemo(), {type: 'hydrate', topology: {version: 1, connected: true, accepted: [0, 4]}});
+  assert.equal(visibleWindowState(restored, 'L', 0), 'accepted');
+  assert.deepEqual(physicalSelfTubes(restored).accepted, [0, 4]);
+  assert.equal(reduce(restored, {type: 'hydrate'}).call, null);
 });

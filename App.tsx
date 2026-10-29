@@ -1,3 +1,4 @@
+import {tubeGeometry, tubeFade, setSelfTubes, type SelfTubes} from './selfTubes';
 import {EnergyActivityCollector, EnergyActivityPresentation, drawEnergyGlow} from './energyActivity';
 import {drawSideWindows} from './sideWindows';
 import SideWindowDemo, {type SideWindowDemoHandle} from './SideWindowDemo';
@@ -633,6 +634,15 @@ export default function App() {
     workerClientRef.current ? workerClientRef.current.snapshot(metadata)
       : createSnapshot(simStateRef.current, currentSettings(), metadata);
 
+  const changeSelfTubes = async (topology: SelfTubes, epoch: number): Promise<boolean> => {
+    if (epoch !== worldEpochRef.current) return false;
+    try {
+      if (workerClientRef.current) await workerClientRef.current.action({kind: 'self-tubes', topology});
+      else {setSelfTubes(simStateRef.current, currentSettings(), topology); refreshWorldView();}
+      return epoch === worldEpochRef.current;
+    } catch (error) {setSaveNotification(`Tube change failed: ${String(error)}`); return false;}
+  };
+
   const convertWorldEnergy = async () => {
     try {
       const exact = restoreSnapshot(await authoritativeSnapshot());
@@ -1179,10 +1189,24 @@ export default function App() {
     const viewLeft = cam.x - viewHalfWidth, viewRight = cam.x + viewHalfWidth;
     const viewTop = cam.y - viewHalfHeight, viewBottom = cam.y + viewHalfHeight;
 
+    const physicalChannels = tubeGeometry(currentSettings(), s.selfTubes);
     // Tank Boundaries & Grid
     ctx.strokeStyle = 'rgba(6, 182, 212, 0.25)';
     ctx.lineWidth = 4 / zoom;
-    ctx.strokeRect(0, 0, worldWidth, worldHeight);
+    if (!physicalChannels) ctx.strokeRect(0, 0, worldWidth, worldHeight);
+    else {
+      ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(worldWidth, 0);
+      ctx.moveTo(0, worldHeight); ctx.lineTo(worldWidth, worldHeight);
+      for (const wall of [0, worldWidth]) {
+        let previous = 0;
+        for (const run of [...physicalChannels.runs].sort((a, b) => a.top - b.top)) {
+          if (run.top > previous) {ctx.moveTo(wall, previous); ctx.lineTo(wall, run.top);}
+          previous = run.bottom;
+        }
+        if (previous < worldHeight) {ctx.moveTo(wall, previous); ctx.lineTo(wall, worldHeight);}
+      }
+      ctx.stroke();
+    }
 
     ctx.strokeStyle = 'rgba(6, 182, 212, 0.05)';
     ctx.lineWidth = 1;
@@ -1219,6 +1243,7 @@ export default function App() {
         if (!org.traceHistory || org.traceHistory.length < 2) continue;
         ctx.save();
         ctx.beginPath();
+        ctx.globalAlpha = tubeFade(physicalChannels, org.segments[0].x, org.segments[0].y);
         ctx.moveTo(org.traceHistory[0].x, org.traceHistory[0].y);
         for (let i = 1; i < org.traceHistory.length; i++) {
           ctx.lineTo(org.traceHistory[i].x, org.traceHistory[i].y);
@@ -1317,8 +1342,10 @@ export default function App() {
     for (const org of s.organisms) {
       const g = org.genome;
       const isSelected = org.id === selectedOrgId;
-      const alpha = org.dissolving ? org.dissolveAlpha : 1.0;
+      const alpha = (org.dissolving ? org.dissolveAlpha : 1.0)
+        * tubeFade(physicalChannels, org.segments[0].x, org.segments[0].y);
 
+      ctx.save(); ctx.globalAlpha = alpha;
       // Selection Aura & Multi-Ray Radar
       if (isSelected) {
         ctx.save();
@@ -1532,6 +1559,7 @@ export default function App() {
         ctx.stroke();
         ctx.restore();
       }
+      ctx.restore();
     }
 
     sideWindowDemoRef.current?.paint(ctx, zoom);
@@ -1821,11 +1849,12 @@ export default function App() {
           aria-label="Aquatic simulation" data-world-epoch={worldEpoch} className="absolute inset-0 w-full h-full cursor-grab active:cursor-grabbing block" />
 
         <SideWindowDemo ref={sideWindowDemoRef} width={worldWidth} height={worldHeight} camera={cameraRef}
-          viewportWidth={canvasWidth} viewportHeight={canvasHeight}/>
+          viewportWidth={canvasWidth} viewportHeight={canvasHeight} worldEpoch={worldEpoch}
+          topology={simStateRef.current.selfTubes} onTopologyChange={changeSelfTubes}/>
 
         {/* EGG INSPECTOR — same kernel clearance and funded values used for hatching. */}
         {selectedEgg && (() => {
-          const status = evaluateEggHatchStatus(selectedEgg, currentSettings(), simStateRef.current.organisms, energyPool);
+          const status = evaluateEggHatchStatus(selectedEgg, currentSettings(), simStateRef.current.organisms, energyPool, simStateRef.current.selfTubes);
           const parent = simStateRef.current.organisms.find(org => org.id === selectedEgg.parentOrgId);
           const parentName = parent?.genome.name ?? simStateRef.current.lineage.get(selectedEgg.parentOrgId)?.name;
           const progress = Math.round(Math.min(1, selectedEgg.incubationProgress) * 100);

@@ -1,3 +1,29 @@
+# Physical self-tubes — fork/testing only (2026-10-29)
+
+Tracking #122 / #57; topic branch `feature/self-tubes-stage3` is based on
+`4e1e18f6550cb10cff3e60b9e7109f6cde6e5f00`. Remote checkpoint branch
+`tubos-etapa2` preserves that exact stage-2 commit. Its annotated tag is local
+only; remote tag publication is unavailable with the current access.
+
+Hernan explicitly authorized stages 3a/3b on a separate branch, with testing-only
+integration. Main and upstream submission remain excluded. Remove the floating
+call-reset control; disconnected accepted sections replace their handshake with
+lost signal in place and have no tube. Local accepted sections now open physical
+walls, support funded channel nutrients/feeding/hatching and transfer a single
+full living record after its root center crosses outward at 300 units. Arrival
+is at the matching opposite section, 200 units outward, with unchanged ID,
+velocity, energy, neural state, lineage and birth count. Food/eggs also continue
+through open ends. Closing occupied channels returns contents intact horizontally.
+
+Topology is Worker-owned, paused-safe, epoch-guarded and saved in schema 17;
+ordinary topology-free worlds remain schema 16. No remote server, sensory wrap,
+body rescaling, physics coefficient, starter tuning or energy subsidy is added.
+361 fast tests, typecheck/build and production Worker checks pass locally,
+including exact direct-kernel/Worker continuation and left/right crossings.
+Browser, PR and deployment receipts are maintained in #122 as they complete.
+This bounded validation does not establish long-term ecological balance or
+performance neutrality of active channels. Earlier entries below are history.
+
 # Local caller and glass-channel follow-up — fork/testing only (2026-10-28)
 
 Tracking #121 / #57. Branch `feature/local-caller-glass-tubes` starts from testing

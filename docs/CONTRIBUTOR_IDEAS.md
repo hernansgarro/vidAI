@@ -4,6 +4,27 @@
 >
 > **Visibility:** This file is in the public contributor fork `hernansgarro/vidAI`; it is not confidential. When preparing clean upstream submission branches, exclude this contributor-only journal unless separately authorized.
 
+## Authorized Work checkpoint — 2026-10-29
+
+Hernan's explicit Work request now authorizes stages 3a/3b on the separate fork
+branch `feature/self-tubes-stage3`, targeting testing only. The exact prior
+stage-2 state is preserved by remote branch `tubos-etapa2` at
+`4e1e18f6550cb10cff3e60b9e7109f6cde6e5f00` (annotated tag local only).
+This supersedes older no-stage-3-authorization statements **for this bounded
+Work request only**. Remove floating call reset; show lost signal in the existing
+handshake position when disconnected and remove its tubes. Accepted self-links
+open physical channel water, permit organisms and funded nutrients, and perform
+local full-state transfer with unchanged identity and no birth event.
+
+The implementation uses the root-segment center as crossing reference, a 300-unit
+outward threshold and 200-unit opposite arrival. Matching self-section heights
+make proportional y mapping the identity. Closing occupied channels returns
+contents horizontally without deleting energy or life. Topology is authoritative
+world state/schema 17; names and invitations remain session UI. This is tracked
+in upstream #122 without an upstream PR. Main, stage 4, remote identity and
+separate live-creature file import/export remain unapproved. Historical notes
+below retain their original discussion context.
+
 ## Topic index
 
 | Topic | Keywords to revisit when designing a related requirement | Status |
@@ -16,7 +37,7 @@
 | Simplifying hatch blockers | population occupancy, clearance, debt, expiry, hatching | Hypothesis only; needs careful review |
 | Fractional nutrient recycling rate | recycling, 0.5/s, 0.1/s, deterministic accumulator | Deferred; excluded from scenario selector |
 | Named custom environmental scenarios | environment profiles, reusable settings, mnemonic names | Deferred; first version has only Default / Harsh World |
-| Selective lateral portals / interconnected aquariums | fixed 300-unit windows and open-ended glass tubes, interactive mock icons, local remove-and-place organism transfer, optional cross-user relay | Phase 1: visual mockup; phase 3a/3b: actual self-connection and bidirectional local transport without server; phase 4: optional remote transfer; later stages not yet authorized |
+| Selective lateral portals / interconnected aquariums | fixed 300-unit windows and open-ended glass tubes, interactive mock icons, local remove-and-place organism transfer, optional cross-user relay | Phase 1: visual mockup; phase 3a/3b: actual self-connection and bidirectional local transport without server; phase 4: optional remote transfer; stages 3a/3b now authorized for fork testing only (checkpoint above) |
 
 ## 1. Genetically controlled decision to lay eggs
 

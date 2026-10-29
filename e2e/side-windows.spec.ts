@@ -1,12 +1,13 @@
+import {selfTubeFixture} from '../tests/support/self-tubes';
 import {test, expect} from '@playwright/test';
 import {readFile} from 'node:fs/promises';
-import {DEFAULT_SETTINGS, createSnapshot} from '../persistence';
+import {DEFAULT_SETTINGS, createSnapshot, restoreSnapshot, totalAccountedEnergy} from '../persistence';
 import {enableClosedEconomy} from '../energyEconomy';
-import {XoshiroPRNG, type SimulationState} from '../simulation';
+import {XoshiroPRNG, stepSimulation, type SimulationState} from '../simulation';
 
 test.use({viewport: {width: 1280, height: 900}});
 test.setTimeout(90000);
-for (const fallback of [false, true]) test(`local phone consent and grouped glass tubes follow tank/camera without changing saved state (${fallback ? 'fallback' : 'Worker'})`, async ({page}, info) => {
+for (const fallback of [false, true]) test(`local phone consent and grouped glass tubes follow tank/camera with authoritative physical topology (${fallback ? 'fallback' : 'Worker'})`, async ({page}, info) => {
   const errors: string[] = []; page.on('pageerror', e => errors.push(e.message));
   await page.addInitScript(() => {
     type Point = {x: number; y: number; screenX: number; screenY: number; scale: number};
@@ -31,7 +32,11 @@ for (const fallback of [false, true]) test(`local phone consent and grouped glas
     };
     const text = CanvasRenderingContext2D.prototype.fillText;
     CanvasRenderingContext2D.prototype.fillText = function(id, x, y, maxWidth) {
-      if (tank(this) && /^[LR]\d+$/.test(id)) capture.labels.push({...point(this, x, y), id});
+      if (tank(this) && /^[LR]\d+$/.test(id)) {
+        const p = point(this, x, y); capture.labels.push({...p, id}); capture.wall.scale = p.scale;
+        if (id[0] === 'L') capture.wall.height = y * 2 * (Number(id.slice(1)) + 1);
+        else capture.wall.width = x - 10 / p.scale;
+      }
       return maxWidth === undefined ? text.call(this, id, x, y) : text.call(this, id, x, y, maxWidth);
     };
     let pen = [0, 0], segments: number[][] = [];
@@ -87,7 +92,7 @@ for (const fallback of [false, true]) test(`local phone consent and grouped glas
   const paint = () => page.evaluate(() => (window as any).sideWindowPaint);
   const check = async (height: number) => {
     const count = Math.max(1, Math.floor(height / 300));
-    await expect.poll(async () => {const p = await paint(); return [p.wall.width, p.wall.height, p.labels.length, p.circles.length];})
+    await expect.poll(async () => {const p = await paint(); return [Math.round(p.wall.width), Math.round(p.wall.height), p.labels.length, p.circles.length];})
       .toEqual([1800, height, count * 2, 0]);
     const p = await paint();
     for (let index = 0; index < count; index++) for (const [side, prefix] of ['L', 'R'].entries()) {
@@ -124,6 +129,8 @@ for (const fallback of [false, true]) test(`local phone consent and grouped glas
     await phone(side).click(); await page.getByTestId(`side-person-self-${side}`).click();
   };
   await expect(page.getByTestId('side-demo-pair')).toHaveCount(0);
+  await expect(page.getByRole('button', {name: 'Reset local connections', exact: true})).toHaveCount(0);
+  await expect(page.locator('.side-demo-toolbar')).toHaveCount(0);
   await expect(windowButton('L', 0)).toBeDisabled(); await tubes(0);
   await phone('L').click();
   await menu('L').getByLabel('Your display name').pressSequentially('fN 123');
@@ -148,12 +155,12 @@ for (const fallback of [false, true]) test(`local phone consent and grouped glas
   await page.getByTestId('side-person-self-L').click();
   await menu('R').getByRole('button', {name: 'Decline', exact: true}).click();
   await expect(phone('R')).toHaveAttribute('data-ringing', 'false');
+  await page.getByTitle('Ecology & Physical Settings').click(); await upload(1500);
+  await page.getByTitle('Close settings (✕)').click();
   await call('R'); await page.getByTestId('side-call-accept-L').click();
   await expect(phone('L')).toHaveAttribute('data-connected', 'true');
   await expect(phone('R')).toHaveAttribute('data-connected', 'true');
   await tubes(0); await expect(windowButton('L', 0)).toHaveAttribute('data-state', 'closed');
-  await page.getByTitle('Ecology & Physical Settings').click(); await upload(1500);
-  await page.getByTitle('Close settings (✕)').click();
   const pixel = () => canvas.evaluate(node => {
     const c = node as HTMLCanvasElement, p = (window as any).sideWindowPaint;
     const label = p.labels.find((l: any) => l.id === 'L0');
@@ -199,7 +206,9 @@ for (const fallback of [false, true]) test(`local phone consent and grouped glas
   await menu('L').getByRole('button', {name: 'Turn availability off', exact: true}).click();
   await tubes(4); // leaving discovery does not break an existing connection
   await menu('L').getByRole('button', {name: 'Disconnect · retain agreements', exact: true}).click();
-  await tubes(0); await expect(page.getByTestId('side-demo-suspended-L0')).toBeVisible();
+  await tubes(0); await expect(windowButton('L', 0)).toHaveAttribute('data-state', 'suspended');
+  await expect(windowButton('L', 0).locator('svg')).toHaveClass(/lucide-wifi-off/);
+  await expect(page.getByTestId('side-demo-suspended-L0')).toHaveCount(0);
   await menu('L').getByRole('button', {name: 'Make phone available', exact: true}).click();
   await page.getByTestId('side-person-self-L').click(); await page.getByTestId('side-call-accept-R').click(); await tubes(4);
   // Opening all windows leaves only the outer floor and ceiling on each side.
@@ -223,7 +232,7 @@ for (const fallback of [false, true]) test(`local phone consent and grouped glas
   await check(1500);
   await page.getByTitle('Ecology & Physical Settings').click();
   const exact = await read();
-  expect(exact.state).toEqual(source.state);
+  expect(exact.state).toEqual({...source.state, selfTubes: {version: 1, connected: true, accepted: []}});
   expect(exact.settings.worldWidth).toBe(1800); expect(exact.settings.worldHeight).toBe(1500);
   expect(errors).toEqual([]);
   await page.getByTitle('Close settings (✕)').click();
@@ -251,4 +260,37 @@ for (const fallback of [false, true]) test(`local phone consent and grouped glas
   for (let i = 0; i < 12; i++) await page.mouse.wheel(0, 200);
   await expect(phone('L')).toHaveAttribute('data-connected', 'false');
   await phone('L').click(); await expect(menu('L').getByLabel('Your display name')).toHaveValue('');
+});
+
+
+for (const fallback of [false, true]) test(`physical self-tube crossing persists exact live state in ${fallback ? 'fallback' : 'Worker'}`, async ({page}) => {
+  await page.goto(`./?autoplay${fallback ? '&mainthread' : ''}`);
+  await page.getByTitle('Ecology & Physical Settings').click();
+  const read = async () => {
+    const pending = page.waitForEvent('download');
+    await page.getByRole('button', {name: 'Export Snapshot', exact: true}).dispatchEvent('click');
+    return JSON.parse(await readFile((await (await pending).path())!, 'utf8'));
+  };
+  for (const side of ['L', 'R'] as const) {
+    const {source, settings} = selfTubeFixture(side);
+    await page.locator('input[type=file]').setInputFiles({name: 'physical-tubes.json', mimeType: 'application/json',
+      buffer: Buffer.from(JSON.stringify(source))});
+    await expect.poll(async () => (await read()).state).toEqual(source.state);
+    await expect(page.getByTestId('side-demo-window-L0')).toHaveAttribute('data-state', 'accepted');
+    await page.getByRole('button', {name: 'Resume', exact: true}).click();
+    await expect.poll(async () => {
+      const s = await read(), x = s.state.organisms[0].segments[0].x;
+      return side === 'L' ? x > settings.worldWidth : x < 0;
+    }).toBe(true);
+    await page.getByRole('button', {name: 'Pause', exact: true}).click();
+    const arrived = await read(), exact = restoreSnapshot(source);
+    const ticks = Math.round(arrived.state.simTime * 60); expect(ticks).toBeGreaterThan(0);
+    for (let tick = 0; tick < ticks; tick++) stepSimulation(exact.state, exact.settings, 1 / 60);
+    expect(arrived.state).toEqual(createSnapshot(exact.state, exact.settings).state);
+    expect(arrived.state.organisms).toHaveLength(1);
+    expect(arrived.state.organisms[0].id).toBe(source.state.organisms[0].id);
+    expect(arrived.state.totalBirths).toBe(source.state.totalBirths);
+    expect(Math.abs(totalAccountedEnergy(restoreSnapshot(arrived).state) - source.state.energyPool!.budget)).toBeLessThan(1e-6);
+    expect((await read()).state).toEqual(arrived.state);
+  }
 });
