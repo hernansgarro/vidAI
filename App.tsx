@@ -1,6 +1,6 @@
-import {tubeGeometry, tubeFade, setSelfTubes, type SelfTubes} from './selfTubes';
+import {tubeGeometry, setSelfTubes, type SelfTubes} from './selfTubes';
 import {EnergyActivityCollector, EnergyActivityPresentation, drawEnergyGlow} from './energyActivity';
-import {drawSideWindows} from './sideWindows';
+import {TubeSceneLayer} from './tubeScene';
 import SideWindowDemo, {type SideWindowDemoHandle} from './SideWindowDemo';
 import {mouthDimensions} from './mouthGeometry';
 import {NEW_PHYSICS_REGIME, type PhysicsRegime} from './foundationPhysics';
@@ -286,6 +286,7 @@ export default function App() {
   const workerStepsRef = useRef(0);
   const energyCollectorRef = useRef(new EnergyActivityCollector());
   const energyPresentationRef = useRef(new EnergyActivityPresentation());
+  const tubeSceneRef = useRef<TubeSceneLayer | null>(null);
   const throughputRef = useRef(new ThroughputMeter());
   const statsWallRef = useRef(0);
   const viewportRef = useRef<HTMLDivElement>(null);
@@ -1223,6 +1224,14 @@ export default function App() {
       ctx.stroke();
     }
 
+    // A shared spatial mask fades every entity/effect fragment. Water, glass
+    // and human connection controls remain outside this presentation layer.
+    const sceneTarget = ctx;
+    if (physicalChannels) {
+      tubeSceneRef.current ??= new TubeSceneLayer();
+      ctx = tubeSceneRef.current.begin(sceneTarget);
+    }
+
     // Caustics
     for (const c of s.caustics) {
       const blurMargin = Math.max(0, c.radius) + 48 / zoom;
@@ -1243,7 +1252,6 @@ export default function App() {
         if (!org.traceHistory || org.traceHistory.length < 2) continue;
         ctx.save();
         ctx.beginPath();
-        ctx.globalAlpha = tubeFade(physicalChannels, org.segments[0].x, org.segments[0].y);
         ctx.moveTo(org.traceHistory[0].x, org.traceHistory[0].y);
         for (let i = 1; i < org.traceHistory.length; i++) {
           ctx.lineTo(org.traceHistory[i].x, org.traceHistory[i].y);
@@ -1342,8 +1350,7 @@ export default function App() {
     for (const org of s.organisms) {
       const g = org.genome;
       const isSelected = org.id === selectedOrgId;
-      const alpha = (org.dissolving ? org.dissolveAlpha : 1.0)
-        * tubeFade(physicalChannels, org.segments[0].x, org.segments[0].y);
+      const alpha = org.dissolving ? org.dissolveAlpha : 1.0;
 
       ctx.save(); ctx.globalAlpha = alpha;
       // Selection Aura & Multi-Ray Radar
@@ -1562,8 +1569,11 @@ export default function App() {
       ctx.restore();
     }
 
+    if (physicalChannels) {
+      tubeSceneRef.current!.finish(sceneTarget, physicalChannels, viewLeft, viewRight);
+      ctx = sceneTarget;
+    }
     sideWindowDemoRef.current?.paint(ctx, zoom);
-    drawSideWindows(ctx, worldWidth, worldHeight, zoom);
     ctx.restore();
     sideWindowDemoRef.current?.sync();
   };

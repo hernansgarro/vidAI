@@ -1,4 +1,5 @@
 import {build} from 'vite';
+import {tubePresentationFixture} from '../tests/support/tube-presentation';
 import {selfTubeFixture} from '../tests/support/self-tubes';
 import {test, expect} from '@playwright/test';
 import {readFile} from 'node:fs/promises';
@@ -28,7 +29,7 @@ for (const fallback of [false, true]) test(`local phone consent and grouped glas
   await page.addInitScript(() => {
     type Point = {x: number; y: number; screenX: number; screenY: number; scale: number};
     const capture = {frame: 0, labels: [] as Array<Point & {id: string}>,
-      circles: [] as Array<Point & {radius: number}>, tubes: [] as number[][], wall: {width: 0, height: 0, scale: 0}};
+      circles: [] as Array<Point & {radius: number}>, tubes: [] as number[][], wall: {width: 0, height: 0, scale: 0, screenX: 0, screenY: 0}};
     Object.assign(window, {sideWindowPaint: capture});
     const tank = (ctx: CanvasRenderingContext2D) => ctx.canvas.getAttribute('aria-label') === 'Aquatic simulation';
     const point = (ctx: CanvasRenderingContext2D, x: number, y: number): Point => {
@@ -43,15 +44,13 @@ for (const fallback of [false, true]) test(`local phone consent and grouped glas
     };
     const wall = CanvasRenderingContext2D.prototype.strokeRect;
     CanvasRenderingContext2D.prototype.strokeRect = function(x, y, w, h) {
-      if (tank(this) && x === 0 && y === 0) capture.wall = {width: w, height: h, scale: point(this, x, y).scale};
+      if (tank(this) && x === 0 && y === 0) capture.wall = {width: w, height: h, ...point(this, x, y)};
       return wall.call(this, x, y, w, h);
     };
     const text = CanvasRenderingContext2D.prototype.fillText;
     CanvasRenderingContext2D.prototype.fillText = function(id, x, y, maxWidth) {
       if (tank(this) && /^[LR]\d+$/.test(id)) {
-        const p = point(this, x, y); capture.labels.push({...p, id}); capture.wall.scale = p.scale;
-        if (id[0] === 'L') capture.wall.height = y * 2 * (Number(id.slice(1)) + 1);
-        else capture.wall.width = x - 10 / p.scale;
+        const p = point(this, x, y); capture.labels.push({...p, id});
       }
       return maxWidth === undefined ? text.call(this, id, x, y) : text.call(this, id, x, y, maxWidth);
     };
@@ -64,6 +63,13 @@ for (const fallback of [false, true]) test(`local phone consent and grouped glas
     CanvasRenderingContext2D.prototype.lineTo = function(x, y) {segments.push([...pen, x, y]); pen = [x, y]; return line.call(this, x, y);};
     const stroke = CanvasRenderingContext2D.prototype.stroke;
     CanvasRenderingContext2D.prototype.stroke = function(this: CanvasRenderingContext2D, ...args: Parameters<typeof stroke>) {
+      if (tank(this) && typeof this.strokeStyle === 'string' && this.strokeStyle.replace(/\s/g, '') === 'rgba(6,182,212,0.25)') {
+        const top = segments.find(([x, y, end, endY]) => x === 0 && y === 0 && endY === 0 && end > 0);
+        if (top) {
+          const bottom = segments.find(([x, y, end, endY]) => x === 0 && y > 0 && end === top[2] && endY === y);
+          if (bottom) capture.wall = {width: top[2], height: bottom[1], ...point(this, 0, 0)};
+        }
+      }
       if (tank(this) && this.strokeStyle instanceof CanvasGradient) for (const segment of segments) {
         const [x, y, end, endY] = segment;
         if (y === endY && Math.abs(end - x) === 300 && (x === 0 || Math.abs(x - capture.wall.width) < 1e-5)) capture.tubes.push(segment);
@@ -111,12 +117,14 @@ for (const fallback of [false, true]) test(`local phone consent and grouped glas
   const check = async (height: number) => {
     const count = Math.max(1, Math.floor(height / 300));
     await expect.poll(async () => {const p = await paint(); return [Math.round(p.wall.width), Math.round(p.wall.height), p.labels.length, p.circles.length];})
-      .toEqual([1800, height, count * 2, 0]);
-    const p = await paint();
-    for (let index = 0; index < count; index++) for (const [side, prefix] of ['L', 'R'].entries()) {
-      const label = p.labels[index * 2 + side];
-      expect(label.id).toBe(prefix + index); expect(label.y).toBeCloseTo(height - (index + .5) * height / count, 8);
-      expect(side === 0 ? label.x < 0 : label.x > 1800).toBe(true);
+      .toEqual([1800, height, 0, 0]);
+    const p = await paint(), canvasTop = (await page.getByLabel('Aquatic simulation').boundingBox())!.y;
+    for (const side of ['L', 'R']) {
+      await expect(page.locator(`[data-testid^="side-demo-window-${side}"]`)).toHaveCount(count);
+      for (let index = 0; index < count; index++) {
+        const box = await page.getByTestId(`side-demo-window-${side}${index}`).boundingBox();
+        expect(box!.y + box!.height / 2).toBeCloseTo(canvasTop + p.wall.screenY + (height - (index + .5) * height / count) * p.wall.scale, 3);
+      }
     }
     return p;
   };
@@ -181,9 +189,9 @@ for (const fallback of [false, true]) test(`local phone consent and grouped glas
   await tubes(0); await expect(windowButton('L', 0)).toHaveAttribute('data-state', 'closed');
   const pixel = () => canvas.evaluate(node => {
     const c = node as HTMLCanvasElement, p = (window as any).sideWindowPaint;
-    const label = p.labels.find((l: any) => l.id === 'L0');
-    const x = Math.round((label.screenX + 10 - 100 * label.scale) * devicePixelRatio);
-    const y = Math.round(label.screenY * devicePixelRatio);
+    const x = Math.round((p.wall.screenX - 100 * p.wall.scale) * devicePixelRatio);
+    const count = Math.max(1, Math.floor(p.wall.height / 300));
+    const y = Math.round((p.wall.screenY + (p.wall.height - .5 * p.wall.height / count) * p.wall.scale) * devicePixelRatio);
     return Array.from(c.getContext('2d')!.getImageData(x, y, 1, 1).data).slice(0, 3);
   });
   const closedPixel = await pixel();
@@ -196,14 +204,13 @@ for (const fallback of [false, true]) test(`local phone consent and grouped glas
   await page.getByRole('button', {name: 'Decline window offer R0', exact: true}).click();
   await expect(windowButton('L', 0)).toHaveAttribute('data-state', 'rejected');
   await windowButton('L', 0).click(); await windowButton('R', 0).click(); await tubes(4);
-  await expect.poll(pixel).not.toEqual(closedPixel); // actual pixels change outside the wall
+  await expect.poll(pixel).toEqual(closedPixel); // channel water has no extra tint
   await windowButton('L', 1).click(); await windowButton('R', 1).click(); await tubes(4);
   await expect.poll(async () => (await paint()).tubes.length === 4 && (await paint()).tubes.every(([, y]: number[]) => y === 900 || y === 1500)).toBe(true);
   await windowButton('R', 4).click(); await windowButton('L', 4).click(); await tubes(8);
   const geometry = await paint(), leftBox = (await windowButton('L', 0).boundingBox())!, rightBox = (await windowButton('R', 0).boundingBox())!;
-  const leftLabel = geometry.labels.find((l: any) => l.id === 'L0'), rightLabel = geometry.labels.find((l: any) => l.id === 'R0');
-  expect(leftBox.x + leftBox.width).toBeLessThan(bounds.x + leftLabel.screenX + 10 - 300 * geometry.wall.scale);
-  expect(rightBox.x).toBeGreaterThan(bounds.x + rightLabel.screenX - 10 + 300 * geometry.wall.scale);
+  expect(leftBox.x + leftBox.width).toBeLessThan(bounds.x + geometry.wall.screenX - 300 * geometry.wall.scale);
+  expect(rightBox.x).toBeGreaterThan(bounds.x + geometry.wall.screenX + 2100 * geometry.wall.scale);
   await page.screenshot({path: info.outputPath(`side-windows-${fallback ? 'fallback' : 'worker'}.png`)});
   await page.getByTitle('Ecology & Physical Settings').click(); await setHeight(600);
   await page.getByTitle('Close settings (✕)').click();
@@ -238,7 +245,7 @@ for (const fallback of [false, true]) test(`local phone consent and grouped glas
   const before = await paint();
   await page.mouse.move(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2);
   await page.mouse.down(); await page.mouse.move(bounds.x + bounds.width / 2 + 100, bounds.y + bounds.height / 2 + 40, {steps: 4}); await page.mouse.up();
-  await expect.poll(async () => Math.abs((await paint()).labels[0].screenX - before.labels[0].screenX)).toBeGreaterThan(20);
+  await expect.poll(async () => Math.abs((await paint()).wall.screenX - before.wall.screenX)).toBeGreaterThan(20);
   await check(1500);
   await page.mouse.wheel(0, -200);
   await expect.poll(async () => (await paint()).wall.scale).toBeGreaterThan(.35);
@@ -316,5 +323,70 @@ for (const fallback of [false, true]) test(`physical self-tube crossing conserve
     expect(arrived.state.totalBirths).toBe(source.state.totalBirths);
     expect(Math.abs(totalAccountedEnergy(restoreSnapshot(arrived).state) - source.state.energyPool!.budget)).toBeLessThan(1e-6);
     expect((await read()).state).toEqual(arrived.state);
+  }
+});
+
+test('all tube entities fade spatially, water is untinted and paused sensory state stays exact', async ({page}) => {
+  await page.addInitScript(() => {
+    const stroke = CanvasRenderingContext2D.prototype.stroke;
+    CanvasRenderingContext2D.prototype.stroke = function(this: CanvasRenderingContext2D, ...args: Parameters<typeof stroke>) {
+      if (this.canvas.getAttribute('aria-label') === 'Aquatic simulation') {
+        Object.assign(window, {tubeScenePaintScale: this.getTransform().a / devicePixelRatio,
+          tubeScenePaintEpoch: this.canvas.getAttribute('data-world-epoch')});
+      }
+      return stroke.apply(this, args);
+    } as typeof stroke;
+  });
+  await page.goto('./?autoplay');
+  await page.getByTitle('Ecology & Physical Settings').click();
+  await page.getByRole('button', {name: 'Hidden', exact: true}).click();
+  const canvas = page.getByLabel('Aquatic simulation');
+  const upload = async (snapshot: ReturnType<typeof tubePresentationFixture>) => {
+    const epoch = await canvas.getAttribute('data-world-epoch');
+    await page.locator('input[type=file]').setInputFiles({name: 'tube-observer.json', mimeType: 'application/json',
+      buffer: Buffer.from(JSON.stringify(snapshot))});
+    await expect(canvas).not.toHaveAttribute('data-world-epoch', epoch!);
+    const current = await canvas.getAttribute('data-world-epoch');
+    await expect.poll(() => page.evaluate(() => (window as any).tubeScenePaintEpoch)).toBe(current);
+  };
+  await upload(tubePresentationFixture('L', 0, true));
+  const bounds = (await canvas.boundingBox())!;
+  await page.mouse.move(bounds.x + bounds.width / 4, bounds.y + bounds.height / 2);
+  for (let i = 0; i < 12; i++) await page.mouse.wheel(0, 200);
+  await expect.poll(() => page.evaluate(() => (window as any).tubeScenePaintScale)).toBeCloseTo(.35, 6);
+  // Import recenters the camera while retaining zoom; no arbitrary browser state edits.
+  await upload(tubePresentationFixture('L', 0, true));
+  const samples = (side: 'L' | 'R', depth: number) => canvas.evaluate((node, {side, depth}) => {
+    const c = node as HTMLCanvasElement, box = c.getBoundingClientRect(), ctx = c.getContext('2d')!;
+    const ratio = c.width / box.width, x = side === 'L' ? -depth : 800 + depth;
+    return [150, 450, 750, 1050, 1350, 1650, 1700].map(y => {
+      const px = Math.round((box.width / 2 + (x - 400) * .35) * ratio);
+      const py = Math.round((box.height / 2 + (y - 900) * .35) * ratio);
+      return Array.from(ctx.getImageData(px - 5, py - 5, 11, 11).data);
+    });
+  }, {side, depth});
+  const depths = [0, 100, 200, 300], names = ['caustic', 'bubble', 'nutrient', 'carrion', 'egg', 'organism', 'trace'];
+  for (const side of ['L', 'R'] as const) {
+    await upload(tubePresentationFixture(side, 0, true));
+    const background = await Promise.all(depths.map(depth => samples(side, depth)));
+    const strength: number[][] = [];
+    for (const [index, depth] of depths.entries()) {
+      const source = tubePresentationFixture(side, depth);
+      await upload(source);
+      const pixels = await samples(side, depth);
+      strength.push(pixels.map((rgba, row) => rgba.reduce((sum, value, channel) =>
+        sum + (channel % 4 === 3 ? 0 : Math.abs(value - background[index][row][channel])), 0)));
+      const pending = page.waitForEvent('download');
+      await page.getByRole('button', {name: 'Export Snapshot', exact: true}).dispatchEvent('click');
+      const exact = JSON.parse(await readFile((await (await pending).path())!, 'utf8'));
+      expect(exact.state).toEqual(source.state); // includes optical inputs and learned records
+    }
+    for (const [row, name] of names.entries()) {
+      expect(strength[0][row], `${side} ${name} is visible at entrance`).toBeGreaterThan(0);
+      expect(strength[1][row], `${side} ${name} fades at 100`).toBeGreaterThan(0);
+      expect(strength[1][row], `${side} ${name} fades at 100`).toBeLessThan(strength[0][row]);
+      expect(strength[2][row], `${side} ${name} approaches invisibility at 200`).toBeLessThan(strength[1][row]);
+      expect(strength[3][row], `${side} ${name} disappears at 300`).toBe(0);
+    }
   }
 });
