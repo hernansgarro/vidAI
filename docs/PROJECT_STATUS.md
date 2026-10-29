@@ -1,3 +1,177 @@
+# Approved stages 1–3 — contributor fork main promotion (2026-10-29)
+
+Hernan verified the published testing behavior and explicitly approved promotion
+of all completed advances to fork main. Stage 4 remains deferred. Clean branch
+`promotion/local-self-tubes-main` starts from main `17e8f53`; selected sources
+come from testing `5706e48`. Testing is not merged wholesale into main.
+
+The promotion includes fixed-height logical windows, local display names and
+self-calls, per-window consent, funded physical channel ecology, full-state
+local transfer, universal observer layers, the natural-view eye and downward
+world-anchored phone dialogs. Selection is unchanged. The same 175 runtime,
+configuration and test files match the pinned testing tree exactly. Main-only
+history/design notes and the independent dual-Pages pipeline are preserved.
+
+Parallel browser validation already exists in both environments (#41/#42,
+tracking #123). Main now also runs the five side-window cases and preserves
+their screenshots, alongside 16 toolbar, 25 Chromium and 23 Firefox cases and
+the independent production Worker gate. Wiki publication includes the current
+Side-Windows page and labels the feature contributor-fork only.
+
+Local 360 fast tests and build/typecheck pass. Fresh offline npm ci was blocked
+by an uncached registry archive; local validation reused the existing installed
+modules after verifying identical lockfiles. CI performs a fresh npm ci and all
+required checks on the exact candidate. Worker, CI, internal PR/merge, deployment
+and actual Wiki receipts are recorded in #122/#57 as they complete.
+
+No physics coefficients, founders, sensing or energy rules beyond the already
+approved physical channel feature are changed during promotion. Historical
+worlds without topology keep their original continuation; channel saves use
+schema 17. This bounded validation is not a claim of long-term ecology or
+performance neutrality. No stage-4 implementation, upstream submission, release
+tag, version/baseline reset or VIDA 3D change. The earlier testing-only records
+below retain their historical scope and are superseded only for this approved
+fork-main promotion.
+
+# Universal observer layers — fork/testing only (2026-10-29)
+
+Tracking #122 / #57, branch `feature/observer-layers-and-selection`, based on
+`d995d48d32fec5dac8f4c5edf8f8c71e85b33954`. Hernan explicitly approved the
+layer-stack proposal and later withdrew selector changes after confirming the
+existing tube selection works. Pointer handlers and picking are unchanged.
+
+A reusable world surface orders decorations, glows, entities and human
+annotations before a universal observer mask. Above/below the tank is dark;
+both full-height sides fade cubically over 300 units, including closed windows
+and protruding fragments. Glass and controls paint above the mask. No separate
+whole-organism fade is used. The eye hides connection chrome without changing
+physical channels or world state. Phone dialogs open below their world anchors
+and may leave the viewport with the tank, with no pinning or automatic camera
+movement. Unmerged PR #39 is closed/superseded; its original branch is retained.
+
+Local 360 fast checks and build/typecheck pass; the production Worker remains
+`simulation.worker-C27740xm.js`, unchanged from the testing base. Focused browser
+coverage includes eye state, exact paused exports, spatial opacity with closed
+windows, protruding fragments, top/bottom darkness and camera-anchored dialogs.
+CI, integration and publication receipts are tracked in #122 as they complete.
+Main, the stage-2 checkpoint, physics/sensors and later stages remain excluded.
+Earlier entries below are retained historical records.
+
+# Tube presentation consistency — fork/testing only (2026-10-29)
+
+Follow-up to #122 / #57, explicitly requested after accepted stage-3 testing.
+Branch `feature/tube-visual-consistency` starts from testing
+`9294c27e9e640f6462949effb89c9911f8e39b13`; main and `tubos-etapa2` are excluded.
+All scene entities/effects now share a spatial observer-only cubic fade inside
+physical tubes. This includes food/carrion glows, eggs, bubbles, caustics,
+organisms, traces and selection/debug effects, including portions of large
+objects. A reusable canvas is allocated only when tubes are physically active.
+Tube water is the unchanged aquarium background, with the extra cyan fill
+removed. Visible L/R labels are removed; logical indices/accessibility remain.
+
+No simulation, sensory, learning, Worker, transfer, save-schema or energy code
+is changed. Local 360 fast tests and build/typecheck pass; two obsolete visible
+label-paint tests were replaced by current logical geometry and browser absence
+checks. A new focused real-browser optical check compares each entity/effect at
+0/100/200/300 units on both sides against the same empty background and requires
+exact paused world exports. CI/publication evidence is maintained in #122.
+Earlier entries below describe prior work and remain historical records.
+
+# Physical self-tubes — fork/testing only (2026-10-29)
+
+Tracking #122 / #57; topic branch `feature/self-tubes-stage3` is based on
+`4e1e18f6550cb10cff3e60b9e7109f6cde6e5f00`. Remote checkpoint branch
+`tubos-etapa2` preserves that exact stage-2 commit. Its annotated tag is local
+only; remote tag publication is unavailable with the current access.
+
+Hernan explicitly authorized stages 3a/3b on a separate branch, with testing-only
+integration. Main and upstream submission remain excluded. Remove the floating
+call-reset control; disconnected accepted sections replace their handshake with
+lost signal in place and have no tube. Local accepted sections now open physical
+walls, support funded channel nutrients/feeding/hatching and transfer a single
+full living record after its root center crosses outward at 300 units. Arrival
+is at the matching opposite section, 200 units outward, with unchanged ID,
+velocity, energy, neural state, lineage and birth count. Food/eggs also continue
+through open ends. Closing occupied channels returns contents intact horizontally.
+
+Topology is Worker-owned, paused-safe, epoch-guarded and saved in schema 17;
+ordinary topology-free worlds remain schema 16. No remote server, sensory wrap,
+body rescaling, physics coefficient, starter tuning or energy subsidy is added.
+362 fast tests, typecheck/build and production Worker checks pass locally,
+including exact direct-kernel/Worker continuation and left/right crossings.
+Browser, PR and deployment receipts are maintained in #122 as they complete.
+This bounded validation does not establish long-term ecological balance or
+performance neutrality of active channels. Earlier entries below are history.
+
+# Local caller and glass-channel follow-up — fork/testing only (2026-10-28)
+
+Tracking #121 / #57. Branch `feature/local-caller-glass-tubes` starts from testing
+`4b4abbb4df305aba6491d9de49301dc3d80c065d`. Hernan explicitly extended the visual
+scope and authorized stage-2 local name entry/self-selection. Main is excluded.
+
+Yellow dots are removed; fixed-300-unit logical section geometry/labels remain.
+Accepted windows paint 300-unit uncapped glass/water corridors, merged across
+contiguous agreements and softly faded outward. The phone now offers a local
+session-only name and self-entry, opposite-side pending-call bubble with explicit
+Accept/Decline, caller cancellation, availability and retained-agreement disconnect.
+There is no automatic timeout or simulation-blocking modal. Window offers need
+opposite-end acceptance; phone acceptance alone opens none. Hidden accepted
+indices retain suspension/restoration and explicit cancel behavior.
+
+All code remains observer UI/renderer only. Original physical walls, simulation,
+Worker, senses, energy, PRNG, saves and hosting are unchanged. The local menu is
+not an online directory. No transport or stage-3 completion is claimed. Validation,
+remote head/PR and deployment receipts are maintained in #121 as they complete.
+Earlier records below describe the prior increment and are retained as history.
+
+# Side-window markers and interactive rehearsal — fork/testing only (2026-10-28)
+
+Tracking upstream #121 / #57. Dedicated fork branch `feature/side-window-markers`
+starts from testing `7644f11`, under explicit authorization to integrate only
+into testing. Fork main and canonical upstream remain excluded from integration.
+
+Stage 1 is exclusively visual: the fixed independent `MIN_WINDOW_HEIGHT = 300`
+world units yields `N = max(1, floor(H / 300))`, with uniformly redistributed
+sections on each vertical side. Below 300 units, one full-height section is the
+only minimum-height exception. Bottom-up L/R labels sit at section midpoints;
+N-1 yellow circles per side align exactly with internal boundaries, never the
+floor or ceiling. Existing world-size controls remain 600–3000 units high.
+
+`sideWindows.ts` is imported only by the UI renderer. It receives existing tank
+dimensions and camera zoom, writes only canvas commands and stores no world or
+save state. Markers/text stay outside the physical walls with stable screen
+sizes. Physics, retinal RGB, collision geometry, energy, brains, PRNG, Worker,
+historical continuation, version and hosting configuration are unchanged.
+The later stage-1 attachment explicitly extends this visual scope with temporary
+phone/window demo states. Independent mock peers, directional offer/rejection
+SVG hands, acceptance and unavailability can be rehearsed by clicks. A paired
+left/right preview mirrors matching indices without real signaling. Accepted
+indices removed by a height reduction appear as lost-signal chips beside their
+phone and restore on regrowth; only explicit cancellation/reset clears them.
+No interface state is stored in snapshots or synchronized between browsers.
+The memoized UI positions its controls in the existing canvas draw pass, beyond
+the reserved 300-world-unit future preview area. The latest contributor journal
+is retained; its separately scoped glass-channel appearance remains pending.
+Real caller names, communication, agreements, portals and transfers stay deferred.
+
+Unit coverage includes all supplied examples, adjacent representable floating-point
+thresholds, exact internal boundary centers, bottom-up labels, zero divisions
+for a single section, uniform growth/shrinkage, zoom/width independence and no
+logical count cap. Bounded browser coverage checks real resize controls, exact
+paused imports/exports, actual yellow pixels, pan/zoom and viewport changes in
+Worker and fallback modes, including all icon states, independent phones,
+paired offers, suspended/restored/canceled agreements and exact unchanged exports.
+The existing CI smoke retains preview screenshots even after a later failure.
+Local npm ci, 344 fast tests and typecheck/build pass. Initial CI revealed only
+an overstrict float32 canvas-matrix measurement (4.000000112 vs 4 CSS pixels);
+screen-radius tolerance is now five decimal places, with exact logical geometry
+checks retained. Remote verification remains required on the amended head.
+Remote checks, visual review and publication receipts are recorded in #121.
+Wiki source explicitly identifies this as fork/testing-only; no upstream Wiki
+publication or submission is authorized by this stage.
+
+---
+
 # Initial environmental scenarios — contributor fork (2026-10-28)
 
 Tracking upstream #119 / #57. Branch `feature/environment-scenarios` from fork
