@@ -1,3 +1,22 @@
+# Slower nutrient cycle and observation preferences — fork main follow-up (2026-10-29)
+
+Hernan requested1 J/s rather than30 J/s and a smaller restored food-radius floor.
+New decay-v2/schema19 uses floor6, historical v1/schema18 remains exact, and an
+explicit Settings update preserves current energy/PRNG/organisms. Mineralization,
+feeding rates, eggs, genomes and articulated physics remain unchanged (#125).
+Advanced Settings (#126) adds independent automatic creature-selection/tracking
+preferences: Default on/on, Harsh off/off, editable and saved as UI-only metadata.
+Manual tracking remains available; existing selection survives unselected spawns.
+
+379 fast tests, build and production Worker pass locally. Fixed new60s comparison
+pairs seed17/73 retain10 living/zero eggs/zero deaths in both cycles. v2 plant
+intake changes -1.2%/+24.0%, prey intake6816→9480/0→336 J; particles481→279/479→280.
+Stock discrepancy<1.37e-7 J. Original v1 records are unchanged; new registered
+receipts are in docs/experiments/nutrient-cycle-v2.*. Short observations do not
+establish better ecology or controlled performance gains. Internal PR, final
+browser gates, merge and publication evidence are tracked in #125/#126/#57.
+No testing, upstream submission, simulation retuning or VIDA3D authorization.
+
 # Approved stages 1–3 — contributor fork main promotion (2026-10-29)
 
 Hernan verified the published testing behavior and explicitly approved promotion

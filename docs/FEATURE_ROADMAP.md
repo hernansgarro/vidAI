@@ -8,11 +8,13 @@ listed extensions are not implementation promises.
 ## Contributor fork food lifecycle
 
 Fork main implements the separately authorized #125 nutrient cycle for new closed
-worlds: 30 J/s decay plus bounded remaining-energy carrion mineralization at 60 s.
-Historical snapshots retain indefinite plant lifetime and their original rules;
+worlds: 1 J/s decay with a 6-unit radius floor plus bounded remaining-energy carrion mineralization at 60 s.
+Saved v1 retains 30 J/s; older snapshots retain indefinite plant lifetime and original rules;
 canonical upstream is unchanged. The older no-decay decision below describes that
 historical/canonical mode. See docs/wiki/Ecology-Baseline.md for current mechanics
-and docs/experiments/nutrient-cycle-v1.md for the fixed preproduction comparison.
+and docs/experiments/nutrient-cycle-v2.md for the follow-up preproduction comparison.
+Advanced observation settings (#126) configure automatic selection/tracking,
+with Default on/Harsh off defaults and UI-only snapshot metadata.
 
 ## Active work tracking
 

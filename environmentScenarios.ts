@@ -1,3 +1,4 @@
+import {scenarioObserverPreferences} from './observerPreferences';
 import type {SimulationSettings} from './simulation';
 import type {FounderMode} from './founders';
 import {createInitialWorld} from './world';
@@ -16,5 +17,5 @@ export function createScenarioWorld(defaults: SimulationSettings, scenario: Envi
   // Keep the existing initial grant and PRNG path, then bank the free food
   // before publishing the world. This is the existing manual clear operation.
   if (scenario === 'harsh-world') clearFreeNutrients(state);
-  return {state, settings};
+  return {state, settings, observerPreferences: scenarioObserverPreferences(scenario)};
 }

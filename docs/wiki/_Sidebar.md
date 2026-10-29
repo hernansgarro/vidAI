@@ -1,6 +1,7 @@
 **VIDA 2D — Current Reference**
 
 - [[Overview and original plan|Home]]
+- [Advanced Settings (fork only)](Home#advanced-observation-settings--contributor-fork)
 - [Diagrams](https://github.com/smeagol44/vidAI/wiki#diagrams)
 - [[Featured Starters and Specimen Bank|Featured-Starters]]
 - [[Movement and Motor Control|Motor-Control]]

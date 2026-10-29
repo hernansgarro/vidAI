@@ -1,3 +1,4 @@
+import {scenarioObserverPreferences, restoreObserverPreferences, type ObserverPreferences} from './observerPreferences';
 import {tubeGeometry, setSelfTubes, type SelfTubes} from './selfTubes';
 import {EnergyActivityCollector, EnergyActivityPresentation, drawEnergyGlow} from './energyActivity';
 import {WorldSceneLayer} from './worldScene';
@@ -329,6 +330,8 @@ export default function App() {
   const [isBrainInspectorOpen, setIsBrainInspectorOpen] = useState(false);
   const [inspectorActiveTab, setInspectorActiveTab] = useState<'brain' | 'morphology' | 'energy' | 'lineage' | 'verification'>('brain');
   const [isEcosystemGraphOpen, setIsEcosystemGraphOpen] = useState(false);
+  const [isAdvancedSettingsOpen, setIsAdvancedSettingsOpen] = useState(false);
+  const [observerPreferences, setObserverPreferences] = useState<ObserverPreferences>(() => scenarioObserverPreferences('default'));
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isSpecimenBankOpen, setIsSpecimenBankOpen] = useState(false);
   const [isArenaOpen, setIsArenaOpen] = useState(false);
@@ -364,7 +367,7 @@ export default function App() {
   // Default uniform until repeated natural-feeding evidence favors hotspots.
   const [mouthContactModel, setMouthContactModel] = useState<'capsule-v1' | undefined>('capsule-v1');
   const [physicsRegime, setPhysicsRegime] = useState<PhysicsRegime>(NEW_PHYSICS_REGIME);
-  const [nutrientCycle, setNutrientCycle] = useState<SimulationSettings['nutrientCycle']>('decay-v1');
+  const [nutrientCycle, setNutrientCycle] = useState<SimulationSettings['nutrientCycle']>('decay-v2');
   const [ecologyRegime, setEcologyRegime] = useState<'closed-v1' | undefined>('closed-v1');
   const [nutrientLimit, setNutrientLimit] = useState<number | null>(null);
   const [energyBudgetDraft, setEnergyBudgetDraft] = useState<number | null>(null);
@@ -388,6 +391,7 @@ export default function App() {
   // Draggable Modals
   const inspectorDraggable = useDraggableModal(typeof window !== 'undefined' ? window.innerWidth - 540 : 700, 52);
   const settingsDraggable = useDraggableModal(16, 56);
+  const advancedSettingsDraggable = useDraggableModal(390, 56);
   const ledgerDraggable = useDraggableModal(16, typeof window !== 'undefined' ? window.innerHeight - 400 : 380);
   const badgeDraggable = useDraggableModal(16, 12);
   const eggDraggable = useDraggableModal(16, 68);
@@ -633,8 +637,8 @@ export default function App() {
   const workerAction = (action: WorldAction) => workerClientRef.current!.action(action)
     .catch(error => {setSaveNotification(String(error)); return undefined;});
   const authoritativeSnapshot = async (metadata: Record<string, unknown> = {}) =>
-    workerClientRef.current ? workerClientRef.current.snapshot(metadata)
-      : createSnapshot(simStateRef.current, currentSettings(), metadata);
+    workerClientRef.current ? workerClientRef.current.snapshot({...metadata, observerPreferences})
+      : createSnapshot(simStateRef.current, currentSettings(), {...metadata, observerPreferences});
 
   const changeSelfTubes = async (topology: SelfTubes, epoch: number): Promise<boolean> => {
     if (epoch !== worldEpochRef.current) return false;
@@ -667,6 +671,16 @@ export default function App() {
         setEnergyBudgetDraft(current => current === joules ? null : current);
     });
     else {setWorldEnergy(simStateRef.current, joules); refreshWorldView();}
+  };
+
+  const updateNutrientCycle = async () => {
+    try {
+      const exact = restoreSnapshot(await authoritativeSnapshot());
+      const config = {...exact.settings, nutrientCycle: 'decay-v2' as const};
+      for (const food of exact.state.nutrients) food.radius = getNutrientRadius(food.energyValue, 'decay-v2');
+      replaceWorld(exact.state, config); setNutrientCycle('decay-v2');
+      setSaveNotification('Food decay updated to 1 J/s; energy and ecosystem kept.');
+    } catch (error) {setSaveNotification(`Food cycle update failed: ${String(error)}`);}
   };
 
   const updateMouthContact = async () => {
@@ -725,7 +739,7 @@ export default function App() {
     setSelectedOrgId(null); setSelectedSpecimen(null); setSelectedEggId(null); setIsAutoTracking(false);
     setSaveNotification(`Branched ecosystem: ${customBranchName}`);
     gameAudio.playLevelUpStinger();
-  }, [customBranchName, currentSettings, replaceWorld]);
+  }, [customBranchName, currentSettings, replaceWorld, observerPreferences]);
 
   const exportEcosystemJSON = useCallback(async () => {
     const s = simStateRef.current;
@@ -735,7 +749,7 @@ export default function App() {
     const a = document.createElement('a'); a.href = url;
     a.download = `vida_snapshot_t${Math.round(s.simTime)}s.json`; a.click();
     URL.revokeObjectURL(url); gameAudio.playConfirmSelect();
-  }, [currentSettings, simulationSeed, founderMode, customBranchName]);
+  }, [currentSettings, simulationSeed, founderMode, customBranchName, observerPreferences]);
 
   const importEcosystemJSON = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]; e.target.value = '';
@@ -744,6 +758,7 @@ export default function App() {
     void file.text().then(text => {
       const restored = restoreSnapshot(text);
       const v = restored.settings;
+      setObserverPreferences(restoreObserverPreferences(restored.metadata.observerPreferences));
       replaceWorld(restored.state, v);
       setEcoStats(prev => ({...prev, ...collectWorldStats(restored.state, v.targetNutrients)}));
       setPhysicsRegime(v.physicsRegime ?? 'legacy-v0');
@@ -779,11 +794,13 @@ export default function App() {
   const initGame = useCallback(
     (preset = 'standard', scenario?: EnvironmentScenario) => {
       const defaults = {...(scenario ? initialEnvironmentRef.current : currentSettings()), physicsRegime: NEW_PHYSICS_REGIME,
-        ecologyRegime: 'closed-v1' as const, nutrientCycle: 'decay-v1' as const, nutrientLimit: null, mouthContactModel: 'capsule-v1' as const};
-      const {state, settings: config} = createScenarioWorld(defaults, scenario ?? 'default',
+        ecologyRegime: 'closed-v1' as const, nutrientCycle: 'decay-v2' as const, nutrientLimit: null, mouthContactModel: 'capsule-v1' as const};
+      const {state, settings: config, observerPreferences: scenarioPreferences} = createScenarioWorld(defaults, scenario ?? 'default',
         simulationSeed, founderMode, preset, getConfig('initialOrganisms'));
       setMouthContactModel('capsule-v1');
-      setNutrientCycle('decay-v1');
+      setNutrientCycle('decay-v2');
+      if (scenario) setObserverPreferences(scenarioPreferences);
+      setIsAdvancedSettingsOpen(false);
       setPhysicsRegime(NEW_PHYSICS_REGIME);
       setEcologyRegime('closed-v1'); setNutrientLimit(config.nutrientLimit ?? null);
       setWorldWidth(config.worldWidth); setWorldHeight(config.worldHeight);
@@ -823,11 +840,15 @@ export default function App() {
   // Manual Add Life
   const addPrimordialSpecimen = useCallback((archetype: ArchetypeId = 'random', customGenome?: Genome) => {
     if (workerClientRef.current) {
-      const cam = cameraRef.current;
+      const cam = cameraRef.current, epoch = worldEpochRef.current;
       void workerAction({kind: 'spawn', x: cam.x, y: cam.y, archetype, genome: customGenome}).then(id => {
+        if (epoch !== worldEpochRef.current) return;
         if (typeof id !== 'string') {if (id === null) setSaveNotification('No population slot or insufficient world energy.'); return;}
-        setSelectedOrgId(id); setSelectedEggId(null);
-        setSelectedSpecimen(simStateRef.current.organisms.find(o => o.id === id) ?? null);
+        if (observerPreferences.selectAddedCreature) {
+          setSelectedOrgId(id); setSelectedEggId(null);
+          setSelectedSpecimen(simStateRef.current.organisms.find(o => o.id === id) ?? null);
+          setIsAutoTracking(observerPreferences.trackSelectedCreature);
+        }
         gameAudio.playPowerupChime();
         setGameState(previous => previous.status === 'GAME_OVER' ? {...previous, status: 'PLAYING'} : previous);
       });
@@ -843,9 +864,12 @@ export default function App() {
     refreshWorldView();
     if (!specimen) {setSaveNotification('Insufficient world energy to fund this creature.'); return;}
 
-    setSelectedOrgId(specimen.id);
-    setSelectedSpecimen(specimen);
-    setSelectedEggId(null);
+    if (observerPreferences.selectAddedCreature) {
+      setSelectedOrgId(specimen.id);
+      setSelectedSpecimen(specimen);
+      setSelectedEggId(null);
+      setIsAutoTracking(observerPreferences.trackSelectedCreature);
+    }
     gameAudio.playPowerupChime();
 
     setGameState((prev) => {
@@ -854,7 +878,7 @@ export default function App() {
       }
       return prev;
     });
-  }, [worldWidth, worldHeight, maxOrganisms, currentSettings]);
+  }, [worldWidth, worldHeight, maxOrganisms, currentSettings, observerPreferences]);
 
   const hasAutoplayed = useRef(false);
   useEffect(() => {
@@ -904,6 +928,9 @@ export default function App() {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       const target = e.target as HTMLElement;
+      if (e.key === 'Escape' && isAdvancedSettingsOpen) {
+        e.preventDefault(); e.stopPropagation(); setIsAdvancedSettingsOpen(false); return;
+      }
       if (['input', 'textarea', 'select'].includes(target?.tagName?.toLowerCase()) || target?.isContentEditable) return;
 
       if (e.key === 'Escape') {
@@ -968,7 +995,7 @@ export default function App() {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [spawnNutrientBurst, addPrimordialSpecimen, isBrainInspectorOpen, selectedEggId, selectedOrgId, isSettingsOpen, isEcosystemGraphOpen, isSpecimenBankOpen, isArenaOpen, isHowToPlayOpen, gameState.status, isGameMenuOpen, togglePause, selectSpeed]);
+  }, [spawnNutrientBurst, addPrimordialSpecimen, isBrainInspectorOpen, selectedEggId, selectedOrgId, isSettingsOpen, isAdvancedSettingsOpen, isEcosystemGraphOpen, isSpecimenBankOpen, isArenaOpen, isHowToPlayOpen, gameState.status, isGameMenuOpen, togglePause, selectSpeed]);
 
   // Zoom handling
   useEffect(() => {
@@ -1156,7 +1183,7 @@ export default function App() {
     }
     const clicked = simStateRef.current.organisms.find(org => org.segments.some(seg => Math.hypot(seg.x - x, seg.y - y) < 45 / cam.zoom));
     setSelectedEggId(null); setSelectedOrgId(clicked?.id ?? null); setSelectedSpecimen(clicked ?? null);
-    setIsBrainInspectorOpen(false); setIsAutoTracking(!!clicked);
+    setIsBrainInspectorOpen(false); setIsAutoTracking(!!clicked && observerPreferences.trackSelectedCreature);
     if (clicked) gameAudio.playConfirmSelect();
   };
 
@@ -1233,9 +1260,9 @@ export default function App() {
 
     // Glow pass: every halo is behind every physical entity.
     for (const nut of s.nutrients) {
-      const baseRadius = nutrientCycle === 'decay-v1' ? nut.radius : Math.max(6, nut.radius);
+      const baseRadius = nutrientCycle ? nut.radius : Math.max(6, nut.radius);
       const pulse = 1 + Math.sin(nut.pulseTimer || 0) * .12;
-      const radius = (nutrientCycle === 'decay-v1' ? baseRadius * 2.6 : Math.max(14, baseRadius * 2.6)) * pulse;
+      const radius = (nutrientCycle ? baseRadius * 2.6 : Math.max(14, baseRadius * 2.6)) * pulse;
       if (nut.x + radius < viewLeft || nut.x - radius > viewRight
         || nut.y + radius < viewTop || nut.y - radius > viewBottom) continue;
       ctx.save(); ctx.translate(nut.x, nut.y);
@@ -1277,9 +1304,9 @@ export default function App() {
     for (const nut of s.nutrients) {
       const carrion = nut.kind === 'carrion';
       const isSuper = nut.isSuper || nut.energyValue > NUTRIENT_ENERGY_VALUE * 1.25;
-      const baseRadius = nutrientCycle === 'decay-v1' ? nut.radius : Math.max(6.0, nut.radius);
+      const baseRadius = nutrientCycle ? nut.radius : Math.max(6.0, nut.radius);
       const pulse = 1.0 + Math.sin(nut.pulseTimer || 0) * 0.12;
-      const visualRadius = (nutrientCycle === 'decay-v1' ? baseRadius * 2.6 : Math.max(14, baseRadius * 2.6)) * pulse;
+      const visualRadius = (nutrientCycle ? baseRadius * 2.6 : Math.max(14, baseRadius * 2.6)) * pulse;
       if (nut.x + visualRadius < viewLeft || nut.x - visualRadius > viewRight
         || nut.y + visualRadius < viewTop || nut.y - visualRadius > viewBottom) continue;
 
@@ -1291,7 +1318,7 @@ export default function App() {
       ctx.fillStyle = `rgb(${rgb.join(',')})`;
       ctx.fill();
       ctx.strokeStyle = carrion ? '#ffc5b5' : isSuper ? '#a7f3d0' : '#6ee7b7';
-      ctx.lineWidth = nutrientCycle === 'decay-v1' ? Math.min(baseRadius * .2, 2 / zoom) : Math.max(1.2, 2.0 / zoom);
+      ctx.lineWidth = nutrientCycle ? Math.min(baseRadius * .2, 2 / zoom) : Math.max(1.2, 2.0 / zoom);
       ctx.stroke();
 
       if (!carrion && nutImg && nutImg.complete && nutImg.naturalWidth > 0) {
@@ -1837,7 +1864,8 @@ export default function App() {
                 if (!selectedOrgId && simStateRef.current.organisms.length > 0) {
                   const first = simStateRef.current.organisms[0];
                   setSelectedOrgId(first.id);
-                  setSelectedSpecimen(first);
+                  setSelectedSpecimen(first); setSelectedEggId(null);
+                  setIsAutoTracking(observerPreferences.trackSelectedCreature);
                 }
                 setSynapsePruningThreshold(0.5); setIsBrainInspectorOpen(true);
                 gameAudio.playCrispClick();
@@ -1993,7 +2021,7 @@ export default function App() {
           );
 
           return (
-            <div ref={badgeDraggable.panelRef} data-testid="badge-window"
+            <div ref={badgeDraggable.panelRef} data-testid="badge-window" data-organism-id={selectedSpecimen.id}
               onPointerDown={(e) => e.stopPropagation()}
               onClick={(e) => e.stopPropagation()}
               style={{
@@ -2053,6 +2081,7 @@ export default function App() {
                       e.preventDefault();
                       setIsAutoTracking((prev) => !prev);
                     }}
+                    aria-label="Track selected creature" aria-pressed={isAutoTracking}
                     className={`text-[10px] px-1.5 py-0.5 rounded border transition-colors ${
                       isAutoTracking
                         ? 'bg-cyan-500/20 border-cyan-400 text-cyan-300'
@@ -2214,6 +2243,13 @@ export default function App() {
                   </button>
                 </div>
               </div>
+
+              {energyPool && <div className="text-[10px] text-slate-400 space-y-1">
+                <p data-testid="nutrient-cycle">Food decay: {nutrientCycle === 'decay-v2' ? '1 J/s · minimum radius 6'
+                  : nutrientCycle === 'decay-v1' ? '30 J/s · original shrinking cycle' : 'Historical food lifecycle'}.</p>
+                {nutrientCycle !== 'decay-v2' && <button type="button" onClick={() => {void updateNutrientCycle();}}
+                  className="w-full py-1.5 rounded-lg border border-emerald-700 text-emerald-300 bg-emerald-950/40">Update food decay to 1 J/s</button>}
+              </div>}
 
               {/* Inflow Rate */}
               <div>
@@ -2427,6 +2463,33 @@ export default function App() {
                   <input type="file" accept=".json" onChange={importEcosystemJSON} className="hidden" />
                 </label>
               </div>
+              <button type="button" onClick={() => setIsAdvancedSettingsOpen(true)}
+                className="w-full mt-2 py-2 bg-amber-950/40 hover:bg-amber-900/40 text-amber-300 border border-amber-600/50 rounded-xl font-bold">Advanced Settings</button>
+            </div>
+          </div>
+        )}
+
+        {isAdvancedSettingsOpen && (
+          <div ref={advancedSettingsDraggable.panelRef} data-testid="advanced-settings-window" role="dialog" aria-label="Advanced Settings"
+            onPointerDown={e => e.stopPropagation()} onClick={e => e.stopPropagation()}
+            style={{transform: `translate3d(${advancedSettingsDraggable.pos.x}px, ${advancedSettingsDraggable.pos.y}px, 0)`, pointerEvents: 'auto'}}
+            className="vida-window absolute top-0 left-0 bg-slate-900/95 backdrop-blur-lg border border-amber-500/50 rounded-2xl p-4 w-[352px] max-w-[calc(100%-1rem)] flex flex-col font-mono text-xs shadow-2xl z-50 pointer-events-auto">
+            <div {...advancedSettingsDraggable.headerProps} className="flex items-center justify-between border-b border-amber-500/30 pb-2 mb-3 touch-none cursor-grab active:cursor-grabbing select-none">
+              <span className="font-bold text-amber-300 text-sm">ADVANCED SETTINGS</span>
+              <button type="button" title="Close advanced settings" onPointerDown={e => e.stopPropagation()}
+                onClick={() => setIsAdvancedSettingsOpen(false)} className="text-slate-400 hover:text-white p-1 rounded hover:bg-slate-800"><X size={16}/></button>
+            </div>
+            <div className="space-y-4 overflow-y-auto">
+              <label className="flex items-start gap-3 cursor-pointer text-slate-200">
+                <input type="checkbox" className="mt-0.5 accent-amber-400" checked={observerPreferences.selectAddedCreature}
+                  onChange={e => setObserverPreferences(p => ({...p, selectAddedCreature: e.target.checked}))}/>
+                <span>Automatically select added creatures</span>
+              </label>
+              <label className="flex items-start gap-3 cursor-pointer text-slate-200">
+                <input type="checkbox" className="mt-0.5 accent-amber-400" checked={observerPreferences.trackSelectedCreature}
+                  onChange={e => setObserverPreferences(p => ({...p, trackSelectedCreature: e.target.checked}))}/>
+                <span>Automatically track selected creatures</span>
+              </label>
             </div>
           </div>
         )}
