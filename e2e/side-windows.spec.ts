@@ -336,7 +336,7 @@ for (const fallback of [false, true]) test(`physical self-tube crossing conserve
   }
 });
 
-test('all tube entities fade spatially, water is untinted and paused sensory state stays exact', async ({page}) => {
+test('all tube entities fade spatially, water is untinted and paused sensory state stays exact', async ({page}, info) => {
   await page.addInitScript(() => {
     const stroke = CanvasRenderingContext2D.prototype.stroke;
     CanvasRenderingContext2D.prototype.stroke = function(this: CanvasRenderingContext2D, ...args: Parameters<typeof stroke>) {
@@ -352,6 +352,7 @@ test('all tube entities fade spatially, water is untinted and paused sensory sta
   await page.getByRole('button', {name: 'Hidden', exact: true}).click();
   const canvas = page.getByLabel('Aquatic simulation');
   const upload = async (snapshot: ReturnType<typeof tubePresentationFixture>) => {
+    restoreSnapshot(snapshot); // Validate the fixture before requesting a real app import.
     const epoch = await canvas.getAttribute('data-world-epoch');
     await page.locator('input[type=file]').setInputFiles({name: 'tube-observer.json', mimeType: 'application/json',
       buffer: Buffer.from(JSON.stringify(snapshot))});
@@ -392,6 +393,11 @@ test('all tube entities fade spatially, water is untinted and paused sensory sta
       await page.getByRole('button', {name: 'Export Snapshot', exact: true}).dispatchEvent('click');
       const exact = JSON.parse(await readFile((await (await pending).path())!, 'utf8'));
       expect(exact.state).toEqual(source.state); // includes optical inputs and learned records
+      if (side === 'L' && depth === 100) {
+        await page.getByTitle('Close settings (✕)').click();
+        await page.screenshot({path: info.outputPath('side-windows-all-elements.png')});
+        await page.getByTitle('Ecology & Physical Settings').click();
+      }
     }
     for (const [row, name] of names.entries()) {
       expect(strength[0][row], `${side} ${name} is visible at entrance`).toBeGreaterThan(0);

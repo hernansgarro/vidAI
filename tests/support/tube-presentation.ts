@@ -1,3 +1,4 @@
+import {CARRION_DECAY_SECONDS} from '../../simulation';
 import {selfTubeFixture} from './self-tubes';
 import {eggReserveFixture} from './egg-reserve';
 import {createSnapshot} from '../../persistence';
@@ -17,7 +18,7 @@ export function tubePresentationFixture(side: 'L' | 'R', depth: number, empty = 
   state.bubbles = [{x, y: 450, vx: 0, vy: 0, size: 16, alpha: 1, life: 1, maxLife: 100, hue: 50}];
   state.nutrients = [750, 1050].map((y, i) => ({id: `optical-food-${i}`, x, y, vx: 0, vy: 0,
     radius: 12, energyValue: 3000, pulseTimer: 0, bottomTimer: 0,
-    ...(i ? {kind: 'carrion' as const, decayTimeRemaining: 100} : {})}));
+    ...(i ? {kind: 'carrion' as const, decayTimeRemaining: CARRION_DECAY_SECONDS} : {})}));
   state.eggs = [{...eggReserveFixture(true).state.eggs[2], x, y: 1350}];
   if (empty) {state.organisms = []; state.caustics = []; state.bubbles = []; state.nutrients = []; state.eggs = [];}
   delete state.energyPool; enableClosedEconomy(state); setWorldEnergy(state, state.energyPool!.budget + 1200000);
