@@ -1,5 +1,6 @@
 import {EnergyActivityCollector, EnergyActivityPresentation, drawEnergyGlow} from './energyActivity';
 import {drawSideWindows} from './sideWindows';
+import SideWindowDemo, {type SideWindowDemoHandle} from './SideWindowDemo';
 import {mouthDimensions} from './mouthGeometry';
 import {NEW_PHYSICS_REGIME, type PhysicsRegime} from './foundationPhysics';
 import {enableClosedEconomy, occupiedPopulation, setWorldEnergy, EGG_LIFETIME_MULTIPLIER,
@@ -278,6 +279,7 @@ function AudioControls({sfxVolume, musicVolume, sfxMuted, musicMuted,
 export default function App() {
   const toolbarLayout = useToolbarLayout();
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const sideWindowDemoRef = useRef<SideWindowDemoHandle>(null);
   const workerClientRef = useRef<SimulationClient | null>(null);
   const workerSettingsRef = useRef<SimulationSettings | null>(null);
   const workerStepsRef = useRef(0);
@@ -1534,6 +1536,7 @@ export default function App() {
 
     drawSideWindows(ctx, worldWidth, worldHeight, zoom);
     ctx.restore();
+    sideWindowDemoRef.current?.sync();
   };
 
   useEffect(() => {
@@ -1815,6 +1818,9 @@ export default function App() {
           onPointerUp={e => handleCanvasUp(e)} onPointerCancel={e => handleCanvasUp(e, true)}
           onLostPointerCapture={() => { pointerDownStateRef.current.active = false; cameraRef.current.isDragging = false; }}
           aria-label="Aquatic simulation" data-world-epoch={worldEpoch} className="absolute inset-0 w-full h-full cursor-grab active:cursor-grabbing block" />
+
+        <SideWindowDemo ref={sideWindowDemoRef} width={worldWidth} height={worldHeight} camera={cameraRef}
+          viewportWidth={canvasWidth} viewportHeight={canvasHeight}/>
 
         {/* EGG INSPECTOR — same kernel clearance and funded values used for hatching. */}
         {selectedEgg && (() => {

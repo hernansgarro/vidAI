@@ -1,8 +1,8 @@
-# Side-window markers — fork/testing only (2026-10-28)
+# Side-window markers and interactive rehearsal — fork/testing only (2026-10-28)
 
 Tracking upstream #121 / #57. Dedicated fork branch `feature/side-window-markers`
 starts from testing `7644f11`, under explicit authorization to integrate only
-into testing. Fork main `e45b408` and canonical upstream remain unchanged.
+into testing. Fork main and canonical upstream remain excluded from integration.
 
 Stage 1 is exclusively visual: the fixed independent `MIN_WINDOW_HEIGHT = 300`
 world units yields `N = max(1, floor(H / 300))`, with uniformly redistributed
@@ -16,14 +16,30 @@ dimensions and camera zoom, writes only canvas commands and stores no world or
 save state. Markers/text stay outside the physical walls with stable screen
 sizes. Physics, retinal RGB, collision geometry, energy, brains, PRNG, Worker,
 historical continuation, version and hosting configuration are unchanged.
-Future caller names, connections, agreements, portals and transfers remain deferred.
+The later stage-1 attachment explicitly extends this visual scope with temporary
+phone/window demo states. Independent mock peers, directional offer/rejection
+SVG hands, acceptance and unavailability can be rehearsed by clicks. A paired
+left/right preview mirrors matching indices without real signaling. Accepted
+indices removed by a height reduction appear as lost-signal chips beside their
+phone and restore on regrowth; only explicit cancellation/reset clears them.
+No interface state is stored in snapshots or synchronized between browsers.
+The memoized UI positions its controls in the existing canvas draw pass, beyond
+the reserved 300-world-unit future preview area. The latest contributor journal
+is retained; its separately scoped glass-channel appearance remains pending.
+Real caller names, communication, agreements, portals and transfers stay deferred.
 
 Unit coverage includes all supplied examples, adjacent representable floating-point
 thresholds, exact internal boundary centers, bottom-up labels, zero divisions
 for a single section, uniform growth/shrinkage, zoom/width independence and no
 logical count cap. Bounded browser coverage checks real resize controls, exact
 paused imports/exports, actual yellow pixels, pan/zoom and viewport changes in
-Worker and fallback modes. The existing CI smoke retains preview screenshots.
+Worker and fallback modes, including all icon states, independent phones,
+paired offers, suspended/restored/canceled agreements and exact unchanged exports.
+The existing CI smoke retains preview screenshots even after a later failure.
+Local npm ci, 344 fast tests and typecheck/build pass. Initial CI revealed only
+an overstrict float32 canvas-matrix measurement (4.000000112 vs 4 CSS pixels);
+screen-radius tolerance is now five decimal places, with exact logical geometry
+checks retained. Remote verification remains required on the amended head.
 Remote checks, visual review and publication receipts are recorded in #121.
 Wiki source explicitly identifies this as fork/testing-only; no upstream Wiki
 publication or submission is authorized by this stage.

@@ -82,20 +82,22 @@ for (const fallback of [false, true]) test(`side windows follow real tank resizi
       expect(circle.y).toBeCloseTo(height - index * height / count, 8);
       expect(circle.y).toBeGreaterThan(0); expect(circle.y).toBeLessThan(height);
       expect(side === 0 ? circle.x + circle.radius < 0 : circle.x - circle.radius > 1800).toBe(true);
-      expect(circle.radius * circle.scale).toBeCloseTo(4, 8);
+      // Canvas implementations may store the camera matrix in float32.
+      expect(circle.radius * circle.scale).toBeCloseTo(4, 5);
     }
     return p;
   };
   await check(1500);
   await expect(page.getByLabel('Tank height', {exact: true})).toHaveAttribute('min', '600');
   await expect(page.getByLabel('Tank height', {exact: true})).toHaveAttribute('max', '3000');
-  for (const height of [1800, 1600, 1200, 600, 900, 1500]) {
+  const setHeight = async (height: number) => {
     await page.getByLabel('Tank height', {exact: true}).evaluate((node, value) => {
       Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!.call(node, String(value));
       node.dispatchEvent(new Event('input', {bubbles: true}));
     }, height);
     await check(height);
-  }
+  };
+  for (const height of [1800, 1600, 1200, 600, 900, 1500]) await setHeight(height);
   await upload(700); await check(700); await upload(1500); await check(1500);
   await page.getByTitle('Close settings (✕)').click();
   const canvas = page.getByLabel('Aquatic simulation');
@@ -115,7 +117,54 @@ for (const fallback of [false, true]) test(`side windows follow real tank resizi
   });
   expect(pixels).toHaveLength(8);
   for (const pixel of pixels) {expect(pixel.inside).toBe(true); expect(pixel.rgb).toEqual([250, 204, 21]);}
+  // All icon transitions are real clicks, independent of Worker commands.
+  const phone = (side: string) => page.getByTestId(`side-demo-phone-${side}`);
+  const windowButton = (side: string, index: number) => page.getByTestId(`side-demo-window-${side}${index}`);
+  await phone('L').click();
+  await expect(phone('L')).toHaveAttribute('aria-pressed', 'true');
+  await expect(phone('R')).toHaveAttribute('aria-pressed', 'false');
+  for (const side of ['L', 'R']) for (let index = 0; index < 5; index++)
+    for (let click = 0; click <= index; click++) await windowButton(side, index).click();
+  for (const [side, outgoing, incoming] of [['L', 'left', 'right'], ['R', 'right', 'left']]) {
+    await expect(windowButton(side, 0).locator('svg')).toHaveAttribute('data-hand-direction', outgoing);
+    await expect(windowButton(side, 1).locator('svg')).toHaveAttribute('data-hand-direction', incoming);
+    await expect(windowButton(side, 2)).toHaveAttribute('data-state', 'accepted');
+    await expect(windowButton(side, 3).locator('svg')).toHaveAttribute('data-hand-direction', outgoing);
+    await expect(windowButton(side, 4)).toHaveAttribute('data-state', 'unavailable');
+  }
+  const geometry = await paint(), leftBox = (await windowButton('L', 0).boundingBox())!, rightBox = (await windowButton('R', 0).boundingBox())!;
+  expect(leftBox.x + leftBox.width).toBeLessThan(bounds.x + geometry.circles[0].screenX + 10 - 300 * geometry.wall.scale);
+  expect(rightBox.x).toBeGreaterThan(bounds.x + geometry.circles[1].screenX - 10 + 300 * geometry.wall.scale);
   await page.screenshot({path: info.outputPath(`side-windows-${fallback ? 'fallback' : 'worker'}.png`)});
+  const reset = page.getByRole('button', {name: 'Reset connection demonstration', exact: true});
+  await reset.click(); await page.getByTestId('side-demo-pair').click();
+  await windowButton('L', 0).click();
+  await expect(windowButton('L', 0)).toHaveAttribute('data-state', 'outgoing');
+  await expect(windowButton('R', 0)).toHaveAttribute('data-state', 'incoming');
+  for (let i = 0; i < 3; i++) await windowButton('L', 4).click();
+  await expect(windowButton('L', 4)).toHaveAttribute('data-state', 'accepted');
+  await expect(windowButton('R', 4)).toHaveAttribute('data-state', 'accepted');
+  await page.getByTitle('Ecology & Physical Settings').click(); await setHeight(600);
+  await page.getByTitle('Close settings (✕)').click();
+  await expect(windowButton('L', 4)).toHaveCount(0); await expect(windowButton('R', 4)).toHaveCount(0);
+  await expect(page.getByTestId('side-demo-suspended-L4')).toBeVisible();
+  await expect(page.getByTestId('side-demo-suspended-R4')).toBeVisible();
+  await page.screenshot({path: info.outputPath(`side-windows-${fallback ? 'fallback' : 'worker'}-suspended.png`)});
+  await page.getByTitle('Ecology & Physical Settings').click(); await setHeight(1500);
+  await page.getByTitle('Close settings (✕)').click();
+  await expect(windowButton('L', 4)).toHaveAttribute('data-state', 'accepted');
+  await expect(windowButton('R', 4)).toHaveAttribute('data-state', 'accepted');
+  await expect(page.getByTestId('side-demo-suspended-L4')).toHaveCount(0);
+  await page.getByTitle('Ecology & Physical Settings').click(); await setHeight(600);
+  await page.getByTitle('Close settings (✕)').click();
+  await page.getByTestId('side-demo-suspended-L4').click();
+  await expect(page.getByTestId('side-demo-suspended-L4')).toHaveCount(0);
+  await expect(page.getByTestId('side-demo-suspended-R4')).toHaveCount(0);
+  await page.getByTitle('Ecology & Physical Settings').click(); await setHeight(1500);
+  await page.getByTitle('Close settings (✕)').click();
+  await expect(windowButton('L', 4)).toHaveAttribute('data-state', 'closed');
+  await expect(windowButton('R', 4)).toHaveAttribute('data-state', 'closed');
+  await reset.click();
   const before = await paint();
   await page.mouse.down(); await page.mouse.move(bounds.x + bounds.width / 2 + 100, bounds.y + bounds.height / 2 + 40, {steps: 4}); await page.mouse.up();
   await expect.poll(async () => Math.abs((await paint()).labels[0].screenX - before.labels[0].screenX)).toBeGreaterThan(20);

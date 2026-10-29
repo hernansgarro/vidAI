@@ -1,0 +1,26 @@
+.side-demo-layer { position:absolute; inset:0; z-index:20; overflow:hidden; pointer-events:none; font-family:ui-monospace,SFMono-Regular,Consolas,monospace; }
+.side-demo-anchor { position:absolute; left:0; top:0; pointer-events:none; }
+.side-demo-window-position.side-demo-L { transform:translate(-100%,-50%); }
+.side-demo-window-position.side-demo-R { transform:translate(0,-50%); }
+.side-demo-window,.side-demo-phone { display:flex; align-items:center; justify-content:center; width:30px; height:30px; border-radius:9px; border:1px solid #475569; color:#94a3b8; background:#0f172aee; pointer-events:auto; cursor:pointer; }
+.side-demo-layer button:focus-visible { outline:2px solid #facc15; outline-offset:3px; }
+.side-demo-layer button:hover { filter:brightness(1.25); }
+.side-demo-window[data-state=outgoing] { color:#67e8f9; border-color:#0891b2; }
+.side-demo-window[data-state=incoming] { color:#c4b5fd; border-color:#8b5cf6; }
+.side-demo-window[data-state=accepted] { color:#6ee7b7; border-color:#10b981; background:#064e3bee; }
+.side-demo-window[data-state=rejected] { color:#fda4af; border-color:#e11d48; }
+.side-demo-window[data-state=unavailable] { color:#fcd34d; border-color:#d97706; }
+.side-demo-phone-position { width:140px; }
+.side-demo-phone-position.side-demo-L { transform:translate(-100%,0); text-align:right; }
+.side-demo-phone-position.side-demo-R { transform:translate(0,0); }
+.side-demo-phone-row { display:flex; align-items:center; gap:6px; }
+.side-demo-phone-position.side-demo-L .side-demo-phone-row { flex-direction:row-reverse; }
+.side-demo-phone[aria-pressed=true] { color:#6ee7b7; border-color:#10b981; }
+.side-demo-peer { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:10px; line-height:13px; color:#cbd5e1; }
+.side-demo-peer small { display:block; font-size:9px; color:#94a3b8; }
+.side-demo-suspended { display:flex; gap:4px; flex-wrap:wrap; margin-top:6px; }
+.side-demo-phone-position.side-demo-L .side-demo-suspended { justify-content:flex-end; }
+.side-demo-suspended button { display:flex; align-items:center; gap:3px; padding:3px 5px; color:#fde68a; font-size:10px; border:1px solid #a16207; border-radius:6px; background:#422006ed; pointer-events:auto; cursor:pointer; }
+.side-demo-toolbar { position:absolute; top:7px; right:8px; display:flex; flex-wrap:wrap; align-items:center; justify-content:flex-end; gap:6px; max-width:calc(100% - 16px); padding:4px 6px; border:1px solid #47556977; border-radius:8px; background:#020617c9; color:#c4b5fd; font-size:10px; }
+.side-demo-toolbar button { display:flex; align-items:center; padding:3px 5px; min-height:24px; color:#cbd5e1; border:1px solid #475569; border-radius:5px; background:#0f172a; pointer-events:auto; cursor:pointer; }
+.side-demo-toolbar button[aria-pressed=true] { color:#a7f3d0; border-color:#059669; }

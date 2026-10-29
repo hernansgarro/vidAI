@@ -1,4 +1,4 @@
-# Side Window Markers — fork testing only
+# Side Window Markers and Connection Demo — fork testing only
 
 **Available only in `hernansgarro/vidAI:testing`.** These are static visual
 divisions of the tank's two vertical sides. Production/main and the upstream
@@ -47,5 +47,54 @@ clipped by the viewport, with no clipping to the physical tank rectangle.
 These graphics exist only in the renderer. They have no physical or sensory
 representation, no saved state and no effect on the Worker, vision, collisions,
 forces, energy, genetics, learning, ecology or exact historical continuation.
-No connections, callers, portals, negotiation, agreements or creature transfer
-are implemented.
+There are no real connections, callers, negotiated openings or creature transfers.
+
+## Interactive visual rehearsal
+
+The visible **Connections · demo only** label identifies every control as an
+observer-interface prototype. No phone or icon creates a real connection.
+Left and right phones independently toggle an illustrative peer, **Example West**
+or **Example East**. There is no name entry, account, user directory or networking.
+Turning a phone off does not silently cancel accepted demonstration agreements.
+
+Click any numbered section's icon to cycle:
+
+```text
+Closed → Outgoing offer → Incoming offer → Accepted → Rejected → Unavailable → Closed
+```
+
+Clicking an accepted icon explicitly cancels that demonstration agreement and
+shows rejection; its tooltip and accessible label describe that action. Neutral,
+handshake, prohibition and directional hand SVGs do not depend on emoji fonts.
+Outgoing and rejecting hands point outward (left on L, right on R); incoming
+hands point inward. The SVGs retain the Unicode reference identities 🫱/🫲 and
+🫸/🫷 while rendering as reliable vectors.
+
+The window icons sit beyond the journal's reserved **300-world-unit** future
+preview area, with 12 CSS pixels of clearance and constant 30-pixel hit targets.
+This offset does not extend the simulated world or render a physical channel.
+Yellow boundary circles and section labels remain separate and unchanged.
+Phones sit below section 0, next to their own peer name and suspended-agreement chips.
+The camera positions these UI elements in the existing canvas draw pass; unrelated
+canvas input remains available, with no modal, new simulation controls or extra
+frame-by-frame React updates.
+
+**Pair L ↔ R** rehearses the two sides of this same aquarium with the fixed
+illustrative name **This tank**. Outgoing offers on one side appear as incoming
+on the matching index of the other; acceptance, rejection, unavailability and
+explicit cancellation mirror both endpoints. Enabling paired rehearsal retains
+any accepted demonstration agreement already present. This is not stage-3 signaling.
+
+When resizing removes an accepted index, its icon disappears with the actual
+section. A small lost-signal chip beside that side's phone identifies the hidden
+agreement; no nonexistent section is drawn. Growing the tank restores the
+accepted icon. Click its suspended chip to deliberately cancel it, or use
+**Reset connection demonstration** to clear the full rehearsal. Demo states are
+local to this interface session, survive dimension changes/imports, and never
+enter simulation snapshots or browser synchronization; reload resets them.
+
+The latest contributor journal is retained as design context. Its glass-tube,
+diffuse-edge and buffer illustration remains pending the separately specified
+scope adjustment stated there; this delivery implements the attached icon
+rehearsal. Future identity, real signaling, transport and cross-user stages remain
+unimplemented and require their own authorization.
