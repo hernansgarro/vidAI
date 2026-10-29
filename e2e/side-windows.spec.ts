@@ -243,6 +243,9 @@ for (const fallback of [false, true]) test(`local phone consent and grouped glas
   await expect.poll(pixel).toEqual(closedPixel); // channel water has no extra tint
   await windowButton('L', 1).click(); await windowButton('R', 1).click(); await tubes(4);
   await expect.poll(async () => (await paint()).tubes.length === 4 && (await paint()).tubes.every(([, y]: number[]) => y === 900 || y === 1500)).toBe(true);
+  // Phone dialogs are framed lower than the tank's topmost window. Pan through
+  // the actual canvas before clicking upper windows, rather than DOM scrolling.
+  await framePhones(650);
   await windowButton('R', 4).click(); await windowButton('L', 4).click(); await tubes(8);
   const geometry = await paint(), leftBox = (await windowButton('L', 0).boundingBox())!, rightBox = (await windowButton('R', 0).boundingBox())!;
   expect(leftBox.x + leftBox.width).toBeLessThan(bounds.x + geometry.wall.screenX - 300 * geometry.wall.scale);
@@ -285,6 +288,7 @@ for (const fallback of [false, true]) test(`local phone consent and grouped glas
   await menu('L').getByRole('button', {name: 'Make phone available', exact: true}).click();
   await page.getByTestId('side-person-self-L').click(); await page.getByTestId('side-call-accept-R').click(); await tubes(4);
   // Opening all windows leaves only the outer floor and ceiling on each side.
+  await framePhones(650);
   for (const index of [2, 3, 4]) {await windowButton('L', index).click(); await windowButton('R', index).click();}
   await tubes(4);
   await expect.poll(async () => (await paint()).tubes.length === 4 && (await paint()).tubes.every(([, y]: number[]) => y === 0 || y === 1500)).toBe(true);
@@ -381,14 +385,23 @@ for (const fallback of [false, true]) test(`physical self-tube crossing conserve
 
 test('all tube entities fade spatially, water is untinted and paused sensory state stays exact', async ({page}, info) => {
   await page.addInitScript(() => {
+    const recordPaint = (ctx: CanvasRenderingContext2D) => {
+      if (ctx.canvas.getAttribute('aria-label') === 'Aquatic simulation') {
+        Object.assign(window, {tubeScenePaintScale: ctx.getTransform().a / devicePixelRatio,
+          tubeScenePaintEpoch: ctx.canvas.getAttribute('data-world-epoch')});
+      }
+    };
     const stroke = CanvasRenderingContext2D.prototype.stroke;
     CanvasRenderingContext2D.prototype.stroke = function(this: CanvasRenderingContext2D, ...args: Parameters<typeof stroke>) {
-      if (this.canvas.getAttribute('aria-label') === 'Aquatic simulation') {
-        Object.assign(window, {tubeScenePaintScale: this.getTransform().a / devicePixelRatio,
-          tubeScenePaintEpoch: this.canvas.getAttribute('data-world-epoch')});
-      }
+      recordPaint(this);
       return stroke.apply(this, args);
     } as typeof stroke;
+    // Closed tanks paint their glass with strokeRect rather than stroke.
+    const strokeRect = CanvasRenderingContext2D.prototype.strokeRect;
+    CanvasRenderingContext2D.prototype.strokeRect = function(...args: Parameters<typeof strokeRect>) {
+      recordPaint(this);
+      return strokeRect.apply(this, args);
+    };
   });
   await page.goto('./?autoplay');
   await page.getByTitle('Ecology & Physical Settings').click();
