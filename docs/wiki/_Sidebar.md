@@ -9,5 +9,6 @@
 - [[Ecology and Energy Auditing|Ecology-Baseline]]
 - [[Energy Activity Overlays (fork only)|Energy-Activity]]
 - [[Simulation Performance|Simulation-Performance]]
+- [[Side Window Markers (fork testing only)|Side-Windows]]
 
 [Play VIDA](https://smeagol44.github.io/vidAI/)
