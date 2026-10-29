@@ -176,20 +176,20 @@ for (const fallback of [false, true]) test(`local phone consent and grouped glas
       previousY = y;
       return delta;
     }, {intervals: [50, 100, 250]}).toBeLessThan(.001);
-    const dragCamera = async (distance: number) => {
-      const current = (await canvas.boundingBox())!;
-      const startX = current.x + current.width / 2, startY = current.y + current.height / 2;
-      await page.mouse.move(startX, startY); await page.mouse.down();
-      await page.mouse.move(startX, startY + distance, {steps: 5}); await page.mouse.up();
-    };
-    // Drag by the measured displacement, then correct a residual offset if
-    // camera easing / mouse stepping left the controls outside the same strict
-    // 8px frame. Never accept a wider error or change actual anchor assertions.
-    for (let correction = 0; correction < 3; correction++) {
+    // Move through clear water in bounded increments; a large drag can leave
+    // the viewport or overshoot while the camera is still easing on CI.
+    const current = (await canvas.boundingBox())!;
+    const startX = current.x + current.width / 3, startY = current.y + current.height / 2;
+    for (let correction = 0; correction < 12; correction++) {
       const y = (await phone('L').boundingBox())!.y;
       if (Math.abs(y - target) < 8) break;
-      await dragCamera(target - y);
+      const distance = Math.max(-120, Math.min(120, target - y));
+      await page.mouse.move(startX, startY); await page.mouse.down();
+      await page.mouse.move(startX, startY + distance, {steps: 5}); await page.mouse.up();
+      // Observe the result after easing instead of compounding stale offsets.
+      await page.waitForTimeout(200);
     }
+    // The same original strict framing tolerance remains an acceptance gate.
     await expect.poll(async () => Math.abs((await phone('L').boundingBox())!.y - target)).toBeLessThan(8);
   };
   const call = async (side: string) => {
