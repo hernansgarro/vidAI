@@ -55,6 +55,7 @@ for (const fallback of [false, true]) test(`environment dropdown, initial condit
   await page.getByRole('button', {name: 'Pause', exact: true}).dispatchEvent('click');
   await page.getByTitle('Ecology & Physical Settings').dispatchEvent('click');
   const normal = await read();
+  expect(normal.metadata.observerPreferences).toEqual({selectAddedCreature: true, trackSelectedCreature: true});
   expect(normal.settings).toMatchObject({worldWidth: 2400, worldHeight: 1500,
     waterViscosity: .18, gravity: 0, maxOrganisms: 30, inflowRate: 15, nutrientLimit: null});
   const start = fallback ? normal : await page.evaluate(() => (window as any).scenarioResets.at(-1));
@@ -75,6 +76,7 @@ for (const fallback of [false, true]) test(`environment dropdown, initial condit
   await page.getByRole('button', {name: 'Pause', exact: true}).dispatchEvent('click');
   await page.getByTitle('Ecology & Physical Settings').dispatchEvent('click');
   const harsh = await read();
+  expect(harsh.metadata.observerPreferences).toEqual({selectAddedCreature: false, trackSelectedCreature: false});
   expect(harsh.settings).toEqual({...normal.settings, inflowRate: 1, nutrientLimit: 200,
     worldWidth: 4800, worldHeight: 3000, gravity: 20, maxOrganisms: 50, waterViscosity: .4});
   const harshStart = fallback ? harsh : await page.evaluate(() => (window as any).scenarioResets.at(-1));

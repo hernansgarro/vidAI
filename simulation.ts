@@ -454,7 +454,7 @@ export interface SimulationSettings {
   mouthContactModel?: 'capsule-v1';
   ecologyRegime?: 'closed-v1';
   /** Omitted preserves historical food lifetimes and radii. */
-  nutrientCycle?: 'decay-v1';
+  nutrientCycle?: 'decay-v1' | 'decay-v2';
   /** null means no ecological count cap; a visible particle safety limit remains. */
   nutrientLimit?: number | null;
   /** Omitted by historical callers: exact legacy continuation. */
@@ -823,9 +823,12 @@ export function recordFeedingEvent(
   }
 }
 
-export const NUTRIENT_DECAY_JOULES_PER_SECOND = 30;
+export const NUTRIENT_DECAY_JOULES_PER_SECOND = 1;
+export const MIN_CYCLING_NUTRIENT_RADIUS = 6;
 
 export function getNutrientRadius(energy: number, cycle?: SimulationSettings['nutrientCycle']): number {
+  if (cycle === 'decay-v2' && energy <= NUTRIENT_ENERGY_VALUE)
+    return Math.max(MIN_CYCLING_NUTRIENT_RADIUS, BASE_NUTRIENT_RADIUS * Math.sqrt(Math.max(0, energy) / NUTRIENT_ENERGY_VALUE));
   if (cycle === 'decay-v1' && energy <= NUTRIENT_ENERGY_VALUE)
     return BASE_NUTRIENT_RADIUS * Math.sqrt(Math.max(0, energy) / NUTRIENT_ENERGY_VALUE);
   const ratio = Math.max(0.1, energy / NUTRIENT_ENERGY_VALUE);
@@ -3516,7 +3519,7 @@ function advanceNutrientCycle(state: SimulationState, settings: SimulationSettin
   const expired: Nutrient[] = [];
   let kept = 0, plants = 0;
   for (const food of state.nutrients) {
-    const lost = Math.min(food.energyValue, NUTRIENT_DECAY_JOULES_PER_SECOND * dt);
+    const lost = Math.min(food.energyValue, (settings.nutrientCycle === 'decay-v1' ? 30 : NUTRIENT_DECAY_JOULES_PER_SECOND) * dt);
     food.energyValue -= lost;
     pool.reserve += lost;
     state.ledger.recordedLosses += lost;
@@ -3615,7 +3618,7 @@ export function stepSimulation(
     }
   }
 
-  const cycling = !!state.energyPool && settings.nutrientCycle === 'decay-v1';
+  const cycling = !!state.energyPool && (settings.nutrientCycle === 'decay-v1' || settings.nutrientCycle === 'decay-v2');
   if (cycling) advanceNutrientCycle(state, settings, dt);
 
   // Historical mineralization waits for a plant-food slot; stored carrion energy is never deleted.

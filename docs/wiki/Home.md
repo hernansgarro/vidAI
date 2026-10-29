@@ -100,3 +100,22 @@ history. Detailed experiments stay in
 [project status](https://github.com/smeagol44/vidAI/blob/main/docs/PROJECT_STATUS.md);
 priorities stay in the [roadmap](https://github.com/smeagol44/vidAI/blob/main/docs/FEATURE_ROADMAP.md).
 The maintained source is `docs/wiki/`, automatically published to this Wiki.
+
+## Advanced observation settings — contributor fork
+
+**Fork-only; pending upstream acceptance.** The button at the bottom of Settings
+opens a separate draggable Advanced Settings window with two independent options:
+**Automatically select added creatures** (Add Life and every Bank spawn) and
+**Automatically track selected creatures** (manual picking and automatic selection).
+New Default worlds start with both checked; new Harsh World worlds start with
+both unchecked. Choosing a scenario in the menu takes effect only when starting
+that world. In-world reseeding keeps current overrides.
+
+Changing a checkbox affects future actions; it does not clear an existing
+selection or stop a manually chosen Track. Turning automatic selection off keeps
+the previous selected creature when adding another. The Track/Free button remains
+available independently. Preferences travel in exported snapshot metadata and
+restore on import; historical snapshots without them use both enabled. They never
+enter the Worker simulation, sensory inputs, genetics, energy or random stream.
+Escape and the close button dismiss the advanced window; its size/position stay
+within the tank viewport, including on phones.

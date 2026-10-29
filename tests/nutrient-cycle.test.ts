@@ -128,3 +128,38 @@ test('omitted regime preserves historical unlimited plant lifetime and closed ca
   near(f.state.energyPool!.reserve, 9000); assert.equal(createSnapshot(f.state, f.settings).schemaVersion, '16.0.0');
   conserved(f.state);
 });
+
+test('decay-v2 loses 1 J/s, lasts 3000 seconds, and keeps a coherent radius floor of 6', () => {
+  const f = cycleFixture(); f.settings.nutrientCycle = 'decay-v2';
+  ticks(f, 60); near(f.state.nutrients[0].energyValue, 2999);
+  // Exercise simulated time directly without coupling to playback or rendering.
+  stepSimulation(f.state, f.settings, 2998);
+  near(f.state.nutrients[0].energyValue, 1); near(f.state.nutrients[0].radius, 6);
+  stepSimulation(f.state, f.settings, 1); assert.equal(f.state.nutrients.length, 0);
+  near(f.state.energyPool!.reserve, 3000); conserved(f.state);
+  for (const energy of [.001, 1, 30, 100, 300]) assert.equal(getNutrientRadius(energy, 'decay-v2'), 6);
+  near(getNutrientRadius(750, 'decay-v2'), 9);
+  near(getNutrientRadius(3000, 'decay-v2'), 18);
+  assert.equal(getNutrientRadius(30), 8); near(getNutrientRadius(30, 'decay-v1'), 1.8);
+});
+
+test('decay-v2 partially eaten food and 60-second carrion use only actual remaining energy', () => {
+  const f = cycleFixture([food(7560, true), food(61)]); f.settings.nutrientCycle = 'decay-v2';
+  ticks(f, 3600); assert.ok(f.state.nutrients.every(n => n.kind !== 'carrion'));
+  near(f.state.nutrients.reduce((v, n) => v + n.energyValue, 0), 7501);
+  assert.equal(f.state.nutrients.length, 4); assert.ok(f.state.nutrients.every(n => n.energyValue <= 3000 && n.radius >= 6));
+  conserved(f.state);
+});
+
+test('schema19 persists decay-v2 independently of tube/contact/physics settings and cannot be smuggled into schema18', () => {
+  for (const tubes of [false, true]) {
+    const f = cycleFixture([food(7560, true), food(75)]); f.settings.nutrientCycle = 'decay-v2';
+    if (tubes) f.state.selfTubes = {version: 1, connected: true, accepted: [0]};
+    ticks(f, 300); const source = createSnapshot(f.state, f.settings); assert.equal(source.schemaVersion, '19.0.0');
+    const saved = restoreSnapshot(source); ticks(f, 3301);
+    for (let i = 0; i < 3301; i++) stepSimulation(saved.state, saved.settings, 1 / 60);
+    assert.deepEqual(createSnapshot(saved.state, saved.settings), createSnapshot(f.state, f.settings));
+    const invalid = structuredClone(source); invalid.schemaVersion = '18.0.0'; assert.throws(() => restoreSnapshot(invalid), /nutrient cycle/);
+    const missing = structuredClone(source); delete missing.settings.nutrientCycle; assert.throws(() => restoreSnapshot(missing), /nutrient cycle/);
+  }
+});

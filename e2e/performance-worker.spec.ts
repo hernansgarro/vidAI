@@ -221,7 +221,7 @@ for (const fallback of [false, true]) test(`legacy import and current reset agre
   await expect(page.getByTestId('physics-regime')).toContainText('Restored swimming');
   await page.keyboard.press('Space');
   const reset=await exportState();expect(reset.settings.physicsRegime).toBe('passive-work-v3');
-  expect(reset.schemaVersion).toBe('18.0.0'); expect(reset.settings.nutrientCycle).toBe('decay-v1');
+  expect(reset.schemaVersion).toBe('19.0.0'); expect(reset.settings.nutrientCycle).toBe('decay-v2');
   expect(reset.settings.mouthContactModel).toBe('capsule-v1');
   expect(reset.state.organisms.some((o: any)=>o.motorDiagnostics?.positiveWorkJ>0)).toBe(true);
   expect(errors).toEqual([]);

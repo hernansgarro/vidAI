@@ -13,7 +13,7 @@ import {eggReserveFixture} from '../tests/support/egg-reserve.ts';
 import {eggReserveLossFraction} from '../eggReserve.ts';
 import {createFounderGenome} from '../founders.ts';
 import {addExternalOrganism} from '../world.ts';
-import {stepSimulation} from '../simulation.ts';
+import {stepSimulation, getNutrientRadius} from '../simulation.ts';
 import {createScenarioWorld} from '../environmentScenarios.ts';
 
 // Exercise the actual production-built Worker with real cross-thread cloning.
@@ -353,15 +353,17 @@ try {
     send({type: 'action', id: -201, epoch, action: {kind: 'self-tubes', topology: {version: 1, connected: false, accepted: []}}});
     assert.deepEqual(await request('snapshot', {}, epoch + 10), crossed, 'stale topology command is ignored');
   }
-  for (const tubes of [false, true]) {
+  for (const nutrientCycle of ['decay-v1', 'decay-v2']) for (const tubes of [false, true]) {
     const probe = cycleFixture([cycleFood(9300, true), cycleFood(75, false, 1000, 500)]);
+    probe.settings.nutrientCycle = nutrientCycle;
+    for (const food of probe.state.nutrients) food.radius = getNutrientRadius(food.energyValue, nutrientCycle);
     probe.state.nutrients[0].decayTimeRemaining = .1;
     if (tubes) {
       probe.settings.worldHeight = 600;
       probe.state.selfTubes = {version: 1, connected: true, accepted: [0]};
       probe.state.nutrients[0].x = -200; probe.state.nutrients[0].y = 450;
     }
-    const epoch = tubes ? 151 : 150, source = createSnapshot(probe.state, probe.settings);
+    const epoch = (nutrientCycle === 'decay-v2' ? 180 : 150) + (tubes ? 1 : 0), source = createSnapshot(probe.state, probe.settings);
     send({type: 'reset', snapshot: source, epoch});
     await receive(value => value.type === 'frame' && value.frame.epoch === epoch);
     assert.deepEqual(await request('snapshot', {}, epoch), source);
@@ -383,7 +385,7 @@ try {
     assert.match((await receive(value => value.id === -300 - epoch)).message, /Nutrient cycle/);
     assert.deepEqual(await request('snapshot', {}, epoch + 10), after);
   }
-  console.log('Nutrient-cycle Worker: schema-18 tank/tube reset, 5x exact direct decay/mineralization/PRNG continuation, paused restoration and control-switch rejection passed.');
+  console.log('Nutrient-cycle Worker: schema-18/19 tank/tube reset, 5x exact direct decay/mineralization/PRNG continuation, paused restoration and control-switch rejection passed.');
   console.log('Self-tube Worker: schema-17 reset, full-state L/R transfer, exact direct continuation, unchanged IDs/births/stock, paused closure and stale-command rejection passed.');
   console.log('Environment Worker: Harsh time-zero empty food/full Default grant, editable controls, exact direct continuation and snapshot reset passed.');
   console.log('Egg reserve Worker: original reference/frame/export/reset, legacy-current migration, exact 5x funded recovery, structure-only pink and x0 freeze passed.');

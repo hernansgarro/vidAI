@@ -27,14 +27,14 @@ or fractional-rate control is included.
 ## Continuous food recycling — contributor fork
 
 **Fork-only in hernansgarro/vidAI main; pending upstream acceptance.** New
-closed application worlds explicitly select `nutrientCycle: decay-v1` and export
-schema 18. Both plant nutrients and carrion lose **30 J per simulated second**,
+closed application worlds explicitly select `nutrientCycle: decay-v2` and export
+schema 19. Both plant nutrients and carrion lose **1 J per simulated second**,
 also while partly eaten, outside the camera or inside a connected tube. Loss is
 capped at remaining energy and returned once to the signed universe reserve.
-Zero-energy food is removed. Thus an untouched 3,000 J particle lasts 100 seconds.
+Zero-energy food is removed. Thus an untouched 3,000 J particle lasts 3,000 simulated seconds (50 minutes).
 Feeding rates and efficiencies remain unchanged; natural decay is additional.
 
-Below 3,000 J, physical radius is `18 * sqrt(remainingJ / 3000)` with no minimum.
+Below 3,000 J, physical radius is `18 * sqrt(remainingJ / 3000)` with a 6-unit minimum physical radius (the historical minimum was 8).
 Larger food retains its established logarithmic radius. Vision, food contact and
 rendering use that physical radius; the existing glow and outline shrink with
 it. No new visual effect or organism-only information is added.
@@ -58,10 +58,13 @@ Smaller particles can therefore raise particle counts without increasing stock.
 Historical imports omit the cycle and retain their exact food lifetimes,
 minimum radii, PRNG and mineralization rules. Import, export, fork, physics repair
 and open-to-closed budget conversion do not silently enable the cycle. A fresh
-start/reset selects it; there is no live control to change it. Schema 18 requires
+start/reset selects it. Settings offers an explicit update to 1 J/s for saved
+closed worlds, keeping their present energy/PRNG/organisms and recomputing only
+food radii. Saved decay-v1/schema18 keeps its original 30 J/s and shrinking below
+6 until explicitly updated. Schema 19 requires
 a closed pool and the known cycle, supports existing independent physics/contact
 modes and optional tube topology; older schemas reject the new flag. Worker
-control packets reject cycle changes. Snapshots remain authoritative.
+control packets reject cycle changes; an upgrade uses an authoritative reset. Snapshots remain authoritative.
 
 The closed transfer diagram below includes the new fork paths. Its historical
 closed-world counterpart sends all expired carrion directly to the reserve and
@@ -119,8 +122,8 @@ flowchart TD
   E -->|"Funded viable hatch"| L
   L -->|"Death"| C["Carrion"]
   E -->|"Expiry"| C
-  F -->|"Fork cycle: 30 J/s decay"| R
-  C -->|"Fork cycle: 30 J/s decay or overflow"| R
+  F -->|"Fork cycle: 1 J/s decay"| R
+  C -->|"Fork cycle: 1 J/s decay or overflow"| R
   C -->|"Fork cycle: 60 s mineralization"| F
   C -->|"Historical closed expiry"| R
   C -->|"Assimilation"| L
@@ -136,7 +139,7 @@ flowchart TD
 | Assimilation | 80%; carrion also applies the 85% digestion factor, giving 68% combined assimilation |
 | Storage | Removal stops at the creature's available capacity |
 | Remains | One edible circle containing remaining body and reserve energy; closed worlds aggregate at capacity without loss; open saved worlds record overflow |
-| Decomposition | New fork cycle: 30 J/s food decay plus bounded 60 s carrion mineralization; historical closed worlds return carrion to reserve; historical open worlds convert when a slot is available |
+| Decomposition | New fork cycle: 1 J/s food decay plus bounded 60 s carrion mineralization; historical closed worlds return carrion to reserve; historical open worlds convert when a slot is available |
 
 Mouth permissions apply per mouth, including on creatures with different
 specialist mouths. Feeding requires physical contact; no steering or survival

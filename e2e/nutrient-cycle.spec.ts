@@ -40,8 +40,8 @@ for (const fallback of [false, true]) test(`versioned nutrient radii, paused imp
     }, {timeout: 10000}).toEqual({state: (snapshot as any).state, settings: (snapshot as any).settings});
   };
   // New startup must explicitly opt in, while old imports retain their semantics.
-  const startup = await read(); expect(startup.schemaVersion).toBe('18.0.0');
-  expect(startup.settings.nutrientCycle).toBe('decay-v1');
+  const startup = await read(); expect(startup.schemaVersion).toBe('19.0.0');
+  expect(startup.settings.nutrientCycle).toBe('decay-v2');
   const f = cycleFixture([food(75, false, 1120, 750), food(3000, false, 1280, 750), food(9300, true, 1200, 850)]);
   f.state.caustics = []; f.state.nutrients[2].decayTimeRemaining = .1;
   const source = createSnapshot(f.state, f.settings);
@@ -64,5 +64,17 @@ for (const fallback of [false, true]) test(`versioned nutrient radii, paused imp
   await upload(old); expect((await read()).state).toEqual(old.state);
   expect((await read()).settings).toEqual(old.settings);
   await expect.poll(() => page.evaluate(() => (window as any).nutrientRadii.includes(8))).toBe(true);
+  // Explicit upgrade retains exact current energy/PRNG and changes only food radii.
+  await page.getByRole('button', {name: 'Update food decay to 1 J/s', exact: true}).click();
+  await expect(page.getByTestId('nutrient-cycle')).toContainText('1 J/s');
+  const slow = await read(); expect(slow.schemaVersion).toBe('19.0.0');
+  expect(slow.settings.nutrientCycle).toBe('decay-v2');
+  expect(slow.state.energyPool).toEqual(old.state.energyPool);
+  expect(slow.state.prngState).toEqual(old.state.prngState);
+  expect(slow.state.nutrients.map((n: any) => n.energyValue)).toEqual(old.state.nutrients.map((n: any) => n.energyValue));
+  expect(slow.state.nutrients[0].radius).toBe(6);
+  await expect.poll(() => page.evaluate(() => (window as any).nutrientRadii.includes(6))).toBe(true);
+  // Keep the old source entirely intact: updated exports must restore exactly.
+  await upload(slow); expect((await read()).state).toEqual(slow.state);
   expect(errors).toEqual([]);
 });
