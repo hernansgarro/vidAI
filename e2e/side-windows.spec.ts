@@ -167,7 +167,7 @@ for (const fallback of [false, true]) test(`local phone consent and grouped glas
   const framePhones = async (target = 400) => {
     // Center Cam and wheel zoom ease toward their targets. Measuring before
     // that motion settles bakes its remaining displacement into the next drag.
-    let previousY = Infinity;
+    let previousY = (await phone('L').boundingBox())!.y;
     await expect.poll(async () => {
       const y = (await phone('L').boundingBox())!.y, delta = Math.abs(y - previousY);
       previousY = y;
@@ -349,6 +349,9 @@ for (const fallback of [false, true]) test(`local phone consent and grouped glas
   expect(moved.x - card.x).toBeCloseTo(movedPhone.x - phoneBefore.x, 3);
   await page.setViewportSize({width: 1280, height: 900});
   await page.reload();
+  // This final check concerns session reset, not live ecology throughput.
+  // Pause the newly autoplayed world before measuring fallback camera easing.
+  await page.getByRole('button', {name: 'Pause', exact: true}).click();
   const reloadedCanvas = (await canvas.boundingBox())!;
   await page.mouse.move(reloadedCanvas.x + reloadedCanvas.width / 2, reloadedCanvas.y + reloadedCanvas.height / 2);
   for (let i = 0; i < 12; i++) await page.mouse.wheel(0, 200);
