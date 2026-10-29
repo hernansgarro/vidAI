@@ -118,15 +118,25 @@ for (const fallback of [false, true]) test(`local phone consent and grouped glas
     const count = Math.max(1, Math.floor(height / 300));
     await expect.poll(async () => {const p = await paint(); return [Math.round(p.wall.width), Math.round(p.wall.height), p.labels.length, p.circles.length];})
       .toEqual([1800, height, 0, 0]);
-    const p = await paint(), canvasTop = (await page.getByLabel('Aquatic simulation').boundingBox())!.y;
-    for (const side of ['L', 'R']) {
-      await expect(page.locator(`[data-testid^="side-demo-window-${side}"]`)).toHaveCount(count);
-      for (let index = 0; index < count; index++) {
-        const box = await page.getByTestId(`side-demo-window-${side}${index}`).boundingBox();
-        expect(box!.y + box!.height / 2).toBeCloseTo(canvasTop + p.wall.screenY + (height - (index + .5) * height / count) * p.wall.scale, 3);
+    // Read the painted camera and every DOM anchor in one browser task. During
+    // easing/panning, sequential Playwright box reads can span different frames.
+    await expect.poll(() => page.evaluate(height => {
+      const p = (window as any).sideWindowPaint;
+      const canvasTop = document.querySelector('canvas[aria-label="Aquatic simulation"]')!.getBoundingClientRect().y;
+      const count = Math.max(1, Math.floor(height / 300));
+      let error = 0;
+      for (const side of ['L', 'R']) {
+        const buttons = document.querySelectorAll(`[data-testid^="side-demo-window-${side}"]`);
+        if (buttons.length !== count) return Infinity;
+        buttons.forEach((button, index) => {
+          const box = button.getBoundingClientRect();
+          const expected = canvasTop + p.wall.screenY + (height - (index + .5) * height / count) * p.wall.scale;
+          error = Math.max(error, Math.abs(box.y + box.height / 2 - expected));
+        });
       }
-    }
-    return p;
+      return error;
+    }, height)).toBeLessThan(.001);
+    return paint();
   };
   await check(1500);
   await expect(page.getByLabel('Tank height', {exact: true})).toHaveAttribute('min', '600');
@@ -350,10 +360,12 @@ test('all tube entities fade spatially, water is untinted and paused sensory sta
     await expect.poll(() => page.evaluate(() => (window as any).tubeScenePaintEpoch)).toBe(current);
   };
   await upload(tubePresentationFixture('L', 0, true));
+  await page.getByTitle('Close settings (✕)').click();
   const bounds = (await canvas.boundingBox())!;
   await page.mouse.move(bounds.x + bounds.width / 4, bounds.y + bounds.height / 2);
   for (let i = 0; i < 12; i++) await page.mouse.wheel(0, 200);
   await expect.poll(() => page.evaluate(() => (window as any).tubeScenePaintScale)).toBeCloseTo(.35, 6);
+  await page.getByTitle('Ecology & Physical Settings').click();
   // Import recenters the camera while retaining zoom; no arbitrary browser state edits.
   await upload(tubePresentationFixture('L', 0, true));
   const samples = (side: 'L' | 'R', depth: number) => canvas.evaluate((node, {side, depth}) => {
