@@ -1534,6 +1534,7 @@ export default function App() {
       }
     }
 
+    sideWindowDemoRef.current?.paint(ctx, zoom);
     drawSideWindows(ctx, worldWidth, worldHeight, zoom);
     ctx.restore();
     sideWindowDemoRef.current?.sync();
@@ -1812,7 +1813,7 @@ export default function App() {
       </header>
 
       {/* MAIN SIMULATION CANVAS */}
-      <div ref={viewportRef} data-testid="tank-viewport" className="flex-1 w-full min-h-0 relative bg-slate-950 overflow-hidden">
+      <div ref={viewportRef} data-testid="tank-viewport" className="flex-1 w-full min-h-0 relative bg-slate-950 overflow-clip">
         <canvas ref={canvasRef} width={canvasWidth} height={canvasHeight}
           onPointerDown={handleCanvasDown} onPointerMove={handleCanvasMove}
           onPointerUp={e => handleCanvasUp(e)} onPointerCancel={e => handleCanvasUp(e, true)}

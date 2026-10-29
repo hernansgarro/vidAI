@@ -84,6 +84,17 @@ clickable observer-only phone/window states and temporary suspended-agreement
 rehearsal. The updated journal below is preserved as design context. Its separately
 scoped glass-tube appearance and all real signaling/transport remain pending.
 
+**Authorized follow-up, 2026-10-28 (fork testing only):** Hernan explicitly
+requested removal of yellow dots, accepted-handshake glass tubes, local name
+entry through the phone and self-selection from a people menu replacing Pair
+L↔R. This supersedes the older yellow-marker requirement and supplies the
+separate tube-preview authorization mentioned below. Stage 2 now implements a
+session-only editable display name. The bounded local phone/offer consent flow
+brings forward the requested self-interaction, without claiming stage 3 complete:
+no real wall opening, organism transport, remote discovery or communication.
+Implementation and acceptance are tracked in upstream #121; the older staged
+notes below remain design context for unimplemented physical/remote work.
+
 > **Exploratory and staged design notes, reviewed 2026-10-28.** The approved Work prompts so far cover phase-1 window geometry, its fixed 300-world-unit correction and interactive **observer-only** icon states on fork testing. Hernan subsequently clarified that **as much of the future glass-tube/window appearance as practical should be designed in phase 1**, while the original physical aquarium walls remain closed; implementing that additional appearance requires an explicit follow-up adjustment to Work's already-issued prompts. These notes are not new implementation authorization, upstream proposals or permission to change the simulation. Approve each bounded increment separately.
 
 ### Visual window geometry — phase 1 candidate

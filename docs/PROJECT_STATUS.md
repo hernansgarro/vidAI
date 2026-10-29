@@ -1,3 +1,24 @@
+# Local caller and glass-channel follow-up — fork/testing only (2026-10-28)
+
+Tracking #121 / #57. Branch `feature/local-caller-glass-tubes` starts from testing
+`4b4abbb4df305aba6491d9de49301dc3d80c065d`. Hernan explicitly extended the visual
+scope and authorized stage-2 local name entry/self-selection. Main is excluded.
+
+Yellow dots are removed; fixed-300-unit logical section geometry/labels remain.
+Accepted windows paint 300-unit uncapped glass/water corridors, merged across
+contiguous agreements and softly faded outward. The phone now offers a local
+session-only name and self-entry, opposite-side pending-call bubble with explicit
+Accept/Decline, caller cancellation, availability and retained-agreement disconnect.
+There is no automatic timeout or simulation-blocking modal. Window offers need
+opposite-end acceptance; phone acceptance alone opens none. Hidden accepted
+indices retain suspension/restoration and explicit cancel behavior.
+
+All code remains observer UI/renderer only. Original physical walls, simulation,
+Worker, senses, energy, PRNG, saves and hosting are unchanged. The local menu is
+not an online directory. No transport or stage-3 completion is claimed. Validation,
+remote head/PR and deployment receipts are maintained in #121 as they complete.
+Earlier records below describe the prior increment and are retained as history.
+
 # Side-window markers and interactive rehearsal — fork/testing only (2026-10-28)
 
 Tracking upstream #121 / #57. Dedicated fork branch `feature/side-window-markers`
