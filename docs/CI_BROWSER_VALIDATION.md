@@ -6,7 +6,7 @@ This contributor-side workflow guidance applies to `hernansgarro/vidAI`; upstrea
 
 - `.github/workflows/pages.yml` continues to run the regular fast tests and production build. Its optional manual extended checks are unchanged.
 - `.github/workflows/performance-worker.yml` retains the real production Worker check and **all** previously selected Playwright commands, grouped into independent GitHub-hosted runners (one Playwright worker in each runner). The `browser-smoke` aggregate check succeeds only when the Worker and every browser shard succeed.
-- `main` runs toolbar, focused Chromium and Firefox regression groups; `testing` also runs its separate side-window regression group and retains side-window screenshots.
+- Both fork environments run the same four groups: side-window/tube checks (with screenshots), toolbar checks, focused Chromium regressions and Firefox regressions. The independent Worker gate and mandatory aggregate check cover both environments.
 - GitHub branch protection and release requirements are never bypassed. A required browser check must pass against the **exact candidate commit**; earlier commits and visually similar edits do not count.
 
 ## Right-size validation while developing

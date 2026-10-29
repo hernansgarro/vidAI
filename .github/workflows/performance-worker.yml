@@ -4,7 +4,21 @@ on:
     paths:
       - 'environmentScenarios.ts'
       - 'tests/environment-scenarios.test.ts'
+      - 'tests/support/scenario-browser.ts'
       - 'e2e/environment-scenarios.spec.ts'
+      - 'sideWindows.ts'
+      - 'worldScene.ts'
+      - 'tests/support/tube-presentation.ts'
+      - 'SideWindowDemo.tsx'
+      - 'sideWindowDemo.css'
+      - 'windowDemo.ts'
+      - 'selfTubes.ts'
+      - 'tests/self-tubes.test.ts'
+      - 'tests/support/self-tubes.ts'
+      - 'tests/support/self-tube-browser.ts'
+      - 'tests/window-demo.test.ts'
+      - 'tests/side-windows.test.ts'
+      - 'e2e/side-windows.spec.ts'
       - 'simulation.worker.ts'
       - 'energyEconomy.ts'
       - 'energyActivity.ts'
@@ -66,6 +80,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - suite: side-windows
+            browser: chromium
+            command: "npx playwright test e2e/side-windows.spec.ts --workers=1"
           - suite: toolbar
             browser: chromium
             command: "npx playwright test e2e/presentation.spec.ts --grep 'toolbar stays' --workers=1"
@@ -86,6 +103,12 @@ jobs:
       - run: npm run build
       - name: Run ${{ matrix.suite }}
         run: ${{ matrix.command }}
+      - name: Preserve side-window visual acceptance screenshots
+        if: always() && matrix.suite == 'side-windows'
+        uses: actions/upload-artifact@v4
+        with:
+          name: side-window-previews
+          path: test-results/**/side-windows-*.png
 
   # Preserve the previous required check name and fail it if any gate fails.
   browser-smoke:

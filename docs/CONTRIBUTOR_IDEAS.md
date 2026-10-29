@@ -4,6 +4,73 @@
 >
 > **Visibility:** This file is in the public contributor fork `hernansgarro/vidAI`; it is not confidential. When preparing clean upstream submission branches, exclude this contributor-only journal unless separately authorized.
 
+## Current delivery and promotion decision — 2026-10-29
+
+Hernan verified and approved the complete testing advance, then explicitly
+requested its integration into **fork main**, including applicable validated
+browser-CI improvements. Stages 1–3 now comprise local display names/self-calls,
+per-window consent, funded physical channels and exact local self-transfer,
+plus the universal observer mask, natural-view eye and downward phone dialogs.
+The parallel browser gates already exist in both environments; the side-window
+shard follows the feature into main. Selection and simulation sensing remain
+unchanged by the observer presentation.
+
+**Stage 4 is explicitly deferred:** no remote discovery/directory, accounts,
+peer networking or cross-aquarium identity/transport work is authorized. No
+upstream submission is authorized by the fork-main approval. The historical
+checkpoint restrictions below describe their original request dates; this
+promotion supersedes only their earlier fork-main exclusion. Preserve all
+unrelated deferred ideas and experimental stops. Tracking: #122 / #57.
+
+## Authorized Work checkpoint — 2026-10-29
+
+Hernan's explicit Work request now authorizes stages 3a/3b on the separate fork
+branch `feature/self-tubes-stage3`, targeting testing only. The exact prior
+stage-2 state is preserved by remote branch `tubos-etapa2` at
+`4e1e18f6550cb10cff3e60b9e7109f6cde6e5f00` (annotated tag local only).
+This supersedes older no-stage-3-authorization statements **for this bounded
+Work request only**. Remove floating call reset; show lost signal in the existing
+handshake position when disconnected and remove its tubes. Accepted self-links
+open physical channel water, permit organisms and funded nutrients, and perform
+local full-state transfer with unchanged identity and no birth event.
+
+The implementation uses the root-segment center as crossing reference, a 300-unit
+outward threshold and 200-unit opposite arrival. Matching self-section heights
+make proportional y mapping the identity. Closing occupied channels returns
+contents horizontally without deleting energy or life. Topology is authoritative
+world state/schema 17; names and invitations remain session UI. This is tracked
+in upstream #122 without an upstream PR. Main, stage 4, remote identity and
+separate live-creature file import/export remain unapproved. Historical notes
+below retain their original discussion context.
+
+## Authorized visual follow-up — 2026-10-29
+
+After accepting stage 3 in testing, Hernan explicitly requested that **all tube
+contents** share observer-only progressive transparency, that tube water match
+the aquarium and that visible L/R section labels disappear. This supersedes
+older label/tinted-water presentation notes for the current testing branch.
+World optics and behavior must remain unchanged. Implementation is isolated in
+`feature/tube-visual-consistency`, based on testing `9294c27`, tracked in #122;
+main, the `tubos-etapa2` checkpoint and phase-4 work remain excluded.
+
+## Authorized observer-layer follow-up — 2026-10-29
+
+Hernan approved a back-to-front observer stack: decorations, glow, entities,
+human annotations, universal outside-tank opacity, glass, connection controls,
+and existing application windows. Side fading covers the full tank height even
+beside closed windows; above/below the tank is dark. This supersedes the earlier
+per-organism fading proposal in unmerged/closed fork PR #39. The compatible eye
+control is reused; the original branch/commit remain preserved. Phone dialogs
+open downward and follow the world instead of clamping to the viewport.
+
+He then verified selection already works inside tubes and **withdrew all new
+selector ideas**. Preserve existing pointer handling and selection geometry;
+no additional invisible hit controls or mouth picking are authorized/needed.
+Implementation is isolated on `feature/observer-layers-and-selection`, based on
+testing `d995d48`, tracked in #122. The branch name predates that scope correction.
+No physics, perception, containment repair, main changes or later stages belong
+in this observer-only follow-up.
+
 ## Topic index
 
 | Topic | Keywords to revisit when designing a related requirement | Status |
@@ -16,7 +83,7 @@
 | Simplifying hatch blockers | population occupancy, clearance, debt, expiry, hatching | Hypothesis only; needs careful review |
 | Fractional nutrient recycling rate | recycling, 0.5/s, 0.1/s, deterministic accumulator | Deferred; excluded from scenario selector |
 | Named custom environmental scenarios | environment profiles, reusable settings, mnemonic names | Deferred; first version has only Default / Harsh World |
-| Selective lateral portals / interconnected aquariums | fixed 300-unit windows and open-ended glass tubes, interactive mock icons, local remove-and-place organism transfer, optional cross-user relay | Phase 1: visual mockup; phase 3a/3b: actual self-connection and bidirectional local transport without server; phase 4: optional remote transfer; later stages not yet authorized |
+| Selective lateral portals / interconnected aquariums | fixed 300-unit windows, local names/consent, physical tubes and complete self-transfer | Stages 1–3 implemented and approved for fork main/testing; stage 4 explicitly deferred |
 
 ## 1. Genetically controlled decision to lay eggs
 
@@ -78,6 +145,22 @@ requested now. Define storage, versioning, snapshot independence and founder
 independence in a future decision. The first selector has only Default / Harsh World.
 
 ## 8. Selective lateral portals and multi-aquarium travel
+
+**Stage-1 Work checkpoint:** Fork/testing delivery in #121 and fork PR #34 includes
+clickable observer-only phone/window states and temporary suspended-agreement
+rehearsal. The updated journal below is preserved as design context. Its separately
+scoped glass-tube appearance and all real signaling/transport remain pending.
+
+**Authorized follow-up, 2026-10-28 (fork testing only):** Hernan explicitly
+requested removal of yellow dots, accepted-handshake glass tubes, local name
+entry through the phone and self-selection from a people menu replacing Pair
+L↔R. This supersedes the older yellow-marker requirement and supplies the
+separate tube-preview authorization mentioned below. Stage 2 now implements a
+session-only editable display name. The bounded local phone/offer consent flow
+brings forward the requested self-interaction, without claiming stage 3 complete:
+no real wall opening, organism transport, remote discovery or communication.
+Implementation and acceptance are tracked in upstream #121; the older staged
+notes below remain design context for unimplemented physical/remote work.
 
 > **Exploratory and staged design notes, reviewed 2026-10-28.** The approved Work prompts so far cover phase-1 window geometry, its fixed 300-world-unit correction and interactive **observer-only** icon states on fork testing. Hernan subsequently clarified that **as much of the future glass-tube/window appearance as practical should be designed in phase 1**, while the original physical aquarium walls remain closed; implementing that additional appearance requires an explicit follow-up adjustment to Work's already-issued prompts. These notes are not new implementation authorization, upstream proposals or permission to change the simulation. Approve each bounded increment separately.
 

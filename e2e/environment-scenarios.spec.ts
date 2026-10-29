@@ -1,10 +1,22 @@
 import {test, expect} from '@playwright/test';
+import {build} from 'vite';
 import {readFile} from 'node:fs/promises';
 import {DEFAULT_SETTINGS, createSnapshot} from '../persistence';
 import {createInitialWorld} from '../world';
-import {createScenarioWorld} from '../environmentScenarios';
 
 test.setTimeout(60000);
+let scenarioBrowserCode: string;
+test.beforeAll(async () => {
+  const built = await build({configFile: false, logLevel: 'silent', build: {
+    write: false, minify: false, lib: {entry: 'tests/support/scenario-browser.ts',
+      formats: ['iife'], name: 'scenarioReference'},
+  }});
+  const output = Array.isArray(built) ? built[0] : built;
+  if (!('output' in output)) throw new Error('Missing scenario reference bundle');
+  const chunk = output.output.find(file => file.type === 'chunk');
+  if (!chunk || chunk.type !== 'chunk') throw new Error('Missing scenario reference code');
+  scenarioBrowserCode = chunk.code;
+});
 for (const fallback of [false, true]) test(`environment dropdown, initial conditions, editable controls and exact imports (${fallback ? 'fallback' : 'Worker'})`, async ({page}, info) => {
   await page.setViewportSize(fallback ? {width: 375, height: 812} : {width: 1280, height: 850});
   const errors: string[] = []; page.on('pageerror', e => errors.push(e.message));
@@ -21,6 +33,9 @@ for (const fallback of [false, true]) test(`environment dropdown, initial condit
     };
   });
   await page.goto(`./${fallback ? '?mainthread' : ''}`);
+  // Node and browser transcendental math may differ by one ULP. Generate the
+  // exact reference in this browser instead of weakening state equality.
+  await page.addScriptTag({content: scenarioBrowserCode});
   const selector = page.getByRole('combobox', {name: 'Environment scenario'});
   await expect(selector).toHaveValue('default');
   expect(await selector.locator('option').allTextContents()).toEqual(['🌎 Default', '⛰ Harsh World']);
@@ -44,8 +59,11 @@ for (const fallback of [false, true]) test(`environment dropdown, initial condit
     waterViscosity: .18, gravity: 0, maxOrganisms: 30, inflowRate: 15, nutrientLimit: null});
   const start = fallback ? normal : await page.evaluate(() => (window as any).scenarioResets.at(-1));
   expect(start.state.simTime).toBe(0); expect(start.state.nutrients).toHaveLength(275);
-  const expected = createSnapshot(createInitialWorld(start.settings, start.state.initialSeed), start.settings);
-  expect(start.state).toEqual(expected.state);
+  const expected = await page.evaluate(({settings, seed}) => {
+    const reference = (window as any).scenarioReference;
+    return reference.createSnapshot(reference.createInitialWorld(settings, seed), settings).state;
+  }, {settings: start.settings, seed: start.state.initialSeed});
+  expect(start.state).toEqual(expected);
   await page.getByTitle('Ecology & Physical Settings').dispatchEvent('click');
   await page.getByTitle('Game Menu').dispatchEvent('click');
   await page.getByRole('button', {name: 'MAIN MENU', exact: true}).dispatchEvent('click');
@@ -62,10 +80,15 @@ for (const fallback of [false, true]) test(`environment dropdown, initial condit
   const harshStart = fallback ? harsh : await page.evaluate(() => (window as any).scenarioResets.at(-1));
   expect(harshStart.state.simTime).toBe(0); expect(harshStart.state.nutrients).toHaveLength(0);
   expect(harshStart.state.organisms).toHaveLength(fallback ? 12 : 18);
-  const planned = createScenarioWorld(normal.settings, 'harsh-world', harshStart.state.initialSeed, 'balanced', preset);
-  expect(harshStart.state).toEqual(createSnapshot(planned.state, planned.settings).state);
-  const matchingDefault = createInitialWorld(normal.settings, harshStart.state.initialSeed, 'balanced', preset);
-  expect(harshStart.state.energyPool.budget).toBe(matchingDefault.energyPool!.budget);
+  const planned = await page.evaluate(({settings, seed, preset}) => {
+    const reference = (window as any).scenarioReference;
+    const world = reference.createScenarioWorld(settings, 'harsh-world', seed, 'balanced', preset);
+    const matchingDefault = reference.createInitialWorld(settings, seed, 'balanced', preset);
+    return {state: reference.createSnapshot(world.state, world.settings).state,
+      budget: matchingDefault.energyPool.budget};
+  }, {settings: normal.settings, seed: harshStart.state.initialSeed, preset});
+  expect(harshStart.state).toEqual(planned.state);
+  expect(harshStart.state.energyPool.budget).toBe(planned.budget);
   expect(harshStart.state.energyPool.reserve).toBe(825000);
   for (const [label, value] of [['Tank width', '4800'], ['Tank height', '3000'], ['Gravity', '20'],
     ['Maximum creatures + eggs', '50'], ['Maximum nutrients', '200'], ['Nutrient recycling rate', '1'], ['Water viscosity', '0.4']]) {

@@ -52,6 +52,7 @@ flowchart TD
 | [Ecology and Energy Auditing](Ecology-Baseline) | Feeding, funded eggs, fork-only initial scenarios/reserve-loss display, food distribution and ecological measurements |
 | [Energy Activity Overlays](Energy-Activity) | Fork-only observer tint for real absorption and localized predation |
 | [Simulation Performance](Simulation-Performance) | Worker ownership, rendering, optimizations, saves and throughput limits |
+| [Self-Linked Windows and Physical Tubes — contributor fork](Side-Windows) | Fixed 300-unit sections, local self-call/window consent, physical channel ecology and full-state local transfer |
 
 ## Original plan and current status
 
