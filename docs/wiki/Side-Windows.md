@@ -72,6 +72,21 @@ connection and agreements without inventing a saved name.
 Menus remain within the visible canvas viewport and close with their close
 button or Escape. All name/menu typing is isolated from simulation shortcuts.
 
+## Natural view
+
+The eye centered between the phones, at the same height, controls only the human
+interface. **Open eye:** show phones, names, window consent controls, suspended
+agreements and call menus. **Closed eye:** hide all of that interface while the
+glass tubes and their physical connections remain in place. The closed eye stays
+reachable at subdued opacity; hover or keyboard focus makes it easier to find.
+Activate it again to restore the controls. Hiding never cancels a pending call,
+changes an agreement, auto-answers or pauses the simulation. Editable phone panels
+close when hidden; any still-pending invitation reappears when controls return.
+
+Visibility starts open on page load and is session-only. Camera changes, resizing
+and world replacement do not reset this observer preference. It is not a save
+field or an organism input.
+
 ## Separate window consent and physical tubes
 
 Window controls are unavailable until the local phone call is accepted. Press
@@ -139,7 +154,12 @@ Destination contacts are resolved normally on subsequent ticks.
 Observer opacity decreases cubically with outward distance: about 3.7% at 200
 units and zero at 300. A reusable presentation canvas applies this spatial fade
 to every drawn fragment of organisms, nutrients, carrion, eggs, bubbles, caustics,
-traces, glows and selection/debug effects. Different portions of a large object
+traces, glows and selection/debug effects. Organisms also receive a whole-body
+cubic fade from their root segment's outward depth, regardless of vertical
+containment. This additional factor covers mouths, parts and attached effects
+that protrude beyond the tube roof, floor or tank bounds; organisms therefore
+fade more strongly inside the shared mask. It does not move or clip their
+physical bodies, and does not repair collisions. Different portions of a large object
 or trail fade according to their own positions. The water, glass and human
 connection controls remain outside the entity layer. Drawing writes no opacity
 to world records and changes no organism sensor or physical property.

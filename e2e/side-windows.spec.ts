@@ -1,5 +1,5 @@
 import {build} from 'vite';
-import {tubePresentationFixture} from '../tests/support/tube-presentation';
+import {tubePresentationFixture, tubeProtrusionFixture} from '../tests/support/tube-presentation';
 import {selfTubeFixture} from '../tests/support/self-tubes';
 import {test, expect} from '@playwright/test';
 import {readFile} from 'node:fs/promises';
@@ -159,6 +159,7 @@ for (const fallback of [false, true]) test(`local phone consent and grouped glas
   await check(1500);
   const phone = (side: string) => page.getByTestId(`side-demo-phone-${side}`);
   const windowButton = (side: string, index: number) => page.getByTestId(`side-demo-window-${side}${index}`);
+  const eye = page.getByTestId('side-demo-eye');
   const menu = (side: string) => page.getByRole('region', {name: `${side} phone menu`, exact: true});
   const tubes = async (expected: number) => expect.poll(async () => (await paint()).tubes.length).toBe(expected);
   const call = async (side: string) => {
@@ -178,6 +179,20 @@ for (const fallback of [false, true]) test(`local phone consent and grouped glas
   await expect(page.getByTestId('side-call-accept-R')).toBeVisible();
   await expect(page.locator('[aria-modal=true]')).toHaveCount(0);
   await page.screenshot({path: info.outputPath(`side-windows-${fallback ? 'fallback' : 'worker'}-incoming.png`)});
+  const eyeBox = (await eye.boundingBox())!, phoneBox = (await phone('L').boundingBox())!;
+  expect(eyeBox.y + eyeBox.height / 2).toBeCloseTo(phoneBox.y + phoneBox.height / 2, 3);
+  await eye.click();
+  await page.mouse.move(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2);
+  await expect(eye).toHaveAttribute('aria-expanded', 'false');
+  await expect(eye.locator('svg')).toHaveClass(/lucide-eye-closed/);
+  expect(await eye.evaluate(node => Number(getComputedStyle(node).opacity))).toBe(.35);
+  await expect(phone('L')).toBeHidden(); await expect(phone('R')).toBeHidden();
+  await expect(page.getByTestId('side-call-accept-R')).toBeHidden();
+  await expect(phone('R')).toHaveAttribute('data-ringing', 'true');
+  await eye.press('Space');
+  await expect(eye).toHaveAttribute('aria-expanded', 'true');
+  await expect(eye.locator('svg')).toHaveClass(/(?:^|\s)lucide-eye(?:\s|$)/);
+  await expect(page.getByTestId('side-call-accept-R')).toBeVisible();
   // Pending calls never block simulation controls or acquire a response deadline.
   await page.getByRole('button', {name: 'Resume', exact: true}).click();
   await expect(page.getByRole('button', {name: 'Pause', exact: true})).toBeVisible();
@@ -222,6 +237,17 @@ for (const fallback of [false, true]) test(`local phone consent and grouped glas
   expect(leftBox.x + leftBox.width).toBeLessThan(bounds.x + geometry.wall.screenX - 300 * geometry.wall.scale);
   expect(rightBox.x).toBeGreaterThan(bounds.x + geometry.wall.screenX + 2100 * geometry.wall.scale);
   await page.screenshot({path: info.outputPath(`side-windows-${fallback ? 'fallback' : 'worker'}.png`)});
+  await page.getByTitle('Ecology & Physical Settings').click(); const beforeEye = (await read()).state;
+  await page.getByTitle('Close settings (✕)').click(); await eye.click();
+  await page.mouse.move(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2);
+  await expect(phone('L')).toBeHidden(); await expect(windowButton('R', 0)).toBeHidden();
+  await expect(page.locator('.side-demo-peer').filter({visible: true})).toHaveCount(0);
+  await tubes(8); // Infrastructure is painted even with its controls hidden.
+  await page.screenshot({path: info.outputPath(`side-windows-${fallback ? 'fallback' : 'worker'}-eye-closed.png`)});
+  await page.getByTitle('Ecology & Physical Settings').click(); expect((await read()).state).toEqual(beforeEye);
+  await page.getByTitle('Close settings (✕)').click(); await eye.click();
+  await expect(windowButton('R', 0)).toHaveAttribute('data-state', 'accepted'); await tubes(8);
+
   await page.getByTitle('Ecology & Physical Settings').click(); await setHeight(600);
   await page.getByTitle('Close settings (✕)').click();
   await expect(windowButton('L', 4)).toHaveCount(0); await tubes(4);
@@ -407,4 +433,26 @@ test('all tube entities fade spatially, water is untinted and paused sensory sta
       expect(strength[3][row], `${side} ${name} disappears at 300`).toBe(0);
     }
   }
+  for (const side of ['L', 'R'] as const) {
+    const spillPixels = (depth: number, rootY: number) => canvas.evaluate((node, {side, depth, rootY}) => {
+      const c = node as HTMLCanvasElement, box = c.getBoundingClientRect(), ratio = c.width / box.width;
+      const x = side === 'L' ? -depth : 800 + depth;
+      const left = Math.round((box.width / 2 + (x - 70 - 400) * .35) * ratio);
+      const top = Math.round((box.height / 2 + (rootY - 55 - 900) * .35) * ratio);
+      return Array.from(c.getContext('2d')!.getImageData(left, top, Math.round(140 * .35 * ratio), Math.round(110 * .35 * ratio)).data);
+    }, {side, depth, rootY});
+    const compare = (a: number[], b: number[]) => a.reduce((sum, value, i) => sum + (i % 4 === 3 ? 0 : Math.abs(value - b[i])), 0);
+    for (const rootY of [1501, 1499, 1799, 1801]) {
+      await upload(tubeProtrusionFixture(side, 300, rootY, true)); const background = await spillPixels(300, rootY);
+      const source = tubeProtrusionFixture(side, 300, rootY); await upload(source);
+      expect(compare(await spillPixels(300, rootY), background), `${side} whole body including overflow disappears at 300 / y=${rootY}`).toBe(0);
+      const pending = page.waitForEvent('download');
+      await page.getByRole('button', {name: 'Export Snapshot', exact: true}).dispatchEvent('click');
+      expect(JSON.parse(await readFile((await (await pending).path())!, 'utf8')).state).toEqual(source.state);
+    }
+    await upload(tubeProtrusionFixture(side, 0, 1501, true)); const baseline = await spillPixels(0, 1501);
+    await upload(tubeProtrusionFixture(side, 0, 1501));
+    expect(compare(await spillPixels(0, 1501), baseline), `${side} protruding body remains visible at entrance`).toBeGreaterThan(0);
+  }
+
 });

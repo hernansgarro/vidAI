@@ -1,5 +1,5 @@
 import {forwardRef, memo, useImperativeHandle, useEffect, useMemo, useReducer, useRef, useState, type ForwardedRef} from 'react';
-import {CircleSlash, Handshake, Minus, Phone, PhoneOff, WifiOff} from 'lucide-react';
+import {CircleSlash, Eye, EyeClosed, Handshake, Minus, Phone, PhoneOff, WifiOff} from 'lucide-react';
 import {drawGlassTubes, glassTubeRuns, GLASS_TUBE_LENGTH, sideWindowLayout} from './sideWindows';
 import {createWindowDemo, demoHandDirection, oppositeDemoSide, suspendedDemoAgreements,
   windowDemoReducer, visibleWindowState, physicalSelfTubes, WINDOW_DEMO_LABELS, type DemoSide, type WindowDemoState} from './windowDemo';
@@ -41,6 +41,7 @@ function SideWindowDemo({width, height, camera, viewportWidth, viewportHeight, w
   const [demo, dispatch] = useReducer(windowDemoReducer, undefined, createWindowDemo);
   const [panel, setPanel] = useState<DemoSide | null>(null);
   const [draft, setDraft] = useState('');
+  const [controlsVisible, setControlsVisible] = useState(true);
   const pending = useRef(false), epochRef = useRef(worldEpoch);
   epochRef.current = worldEpoch;
   useEffect(() => {
@@ -99,6 +100,7 @@ function SideWindowDemo({width, height, camera, viewportWidth, viewportHeight, w
       event.stopPropagation();
       if (event.key === 'Escape') setPanel(null);
     }}>
+    <div id="side-demo-controls" hidden={!controlsVisible}>
     {(['L', 'R'] as const).map(side => {
       const sign = side === 'L' ? -1 : 1, wall = side === 'L' ? 0 : width;
       const incoming = demo.call?.status === 'pending' && demo.call.from !== side;
@@ -187,6 +189,16 @@ function SideWindowDemo({width, height, camera, viewportWidth, viewportHeight, w
         </div>}
       </div>;
     })}
+    </div>
+    <div className="side-demo-anchor" ref={bind('eye', width / 2, height, -15, 20)}>
+      <button type="button" className="side-demo-eye" data-testid="side-demo-eye" data-hidden={!controlsVisible}
+        aria-expanded={controlsVisible} aria-controls="side-demo-controls"
+        aria-label={controlsVisible ? 'Hide connection controls' : 'Show connection controls'}
+        title={controlsVisible ? 'Hide call and window controls; keep tubes visible' : 'Show call and window controls'}
+        onClick={() => {setControlsVisible(visible => !visible); setPanel(null);}}>
+        {controlsVisible ? <Eye size={18} aria-hidden="true"/> : <EyeClosed size={18} aria-hidden="true"/>}
+      </button>
+    </div>
   </div>;
 }
 

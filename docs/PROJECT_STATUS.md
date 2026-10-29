@@ -1,3 +1,27 @@
+# Whole-body overflow fade and natural-view eye — fork/testing only (2026-10-29)
+
+Follow-up to #122 / #57, explicitly requested after accepted PR #38.
+`feature/tube-eye-and-overflow-fade` starts from testing
+`d995d48d32fec5dac8f4c5edf8f8c71e85b33954`; main and `tubos-etapa2` remain excluded.
+Organisms now have an additional whole-body cubic observer fade based on root
+outward depth regardless of y, covering protruding mouths/parts beyond the
+spatial mask. Inside the existing mask these factors multiply intentionally.
+No containment, collision, physical pose, vision, learning or save rule changes.
+
+A single open/closed eye sits at phone height, centered below the tank. It hides
+all call/window controls, names, menus and suspension chips while preserving
+physical tubes, calls and agreements. Closed opacity is 0.35, with stronger
+hover/focus visibility. This is session-only UI state, default open, retained
+through camera, size and world changes. Hiding closes editable phone panels but
+never cancels or answers a pending invitation and never pauses the simulation.
+
+Bounded validation adds deliberate roof/floor protrusions, including a root
+outside the tube's vertical interval, to real browser pixel/state checks. The
+existing Worker/fallback UI cases also exercise eye alignment, discreet closed
+appearance, pending-call retention, unchanged tube painting and exact exports.
+CI, native Status and publication receipts remain in #122. Earlier entries are
+historical records; this follow-up does not authorize phase 4 or main promotion.
+
 # Tube presentation consistency — fork/testing only (2026-10-29)
 
 Follow-up to #122 / #57, explicitly requested after accepted stage-3 testing.

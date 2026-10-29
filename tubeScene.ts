@@ -1,5 +1,13 @@
 import {tubeFade, TUBE_DEPTH, type TubeGeometry} from './selfTubes';
 
+/** Whole-body observer fade also covers mouths/parts above or below a tube.
+ * Ignore vertical containment here: this is appearance, never a wall repair. */
+export function wholeOrganismTubeFade(geometry: TubeGeometry | undefined, rootX: number): number {
+  if (!geometry?.runs.length) return 1;
+  const run = geometry.runs[0];
+  return tubeFade(geometry, rootX, (run.top + run.bottom) / 2);
+}
+
 /** Presentation-only surface: apply spatial opacity after all entity/effect
  * painting, without changing optical inputs or any authoritative world record. */
 export class TubeSceneLayer {

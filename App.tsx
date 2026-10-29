@@ -1,6 +1,6 @@
 import {tubeGeometry, setSelfTubes, type SelfTubes} from './selfTubes';
 import {EnergyActivityCollector, EnergyActivityPresentation, drawEnergyGlow} from './energyActivity';
-import {TubeSceneLayer} from './tubeScene';
+import {TubeSceneLayer, wholeOrganismTubeFade} from './tubeScene';
 import SideWindowDemo, {type SideWindowDemoHandle} from './SideWindowDemo';
 import {mouthDimensions} from './mouthGeometry';
 import {NEW_PHYSICS_REGIME, type PhysicsRegime} from './foundationPhysics';
@@ -1350,7 +1350,8 @@ export default function App() {
     for (const org of s.organisms) {
       const g = org.genome;
       const isSelected = org.id === selectedOrgId;
-      const alpha = org.dissolving ? org.dissolveAlpha : 1.0;
+      const alpha = (org.dissolving ? org.dissolveAlpha : 1.0)
+        * wholeOrganismTubeFade(physicalChannels, org.segments[0].x);
 
       ctx.save(); ctx.globalAlpha = alpha;
       // Selection Aura & Multi-Ray Radar

@@ -45,3 +45,8 @@
 @media (prefers-reduced-motion:reduce) { .side-demo-phone[data-ringing=true] { animation:none; } }
 
 .side-demo-window[data-state=suspended] { color:#fde68a; border-color:#a16207; }
+
+/* One observer control remains reachable when connection chrome is hidden. */
+.side-demo-eye { display:flex; align-items:center; justify-content:center; width:30px; height:30px; border:1px solid #475569; border-radius:9px; background:#0f172aee; color:#94a3b8; opacity:.85; pointer-events:auto; cursor:pointer; }
+.side-demo-eye[data-hidden=true] { opacity:.35; }
+.side-demo-eye[data-hidden=true]:hover,.side-demo-eye[data-hidden=true]:focus-visible { opacity:.85; }

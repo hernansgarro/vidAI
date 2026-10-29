@@ -35,6 +35,17 @@ World optics and behavior must remain unchanged. Implementation is isolated in
 `feature/tube-visual-consistency`, based on testing `9294c27`, tracked in #122;
 main, the `tubos-etapa2` checkpoint and phase-4 work remain excluded.
 
+## Authorized overflow/eye follow-up — 2026-10-29
+
+Hernan accepted the shared scene fade and explicitly requested an additional
+whole-organism fade so protruding mouths/parts cannot reveal travel outside the
+mask. **Do not repair collisions or physical containment.** A global eye at
+phone height hides call/window controls while keeping tube infrastructure and
+connections active. Closed eye remains discreetly visible and restores controls.
+This testing-only correction is tracked in #122 on
+`feature/tube-eye-and-overflow-fade`, based on `d995d48`. It changes only observer
+presentation; main, `tubos-etapa2`, physical/sensory rules and phase 4 are excluded.
+
 ## Topic index
 
 | Topic | Keywords to revisit when designing a related requirement | Status |
