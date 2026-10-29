@@ -96,10 +96,12 @@ for (const fallback of [false, true]) test(`local phone consent and grouped glas
     return JSON.parse(await readFile((await (await download).path())!, 'utf8'));
   };
   const upload = async (height: number) => {
+    const canvas = page.getByLabel('Aquatic simulation'), epoch = await canvas.getAttribute('data-world-epoch');
     const snapshot = JSON.parse(JSON.stringify(createSnapshot(state,
       {...DEFAULT_SETTINGS, worldWidth: 1800, worldHeight: height, targetNutrients: 0, inflowRate: 0})));
     await page.locator('input[type=file]').setInputFiles({name: 'side-windows.json', mimeType: 'application/json',
       buffer: Buffer.from(JSON.stringify(snapshot))});
+    await expect(canvas).not.toHaveAttribute('data-world-epoch', epoch!);
     await expect(page.getByRole('button', {name: 'Resume', exact: true})).toBeVisible();
     await expect.poll(async () => (await read()).state).toEqual(snapshot.state);
     return snapshot;
@@ -289,8 +291,12 @@ for (const fallback of [false, true]) test(`physical self-tube crossing conserve
   };
   for (const side of ['L', 'R'] as const) {
     const {source, settings} = selfTubeFixture(side);
+    const canvas = page.getByLabel('Aquatic simulation'), epoch = await canvas.getAttribute('data-world-epoch');
     await page.locator('input[type=file]').setInputFiles({name: 'physical-tubes.json', mimeType: 'application/json',
       buffer: Buffer.from(JSON.stringify(source))});
+    // An export issued before asynchronous import replaces the world can be
+    // rejected by the intentional epoch guard. Observe replacement first.
+    await expect(canvas).not.toHaveAttribute('data-world-epoch', epoch!);
     await expect.poll(async () => (await read()).state).toEqual(source.state);
     await expect(page.getByTestId('side-demo-window-L0')).toHaveAttribute('data-state', 'accepted');
     await page.getByRole('button', {name: 'Resume', exact: true}).click();
