@@ -5,6 +5,15 @@ features and the original phase status. [Project status](PROJECT_STATUS.md)
 records experiments and release history. This file tracks remaining work;
 listed extensions are not implementation promises.
 
+## Contributor fork food lifecycle
+
+Fork main implements the separately authorized #125 nutrient cycle for new closed
+worlds: 30 J/s decay plus bounded remaining-energy carrion mineralization at 60 s.
+Historical snapshots retain indefinite plant lifetime and their original rules;
+canonical upstream is unchanged. The older no-decay decision below describes that
+historical/canonical mode. See docs/wiki/Ecology-Baseline.md for current mechanics
+and docs/experiments/nutrient-cycle-v1.md for the fixed preproduction comparison.
+
 ## Active work tracking
 
 The [issue-backed roadmap and handoff index](https://github.com/smeagol44/vidAI/issues/57)

@@ -364,6 +364,7 @@ export default function App() {
   // Default uniform until repeated natural-feeding evidence favors hotspots.
   const [mouthContactModel, setMouthContactModel] = useState<'capsule-v1' | undefined>('capsule-v1');
   const [physicsRegime, setPhysicsRegime] = useState<PhysicsRegime>(NEW_PHYSICS_REGIME);
+  const [nutrientCycle, setNutrientCycle] = useState<SimulationSettings['nutrientCycle']>('decay-v1');
   const [ecologyRegime, setEcologyRegime] = useState<'closed-v1' | undefined>('closed-v1');
   const [nutrientLimit, setNutrientLimit] = useState<number | null>(null);
   const [energyBudgetDraft, setEnergyBudgetDraft] = useState<number | null>(null);
@@ -614,8 +615,8 @@ export default function App() {
   const currentSettings = useCallback((): SimulationSettings => ({worldWidth, worldHeight, waterViscosity,
     targetNutrients: targetNutrientAbundance, inflowRate: nutrientInflowRate,
     nutrientPattern, kinshipProtection: kinshipProtectionEnabled,
-    mutationSeverity, gravity, maxOrganisms, physicsRegime, ecologyRegime, nutrientLimit, mouthContactModel}),
-    [worldWidth, worldHeight, waterViscosity, targetNutrientAbundance, nutrientInflowRate, nutrientPattern, kinshipProtectionEnabled, gravity, maxOrganisms, mutationSeverity, physicsRegime, ecologyRegime, nutrientLimit, mouthContactModel]);
+    mutationSeverity, gravity, maxOrganisms, physicsRegime, ecologyRegime, nutrientLimit, mouthContactModel, nutrientCycle}),
+    [worldWidth, worldHeight, waterViscosity, targetNutrientAbundance, nutrientInflowRate, nutrientPattern, kinshipProtectionEnabled, gravity, maxOrganisms, mutationSeverity, physicsRegime, ecologyRegime, nutrientLimit, mouthContactModel, nutrientCycle]);
 
   // Retain configured application defaults independently of live slider edits
   // and imported worlds. Existing in-world reset controls keep their semantics.
@@ -747,6 +748,7 @@ export default function App() {
       setEcoStats(prev => ({...prev, ...collectWorldStats(restored.state, v.targetNutrients)}));
       setPhysicsRegime(v.physicsRegime ?? 'legacy-v0');
       setMouthContactModel(v.mouthContactModel);
+      setNutrientCycle(v.nutrientCycle);
       setEcologyRegime(v.ecologyRegime); setNutrientLimit(v.nutrientLimit ?? null);
       setWorldWidth(v.worldWidth); setWorldHeight(v.worldHeight); setGravity(v.gravity ?? 0);
       setWaterViscosity(v.waterViscosity); setTargetNutrientAbundance(v.targetNutrients); setNutrientInflowRate(v.inflowRate);
@@ -777,10 +779,11 @@ export default function App() {
   const initGame = useCallback(
     (preset = 'standard', scenario?: EnvironmentScenario) => {
       const defaults = {...(scenario ? initialEnvironmentRef.current : currentSettings()), physicsRegime: NEW_PHYSICS_REGIME,
-        ecologyRegime: 'closed-v1' as const, nutrientLimit: null, mouthContactModel: 'capsule-v1' as const};
+        ecologyRegime: 'closed-v1' as const, nutrientCycle: 'decay-v1' as const, nutrientLimit: null, mouthContactModel: 'capsule-v1' as const};
       const {state, settings: config} = createScenarioWorld(defaults, scenario ?? 'default',
         simulationSeed, founderMode, preset, getConfig('initialOrganisms'));
       setMouthContactModel('capsule-v1');
+      setNutrientCycle('decay-v1');
       setPhysicsRegime(NEW_PHYSICS_REGIME);
       setEcologyRegime('closed-v1'); setNutrientLimit(config.nutrientLimit ?? null);
       setWorldWidth(config.worldWidth); setWorldHeight(config.worldHeight);
@@ -1037,7 +1040,7 @@ export default function App() {
     const fixedDt = 1 / 60;
 
     const settings: SimulationSettings = {
-      ecologyRegime, nutrientLimit, mouthContactModel,
+      ecologyRegime, nutrientLimit, mouthContactModel, nutrientCycle,
       physicsRegime,
       worldWidth,
       worldHeight,
@@ -1230,9 +1233,9 @@ export default function App() {
 
     // Glow pass: every halo is behind every physical entity.
     for (const nut of s.nutrients) {
-      const baseRadius = Math.max(6, nut.radius);
+      const baseRadius = nutrientCycle === 'decay-v1' ? nut.radius : Math.max(6, nut.radius);
       const pulse = 1 + Math.sin(nut.pulseTimer || 0) * .12;
-      const radius = Math.max(14, baseRadius * 2.6) * pulse;
+      const radius = (nutrientCycle === 'decay-v1' ? baseRadius * 2.6 : Math.max(14, baseRadius * 2.6)) * pulse;
       if (nut.x + radius < viewLeft || nut.x - radius > viewRight
         || nut.y + radius < viewTop || nut.y - radius > viewBottom) continue;
       ctx.save(); ctx.translate(nut.x, nut.y);
@@ -1274,9 +1277,9 @@ export default function App() {
     for (const nut of s.nutrients) {
       const carrion = nut.kind === 'carrion';
       const isSuper = nut.isSuper || nut.energyValue > NUTRIENT_ENERGY_VALUE * 1.25;
-      const baseRadius = Math.max(6.0, nut.radius);
+      const baseRadius = nutrientCycle === 'decay-v1' ? nut.radius : Math.max(6.0, nut.radius);
       const pulse = 1.0 + Math.sin(nut.pulseTimer || 0) * 0.12;
-      const visualRadius = Math.max(14, baseRadius * 2.6) * pulse;
+      const visualRadius = (nutrientCycle === 'decay-v1' ? baseRadius * 2.6 : Math.max(14, baseRadius * 2.6)) * pulse;
       if (nut.x + visualRadius < viewLeft || nut.x - visualRadius > viewRight
         || nut.y + visualRadius < viewTop || nut.y - visualRadius > viewBottom) continue;
 
@@ -1288,7 +1291,7 @@ export default function App() {
       ctx.fillStyle = `rgb(${rgb.join(',')})`;
       ctx.fill();
       ctx.strokeStyle = carrion ? '#ffc5b5' : isSuper ? '#a7f3d0' : '#6ee7b7';
-      ctx.lineWidth = Math.max(1.2, 2.0 / zoom);
+      ctx.lineWidth = nutrientCycle === 'decay-v1' ? Math.min(baseRadius * .2, 2 / zoom) : Math.max(1.2, 2.0 / zoom);
       ctx.stroke();
 
       if (!carrion && nutImg && nutImg.complete && nutImg.naturalWidth > 0) {

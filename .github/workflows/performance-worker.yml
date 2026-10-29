@@ -2,6 +2,10 @@ name: Worker integration smoke
 on:
   pull_request:
     paths:
+      - 'simulation.ts'
+      - 'tests/nutrient-cycle.test.ts'
+      - 'tests/support/nutrient-cycle.ts'
+      - 'e2e/nutrient-cycle.spec.ts'
       - 'environmentScenarios.ts'
       - 'tests/environment-scenarios.test.ts'
       - 'tests/support/scenario-browser.ts'
@@ -88,7 +92,7 @@ jobs:
             command: "npx playwright test e2e/presentation.spec.ts --grep 'toolbar stays' --workers=1"
           - suite: chromium-regressions
             browser: chromium
-            command: "npx playwright test e2e/performance-worker.spec.ts e2e/energy-activity.spec.ts e2e/egg-reserve.spec.ts e2e/environment-scenarios.spec.ts --workers=1"
+            command: "npx playwright test e2e/performance-worker.spec.ts e2e/energy-activity.spec.ts e2e/egg-reserve.spec.ts e2e/environment-scenarios.spec.ts e2e/nutrient-cycle.spec.ts --workers=1"
           - suite: firefox-regressions
             browser: firefox
             command: "npx playwright test --config=playwright.worker-firefox.config.ts --workers=1"

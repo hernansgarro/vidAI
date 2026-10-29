@@ -41,6 +41,11 @@ flowchart TD
 - [Closed energy transfers](Ecology-Baseline#closed-energy-transfers), [open-world transfers](Ecology-Baseline#chemical-energy-transfers) and [egg lifecycle](Ecology-Baseline#egg-lifecycle)
 - [Worker and display architecture](Simulation-Performance#worker-and-display-architecture)
 
+The contributor fork also implements [continuous food degradation and bounded
+carrion mineralization](Ecology-Baseline#continuous-food-recycling--contributor-fork)
+for new closed worlds; historical saves keep their original rules. This feature
+is pending canonical upstream acceptance.
+
 ## Systems
 
 | Page | Covers |
