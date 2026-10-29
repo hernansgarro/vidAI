@@ -1,25 +1,28 @@
+import {build} from 'vite';
 import {selfTubeFixture} from '../tests/support/self-tubes';
 import {test, expect} from '@playwright/test';
 import {readFile} from 'node:fs/promises';
 import {DEFAULT_SETTINGS, createSnapshot, restoreSnapshot, totalAccountedEnergy} from '../persistence';
 import {enableClosedEconomy} from '../energyEconomy';
-import {XoshiroPRNG, stepSimulation, type SimulationState} from '../simulation';
+import {XoshiroPRNG, type SimulationState} from '../simulation';
 
 test.use({viewport: {width: 1280, height: 900}});
 test.setTimeout(90000);
-// Chrome and Node may differ in transcendental last bits. Same-engine Worker
-// checks remain bit-exact; compare cross-engine evolved scalars with an explicit
-// absolute bound while retaining exact shape, IDs, genes, PRNG and counters.
-function expectCrossEngineState(actual: unknown, expected: unknown, path = 'state') {
-  if (typeof actual === 'number' && typeof expected === 'number') {
-    expect(Number.isFinite(actual), path).toBe(true);
-    expect(Math.abs(actual - expected), path).toBeLessThanOrEqual(2e-7 + Math.abs(expected) * 1e-12);
-  } else if (actual && expected && typeof actual === 'object' && typeof expected === 'object') {
-    expect(Array.isArray(actual), path).toBe(Array.isArray(expected));
-    expect(Object.keys(actual).sort(), path).toEqual(Object.keys(expected).sort());
-    for (const key of Object.keys(expected)) expectCrossEngineState((actual as any)[key], (expected as any)[key], `${path}.${key}`);
-  } else expect(actual, path).toEqual(expected);
-}
+// Bundle an isolated test-only kernel for exact replay in Chrome's own math
+// runtime. Node/Chrome transcendental rounding and near-zero diagnostic branch
+// counts are not a valid bit-exact cross-runtime reference.
+let browserReplayCode: string;
+test.beforeAll(async () => {
+  const built = await build({configFile: false, logLevel: 'silent', build: {
+    write: false, minify: false, lib: {entry: 'tests/support/self-tube-browser.ts',
+      formats: ['iife'], name: 'selfTubeReplay'},
+  }});
+  const output = Array.isArray(built) ? built[0] : built;
+  if (!('output' in output)) throw new Error('Missing browser replay bundle');
+  const chunk = output.output.find(file => file.type === 'chunk');
+  if (!chunk || chunk.type !== 'chunk') throw new Error('Missing browser replay code');
+  browserReplayCode = chunk.code;
+});
 for (const fallback of [false, true]) test(`local phone consent and grouped glass tubes follow tank/camera with authoritative physical topology (${fallback ? 'fallback' : 'Worker'})`, async ({page}, info) => {
   const errors: string[] = []; page.on('pageerror', e => errors.push(e.message));
   await page.addInitScript(() => {
@@ -296,15 +299,12 @@ for (const fallback of [false, true]) test(`physical self-tube crossing conserve
       return side === 'L' ? x > settings.worldWidth : x < 0;
     }).toBe(true);
     await page.getByRole('button', {name: 'Pause', exact: true}).click();
-    const arrived = await read(), exact = restoreSnapshot(source);
+    const arrived = await read();
     const ticks = Math.round(arrived.state.simTime * 60); expect(ticks).toBeGreaterThan(0);
-    for (let tick = 0; tick < ticks; tick++) stepSimulation(exact.state, exact.settings, 1 / 60);
-    const expected = createSnapshot(exact.state, exact.settings).state;
-    expectCrossEngineState(arrived.state, expected);
-    expect(arrived.state.organisms[0].genome).toEqual(expected.organisms[0].genome);
-    expect(arrived.state.prngState).toEqual(expected.prngState);
-    expect(arrived.state.totalDeaths).toBe(source.state.totalDeaths);
-    expect(arrived.state.selfTubes).toEqual(source.state.selfTubes);
+    await page.addScriptTag({content: browserReplayCode});
+    const expected = await page.evaluate(({source, ticks}) =>
+      (window as any).selfTubeReplay.replaySelfTubeSnapshot(source, ticks), {source, ticks});
+    expect(arrived.state).toEqual(expected);
     expect(arrived.state.organisms).toHaveLength(1);
     expect(arrived.state.organisms[0].id).toBe(source.state.organisms[0].id);
     expect(arrived.state.totalBirths).toBe(source.state.totalBirths);

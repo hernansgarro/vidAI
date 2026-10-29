@@ -12,6 +12,7 @@ on:
       - 'selfTubes.ts'
       - 'tests/self-tubes.test.ts'
       - 'tests/support/self-tubes.ts'
+      - 'tests/support/self-tube-browser.ts'
       - 'tests/window-demo.test.ts'
       - 'tests/side-windows.test.ts'
       - 'e2e/side-windows.spec.ts'
