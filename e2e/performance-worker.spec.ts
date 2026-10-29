@@ -62,7 +62,7 @@ for (const mainthread of [false, true]) test(`closed-budget conversion, controls
   await page.getByRole('button', {name: 'Convert this world to a closed energy budget', exact: true}).dispatchEvent('click');
   await expect(page.getByTestId('closed-energy-controls')).toBeVisible();
   const converted = await read();
-  expect(converted.schemaVersion).toBe('16.0.0');
+  expect(converted.schemaVersion).toBe('16.0.0'); expect(converted.settings.nutrientCycle).toBeUndefined();
   expect(converted.state.energyPool.budget).toBe(embodiedEnergy(state));
   expect(converted.state.energyPool.reserve).toBe(0);
   expect(converted.state.organisms).toEqual(source.state.organisms);
@@ -212,7 +212,7 @@ for (const fallback of [false, true]) test(`legacy import and current reset agre
   await expect(page.getByTestId('physics-regime')).toContainText('passive joint solver');
   const stabilized = await exportState();
   expect(stabilized.schemaVersion).toBe('16.0.0'); expect(stabilized.settings.physicsRegime).toBe('passive-work-v3');
-  expect(stabilized.state).toEqual(source.state);
+  expect(stabilized.state).toEqual(source.state); expect(stabilized.settings.nutrientCycle).toBeUndefined();
   await page.getByRole('button',{name:'Resume',exact:true}).click();
   await page.getByTitle('Close settings (✕)').click();
   await page.keyboard.press('Escape');
@@ -221,7 +221,8 @@ for (const fallback of [false, true]) test(`legacy import and current reset agre
   await expect(page.getByTestId('physics-regime')).toContainText('Restored swimming');
   await page.keyboard.press('Space');
   const reset=await exportState();expect(reset.settings.physicsRegime).toBe('passive-work-v3');
-  expect(reset.schemaVersion).toBe('16.0.0'); expect(reset.settings.mouthContactModel).toBe('capsule-v1');
+  expect(reset.schemaVersion).toBe('18.0.0'); expect(reset.settings.nutrientCycle).toBe('decay-v1');
+  expect(reset.settings.mouthContactModel).toBe('capsule-v1');
   expect(reset.state.organisms.some((o: any)=>o.motorDiagnostics?.positiveWorkJ>0)).toBe(true);
   expect(errors).toEqual([]);
 });
