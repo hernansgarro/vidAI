@@ -10,6 +10,8 @@ By Hernán Garro & Federico Regueira.
 **[Current Wiki](https://github.com/smeagol44/vidAI/wiki)** ·
 [Development priorities](docs/FEATURE_ROADMAP.md) · [Experiment history](docs/PROJECT_STATUS.md)
 
+**Contributor fork only:** [Hernan's Idea Lab — personal Kanban and idea cards](docs/IDEA_LAB.md). This exploratory board is separate from the canonical upstream VIDA project.
+
 ## Current scope
 
 - Nine featured starters from nine source families; all 55 legacy designs remain in the Bank. New worlds start with 18 creatures from at most five featured designs, a living cap of 30 and plant-food target of 275.
