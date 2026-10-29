@@ -120,6 +120,11 @@ for (const fallback of [false, true]) test(`side windows follow real tank resizi
   // All icon transitions are real clicks, independent of Worker commands.
   const phone = (side: string) => page.getByTestId(`side-demo-phone-${side}`);
   const windowButton = (side: string, index: number) => page.getByTestId(`side-demo-window-${side}${index}`);
+  const reset = page.getByRole('button', {name: 'Reset connection demonstration', exact: true});
+  await windowButton('L', 0).focus(); await windowButton('L', 0).press('Space');
+  await expect(windowButton('L', 0)).toHaveAttribute('data-state', 'outgoing');
+  await expect(page.getByRole('button', {name: 'Resume', exact: true})).toBeVisible();
+  await reset.click();
   await phone('L').click();
   await expect(phone('L')).toHaveAttribute('aria-pressed', 'true');
   await expect(phone('R')).toHaveAttribute('aria-pressed', 'false');
@@ -136,7 +141,6 @@ for (const fallback of [false, true]) test(`side windows follow real tank resizi
   expect(leftBox.x + leftBox.width).toBeLessThan(bounds.x + geometry.circles[0].screenX + 10 - 300 * geometry.wall.scale);
   expect(rightBox.x).toBeGreaterThan(bounds.x + geometry.circles[1].screenX - 10 + 300 * geometry.wall.scale);
   await page.screenshot({path: info.outputPath(`side-windows-${fallback ? 'fallback' : 'worker'}.png`)});
-  const reset = page.getByRole('button', {name: 'Reset connection demonstration', exact: true});
   await reset.click(); await page.getByTestId('side-demo-pair').click();
   await windowButton('L', 0).click();
   await expect(windowButton('L', 0)).toHaveAttribute('data-state', 'outgoing');
@@ -166,13 +170,18 @@ for (const fallback of [false, true]) test(`side windows follow real tank resizi
   await expect(windowButton('R', 4)).toHaveAttribute('data-state', 'closed');
   await reset.click();
   const before = await paint();
+  await page.mouse.move(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2);
   await page.mouse.down(); await page.mouse.move(bounds.x + bounds.width / 2 + 100, bounds.y + bounds.height / 2 + 40, {steps: 4}); await page.mouse.up();
   await expect.poll(async () => Math.abs((await paint()).labels[0].screenX - before.labels[0].screenX)).toBeGreaterThan(20);
   await check(1500);
   await page.mouse.wheel(0, -200);
   await expect.poll(async () => (await paint()).wall.scale).toBeGreaterThan(.35);
   await check(1500);
-  await page.setViewportSize({width: 960, height: 720}); await check(1500);
+  const beforeResize = (await paint()).frame;
+  await page.setViewportSize({width: 960, height: 720});
+  await expect.poll(() => canvas.evaluate(node => node.getBoundingClientRect().width)).toBe(960);
+  await expect.poll(async () => (await paint()).frame).toBeGreaterThan(beforeResize);
+  await check(1500);
   await page.getByTitle('Ecology & Physical Settings').click();
   const exact = await read();
   expect(exact.state).toEqual(source.state);

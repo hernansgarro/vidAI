@@ -62,7 +62,11 @@ function SideWindowDemo({width, height, camera, viewportWidth, viewportHeight}: 
     },
   }), [camera, width, height, viewportWidth, viewportHeight]);
 
-  return <div className="side-demo-layer" role="region" aria-label="Connection visual demonstration">
+  return <div className="side-demo-layer" role="region" aria-label="Connection visual demonstration"
+    onKeyDown={event => {
+      // Native button activation must not reach the application's Space/pause shortcut.
+      if (event.key === ' ' || event.key === 'Enter') event.stopPropagation();
+    }}>
     <div className="side-demo-toolbar">
       <span>Connections · demo only</span>
       <button type="button" aria-pressed={demo.paired} data-testid="side-demo-pair"
