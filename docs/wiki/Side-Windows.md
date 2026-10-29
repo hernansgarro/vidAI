@@ -16,8 +16,8 @@ sectionHeight = H / N
 ```
 
 Each side has `N` uniformly sized sections, numbered upward from the floor:
-`L0`, `L1`, … and `R0`, `R1`, …. Their labels remain at the section midpoints;
-there are no yellow boundary dots. Growing or shrinking redistributes sections
+`L0`, `L1`, … and `R0`, `R1`, … internally. Visible section-name labels and
+yellow boundary dots are absent; accessible control names retain logical indices. Growing or shrinking redistributes sections
 by the same formula. Camera/browser changes affect only their screen positions.
 
 | Actual height | Sections per side | Section height |
@@ -37,7 +37,6 @@ by the same formula. Camera/browser changes affect only their screen positions.
 Below 300 units, the one full-height section is the sole minimum-height exception.
 Existing resize controls remain 600–3000 units high; the geometry also handles
 smaller positive heights without changing these controls or imposing a count cap.
-Labels keep an 11-CSS-pixel font and sit 10 CSS pixels outside the wall.
 
 ## Phone, local name and self-selection
 
@@ -89,8 +88,9 @@ that group have horizontal glass edges. There are no internal crossbars between
 adjacent accepted windows. Isolated and nonconsecutive groups work independently.
 Opening every window extends only the tank floor and upper boundary.
 
-The water/glass fades outward over the same 300 units, including the outer
-100 units used for transport rearm. The distal end is
+Tube water uses the same continuous aquarium background, without a separate
+cyan tint or overlay. The horizontal glass edges diffuse outward over the same
+300 units, including the outer 100 units used for transport rearm. The distal end is
 visually uncapped: no perpendicular end wall, membrane or plug. The original
 lateral wall opens only at accepted windows. Closed sections remain solid.
 Organisms, food and eggs occupy the channel water and obey the same local
@@ -137,7 +137,12 @@ scaling the body. Food and eggs crossing an open end continue locally as well.
 Destination contacts are resolved normally on subsequent ticks.
 
 Observer opacity decreases cubically with outward distance: about 3.7% at 200
-units and zero at 300. This changes no organism sensor or physical property.
+units and zero at 300. A reusable presentation canvas applies this spatial fade
+to every drawn fragment of organisms, nutrients, carrion, eggs, bubbles, caustics,
+traces, glows and selection/debug effects. Different portions of a large object
+or trail fade according to their own positions. The water, glass and human
+connection controls remain outside the entity layer. Drawing writes no opacity
+to world records and changes no organism sensor or physical property.
 Vision uses the actual local scene; there are no wrapped rays, remote views or
 destination copies before handoff. Consecutive windows share glass geometry,
 while the crossed section still determines its matching opposite section.

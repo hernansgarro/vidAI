@@ -25,6 +25,16 @@ in upstream #122 without an upstream PR. Main, stage 4, remote identity and
 separate live-creature file import/export remain unapproved. Historical notes
 below retain their original discussion context.
 
+## Authorized visual follow-up — 2026-10-29
+
+After accepting stage 3 in testing, Hernan explicitly requested that **all tube
+contents** share observer-only progressive transparency, that tube water match
+the aquarium and that visible L/R section labels disappear. This supersedes
+older label/tinted-water presentation notes for the current testing branch.
+World optics and behavior must remain unchanged. Implementation is isolated in
+`feature/tube-visual-consistency`, based on testing `9294c27`, tracked in #122;
+main, the `tubos-etapa2` checkpoint and phase-4 work remain excluded.
+
 ## Topic index
 
 | Topic | Keywords to revisit when designing a related requirement | Status |

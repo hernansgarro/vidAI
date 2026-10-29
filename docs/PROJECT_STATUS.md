@@ -1,3 +1,23 @@
+# Tube presentation consistency — fork/testing only (2026-10-29)
+
+Follow-up to #122 / #57, explicitly requested after accepted stage-3 testing.
+Branch `feature/tube-visual-consistency` starts from testing
+`9294c27e9e640f6462949effb89c9911f8e39b13`; main and `tubos-etapa2` are excluded.
+All scene entities/effects now share a spatial observer-only cubic fade inside
+physical tubes. This includes food/carrion glows, eggs, bubbles, caustics,
+organisms, traces and selection/debug effects, including portions of large
+objects. A reusable canvas is allocated only when tubes are physically active.
+Tube water is the unchanged aquarium background, with the extra cyan fill
+removed. Visible L/R labels are removed; logical indices/accessibility remain.
+
+No simulation, sensory, learning, Worker, transfer, save-schema or energy code
+is changed. Local 360 fast tests and build/typecheck pass; two obsolete visible
+label-paint tests were replaced by current logical geometry and browser absence
+checks. A new focused real-browser optical check compares each entity/effect at
+0/100/200/300 units on both sides against the same empty background and requires
+exact paused world exports. CI/publication evidence is maintained in #122.
+Earlier entries below describe prior work and remain historical records.
+
 # Physical self-tubes — fork/testing only (2026-10-29)
 
 Tracking #122 / #57; topic branch `feature/self-tubes-stage3` is based on

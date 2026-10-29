@@ -140,7 +140,7 @@ function SideWindowDemo({width, height, camera, viewportWidth, viewportHeight, w
                 title={`${side}${index} suspended — agreement retained. Click to cancel it.`}
                 aria-label={`Cancel suspended agreement ${side}${index}`}
                 onClick={() => void send({type: 'clear', side, index})}>
-                <WifiOff size={12} aria-hidden="true"/>{side}{index}<span aria-hidden="true">×</span>
+                <WifiOff size={12} aria-hidden="true"/><span aria-hidden="true">×</span>
               </button>)}
             </div>}
           </div>
