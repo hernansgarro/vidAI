@@ -1,6 +1,7 @@
 import {test, expect} from '@playwright/test';
 import {readFile} from 'node:fs/promises';
 import {DEFAULT_SETTINGS, createSnapshot} from '../persistence';
+import {enableClosedEconomy} from '../energyEconomy';
 import {XoshiroPRNG, type SimulationState} from '../simulation';
 
 test.use({viewport: {width: 1280, height: 900}});
@@ -66,6 +67,8 @@ for (const fallback of [false, true]) test(`local phone consent and grouped glas
     ledger: {externalInflow: 0, metabolicDissipation: 0, mechanicalWorkHeat: 0, recordedLosses: 0},
     nutrientAccumulator: 0, totalBirths: 0, totalDeaths: 0, initialSeed: 51,
     prng: new XoshiroPRNG(51), lineage: new Map(), recentDeaths: []};
+  // An empty closed world keeps running; a legacy open world correctly ends on extinction.
+  enableClosedEconomy(state);
   const read = async () => {
     const download = page.waitForEvent('download');
     await page.getByRole('button', {name: 'Export Snapshot', exact: true}).dispatchEvent('click');
@@ -131,9 +134,13 @@ for (const fallback of [false, true]) test(`local phone consent and grouped glas
   await expect(phone('R')).toHaveAttribute('data-ringing', 'true');
   await expect(page.getByTestId('side-call-accept-R')).toBeVisible();
   await expect(page.locator('[aria-modal=true]')).toHaveCount(0);
+  await page.screenshot({path: info.outputPath(`side-windows-${fallback ? 'fallback' : 'worker'}-incoming.png`)});
   // Pending calls never block simulation controls or acquire a response deadline.
   await page.getByRole('button', {name: 'Resume', exact: true}).click();
-  await expect.poll(() => page.getByRole('button', {name: 'Pause', exact: true}).isVisible()).toBe(true);
+  await expect(page.getByRole('button', {name: 'Pause', exact: true})).toBeVisible();
+  await page.getByTitle('Ecology & Physical Settings').click();
+  await expect.poll(async () => (await read()).state.simTime).toBeGreaterThan(0);
+  await page.getByTitle('Close settings (✕)').click();
   await page.getByRole('button', {name: 'Pause', exact: true}).click();
   await expect(phone('R')).toHaveAttribute('data-ringing', 'true');
   await menu('L').getByRole('button', {name: 'Cancel call', exact: true}).click();
@@ -166,7 +173,7 @@ for (const fallback of [false, true]) test(`local phone consent and grouped glas
   await windowButton('L', 0).click(); await windowButton('R', 0).click(); await tubes(4);
   await expect.poll(pixel).not.toEqual(closedPixel); // actual pixels change outside the wall
   await windowButton('L', 1).click(); await windowButton('R', 1).click(); await tubes(4);
-  expect((await paint()).tubes.every(([, y]: number[]) => y === 900 || y === 1500)).toBe(true);
+  await expect.poll(async () => (await paint()).tubes.length === 4 && (await paint()).tubes.every(([, y]: number[]) => y === 900 || y === 1500)).toBe(true);
   await windowButton('R', 4).click(); await windowButton('L', 4).click(); await tubes(8);
   const geometry = await paint(), leftBox = (await windowButton('L', 0).boundingBox())!, rightBox = (await windowButton('R', 0).boundingBox())!;
   const leftLabel = geometry.labels.find((l: any) => l.id === 'L0'), rightLabel = geometry.labels.find((l: any) => l.id === 'R0');
@@ -198,7 +205,7 @@ for (const fallback of [false, true]) test(`local phone consent and grouped glas
   // Opening all windows leaves only the outer floor and ceiling on each side.
   for (const index of [2, 3, 4]) {await windowButton('L', index).click(); await windowButton('R', index).click();}
   await tubes(4);
-  expect((await paint()).tubes.every(([, y]: number[]) => y === 0 || y === 1500)).toBe(true);
+  await expect.poll(async () => (await paint()).tubes.length === 4 && (await paint()).tubes.every(([, y]: number[]) => y === 0 || y === 1500)).toBe(true);
   for (let index = 0; index < 5; index++) await windowButton('L', index).click();
   await tubes(0);
   const before = await paint();
