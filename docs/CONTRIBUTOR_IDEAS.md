@@ -35,6 +35,24 @@ World optics and behavior must remain unchanged. Implementation is isolated in
 `feature/tube-visual-consistency`, based on testing `9294c27`, tracked in #122;
 main, the `tubos-etapa2` checkpoint and phase-4 work remain excluded.
 
+## Authorized observer-layer follow-up — 2026-10-29
+
+Hernan approved a back-to-front observer stack: decorations, glow, entities,
+human annotations, universal outside-tank opacity, glass, connection controls,
+and existing application windows. Side fading covers the full tank height even
+beside closed windows; above/below the tank is dark. This supersedes the earlier
+per-organism fading proposal in unmerged/closed fork PR #39. The compatible eye
+control is reused; the original branch/commit remain preserved. Phone dialogs
+open downward and follow the world instead of clamping to the viewport.
+
+He then verified selection already works inside tubes and **withdrew all new
+selector ideas**. Preserve existing pointer handling and selection geometry;
+no additional invisible hit controls or mouth picking are authorized/needed.
+Implementation is isolated on `feature/observer-layers-and-selection`, based on
+testing `d995d48`, tracked in #122. The branch name predates that scope correction.
+No physics, perception, containment repair, main changes or later stages belong
+in this observer-only follow-up.
+
 ## Topic index
 
 | Topic | Keywords to revisit when designing a related requirement | Status |

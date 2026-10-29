@@ -6,7 +6,7 @@ on:
       - 'tests/environment-scenarios.test.ts'
       - 'e2e/environment-scenarios.spec.ts'
       - 'sideWindows.ts'
-      - 'tubeScene.ts'
+      - 'worldScene.ts'
       - 'tests/support/tube-presentation.ts'
       - 'SideWindowDemo.tsx'
       - 'sideWindowDemo.css'

@@ -1,7 +1,7 @@
 import {CARRION_DECAY_SECONDS} from '../../simulation';
 import {selfTubeFixture} from './self-tubes';
 import {eggReserveFixture} from './egg-reserve';
-import {createSnapshot} from '../../persistence';
+import {createSnapshot, restoreSnapshot} from '../../persistence';
 import {enableClosedEconomy, setWorldEnergy} from '../../energyEconomy';
 import {translateLiveOrganism} from '../../selfTubes';
 
@@ -21,6 +21,19 @@ export function tubePresentationFixture(side: 'L' | 'R', depth: number, empty = 
     ...(i ? {kind: 'carrion' as const, decayTimeRemaining: CARRION_DECAY_SECONDS} : {})}));
   state.eggs = [{...eggReserveFixture(true).state.eggs[2], x, y: 1350}];
   if (empty) {state.organisms = []; state.caustics = []; state.bubbles = []; state.nutrients = []; state.eggs = [];}
+  delete state.energyPool; enableClosedEconomy(state); setWorldEnergy(state, state.energyPool!.budget + 1200000);
+  return createSnapshot(state, settings);
+}
+
+/** Deliberately protruding body: no physical repair is performed by this test. */
+export function tubeProtrusionFixture(side: 'L' | 'R', depth: number, rootY = 1501, empty = false) {
+  const exact = restoreSnapshot(tubePresentationFixture(side, depth));
+  const {state, settings} = exact, org = state.organisms[0];
+  state.selfTubes!.accepted = [0]; // roof at 1500, floor at 1800
+  translateLiveOrganism(org, 0, rootY - org.segments[0].y);
+  org.traceHistory = [];
+  state.caustics = []; state.bubbles = []; state.nutrients = []; state.eggs = [];
+  if (empty) state.organisms = [];
   delete state.energyPool; enableClosedEconomy(state); setWorldEnergy(state, state.energyPool!.budget + 1200000);
   return createSnapshot(state, settings);
 }

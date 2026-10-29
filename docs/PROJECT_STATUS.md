@@ -1,3 +1,27 @@
+# Universal observer layers — fork/testing only (2026-10-29)
+
+Tracking #122 / #57, branch `feature/observer-layers-and-selection`, based on
+`d995d48d32fec5dac8f4c5edf8f8c71e85b33954`. Hernan explicitly approved the
+layer-stack proposal and later withdrew selector changes after confirming the
+existing tube selection works. Pointer handlers and picking are unchanged.
+
+A reusable world surface orders decorations, glows, entities and human
+annotations before a universal observer mask. Above/below the tank is dark;
+both full-height sides fade cubically over 300 units, including closed windows
+and protruding fragments. Glass and controls paint above the mask. No separate
+whole-organism fade is used. The eye hides connection chrome without changing
+physical channels or world state. Phone dialogs open below their world anchors
+and may leave the viewport with the tank, with no pinning or automatic camera
+movement. Unmerged PR #39 is closed/superseded; its original branch is retained.
+
+Local 360 fast checks and build/typecheck pass; the production Worker remains
+`simulation.worker-C27740xm.js`, unchanged from the testing base. Focused browser
+coverage includes eye state, exact paused exports, spatial opacity with closed
+windows, protruding fragments, top/bottom darkness and camera-anchored dialogs.
+CI, integration and publication receipts are tracked in #122 as they complete.
+Main, the stage-2 checkpoint, physics/sensors and later stages remain excluded.
+Earlier entries below are retained historical records.
+
 # Tube presentation consistency — fork/testing only (2026-10-29)
 
 Follow-up to #122 / #57, explicitly requested after accepted stage-3 testing.
