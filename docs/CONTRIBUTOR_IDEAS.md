@@ -4,6 +4,24 @@
 >
 > **Visibility:** This file is in the public contributor fork `hernansgarro/vidAI`; it is not confidential. When preparing clean upstream submission branches, exclude this contributor-only journal unless separately authorized.
 
+## Current delivery and promotion decision — 2026-10-29
+
+Hernan verified and approved the complete testing advance, then explicitly
+requested its integration into **fork main**, including applicable validated
+browser-CI improvements. Stages 1–3 now comprise local display names/self-calls,
+per-window consent, funded physical channels and exact local self-transfer,
+plus the universal observer mask, natural-view eye and downward phone dialogs.
+The parallel browser gates already exist in both environments; the side-window
+shard follows the feature into main. Selection and simulation sensing remain
+unchanged by the observer presentation.
+
+**Stage 4 is explicitly deferred:** no remote discovery/directory, accounts,
+peer networking or cross-aquarium identity/transport work is authorized. No
+upstream submission is authorized by the fork-main approval. The historical
+checkpoint restrictions below describe their original request dates; this
+promotion supersedes only their earlier fork-main exclusion. Preserve all
+unrelated deferred ideas and experimental stops. Tracking: #122 / #57.
+
 ## Authorized Work checkpoint — 2026-10-29
 
 Hernan's explicit Work request now authorizes stages 3a/3b on the separate fork
@@ -65,7 +83,7 @@ in this observer-only follow-up.
 | Simplifying hatch blockers | population occupancy, clearance, debt, expiry, hatching | Hypothesis only; needs careful review |
 | Fractional nutrient recycling rate | recycling, 0.5/s, 0.1/s, deterministic accumulator | Deferred; excluded from scenario selector |
 | Named custom environmental scenarios | environment profiles, reusable settings, mnemonic names | Deferred; first version has only Default / Harsh World |
-| Selective lateral portals / interconnected aquariums | fixed 300-unit windows and open-ended glass tubes, interactive mock icons, local remove-and-place organism transfer, optional cross-user relay | Phase 1: visual mockup; phase 3a/3b: actual self-connection and bidirectional local transport without server; phase 4: optional remote transfer; stages 3a/3b now authorized for fork testing only (checkpoint above) |
+| Selective lateral portals / interconnected aquariums | fixed 300-unit windows, local names/consent, physical tubes and complete self-transfer | Stages 1–3 implemented and approved for fork main/testing; stage 4 explicitly deferred |
 
 ## 1. Genetically controlled decision to lay eggs
 

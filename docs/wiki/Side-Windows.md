@@ -1,9 +1,9 @@
-# Self-Linked Windows and Physical Tubes — fork testing only
+# Self-Linked Windows and Physical Tubes — contributor fork
 
-**Available only in `hernansgarro/vidAI:testing`.** Stages 1–2 provide window geometry, local names and explicit call/window consent.
+**Available in the contributor fork `hernansgarro/vidAI`, on main and testing.** Stages 1–2 provide window geometry, local names and explicit call/window consent.
 Stage 3 opens accepted self-linked channels and transfers complete living
-organisms between their opposite ends, locally without a server. Production/main and the upstream
-application do not include these controls.
+organisms between their opposite ends, locally without a server. The canonical upstream application does not include
+these fork controls. Stage 4 remote discovery and transfer is deferred.
 
 ## Window geometry
 
@@ -69,8 +69,8 @@ self restores them. There is no floating call-reset control. Display names and
 pending calls remain session-only; physical topology is saved with the world.
 Reload starts the ordinary new world; importing a topology snapshot restores its
 connection and agreements without inventing a saved name.
-Menus remain within the visible canvas viewport and close with their close
-button or Escape. All name/menu typing is isolated from simulation shortcuts.
+Menus follow their phones and may leave the visible viewport; pan the tank to
+bring them back into view. They close with their close button or Escape. All name/menu typing is isolated from simulation shortcuts.
 
 ## Separate window consent and physical tubes
 

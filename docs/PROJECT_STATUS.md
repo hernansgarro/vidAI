@@ -1,3 +1,38 @@
+# Approved stages 1–3 — contributor fork main promotion (2026-10-29)
+
+Hernan verified the published testing behavior and explicitly approved promotion
+of all completed advances to fork main. Stage 4 remains deferred. Clean branch
+`promotion/local-self-tubes-main` starts from main `17e8f53`; selected sources
+come from testing `5706e48`. Testing is not merged wholesale into main.
+
+The promotion includes fixed-height logical windows, local display names and
+self-calls, per-window consent, funded physical channel ecology, full-state
+local transfer, universal observer layers, the natural-view eye and downward
+world-anchored phone dialogs. Selection is unchanged. The same 175 runtime,
+configuration and test files match the pinned testing tree exactly. Main-only
+history/design notes and the independent dual-Pages pipeline are preserved.
+
+Parallel browser validation already exists in both environments (#41/#42,
+tracking #123). Main now also runs the five side-window cases and preserves
+their screenshots, alongside 16 toolbar, 25 Chromium and 23 Firefox cases and
+the independent production Worker gate. Wiki publication includes the current
+Side-Windows page and labels the feature contributor-fork only.
+
+Local 360 fast tests and build/typecheck pass. Fresh offline npm ci was blocked
+by an uncached registry archive; local validation reused the existing installed
+modules after verifying identical lockfiles. CI performs a fresh npm ci and all
+required checks on the exact candidate. Worker, CI, internal PR/merge, deployment
+and actual Wiki receipts are recorded in #122/#57 as they complete.
+
+No physics coefficients, founders, sensing or energy rules beyond the already
+approved physical channel feature are changed during promotion. Historical
+worlds without topology keep their original continuation; channel saves use
+schema 17. This bounded validation is not a claim of long-term ecology or
+performance neutrality. No stage-4 implementation, upstream submission, release
+tag, version/baseline reset or VIDA 3D change. The earlier testing-only records
+below retain their historical scope and are superseded only for this approved
+fork-main promotion.
+
 # Universal observer layers — fork/testing only (2026-10-29)
 
 Tracking #122 / #57, branch `feature/observer-layers-and-selection`, based on
