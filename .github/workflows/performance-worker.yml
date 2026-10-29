@@ -4,6 +4,7 @@ on:
     paths:
       - 'environmentScenarios.ts'
       - 'tests/environment-scenarios.test.ts'
+      - 'tests/support/scenario-browser.ts'
       - 'e2e/environment-scenarios.spec.ts'
       - 'sideWindows.ts'
       - 'worldScene.ts'
