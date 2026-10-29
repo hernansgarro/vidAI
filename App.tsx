@@ -932,7 +932,15 @@ export default function App() {
 
   // Update Loop
   const update = (deltaTime: number) => {
-    if (worldEpoch !== worldEpochRef.current || gameState.status !== 'PLAYING' || isGameMenuOpen) return;
+    if (worldEpoch !== worldEpochRef.current || isGameMenuOpen) return;
+    if (gameState.status === 'PAUSED') {
+      // Observer camera motion must remain available without advancing a tick.
+      const cam = cameraRef.current;
+      cam.x += (cam.targetX - cam.x) * Math.min(1, deltaTime * 5);
+      cam.y += (cam.targetY - cam.y) * Math.min(1, deltaTime * 5);
+      return;
+    }
+    if (gameState.status !== 'PLAYING') return;
 
     const multiplier = timeMultiplierRef.current;
     const fixedDt = 1 / 60;

@@ -6,7 +6,8 @@ organisms between their opposite ends, locally without a server. The canonical u
 these fork controls; this clean port is pending maintainer acceptance. It preserves
 the canonical centered mouth geometry, pause status and finite speed controls.
 The blocking pause overlay becomes a compact Resume action so connections,
-inspection and camera gestures remain available while stopped. The separate
+inspection and camera gestures remain available while stopped. Paused camera
+easing advances only the view, never a simulation tick. The separate
 x0/MAX, feeding-halo and egg-reserve proposals remain independent. Stage 4 remote discovery and transfer is deferred.
 
 ## Window geometry

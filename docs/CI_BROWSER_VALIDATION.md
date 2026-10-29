@@ -4,7 +4,8 @@ Tracking: upstream issue #123. This selected proposal preserves every existing
 canonical Worker/Chromium/Firefox command and its assertions. It runs the
 production Worker independently and uses three browser groups on separate
 GitHub-hosted runners: side-window/tube controls, existing Chromium regressions,
-and existing Firefox regressions. Each runner keeps one Playwright worker to
+and existing Firefox regressions plus the new tube scenarios. Tube controls and
+the observer mask are therefore exercised in both engines. Each runner keeps one Playwright worker to
 avoid software-rendering contention. `fail-fast: false` retains all results.
 
 The required `browser-smoke` name remains an aggregate. It succeeds only when
