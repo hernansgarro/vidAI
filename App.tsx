@@ -1534,6 +1534,7 @@ export default function App() {
       }
     }
 
+    sideWindowDemoRef.current?.paint(ctx, zoom);
     drawSideWindows(ctx, worldWidth, worldHeight, zoom);
     ctx.restore();
     sideWindowDemoRef.current?.sync();

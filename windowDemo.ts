@@ -1,4 +1,4 @@
-/** Ephemeral observer-interface state. Never import into simulation or saves. */
+/** Session-only local caller UI. Never import into simulation, Worker or saves. */
 export type DemoSide = 'L' | 'R';
 export const WINDOW_DEMO_STATES = ['closed', 'outgoing', 'incoming', 'accepted', 'rejected', 'unavailable'] as const;
 export type WindowDemoState = typeof WINDOW_DEMO_STATES[number];
@@ -6,12 +6,16 @@ export const WINDOW_DEMO_LABELS: Record<WindowDemoState, string> = {
   closed: 'Closed', outgoing: 'Outgoing offer', incoming: 'Incoming offer',
   accepted: 'Accepted', rejected: 'Rejected', unavailable: 'Unavailable',
 };
-export type WindowDemo = {paired: boolean; phones: Record<DemoSide, boolean>;
+export type WindowDemo = {name: string; available: Record<DemoSide, boolean>;
+  call: null | {from: DemoSide; status: 'pending' | 'connected'};
   windows: Record<DemoSide, Record<number, WindowDemoState>>};
-export type WindowDemoAction = {type: 'phone'; side: DemoSide} | {type: 'cycle'; side: DemoSide; index: number}
-  | {type: 'set'; side: DemoSide; index: number; state: WindowDemoState} | {type: 'pair'} | {type: 'reset'};
+export type WindowDemoAction = {type: 'name'; name: string} | {type: 'availability'; side: DemoSide}
+  | {type: 'call'; side: DemoSide} | {type: 'cancel-call'; side: DemoSide} | {type: 'disconnect'; side: DemoSide}
+  | {type: 'answer'; side: DemoSide; accept: boolean}
+  | {type: 'window'; side: DemoSide; index: number; count: number}
+  | {type: 'reject'; side: DemoSide; index: number} | {type: 'clear'; side: DemoSide; index: number} | {type: 'reset'};
 export function createWindowDemo(): WindowDemo {
-  return {paired: false, phones: {L: false, R: false}, windows: {L: {}, R: {}}};
+  return {name: '', available: {L: false, R: false}, call: null, windows: {L: {}, R: {}}};
 }
 export function oppositeDemoSide(side: DemoSide): DemoSide {return side === 'L' ? 'R' : 'L';}
 export function oppositeDemoState(state: WindowDemoState): WindowDemoState {
@@ -20,42 +24,59 @@ export function oppositeDemoState(state: WindowDemoState): WindowDemoState {
 export function windowDemoState(demo: WindowDemo, side: DemoSide, index: number): WindowDemoState {
   return demo.windows[side][index] ?? 'closed';
 }
-export function nextWindowDemoState(state: WindowDemoState): WindowDemoState {
-  return WINDOW_DEMO_STATES[(WINDOW_DEMO_STATES.indexOf(state) + 1) % WINDOW_DEMO_STATES.length];
-}
 export function demoHandDirection(side: DemoSide, state: WindowDemoState): 'left' | 'right' {
   const outward = side === 'L' ? 'left' : 'right';
   return state === 'incoming' ? (outward === 'left' ? 'right' : 'left') : outward;
 }
 export function suspendedDemoAgreements(demo: WindowDemo, side: DemoSide, count: number): number[] {
-  return Object.entries(demo.windows[side]).filter(([index, state]) => Number(index) >= count && state === 'accepted')
+  return Object.entries(demo.windows[side]).filter(([index, state]) => state === 'accepted'
+    && (Number(index) >= count || demo.call?.status !== 'connected'))
     .map(([index]) => Number(index)).sort((a, b) => a - b);
+}
+function setWindow(demo: WindowDemo, side: DemoSide, index: number, state: WindowDemoState): WindowDemo {
+  const windows = {L: {...demo.windows.L}, R: {...demo.windows.R}};
+  for (const target of [side, oppositeDemoSide(side)]) {
+    if (state === 'closed') delete windows[target][index];
+    else windows[target][index] = target === side ? state : oppositeDemoState(state);
+  }
+  return {...demo, windows};
+}
+function endCall(demo: WindowDemo): WindowDemo {
+  // A lost side link suspends agreements, but cannot leave ghost pending offers.
+  const windows: WindowDemo['windows'] = {L: {}, R: {}};
+  for (const side of ['L', 'R'] as const) for (const [key, value] of Object.entries(demo.windows[side]))
+    if (value === 'accepted') windows[side][Number(key)] = value;
+  return {...demo, call: null, windows};
 }
 export function windowDemoReducer(demo: WindowDemo, action: WindowDemoAction): WindowDemo {
   if (action.type === 'reset') return createWindowDemo();
-  if (action.type === 'phone') {
-    const connected = !demo.phones[action.side];
-    return {...demo, phones: demo.paired ? {L: connected, R: connected} : {...demo.phones, [action.side]: connected}};
+  if (action.type === 'name') {
+    const name = Array.from(action.name.replace(/[\u0000-\u001f\u007f]/g, '').trim()).slice(0, 32).join('');
+    if (!name) return demo;
+    return {...demo, name, available: demo.name ? demo.available : {L: true, R: true}};
   }
-  if (action.type === 'pair') {
-    if (demo.paired) return {...demo, paired: false};
-    const windows: WindowDemo['windows'] = {L: {}, R: {}};
-    const indices = new Set([...Object.keys(demo.windows.L), ...Object.keys(demo.windows.R)]);
-    for (const key of indices) {
-      const index = Number(key), left = windowDemoState(demo, 'L', index), right = windowDemoState(demo, 'R', index);
-      // Pairing is a visual rehearsal: preserve any accepted demo agreement.
-      const state = left === 'accepted' || right === 'accepted' ? 'accepted'
-        : left !== 'closed' ? left : oppositeDemoState(right);
-      if (state !== 'closed') {windows.L[index] = state; windows.R[index] = oppositeDemoState(state);}
-    }
-    return {paired: true, phones: {L: true, R: true}, windows};
+  if (action.type === 'availability') {
+    if (!demo.name) return demo;
+    const available = {...demo.available, [action.side]: !demo.available[action.side]};
+    return {...(demo.call?.status === 'pending' ? endCall(demo) : demo), available};
   }
-  const state = action.type === 'cycle' ? nextWindowDemoState(windowDemoState(demo, action.side, action.index)) : action.state;
-  const windows = {L: {...demo.windows.L}, R: {...demo.windows.R}};
-  const set = (side: DemoSide, value: WindowDemoState) => {
-    if (value === 'closed') delete windows[side][action.index]; else windows[side][action.index] = value;
-  };
-  set(action.side, state);
-  if (demo.paired) set(oppositeDemoSide(action.side), oppositeDemoState(state));
-  return {...demo, windows};
+  if (action.type === 'call') {
+    if (!demo.name || demo.call || !demo.available.L || !demo.available.R) return demo;
+    return {...demo, call: {from: action.side, status: 'pending'}};
+  }
+  if (action.type === 'answer') {
+    if (demo.call?.status !== 'pending' || action.side === demo.call.from) return demo;
+    return action.accept ? {...demo, call: {...demo.call, status: 'connected'}} : endCall(demo);
+  }
+  if (action.type === 'cancel-call') return demo.call?.status === 'pending' && demo.call.from === action.side ? endCall(demo) : demo;
+  if (action.type === 'disconnect') return demo.call?.status === 'connected' ? endCall(demo) : demo;
+  if (!Number.isSafeInteger(action.index) || action.index < 0) return demo;
+  if (action.type === 'clear') return setWindow(demo, action.side, action.index, 'closed');
+  if (demo.call?.status !== 'connected') return demo;
+  const current = windowDemoState(demo, action.side, action.index);
+  if (action.type === 'reject') return current === 'incoming' ? setWindow(demo, action.side, action.index, 'rejected') : demo;
+  if (action.index >= action.count || !Number.isSafeInteger(action.count) || action.count < 1) return demo;
+  // Only the receiving endpoint accepts. A caller cannot accept its own offer.
+  const next = current === 'incoming' ? 'accepted' : current === 'outgoing' || current === 'accepted' ? 'closed' : 'outgoing';
+  return setWindow(demo, action.side, action.index, next);
 }

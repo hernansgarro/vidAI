@@ -1,16 +1,13 @@
-import {forwardRef, memo, useImperativeHandle, useReducer, useRef, type ForwardedRef} from 'react';
+import {forwardRef, memo, useImperativeHandle, useMemo, useReducer, useRef, useState, type ForwardedRef} from 'react';
 import {CircleSlash, Handshake, Minus, Phone, PhoneOff, RotateCcw, WifiOff} from 'lucide-react';
-import {sideWindowLayout} from './sideWindows';
-import {createWindowDemo, demoHandDirection, nextWindowDemoState, suspendedDemoAgreements,
+import {drawGlassTubes, glassTubeRuns, GLASS_TUBE_LENGTH, sideWindowLayout} from './sideWindows';
+import {createWindowDemo, demoHandDirection, oppositeDemoSide, suspendedDemoAgreements,
   windowDemoReducer, windowDemoState, WINDOW_DEMO_LABELS, type DemoSide, type WindowDemoState} from './windowDemo';
 import './sideWindowDemo.css';
 
-/** Space reserved by the current design journal for a later glass-channel preview.
- * It is only a control offset; the physical world is never expanded. */
-const PREVIEW_CLEARANCE_WORLD = 300;
 type Camera = {readonly current: {x: number; y: number; zoom: number}};
-type Anchor = {node: HTMLDivElement; x: number; y: number; dx: number; dy: number};
-export type SideWindowDemoHandle = {sync(): void};
+type Anchor = {node: HTMLDivElement; x: number; y: number; dx: number; dy: number; floating?: DemoSide};
+export type SideWindowDemoHandle = {sync(): void; paint(ctx: CanvasRenderingContext2D, zoom: number): void};
 
 function HandGlyph({side, state}: {side: DemoSide; state: WindowDemoState}) {
   const direction = demoHandDirection(side, state), rejection = state === 'rejected';
@@ -39,20 +36,35 @@ function SideWindowDemo({width, height, camera, viewportWidth, viewportHeight}: 
   width: number; height: number; camera: Camera; viewportWidth: number; viewportHeight: number;
 }, ref: ForwardedRef<SideWindowDemoHandle>) {
   const [demo, dispatch] = useReducer(windowDemoReducer, undefined, createWindowDemo);
+  const [panel, setPanel] = useState<DemoSide | null>(null);
+  const [draft, setDraft] = useState('');
   const anchors = useRef(new Map<string, Anchor>());
   const previousCamera = useRef('');
   const {count, sectionHeight} = sideWindowLayout(height);
+  const connected = demo.call?.status === 'connected';
+  const tubes = useMemo(() => {
+    const accepted = (side: DemoSide) => connected ? Object.entries(demo.windows[side])
+      .filter(([, state]) => state === 'accepted').map(([index]) => Number(index)) : [];
+    return {L: glassTubeRuns(height, accepted('L')), R: glassTubeRuns(height, accepted('R'))};
+  }, [demo.windows, connected, height]);
   const place = (anchor: Anchor) => {
     const {x, y, zoom} = camera.current;
-    anchor.node.style.transform = `translate3d(${viewportWidth / 2 + (anchor.x - x) * zoom + anchor.dx}px,${viewportHeight / 2 + (anchor.y - y) * zoom + anchor.dy}px,0)`;
+    let left = viewportWidth / 2 + (anchor.x - x) * zoom + anchor.dx;
+    let top = viewportHeight / 2 + (anchor.y - y) * zoom + anchor.dy;
+    if (anchor.floating) {
+      left -= anchor.floating === 'L' ? anchor.node.offsetWidth : 0;
+      top -= anchor.node.offsetHeight + 12;
+      left = Math.max(12, Math.min(left, viewportWidth - anchor.node.offsetWidth - 12));
+      top = Math.max(12, Math.min(top, viewportHeight - anchor.node.offsetHeight - 12));
+    }
+    anchor.node.style.transform = `translate3d(${left}px,${top}px,0)`;
   };
-  const bind = (key: string, x: number, y: number, dx: number, dy = 0) => (node: HTMLDivElement | null) => {
+  const bind = (key: string, x: number, y: number, dx: number, dy = 0, floating?: DemoSide) => (node: HTMLDivElement | null) => {
     if (!node) {anchors.current.delete(key); return;}
-    const anchor = {node, x, y, dx, dy}; anchors.current.set(key, anchor); place(anchor);
+    const anchor = {node, x, y, dx, dy, floating}; anchors.current.set(key, anchor); place(anchor);
   };
   useImperativeHandle(ref, () => ({
-    // Called from the existing canvas draw, after its camera update. No extra
-    // animation loop, frame-by-frame React state or one-frame camera mismatch.
+    // Existing draw pass owns positioning and painting. No additional animation loop.
     sync() {
       const {x, y, zoom} = camera.current, signature = `${x},${y},${zoom},${viewportWidth},${viewportHeight}`;
       if (signature !== previousCamera.current) {
@@ -60,62 +72,108 @@ function SideWindowDemo({width, height, camera, viewportWidth, viewportHeight}: 
         previousCamera.current = signature;
       }
     },
-  }), [camera, width, height, viewportWidth, viewportHeight]);
+    paint(ctx, zoom) {drawGlassTubes(ctx, width, zoom, tubes);},
+  }), [camera, width, height, viewportWidth, viewportHeight, tubes]);
+  const openPhone = (side: DemoSide) => {setDraft(demo.name); setPanel(panel === side ? null : side);};
 
-  return <div className="side-demo-layer" role="region" aria-label="Connection visual demonstration"
+  return <div className="side-demo-layer" role="region" aria-label="Local aquarium connections"
     onKeyDown={event => {
-      // Native button activation must not reach the application's Space/pause shortcut.
-      if (event.key === ' ' || event.key === 'Enter') event.stopPropagation();
+      // Name typing and native control keys must never trigger simulation shortcuts.
+      event.stopPropagation();
+      if (event.key === 'Escape') setPanel(null);
     }}>
     <div className="side-demo-toolbar">
-      <span>Connections · demo only</span>
-      <button type="button" aria-pressed={demo.paired} data-testid="side-demo-pair"
-        title="Pair the two sides only in this visual demonstration; no connection or wall opening"
-        onClick={() => dispatch({type: 'pair'})}>Pair L ↔ R</button>
-      <button type="button" aria-label="Reset connection demonstration" title="Reset all demonstration states"
-        onClick={() => dispatch({type: 'reset'})}><RotateCcw size={13} aria-hidden="true"/></button>
+      <span>Connections · local preview</span>
+      <button type="button" aria-label="Reset local connections" title="Clear local name, calls and window agreements"
+        onClick={() => {dispatch({type: 'reset'}); setPanel(null); setDraft('');}}><RotateCcw size={13} aria-hidden="true"/></button>
     </div>
     {(['L', 'R'] as const).map(side => {
       const sign = side === 'L' ? -1 : 1, wall = side === 'L' ? 0 : width;
-      const peer = demo.paired ? 'This tank' : side === 'L' ? 'Example West' : 'Example East';
+      const incoming = demo.call?.status === 'pending' && demo.call.from !== side;
+      const outgoing = demo.call?.status === 'pending' && demo.call.from === side;
       const suspended = suspendedDemoAgreements(demo, side, count);
       return <div key={side}>
         {Array.from({length: count}, (_, index) => {
-          const id = `${side}${index}`, state = windowDemoState(demo, side, index), next = nextWindowDemoState(state);
-          const action = state === 'accepted' ? 'Cancel demo agreement and show rejection' : `Next: ${WINDOW_DEMO_LABELS[next]}`;
+          const id = `${side}${index}`, stored = windowDemoState(demo, side, index);
+          const state = connected ? stored : 'unavailable';
+          const action = !connected ? 'Choose a person through the phone first' : state === 'incoming' ? 'Accept window offer'
+            : state === 'outgoing' ? 'Cancel outgoing window offer' : state === 'accepted' ? 'Close this preview tube' : 'Offer this window';
           return <div key={id} className="side-demo-anchor"
-            ref={bind(id, wall + sign * PREVIEW_CLEARANCE_WORLD, height - (index + .5) * sectionHeight, sign * 12)}>
+            ref={bind(id, wall + sign * GLASS_TUBE_LENGTH, height - (index + .5) * sectionHeight, sign * 12)}>
             <div className={`side-demo-window-position side-demo-${side}`}>
               <button type="button" className="side-demo-window" data-state={state} data-testid={`side-demo-window-${id}`}
-                aria-label={`${id} demo: ${WINDOW_DEMO_LABELS[state]}. ${action}`}
-                title={`${id} · ${WINDOW_DEMO_LABELS[state]} (visual demo only). ${action}. Click to cycle states.`}
-                onClick={() => dispatch({type: 'cycle', side, index})}>
+                aria-label={`${id}: ${WINDOW_DEMO_LABELS[state]}. ${action}`} disabled={!connected}
+                title={`${id} · ${WINDOW_DEMO_LABELS[state]}. ${action}. Visual only; physical wall stays closed.`}
+                onClick={() => dispatch({type: 'window', side, index, count})}>
                 <WindowDemoIcon side={side} state={state}/>
               </button>
+              {state === 'incoming' && <button type="button" className="side-demo-decline"
+                aria-label={`Decline window offer ${id}`} title="Decline this window offer"
+                onClick={() => dispatch({type: 'reject', side, index})}>×</button>}
             </div>
           </div>;
         })}
         <div className="side-demo-anchor" ref={bind(`phone-${side}`, wall, height, sign * 10, 20)}>
           <div className={`side-demo-phone-position side-demo-${side}`}>
             <div className="side-demo-phone-row">
-              <button type="button" className="side-demo-phone" aria-pressed={demo.phones[side]}
-                data-testid={`side-demo-phone-${side}`} aria-label={`${side === 'L' ? 'Left' : 'Right'} phone demo: ${demo.phones[side] ? 'connected' : 'disconnected'}`}
-                title="Toggle a simulated connection only. Accepted window demos are retained."
-                onClick={() => dispatch({type: 'phone', side})}>
-                {demo.phones[side] ? <Phone size={17} aria-hidden="true"/> : <PhoneOff size={17} aria-hidden="true"/>}
+              <button type="button" className="side-demo-phone" aria-expanded={panel === side || incoming}
+                data-connected={connected} data-ringing={incoming} data-testid={`side-demo-phone-${side}`}
+                aria-label={`${side === 'L' ? 'Left' : 'Right'} phone: ${incoming ? 'incoming self-call' : connected ? 'connected to ' + demo.name : demo.available[side] ? 'available' : 'off'}`}
+                title="Local caller name and people menu" onClick={() => openPhone(side)}>
+                {connected || incoming || outgoing || demo.available[side] ? <Phone size={17} aria-hidden="true"/> : <PhoneOff size={17} aria-hidden="true"/>}
               </button>
-              <span className="side-demo-peer">{demo.phones[side] ? peer : 'Offline'}<small>visual demo</small></span>
+              <span className="side-demo-peer">{demo.name || 'Phone off'}<small>{incoming ? 'Incoming call' : outgoing ? 'Calling opposite side…' : connected ? 'Self-connected · visual only' : demo.available[side] ? 'Available · this tank only' : 'Unavailable'}</small></span>
             </div>
-            {suspended.length > 0 && <div className="side-demo-suspended" aria-label={`${side} suspended demonstration agreements`}>
+            {suspended.length > 0 && <div className="side-demo-suspended" aria-label={`${side} suspended window agreements`}>
               {suspended.map(index => <button type="button" key={index} data-testid={`side-demo-suspended-${side}${index}`}
-                title={`${side}${index} unavailable — demo agreement retained. Click to cancel it.`}
-                aria-label={`Cancel suspended demo agreement ${side}${index}`}
-                onClick={() => dispatch({type: 'set', side, index, state: 'closed'})}>
+                title={`${side}${index} suspended — agreement retained. Click to cancel it.`}
+                aria-label={`Cancel suspended agreement ${side}${index}`}
+                onClick={() => dispatch({type: 'clear', side, index})}>
                 <WifiOff size={12} aria-hidden="true"/>{side}{index}<span aria-hidden="true">×</span>
               </button>)}
             </div>}
           </div>
         </div>
+        {(incoming || outgoing || panel === side) && <div className={`side-demo-anchor side-demo-card side-demo-card-${side}`}
+          style={{width: Math.min(280, viewportWidth - 24), maxHeight: Math.max(120, viewportHeight - 24)}}
+          ref={bind(`panel-${side}`, wall, height, sign * 10, 20, side)}
+          role="region" aria-label={`${side} phone menu`}>
+          {incoming ? <>
+            <div role="status" className="side-demo-call-title">{demo.name} is calling</div>
+            <p>From the opposite side of this tank. Windows remain closed until separately accepted.</p>
+            <div className="side-demo-card-actions">
+              <button type="button" data-testid={`side-call-accept-${side}`} onClick={() => {dispatch({type: 'answer', side, accept: true}); setPanel(null);}}>Accept</button>
+              <button type="button" onClick={() => {dispatch({type: 'answer', side, accept: false}); setPanel(null);}}>Decline</button>
+            </div>
+          </> : outgoing ? <>
+            <div role="status">Calling {demo.name} · opposite side</div>
+            <p>Waiting for the other phone to accept. You can keep using the aquarium.</p>
+            <button type="button" onClick={() => {dispatch({type: 'cancel-call', side}); setPanel(side);}}>Cancel call</button>
+          </> : <>
+            <div className="side-demo-card-heading"><strong>{side === 'L' ? 'Left' : 'Right'} phone</strong>
+              <button type="button" aria-label={`Close ${side} phone menu`} onClick={() => setPanel(null)}>×</button></div>
+            <form onSubmit={event => {event.preventDefault(); dispatch({type: 'name', name: draft});}}>
+              <label htmlFor={`caller-name-${side}`}>Your display name</label>
+              <div className="side-demo-name-row"><input id={`caller-name-${side}`} value={draft} required maxLength={32}
+                autoComplete="off" placeholder="Your name" onChange={event => setDraft(event.target.value)} autoFocus={!demo.name}/>
+                <button type="submit" disabled={!draft.trim()}>Save</button></div>
+            </form>
+            <small>Name stays in this page session. No account or online directory.</small>
+            {demo.name && <>
+              <button type="button" className="side-demo-availability" aria-pressed={demo.available[side]}
+                onClick={() => dispatch({type: 'availability', side})}>{demo.available[side] ? 'Turn availability off' : 'Make phone available'}</button>
+              {connected ? <>
+                <p>Connected to {demo.name} · same tank. Offer a numbered window, then accept at its opposite end.</p>
+                <button type="button" onClick={() => dispatch({type: 'disconnect', side})}>Disconnect · retain agreements</button>
+              </> : <>
+                <h3>Available people · local</h3>
+                {demo.available.L && demo.available.R ? <button type="button" className="side-demo-person" data-testid={`side-person-self-${side}`}
+                  onClick={() => {dispatch({type: 'call', side}); setPanel(null);}}>{demo.name} <small>You · opposite {oppositeDemoSide(side)} phone</small></button>
+                  : <p>No available opposite phone. Enable availability on both sides to call yourself.</p>}
+              </>}
+            </>}
+          </>}
+        </div>}
       </div>;
     })}
   </div>;
