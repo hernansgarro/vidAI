@@ -25,7 +25,7 @@
 .side-demo-window:disabled { opacity:.45; cursor:default; }
 .side-demo-decline { position:absolute; top:-7px; right:-7px; width:19px; height:19px; border:1px solid #fb7185; border-radius:50%; background:#4c0519; color:#fecdd3; pointer-events:auto; cursor:pointer; font-size:15px; line-height:15px; }
 .side-demo-card { z-index:2; padding:12px; border:1px solid #0891b2; border-radius:12px; background:#0b172bf5; box-shadow:0 8px 25px #02061799; color:#cbd5e1; font-size:12px; line-height:1.5; pointer-events:auto; overflow:auto; }
-.side-demo-card::after { content:''; position:absolute; bottom:0; width:12px; height:12px; background:#164e63; clip-path:polygon(0 0,100% 0,50% 100%); }
+.side-demo-card::after { content:''; position:absolute; top:0; width:12px; height:12px; background:#164e63; clip-path:polygon(50% 0,100% 100%,0 100%); }
 .side-demo-card-L::after { right:14px; } .side-demo-card-R::after { left:14px; }
 .side-demo-card p { margin:8px 0; color:#94a3b8; }
 .side-demo-card small { display:block; color:#94a3b8; font-size:10px; }
@@ -45,3 +45,8 @@
 @media (prefers-reduced-motion:reduce) { .side-demo-phone[data-ringing=true] { animation:none; } }
 
 .side-demo-window[data-state=suspended] { color:#fde68a; border-color:#a16207; }
+
+/* One observer control remains reachable when connection chrome is hidden. */
+.side-demo-eye { display:flex; align-items:center; justify-content:center; width:30px; height:30px; border:1px solid #475569; border-radius:9px; background:#0f172aee; color:#94a3b8; opacity:.85; pointer-events:auto; cursor:pointer; }
+.side-demo-eye[data-hidden=true] { opacity:.35; }
+.side-demo-eye[data-hidden=true]:hover,.side-demo-eye[data-hidden=true]:focus-visible { opacity:.85; }

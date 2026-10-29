@@ -136,13 +136,34 @@ proportional vertical mapping preserves the same world y coordinate without
 scaling the body. Food and eggs crossing an open end continue locally as well.
 Destination contacts are resolved normally on subsequent ticks.
 
-Observer opacity decreases cubically with outward distance: about 3.7% at 200
-units and zero at 300. A reusable presentation canvas applies this spatial fade
-to every drawn fragment of organisms, nutrients, carrion, eggs, bubbles, caustics,
-traces, glows and selection/debug effects. Different portions of a large object
-or trail fade according to their own positions. The water, glass and human
-connection controls remain outside the entity layer. Drawing writes no opacity
-to world records and changes no organism sensor or physical property.
+The observer scene is painted back to front: background water/grid/caustics,
+food/egg/energy glows, entities, and human annotations (incubation/reserve
+indicators, selection, traces and aperture/ray diagnostics). One reusable canvas
+composites these passes; it does not create extra animation loops. A universal
+mask then darkens everything above and below the tank and fades both sides
+along the **entire tank height**, regardless of open windows or topology.
+Opacity decreases cubically with outward distance: about 3.7% at 200 units and
+zero at 300. Each fragment, including protruding mouths, trails and glow, is
+masked by its actual screen/world position. There is no root-based or
+whole-organism opacity multiplier. The same aquarium water continues into the
+sides with no added tube tint. Glass tank/tube edges paint above the mask;
+connection controls and existing application windows remain above the glass.
+Drawing writes no opacity to world records and changes no sensors or physics.
+
+The existing canvas selection remains unchanged: creatures and eggs can still
+be selected inside tubes. The painted mask has no DOM hit surface and consumes
+no pointer events. Only actual buttons, dialogs and application windows consume
+their own input.
+
+An eye control sits at phone height, centered below the tank. Open shows call,
+name and window controls; closed hides them, while accepted physical tubes and
+the running world remain intact. The closed eye is faint until hovered/focused.
+This is session-only observer state, not a world command or saved setting.
+Phone menus and incoming-call dialogs open 12 screen pixels **below** their
+phone button and follow its world/camera anchor. They do not clamp to the
+viewport: pan the tank to bring an off-screen phone or menu into view. Existing
+application windows retain their normal positioning.
+
 Vision uses the actual local scene; there are no wrapped rays, remote views or
 destination copies before handoff. Consecutive windows share glass geometry,
 while the crossed section still determines its matching opposite section.

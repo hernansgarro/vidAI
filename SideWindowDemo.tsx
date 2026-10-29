@@ -1,5 +1,5 @@
 import {forwardRef, memo, useImperativeHandle, useEffect, useMemo, useReducer, useRef, useState, type ForwardedRef} from 'react';
-import {CircleSlash, Handshake, Minus, Phone, PhoneOff, WifiOff} from 'lucide-react';
+import {CircleSlash, Eye, EyeClosed, Handshake, Minus, Phone, PhoneOff, WifiOff} from 'lucide-react';
 import {drawGlassTubes, glassTubeRuns, GLASS_TUBE_LENGTH, sideWindowLayout} from './sideWindows';
 import {createWindowDemo, demoHandDirection, oppositeDemoSide, suspendedDemoAgreements,
   windowDemoReducer, visibleWindowState, physicalSelfTubes, WINDOW_DEMO_LABELS, type DemoSide, type WindowDemoState} from './windowDemo';
@@ -7,7 +7,7 @@ import './sideWindowDemo.css';
 import type {SelfTubes} from './selfTubes';
 
 type Camera = {readonly current: {x: number; y: number; zoom: number}};
-type Anchor = {node: HTMLDivElement; x: number; y: number; dx: number; dy: number; floating?: DemoSide};
+type Anchor = {node: HTMLDivElement; x: number; y: number; dx: number; dy: number; dialog?: DemoSide};
 export type SideWindowDemoHandle = {sync(): void; paint(ctx: CanvasRenderingContext2D, zoom: number): void};
 
 function HandGlyph({side, state}: {side: DemoSide; state: WindowDemoState}) {
@@ -41,6 +41,7 @@ function SideWindowDemo({width, height, camera, viewportWidth, viewportHeight, w
   const [demo, dispatch] = useReducer(windowDemoReducer, undefined, createWindowDemo);
   const [panel, setPanel] = useState<DemoSide | null>(null);
   const [draft, setDraft] = useState('');
+  const [controlsVisible, setControlsVisible] = useState(true);
   const pending = useRef(false), epochRef = useRef(worldEpoch);
   epochRef.current = worldEpoch;
   useEffect(() => {
@@ -67,18 +68,16 @@ function SideWindowDemo({width, height, camera, viewportWidth, viewportHeight, w
   const place = (anchor: Anchor) => {
     const {x, y, zoom} = camera.current;
     let left = viewportWidth / 2 + (anchor.x - x) * zoom + anchor.dx;
-    let top = viewportHeight / 2 + (anchor.y - y) * zoom + anchor.dy;
-    if (anchor.floating) {
-      left -= anchor.floating === 'L' ? anchor.node.offsetWidth : 0;
-      top -= anchor.node.offsetHeight + 12;
-      left = Math.max(12, Math.min(left, viewportWidth - anchor.node.offsetWidth - 12));
-      top = Math.max(12, Math.min(top, viewportHeight - anchor.node.offsetHeight - 12));
+    const top = viewportHeight / 2 + (anchor.y - y) * zoom + anchor.dy;
+    if (anchor.dialog) {
+      left -= anchor.dialog === 'L' ? anchor.node.offsetWidth : 0;
+      // Dialogs share the phone camera anchor; off-screen phones do not pin menus.
     }
     anchor.node.style.transform = `translate3d(${left}px,${top}px,0)`;
   };
-  const bind = (key: string, x: number, y: number, dx: number, dy = 0, floating?: DemoSide) => (node: HTMLDivElement | null) => {
+  const bind = (key: string, x: number, y: number, dx: number, dy = 0, dialog?: DemoSide) => (node: HTMLDivElement | null) => {
     if (!node) {anchors.current.delete(key); return;}
-    const anchor = {node, x, y, dx, dy, floating}; anchors.current.set(key, anchor); place(anchor);
+    const anchor = {node, x, y, dx, dy, dialog}; anchors.current.set(key, anchor); place(anchor);
   };
   useImperativeHandle(ref, () => ({
     // Existing draw pass owns positioning and painting. No additional animation loop.
@@ -99,6 +98,7 @@ function SideWindowDemo({width, height, camera, viewportWidth, viewportHeight, w
       event.stopPropagation();
       if (event.key === 'Escape') setPanel(null);
     }}>
+    <div id="side-demo-controls" hidden={!controlsVisible}>
     {(['L', 'R'] as const).map(side => {
       const sign = side === 'L' ? -1 : 1, wall = side === 'L' ? 0 : width;
       const incoming = demo.call?.status === 'pending' && demo.call.from !== side;
@@ -147,7 +147,7 @@ function SideWindowDemo({width, height, camera, viewportWidth, viewportHeight, w
         </div>
         {(incoming || outgoing || panel === side) && <div className={`side-demo-anchor side-demo-card side-demo-card-${side}`}
           style={{width: Math.min(280, viewportWidth - 24), maxHeight: Math.max(120, viewportHeight - 24)}}
-          ref={bind(`panel-${side}`, wall, height, sign * 10, 20, side)}
+          ref={bind(`panel-${side}`, wall, height, sign * 10, 62, side)}
           role="region" aria-label={`${side} phone menu`}>
           {incoming ? <>
             <div role="status" className="side-demo-call-title">{peer} is calling</div>
@@ -166,7 +166,7 @@ function SideWindowDemo({width, height, camera, viewportWidth, viewportHeight, w
             <form onSubmit={event => {event.preventDefault(); void send({type: 'name', name: draft});}}>
               <label htmlFor={`caller-name-${side}`}>Your display name</label>
               <div className="side-demo-name-row"><input id={`caller-name-${side}`} value={draft} required maxLength={32}
-                autoComplete="off" placeholder="Your name" onChange={event => setDraft(event.target.value)} autoFocus={!demo.name}/>
+                autoComplete="off" placeholder="Your name" onChange={event => setDraft(event.target.value)}/>
                 <button type="submit" disabled={!draft.trim()}>Save</button></div>
             </form>
             <small>Name stays in this page session. No account or online directory.</small>
@@ -187,6 +187,16 @@ function SideWindowDemo({width, height, camera, viewportWidth, viewportHeight, w
         </div>}
       </div>;
     })}
+    </div>
+    <div className="side-demo-anchor" ref={bind('eye', width / 2, height, -15, 20)}>
+      <button type="button" className="side-demo-eye" data-testid="side-demo-eye" data-hidden={!controlsVisible}
+        aria-expanded={controlsVisible} aria-controls="side-demo-controls"
+        aria-label={controlsVisible ? 'Hide connection controls' : 'Show connection controls'}
+        title={controlsVisible ? 'Hide call and window controls; keep tubes visible' : 'Show call and window controls'}
+        onClick={() => {setControlsVisible(visible => !visible); setPanel(null);}}>
+        {controlsVisible ? <Eye size={18} aria-hidden="true"/> : <EyeClosed size={18} aria-hidden="true"/>}
+      </button>
+    </div>
   </div>;
 }
 

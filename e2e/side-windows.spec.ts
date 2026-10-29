@@ -1,5 +1,5 @@
 import {build} from 'vite';
-import {tubePresentationFixture} from '../tests/support/tube-presentation';
+import {tubePresentationFixture, tubeProtrusionFixture} from '../tests/support/tube-presentation';
 import {selfTubeFixture} from '../tests/support/self-tubes';
 import {test, expect} from '@playwright/test';
 import {readFile} from 'node:fs/promises';
@@ -159,15 +159,37 @@ for (const fallback of [false, true]) test(`local phone consent and grouped glas
   await check(1500);
   const phone = (side: string) => page.getByTestId(`side-demo-phone-${side}`);
   const windowButton = (side: string, index: number) => page.getByTestId(`side-demo-window-${side}${index}`);
+  const eye = page.getByTestId('side-demo-eye');
   const menu = (side: string) => page.getByRole('region', {name: `${side} phone menu`, exact: true});
   const tubes = async (expected: number) => expect.poll(async () => (await paint()).tubes.length).toBe(expected);
+  // Downward phone cards intentionally follow the world rather than pinning to
+  // the viewport. Bring the tank floor into view through the real camera input.
+  const framePhones = async (target = 400) => {
+    // Center Cam and wheel zoom ease toward their targets. Measuring before
+    // that motion settles bakes its remaining displacement into the next drag.
+    let previousY = (await phone('L').boundingBox())!.y;
+    await expect.poll(async () => {
+      const y = (await phone('L').boundingBox())!.y, delta = Math.abs(y - previousY);
+      previousY = y;
+      return delta;
+    }, {intervals: [50, 100, 250]}).toBeLessThan(.001);
+    const box = (await phone('L').boundingBox())!, current = (await canvas.boundingBox())!;
+    const startX = current.x + current.width / 2, startY = current.y + current.height / 2;
+    await page.mouse.move(startX, startY); await page.mouse.down();
+    await page.mouse.move(startX, startY + target - box.y, {steps: 5}); await page.mouse.up();
+    // This only frames accessible controls; the camera may retain a few pixels
+    // of easing from Center Cam. Exact anchor alignment is asserted separately.
+    await expect.poll(async () => Math.abs((await phone('L').boundingBox())!.y - target)).toBeLessThan(8);
+  };
   const call = async (side: string) => {
+    await framePhones();
     await phone(side).click(); await page.getByTestId(`side-person-self-${side}`).click();
   };
   await expect(page.getByTestId('side-demo-pair')).toHaveCount(0);
   await expect(page.getByRole('button', {name: 'Reset local connections', exact: true})).toHaveCount(0);
   await expect(page.locator('.side-demo-toolbar')).toHaveCount(0);
   await expect(windowButton('L', 0)).toBeDisabled(); await tubes(0);
+  await framePhones();
   await phone('L').click();
   await menu('L').getByLabel('Your display name').pressSequentially('fN 123');
   await menu('L').getByLabel('Your display name').press('Enter');
@@ -178,6 +200,20 @@ for (const fallback of [false, true]) test(`local phone consent and grouped glas
   await expect(page.getByTestId('side-call-accept-R')).toBeVisible();
   await expect(page.locator('[aria-modal=true]')).toHaveCount(0);
   await page.screenshot({path: info.outputPath(`side-windows-${fallback ? 'fallback' : 'worker'}-incoming.png`)});
+  const eyeBox = (await eye.boundingBox())!, phoneBox = (await phone('L').boundingBox())!;
+  expect(eyeBox.y + eyeBox.height / 2).toBeCloseTo(phoneBox.y + phoneBox.height / 2, 3);
+  await eye.click();
+  await page.mouse.move(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2);
+  await expect(eye).toHaveAttribute('aria-expanded', 'false');
+  await expect(eye.locator('svg')).toHaveClass(/lucide-eye-closed/);
+  expect(await eye.evaluate(node => Number(getComputedStyle(node).opacity))).toBe(.35);
+  await expect(phone('L')).toBeHidden(); await expect(phone('R')).toBeHidden();
+  await expect(page.getByTestId('side-call-accept-R')).toBeHidden();
+  await expect(phone('R')).toHaveAttribute('data-ringing', 'true');
+  await eye.press('Space');
+  await expect(eye).toHaveAttribute('aria-expanded', 'true');
+  await expect(eye.locator('svg')).toHaveClass(/(?:^|\s)lucide-eye(?:\s|$)/);
+  await expect(page.getByTestId('side-call-accept-R')).toBeVisible();
   // Pending calls never block simulation controls or acquire a response deadline.
   await page.getByRole('button', {name: 'Resume', exact: true}).click();
   await expect(page.getByRole('button', {name: 'Pause', exact: true})).toBeVisible();
@@ -217,11 +253,25 @@ for (const fallback of [false, true]) test(`local phone consent and grouped glas
   await expect.poll(pixel).toEqual(closedPixel); // channel water has no extra tint
   await windowButton('L', 1).click(); await windowButton('R', 1).click(); await tubes(4);
   await expect.poll(async () => (await paint()).tubes.length === 4 && (await paint()).tubes.every(([, y]: number[]) => y === 900 || y === 1500)).toBe(true);
+  // Phone dialogs are framed lower than the tank's topmost window. Pan through
+  // the actual canvas before clicking upper windows, rather than DOM scrolling.
+  await framePhones(650);
   await windowButton('R', 4).click(); await windowButton('L', 4).click(); await tubes(8);
   const geometry = await paint(), leftBox = (await windowButton('L', 0).boundingBox())!, rightBox = (await windowButton('R', 0).boundingBox())!;
   expect(leftBox.x + leftBox.width).toBeLessThan(bounds.x + geometry.wall.screenX - 300 * geometry.wall.scale);
   expect(rightBox.x).toBeGreaterThan(bounds.x + geometry.wall.screenX + 2100 * geometry.wall.scale);
   await page.screenshot({path: info.outputPath(`side-windows-${fallback ? 'fallback' : 'worker'}.png`)});
+  await page.getByTitle('Ecology & Physical Settings').click(); const beforeEye = (await read()).state;
+  await page.getByTitle('Close settings (✕)').click(); await eye.click();
+  await page.mouse.move(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2);
+  await expect(phone('L')).toBeHidden(); await expect(windowButton('R', 0)).toBeHidden();
+  await expect(page.locator('.side-demo-peer').filter({visible: true})).toHaveCount(0);
+  await tubes(8); // Infrastructure is painted even with its controls hidden.
+  await page.screenshot({path: info.outputPath(`side-windows-${fallback ? 'fallback' : 'worker'}-eye-closed.png`)});
+  await page.getByTitle('Ecology & Physical Settings').click(); expect((await read()).state).toEqual(beforeEye);
+  await page.getByTitle('Close settings (✕)').click(); await eye.click();
+  await expect(windowButton('R', 0)).toHaveAttribute('data-state', 'accepted'); await tubes(8);
+
   await page.getByTitle('Ecology & Physical Settings').click(); await setHeight(600);
   await page.getByTitle('Close settings (✕)').click();
   await expect(windowButton('L', 4)).toHaveCount(0); await tubes(4);
@@ -237,6 +287,7 @@ for (const fallback of [false, true]) test(`local phone consent and grouped glas
   await expect(page.getByTestId('side-demo-suspended-R4')).toHaveCount(0);
   await page.getByTitle('Ecology & Physical Settings').click(); await setHeight(1500);
   await page.getByTitle('Close settings (✕)').click(); await tubes(4);
+  await framePhones();
   await phone('L').click();
   await menu('L').getByRole('button', {name: 'Turn availability off', exact: true}).click();
   await tubes(4); // leaving discovery does not break an existing connection
@@ -247,6 +298,7 @@ for (const fallback of [false, true]) test(`local phone consent and grouped glas
   await menu('L').getByRole('button', {name: 'Make phone available', exact: true}).click();
   await page.getByTestId('side-person-self-L').click(); await page.getByTestId('side-call-accept-R').click(); await tubes(4);
   // Opening all windows leaves only the outer floor and ceiling on each side.
+  await framePhones(650);
   for (const index of [2, 3, 4]) {await windowButton('L', index).click(); await windowButton('R', index).click();}
   await tubes(4);
   await expect.poll(async () => (await paint()).tubes.length === 4 && (await paint()).tubes.every(([, y]: number[]) => y === 0 || y === 1500)).toBe(true);
@@ -278,22 +330,41 @@ for (const fallback of [false, true]) test(`local phone consent and grouped glas
   await page.mouse.move(smallBounds.x + smallBounds.width / 2, smallBounds.y + smallBounds.height / 2);
   for (let i = 0; i < 12; i++) await page.mouse.wheel(0, 200);
   await expect.poll(async () => (await paint()).wall.scale).toBeCloseTo(.35, 6);
-  // Pan a tall tank's phone into this short viewport without implicit scrolling.
-  await page.mouse.down();
-  await page.mouse.move(smallBounds.x + smallBounds.width / 2, smallBounds.y + smallBounds.height / 2 - 150, {steps: 4});
-  await page.mouse.up();
+  await framePhones(300);
   await phone('R').click({timeout: 5000});
   await expect.poll(() => page.getByTestId('tank-viewport').evaluate(node => node.scrollTop)).toBe(0);
   await expect.poll(() => page.getByRole('region', {name: 'Local aquarium connections', exact: true}).evaluate(node => node.scrollTop)).toBe(0);
-  const card = (await menu('R').boundingBox())!;
-  expect(card.x).toBeGreaterThanOrEqual(0); expect(card.x + card.width).toBeLessThanOrEqual(960);
-  expect(card.y).toBeGreaterThanOrEqual(0); expect(card.y + card.height).toBeLessThanOrEqual(720);
+  const dialogAnchors = () => page.evaluate(() => {
+    const phone = document.querySelector('[data-testid="side-demo-phone-R"]')!.getBoundingClientRect();
+    const card = document.querySelector('[aria-label="R phone menu"]')!.getBoundingClientRect();
+    return {phone: {x: phone.x, y: phone.y, height: phone.height}, card: {x: card.x, y: card.y}};
+  });
+  // Read both anchors atomically so camera easing cannot split the measurement
+  // across two rendered frames.
+  const {card, phone: phoneBefore} = await dialogAnchors();
+  expect(card.y - phoneBefore.y - phoneBefore.height).toBeCloseTo(12, 3);
+  // Both anchors move by the same world-camera displacement; no viewport clamp.
+  // The centered eye is at the phone height: a center-column drag here clicks
+  // that control. Use clear water and verify the actual pointer target first.
+  const dragX = smallBounds.x + smallBounds.width / 3, dragY = smallBounds.y + 160;
+  expect(await page.evaluate(({x, y}) => document.elementFromPoint(x, y)?.getAttribute('aria-label'),
+    {x: dragX, y: dragY})).toBe('Aquatic simulation');
+  await page.mouse.move(dragX, dragY);
+  await page.mouse.down(); await page.mouse.move(dragX, dragY + 100, {steps: 5}); await page.mouse.up();
+  await expect.poll(async () => (await dialogAnchors()).phone.y - phoneBefore.y).toBeGreaterThan(80);
+  const {card: moved, phone: movedPhone} = await dialogAnchors();
+  expect(moved.y - card.y).toBeCloseTo(movedPhone.y - phoneBefore.y, 3);
+  expect(moved.x - card.x).toBeCloseTo(movedPhone.x - phoneBefore.x, 3);
   await page.setViewportSize({width: 1280, height: 900});
   await page.reload();
+  // This final check concerns session reset, not live ecology throughput.
+  // Pause the newly autoplayed world before measuring fallback camera easing.
+  await page.getByRole('button', {name: 'Pause', exact: true}).click();
   const reloadedCanvas = (await canvas.boundingBox())!;
   await page.mouse.move(reloadedCanvas.x + reloadedCanvas.width / 2, reloadedCanvas.y + reloadedCanvas.height / 2);
   for (let i = 0; i < 12; i++) await page.mouse.wheel(0, 200);
   await expect(phone('L')).toHaveAttribute('data-connected', 'false');
+  await framePhones();
   await phone('L').click(); await expect(menu('L').getByLabel('Your display name')).toHaveValue('');
 });
 
@@ -338,14 +409,23 @@ for (const fallback of [false, true]) test(`physical self-tube crossing conserve
 
 test('all tube entities fade spatially, water is untinted and paused sensory state stays exact', async ({page}, info) => {
   await page.addInitScript(() => {
+    const recordPaint = (ctx: CanvasRenderingContext2D) => {
+      if (ctx.canvas.getAttribute('aria-label') === 'Aquatic simulation') {
+        Object.assign(window, {tubeScenePaintScale: ctx.getTransform().a / devicePixelRatio,
+          tubeScenePaintEpoch: ctx.canvas.getAttribute('data-world-epoch')});
+      }
+    };
     const stroke = CanvasRenderingContext2D.prototype.stroke;
     CanvasRenderingContext2D.prototype.stroke = function(this: CanvasRenderingContext2D, ...args: Parameters<typeof stroke>) {
-      if (this.canvas.getAttribute('aria-label') === 'Aquatic simulation') {
-        Object.assign(window, {tubeScenePaintScale: this.getTransform().a / devicePixelRatio,
-          tubeScenePaintEpoch: this.canvas.getAttribute('data-world-epoch')});
-      }
+      recordPaint(this);
       return stroke.apply(this, args);
     } as typeof stroke;
+    // Closed tanks paint their glass with strokeRect rather than stroke.
+    const strokeRect = CanvasRenderingContext2D.prototype.strokeRect;
+    CanvasRenderingContext2D.prototype.strokeRect = function(...args: Parameters<typeof strokeRect>) {
+      recordPaint(this);
+      return strokeRect.apply(this, args);
+    };
   });
   await page.goto('./?autoplay');
   await page.getByTitle('Ecology & Physical Settings').click();
@@ -407,4 +487,45 @@ test('all tube entities fade spatially, water is untinted and paused sensory sta
       expect(strength[3][row], `${side} ${name} disappears at 300`).toBe(0);
     }
   }
+  for (const side of ['L', 'R'] as const) {
+    const open = tubePresentationFixture(side, 200); await upload(open);
+    const openPixels = await samples(side, 200);
+    const closed = structuredClone(open); closed.state.selfTubes!.accepted = [];
+    await upload(closed);
+    expect(await samples(side, 200), `${side}: observer fade is independent of window agreements`).toEqual(openPixels);
+  }
+  for (const side of ['L', 'R'] as const) {
+    const spillPixels = (depth: number, rootY: number) => canvas.evaluate((node, {side, depth, rootY}) => {
+      const c = node as HTMLCanvasElement, box = c.getBoundingClientRect(), ratio = c.width / box.width;
+      const x = side === 'L' ? -depth : 800 + depth;
+      const left = Math.round((box.width / 2 + (x - 70 - 400) * .35) * ratio);
+      const top = Math.round((box.height / 2 + (rootY - 55 - 900) * .35) * ratio);
+      return Array.from(c.getContext('2d')!.getImageData(left, top, Math.round(140 * .35 * ratio), Math.round(110 * .35 * ratio)).data);
+    }, {side, depth, rootY});
+    const compare = (a: number[], b: number[]) => a.reduce((sum, value, i) => sum + (i % 4 === 3 ? 0 : Math.abs(value - b[i])), 0);
+    for (const rootY of [1501, 1499, 1799, 1801]) {
+      await upload(tubeProtrusionFixture(side, 400, rootY, true)); const background = await spillPixels(400, rootY);
+      const source = tubeProtrusionFixture(side, 400, rootY); await upload(source);
+      expect(compare(await spillPixels(400, rootY), background), `${side} whole body including overflow is fully masked beyond 300 / y=${rootY}`).toBe(0);
+      const pending = page.waitForEvent('download');
+      await page.getByRole('button', {name: 'Export Snapshot', exact: true}).dispatchEvent('click');
+      expect(JSON.parse(await readFile((await (await pending).path())!, 'utf8')).state).toEqual(source.state);
+    }
+    for (const [rootY, sampleY] of [[1, -12], [1799, 1812]]) {
+      const outsidePixels = () => canvas.evaluate((node, {side, sampleY}) => {
+        const c = node as HTMLCanvasElement, box = c.getBoundingClientRect(), ratio = c.width / box.width;
+        const x = side === 'L' ? -100 : 900;
+        const px = Math.round((box.width / 2 + (x - 400) * .35) * ratio);
+        const py = Math.round((box.height / 2 + (sampleY - 900) * .35) * ratio);
+        return Array.from(c.getContext('2d')!.getImageData(px - 5, py - 2, 11, 5).data);
+      }, {side, sampleY});
+      await upload(tubeProtrusionFixture(side, 100, rootY, true)); const dark = await outsidePixels();
+      await upload(tubeProtrusionFixture(side, 100, rootY));
+      expect(await outsidePixels(), `${side}: body/glow overflow outside tank y=${sampleY} stays dark`).toEqual(dark);
+    }
+    await upload(tubeProtrusionFixture(side, 0, 1501, true)); const baseline = await spillPixels(0, 1501);
+    await upload(tubeProtrusionFixture(side, 0, 1501));
+    expect(compare(await spillPixels(0, 1501), baseline), `${side} protruding body remains visible at entrance`).toBeGreaterThan(0);
+  }
+
 });

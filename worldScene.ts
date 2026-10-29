@@ -1,8 +1,9 @@
-import {tubeFade, TUBE_DEPTH, type TubeGeometry} from './selfTubes';
+import {TUBE_DEPTH} from './selfTubes';
 
-/** Presentation-only surface: apply spatial opacity after all entity/effect
- * painting, without changing optical inputs or any authoritative world record. */
-export class TubeSceneLayer {
+/** Reusable observer-only world surface. Its universal mask covers decorations,
+ * glow, entities and annotations, independent of physical window agreements.
+ * It never changes organism opacity, vision, input handling or world records. */
+export class WorldSceneLayer {
   private canvas?: HTMLCanvasElement;
   private context?: CanvasRenderingContext2D;
 
@@ -20,23 +21,29 @@ export class TubeSceneLayer {
     return ctx!;
   }
 
-  finish(target: CanvasRenderingContext2D, geometry: TubeGeometry, viewLeft: number, viewRight: number): void {
+  finish(target: CanvasRenderingContext2D, width: number, height: number,
+    viewLeft: number, viewRight: number, viewTop: number, viewBottom: number): void {
     const ctx = this.context!;
     ctx.save(); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'destination-out';
-    const referenceY = (geometry.runs[0].top + geometry.runs[0].bottom) / 2;
+    // Above/below the tank is fully dark, including protruding mouths and glow.
+    ctx.fillStyle = '#000';
+    if (viewTop < 0) ctx.fillRect(viewLeft, viewTop, viewRight - viewLeft, -viewTop);
+    if (viewBottom > height) ctx.fillRect(viewLeft, height, viewRight - viewLeft, viewBottom - height);
     for (const side of [-1, 1]) {
-      const wall = side < 0 ? 0 : geometry.width;
+      const wall = side < 0 ? 0 : width;
       const left = side < 0 ? viewLeft : wall, right = side < 0 ? wall : viewRight;
       if (right <= left) continue;
       const mask = ctx.createLinearGradient(wall, 0, wall + side * TUBE_DEPTH, 0);
-      // Piecewise-linear approximation stays below 0.0002 opacity error.
+      // Same cubic observer fade, 65 stops with <0.0002 interpolation error.
+      // Applied along the entire tank height, even beside closed windows.
       for (let i = 0; i <= 64; i++) {
-        const fraction = i / 64;
-        const removed = 1 - tubeFade(geometry, wall + side * TUBE_DEPTH * fraction, referenceY);
+        const fraction = i / 64, removed = 1 - (1 - fraction) ** 3;
         mask.addColorStop(fraction, `rgba(0, 0, 0, ${removed})`);
       }
       ctx.fillStyle = mask;
-      for (const run of geometry.runs) ctx.fillRect(left, run.top, right - left, run.bottom - run.top);
+      // Cover the full visible column. Splitting this at the tank floor/ceiling
+      // leaves antialiased seams between sequential destination-out fills.
+      ctx.fillRect(left, viewTop, right - left, viewBottom - viewTop);
     }
     ctx.restore(); ctx.restore();
     target.save(); target.setTransform(1, 0, 0, 1, 0, 0);
