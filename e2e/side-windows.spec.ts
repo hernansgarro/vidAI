@@ -223,6 +223,8 @@ for (const fallback of [false, true]) test(`local phone consent and grouped glas
   await page.getByRole('button', {name: 'Center Cam', exact: true}).click();
   for (let i = 0; i < 4; i++) await page.mouse.wheel(0, 200);
   await phone('R').click();
+  await expect.poll(() => page.getByTestId('tank-viewport').evaluate(node => node.scrollTop)).toBe(0);
+  await expect.poll(() => page.getByRole('region', {name: 'Local aquarium connections', exact: true}).evaluate(node => node.scrollTop)).toBe(0);
   const card = (await menu('R').boundingBox())!;
   expect(card.x).toBeGreaterThanOrEqual(0); expect(card.x + card.width).toBeLessThanOrEqual(960);
   expect(card.y).toBeGreaterThanOrEqual(0); expect(card.y + card.height).toBeLessThanOrEqual(720);

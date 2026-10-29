@@ -1,4 +1,4 @@
-.side-demo-layer { position:absolute; inset:0; z-index:20; overflow:hidden; pointer-events:none; font-family:ui-monospace,SFMono-Regular,Consolas,monospace; }
+.side-demo-layer { position:absolute; inset:0; z-index:20; overflow:clip; pointer-events:none; font-family:ui-monospace,SFMono-Regular,Consolas,monospace; }
 .side-demo-anchor { position:absolute; left:0; top:0; pointer-events:none; }
 .side-demo-window-position.side-demo-L { transform:translate(-100%,-50%); }
 .side-demo-window-position.side-demo-R { transform:translate(0,-50%); }
