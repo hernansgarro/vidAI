@@ -228,15 +228,17 @@ for (const fallback of [false, true]) test(`local phone consent and grouped glas
   expect(errors).toEqual([]);
   await page.getByTitle('Close settings (✕)').click();
   await page.getByRole('button', {name: 'Center Cam', exact: true}).click();
-  for (let i = 0; i < 4; i++) await page.mouse.wheel(0, 200);
-  // At the minimum zoom a tall tank can extend below a short viewport. Pan
-  // the phone into view; clipping must not silently scroll world/UI layers.
+  // Center Cam restores 0.85 zoom. Wheel events must target the canvas, not
+  // the footer button where the preceding click left the mouse.
   const smallBounds = (await canvas.boundingBox())!;
   await page.mouse.move(smallBounds.x + smallBounds.width / 2, smallBounds.y + smallBounds.height / 2);
+  for (let i = 0; i < 12; i++) await page.mouse.wheel(0, 200);
+  await expect.poll(async () => (await paint()).wall.scale).toBeCloseTo(.35, 6);
+  // Pan a tall tank's phone into this short viewport without implicit scrolling.
   await page.mouse.down();
   await page.mouse.move(smallBounds.x + smallBounds.width / 2, smallBounds.y + smallBounds.height / 2 - 150, {steps: 4});
   await page.mouse.up();
-  await phone('R').click();
+  await phone('R').click({timeout: 5000});
   await expect.poll(() => page.getByTestId('tank-viewport').evaluate(node => node.scrollTop)).toBe(0);
   await expect.poll(() => page.getByRole('region', {name: 'Local aquarium connections', exact: true}).evaluate(node => node.scrollTop)).toBe(0);
   const card = (await menu('R').boundingBox())!;
