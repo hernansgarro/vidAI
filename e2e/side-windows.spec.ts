@@ -336,8 +336,13 @@ for (const fallback of [false, true]) test(`local phone consent and grouped glas
   const phoneBefore = (await phone('R').boundingBox())!;
   expect(card.y - phoneBefore.y - phoneBefore.height).toBeCloseTo(12, 3);
   // Both anchors move by the same world-camera displacement; no viewport clamp.
-  await page.mouse.move(smallBounds.x + smallBounds.width / 2, smallBounds.y + 160);
-  await page.mouse.down(); await page.mouse.move(smallBounds.x + smallBounds.width / 2, smallBounds.y + 260, {steps: 5}); await page.mouse.up();
+  // The centered eye is at the phone height: a center-column drag here clicks
+  // that control. Use clear water and verify the actual pointer target first.
+  const dragX = smallBounds.x + smallBounds.width / 3, dragY = smallBounds.y + 160;
+  expect(await page.evaluate(({x, y}) => document.elementFromPoint(x, y)?.getAttribute('aria-label'),
+    {x: dragX, y: dragY})).toBe('Aquatic simulation');
+  await page.mouse.move(dragX, dragY);
+  await page.mouse.down(); await page.mouse.move(dragX, dragY + 100, {steps: 5}); await page.mouse.up();
   await expect.poll(async () => (await phone('R').boundingBox())!.y - phoneBefore.y).toBeCloseTo(100, 0);
   const moved = (await menu('R').boundingBox())!, movedPhone = (await phone('R').boundingBox())!;
   expect(moved.y - card.y).toBeCloseTo(movedPhone.y - phoneBefore.y, 3);
