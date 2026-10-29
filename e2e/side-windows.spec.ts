@@ -25,6 +25,9 @@ test.beforeAll(async () => {
   browserReplayCode = chunk.code;
 });
 for (const fallback of [false, true]) test(`local phone consent and grouped glass tubes follow tank/camera with authoritative physical topology (${fallback ? 'fallback' : 'Worker'})`, async ({page}, info) => {
+  // This scenario exercises multiple real imports, resizes and camera gestures.
+  // Keep all assertions; allow slow software-rendered CI runners to complete them.
+  test.setTimeout(120000);
   const errors: string[] = []; page.on('pageerror', e => errors.push(e.message));
   await page.addInitScript(() => {
     type Point = {x: number; y: number; screenX: number; screenY: number; scale: number};
@@ -173,12 +176,20 @@ for (const fallback of [false, true]) test(`local phone consent and grouped glas
       previousY = y;
       return delta;
     }, {intervals: [50, 100, 250]}).toBeLessThan(.001);
-    const box = (await phone('L').boundingBox())!, current = (await canvas.boundingBox())!;
-    const startX = current.x + current.width / 2, startY = current.y + current.height / 2;
-    await page.mouse.move(startX, startY); await page.mouse.down();
-    await page.mouse.move(startX, startY + target - box.y, {steps: 5}); await page.mouse.up();
-    // This only frames accessible controls; the camera may retain a few pixels
-    // of easing from Center Cam. Exact anchor alignment is asserted separately.
+    // Move through clear water in bounded increments; a large drag can leave
+    // the viewport or overshoot while the camera is still easing on CI.
+    const current = (await canvas.boundingBox())!;
+    const startX = current.x + current.width / 3, startY = current.y + current.height / 2;
+    for (let correction = 0; correction < 12; correction++) {
+      const y = (await phone('L').boundingBox())!.y;
+      if (Math.abs(y - target) < 8) break;
+      const distance = Math.max(-120, Math.min(120, target - y));
+      await page.mouse.move(startX, startY); await page.mouse.down();
+      await page.mouse.move(startX, startY + distance, {steps: 5}); await page.mouse.up();
+      // Observe the result after easing instead of compounding stale offsets.
+      await page.waitForTimeout(200);
+    }
+    // The same original strict framing tolerance remains an acceptance gate.
     await expect.poll(async () => Math.abs((await phone('L').boundingBox())!.y - target)).toBeLessThan(8);
   };
   const call = async (side: string) => {
