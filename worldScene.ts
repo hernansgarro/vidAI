@@ -41,7 +41,9 @@ export class WorldSceneLayer {
         mask.addColorStop(fraction, `rgba(0, 0, 0, ${removed})`);
       }
       ctx.fillStyle = mask;
-      ctx.fillRect(left, 0, right - left, height);
+      // Cover the full visible column. Splitting this at the tank floor/ceiling
+      // leaves antialiased seams between sequential destination-out fills.
+      ctx.fillRect(left, viewTop, right - left, viewBottom - viewTop);
     }
     ctx.restore(); ctx.restore();
     target.save(); target.setTransform(1, 0, 0, 1, 0, 0);

@@ -165,6 +165,14 @@ for (const fallback of [false, true]) test(`local phone consent and grouped glas
   // Downward phone cards intentionally follow the world rather than pinning to
   // the viewport. Bring the tank floor into view through the real camera input.
   const framePhones = async (target = 400) => {
+    // Center Cam and wheel zoom ease toward their targets. Measuring before
+    // that motion settles bakes its remaining displacement into the next drag.
+    let previousY = Infinity;
+    await expect.poll(async () => {
+      const y = (await phone('L').boundingBox())!.y, delta = Math.abs(y - previousY);
+      previousY = y;
+      return delta;
+    }, {intervals: [50, 100, 250]}).toBeLessThan(.001);
     const box = (await phone('L').boundingBox())!, current = (await canvas.boundingBox())!;
     const startX = current.x + current.width / 2, startY = current.y + current.height / 2;
     await page.mouse.move(startX, startY); await page.mouse.down();
