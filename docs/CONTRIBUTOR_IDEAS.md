@@ -1,5 +1,7 @@
 # Contributor design ideas — fork-only discussion notes
 
+> **Personal idea Kanban:** [VIDA 2D — Hernan's Idea Lab](IDEA_LAB.md) is the fork-only navigation board for evolving proposals. This journal remains the detailed design history and is not an upstream backlog.
+
 > **Status:** Exploratory ideas from Hernan, recorded on 2026-10-28. These are **not approved implementation requirements**, **not upstream proposals**, and **not part of the canonical upstream backlog**. Do not create upstream issues, PRs, or owner requests from these notes without a separate explicit decision.
 >
 > **Visibility:** This file is in the public contributor fork `hernansgarro/vidAI`; it is not confidential. When preparing clean upstream submission branches, exclude this contributor-only journal unless separately authorized.
