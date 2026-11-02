@@ -67,6 +67,10 @@ Stage 3 requires Hernan's **separate scope/protocol approval**, workload exact s
 
 A suitable recorded control set should document: exact fork SHA, seed and checkpoint/schema, evolution of population during trial, organ/eye/brain composition, food/egg counts, active tube topology, requested versus achieved speed, FPS, UI resolution/DPR, hardware/OS/browser/Node, visibility, Worker/mainthread, warm-up/repetitions/order, CPU process/core accounting, runtime budget, instrumentation overhead and failures. Preserve raw data **separately** from conclusions.
 
+## Post-review priority overlay (2026-11-02)
+
+Hernan has now identified the subset to examine first and asked for Stage 3 measurement questions, **without authorizing Stage 3 execution**. The combined ranked investigation order and exact per-ID Stage 3/Stage 4 questions are recorded in [PERFORMANCE_AUDIT_PRIORITIES.md](PERFORMANCE_AUDIT_PRIORITIES.md). This overlays rather than edits the original twelve hypotheses or their evidentiary status. The separate [IDEA-025](IDEA_LAB.md#idea-025-heritable-per-eye-ray-subsets) is a *future genetic* proposal, not a safe exact-preserving optimization.
+
 ## Stage 4 handoff / evidence readiness
 
 For each hypothesis ID, Stage 4 must join **Stage 1 measurement reference**, **Stage 2 code reference (above)**, **Stage 3 protocol/raw trace/result**, and classify `confirmed` / `plausible but unverified` / `refuted` / `not measured`. Report representative-hardware cost fraction, end-to-end Amdahl-bound benefit **only when measured**, implementation/GC cost, semantic tier A/B/C/D, reversible rollback path, all required exact-state/Worker/browser gates and visual acceptance. Stage 2 alone authorizes **no numerical performance estimate, optimization, changed baseline, rerun of stopped scientific trials or deployment**.
