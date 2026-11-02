@@ -38,6 +38,12 @@ Finished fork work is kept in the
 [verified completion history](CONTRIBUTOR_COMPLETED.md), rather than as
 repeated "pending implementation" entries here.
 
+### Personal idea triage (2026-11-02; no new implementation authorization)
+
+- **IDEA-008 — Nutrient appearance frequencies below one per second:** Hernan assigns **High priority**. Remains exploratory because fractional-rate UI, deterministic accumulation and snapshot compatibility must be designed; see the [active idea board](IDEA_LAB.md). This is about rate of particle appearance, **not** per-particle nutrient decay.
+- **IDEA-012 — Retained agreements when tank windows disappear:** Hernan assigns **High importance**, but code and unit/browser tests confirm this is **already delivered** for local Stage 3 self-links. It is now in the [completed-work history](CONTRIBUTOR_COMPLETED.md), **not an outstanding requirement**. Do not conflate this with deferred Stage 4 cross-user agreement persistence under IDEA-010.
+- No issue/PR or new implementation is authorized merely by updating personal priority. The urgent new need Hernan mentioned remains undefined and is not superseded by this triage.
+
 ### Submission and acceptance watchlist (not feature-development backlog)
 
 | Completed in fork | Current upstream gate | Verified evidence / next action |
