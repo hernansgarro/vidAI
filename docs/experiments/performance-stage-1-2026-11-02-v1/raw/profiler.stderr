@@ -1,0 +1,20 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Complete v0.31 state continuation must remain exact
++ actual - expected
+
++ 'f54de46652a30c7c11a52db0282cd8ec0e7c9eea68c5451e1036bbfc9b1fe00f'
+- 'de3c9130159af23590db2b385c2d11c338f2882f5e64f0eb4c756db4fa71b672'
+
+    at <anonymous> (/workspace/scratch/e756b6c0a7fe/vidAI/scripts/profile-performance.mjs:91:10) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 'f54de46652a30c7c11a52db0282cd8ec0e7c9eea68c5451e1036bbfc9b1fe00f',
+  expected: 'de3c9130159af23590db2b385c2d11c338f2882f5e64f0eb4c756db4fa71b672',
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.22.1

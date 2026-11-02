@@ -1,0 +1,103 @@
+{
+  "target": "3c737ac1bbf678915ebd945b6b5db8781a48831b",
+  "upstream": "041362eefa64971d9038f4ad7ec4fd59a747d3ec",
+  "identicalRuntimeControl": "e9662a6ef5307a3349ea1338489d755a1879c8b9",
+  "forkMainReadback": "e25e1af44d94f78f654502c2f5341fb02de7a978",
+  "toolVersions": {
+    "version": "0.39.0",
+    "name": "vidai",
+    "dependencies": {
+      "@playwright/test": {
+        "version": "1.58.2",
+        "resolved": "https://registry.npmjs.org/@playwright/test/-/test-1.58.2.tgz",
+        "overridden": false
+      },
+      "@types/node": {
+        "version": "26.6.5",
+        "resolved": "https://registry.npmjs.org/@types/node/-/node-26.6.5.tgz",
+        "overridden": false
+      },
+      "@types/react-dom": {
+        "version": "18.3.7",
+        "resolved": "https://registry.npmjs.org/@types/react-dom/-/react-dom-18.3.7.tgz",
+        "overridden": false
+      },
+      "@types/react": {
+        "version": "18.3.31",
+        "resolved": "https://registry.npmjs.org/@types/react/-/react-18.3.31.tgz",
+        "overridden": false
+      },
+      "@vitejs/plugin-react": {
+        "version": "6.1.2",
+        "resolved": "https://registry.npmjs.org/@vitejs/plugin-react/-/plugin-react-6.1.2.tgz",
+        "overridden": false
+      },
+      "autoprefixer": {
+        "version": "10.6.1",
+        "resolved": "https://registry.npmjs.org/autoprefixer/-/autoprefixer-10.6.1.tgz",
+        "overridden": false
+      },
+      "lucide-react": {
+        "version": "1.59.0",
+        "resolved": "https://registry.npmjs.org/lucide-react/-/lucide-react-1.59.0.tgz",
+        "overridden": false
+      },
+      "postcss": {
+        "version": "8.5.31",
+        "resolved": "https://registry.npmjs.org/postcss/-/postcss-8.5.31.tgz",
+        "overridden": false
+      },
+      "react-dom": {
+        "version": "18.3.1",
+        "resolved": "https://registry.npmjs.org/react-dom/-/react-dom-18.3.1.tgz",
+        "overridden": false
+      },
+      "react": {
+        "version": "18.3.1",
+        "resolved": "https://registry.npmjs.org/react/-/react-18.3.1.tgz",
+        "overridden": false
+      },
+      "tailwindcss": {
+        "version": "3.4.19",
+        "resolved": "https://registry.npmjs.org/tailwindcss/-/tailwindcss-3.4.19.tgz",
+        "overridden": false
+      },
+      "tsx": {
+        "version": "4.23.15",
+        "resolved": "https://registry.npmjs.org/tsx/-/tsx-4.23.15.tgz",
+        "overridden": false
+      },
+      "typescript": {
+        "version": "7.0.2",
+        "resolved": "https://registry.npmjs.org/typescript/-/typescript-7.0.2.tgz",
+        "overridden": false
+      },
+      "vite": {
+        "version": "8.3.4",
+        "resolved": "https://registry.npmjs.org/vite/-/vite-8.3.4.tgz",
+        "overridden": false
+      }
+    }
+  },
+  "sourceSHA256": {
+    "scripts/performance-benchmark.ts": "3b9dd05c5187273fc8b68d6968c516f9cc5bca9303c252a4a85dc73039b1bb01",
+    "scripts/benchmark.ts": "65cec81364df12e1ec630e740f1ff2e5909b5fca3f5b1d9ee5423c639ef85813",
+    "scripts/profile-performance.mjs": "5dcea6a0aa22de3e9d787822044086b6776d418593c186b237dd7f55db43826a",
+    "scripts/benchmark-runtime-components.mjs": "f48cd5fc42b79c8b0594c42ce57281bfe3fdac9284f9a5cc61f5d4a98bf59a07",
+    "scripts/compare-performance.mjs": "c5e43f90ac5391d22a1aa8a067fb3f32686a50171aae90ad6d4b53444a43dfb1",
+    "scripts/check-worker.mjs": "b877c88947164ad0a4846e485d888da3dfe3d53e0b7a74b5675b129e345a11ba",
+    "tests/energy-activity.test.ts": "5f19c6a358b2e8beda4aed8574cadf96a4a9f3d8ce9257f9247b48483e2185af",
+    "simulation.ts": "0846437a3f54be8abdf7aaf52f5368eb398a65762f2d889df7a671a8ef66b63e",
+    "simulationHost.ts": "801bda0009738bef014066b9650fedfd97e4b856e0af70e0426119178a971e86",
+    "simulation.worker.ts": "50dcc968cf1b0a8a8ea496a5993c0d87992340e60e9c11c7f83fdae4db6bd6d0",
+    "persistence.ts": "3e759aadb7e2ccee8bb01da428708dd021320748f546670d67454317a63656c3",
+    "world.ts": "6cbf7da62d1ab3af7ef2c83a9ea565e5d11eb4c55cbf3f20b3c74ac511ceb387",
+    "environmentScenarios.ts": "ba71fadb100b923746eb840d6cdb7624d12ec244419827010e3d50920030f2a7",
+    "package-lock.json": "12450a0271695e3542f0fdf21e5bf0cb5a19c48700f976b5dca8b5678cd66994"
+  },
+  "workerBundleSHA256": {
+    "dist/assets/simulation.worker-BOfAki5g.js": "60bf629cca922cfdc2505aa3ffc6ab507bfca538b72180adb0327bf7295b7205"
+  },
+  "codeDifferenceControl": "",
+  "codeDifferenceNewMain": ""
+}

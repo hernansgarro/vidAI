@@ -1,0 +1,210 @@
+{
+  "kernel": {
+    "allTimedWindowsDescriptiveOnly": {
+      "n": 6,
+      "median": 430.0,
+      "min": 353,
+      "max": 486,
+      "populationStdDev": 41.06668019480297
+    },
+    "firstRounds": {
+      "n": 3,
+      "median": 441,
+      "min": 419,
+      "max": 456,
+      "populationStdDev": 15.195028426721974
+    },
+    "secondRounds": {
+      "n": 3,
+      "median": 418,
+      "min": 353,
+      "max": 486,
+      "populationStdDev": 54.30162674051917
+    },
+    "perProcessMeanMs": {
+      "n": 3,
+      "median": 429.5,
+      "min": 404.5,
+      "max": 452.5,
+      "populationStdDev": 19.601587237318874
+    },
+    "windows": [
+      {
+        "implementation": "current",
+        "round": 1,
+        "creatures": 15,
+        "plantFood": 78,
+        "remains": 221,
+        "ticks": 120,
+        "milliseconds": 441,
+        "exactStateMatch": true,
+        "process": 1,
+        "msPerTick": 3.675,
+        "ticksPerSecond": 272.10884353741494,
+        "effectiveMultiplier": 4.535147392290249
+      },
+      {
+        "implementation": "current",
+        "round": 2,
+        "creatures": 15,
+        "plantFood": 78,
+        "remains": 221,
+        "ticks": 120,
+        "milliseconds": 418,
+        "exactStateMatch": true,
+        "process": 1,
+        "msPerTick": 3.4833333333333334,
+        "ticksPerSecond": 287.08133971291863,
+        "effectiveMultiplier": 4.784688995215311
+      },
+      {
+        "implementation": "current",
+        "round": 1,
+        "creatures": 15,
+        "plantFood": 78,
+        "remains": 221,
+        "ticks": 120,
+        "milliseconds": 419,
+        "exactStateMatch": true,
+        "process": 2,
+        "msPerTick": 3.4916666666666667,
+        "ticksPerSecond": 286.3961813842482,
+        "effectiveMultiplier": 4.77326968973747
+      },
+      {
+        "implementation": "current",
+        "round": 2,
+        "creatures": 15,
+        "plantFood": 78,
+        "remains": 221,
+        "ticks": 120,
+        "milliseconds": 486,
+        "exactStateMatch": true,
+        "process": 2,
+        "msPerTick": 4.05,
+        "ticksPerSecond": 246.91358024691357,
+        "effectiveMultiplier": 4.11522633744856
+      },
+      {
+        "implementation": "current",
+        "round": 1,
+        "creatures": 15,
+        "plantFood": 78,
+        "remains": 221,
+        "ticks": 120,
+        "milliseconds": 456,
+        "exactStateMatch": true,
+        "process": 3,
+        "msPerTick": 3.8,
+        "ticksPerSecond": 263.1578947368421,
+        "effectiveMultiplier": 4.385964912280702
+      },
+      {
+        "implementation": "current",
+        "round": 2,
+        "creatures": 15,
+        "plantFood": 78,
+        "remains": 221,
+        "ticks": 120,
+        "milliseconds": 353,
+        "exactStateMatch": true,
+        "process": 3,
+        "msPerTick": 2.941666666666667,
+        "ticksPerSecond": 339.94334277620396,
+        "effectiveMultiplier": 5.665722379603399
+      }
+    ]
+  },
+  "headlessProcess": {
+    "wallSeconds": {
+      "n": 3,
+      "median": 1.099247202000015,
+      "min": 1.03860983200002,
+      "max": 1.1279627729999788,
+      "populationStdDev": 0.037246062765392995
+    },
+    "trials": [
+      {
+        "name": "headless-1",
+        "command": [
+          "npm",
+          "run",
+          "benchmark",
+          "--",
+          "--seed",
+          "4242",
+          "--seconds",
+          "3"
+        ],
+        "timeoutSeconds": 60,
+        "startedUTC": "2026-11-02T18:15:56.181748+00:00",
+        "exitCode": 0,
+        "wallSeconds": 1.1279627729999788,
+        "userSeconds": 1.753703,
+        "systemSeconds": 0.155423,
+        "maxRssKiB": 183996,
+        "ticks": 180,
+        "msPerTickIncludingProcessOverhead": 6.266459849999882,
+        "ticksPerSecondIncludingProcessOverhead": 159.5797346407667,
+        "effectiveMultiplierIncludingProcessOverhead": 2.6596622440127784
+      },
+      {
+        "name": "headless-2",
+        "command": [
+          "npm",
+          "run",
+          "benchmark",
+          "--",
+          "--seed",
+          "4242",
+          "--seconds",
+          "3"
+        ],
+        "timeoutSeconds": 60,
+        "startedUTC": "2026-11-02T18:15:57.310364+00:00",
+        "exitCode": 0,
+        "wallSeconds": 1.03860983200002,
+        "userSeconds": 1.795397,
+        "systemSeconds": 0.161168,
+        "maxRssKiB": 165032,
+        "ticks": 180,
+        "msPerTickIncludingProcessOverhead": 5.770054622222334,
+        "ticksPerSecondIncludingProcessOverhead": 173.30858466203748,
+        "effectiveMultiplierIncludingProcessOverhead": 2.888476411033958
+      },
+      {
+        "name": "headless-3",
+        "command": [
+          "npm",
+          "run",
+          "benchmark",
+          "--",
+          "--seed",
+          "4242",
+          "--seconds",
+          "3"
+        ],
+        "timeoutSeconds": 60,
+        "startedUTC": "2026-11-02T18:15:58.353132+00:00",
+        "exitCode": 0,
+        "wallSeconds": 1.099247202000015,
+        "userSeconds": 1.812274,
+        "systemSeconds": 0.175137,
+        "maxRssKiB": 161564,
+        "ticks": 180,
+        "msPerTickIncludingProcessOverhead": 6.106928900000083,
+        "ticksPerSecondIncludingProcessOverhead": 163.74842680745576,
+        "effectiveMultiplierIncludingProcessOverhead": 2.7291404467909293
+      }
+    ]
+  },
+  "pairedControlNote": "identical runtime; no optimization effect can be inferred",
+  "workerEmptyMAX": {
+    "printedMultiplier": 4922.6,
+    "printedTicks": 256256,
+    "approxTicksPerSecond": 295356.0,
+    "approxMsPerTick": 0.0033857446606806703,
+    "repetitions": 1,
+    "note": "empty world, short production-Worker harness interval; not populated throughput"
+  }
+}

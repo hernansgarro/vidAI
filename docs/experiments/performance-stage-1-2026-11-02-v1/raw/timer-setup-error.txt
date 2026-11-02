@@ -1,0 +1,1 @@
+Before first benchmark launch, Python subprocess.run attempted /usr/bin/time and raised FileNotFoundError: [Errno 2] No such file or directory: '/usr/bin/time'. No benchmark process was started. Protocol amended to external Python monotonic clock + wait4 resource usage.

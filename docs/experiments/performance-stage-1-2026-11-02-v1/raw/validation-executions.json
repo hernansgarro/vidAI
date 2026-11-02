@@ -1,0 +1,55 @@
+[
+  {
+    "name": "focused-tests",
+    "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/performance-runtime.test.ts",
+      "tests/simulation-performance.test.ts",
+      "tests/worker-pacing.test.ts",
+      "tests/spatial-index.test.ts",
+      "tests/sight-broadphase.test.ts",
+      "tests/energy-activity.test.ts"
+    ],
+    "timeoutSeconds": 120,
+    "startedUTC": "2026-11-02T18:16:22.265793+00:00",
+    "exitCode": 0,
+    "wallSeconds": 0.9882028750000131,
+    "userSeconds": 3.679175,
+    "systemSeconds": 0.5863689999999999,
+    "maxRssKiB": 230192
+  },
+  {
+    "name": "production-worker",
+    "command": [
+      "npm",
+      "run",
+      "test:worker"
+    ],
+    "timeoutSeconds": 120,
+    "startedUTC": "2026-11-02T18:16:23.254340+00:00",
+    "exitCode": 0,
+    "wallSeconds": 14.222580790999984,
+    "userSeconds": 15.410488,
+    "systemSeconds": 0.45155,
+    "maxRssKiB": 257064
+  },
+  {
+    "name": "chromium-install",
+    "command": [
+      "npx",
+      "playwright",
+      "install",
+      "chromium"
+    ],
+    "timeoutSeconds": 60,
+    "startedUTC": "2026-11-02T18:16:37.477345+00:00",
+    "exitCode": 1,
+    "wallSeconds": 27.40458625499997,
+    "userSeconds": 1.871675,
+    "systemSeconds": 0.408597,
+    "maxRssKiB": 137788
+  }
+]

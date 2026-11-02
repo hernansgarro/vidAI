@@ -1,0 +1,6 @@
+
+> vidai@0.39.0 benchmark:performance
+> node --import tsx scripts/performance-benchmark.ts
+
+{"implementation":"current","round":1,"creatures":15,"plantFood":78,"remains":221,"ticks":120,"milliseconds":441,"exactStateMatch":true}
+{"implementation":"current","round":2,"creatures":15,"plantFood":78,"remains":221,"ticks":120,"milliseconds":418,"exactStateMatch":true}

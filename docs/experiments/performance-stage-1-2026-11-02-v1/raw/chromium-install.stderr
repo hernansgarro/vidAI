@@ -1,0 +1,26 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+Error: End of central directory record signature not found. Either not a zip file, or file is truncated.
+    at /workspace/scratch/e756b6c0a7fe/vidAI/node_modules/playwright-core/lib/zipBundleImpl.js:1:24397
+    at /workspace/scratch/e756b6c0a7fe/vidAI/node_modules/playwright-core/lib/zipBundleImpl.js:1:33604
+    at /workspace/scratch/e756b6c0a7fe/vidAI/node_modules/playwright-core/lib/zipBundleImpl.js:1:17264
+    at FSReqCallback.wrapper [as oncomplete] (node:fs:730:5)
+Error: End of central directory record signature not found. Either not a zip file, or file is truncated.
+    at /workspace/scratch/e756b6c0a7fe/vidAI/node_modules/playwright-core/lib/zipBundleImpl.js:1:24397
+    at /workspace/scratch/e756b6c0a7fe/vidAI/node_modules/playwright-core/lib/zipBundleImpl.js:1:33604
+    at /workspace/scratch/e756b6c0a7fe/vidAI/node_modules/playwright-core/lib/zipBundleImpl.js:1:17264
+    at FSReqCallback.wrapper [as oncomplete] (node:fs:730:5)
+Error: End of central directory record signature not found. Either not a zip file, or file is truncated.
+    at /workspace/scratch/e756b6c0a7fe/vidAI/node_modules/playwright-core/lib/zipBundleImpl.js:1:24397
+    at /workspace/scratch/e756b6c0a7fe/vidAI/node_modules/playwright-core/lib/zipBundleImpl.js:1:33604
+    at /workspace/scratch/e756b6c0a7fe/vidAI/node_modules/playwright-core/lib/zipBundleImpl.js:1:17264
+    at FSReqCallback.wrapper [as oncomplete] (node:fs:730:5)
+Error: End of central directory record signature not found. Either not a zip file, or file is truncated.
+    at /workspace/scratch/e756b6c0a7fe/vidAI/node_modules/playwright-core/lib/zipBundleImpl.js:1:24397
+    at /workspace/scratch/e756b6c0a7fe/vidAI/node_modules/playwright-core/lib/zipBundleImpl.js:1:33604
+    at /workspace/scratch/e756b6c0a7fe/vidAI/node_modules/playwright-core/lib/zipBundleImpl.js:1:17264
+    at FSReqCallback.wrapper [as oncomplete] (node:fs:730:5)
+Error: End of central directory record signature not found. Either not a zip file, or file is truncated.
+    at /workspace/scratch/e756b6c0a7fe/vidAI/node_modules/playwright-core/lib/zipBundleImpl.js:1:24397
+    at /workspace/scratch/e756b6c0a7fe/vidAI/node_modules/playwright-core/lib/zipBundleImpl.js:1:33604
+    at /workspace/scratch/e756b6c0a7fe/vidAI/node_modules/playwright-core/lib/zipBundleImpl.js:1:17264
+    at FSReqCallback.wrapper [as oncomplete] (node:fs:730:5)

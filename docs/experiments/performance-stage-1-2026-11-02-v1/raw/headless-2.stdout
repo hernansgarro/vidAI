@@ -1,0 +1,5 @@
+
+> vidai@0.39.0 benchmark
+> node --import tsx scripts/benchmark.ts --seed 4242 --seconds 3
+
+{"seed":4242,"seconds":3,"living":18,"births":18,"deaths":0,"eggs":0,"nutrients":275,"carrion":0,"maxGeneration":1,"energyErrorJ":2.3283064365386963e-9}

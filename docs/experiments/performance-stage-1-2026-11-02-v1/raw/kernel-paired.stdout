@@ -1,0 +1,8 @@
+
+> vidai@0.39.0 benchmark:performance
+> node --import tsx scripts/performance-benchmark.ts --baseline ../performance-baseline
+
+{"implementation":"baseline","round":1,"creatures":15,"plantFood":78,"remains":221,"ticks":120,"milliseconds":451,"exactStateMatch":true}
+{"implementation":"current","round":1,"creatures":15,"plantFood":78,"remains":221,"ticks":120,"milliseconds":366,"exactStateMatch":true}
+{"implementation":"current","round":2,"creatures":15,"plantFood":78,"remains":221,"ticks":120,"milliseconds":390,"exactStateMatch":true}
+{"implementation":"baseline","round":2,"creatures":15,"plantFood":78,"remains":221,"ticks":120,"milliseconds":296,"exactStateMatch":true}

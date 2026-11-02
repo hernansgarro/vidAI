@@ -1,3 +1,22 @@
+# Performance audit Stage 1 — contributor fork (2026-11-02)
+
+Browser follow-up: [source-equivalent container CI evidence](experiments/performance-stage-1-2026-11-02-v1/browser-ci-followup/report.md) now verifies all88browser cases, including glow Worker/fallback in Chromium and Firefox. Original local download failure remains preserved; no FPS/CPU/latency/glow-causality claim. No fresh suite or optimization was executed.
+
+Documentation/evidence only; [report and raw outputs](experiments/performance-stage-1-2026-11-02-v1/report.md),
+[fork PR #61](https://github.com/hernansgarro/vidAI/pull/61). Pinned runtime
+`3c737ac1bbf678915ebd945b6b5db8781a48831b`; no production changes or upstream submission.
+Three independent existing kernel benchmark processes (paid-work-v2/open economy,
+15 creatures/78 food/221 carrion) produced six120-tick windows353–486ms,
+descriptive median430ms (about279ticks/s,4.65x); not current app-preset or browser performance.
+Identical-code alternating control passed complete-state equality and showed substantial timing noise.
+Three180-tick headless processes took1.039–1.128s including startup/output.
+41focused tests and actual production Worker passed; empty-MAX4922.6x is not populated capacity.
+Historical profiler hash and component lineage precondition failed before usable profiles/timings;
+failures preserved, no frozen references changed. Chromium installation failed; browserFPS,
+responsiveness, visual glow cost, representative-desktop load and bottleneck ranking remain unmeasured.
+No causal glow conclusion, Stage2–4, instrumentation, optimization, testing/CI/Wiki/publication change.
+STOP for Hernan's review; PR remains open and unmerged.
+
 # Pipe World Stage 2 — contributor fork (2026-11-02)
 
 Tracking upstream #135 / #57. Authorized branch `feature/pipe-world-stage-2`
