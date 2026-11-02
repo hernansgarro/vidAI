@@ -1,3 +1,21 @@
+# Contributor fork browser-validation policy (2026-11-02)
+
+- Prefer the existing GitHub Actions browser CI for reproducible Chromium/Firefox
+  checks when validating fork changes. The Worker integration smoke workflow
+  uses version-pinned Playwright containers with preinstalled browsers; do not
+  routinely install Chromium inside ephemeral ChatGPT Work environments merely
+  to duplicate those checks. Read the actual CI job/test results and failure
+  logs; never count skipped or failed browser checks as passing.
+- Local Playwright/browser checks remain appropriate when diagnosing CI failures,
+  iterating on interactive UI, or obtaining evidence that CI does not cover.
+  Reuse an existing compatible browser if available; the project's
+  PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH override supports explicit executable
+  selection. Do not assume Work browser caches persist across sessions.
+- Preserve all required Worker, Chromium, Firefox, and browser-smoke gates.
+  Any change to CI, image versions, coverage, or release protections requires
+  its own review and evidence. The optional extended-validation Pages workflow
+  remains distinct from the Worker browser shards.
+
 # Contributor fork nutrient cycle (#125)
 
 - Fork main implements `nutrientCycle: decay-v2` for new closed application

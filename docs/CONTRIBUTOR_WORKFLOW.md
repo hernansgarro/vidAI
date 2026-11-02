@@ -49,6 +49,32 @@ Wiki: https://github.com/smeagol44/vidAI/wiki
 - Upstream main owns production; testing owns experiments. Main may merge into testing with its overlay retained. Never merge testing wholesale into main, even indirectly.
 - Keep testing-baseline.json/testing labels out of production. Sync never resets cycles; rebaselining needs coordination and preserved experiments.
 
+## Browser verification and execution costs
+
+- Prefer GitHub Actions as the default environment for reproducible browser
+  regression validation. The fork's `.github/workflows/performance-worker.yml`
+  runs Chromium and Firefox shards inside a version-pinned official Playwright
+  container with browsers already installed; consult its actual CI status,
+  job logs and test reports after each relevant PR. A green non-browser workflow
+  does not substitute for required browser checks.
+- Do not routinely download Chromium in a disposable ChatGPT Work runtime just
+  to repeat a browser suite already executed in CI. Work should focus on code
+  changes, investigating failures and focused visual interactions that CI
+  cannot establish. Use locally available compatible browsers when necessary;
+  `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` is supported by
+  `playwright.config.ts`. A reused executable must be verified as compatible.
+- Never downgrade, skip, bypass or weaken required Chromium, Firefox, Worker
+  or aggregate browser-smoke gates to save resources. If GitHub Actions cannot
+  execute a required suite, report it as blocked rather than passed. Diagnose
+  regressions using logs and targeted reruns; avoid repeated full suites without
+  a concrete cause.
+- GitHub-hosted standard runner minutes are currently free for public
+  repositories, but runner availability, container-image downloads, other
+  GitHub services and pricing may change. Check the repository visibility,
+  current pricing and any usage limits before expanding CI or using larger,
+  self-hosted or third-party runners. Keep optional extended-validation and
+  production/testing publication safeguards intact.
+
 ## Verification and documentation
 
 - Run npm run test:fast and npm run build; install via npm ci. Use npm run test:worker for simulation/Worker changes and focused automated browser smoke for relevant UI changes.
