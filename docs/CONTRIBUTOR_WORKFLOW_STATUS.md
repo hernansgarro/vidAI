@@ -38,11 +38,41 @@ Finished fork work is kept in the
 [verified completion history](CONTRIBUTOR_COMPLETED.md), rather than as
 repeated "pending implementation" entries here.
 
+### P0 — Next contributor investigation: performance (IDEA-023)
+
+**Absolute highest contributor priority as designated by Hernan (2026-11-02),**
+above all other outstanding personal ideas. **Queued for future joint
+investigation; not started, no code changed and no profiling campaign authorized.**
+
+Hernan reports excessive CPU load and poor interactive performance in VIDA 2D.
+He observes additional slowing when organism energy-activity glow is displayed.
+The audit must first **measure the cause**, explicitly separating the cost
+of computing energy-transfer signals from painting glow/blur/compositing,
+Canvas/React work, Worker simulation ticks, neural/contact/sensing workloads,
+render-frame frequency, message passing and GC. Glow should remain an
+observer-only indication of energy being gained or taken, not an extra sensory
+or ecological mechanism. Consider simpler acceptable visualization/event
+aggregation **only after controlled comparisons**. Review other expensive
+subsystems based on traces rather than supposition.
+
+Before executing expensive profiling, agree with Hernan on representative
+hardware, fixed seeds/worlds, baseline metrics (CPU load, FPS, actual
+simulation steps/s and memory), controls, effort budget and acceptance
+criteria. Preserve inherited physics/genetics, energy accounting, simulation
+determinism, saved-world semantics, current Worker/render separation and
+existing baseline history. Follow the project's experiment-registration
+rules if experiments are required.
+
+**Next action:** Joint analysis and bounded investigation plan with Hernan
+when this becomes the active task. This entry neither authorizes
+implementation nor creates an upstream issue or PR.
+See [IDEA-023](IDEA_LAB.md#idea-023-vida-2d-performance-and-cpu-load-audit).
+
 ### Personal idea triage (2026-11-02; no new implementation authorization)
 
 - **IDEA-008 — Nutrient appearance frequencies below one per second:** Hernan assigns **High priority**. Remains exploratory because fractional-rate UI, deterministic accumulation and snapshot compatibility must be designed; see the [active idea board](IDEA_LAB.md). This is about rate of particle appearance, **not** per-particle nutrient decay.
 - **IDEA-012 — Retained agreements when tank windows disappear:** Hernan assigns **High importance**, but code and unit/browser tests confirm this is **already delivered** for local Stage 3 self-links. It is now in the [completed-work history](CONTRIBUTOR_COMPLETED.md), **not an outstanding requirement**. Do not conflate this with deferred Stage 4 cross-user agreement persistence under IDEA-010.
-- No issue/PR or new implementation is authorized merely by updating personal priority. The urgent new need Hernan mentioned remains undefined and is not superseded by this triage.
+- No issue/PR or new implementation is authorized merely by updating personal priority. The previously unnamed urgent need is now **IDEA-023, the P0 performance audit**; all earlier personal priorities remain subordinate to it.
 
 ### Nutrient geometry ideas (2026-11-02; no development started)
 
