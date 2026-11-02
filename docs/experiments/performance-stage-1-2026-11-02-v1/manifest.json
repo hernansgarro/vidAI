@@ -1,7 +1,7 @@
 {
   "kernel-results.csv": {
-    "bytes": 643,
-    "sha256": "7637ecedb9fbedc772d0903046ef89bad47302dafccdabc902db34e4931d1c9f"
+    "bytes": 636,
+    "sha256": "c931882ea4d7943451f297d6388dc1f72b67cdc7158c5642129adecdaa4f9b3a"
   },
   "protocol.md": {
     "bytes": 8082,
@@ -32,8 +32,8 @@
     "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   },
   "raw/document-validation.md": {
-    "bytes": 926,
-    "sha256": "dd67c942573d39588ee718ffb735a3924cae6d1824548595af27b8c6c00fe628"
+    "bytes": 1171,
+    "sha256": "b65bf4b54b8db8c3604474f79f4a5c428843c0a3a73749fb4c935d89554ea468"
   },
   "raw/environment.txt": {
     "bytes": 4817,
@@ -148,8 +148,8 @@
     "sha256": "cccc943c13162747a3231f8d9b153ede9550d726cb5777a48f2b0337d4c997c5"
   },
   "report.md": {
-    "bytes": 38827,
-    "sha256": "48a76941cc9c2ab8ce58dd47ae38bc4be0d0001044bf49b32cdeabc9deb4ca21"
+    "bytes": 38932,
+    "sha256": "1445336fdf7b3fa44de630fcc354ef1db915b30c7b29fa184b6cfed779eb2f56"
   },
   "summary.json": {
     "bytes": 5672,
