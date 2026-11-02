@@ -1,3 +1,44 @@
+# Upstream synchronization into contributor main (2026-11-02)
+
+Fork integration of canonical main `041362eefa64971d9038f4ad7ec4fd59a747d3ec`
+from fork main `38cac5fde55499674f8a4fd967a5a5ccb286fa6a`, tracked in
+hernansgarro/vidAI#51. This is fork-only delivery under Hernan's explicit merge
+authorization; no upstream PR, upstream write or testing branch update.
+
+The three-way merge reconciles 37 conflicted files individually. Preserve fork
+nutrient-cycle schema18/19, minimum radius, 1 J/s decay and bounded mineralization;
+retain all upstream schema16/17 validation and accepted mouth conversion. Egg
+reference serialization uses upstream's nonmutating output copy. Observer
+preferences, funded self-tubes and the fork's glow-before-body layer order remain.
+Upstream epoch-aware presentation pause handling and strict logical/visible
+Firefox anchor checks are retained. Duplicate declarations/imports and halo
+passes introduced by textual auto-merging are removed, rather than changing
+physics, coefficients, baselines or causal assertions.
+
+Both AGENTS instructions and both project-history sections are retained. The
+fork's original scenario receipts remain unchanged; the distinct canonical
+receipts are saved as environment-scenarios-upstream-v1.json, with their original
+base/measurements. Accepted canonical features are documented as such, with
+fork-only cycle/preferences clearly distinguished. Canonical v0.39.0 package and
+visible build labels agree. CI retains both branches' path triggers, all fork
+cases, and canonical Firefox activity/tube cases with the mandatory aggregate.
+The existing fork production/testing Pages workflow is unchanged.
+
+Local fresh npm ci, 381 fast tests, build/typecheck and the actual production
+Worker pass. The initial merge candidate failed on duplicate UI/Worker declarations
+and lost cycle schema selection; these integration defects were corrected without
+weakening tests. Exact pre-sync fork comparison: 16 physics/economy/contact cases,
+960 ticks and zero stock differences; six omitted/v1/v2 tank/tube cases compare
+720 complete snapshots through decay/mineralization. Only the release build label
+is normalized; no simulation field is excluded. Receipts are in
+upstream-sync-fork-continuation-v1.json and upstream-sync-fork-cycles-v1.json.
+
+Local Chromium installation failed because the downloaded archive was truncated;
+focused browser verification is delegated to the existing PR CI. This record does
+not claim browser success or a completed main merge. Final-head CI, merge and
+publication receipts belong in the PR conversation. No ecological campaign,
+scientific baseline refresh, force-push, testing reset or VIDA 3D change.
+
 # Slower nutrient cycle and observation preferences — fork main follow-up (2026-10-29)
 
 Hernan requested1 J/s rather than30 J/s and a smaller restored food-radius floor.
@@ -256,6 +297,184 @@ Chromium and Firefox smoke CI; remote results and fork integration are recorded 
 #116/#57. Wiki source labels this as fork-only pending upstream acceptance.
 Preserve unrelated main work, testing and #113/#115 review.
 
+## Maintainer integration — local tubes and complete feature stack (v0.39.0)
+
+Integrates selected #124 stages1–3 after the preceding contributor features.
+The owner-approved forward-mouth conversion works with schema17 tube worlds and
+schema16 ordinary worlds, including dormant egg/lineage genomes. Strict diet
+width/forward reach validation and historical topology rejection remain. The
+new semantic integration case verifies valid forward round trips, malformed
+records in all locations and accepted old-mouth conversion in tube saves.
+
+Current x0/MAX, throughput, start scenarios, observer halos, immutable egg
+references and stable toolbar are preserved. Mouth aperture annotations use the
+physical forward capsule in the post-body observer layer, below the mask. No
+extra pause overlay, old running protocol, remote stage4 or unrelated fork work
+is imported. Parallel CI retains the Worker gate, all16 toolbar cases, side-window
+scenarios and every accumulated Chromium/Firefox regression with a required
+aggregate. No assertion timeout, physics coefficient or baseline is relaxed.
+
+359 unaffected fast cases passed; all15 tube cases pass after replacing the
+superseded foreign-format rejection with combined-format validation. Clean build
+and actual production Worker pass, including all preceding feature checks,
+full-state L/R transfer, stock/identity, exact continuation, closure and stale
+commands. Sixteen no-topology comparisons against exact preceding integration
+6479db4 match every simulation snapshot at initialization and all960 ticks with
+zero stock difference. Only the separate release label is normalized. The new
+report is side-windows-integration-v1.json; original evidence is unchanged.
+Local repeated builds left stale generated Worker assets; a clean output build
+resolved the harness's old-bundle mismatch without changing any state assertion.
+No new ecology/evolution search or gameplay-FPS claim. See source PRs and #57
+for actual remote gates, merge and production/Wiki publication receipts.
+
+---
+
+## Maintainer integration — interactive x0 and measured throughput (v0.38.4)
+
+Integrates #113/#111/#112 into the stable toolbar and cumulative feature stack.
+The status/speed controls use canonical0x; the same effective speed freezes halo
+presentation. Measured throughput replaces the decorative pulse without changing
+reserved toolbar geometry. MAX runs yielding complete fixed-tick batches and
+retains exact continuation, responsive commands and finite-speed resume.
+
+All333 fast tests and build/typecheck pass. Actual production Worker checks pass
+for funded x0 edits without ticks, exact MAX continuation and resumed pacing,
+plus all prior mouth, energy, halo, egg and environmental scenarios. Tests use
+the actual Resume control and speed0 protocol while retaining their state,
+energy, optical/learning/PRNG and visual assertions. No timeout or baseline
+reference is loosened. Prior and new browser cases remain in both engines;
+toolbar geometry remains a mandatory gate. No physics/genetics/energy tuning.
+
+---
+
+## Maintainer integration — environmental start scenarios (v0.38.3)
+
+Integrates selected #120/#119 after the preceding mouth/toolbar/observer work.
+Default preserves configured initialization; Harsh uses its requested tank,
+gravity, viscosity, recycling and caps, with no free food at time zero and the
+same funded global energy grant. Subsequent controls and exact imports remain
+independent. Founder/mouth geometry comes from the accepted current catalogue.
+No kernel coefficient or saved-world rule is changed by the selector.
+
+325 fast tests and build/typecheck pass locally. The actual Worker gate retains
+all preceding mouth, halo and egg checks and adds time-zero Harsh packets,
+matching Default funding, editable controls and exact resumed continuation.
+Every prior browser case remains; scenario coverage is added to both engines.
+Original source evidence stays intact; integration/CI/deployment receipts are
+maintained in the related PRs and #57.
+
+---
+
+## Maintainer integration — feeding/predation halos (v0.38.2)
+
+Integrates #115/#114 after forward mouths, stable toolbar and egg reserve display.
+Real authoritative feeding gains illuminate the body green; real predation losses
+illuminate contacted segments red. Optical RGB, neural state, feeding arithmetic,
+physics, energy stocks and save schemas remain unchanged. Existing pause state
+freezes presentation; the later x0 integration must use the same paused clock.
+
+All fast cases passed except an inherited multi-mouth fixture that assigned a
+carnivore width8. Its stored diameter is corrected to9, leaving its already
+explicit forward reach and diet-derived contact radius unchanged. The complete
+10-case focused activity suite then passes. Build/typecheck and the actual
+production Worker pass, including both egg-reserve and energy-activity checks.
+CI retains every prior fast/toolbar/browser case and adds activity coverage in
+both browser engines. No simulation coefficient or golden reference is changed.
+
+---
+
+## Maintainer integration — forward mouths and egg reserve display (v0.38.1)
+
+The owner accepts automatic conversion of historical saved mouths to fixed diet
+width and forward reach (#108, decision comment 6554984336). Saved organisms,
+eggs, lineage and Bank genomes convert on load; original files remain untouched.
+Future feeding uses the converted geometry. Physics, ecology, learned state and
+energy rules retain their saved meanings. This is an explicitly accepted mouth
+migration, not universal historical feeding continuation.
+
+The observer-only egg reserve display from #117/#116 is integrated with schema16
+and the stable toolbar from #110. Snapshot construction retains both the mouth
+migration and immutable egg-reserve reference. Browser CI includes toolbar,
+Worker regression and egg display checks in Chromium and Firefox.
+
+Local integration: 310 fast tests, build/typecheck and actual production Worker
+pass. Eight existing baseline comparisons (four physics regimes by two economies,
+120 ticks each) preserve complete simulation snapshots after excluding only the
+two observer fields; the distinct release build label is normalized separately.
+Original contributor evidence remains unchanged. This is bounded regression
+verification, not a new ecology/evolution search or an FPS claim. Remote CI,
+merge and publication receipts are recorded in the source PRs and #57.
+
+---
+
+## Egg reserve display — selected upstream submission (2026-10-28)
+
+Refs #116/#57. The observer-only counterclockwise white/pink reserve-loss sector
+was implemented, tested and merged through contributor fork PR #29/main d5218b4.
+Hernan explicitly approved upstream submission after visually accepting that delivery.
+This branch starts directly from canonical main 6f8f80c and carries only this feature.
+Original mouth geometry, founders, version 0.37.0, v12–v15 save meanings,
+paused/running controls, Worker protocol, Pages and stopped experiments are preserved.
+No dependency on the separate #113 or #115 submissions is introduced.
+
+Original usable reserve is stored at laying as optional observer metadata, never
+as an energy stock. Old eggs missing it receive known current reserve once and
+legacy provenance; historical loss cannot be recovered. White sensing, neural
+inputs, all energy/reproduction/uptake/hatch/expiry/physics rules remain unchanged.
+Wiki/source documentation describes the implemented fork behavior with upstream
+acceptance/publication pending. Contributor-only design notes are excluded.
+
+On this exact target: 306 fast tests and build/typecheck passed. Eight pre-change
+comparisons matched complete state at each of 120 ticks across all four physics
+regimes and both economies, excluding only the two observer metadata fields.
+Laying/hatching occurred in all eight, expiry in the four closed cases. Committed
+results identify the canonical baseline; no golden refresh or ecological/FPS claim.
+Production Worker and bounded Chromium/Firefox validation are recorded in #116/#57
+and the PR. The local browser archive is unavailable; remote CI supplies browser
+verification. No upstream merge, release, deployment or actual Wiki publication is
+part of the submission authorization. Keep the issue open for upstream review.
+
+
+# Initial environmental scenarios — upstream submission (2026-10-28)
+
+Refs #119 / #57. Explicitly approved after verified fork delivery PR
+hernansgarro/vidAI#31 and fork merge71f6f584. Clean branch
+`hernansgarro:submission/environment-scenarios` is based directly on canonical
+upstream/main `6f8f80c4cf771fa394fc12d2954380ea11365ade`. Only the selected
+scenario feature is submitted; unrelated fork pause/activity/egg/forward-mouth
+work, contributor journal, testing overlays and stopped experiments are excluded.
+This submission does not authorize upstream merge, release or publication.
+
+Default preserves configured initial settings and exact initialization. Harsh
+applies requested larger tank/gravity/viscosity/cap/recycling settings and calls
+existing Clear Free Nutrients synchronously before publication or the first tick.
+Matching founder populations receive the same global budget; 825,000 J of initial
+nutrient energy remains in reserve. Factory code is identical to the verified
+fork delivery. Founder selection, later controls and exact imports remain
+independent. The canonical pause/running UI and Worker protocol are preserved,
+as are saved schemas 12–15, original mouth geometry, founders and version0.37.0.
+No simulation kernel, energy law, physics, feeding, reproduction or genetic
+change is submitted. Details and reset boundaries: ENVIRONMENT_SCENARIOS.md.
+
+Exact-target local npm ci, 292 fast tests, build/typecheck and actual production
+Worker passed. Against unchanged canonical6f8f80c, 16 seed/brain/preset
+combinations match complete Default and manually configured Harsh+Clear initial
+snapshots plus 30 ticks per world: 960 exact continuation comparisons, with no
+excluded fields or baseline refresh. Matching budgets are equal; maximum stock
+error9.32e-10 J. Raw evidence: experiments/environment-scenarios-v1.json;
+reproduce with scripts/check-environment-scenarios-baseline.ts BASE_CHECKOUT.
+These deliberately harsher settings preserve existing manual behavior; this is
+not a survival, sustained ecology or FPS improvement claim.
+
+Local browser archive was unavailable after a truncated/non-ZIP download during
+fork delivery. Exact-target Chromium/Firefox Worker/fallback coverage is included
+in the existing bounded smoke CI and will be verified through a temporary
+internal validation PR closed unmerged. That PR does not alter fork main/testing
+or publish. Remote results and the eventual upstream PR are recorded in #119/#57.
+Wiki source is marked pending acceptance; actual upstream Wiki/publication must
+be verified only after upstream acceptance. Fractional recycling and named
+profiles remain deferred; their contributor-only journal is excluded.
+
 ---
 
 # Project status — 2026-10-21
@@ -413,6 +632,7 @@ Existing golden physics/brain/energy continuation checks remain unchanged.
 Browser and integration receipts are recorded in #111 and the fork-internal PR.
 This is contributor-fork behavior, not upstream acceptance or Wiki publication.
 
+
 ## Contributor fork: all eleven paused checks recovered — 2026-10-26
 
 Upstream tracking: #107. On `hernansgarro/vidAI:feature/restore-paused-regression-tests`,
@@ -435,6 +655,56 @@ and the preserved [initial diagnosis/evidence](experiments/paused-tests-107/READ
 Integration is authorized only through a verified fork PR to testing, then owner
 practical review. This checkpoint claims neither a main merge nor upstream
 acceptance/Wiki publication; review actual PR/deployment evidence in #107.
+
+
+## Observer-only energy activity submission — 2026-10-28
+
+Approved submission for #114 from `submission/energy-activity`, directly based on
+upstream main `6f8f80c`. The final wider translucent glow was accepted visually by
+Hernan after fork PRs25–27, merged into fork main `017ea675`. Actual absorption and
+predation extraction drive independent transient signals, with a 250ms relative
+window, 0.5%/0.35% hysteresis and a safe stock floor. Green covers the body; red
+uses existing authoritative contacted segments. No contact/feeding arithmetic,
+optical sensing, neural decisions, genetics, physics or persistent schemas change.
+
+A 400ms presentation cycle staggers peaks by 200ms, with at most 100ms fade after
+activity ends. Five translucent contours reach 10.5 CSS pixels outward, independent
+of zoom, underneath the original body fill/outline. No blur/filter/body scaling.
+Five strokes per active color add drawing cost; no FPS or zero-overhead claim.
+Nearby halos can overlap. Death/removal/reset clears transient signals.
+
+The upstream submission preserves this target's pause overlay, numeric speed
+controls and Worker protocol. Its existing paused/running state freezes phase and
+decay; late metadata waits for resume. #113's interactive x0/MAX/toolbar change is
+separate and unmerged. On that integration, the same pause-aware clock must follow
+its canonical zero-speed state; no new independent pause mechanism is introduced.
+Test fixtures use upstream's unchanged mouth geometry, not fork oral dimensions.
+
+Fast/build, exact observer-free full snapshots and actual Worker/browser results
+are tracked in #114 and the submission PR. Current Wiki source is included with
+pending-upstream labeling; acceptance and actual Wiki publication remain pending.
+No unrelated fork changes, version bump, hosting changes or VIDA 3D work.
+
+## Proposed x0 pause and measured performance indicator — 2026-10-28
+
+Upstream submission for #111/#112, explicitly approved after fork PRs21–24 were
+merged and published. This branch starts directly from upstream main6f8f80c and
+ports only unified interactive x0 pause, measured phase-preserving performance
+presentation and unlimited MAX. The circle expands to 2.5 times its normal radius
+while fading, retaining a fixed 12px layout box and no tooltip. Existing upstream
+layout, v0.37.0, physics, mouth contact, saves and frozen baselines are preserved.
+Unrelated fork geometry, test recovery, toolbar and Pages changes are excluded.
+
+MAX can age a world faster in wall time without changing a fixed-tick result.
+No new per-frame JavaScript, particle, blur or shadow work is introduced. Existing
+fork verification is recorded in #111/#112. On this upstream-based branch,
+npm ci, 295 fast tests (0 failed/skipped), build, the production Worker and eight
+focused Chromium cases passed. The Worker covers frozen funded edits, exact
+saved-state continuation and uncapped empty/populated MAX. UI cases cover both
+execution modes, controls, inspection/camera/manual edits, pulse geometry/fade,
+exact pause/resume, reduced motion and absent tooltip. Upstream CI and review
+remain pending. This is a proposal, not upstream acceptance or publication.
+
 
 ## Coherent fluid drag and anatomical muscle trial — rejected without runtime changes
 
@@ -2685,3 +2955,8 @@ is therefore a required GitHub Actions check before deployment.
 
 Keep these distinctions when reporting results. No hidden energy refill,
 replacement population, or immunity was added.
+
+
+# Contributor fork-only integration records (not upstream releases)
+
+# Canonical upstream integration records

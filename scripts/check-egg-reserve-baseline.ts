@@ -16,6 +16,9 @@ const oldSim = await import(pathToFileURL(resolve(base, 'simulation.ts')).href);
 const oldSave = await import(pathToFileURL(resolve(base, 'persistence.ts')).href);
 function withoutDisplay(snapshot: ReturnType<typeof createSnapshot>) {
   const result = structuredClone(snapshot);
+  // Releases have distinct display identities. Compare all simulation fields
+  // exactly while normalizing only this non-simulation envelope label.
+  result.build = oldSave.BUILD_VERSION;
   for (const egg of result.state.eggs) {
     delete (egg as any).initialFundedReserve; delete (egg as any).initialReserveIsLegacy;
   }
@@ -54,4 +57,4 @@ for (const physicsRegime of ['legacy-v0', 'surface-work-v1', 'paid-work-v2', 'pa
       energyErrorJ: totalAccountedEnergy(current) - energy});
   }
 console.log(JSON.stringify({baseline: base, comparisons: rows,
-  result: 'Exact complete snapshots at every tick after removing only the two display metadata fields; no baseline refresh.'}, null, 2));
+  result: 'Exact complete simulation snapshots at every tick after removing the two display metadata fields and normalizing the release build label; no baseline refresh.'}, null, 2));

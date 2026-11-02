@@ -1,6 +1,6 @@
 # Egg reserve display
 
-**Scope:** implemented in the contributor fork; upstream acceptance is pending.
+**Scope:** implemented in VIDA 2D.
 This VIDA 2D display is for human observation only.
 
 ## Meaning and rendering
@@ -32,7 +32,9 @@ it is not forcibly killed or converted into carrion.
 
 ## Additive persistence metadata
 
-The current v16 schema has two optional egg fields:
+The importer accepts two optional egg fields in historical schemas; current
+forward-mouth snapshots use schema v16 (v17 with tubes). Fork nutrient cycles
+use v18/v19 and retain the same optional observer fields:
 
 | Field | Meaning |
 | --- | --- |
@@ -40,14 +42,15 @@ The current v16 schema has two optional egg fields:
 | `initialReserveIsLegacy` | `true` means the original funding is unknown; the reference was initialized from known reserve at migration |
 
 This is a backward-compatible optional metadata extension, not a new energy
-stock or a simulation regime. No schema/build/brain/physics version is bumped.
+stock or a simulation regime. The forward-mouth schema, brain and physics
+semantics are unchanged; the integrated observer release is v0.38.1.
 The existing importer accepts earlier schemas and validates these optional
 fields if present. They survive JSON export, restore, exact world forks and
 Worker render frames through the existing egg transport.
 
 When a reference is absent, restore assigns the current `fundedReserve` once
 and marks `initialReserveIsLegacy: true`. Snapshot creation does the same on its
-cloned output for historical in-memory callers, without mutating the live world.
+serialized copy for historical in-memory callers, without mutating the live world.
 The renderer has a read-only current-reserve fallback for such callers. No parent
 or genome reconstruction occurs. This cannot reveal losses before migration:
 a migrated egg with positive reserve initially appears white, and one with zero
@@ -66,7 +69,7 @@ neural inputs, genes, predation decisions or contact geometry.
 `tests/egg-reserve.test.ts` covers display boundaries, direction, recovery,
 structural depletion, finite exceptional handling, laying, persistence, legacy
 migration, validation and sensory/deterministic separation. `scripts/check-worker.mjs`
-checks the actual production Worker at x0 and 5x with funded uptake and restore.
+checks the actual production Worker while paused and at 5x with funded uptake and restore.
 `e2e/egg-reserve.spec.ts` checks actual canvas paths/pixels, ring direction,
 selection, import/export and paused/accelerated rendering in Worker and fallback.
 `scripts/check-egg-reserve-baseline.ts <baseline-checkout>` compares 120 exact ticks

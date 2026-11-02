@@ -1,9 +1,11 @@
-# Self-Linked Windows and Physical Tubes — contributor fork
+# Self-Linked Windows and Physical Tubes
 
-**Available in the contributor fork `hernansgarro/vidAI`, on main and testing.** Stages 1–2 provide window geometry, local names and explicit call/window consent.
-Stage 3 opens accepted self-linked channels and transfers complete living
-organisms between their opposite ends, locally without a server. The canonical upstream application does not include
-these fork controls. Stage 4 remote discovery and transfer is deferred.
+VIDA 2D provides window geometry, local names and explicit call/window consent.
+Accepted self-linked channels transfer complete living organisms between their
+opposite ends locally, without a server. The controls coexist with forward mouths,
+x0 pause/MAX, measured throughput, feeding halos and egg reserve display.
+Camera gestures remain available while stopped without advancing simulation time.
+Remote discovery and transport (stage4) remain deferred.
 
 ## Window geometry
 
@@ -168,8 +170,13 @@ Vision uses the actual local scene; there are no wrapped rays, remote views or
 destination copies before handoff. Consecutive windows share glass geometry,
 while the crossed section still determines its matching opposite section.
 
-Snapshots carrying physical topology use schema 17; worlds without topology
-retain schema 16 and exact historical continuation. Old schemas reject embedded
-new topology. Display names, availability and pending invitations are not save
+Fork decay-v2 worlds export schema19, and saved decay-v1 worlds export schema18,
+with or without topology. Without either cycle, physical topology uses schema17
+and ordinary forward-mouth worlds use schema16. Historical schema12–15 files still load through the
+owner-accepted automatic mouth conversion. Old schemas reject embedded topology.
+Living, egg and lineage genomes retain their forward reach and fixed diet width;
+malformed mouth parameters are rejected before replacing the world. Both current
+formats preserve exact continuation after the accepted migration.
+Display names, availability and pending invitations are not save
 fields. Full-state single-creature file exchange, remote users, accounts,
 network discovery and cross-world identity/statistics remain outside this stage.

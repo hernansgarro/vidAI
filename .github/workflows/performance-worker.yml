@@ -49,6 +49,10 @@ on:
       - 'App.tsx'
       - 'styles.css'
       - 'e2e/presentation.spec.ts'
+      - 'SimulationPerformanceIndicator.tsx'
+      - 'simulationPerformance.ts'
+      - 'simulationSpeed.ts'
+      - 'tests/simulation-performance.test.ts'
       - 'BrainGraph.tsx'
       - 'persistence.ts'
       - 'constants.ts'
@@ -60,6 +64,9 @@ on:
       - 'simulationClient.ts'
       - 'e2e/performance-worker.spec.ts'
       - '.github/workflows/performance-worker.yml'
+      - 'playwright.config.ts'
+      - 'package.json'
+      - 'package-lock.json'
   workflow_dispatch:
 permissions:
   contents: read

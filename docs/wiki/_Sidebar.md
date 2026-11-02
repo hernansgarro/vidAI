@@ -11,6 +11,9 @@
 - [Continuous Food Recycling (fork only)](Ecology-Baseline#continuous-food-recycling--contributor-fork)
 - [[Energy Activity Overlays (fork only)|Energy-Activity]]
 - [[Simulation Performance|Simulation-Performance]]
-- [[Self-Linked Windows and Physical Tubes (contributor fork)|Side-Windows]]
+
+- [Self-Linked Windows and Physical Tubes](Side-Windows)
 
 [Play VIDA](https://smeagol44.github.io/vidAI/)
+
+- [Energy Activity](Energy-Activity)

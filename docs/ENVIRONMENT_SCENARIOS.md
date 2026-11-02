@@ -1,7 +1,6 @@
-# Initial environmental scenarios — contributor fork
+# Initial environmental scenarios
 
-Implemented in `hernansgarro/vidAI` for upstream issue #119. This is fork-only
-behavior pending separate upstream submission and acceptance.
+Implements the Default/Harsh World start selector tracked in #119.
 
 The start menu has an **Environment** dropdown with **Default** preselected
 and **Harsh World**. Native world/mountain glyphs keep icons inside both native
@@ -80,5 +79,5 @@ ID or schema field is persisted; selected Harsh does not reinterpret an old save
   actual initial/reset packets, controls, founder buttons and exact imported
   state in Worker and fallback; existing Chromium/Firefox smoke CI.
 
-Fractional recycling and named custom profiles remain deferred in the
-contributor ideas journal; neither is implemented here.
+Fractional recycling and named custom profiles remain deferred in #119 and the
+contributor-only journal (excluded from this submission); neither is implemented here.
