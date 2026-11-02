@@ -24,6 +24,34 @@
 
 **State rules:** *Ideas* = captured but not fully specified; *Exploring* = questions or design trade-offs remain; *Ready for Work* = sufficiently defined for an implementation request, but **not authorization to start**; *Testing in fork* = implemented only in the contributor fork and pending validation; *Ready to share* = contributor-approved for a possible, separately authorized upstream proposal; *Deferred* = intentionally postponed. These are **personal idea-maturity states**, not the official VIDA Project statuses.
 
+## Personal priorities (2026-11-02)
+
+Priority is independent from maturity, implementation approval, and upstream project status.
+
+| Idea | Hernan's priority |
+| --- | --- |
+| IDEA-002 — Genetic egg-laying choice | Medium |
+| IDEA-003 — Parental reserve risk | Medium |
+| IDEA-004 — Parent-funded incubation | Medium |
+| IDEA-005 — Passive egg reserve uptake | Medium |
+| IDEA-006 — Funded egg buoyancy | High |
+| IDEA-007 — Hatching energy blockers | Medium |
+| IDEA-008 — Fractional recycling rates | Unassigned — needs review |
+| IDEA-009 — Named scenario profiles | Low |
+| IDEA-010 — Remote aquariums | Low; remains deferred |
+| IDEA-011 — Portable organism state | High; remains deferred pending design |
+| IDEA-012 — Persistent window agreements | Unassigned — needs review |
+
+**Egg-energy design prerequisite:** Before proposing changes to parental
+funding, incubation, shared-reserve egg uptake, or egg hatching-energy rules,
+Hernan wants to discuss the rationale for current behavior with Fede and
+jointly evaluate any alternatives. This particularly concerns IDEA-003,
+IDEA-004, IDEA-005, and IDEA-007, plus relevant energy decisions in IDEA-002
+and IDEA-006. Current behavior is not presumed defective. No implementation
+or upstream contact is authorized by this note.
+
+The priorities of IDEA-013–IDEA-020 have not yet been assigned by Hernan.
+
 ## Cards
 
 ### IDEA-002: Genetic egg-laying choice
