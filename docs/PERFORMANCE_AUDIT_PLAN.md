@@ -197,3 +197,19 @@ Hernan's [within-audit investigation order, owner questions, Stage 3 measurement
 - **Stage 1:** static inventory of known tools begun; **no benchmark execution, CPU/FPS observation, validated browser profile or measured cause is claimed in this plan**.
 - **Stages 2–4:** not started; instrumentation and optimization are not approved by the plan.
 - **Next action:** Work executes Stage 1 only against a pinned fork/main SHA, first registers a bounded protocol, uses existing scripts without altering source and reports evidence/limits for Hernan's review.
+
+## Stage 3 pilot execution receipt (2026-11-02)
+
+Hernan subsequently authorized bounded Stage 3 instrumentation and controlled
+trials, superseding the earlier documentation-only stop for this stage. See the
+[Stage 3 report](PERFORMANCE_AUDIT_STAGE_3.md),
+[preregistered protocol](https://github.com/smeagol44/vidAI/issues/57#issuecomment-6587965264),
+and unmerged [research fork PR66](https://github.com/hernansgarro/vidAI/pull/66).
+The target remains immutable fork/main11248f3, with no main/testing or runtime
+feature change. Thirty fixed-checkpoint Node trials preserve complete state hashes;
+raw measurements, profiles and compact checkpoints are retained. Browser results,
+probe overhead, confounds and explicitly unmeasured hypotheses belong to the report.
+Stage 4 remains a separate interpretation/optimization decision; no permanent
+optimization, upstream submission, merge or production publication is authorized.
+Stage 1 evidence was recovered from its independent audit branch, without repeating
+its incompatible historical profiler/component attempts.

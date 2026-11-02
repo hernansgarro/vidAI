@@ -1,0 +1,46 @@
+{
+  "testedHead": "23f225be2900028d6700a4129ac2519affc281aa",
+  "forkPR": "https://github.com/hernansgarro/vidAI/pull/66",
+  "browserRun": 41522795671,
+  "fastBuildRun": 41522795744,
+  "jobs": {
+    "worker": {
+      "id": 125542801077,
+      "result": "success"
+    },
+    "chromium": {
+      "id": 125542801803,
+      "result": "success",
+      "passed": 32
+    },
+    "firefox": {
+      "id": 125542801490,
+      "result": "success",
+      "passed": 36,
+      "skipped": 1,
+      "skipReason": "The registered additional research experiment is Chromium only; all inherited Firefox checks ran."
+    },
+    "sideWindows": {
+      "id": 125542801614,
+      "result": "success",
+      "passed": 5
+    },
+    "toolbar": {
+      "id": 125542801630,
+      "result": "success",
+      "passed": 16
+    },
+    "aggregate": {
+      "id": 125549855894,
+      "result": "success"
+    }
+  },
+  "productionPublication": {
+    "assemblePages": "skipped",
+    "deploy": "skipped"
+  },
+  "rawBrowserReceipt": "browser-original.json.gz",
+  "browserConsoleBase64Length": 268320,
+  "normalizedRetrievedChromiumLogTextSha256": "77c0a40ecc8153b801272d61edfd737d7ce5b00a144f8a927991239682b0f240",
+  "browserOriginalArchiveSha256": "61e233d6598f6503e939dc6fdd07744973cf8f102aa896a217640dd8c069b0e9"
+}

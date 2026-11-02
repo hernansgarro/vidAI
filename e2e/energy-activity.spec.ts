@@ -127,6 +127,3 @@ for (const fallback of [false, true]) test(`energy contour glows follow real bod
   expect((await sample()).counts).toEqual(cleared.counts);
   expect(errors).toEqual([]);
 });
-
-// Fork-only registered Stage 3 diagnostics; no runtime feature or optimization.
-import '../scripts/performance-stage3/browser';
