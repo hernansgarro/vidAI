@@ -187,7 +187,11 @@ No future-world, remote-network, collision or moving-fluid scenario may be repre
 
 The read-only [Stage 2 static analysis and Stage 4 handoff](PERFORMANCE_AUDIT_STAGE_2.md) was completed against the immutable contributor fork/main commit `bf75b5649c6d843c48586acca59c51830678e316`. It contains S2-01–S2-12 code-backed hypotheses, loop-growth variables, risk tiers A–D, existing optimizations, future-feature boundaries and proposed Stage 3 falsification measurements. **No runtime bottleneck, cost fraction, speedup or optimization was measured or implemented in Stage 2.** Stage 1 measurements from another session, if any, require separately verifiable archival/provenance. Stages 3 and 4 remain pending and gated by separate human decisions.
 
-## Current audit record (2026-11-02)
+## Owner-priority refinement and Stage 3 measurement design (2026-11-02)
+
+Hernan's [within-audit investigation order, owner questions, Stage 3 measurement candidates and Stage 4 decision criteria](PERFORMANCE_AUDIT_PRIORITIES.md) overlay the completed [Stage 2 hypothesis register](PERFORMANCE_AUDIT_STAGE_2.md). This ranks S2-10, S2-11, S2-02, S2-03, S2-04, S2-09, S2-12, S2-06 and S2-08; S2-01/05/07 remain diagnostic coverage. **Glow attribution is first, not a diagnosis.** S2-03's heritable variable ray subset is a distinct exploratory [IDEA-025](IDEA_LAB.md#idea-025-heritable-per-eye-ray-subsets), not permitted profiling instrumentation. The user requested **documentation only**: Stage 3 coding, measurement execution and optimization are still unapproved. The dated planning snapshot below describes its own earlier state; later verified receipts take precedence.
+
+## Initial planning snapshot (2026-11-02; historical, superseded by later receipts)
 
 - **Planning:** four stages and future idea considerations documented at Hernan's request.
 - **Stage 1:** static inventory of known tools begun; **no benchmark execution, CPU/FPS observation, validated browser profile or measured cause is claimed in this plan**.
