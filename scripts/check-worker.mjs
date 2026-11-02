@@ -3,7 +3,8 @@ import {selfTubeFixture} from '../tests/support/self-tubes.ts';
 import assert from 'node:assert/strict';
 import {Worker} from 'node:worker_threads';
 import {readdir} from 'node:fs/promises';
-import {createInitialWorld} from '../world.ts';
+import {createInitialWorld, addExternalOrganism} from '../world.ts';
+import {createFounderGenome} from '../founders.ts';
 import {DEFAULT_SETTINGS, createSnapshot, restoreSnapshot} from '../persistence.ts';
 import {enableClosedEconomy, setWorldEnergy} from '../energyEconomy.ts';
 import {totalAccountedEnergy} from '../persistence.ts';
@@ -11,8 +12,6 @@ import {mouthContactFixture} from '../mouthContactAudit.ts';
 import {energyActivityFixture} from '../tests/support/energy-activity.ts';
 import {eggReserveFixture} from '../tests/support/egg-reserve.ts';
 import {eggReserveLossFraction} from '../eggReserve.ts';
-import {createFounderGenome} from '../founders.ts';
-import {addExternalOrganism} from '../world.ts';
 import {stepSimulation, getNutrientRadius} from '../simulation.ts';
 import {createScenarioWorld} from '../environmentScenarios.ts';
 
@@ -140,7 +139,7 @@ try {
     for (let i = 0; i < ticks; i++) stepSimulation(direct, probe.config, 1 / 60);
     assert.deepEqual(after.state, createSnapshot(direct, probe.config).state);
     assert.ok(after.state.organisms[0].recentFeedings.some(e => e.energyTransferred > 0));
-    send({type: 'control', epoch, id: -100 - epoch, settings: {...probe.config, mouthContactModel: undefined}, speed: 1});
+    send({type: 'control', epoch, id: -100 - epoch, settings: {...probe.config, mouthContactModel: undefined}, speed: 0});
     assert.match((await receive(value => value.id === -100 - epoch)).message, /Mouth contact model/);
     assert.deepEqual((await request('snapshot', {}, epoch)).state, after.state);
   }

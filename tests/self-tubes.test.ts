@@ -177,3 +177,66 @@ test('observer-only fading reaches near invisibility at 200 and zero at 300 with
   assert.equal(tubeFade(g, 2000, 750), tubeFade(g, -200, 750));
   assert.equal(tubeFade(undefined, -200, 750), 1); assert.equal(tubeFade(g, -200, 150), 1);
 });
+
+
+test('tube saves retain every canonical physics, mouth-contact and economy combination', () => {
+  for (const physicsRegime of ['legacy-v0', 'surface-work-v1', 'paid-work-v2', 'passive-work-v3'] as const) {
+    for (const closed of [false, true]) for (const capsule of [false, true]) {
+      const fixture = selfTubeFixture();
+      const settings = {...fixture.settings, physicsRegime,
+        mouthContactModel: capsule ? 'capsule-v1' as const : undefined,
+        ecologyRegime: closed ? 'closed-v1' as const : undefined};
+      if (!closed) delete fixture.state.energyPool;
+      const snapshot = createSnapshot(fixture.state, settings), copy = restoreSnapshot(snapshot);
+      assert.equal(snapshot.schemaVersion, '17.0.0');
+      assert.deepEqual(createSnapshot(copy.state, copy.settings), snapshot);
+      for (let tick = 0; tick < 15; tick++) {
+        stepSimulation(fixture.state, settings, 1 / 60); stepSimulation(copy.state, copy.settings, 1 / 60);
+      }
+      assert.deepEqual(createSnapshot(copy.state, copy.settings), createSnapshot(fixture.state, settings));
+    }
+  }
+});
+
+test('tube imports preserve forward mouths and reject malformed living and dormant genomes', () => {
+  const {source} = selfTubeFixture();
+  for (const location of ['organism', 'egg', 'lineage']) {
+    const snapshot = structuredClone(source), organism = snapshot.state.organisms[0];
+    const genome = structuredClone(organism.genome);
+    Object.assign(genome.mouths[0], {intakeLength: 30});
+    if (location === 'organism') organism.genome = genome;
+    else if (location === 'lineage') snapshot.state.lineage[0][1].genome = genome;
+    else snapshot.state.eggs = [{id: 'format-egg', clutchId: 'clutch', parentOrgId: organism.id,
+      x: 900, y: 450, vx: 0, vy: 0, genome, fundedStructural: genome.bodyCost, fundedReserve: 500,
+      ageSeconds: 0, hatchReserveTarget: 550, incubationProgress: 0,
+      totalIncubationTime: 10, pulseTimer: 0, colorHue: 120, readyToHatch: false}];
+    if (location === 'egg') snapshot.state.energyPool!.reserve -= genome.bodyCost + 500;
+    const before = JSON.stringify(snapshot), restored = restoreSnapshot(snapshot);
+    const loaded = location === 'organism' ? restored.state.organisms[0].genome
+      : location === 'egg' ? restored.state.eggs[0].genome : [...restored.state.lineage.values()][0].genome;
+    assert.deepEqual(loaded, genome, location);
+    assert.equal(JSON.stringify(snapshot), before, 'import cannot mutate the original document');
+    const saved = createSnapshot(restored.state, restored.settings);
+    assert.equal(saved.schemaVersion, '17.0.0');
+    const again = restoreSnapshot(saved);
+    assert.deepEqual(createSnapshot(again.state, again.settings), saved);
+    // Width is now a fixed diet diameter. Reach remains independently inherited.
+    genome.mouths[0].intakeWidth += 1;
+    if (location === 'organism') snapshot.state.organisms[0].genome = genome;
+    else if (location === 'egg') snapshot.state.eggs[0].genome = genome;
+    else snapshot.state.lineage[0][1].genome = genome;
+    assert.throws(() => restoreSnapshot(snapshot), /mouth parameters/);
+    const legacyGenome = structuredClone(loaded);
+    for (const mouth of legacyGenome.mouths) {
+      mouth.intakeWidth = mouth.intakeLength!;
+      delete mouth.intakeLength;
+    }
+    if (location === 'organism') snapshot.state.organisms[0].genome = legacyGenome;
+    else if (location === 'egg') snapshot.state.eggs[0].genome = legacyGenome;
+    else snapshot.state.lineage[0][1].genome = legacyGenome;
+    const migrated = restoreSnapshot(snapshot).state;
+    const converted = location === 'organism' ? migrated.organisms[0].genome
+      : location === 'egg' ? migrated.eggs[0].genome : [...migrated.lineage.values()][0].genome;
+    assert.deepEqual(converted, loaded, 'schema17 also applies the accepted legacy-mouth conversion');
+  }
+});

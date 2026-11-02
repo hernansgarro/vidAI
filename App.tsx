@@ -1193,7 +1193,7 @@ export default function App() {
     prepareCanvas(ctx, canvasWidth, canvasHeight);
 
     const s = simStateRef.current;
-    energyPresentationRef.current.advance(performance.now(), timeMultiplierRef.current === 0, s.organisms);
+    energyPresentationRef.current.advance(performance.now(), workerPausedRef.current || worldEpoch !== worldEpochRef.current, s.organisms);
     const cam = cameraRef.current;
     const zoom = cam.zoom;
 
@@ -1297,7 +1297,6 @@ export default function App() {
       }
       ctx.restore();
     }
-
     // Entities: nutrients
     const nutImg = assets['nutrientParticle'];
     const nutAspect = (getConfig('assetNutrientParticleAspectRatio') as number) || 1.0;
@@ -1687,6 +1686,7 @@ export default function App() {
   }, []);
 
   useLayoutEffect(() => {
+    energyPresentationRef.current.setPaused(workerPausedRef.current || worldEpoch !== worldEpochRef.current, performance.now());
     workerClientRef.current?.control(currentSettings(),
       worldEpoch === worldEpochRef.current ? effectiveSpeed : 0,
       isBrainInspectorOpen ? selectedOrgId : null);
@@ -1696,7 +1696,6 @@ export default function App() {
     // Stop/resume starts a fresh wall-clock interval, including fallback mode.
     stepperRef.current = createFixedStepper(getConfig('stepMs'), getConfig('maxSubSteps'));
     throughputRef.current.configure(effectiveSpeed, worldEpoch);
-    energyPresentationRef.current.setPaused(effectiveSpeed === 0, performance.now());
     const tracker = realTimeTrackerRef.current;
     tracker.lastFPSUpdate = performance.now(); tracker.framesThisSec = 0; tracker.physicsStepsThisSec = 0;
     setEcoStats(previous => ({...previous, simTimeRatio: effectiveSpeed === 0 ? 0 : null}));

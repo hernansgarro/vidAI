@@ -84,7 +84,6 @@ visible/disconnected movement in `tests/`.
 
 ### Egg reserve display boundary
 
-The contributor fork's pink reserve-loss sector is observer-only (upstream
-acceptance pending). Eggs retain the same radius, occlusion, distance attenuation
+The pink reserve-loss sector is observer-only. Eggs retain the same radius, occlusion, distance attenuation
 and white `EGG_RGB` in vision. Reserve percentage, incubation ring, selection and
 glow do not enter retinal channels or neural inputs.

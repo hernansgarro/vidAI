@@ -7,7 +7,7 @@ import {
   getBrainLayout, getDietClassification, brainEdgeKey, CARRION_DECAY_SECONDS, MAX_OUTPUTS, MAX_SURFACE_ORGANS, MAX_NEURAL_INPUTS, MAX_HIDDEN, MAX_ENABLED_BRAIN_EDGES, MAX_BRAIN_MEMORY_SECONDS, MAX_PLASTIC_MOTOR_SYNAPSES, MAX_PLASTIC_SENSORY_SYNAPSES, MAX_LEARNED_MOTOR_DELTA, plasticMotorEdges, plasticSensoryEdges, surfacePlacementProblems, morphologyProblems, type Genome, type SimulationSettings, type SimulationState, type Organism,
 } from './simulation';
 
-export const BUILD_VERSION = '0.38.0';
+export const BUILD_VERSION = '0.39.0';
 export const DEFAULT_SETTINGS: SimulationSettings = {
   // Historical kernel callers retain paid v2; the application selects NEW_PHYSICS_REGIME explicitly.
   physicsRegime: 'paid-work-v2',
@@ -69,15 +69,13 @@ export function createSnapshot(s: SimulationState, settings: SimulationSettings,
     if (mouth.intakeLength === undefined) { mouth.intakeLength = Math.max(diameter, mouth.intakeWidth); mouth.intakeWidth = diameter; }
   }};
   for (const organism of snapshotData.organisms) migrateMouths(organism.genome);
-  for (const egg of snapshotData.eggs) {
-    migrateMouths(egg.genome);
-    Object.assign(egg, eggReserveReference(egg));
-  }
+  for (const egg of snapshotData.eggs) migrateMouths(egg.genome);
   for (const [, record] of snapshotLineage) migrateMouths(record.genome);
   const snapshot = {schemaVersion: settings.nutrientCycle === 'decay-v2' ? '19.0.0' : settings.nutrientCycle === 'decay-v1' ? '18.0.0' : s.selfTubes ? '17.0.0' : '16.0.0', build: BUILD_VERSION, metadata, settings: {...settings,
     ...(s.energyPool ? {ecologyRegime: 'closed-v1' as const, nutrientLimit: settings.nutrientLimit ?? null} : {}),
     physicsRegime: settings.physicsRegime ?? 'legacy-v0'},
-    state: {...snapshotData, prngState: prng.getState(), lineage: snapshotLineage}};
+    state: {...snapshotData, eggs: snapshotData.eggs.map(egg => ({...egg, ...eggReserveReference(egg)})),
+      prngState: prng.getState(), lineage: snapshotLineage}};
   // Canonical JSON representation also drops optional undefined fields in memory.
   return JSON.parse(JSON.stringify(snapshot)) as typeof snapshot;
 }
