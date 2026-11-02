@@ -107,7 +107,7 @@ The maintained source is `docs/wiki/`, automatically published to this Wiki.
 opens a separate draggable Advanced Settings window with two independent options:
 **Automatically select added creatures** (Add Life and every Bank spawn) and
 **Automatically track selected creatures** (manual picking and automatic selection).
-New Default worlds start with both checked; new Harsh World worlds start with
+New Default worlds start with both checked; new Harsh World and fork-only Pipe World worlds start with
 both unchecked. Choosing a scenario in the menu takes effect only when starting
 that world. In-world reseeding keeps current overrides.
 

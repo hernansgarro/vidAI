@@ -23,6 +23,38 @@ a scenario. Returning to the start menu can select a fresh Default; existing
 in-world reseed controls keep their current-settings semantics. No custom profiles
 or fractional-rate control is included.
 
+### Pipe World — contributor fork
+
+**Fork-only in hernansgarro/vidAI; not accepted upstream.** The third Environment
+option is **Pipe World**, with an original pixel-style green angled-pipe icon
+beside the selected option. Default and Harsh keep their existing labels/icons.
+Pipe has its own frozen, explicit startup settings; it does not inherit Harsh
+or configured application defaults at runtime.
+
+| Setting | Pipe World initial value |
+| --- | --- |
+| Tank dimensions | 4600 × 2100 world units |
+| Gravity / water viscosity | 20 / 0.40 |
+| Nutrient recycling / ecological cap | 1 particle/s / 200 particles |
+| Initial nutrient grant / pattern | 275 × 3000 J / uniform, then banked |
+| Initial free nutrients / eggs | 0 / 0 |
+| Initial organisms | Existing selected founder preset (normally 18; Megafauna 12; showcase 9), with independent balanced/unbiased mode |
+| Combined living-creature + egg cap | 50; existing separate 75-egg safeguard unchanged |
+| Kinship protection / mutation severity | true / 0.25 |
+| Physics / ecology / mouth contact | passive-work-v3 / closed-v1 / capsule-v1 |
+| Nutrient cycle | decay-v2 (existing 1 J/s fork cycle) |
+| Automatic selection / tracking | Both off; editable observer preferences |
+| Initial calls / openings / tubes | None |
+
+These values were copied once from the current fork Harsh reference, except
+for dimensions. Food banking preserves the same global initial grant for the
+same seed/population; 825,000 J of food energy is in reserve at time zero.
+The dimensions already fit existing width 800–4800 and height 600–3000 limits.
+Manual local window/tube operations remain available. No remote topology or
+automatic connection is created. Saving uses the existing schema 19 and exact
+Worker export; imports restore persisted settings/state without consulting any
+starting preset. Selecting Pipe in the menu only takes effect when seeding.
+
 ## Continuous food recycling — contributor fork
 
 **Fork-only in hernansgarro/vidAI main; pending upstream acceptance.** New
