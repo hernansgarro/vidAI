@@ -8,28 +8,23 @@
 
 | Ideas | Exploring | Ready for Work | Testing in fork | Ready to share | Deferred |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| [IDEA-002 · Genetic egg-laying choice](#idea-002-genetic-egg-laying-choice) | [IDEA-003 · Parental reserve risk](#idea-003-parental-reserve-risk) | — | [IDEA-001 · Pipe World](#idea-001-pipe-world) | — | [IDEA-010 · Remote aquariums](#idea-010-remote-aquariums) |
-| [IDEA-006 · Funded egg buoyancy](#idea-006-funded-egg-buoyancy) | [IDEA-004 · Parent-funded incubation](#idea-004-parent-funded-incubation) | — | — | — | [IDEA-011 · Portable organism state](#idea-011-portable-organism-state) |
-| — | [IDEA-005 · Passive egg reserve uptake](#idea-005-passive-egg-reserve-uptake) | — | — | — | [IDEA-012 · Persistent window agreements](#idea-012-persistent-window-agreements) |
+| [IDEA-002 · Genetic egg-laying choice](#idea-002-genetic-egg-laying-choice) | [IDEA-003 · Parental reserve risk](#idea-003-parental-reserve-risk) | [IDEA-013 · Egg overlays behind creatures](#idea-013-egg-overlays-behind-creatures) | — | — | [IDEA-010 · Remote aquariums](#idea-010-remote-aquariums) |
+| [IDEA-006 · Funded egg buoyancy](#idea-006-funded-egg-buoyancy) | [IDEA-004 · Parent-funded incubation](#idea-004-parent-funded-incubation) | [IDEA-017 · Opaque inactive side walls](#idea-017-opaque-inactive-side-walls) | — | — | [IDEA-011 · Portable organism state](#idea-011-portable-organism-state) |
+| — | [IDEA-005 · Passive egg reserve uptake](#idea-005-passive-egg-reserve-uptake) | [IDEA-018 · Advanced boolean controls](#idea-018-advanced-boolean-controls) | — | — | [IDEA-012 · Persistent window agreements](#idea-012-persistent-window-agreements) |
 | — | [IDEA-007 · Hatching energy blockers](#idea-007-hatching-energy-blockers) | — | — | — | — |
 | — | [IDEA-008 · Fractional recycling rates](#idea-008-fractional-recycling-rates) | — | — | — | — |
 | — | [IDEA-009 · Named scenario profiles](#idea-009-named-scenario-profiles) | — | — | — | — |
+| — | [IDEA-014 · Mouth annotation layering](#idea-014-mouth-annotation-layering) | — | — | — | — |
+| — | [IDEA-015 · Streamlined phone dialogs](#idea-015-streamlined-phone-dialogs) | — | — | — | — |
+| — | [IDEA-016 · Compact observer interface](#idea-016-compact-observer-interface) | — | — | — | — |
+| — | [IDEA-019 · Notebook Size scenario](#idea-019-notebook-size-scenario) | — | — | — | — |
+| — | [IDEA-020 · Celphone Size scenario](#idea-020-celphone-size-scenario) | — | — | — | — |
+
+**Completed work is not an active column.** [IDEA-001 — Pipe World](CONTRIBUTOR_COMPLETED.md) was delivered to fork main via [PR #53](https://github.com/hernansgarro/vidAI/pull/53) and is recorded in the [completed-work register](CONTRIBUTOR_COMPLETED.md). The green-pipe preset is already implemented in the fork; potential upstream submission is a separate decision.
 
 **State rules:** *Ideas* = captured but not fully specified; *Exploring* = questions or design trade-offs remain; *Ready for Work* = sufficiently defined for an implementation request, but **not authorization to start**; *Testing in fork* = implemented only in the contributor fork and pending validation; *Ready to share* = contributor-approved for a possible, separately authorized upstream proposal; *Deferred* = intentionally postponed. These are **personal idea-maturity states**, not the official VIDA Project statuses.
 
 ## Cards
-
-### IDEA-001: Pipe World
-
-- **State:** Testing in fork. Stage 2 implementation explicitly authorized on 2026-11-02; tracked in [upstream #135](https://github.com/smeagol44/vidAI/issues/135). Independent preset and focused validation are in `feature/pipe-world-stage-2`; upstream submission requires separate approval.
-- **Intent:** Add a third world to the simulation startup scenario selector, tailored to studying local lateral windows, tubes and their connections.
-- **Size:** Width **4600** and height **2100** world units.
-- **Initial settings:** Use the current *Harsh World* preset as a **one-time source of values**, including its initial environment, organisms, food and other startup conditions, then override width and height. Pipe World owns its own **independent explicit preset**: never extend, spread, import or dynamically derive its settings from the Harsh World preset. Shared engine constants are fine. Future changes to either preset do not implicitly change the other.
-- **Initial topology:** Normal unconnected world; **no preconfigured calls, connections, openings or tubes**. Users connect windows themselves. This does **not** mean an empty ecosystem.
-- **Presentation:** Label `Pipe World` in the existing pre-start dropdown; use an original green angled pipe / plumbing icon with a retro video-game feel. Avoid copying proprietary character or game artwork.
-- **Acceptance for a future Work task:** Keep Default and Harsh behavior intact; verify independent preset values and scenario selection; verify 4600 × 2100 dimensions and ordinary, unconnected initial state. Do not modify simulation/physics or other scenario rules beyond the new preset. Follow fork-first PR/validation; upstream submission only by separate explicit approval.
-- **Decision record:** Confirmed by Hernan on 2026-10-29. This is a proposed implementation requirement, not an implemented feature.
-- **Related:** [Initial scenario selector #119](https://github.com/smeagol44/vidAI/issues/119); [local tube implementation #122](https://github.com/smeagol44/vidAI/issues/122).
 
 ### IDEA-002: Genetic egg-laying choice
 
@@ -117,8 +112,77 @@
 - **Guardrails:** Do not mistake temporary visual/mock agreement states from earlier tube stages for general persisted remote agreements.
 - **Source:** [Design journal — persisted agreement](CONTRIBUTOR_IDEAS.md#persisted-agreement-when-a-window-disappears).
 
+### IDEA-013: Egg overlays behind creatures
+
+- **State:** Ready for Work (not scheduled or authorized for implementation). Recorded 2026-11-02.
+- **Intent:** Render the **egg incubation/progress ring and pink original-reserve-loss sector beneath creature bodies**, not in front of passing creatures. Their current ordering creates visually misleading overlays when creatures overlap eggs.
+- **Guardrails:** Change **observer rendering/layer order only**. Keep egg reserve calculations, incubation, energy, sensing, contact, picking, Worker authority and saves unchanged. Preserve legibility when unobscured.
+- **Acceptance to refine:** Inspect actual composite passes and test crossing/occlusion involving creatures, eggs and tubes. Do not bundle an unrelated mouth-layer decision into this correction.
+- **Related:** [Implemented egg display #116](https://github.com/smeagol44/vidAI/issues/116); [completed register](CONTRIBUTOR_COMPLETED.md).
+
+### IDEA-014: Mouth annotation layering
+
+- **State:** Exploring; recorded 2026-11-02. **Separate from IDEA-013**.
+- **Observation:** Mouth outlines/annotations also appear in front of creatures. This may be misleading, but no target ordering has been decided.
+- **Next decision:** Compare mouth visibility, anatomical occlusion, selection/inspection and creature overlap before selecting a rendering layer. No mouth geometry, feeding mechanics or optical perception changes are authorized.
+
+### IDEA-015: Streamlined phone dialogs and directory workflow
+
+- **State:** Exploring; recorded 2026-11-02. Not yet an implementation authorization.
+- **Intent:** Minimize explanatory text in local phone/calling dialogs. Users should learn routine nonblocking behavior through the interface; reserve genuinely useful explanations for optional tooltips where discoverable.
+- **Requested text removals/replacements:**
+  - Remove `Name stays in this page session. No account or online directory.` from visible dialog content.
+  - Replace the current `Turn availability off` treatment with a meaningful **leave phone directory / disconnect** choice while in an active connection, subject to a precise state-machine review.
+  - Shorten `Waiting for the other phone to accept. You can keep using the aquarium`; omit the nonblocking explanation and, if needed, place call-status detail on `Calling ... - opposite side` as a tooltip.
+  - Remove `From the opposite side of this tank. Each window needs separate acceptance` as body copy; a short optional title tooltip may explain the opposite side if necessary.
+  - **Disable name editing while a call/connection is active**; allow name changes after leaving the phone directory.
+  - Remove `Connected to ... - same tank. Offer a number window, then accept at its opposite end.` from visible body copy; any essential connection identity can move to a disconnect tooltip.
+- **Open decisions:** Distinguish publishing/availability in the directory, ending a call, disconnecting accepted window links and leaving the directory; preserve caller cancellation, indefinite unanswered invitations, per-window consent and nonmodal operation. Determine whether tooltip-only information is discoverable on touch devices.
+- **Guardrails:** Local observer/UI workflow only, with explicit confirmation if connection semantics must change. No automatic peer access, server, account or Stage 4 transport.
+
+### IDEA-016: Compact header/footer and observer mode
+
+- **State:** Exploring; recorded 2026-11-02. This may be a **larger UI redesign**, not necessarily a trivial cleanup.
+- **Intent:** Reduce persistent UI obstruction of the aquarium, eliminate wasted header/footer space, and retain accessible information/actions when requested.
+- **Candidate behavior:** Optional author names when space permits, otherwise discoverable via VIDA title tooltip or Version/Info menu; compact responsive controls without prematurely hiding meaningful data. Add a top-right `−` control to collapse header and footer to the smallest practical footprint (possibly removing both bars), exposing a discreet or semitransparent `+` restore control. Preserve the existing side-control eye as an independent concept unless deliberately unified.
+- **Observer-first motivation:** The user estimates roughly **80%** of use may be watching organisms rather than configuring the environment; this is a design assumption, **not a measured usage statistic**. Certain statistics remain useful to observation.
+- **Open decisions:** Visibility of stats on mouse hover vs touch/mobile affordance, keyboard and screen-reader operation, control discoverability, overlay hit areas, safe insets and responsive transitions. No implementation or upstream bundling approved yet.
+
+### IDEA-017: Opaque inactive side walls
+
+- **State:** Ready for Work (not scheduled or authorized for implementation). Recorded 2026-11-02.
+- **Intent:** Tank **left/right side walls should be opaque while no tube is active**, matching the visual treatment of closed top/bottom boundaries. Progressive fade should be reserved for physically active tubes/openings.
+- **Guardrails:** Observer visual correction only; do not change physical walls, connection consent, transfer mechanics, tube optics used by organisms or simulation rules. Define the appearance of mixed active/closed sections before implementation.
+
+### IDEA-018: Advanced boolean controls
+
+- **State:** Ready for Work (not scheduled or authorized for implementation). Recorded 2026-11-02.
+- **Intent:** Replace or restyle checkboxes in Advanced Settings to use the established **boolean/switch presentation from regular Settings** for better consistency.
+- **Guardrails:** Keep the two independent automatic selection/tracking preference semantics, defaults, keyboard/touch accessibility and persistence unchanged. No simulation-facing setting changes.
+
+### IDEA-019: Notebook Size scenario
+
+- **State:** Exploring; recorded 2026-11-02.
+- **Intent:** Add a fixed built-in startup preset tentatively called `Notebook size`, independent of other presets, with **the same general initial settings as current Harsh World** but notebook-oriented tank dimensions.
+- **Open decision:** **Exact world-unit width and height are not defined yet.** Determine them before an implementation-ready request. Do not confuse physical viewport CSS dimensions with simulation-world dimensions; preserve independent explicit preset values, existing funded initialization and zero automatic tube links.
+- **Related:** [Harsh selector #119](https://github.com/smeagol44/vidAI/issues/119), [completed Pipe World IDEA-001](CONTRIBUTOR_COMPLETED.md).
+
+### IDEA-020: Celphone Size scenario
+
+- **State:** Exploring; recorded 2026-11-02.
+- **Intent:** Add a fixed built-in startup preset tentatively called `Celphone size` (final English UI spelling to confirm), independent of other presets, with **the same general initial settings as current Harsh World** but phone-oriented tank dimensions.
+- **Open decision:** **Exact world-unit width and height are not defined yet**; consider aspect ratio, usability and available small-screen world rendering before implementation. No guessed dimensions, automatic tube links, or changes to simulation rules.
+- **Related:** [Harsh selector #119](https://github.com/smeagol44/vidAI/issues/119), [completed Pipe World IDEA-001](CONTRIBUTOR_COMPLETED.md).
+
+## Notes on potential promotion
+
+- These eight new ideas are **not the currently urgent new request** and have no implementation authorization or deadlines. Their statuses concern maturity only.
+- A future upstream proposal may be considered alongside Pipe World, as suggested by Hernan, **but combining unrelated visual/phone/scenario changes into a single PR is not automatically approved**. After fork-main validation and separate explicit approval, prepare a clean scoped submission and evaluate reviewability, dependency order and owner preference.
+- The [completed-work register](CONTRIBUTOR_COMPLETED.md) is the place for completed work; keep it out of pending columns.
+
 ## Previously addressed ideas — references, not duplicate cards
 
+- [Completed-work register](CONTRIBUTOR_COMPLETED.md) records Pipe World, egg display, local tubes and other verified fork/upstream deliveries.
 - [Observer-only egg reserve indicator #116](https://github.com/smeagol44/vidAI/issues/116): tracked in the shared issue and its fork delivery history; do not reopen merely because the older journal contains a pending-design description.
 - [Local window/tube stages #121](https://github.com/smeagol44/vidAI/issues/121) and [#122](https://github.com/smeagol44/vidAI/issues/122): implementation and promotion evidence are tracked there. Only unimplemented, distinctly scoped follow-ups appear above.
 - Other upstream issues and PRs remain authoritative for their own implementation, testing, review and acceptance stages.

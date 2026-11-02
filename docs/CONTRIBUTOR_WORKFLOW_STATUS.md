@@ -26,20 +26,29 @@ Track Stage 5 separately as `not authorized`, `authorized / pending`, `PR open`,
 
 The stages are a contributor-facing overlay, not replacements for board statuses (`Backlog`, `Needs decision`, `Ready`, `In progress`, `In review`, `Testing`, `Done`). Active discussion counts as upstream `In progress`. Upstream `Done` requires upstream acceptance.
 
-## Current requirement register (provisional evidence review, 2026-11-01)
+## Current requirement register (verified 2026-11-02)
 
-| Requirement | Contributor stage | Upstream status | Evidence / next verification |
-| --- | --- | --- | --- |
-| Independent Pipe World scenario (4600 × 2100; initially unconnected; independent environment initialized from Harsh World defaults) | **2 complete; Stage 3 pending** (conversation-derived, not repository-verified) | Not verified | Locate the final prompt and canonical issue; verify no existing implementation or overlapping scope before execution. Distinguish this scenario from the already integrated side-window/self-tube features. |
-| Slower nutrient decay, radius floor, and carrion mineralization | **4 reported complete; fork-main merge/head verification pending** | Issues [#125](https://github.com/smeagol44/vidAI/issues/125) open | Fork `docs/PROJECT_STATUS.md` reports 1 J/s, floor 6, schema 19 and retained mineralization, with tests. Verify internal PR, exact merge/head and deployment. Confirm upstream submission authorization and PR status before Stage 5. |
-| Automatic selection and tracking preferences | **4 reported complete; fork-main merge/head verification pending** | Issue [#126](https://github.com/smeagol44/vidAI/issues/126) open | Delivered alongside the nutrient follow-up; keep separate because upstream tracks distinct outcomes. |
+**No new personal idea is authorized for implementation by this documentation update.**
+The active [idea board](IDEA_LAB.md) contains only unfinished, exploratory,
+implementation-ready-but-unscheduled or explicitly deferred proposals. New ideas
+IDEA-013–IDEA-020 are recorded as **future work**, not requirements already in
+progress. Notebook/Cellphone dimensions are still undecided.
 
-### Important distinctions
+Finished fork work is kept in the
+[verified completion history](CONTRIBUTOR_COMPLETED.md), rather than as
+repeated "pending implementation" entries here.
 
-- The initial 30 J/s nutrient cycle and its later 1 J/s revision are not separate completed upstream submissions. The current requested outcome is the final versioned 1 J/s behavior.
-- Upstream issue #125 describes the original 30 J/s scope; its follow-up and issue #126 must be checked before composing a clean upstream submission.
-- The contributor requested attempting upstream submission for the nutrient work, but an actual PR and accepted integration are not established by the evidence summarized here.
-- No claim is made that the independent Pipe World scenario was implemented merely because tube stages 1–3 were integrated upstream.
+### Submission and acceptance watchlist (not feature-development backlog)
+
+| Completed in fork | Current upstream gate | Verified evidence / next action |
+| --- | --- | --- |
+| Pipe World (IDEA-001) | **Fork Stage 4 complete; Stage 5 not authorized.** Upstream acceptance pending. | [Fork PR #53](https://github.com/hernansgarro/vidAI/pull/53) merged at `e9662a6ef5307a3349ea1338489d755a1879c8b9`; CI and fork publication confirmed in [#135](https://github.com/smeagol44/vidAI/issues/135). **Ask for explicit upstream PR authorization only after the user requests submission**; do not open it as part of this documentation update. |
+| Versioned nutrient-cycle decay-v2 / carrion mineralization | **Fork Stage 4 complete; Stage 5 PR open, awaiting upstream review.** | [Fork PR #48](https://github.com/hernansgarro/vidAI/pull/48) merged at `2ad2c7daec458ac562876b8fe8326b24bf26fa4f`. [Upstream PR #134](https://github.com/smeagol44/vidAI/pull/134) is open, **not merged** (checked 2026-11-02). [Issue #125](https://github.com/smeagol44/vidAI/issues/125). |
+| Automatic selection/tracking preferences | **Fork Stage 4 complete; Stage 5 PR open, awaiting upstream review.** | Delivered together with nutrient work in fork PR #48 and included in [upstream PR #134](https://github.com/smeagol44/vidAI/pull/134). [Issue #126](https://github.com/smeagol44/vidAI/issues/126). Keep its acceptance distinct from nutrient-cycle acceptance. |
+
+The completed upstream-integrated local tube and observer features are not
+reopened because new cosmetic enhancements mention the same interface.
+Stage 4 **remote cross-user tanks** remain explicitly deferred.
 
 ## Required fields for future entries
 

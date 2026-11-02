@@ -1,12 +1,12 @@
-# Contributor design ideas — fork-only discussion notes
+# Contributor design journal — historical discussion and unresolved concepts
 
-> **Personal idea Kanban:** [VIDA 2D — Hernan's Idea Lab](IDEA_LAB.md) is the fork-only navigation board for evolving proposals. This journal remains the detailed design history and is not an upstream backlog.
+> **Current navigation:** [Active personal idea board](IDEA_LAB.md) contains only unfinished ideas (IDEA-002–IDEA-020; IDEA-001 completed). [Verified completed work](CONTRIBUTOR_COMPLETED.md) records delivered outcomes. **This journal is a chronological archive**, not a live to-do list or current delivery-status register. Older stage-boundary statements are retained as dated evidence and may be superseded by later decisions.
 
-> **Status:** Exploratory ideas from Hernan, recorded on 2026-10-28. These are **not approved implementation requirements**, **not upstream proposals**, and **not part of the canonical upstream backlog**. Do not create upstream issues, PRs, or owner requests from these notes without a separate explicit decision.
+> **Historical scope:** Initial personal ideas and stage decisions were recorded on 2026-10-28–29. Their earlier statuses may no longer apply. Consult the [active idea board](IDEA_LAB.md), [completed register](CONTRIBUTOR_COMPLETED.md) and [current contributor stage register](CONTRIBUTOR_WORKFLOW_STATUS.md) for present status. New cosmetic proposals and additional built-in scenarios were added to the active board on 2026-11-02. Nothing in this journal alone authorizes implementation, upstream submission or changes to upstream priorities.
 >
 > **Visibility:** This file is in the public contributor fork `hernansgarro/vidAI`; it is not confidential. When preparing clean upstream submission branches, exclude this contributor-only journal unless separately authorized.
 
-## Current delivery and promotion decision — 2026-10-29
+## Historical delivery and promotion decision — 2026-10-29
 
 Hernan verified and approved the complete testing advance, then explicitly
 requested its integration into **fork main**, including applicable validated
@@ -73,7 +73,10 @@ testing `d995d48`, tracked in #122. The branch name predates that scope correcti
 No physics, perception, containment repair, main changes or later stages belong
 in this observer-only follow-up.
 
-## Topic index
+## Topic index — unresolved design questions only
+
+New unresolved observer/interface improvements and the two prospective small-screen presets are maintained solely in [IDEA-013–IDEA-020](IDEA_LAB.md); do not treat the historical sections below as current implementation instructions.
+
 
 | Topic | Keywords to revisit when designing a related requirement | Status |
 | --- | --- | --- |
@@ -84,8 +87,8 @@ in this observer-only follow-up.
 | Egg buoyancy as a paid inherited trait | buoyancy, gravity, egg dispersal, predation, inherited physics | Separate possible requirement |
 | Simplifying hatch blockers | population occupancy, clearance, debt, expiry, hatching | Hypothesis only; needs careful review |
 | Fractional nutrient recycling rate | recycling, 0.5/s, 0.1/s, deterministic accumulator | Deferred; excluded from scenario selector |
-| Named custom environmental scenarios | environment profiles, reusable settings, mnemonic names | Deferred; first version has only Default / Harsh World |
-| Selective lateral portals / interconnected aquariums | fixed 300-unit windows, local names/consent, physical tubes and complete self-transfer | Stages 1–3 implemented and approved for fork main/testing; stage 4 explicitly deferred |
+| Named custom environmental scenarios | environment profiles, reusable settings, mnemonic names | Still exploratory; built-in Default / Harsh / fork-only Pipe World are not user-named custom profiles |
+| Remote multi-user aquariums (Stage 4 only) | network peer discovery, transfer authority, authentication, cross-world energy/identity | Explicitly deferred; completed local stages 1–3 are indexed in [completion history](CONTRIBUTOR_COMPLETED.md) |
 
 ## 1. Genetically controlled decision to lay eggs
 
