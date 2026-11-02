@@ -10,7 +10,7 @@ By Hernán Garro & Federico Regueira.
 **[Current Wiki](https://github.com/smeagol44/vidAI/wiki)** ·
 [Development priorities](docs/FEATURE_ROADMAP.md) · [Experiment history](docs/PROJECT_STATUS.md)
 
-**Contributor fork only:** [Hernan's Idea Lab — personal Kanban and idea cards](docs/IDEA_LAB.md). This exploratory board is separate from the canonical upstream VIDA project.
+**Contributor fork only:** [Unfinished ideas / personal Kanban](docs/IDEA_LAB.md) · [Verified completed work](docs/CONTRIBUTOR_COMPLETED.md) · [Delivery and upstream-review status](docs/CONTRIBUTOR_WORKFLOW_STATUS.md) · [Historical design journal](docs/CONTRIBUTOR_IDEAS.md). These personal records are separate from the canonical upstream VIDA project. The idea board is not a backlog of implemented work.
 
 ## Current scope
 
@@ -18,6 +18,14 @@ By Hernán Garro & Federico Regueira.
 - Variable inherited brain structure, recurrent activation memory and bounded waking sensory/motor learning are implemented. Personal learned weights are separate from inherited genes.
 - Physical feeding, paid eggs, hatching, death and chemical accounting exist. Reliable foraging, pursuit and self-sustaining ecosystems remain unproven.
 - Worker/render separation is deployed. Optional sleep/replay, physical growth, tissue repair and gradual senescence are not implemented.
+
+**Fork delivery checkpoint (2026-11-02):** [Pipe World](https://github.com/hernansgarro/vidAI/pull/53)
+is the implemented third starting scenario (4600 × 2100; independent
+Harsh-equivalent configuration; no initial tube links). New ideas for
+egg overlays, phone dialogs, observer interface and smaller built-in
+scenario dimensions are **not implemented**; consult the personal idea board.
+Fork nutrient cycling and observer preferences await [upstream PR #134](https://github.com/smeagol44/vidAI/pull/134)
+review, while Pipe World requires a separate upstream submission approval.
 
 The Wiki describes current features and limitations. Original Phases 1–4 have
 their core implementation; Phase 5's bounded waking-learning feature set is
@@ -69,7 +77,7 @@ Bank, export/import and diagnostics. Click a creature for general status;
 **Inspect** opens diagnostics with display pruning reset to 0.5.
 
 The initial UI seed is random and editable; reset reuses the displayed seed.
-Current passive-solver saves use schema v15 and brain v7, including a validated physics regime.
+Current fork closed-economy worlds use versioned nutrient cycle schema v19 (decay-v2), with schema v18 decay-v1 and older v16/v17 topology/forward-mouth saves accepted under their corresponding historical rules; the brain remains v7. Schema v15 remains a historical passive-solver format, not the current fork export format.
 Older v3–v11 snapshots continue with exact legacy physics/energy rules; new
 worlds use the established swimming forces with prepaid simultaneous muscle work
 and a complete joint solve bounded against kinetic injection. Earlier v12–v14
