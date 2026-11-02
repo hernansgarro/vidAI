@@ -42,7 +42,7 @@ repeated "pending implementation" entries here.
 
 **Absolute highest contributor priority as designated by Hernan (2026-11-02),**
 above all other outstanding personal ideas. **Four-stage audit planned; Stage 2 static review completed 2026-11-02 on pinned fork SHA bf75b5649c6d843c48586acca59c51830678e316** ([code-backed Stage 2 report](PERFORMANCE_AUDIT_STAGE_2.md)). **Stage 2 made no CPU/FPS measurement, causal diagnosis, optimization code or upstream submission claim. Stage 1 measurement evidence still requires provenance review; Stage 3 controlled trials and Stage 4 decision remain pending.**
-The active [performance audit plan](PERFORMANCE_AUDIT_PLAN.md) is the contributor-side reference for scope, stage gates, future ideas and the bounded Stage 1 Work handoff.
+The active [performance audit plan](PERFORMANCE_AUDIT_PLAN.md) governs stage gates; the [Stage 2 source review](PERFORMANCE_AUDIT_STAGE_2.md) and [current priority/measurement overlay](PERFORMANCE_AUDIT_PRIORITIES.md) preserve the hypotheses, owner choices and planned Stage 3/4 questions.
 
 Hernan reports excessive CPU load and poor interactive performance in VIDA 2D.
 He observes additional slowing when organism energy-activity glow is displayed.
@@ -63,7 +63,7 @@ determinism, saved-world semantics, current Worker/render separation and
 existing baseline history. Follow the project's experiment-registration
 rules if experiments are required.
 
-**Next action:** Execute the already agreed Stage 1 inventory and bounded existing-tool benchmark protocol through Work, record evidence, and return for Hernan's Stage 2 decision. Stage 3 instrumentation and optimization implementation require separate approval. This entry does not create an upstream issue or PR.
+**Current next action (2026-11-02):** Review and reconcile any actual Stage 1 measurements/provenance, then prepare a **separately authorized Stage 3 Work protocol**, using [Hernan's ranked investigation priorities and proposed metrics](PERFORMANCE_AUDIT_PRIORITIES.md). Glow receipt computation versus drawing is first; exact physical caching, existing sight/feeding broadphase, Worker/UI reporting and other owner-selected questions follow. S2-01/05/07 remain baseline coverage. Stage 2 is complete. The Stage 3 measurement design is **not** execution approval, and Stage 4 optimization requires its own human decision. The distinct genetic ray-subset proposal remains an unapproved [IDEA-025](IDEA_LAB.md#idea-025-heritable-per-eye-ray-subsets). No upstream issue or PR is created merely by this record.
 See [IDEA-023](IDEA_LAB.md#idea-023-vida-2d-performance-and-cpu-load-audit).
 
 ### Personal idea triage (2026-11-02; no new implementation authorization)
