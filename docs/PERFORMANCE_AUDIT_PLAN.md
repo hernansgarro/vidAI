@@ -78,7 +78,7 @@ Inventory which scenarios are **already executable** without changing tests or s
 3. Low/moderate/high food and carrion inventories, eggs, births/deaths, lineage changes and steady state versus growing state.
 4. Active local self-tubes/windows (including off-screen organisms), tube crossing and many visible controls, where existing fixtures permit.
 5. Observer effects: no glow activity versus active feeding/predation glow, egg overlays and other compositing layers, *only if an existing safe toggle/fixture/control allows an equivalent-state comparison*. Otherwise mark as Stage 3; do not disable the energy-observer logic by changing authoritative simulation.
-6. Worker vs `?mainthread` diagnostic fallback, selected speeds, visible/offscreen display and different viewports only through supported existing facilities.
+6. Worker vs `?mainthread` diagnostic fallback, selected speeds, visible/offscreen display and different viewports only through supported existing facilities. Record the actual initial camera zoom/framing and pan; equivalent world dimensions do not guarantee equivalent visible work.
 
 Do **not** create new synthetic features or secretly raise runtime caps in Stage 1. Record missing dimensions, including pixel fill/DPR, paused/render-only CPU, memory/GC and message sizes, as Stage 3 candidates.
 
@@ -160,6 +160,7 @@ This table preserves the present idea board as the authority for idea state and 
 | **IDEA-010:** remote aquariums | Potential network serialization, authority and synchronization; not equivalent to current local tubes | 2, 4 |
 | **IDEA-011:** portable organism state | Future serialization, historical compatibility, payload size | 2, 4 |
 | **IDEA-019 / 020:** notebook/phone-sized worlds | Distinguish world-unit dimensions from physical display pixels/DPR and resource-constrained devices; dimensions undecided | 1 (existing viewport support), 2–4 |
+| **IDEA-024:** scenario-specific initial zoom/framing | Future preset-selected camera distance or fit-to-tank view (Harsh World example); separate UI scale, position, visible-object count, culling and DPR from world size; no fixed value chosen | 1 (record existing zoom/viewport as confound), 2–4 |
 | **IDEA-008:** sub-one-per-second nutrient appearance | Event rate/particle count influence stress profiles; not nutrient decay | 1 (current density), 2, 4 |
 | **IDEA-009:** named custom scenarios | Future variability/reproducibility of benchmarks; no generated profiles now | 2, 4 |
 | **IDEA-002–007:** egg decisions, funding, buoyancy and hatching | Future reproduction/egg dynamics change workload and fidelity; energy rules remain frozen | 2, 4 |

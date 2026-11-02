@@ -33,6 +33,7 @@ simulation semantics. See the [full IDEA-023 card](#idea-023-vida-2d-performance
 | — | [IDEA-021 · Nutrient contact and ledge geometry](#idea-021-nutrient-contact-and-ledge-geometry) | — | — | — | — |
 | — | [IDEA-022 · Nutrient-to-nutrient collisions](#idea-022-nutrient-to-nutrient-collisions) | — | — | — | — |
 | — | [IDEA-023 · Performance & CPU audit (P0)](#idea-023-vida-2d-performance-and-cpu-load-audit) | — | — | — | — |
+| — | [IDEA-024 · Preset initial zoom](#idea-024-world-preset-initial-zoom-and-framing) | — | — | — | — |
 
 **Completed work is not an active column.** [IDEA-001 — Pipe World](CONTRIBUTOR_COMPLETED.md) was delivered to fork main via [PR #53](https://github.com/hernansgarro/vidAI/pull/53). [IDEA-012 — Retained window agreements during resizing](CONTRIBUTOR_COMPLETED.md) was already implemented with local side-window/tube stages 1–3, as verified against code and automated tests on 2026-11-02. Both are recorded in the [completed-work register](CONTRIBUTOR_COMPLETED.md). Their implementation in the fork does not authorize an upstream PR.
 
@@ -71,7 +72,7 @@ or upstream contact is authorized by this note.
 
 **IDEA-012 has been moved out of this active priority table:** Hernan rated it High on 2026-11-02, and a code/test review confirmed its *local* behavior was already delivered in Stage 3. See [completed work](CONTRIBUTOR_COMPLETED.md). Remote multi-aquarium agreement semantics belong to deferred IDEA-010, not a reopened duplicate.
 
-The priorities of IDEA-013–IDEA-020 have not yet been assigned by Hernan. IDEA-021 and IDEA-022 have separately assigned **Medium-high** priority.
+The priorities of IDEA-013–IDEA-020 and IDEA-024 have not yet been assigned by Hernan. IDEA-021 and IDEA-022 have separately assigned **Medium-high** priority.
 
 ## Cards
 
@@ -246,9 +247,19 @@ The priorities of IDEA-013–IDEA-020 have not yet been assigned by Hernan. IDEA
 - **Next action:** Run **Stage 1 (existing measurement tools)** through Work using a fixed, registered protocol; review evidence with Hernan before undertaking Stage 2 static algorithm analysis, Stage 3 instrumentation or Stage 4 optimization decisions.
 - **Related:** [Contributor workflow status](CONTRIBUTOR_WORKFLOW_STATUS.md), [simulation performance reference](wiki/Simulation-Performance.md), [energy-activity overlays](wiki/Energy-Activity.md). No new upstream issue, test campaign or PR is requested at this capture stage.
 
+### IDEA-024: World-preset initial zoom and framing
+
+- **State:** Exploring; recorded 2026-11-02; personal priority **not yet assigned**. This is a separate outstanding idea, **not** an extension or implementation of IDEA-009, IDEA-019/020, or the current performance audit.
+- **User intent:** World configuration should be able to specify a preferred **initial camera zoom / view framing** as part of the selected starting-world preset. For example, choosing `Harsh World` should initially use a more distant zoom so the observer can see more of the aquarium; a "farthest zoom" or fit-to-tank presentation is the motivating example, **not a fixed zoom number already chosen**.
+- **Scope to explore:** Determine whether each built-in scenario (Default, Harsh, Pipe World, and possible future notebook/phone presets) defines an explicit initial scale or a viewport-dependent **fit-to-world** rule, and whether user-defined named profiles (IDEA-009) could later retain the same preference. World dimensions (simulation units) and camera/view scale (presentation) must remain distinct.
+- **Open decisions:** Choose the exact zoom/framing for each scenario; whether the value is a numeric scale, a normalized level or a computed fit; how aspect ratio, safe UI areas, window resize and mobile displays affect whole-tank visibility; whether the camera center/position is also preset; when the initial zoom is applied (startup, world reset, scenario selection, or importing a save); and whether a later manual pan/zoom override persists.
+- **Expected UX safeguard:** A preset should establish an **initial observation preference**, not permanently lock camera controls or silently reset the user's chosen zoom during ordinary interactions. Evaluate save/restore and backward compatibility separately before specifying implementation.
+- **Architecture and audit boundary:** Camera framing is observer/UI state. Do not modify world-coordinate dimensions, physics, energy, genetics, Worker ticks, off-camera simulation or authoritative saved-world semantics simply to fit more of the aquarium on screen. Changes in framing can change visible object counts, paint area, viewport culling and observed FPS; keep zoom, pixel resolution/DPR and actual world density controlled during performance comparisons.
+- **Related:** IDEA-009 (named scenarios), IDEA-019/020 (future notebook/phone worlds), [Pipe World completion](CONTRIBUTOR_COMPLETED.md), [current performance audit plan](PERFORMANCE_AUDIT_PLAN.md). No code change, tests, upstream issue or PR is authorized by idea capture.
+
 ## Notes on potential promotion
 
-- IDEA-013–IDEA-023 are personal future ideas. **IDEA-023 is now the explicitly identified P0 top priority for the next joint investigation**. IDEA-021/IDEA-022 remain medium-high, and all other user-assigned priorities remain unchanged. No entry authorizes implementation or sets an execution date. Their statuses concern maturity only.
+- IDEA-013–IDEA-024 are personal future ideas. **IDEA-023 is now the explicitly identified P0 top priority for the next joint investigation**. IDEA-021/IDEA-022 remain medium-high, and all other user-assigned priorities remain unchanged. No entry authorizes implementation or sets an execution date. Their statuses concern maturity only.
 - A future upstream proposal may be considered alongside Pipe World, as suggested by Hernan, **but combining unrelated visual/phone/scenario changes into a single PR is not automatically approved**. After fork-main validation and separate explicit approval, prepare a clean scoped submission and evaluate reviewability, dependency order and owner preference.
 - The [completed-work register](CONTRIBUTOR_COMPLETED.md) is the place for completed work; keep it out of pending columns.
 

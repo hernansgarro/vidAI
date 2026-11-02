@@ -72,6 +72,12 @@ See [IDEA-023](IDEA_LAB.md#idea-023-vida-2d-performance-and-cpu-load-audit).
 - **IDEA-012 — Retained agreements when tank windows disappear:** Hernan assigns **High importance**, but code and unit/browser tests confirm this is **already delivered** for local Stage 3 self-links. It is now in the [completed-work history](CONTRIBUTOR_COMPLETED.md), **not an outstanding requirement**. Do not conflate this with deferred Stage 4 cross-user agreement persistence under IDEA-010.
 - No issue/PR or new implementation is authorized merely by updating personal priority. The previously unnamed urgent need is now **IDEA-023, the P0 performance audit**; all earlier personal priorities remain subordinate to it.
 
+### Initial zoom per starting-world preset (IDEA-024; 2026-11-02)
+
+- **Exploring / priority unassigned.** Hernan wants each starting-world configuration to be able to select an initial observer zoom. For example, choosing Harsh World could start at a more distant zoom so more of the tank is visible.
+- Exact fit/zoom, scenario-specific values, viewport/aspect-ratio behavior, camera-center handling, timing on reset/import, and preservation of manual overrides are **undecided**. Keep world-unit size distinct from camera/UI scale; no physics/Worker/save behavior change is authorized.
+- This remains a separate [personal idea card](IDEA_LAB.md#idea-024-world-preset-initial-zoom-and-framing), not a committed feature or a new upstream issue. The [performance audit plan](PERFORMANCE_AUDIT_PLAN.md) records zoom/framing as a relevant control when measuring render costs.
+
 ### Nutrient geometry ideas (2026-11-02; no development started)
 
 - **IDEA-021 — Nutrient contact and ledge geometry:** **Medium-high** personal priority, exploring. Source review found a fixed 35-unit center clamp in ordinary tanks (`simulation.ts`) and a fixed-margin rectangular center projection around physical tubes (`selfTubes.ts`). Neither uses the nutrient's current physical radius as a boundary clearance. The proposed downward-vertex octagonal frame is a hypothesis, not approved geometry. See [IDEA-021](IDEA_LAB.md#idea-021-nutrient-contact-and-ledge-geometry).
