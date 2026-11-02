@@ -105,6 +105,9 @@ See [completed work](CONTRIBUTOR_COMPLETED.md) and [#135](https://github.com/sme
   actual initial/reset packets, controls, founder buttons and exact imported
   state in Worker and fallback; existing Chromium/Firefox smoke CI.
 
-Fractional recycling and named custom profiles remain exploratory and
-unimplemented (IDEA-008/IDEA-009). The proposed two compact fixed-size
-presets remain IDEA-019/IDEA-020 until dimensions are decided.
+Nutrient appearance frequencies below one particle per simulated second
+(IDEA-008; High personal priority) remain **unimplemented**. The current
+preset selector and per-particle food decay behavior are unchanged.
+Named custom environment profiles (IDEA-009) are also exploratory, while
+the two proposed compact fixed-size presets (IDEA-019/IDEA-020) still need
+their world-unit dimensions defined.
