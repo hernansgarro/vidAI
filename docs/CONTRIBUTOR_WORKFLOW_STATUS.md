@@ -41,8 +41,8 @@ repeated "pending implementation" entries here.
 ### P0 — Next contributor investigation: performance (IDEA-023)
 
 **Absolute highest contributor priority as designated by Hernan (2026-11-02),**
-above all other outstanding personal ideas. **Queued for future joint
-investigation; not started, no code changed and no profiling campaign authorized.**
+above all other outstanding personal ideas. **Four-stage audit planning and Stage 1 inventory initiated on 2026-11-02; no benchmark run, profiling diagnosis, optimization code or upstream submission is claimed.**
+The active [performance audit plan](PERFORMANCE_AUDIT_PLAN.md) is the contributor-side reference for scope, stage gates, future ideas and the bounded Stage 1 Work handoff.
 
 Hernan reports excessive CPU load and poor interactive performance in VIDA 2D.
 He observes additional slowing when organism energy-activity glow is displayed.
@@ -63,9 +63,7 @@ determinism, saved-world semantics, current Worker/render separation and
 existing baseline history. Follow the project's experiment-registration
 rules if experiments are required.
 
-**Next action:** Joint analysis and bounded investigation plan with Hernan
-when this becomes the active task. This entry neither authorizes
-implementation nor creates an upstream issue or PR.
+**Next action:** Execute the already agreed Stage 1 inventory and bounded existing-tool benchmark protocol through Work, record evidence, and return for Hernan's Stage 2 decision. Stage 3 instrumentation and optimization implementation require separate approval. This entry does not create an upstream issue or PR.
 See [IDEA-023](IDEA_LAB.md#idea-023-vida-2d-performance-and-cpu-load-audit).
 
 ### Personal idea triage (2026-11-02; no new implementation authorization)
