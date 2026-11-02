@@ -41,7 +41,7 @@ repeated "pending implementation" entries here.
 ### P0 — Next contributor investigation: performance (IDEA-023)
 
 **Absolute highest contributor priority as designated by Hernan (2026-11-02),**
-above all other outstanding personal ideas. **Four-stage audit planning and Stage 1 inventory initiated on 2026-11-02; no benchmark run, profiling diagnosis, optimization code or upstream submission is claimed.**
+above all other outstanding personal ideas. **Four-stage audit planned; Stage 2 static review completed 2026-11-02 on pinned fork SHA bf75b5649c6d843c48586acca59c51830678e316** ([code-backed Stage 2 report](PERFORMANCE_AUDIT_STAGE_2.md)). **Stage 2 made no CPU/FPS measurement, causal diagnosis, optimization code or upstream submission claim. Stage 1 measurement evidence still requires provenance review; Stage 3 controlled trials and Stage 4 decision remain pending.**
 The active [performance audit plan](PERFORMANCE_AUDIT_PLAN.md) is the contributor-side reference for scope, stage gates, future ideas and the bounded Stage 1 Work handoff.
 
 Hernan reports excessive CPU load and poor interactive performance in VIDA 2D.
