@@ -78,6 +78,33 @@ in this observer-only follow-up.
 - **IDEA-008** is now called **Nutrient appearance frequencies below one per second** in the [active board](IDEA_LAB.md), with Hernan's **High** personal priority. This refers to a deterministic particle-appearance rate such as 0.5/s or 0.1/s, not to faster/slower nutrient dissolution. The section 6 historical title below is retained so existing links and original decisions remain intact.
 - **IDEA-012** is **already implemented for local self-linked windows in Stages 1–3**, despite the original 2026-10-28 notes calling persistent agreements future work. Verified current implementation stores accepted indices while tank height decreases, displays suspended agreements, restores active windows on regrowth/reconnection and supports explicit cancellation. See [completed-work register](CONTRIBUTOR_COMPLETED.md), [unit tests](../tests/window-demo.test.ts), [browser tests](../e2e/side-windows.spec.ts) and [current side-window reference](wiki/Side-Windows.md). The original design discussion below is retained as historical evidence, **not** an outstanding task. Cross-user agreement persistence is outside the local implementation and belongs to deferred Stage 4 / IDEA-010.
 
+## Exploratory nutrient contact and collision ideas — 2026-11-02
+
+Hernan separately identified two **Medium-high priority** ideas, recorded as
+[IDEA-021](IDEA_LAB.md#idea-021-nutrient-contact-and-ledge-geometry) and
+[IDEA-022](IDEA_LAB.md#idea-022-nutrient-to-nutrient-collisions):
+
+1. Small food particles appear suspended above supporting walls, and some do
+   not fall from tube ledges. Source inspection found circular/radius-based
+   nutrient bodies, rather than an existing square collider, but a fixed
+   35-world-unit center clamp in regular tanks and rectangle-based center
+   projection with a 35-unit margin in connected tube geometry. A contact
+   **octagon with a vertex aligned vertically downward** is a possible
+   alternative to study, not an approved new shape or motion model. The fixed
+   clearances need examination before adopting any new polygon.
+2. Separately evaluate **particle-particle collisions**, initially without
+   requiring collisions against creature bodies so mouths can still acquire
+   food. Potential piles, contact response, deterministic state, cost with
+   many particles, ecology and physical boundary behavior all need bounded
+   evaluation. This proposal does not authorize new forces, collider tuning,
+   or changing organism feeding.
+
+These are exploratory notes, not implemented features, experimental protocols,
+upstream requests, or permission to alter accepted physics. Exact historical
+saves, energy accounting and Worker authority remain binding constraints.
+Current implementation statements were verified by reading source; **no new
+tests or runtime measurements were performed** for this note.
+
 ## Topic index — unresolved design questions only
 
 New unresolved observer/interface improvements and the two prospective small-screen presets are maintained solely in [IDEA-013–IDEA-020](IDEA_LAB.md); do not treat the historical sections below as current implementation instructions.
