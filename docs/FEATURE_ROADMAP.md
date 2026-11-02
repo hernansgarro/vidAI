@@ -27,9 +27,8 @@ simulation throughput from display cost and UI responsiveness, then
 identify and compare simplifications with evidence and explicit fidelity
 trade-offs. Keep feeding/energy signal meaning, authoritative fixed ticks,
 historical saves, physics, learning and experiment baselines intact.
-**No profiling or implementation work has begun; nothing here changes
-upstream priorities or authorizes an upstream issue/PR.**
-See the [IDEA-023 card](IDEA_LAB.md#idea-023-vida-2d-performance-and-cpu-load-audit)
+**A four-stage audit plan is now documented, and Stage 1 tool inventory has begun; no measured profiling results or optimization implementation are claimed.** The plan does not change upstream priorities or authorize an upstream issue/PR.
+See the [performance audit plan](PERFORMANCE_AUDIT_PLAN.md) and the [IDEA-023 card](IDEA_LAB.md#idea-023-vida-2d-performance-and-cpu-load-audit)
 and [contributor status](CONTRIBUTOR_WORKFLOW_STATUS.md).
 
 The [current Wiki](https://github.com/smeagol44/vidAI/wiki) describes shipped
