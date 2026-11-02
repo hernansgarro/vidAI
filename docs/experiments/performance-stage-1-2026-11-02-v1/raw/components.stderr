@@ -1,0 +1,18 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+0 !== 10000
+
+    at <anonymous> (/workspace/scratch/e756b6c0a7fe/vidAI/scripts/benchmark-runtime-components.mjs:38:10) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 0,
+  expected: 10000,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.22.1

@@ -1,0 +1,12 @@
+
+> vidai@0.39.0 test:worker
+> node --import tsx scripts/check-worker.mjs
+
+Nutrient-cycle Worker: schema-18/19 tank/tube reset, 5x exact direct decay/mineralization/PRNG continuation, paused restoration and control-switch rejection passed.
+Self-tube Worker: schema-17 reset, full-state L/R transfer, exact direct continuation, unchanged IDs/births/stock, paused closure and stale-command rejection passed.
+Environment Worker: Harsh and independent Pipe time-zero empty food/full grant, Pipe 4600x2100 with zero topology, editable controls, exact direct continuation and snapshot reset passed.
+Egg reserve Worker: original reference/frame/export/reset, legacy-current migration, exact 5x funded recovery, structure-only pink and x0 freeze passed.
+Energy activity Worker: concurrent real feeding/predation, contacted segment, exact observer-free optical/neural/PRNG/save continuation and x0 freeze passed.
+Unlimited MAX: measured x4922.6; 256256 exact ticks, responsive pause, frozen snapshots and finite resume passed.
+x0 Worker: zero ticks during manual food/spawn/clear/inspection, funded budget and caps, immediate frames, no stopped-wall-time catch-up, exact continuation and paused reset passed.
+Production Worker: open/closed exact exports, funded commands, independent stepping, debt, direct equivalence, all physics regimes, mouth contact in all eight physics/ecology combinations, regime-switch and stale-world rejection passed.

@@ -1,0 +1,160 @@
+[
+  {
+    "name": "kernel-1",
+    "command": [
+      "npm",
+      "run",
+      "benchmark:performance"
+    ],
+    "timeoutSeconds": 60,
+    "startedUTC": "2026-11-02T18:15:48.832597+00:00",
+    "exitCode": 0,
+    "wallSeconds": 1.707922855999982,
+    "userSeconds": 2.924291,
+    "systemSeconds": 0.324769,
+    "maxRssKiB": 345952
+  },
+  {
+    "name": "kernel-2",
+    "command": [
+      "npm",
+      "run",
+      "benchmark:performance"
+    ],
+    "timeoutSeconds": 60,
+    "startedUTC": "2026-11-02T18:15:50.541254+00:00",
+    "exitCode": 0,
+    "wallSeconds": 1.5379514850000078,
+    "userSeconds": 2.6164389999999997,
+    "systemSeconds": 0.416863,
+    "maxRssKiB": 322664
+  },
+  {
+    "name": "kernel-3",
+    "command": [
+      "npm",
+      "run",
+      "benchmark:performance"
+    ],
+    "timeoutSeconds": 60,
+    "startedUTC": "2026-11-02T18:15:52.079725+00:00",
+    "exitCode": 0,
+    "wallSeconds": 1.4630971240000008,
+    "userSeconds": 2.475622,
+    "systemSeconds": 0.193067,
+    "maxRssKiB": 327588
+  },
+  {
+    "name": "kernel-paired",
+    "command": [
+      "npm",
+      "run",
+      "benchmark:performance",
+      "--",
+      "--baseline",
+      "../performance-baseline"
+    ],
+    "timeoutSeconds": 60,
+    "startedUTC": "2026-11-02T18:15:53.543407+00:00",
+    "exitCode": 0,
+    "wallSeconds": 2.637830411999971,
+    "userSeconds": 5.327111,
+    "systemSeconds": 0.43204299999999995,
+    "maxRssKiB": 370916
+  },
+  {
+    "name": "headless-1",
+    "command": [
+      "npm",
+      "run",
+      "benchmark",
+      "--",
+      "--seed",
+      "4242",
+      "--seconds",
+      "3"
+    ],
+    "timeoutSeconds": 60,
+    "startedUTC": "2026-11-02T18:15:56.181748+00:00",
+    "exitCode": 0,
+    "wallSeconds": 1.1279627729999788,
+    "userSeconds": 1.753703,
+    "systemSeconds": 0.155423,
+    "maxRssKiB": 183996
+  },
+  {
+    "name": "headless-2",
+    "command": [
+      "npm",
+      "run",
+      "benchmark",
+      "--",
+      "--seed",
+      "4242",
+      "--seconds",
+      "3"
+    ],
+    "timeoutSeconds": 60,
+    "startedUTC": "2026-11-02T18:15:57.310364+00:00",
+    "exitCode": 0,
+    "wallSeconds": 1.03860983200002,
+    "userSeconds": 1.795397,
+    "systemSeconds": 0.161168,
+    "maxRssKiB": 165032
+  },
+  {
+    "name": "headless-3",
+    "command": [
+      "npm",
+      "run",
+      "benchmark",
+      "--",
+      "--seed",
+      "4242",
+      "--seconds",
+      "3"
+    ],
+    "timeoutSeconds": 60,
+    "startedUTC": "2026-11-02T18:15:58.353132+00:00",
+    "exitCode": 0,
+    "wallSeconds": 1.099247202000015,
+    "userSeconds": 1.812274,
+    "systemSeconds": 0.175137,
+    "maxRssKiB": 161564
+  },
+  {
+    "name": "profiler",
+    "command": [
+      "node",
+      "--import",
+      "tsx",
+      "scripts/profile-performance.mjs",
+      ".",
+      "/workspace/scratch/e756b6c0a7fe/profile-stage1.json"
+    ],
+    "timeoutSeconds": 60,
+    "startedUTC": "2026-11-02T18:15:59.452768+00:00",
+    "exitCode": 1,
+    "wallSeconds": 0.9260052250000399,
+    "userSeconds": 1.6756039999999999,
+    "systemSeconds": 0.150635,
+    "maxRssKiB": 165116
+  },
+  {
+    "name": "components",
+    "command": [
+      "node",
+      "--import",
+      "tsx",
+      "scripts/benchmark-runtime-components.mjs",
+      "../performance-baseline"
+    ],
+    "timeoutSeconds": 60,
+    "startedUTC": "2026-11-02T18:16:00.379402+00:00",
+    "exitCode": 1,
+    "wallSeconds": 0.33018686500003014,
+    "userSeconds": 0.30189499999999997,
+    "systemSeconds": 0.09042299999999999,
+    "maxRssKiB": 92504
+  }
+]
