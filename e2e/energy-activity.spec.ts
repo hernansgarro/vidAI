@@ -101,7 +101,8 @@ for (const fallback of [false, true]) test(`energy contour glows follow real bod
     expect(Math.max(...widths)).toBeLessThanOrEqual(21.001);
   }
   const beforeZoom = await sample();
-  await page.mouse.move(800, 450); await page.mouse.wheel(0, -500);
+  // Zoom remains interactive at x0 without advancing the paused world.
+  await page.getByLabel('Aquatic simulation').dispatchEvent('wheel', {deltaY: -500, clientX: 800, clientY: 450});
   await expect.poll(async () => {
     const latest = await sample();
     return (latest.green?.scale !== beforeZoom.green?.scale && latest.counts[0] > beforeZoom.counts[0])

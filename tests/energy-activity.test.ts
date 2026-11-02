@@ -146,6 +146,9 @@ test('primitive receipts localize multiple mouths without changing optical, neur
   Object.assign(prey.genome.parts[0], {height: 21, dimM: 3});
   prey.genome.parts.push({...prey.genome.parts[0], id: 'second', parentIndex: 0, attachmentPoint: 'SOUTH'});
   prey.segments.push({...prey.segments[0], y: 771});
+  // Forward mouths keep their existing reach and diet's fixed diameter.
+  // The second mouth is separated by its anatomical anchor, not a width gene.
+  hunter.genome.mouths[0].intakeWidth = 9;
   hunter.genome.parts.push({...hunter.genome.parts[0], id: 'second', parentIndex: 0, attachmentPoint: 'SOUTH'});
   hunter.segments.push({...hunter.segments[0], y: 771});
   hunter.genome.mouths.push({...hunter.genome.mouths[0], id: 'second-mouth', partIndex: 1});

@@ -133,8 +133,15 @@ for (const fallback of [false, true]) test(`local phone consent and grouped glas
         if (buttons.length !== count) return Infinity;
         buttons.forEach((button, index) => {
           const box = button.getBoundingClientRect();
-          const expected = canvasTop + p.wall.screenY + (height - (index + .5) * height / count) * p.wall.scale;
-          error = Math.max(error, Math.abs(box.y + box.height / 2 - expected));
+          const anchor = button.closest('.side-demo-anchor') as HTMLElement;
+          const anchorY = new DOMMatrix(anchor.style.transform).m42;
+          const expected = p.wall.screenY + (height - (index + .5) * height / count) * p.wall.scale;
+          // Firefox quantizes DOMRect layout coordinates. Check the authored
+          // anchor against independent Canvas geometry at the original strict
+          // precision, plus the actual visible center within .02 CSS pixels.
+          const visibleError = Math.abs(box.y + box.height / 2 - canvasTop - expected);
+          if (visibleError >= .02) error = Infinity;
+          error = Math.max(error, Math.abs(anchorY - expected));
         });
       }
       return error;
@@ -211,8 +218,16 @@ for (const fallback of [false, true]) test(`local phone consent and grouped glas
   await expect(page.getByTestId('side-call-accept-R')).toBeVisible();
   await expect(page.locator('[aria-modal=true]')).toHaveCount(0);
   await page.screenshot({path: info.outputPath(`side-windows-${fallback ? 'fallback' : 'worker'}-incoming.png`)});
-  const eyeBox = (await eye.boundingBox())!, phoneBox = (await phone('L').boundingBox())!;
-  expect(eyeBox.y + eyeBox.height / 2).toBeCloseTo(phoneBox.y + phoneBox.height / 2, 3);
+  const eyeAlignment = await page.evaluate(() => {
+    const eye = document.querySelector('[data-testid="side-demo-eye"]') as HTMLElement;
+    const phone = document.querySelector('[data-testid="side-demo-phone-L"]') as HTMLElement;
+    const center = (node: HTMLElement) => new DOMMatrix((node.closest('.side-demo-anchor') as HTMLElement).style.transform).m42 + node.offsetHeight / 2;
+    const a = eye.getBoundingClientRect(), b = phone.getBoundingClientRect();
+    return {logicalEye: center(eye), logicalPhone: center(phone),
+      visibleDifference: Math.abs(a.y + a.height / 2 - b.y - b.height / 2)};
+  });
+  expect(eyeAlignment.logicalEye).toBeCloseTo(eyeAlignment.logicalPhone, 3);
+  expect(eyeAlignment.visibleDifference).toBeLessThan(.02);
   await eye.click();
   await page.mouse.move(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2);
   await expect(eye).toHaveAttribute('aria-expanded', 'false');
@@ -346,14 +361,19 @@ for (const fallback of [false, true]) test(`local phone consent and grouped glas
   await expect.poll(() => page.getByTestId('tank-viewport').evaluate(node => node.scrollTop)).toBe(0);
   await expect.poll(() => page.getByRole('region', {name: 'Local aquarium connections', exact: true}).evaluate(node => node.scrollTop)).toBe(0);
   const dialogAnchors = () => page.evaluate(() => {
-    const phone = document.querySelector('[data-testid="side-demo-phone-R"]')!.getBoundingClientRect();
-    const card = document.querySelector('[aria-label="R phone menu"]')!.getBoundingClientRect();
-    return {phone: {x: phone.x, y: phone.y, height: phone.height}, card: {x: card.x, y: card.y}};
+    const phoneNode = document.querySelector('[data-testid="side-demo-phone-R"]') as HTMLElement;
+    const cardNode = document.querySelector('[aria-label="R phone menu"]') as HTMLElement;
+    const phone = phoneNode.getBoundingClientRect(), card = cardNode.getBoundingClientRect();
+    const p = new DOMMatrix((phoneNode.closest('.side-demo-anchor') as HTMLElement).style.transform);
+    const c = new DOMMatrix(cardNode.style.transform);
+    return {phone: {x: p.m41, y: p.m42, height: phoneNode.offsetHeight}, card: {x: c.m41, y: c.m42},
+      visibleGap: card.y - phone.y - phone.height};
   });
   // Read both anchors atomically so camera easing cannot split the measurement
   // across two rendered frames.
-  const {card, phone: phoneBefore} = await dialogAnchors();
+  const {card, phone: phoneBefore, visibleGap} = await dialogAnchors();
   expect(card.y - phoneBefore.y - phoneBefore.height).toBeCloseTo(12, 3);
+  expect(Math.abs(visibleGap - 12)).toBeLessThan(.02);
   // Both anchors move by the same world-camera displacement; no viewport clamp.
   // The centered eye is at the phone height: a center-column drag here clicks
   // that control. Use clear water and verify the actual pointer target first.
@@ -363,7 +383,8 @@ for (const fallback of [false, true]) test(`local phone consent and grouped glas
   await page.mouse.move(dragX, dragY);
   await page.mouse.down(); await page.mouse.move(dragX, dragY + 100, {steps: 5}); await page.mouse.up();
   await expect.poll(async () => (await dialogAnchors()).phone.y - phoneBefore.y).toBeGreaterThan(80);
-  const {card: moved, phone: movedPhone} = await dialogAnchors();
+  const {card: moved, phone: movedPhone, visibleGap: movedGap} = await dialogAnchors();
+  expect(Math.abs(movedGap - 12)).toBeLessThan(.02);
   expect(moved.y - card.y).toBeCloseTo(movedPhone.y - phoneBefore.y, 3);
   expect(moved.x - card.x).toBeCloseTo(movedPhone.x - phoneBefore.x, 3);
   await page.setViewportSize({width: 1280, height: 900});

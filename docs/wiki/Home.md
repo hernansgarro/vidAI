@@ -4,7 +4,7 @@ VIDA is an aquatic artificial-life simulator. Articulated bodies, inherited
 neural controllers, individual experience and physical interactions determine
 behavior. Survival and reproduction depend on finite energy.
 
-**Implementation baseline: v0.38.0.** The core mechanisms exist; reliable
+**Implementation baseline: v0.39.0.** The core mechanisms exist; reliable
 foraging, predator pursuit and self-sustaining multigeneration ecosystems remain
 unproven. This reference covers VIDA 2D; the separate 3D project is independent.
 
@@ -15,8 +15,8 @@ replacing production. Its distinct release label identifies the pinned main
 version and commit, cycle and iteration (currently `T1.1` from
 `main v0.37.0 @ b2a05e5`). Each testing commit advances its iteration;
 resetting to an explicitly chosen newer main baseline begins the next cycle.
-Production retains its normal `v0.37.0` label, save format and simulation
-behavior. The testing-only version code must never be merged to main.
+Production uses its independent `v0.39.0` release and forward-mouth save format.
+The testing-only version code must never be merged to main.
 
 ## Simulation overview
 
@@ -54,8 +54,8 @@ is pending canonical upstream acceptance.
 | [Movement and Motor Control](Motor-Control) | Physical joints, mutable rhythms, drag, muscle scaling and offline swimming search |
 | [Senses and Visually Guided Behavior](Sensory-Behavior) | Retina, spectral sensitivity, feedback and inherited sensory responses |
 | [Waking Synaptic Learning](Waking-Learning) | Brain architecture, activation memory, personal learning and inheritance |
-| [Ecology and Energy Auditing](Ecology-Baseline) | Feeding, funded eggs, fork-only initial scenarios/reserve-loss display, food distribution and ecological measurements |
-| [Energy Activity Overlays](Energy-Activity) | Fork-only observer tint for real absorption and localized predation |
+| [Ecology and Energy Auditing](Ecology-Baseline) | Feeding, funded eggs, egg reserve-loss display, environmental scenarios, food distribution and ecological measurements |
+| [Energy Activity Overlays](Energy-Activity) | Observer overlays for real absorption and localized predation |
 | [Simulation Performance](Simulation-Performance) | Worker ownership, rendering, optimizations, saves and throughput limits |
 | [Self-Linked Windows and Physical Tubes — contributor fork](Side-Windows) | Fixed 300-unit sections, local self-call/window consent, physical channel ecology and full-state local transfer |
 
@@ -107,7 +107,7 @@ The maintained source is `docs/wiki/`, automatically published to this Wiki.
 opens a separate draggable Advanced Settings window with two independent options:
 **Automatically select added creatures** (Add Life and every Bank spawn) and
 **Automatically track selected creatures** (manual picking and automatic selection).
-New Default worlds start with both checked; new Harsh World worlds start with
+New Default worlds start with both checked; new Harsh World and fork-only Pipe World worlds start with
 both unchecked. Choosing a scenario in the menu takes effect only when starting
 that world. In-world reseeding keeps current overrides.
 
@@ -119,3 +119,6 @@ restore on import; historical snapshots without them use both enabled. They neve
 enter the Worker simulation, sensory inputs, genetics, energy or random stream.
 Escape and the close button dismiss the advanced window; its size/position stay
 within the tank viewport, including on phones.
+
+Observer-only energy activity is documented in [Energy Activity](Energy-Activity).
+- [Self-Linked Windows and Physical Tubes](Side-Windows)

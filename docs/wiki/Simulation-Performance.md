@@ -44,9 +44,35 @@ flowchart TD
 Painting does not advance simulation time. The main-thread fallback retains
 fixed-tick behavior when the Worker is unavailable or explicitly disabled.
 
-## Stopped time and manual interaction (fork)
+## Stable toolbar layout
 
-In Hernan's fork, **0x is the paused simulation speed**. Pause and Space toggle
+The toolbar uses right-anchored desktop controls, with Menu kept
+at the top-right. General telemetry uses the horizontal space left by controls.
+Generation, achieved speed/FPS/steps and elapsed time move together as one group;
+only a container narrower than the group requires its compact internal layout.
+
+Author credits are optional when space is scarce. Measured item widths keep them
+visible whenever they do not add a row. They can hide to retain a single general
+row, and fit alongside the identity again when the metrics already need their
+own row. The decision uses reserved geometry, never changing statistic values.
+
+Six monospace characters are reserved per count/generation and twelve for elapsed
+seconds. The performance chip reserves the whole readout while its text remains
+naturally packed, without individual numeric padding. Oversized numbers use
+scientific notation with their full values in hover titles. These are display
+rules only; simulation values, controls, Worker behavior and saves are unchanged.
+
+Phones use five evenly spaced icon action buttons and one full-width speed row,
+with Menu pinned beside the identity. Counters show distinguishable icons and
+reserved values in two rows; names and the food target remain in accessible
+labels/tooltips. Desktop counters retain their text labels and food target.
+Changing statistics does not reflow the toolbar or alter tank bounds at a fixed
+viewport.
+
+
+## Stopped time and manual interaction
+
+**0x is the paused simulation speed**. Pause and Space toggle
 between 0x and the last selected nonzero speed. Selecting another speed resumes
 immediately. Finite speeds remain 1x, 2x, 5x, 10x and 20x; MAX runs without a multiplier ceiling.
 Imports start at 0x. The speed selector shows the effective speed, including 0x
@@ -66,10 +92,9 @@ time resumes. Stopped wall time and unfinished pacing debt are discarded when
 the speed changes. The main-thread fallback follows the same pause controls.
 Save schemas, physics, genetics, feeding and learning rules are unchanged.
 
-This behavior is implemented in the contributor fork; it is not yet accepted
-upstream or published in the upstream Wiki.
 
-## Live performance circle (fork)
+
+## Live performance circle
 
 The existing 12px header circle shows actual simulation throughput. Pulse frequency
 is `2.5 * log(1 + min(actualSpeed, 50)) / log(51)` Hz: about 0.44 at 1x,
@@ -110,35 +135,7 @@ There is **no tooltip, hover content, popover, visible explanatory text or new
 interaction**. Nonvisual screen-reader descriptions distinguish paused, measuring,
 unavailable, finite achievement and MAX's visual reference. During startup or a
 mode change, the pulse waits for fresh data; stale running data becomes neutral.
-This behavior is implemented in the contributor fork, not accepted upstream.
 
-## Stable toolbar layout (fork)
-
-The fork uses right-anchored desktop controls, with Menu kept
-at the top-right. General telemetry uses the horizontal space left by controls.
-Generation, achieved speed/FPS/steps and elapsed time move together as one group;
-only a container narrower than the group requires its compact internal layout.
-
-Author credits are optional when space is scarce. Measured item widths keep them
-visible whenever they do not add a row. They can hide to retain a single general
-row, and fit alongside the identity again when the metrics already need their
-own row. The decision uses reserved geometry, never changing statistic values.
-
-Six monospace characters are reserved per count/generation and twelve for elapsed
-seconds. The performance chip reserves the whole readout while its text remains
-naturally packed, without individual numeric padding. Oversized numbers use
-scientific notation with their full values in hover titles. These are display
-rules only; simulation values, controls, Worker behavior and saves are unchanged.
-
-Phones use five evenly spaced icon action buttons and one full-width speed row,
-with Menu pinned beside the identity. Counters show distinguishable icons and
-reserved values in two rows; names and the food target remain in accessible
-labels/tooltips. Desktop counters retain their text labels and food target.
-Changing statistics does not reflow the toolbar or alter tank bounds at a fixed
-viewport.
-
-This layout is implemented in Hernan's fork and was manually accepted in its
-testing environment. It is not an upstream release.
 
 ## Current optimizations
 
@@ -191,15 +188,20 @@ Historical timing tables are in
 
 ## Economy state and capacity
 
-Current passive-solver worlds use schema v15 with either economy and mouth model.
-Explicit solver stabilization changes only physics on an authoritative snapshot.
-Older worlds with full capsule mouth contact use schema v14, independently of their stored physics
-or open/closed ecology. Historical contact worlds retain v13 when closed and v12
-when open, with exact continuation. Closed saves persist live reserve/budget and
-egg age/target. Explicit mouth upgrade obtains the authoritative snapshot and
-changes only the contact model; control packets cannot switch it. Budget edits are Worker
-actions between ticks. Imports and explicit conversion use authoritative state;
-control packets cannot switch physics or ecology regimes.
+Current exports use schema v16 without tube topology and v17 with self-linked
+tubes. Both retain the saved physics, economy and prey-contact model, forward
+mouth genomes and immutable egg reserve references. Schema v17 validates its
+physical topology; older formats reject topology fields. Historical formats,
+including v12–v15, remain importable through the accepted automatic mouth
+conversion described in [Ecology](Ecology-Baseline#physical-mouth-aperture).
+That migration changes future mouth geometry; it is not a promise of identical
+historical feeding. Other saved state and PRNG data are retained.
+
+Closed saves persist live reserve/budget and egg age/target. Explicit solver
+stabilization changes only physics on an authoritative snapshot; explicit mouth
+contact upgrade changes only the contact model. Budget edits are Worker actions
+between ticks. Imports and explicit conversion use authoritative state; control
+packets cannot switch physics or ecology regimes.
 
 Population remains bounded at 30 slots initially (living creatures plus eggs in
 closed worlds), adjustable to 150. The separate 75-egg computational limit is
