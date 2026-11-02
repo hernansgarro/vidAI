@@ -2,7 +2,7 @@
 
 **Date:** 2026-11-02  
 **Status:** Stage 2 static analysis completed; all runtime severity/benefit claims remain **unverified**. No Stage 3 instrumentation or Stage 4 optimization authorized.  
-**Source:** [four-stage plan](../PERFORMANCE_AUDIT_PLAN.md), IDEA-023 (contributor P0); related but distinct upstream [#67](https://github.com/smeagol44/vidAI/issues/67), [#62](https://github.com/smeagol44/vidAI/issues/62), [#57](https://github.com/smeagol44/vidAI/issues/57).  
+**Source:** [four-stage plan](PERFORMANCE_AUDIT_PLAN.md), IDEA-023 (contributor P0); related but distinct upstream [#67](https://github.com/smeagol44/vidAI/issues/67), [#62](https://github.com/smeagol44/vidAI/issues/62), [#57](https://github.com/smeagol44/vidAI/issues/57).  
 **Immutable inspected target:** `hernansgarro/vidAI:main` at `bf75b5649c6d843c48586acca59c51830678e316` (fork-only nutrient cycle v2 and Pipe World included). Upstream comparison reference, **not** an audit substitute: `smeagol44/vidAI:main` at `041362eefa64971d9038f4ad7ec4fd59a747d3ec`.  
 **Method:** read-only source tracing of authoritative kernel, physics, contacts, optics, neural runtime, ecology, tubes, Worker/replica, Canvas and UI; counts below are loop bounds, **not measured timings**. The offline workspace could not directly clone GitHub; source was inspected at the pinned SHA using the connected GitHub file API. No application was executed. Current Stage 1 *results* were not available as a committed baseline in this pinned fork; the Stage 1 plan's older "not executed" statement must not be taken as proof of what another chat/session did or did not run. Stage 4 must reconcile actual Stage 1 evidence, with exact provenance, before drawing conclusions.
 
