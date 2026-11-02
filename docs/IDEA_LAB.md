@@ -19,6 +19,8 @@
 | — | [IDEA-016 · Compact observer interface](#idea-016-compact-observer-interface) | — | — | — | — |
 | — | [IDEA-019 · Notebook Size scenario](#idea-019-notebook-size-scenario) | — | — | — | — |
 | — | [IDEA-020 · Celphone Size scenario](#idea-020-celphone-size-scenario) | — | — | — | — |
+| — | [IDEA-021 · Nutrient contact and ledge geometry](#idea-021-nutrient-contact-and-ledge-geometry) | — | — | — | — |
+| — | [IDEA-022 · Nutrient-to-nutrient collisions](#idea-022-nutrient-to-nutrient-collisions) | — | — | — | — |
 
 **Completed work is not an active column.** [IDEA-001 — Pipe World](CONTRIBUTOR_COMPLETED.md) was delivered to fork main via [PR #53](https://github.com/hernansgarro/vidAI/pull/53). [IDEA-012 — Retained window agreements during resizing](CONTRIBUTOR_COMPLETED.md) was already implemented with local side-window/tube stages 1–3, as verified against code and automated tests on 2026-11-02. Both are recorded in the [completed-work register](CONTRIBUTOR_COMPLETED.md). Their implementation in the fork does not authorize an upstream PR.
 
@@ -40,6 +42,8 @@ Priority is independent from maturity, implementation approval, and upstream pro
 | IDEA-009 — Named scenario profiles | Low |
 | IDEA-010 — Remote aquariums | Low; remains deferred |
 | IDEA-011 — Portable organism state | High; remains deferred pending design |
+| IDEA-021 — Nutrient contact and ledge geometry | **Medium-high**; exploratory |
+| IDEA-022 — Nutrient-to-nutrient collisions | **Medium-high**; exploratory, independently scoped |
 
 
 **Egg-energy design prerequisite:** Before proposing changes to parental
@@ -52,7 +56,7 @@ or upstream contact is authorized by this note.
 
 **IDEA-012 has been moved out of this active priority table:** Hernan rated it High on 2026-11-02, and a code/test review confirmed its *local* behavior was already delivered in Stage 3. See [completed work](CONTRIBUTOR_COMPLETED.md). Remote multi-aquarium agreement semantics belong to deferred IDEA-010, not a reopened duplicate.
 
-The priorities of IDEA-013–IDEA-020 have not yet been assigned by Hernan.
+The priorities of IDEA-013–IDEA-020 have not yet been assigned by Hernan. IDEA-021 and IDEA-022 have separately assigned **Medium-high** priority.
 
 ## Cards
 
@@ -196,9 +200,27 @@ The priorities of IDEA-013–IDEA-020 have not yet been assigned by Hernan.
 - **Open decision:** **Exact world-unit width and height are not defined yet**; consider aspect ratio, usability and available small-screen world rendering before implementation. No guessed dimensions, automatic tube links, or changes to simulation rules.
 - **Related:** [Harsh selector #119](https://github.com/smeagol44/vidAI/issues/119), [completed Pipe World IDEA-001](CONTRIBUTOR_COMPLETED.md).
 
+### IDEA-021: Nutrient contact and ledge geometry
+
+- **State:** Exploring; **personal priority: Medium-high**, recorded 2026-11-02. No implementation authorization.
+- **Observation:** Small nutrients appear to hover above surfaces and some fail to fall off an active tube's roof/edge as expected.
+- **Verified current mechanism (source inspection, not newly executed physics tests):** `simulation.ts` represents nutrients as radius-bearing circular particles and, outside tubes, clamps **their centers** at a fixed **35-world-unit** margin from each tank wall, regardless of actual radius. In connected worlds, `moveTubeParticle` and `projectWaterPoint` in `selfTubes.ts` constrain particle **centers** to a union of rectangular water regions with a fixed **35-unit margin**. Thus a small particle of physical radius 6 may have about 29 world units of clear space from a regular tank floor; tube-roof behavior is also affected by the center projection. `App.tsx` renders a physical circle with a larger glow/texture envelope.
+- **Hypothesis to test:** The fixed center margins / rectangular water projections, rather than an existing square nutrient collider, explain the visual separation and some failure to roll/fall from tube ledges. Determine exact behavior at corners and tube mouths through focused deterministic trajectories before choosing geometry.
+- **User-proposed alternative:** An **octagonal contact frame** oriented with one vertex on the downward vertical axis (a nutrient would nominally rest on its bottom point). This is a candidate to compare, **not a decision** to replace the current circle. Clarify whether the polygon would rotate, whether optics/feeding retain circular bounds, and whether geometry or appearance should change.
+- **Review goals:** Contact relative to actual particle radius, stable resting distance, natural departure from tube roof/edges under gravity and water resistance, no sticking/teleportation, exact save continuity and no changes to organism physics or feeding. Use a separate versioned behavior if historical motion would otherwise change. Keep user-visible artwork separate from physical collision representation.
+- **Related:** [Tube geometry](../selfTubes.ts), [nutrient motion](../simulation.ts), [physical particle radius](wiki/Ecology-Baseline.md), IDEA-022 (separate collision proposal).
+
+### IDEA-022: Nutrient-to-nutrient collisions
+
+- **State:** Exploring; **personal priority: Medium-high**, recorded 2026-11-02. Independently scoped and not authorized for implementation.
+- **Intent:** Evaluate **physical collisions between nutrient particles**, potentially enabling piles, occlusion and local accumulation. Initial scope need not include nutrient-versus-creature body collisions; preserving easy feeding is an explicit motivation.
+- **Current implementation (source review):** Nutrient particles independently integrate gravity and drag, then apply tank limits or tube water projection; there is no particle-to-particle collision resolution in the nutrient-motion pass. Organism feeding is modeled separately via mouth/radius contact.
+- **Open decisions:** Circle versus polygon contact shape; contact response, restitution/friction/damping and whether particles should rotate; interaction of particles with tube edges; high particle counts/near-overlaps and bounded broadphase costs; collision ordering and deterministic continuation; coupled food acquisition, sight occlusion and ecological distribution effects.
+- **Guardrails:** Do not apply arbitrary repulsive thrust or energy subsidies. Preserve food energy, identities, historical save and Worker authority; do not alter existing creature feeding or organism contact without separate approval. Design regression tests for contacts, stable piles, conservation and performance. IDEA-021 does not authorize IDEA-022 and vice versa.
+
 ## Notes on potential promotion
 
-- These eight new ideas are **not the currently urgent new request** and have no implementation authorization or deadlines. Their statuses concern maturity only.
+- IDEA-013–IDEA-022 are personal future ideas; IDEA-021/IDEA-022 were added after the initial eight and are **not the currently urgent new request**. None of these entries authorizes implementation or sets a deadline. Their statuses concern maturity only.
 - A future upstream proposal may be considered alongside Pipe World, as suggested by Hernan, **but combining unrelated visual/phone/scenario changes into a single PR is not automatically approved**. After fork-main validation and separate explicit approval, prepare a clean scoped submission and evaluate reviewability, dependency order and owner preference.
 - The [completed-work register](CONTRIBUTOR_COMPLETED.md) is the place for completed work; keep it out of pending columns.
 
