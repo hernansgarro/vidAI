@@ -10,7 +10,7 @@ and 9 px for carnivores. Loading a legacy saved specimen converts its old
 `intakeWidth` to forward reach and sets the fixed diameter; it does not replace
 the specimen with a catalogue founder. See [mouth geometry](Ecology-Baseline#physical-mouth-aperture).
 
-The start-menu Default / Harsh World environment selection
+The start-menu Default / Harsh World / Pipe World environment selection
 is independent of these founder designs, brain modes and population presets.
 Harsh's 50-slot capacity does not request 50 founders; existing preset counts
 and genomes remain unchanged.

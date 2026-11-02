@@ -8,7 +8,7 @@
 
 | Ideas | Exploring | Ready for Work | Testing in fork | Ready to share | Deferred |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| [IDEA-002 · Genetic egg-laying choice](#idea-002-genetic-egg-laying-choice) | [IDEA-003 · Parental reserve risk](#idea-003-parental-reserve-risk) | [IDEA-001 · Pipe World](#idea-001-pipe-world) | — | — | [IDEA-010 · Remote aquariums](#idea-010-remote-aquariums) |
+| [IDEA-002 · Genetic egg-laying choice](#idea-002-genetic-egg-laying-choice) | [IDEA-003 · Parental reserve risk](#idea-003-parental-reserve-risk) | — | [IDEA-001 · Pipe World](#idea-001-pipe-world) | — | [IDEA-010 · Remote aquariums](#idea-010-remote-aquariums) |
 | [IDEA-006 · Funded egg buoyancy](#idea-006-funded-egg-buoyancy) | [IDEA-004 · Parent-funded incubation](#idea-004-parent-funded-incubation) | — | — | — | [IDEA-011 · Portable organism state](#idea-011-portable-organism-state) |
 | — | [IDEA-005 · Passive egg reserve uptake](#idea-005-passive-egg-reserve-uptake) | — | — | — | [IDEA-012 · Persistent window agreements](#idea-012-persistent-window-agreements) |
 | — | [IDEA-007 · Hatching energy blockers](#idea-007-hatching-energy-blockers) | — | — | — | — |
@@ -21,7 +21,7 @@
 
 ### IDEA-001: Pipe World
 
-- **State:** Ready for Work (prompt / implementation still pending).
+- **State:** Testing in fork. Stage 2 implementation explicitly authorized on 2026-11-02; tracked in [upstream #135](https://github.com/smeagol44/vidAI/issues/135). Independent preset and focused validation are in `feature/pipe-world-stage-2`; upstream submission requires separate approval.
 - **Intent:** Add a third world to the simulation startup scenario selector, tailored to studying local lateral windows, tubes and their connections.
 - **Size:** Width **4600** and height **2100** world units.
 - **Initial settings:** Use the current *Harsh World* preset as a **one-time source of values**, including its initial environment, organisms, food and other startup conditions, then override width and height. Pipe World owns its own **independent explicit preset**: never extend, spread, import or dynamically derive its settings from the Harsh World preset. Shared engine constants are fine. Future changes to either preset do not implicitly change the other.

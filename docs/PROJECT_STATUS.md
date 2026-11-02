@@ -1,3 +1,36 @@
+# Pipe World Stage 2 — contributor fork (2026-11-02)
+
+Tracking upstream #135 / #57. Authorized branch `feature/pipe-world-stage-2`
+starts at verified fork/main d044188 (includes canonical 041362e). Fork testing
+91a2d083 remains untouched. This is fork delivery, not upstream acceptance.
+
+Pipe World is the third native starting-environment option, with an original
+retro green SVG pipe beside the selected label. Its frozen explicit preset
+copies current Harsh values once, with 4600 × 2100 dimensions; no runtime Harsh
+alias/spread/import or caller-settings inheritance. Per-world settings are fresh
+objects. Startup banks the existing 275 × 3000 J food grant, creates the chosen
+founder population and zero eggs, and never creates topology. Shared manual
+local tubes and their physics remain unchanged. Current configuration is in
+`docs/wiki/Ecology-Baseline.md`.
+
+Local npm ci passed (113 packages), 385/385 fast tests passed and build/typecheck
+passed. Four new fast cases cover frozen recipe/caller mutation independence,
+Harsh-equivalent initialization/stock/zero topology, all eight founder-mode/preset
+combinations, schema19 export/reload with edited settings and exact continuation.
+The actual built Worker passes Pipe reset/export, 4600 × 2100 settings, no tubes,
+funded initial food banking, editable controls, exact direct fixed-tick replay
+and snapshot reload, alongside every inherited Worker check.
+
+Focused browser coverage now contains four cases: retained Default/Harsh and new
+Pipe startup/icon/reload in Worker and fallback at desktop/phone sizes. Both full
+Chromium and the separate headless-shell downloads returned invalid/truncated
+archives in this local runtime; no local browser pass is claimed. Remote PR
+browser checks and final merge/publication receipts are recorded in #135 and the
+fork PR. No repeated full browser campaign is requested; existing automatic
+mandatory CI gates remain intact. No physics/ecology/founder tuning, production
+limit/schema/version changes, experimental search, testing overlay or VIDA3D edit.
+Upstream submission requires separate approval after the fork-main merge.
+
 # Upstream synchronization into contributor main (2026-11-02)
 
 Fork integration of canonical main `041362eefa64971d9038f4ad7ec4fd59a747d3ec`

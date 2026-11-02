@@ -320,6 +320,32 @@ try {
   send({type: 'reset', snapshot: harshPaused, epoch: 108});
   await receive(value => value.type === 'frame' && value.frame.epoch === 108);
   assert.deepEqual(await request('snapshot', {}, 108), harshPaused);
+  // Pipe starts unconnected in the actual Worker; reload keeps edited settings
+  // and exact fixed-tick continuation rather than recreating a starting preset.
+  const pipe = createScenarioWorld(scenarioDefaults, 'pipe-world', 73, 'unbiased', 'standard', 2);
+  const pipeSource = createSnapshot(pipe.state, pipe.settings);
+  send({type: 'reset', snapshot: pipeSource, epoch: 109});
+  await receive(value => value.type === 'frame' && value.frame.epoch === 109);
+  assert.deepEqual(await request('snapshot', {}, 109), pipeSource);
+  assert.equal(pipeSource.settings.worldWidth, 4600);
+  assert.equal(pipeSource.settings.worldHeight, 2100);
+  assert.equal(pipeSource.state.selfTubes, undefined);
+  assert.equal(pipeSource.state.nutrients.length, 0);
+  const pipeEdited = {...pipe.settings, gravity: -10, inflowRate: 2, nutrientLimit: 7};
+  send({type: 'ack', epoch: 109});
+  send({type: 'control', epoch: 109, settings: pipeEdited, speed: 5, selected: null});
+  await new Promise(resolve => setTimeout(resolve, 120));
+  send({type: 'control', epoch: 109, settings: pipeEdited, speed: 0, selected: null});
+  const pipePaused = await request('snapshot', {}, 109);
+  const pipeDirect = restoreSnapshot(pipeSource).state;
+  const pipeTicks = Math.round(pipePaused.state.simTime * 60); assert.ok(pipeTicks > 0);
+  for (let i = 0; i < pipeTicks; i++) stepSimulation(pipeDirect, pipeEdited, 1 / 60);
+  assert.deepEqual(pipePaused, createSnapshot(pipeDirect, pipeEdited));
+  assert.equal(pipePaused.state.selfTubes, undefined);
+  assert.ok(Math.abs(totalAccountedEnergy(restoreSnapshot(pipePaused).state) - pipeSource.state.energyPool.budget) < 1e-6);
+  send({type: 'reset', snapshot: pipePaused, epoch: 110});
+  await receive(value => value.type === 'frame' && value.frame.epoch === 110);
+  assert.deepEqual(await request('snapshot', {}, 110), pipePaused);
   // Physical self-tubes use the actual built Worker and full-state snapshots.
   for (const [index, side] of ['L', 'R'].entries()) {
     const epoch = 200 + index, fixture = selfTubeFixture(side);
@@ -386,7 +412,7 @@ try {
   }
   console.log('Nutrient-cycle Worker: schema-18/19 tank/tube reset, 5x exact direct decay/mineralization/PRNG continuation, paused restoration and control-switch rejection passed.');
   console.log('Self-tube Worker: schema-17 reset, full-state L/R transfer, exact direct continuation, unchanged IDs/births/stock, paused closure and stale-command rejection passed.');
-  console.log('Environment Worker: Harsh time-zero empty food/full Default grant, editable controls, exact direct continuation and snapshot reset passed.');
+  console.log('Environment Worker: Harsh and independent Pipe time-zero empty food/full grant, Pipe 4600x2100 with zero topology, editable controls, exact direct continuation and snapshot reset passed.');
   console.log('Egg reserve Worker: original reference/frame/export/reset, legacy-current migration, exact 5x funded recovery, structure-only pink and x0 freeze passed.');
   console.log('Energy activity Worker: concurrent real feeding/predation, contacted segment, exact observer-free optical/neural/PRNG/save continuation and x0 freeze passed.');
   console.log('Unlimited MAX: measured x'+(maximum.state.simTime / elapsed).toFixed(1)+'; '+maxTicks+' exact ticks, responsive pause, frozen snapshots and finite resume passed.');

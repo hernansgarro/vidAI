@@ -1,3 +1,12 @@
+## Contributor fork — Pipe World Stage 2 (2026-11-02)
+
+Fork-only third starting scenario, tracked in upstream #135. Its explicit
+independent recipe uses 4600 × 2100 dimensions and the current Harsh initial
+values copied once, with no automatic tube topology. Existing manual local
+windows/tubes remain available. No Stage 4 transport, physics/ecology tuning,
+founder changes or testing-branch promotion. See docs/wiki/Ecology-Baseline.md
+for current settings. Upstream submission/acceptance remains separate.
+
 # VIDA 2D — Development Priorities
 
 The [current Wiki](https://github.com/smeagol44/vidAI/wiki) describes shipped

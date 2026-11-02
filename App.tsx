@@ -3329,12 +3329,25 @@ export default function App() {
             <div className="w-full flex flex-col gap-3">
               <label className="text-left text-xs text-slate-300 flex flex-col gap-1.5">
                 Environment
-                <select aria-label="Environment scenario" value={environmentScenario}
-                  onChange={e => setEnvironmentScenario(e.target.value as EnvironmentScenario)}
-                  className="w-full min-w-0 bg-slate-950 border border-cyan-500/40 rounded-xl px-3 py-2 text-sm text-cyan-100">
-                  <option value="default">🌎 Default</option>
-                  <option value="harsh-world">⛰ Harsh World</option>
-                </select>
+                <span className="relative w-full">
+                  {environmentScenario === 'pipe-world' && <svg role="img" aria-label="Green retro pipe"
+                    viewBox="0 0 24 24" shapeRendering="crispEdges"
+                    className="absolute z-10 left-3 top-2 w-5 h-5 pointer-events-none">
+                    <path d="M3 2h10v5h-2v6h10v9H8v-2H5V7H3z" fill="#14532d" />
+                    <path d="M4 3h8v3H4zM6 7h4v9h10v5H9v-2H6z" fill="#22c55e" />
+                    <path d="M5 3h2v3H5zM6 7h1v11h12v2H8v-2H6z" fill="#86efac" />
+                    <path d="M18 12h4v10h-4z" fill="#166534" />
+                    <path d="M19 13h2v8h-2z" fill="#4ade80" />
+                  </svg>}
+                  <select aria-label="Environment scenario" value={environmentScenario}
+                    onChange={e => setEnvironmentScenario(e.target.value as EnvironmentScenario)}
+                    style={environmentScenario === 'pipe-world' ? {paddingLeft: '2.5rem'} : undefined}
+                    className="w-full min-w-0 bg-slate-950 border border-cyan-500/40 rounded-xl px-3 py-2 text-sm text-cyan-100">
+                    <option value="default">🌎 Default</option>
+                    <option value="harsh-world">⛰ Harsh World</option>
+                    <option value="pipe-world">Pipe World</option>
+                  </select>
+                </span>
               </label>
               <button
                 onClick={() => initGame('standard', environmentScenario)}
