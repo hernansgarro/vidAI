@@ -1,5 +1,7 @@
 # Performance audit Stage 1 — contributor fork (2026-11-02)
 
+Browser follow-up: [source-equivalent container CI evidence](experiments/performance-stage-1-2026-11-02-v1/browser-ci-followup/report.md) now verifies all88browser cases, including glow Worker/fallback in Chromium and Firefox. Original local download failure remains preserved; no FPS/CPU/latency/glow-causality claim. No fresh suite or optimization was executed.
+
 Documentation/evidence only; [report and raw outputs](experiments/performance-stage-1-2026-11-02-v1/report.md),
 [fork PR #61](https://github.com/hernansgarro/vidAI/pull/61). Pinned runtime
 `3c737ac1bbf678915ebd945b6b5db8781a48831b`; no production changes or upstream submission.

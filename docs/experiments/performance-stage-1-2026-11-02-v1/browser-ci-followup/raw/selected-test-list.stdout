@@ -1,0 +1,4 @@
+Listing tests:
+  energy-activity.spec.ts:8:39 › energy contour glows follow real body paths and freeze at x0 (Worker)
+  energy-activity.spec.ts:8:39 › energy contour glows follow real body paths and freeze at x0 (fallback)
+Total: 2 tests in 1 file

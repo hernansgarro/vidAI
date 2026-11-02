@@ -2,6 +2,8 @@
 
 **Contributor-fork evidence. Stage 1 complete; STOP for Hernan's review. Stages 2–4 have not started.** No optimization, production instrumentation, baseline repair or upstream submission was performed. [Fork PR #61](https://github.com/hernansgarro/vidAI/pull/61). Scope: [approved audit plan](../../PERFORMANCE_AUDIT_PLAN.md), IDEA-023; existing shared references [upstream #67](https://github.com/smeagol44/vidAI/issues/67), [#57](https://github.com/smeagol44/vidAI/issues/57), [#62](https://github.com/smeagol44/vidAI/issues/62). No issue was created and no upstream priority/status was changed.
 
+> **Browser follow-up (2026-11-02):** After Hernan authorized revisiting the blocked browser point, the updated execution policy and a successful source-equivalent container CI run were verified. Chromium31, Firefox36, side-window5 and toolbar16 cases passed, including the planned energy-glow Worker/fallback checks in both engines. See the [follow-up report and complete CI logs](browser-ci-followup/report.md). Original local failures/timings below remain historical evidence. FPS, UI latency and causal glow cost remain unmeasured; no new browser campaign or Stage2–4 work was performed.
+
 ## 1. Executive summary
 
 The existing tools establish a reproducible **legacy-settings kernel reference**, production-Worker correctness and a few bounded observer checks. They **do not establish the cause of Hernan's excessive CPU usage or glow-correlated slowdown**. That report remains a valid observation requiring better targeted evidence.

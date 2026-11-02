@@ -1,0 +1,233 @@
+﻿2026-11-02T18:53:22.5100486Z Current runner version: '2.338.2'
+2026-11-02T18:53:22.5138532Z ##[group]Runner Image Provisioner
+2026-11-02T18:53:22.5140422Z Hosted Compute Agent
+2026-11-02T18:53:22.5141549Z Version: 20261021.618
+2026-11-02T18:53:22.5142649Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+2026-11-02T18:53:22.5144291Z Build Date: 2026-10-21T00:45:21Z
+2026-11-02T18:53:22.5145653Z Worker ID: {289191f0-3c67-4f67-932c-5a990f645964}
+2026-11-02T18:53:22.5146855Z Region: eastus
+2026-11-02T18:53:22.5147828Z Cloud: Azure
+2026-11-02T18:53:22.5148745Z ##[endgroup]
+2026-11-02T18:53:22.5151254Z ##[group]Operating System
+2026-11-02T18:53:22.5152523Z Ubuntu
+2026-11-02T18:53:22.5153832Z 24.04.5
+2026-11-02T18:53:22.5154813Z LTS
+2026-11-02T18:53:22.5155686Z ##[endgroup]
+2026-11-02T18:53:22.5156673Z ##[group]Runner Image
+2026-11-02T18:53:22.5157944Z Image: ubuntu-24.04
+2026-11-02T18:53:22.5158906Z Version: 20261025.353.1
+2026-11-02T18:53:22.5161155Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261025.353/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-02T18:53:22.5164257Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261025.353
+2026-11-02T18:53:22.5166105Z ##[endgroup]
+2026-11-02T18:53:22.5168048Z ##[group]GITHUB_TOKEN Permissions
+2026-11-02T18:53:22.5171359Z Contents: read
+2026-11-02T18:53:22.5172444Z Metadata: read
+2026-11-02T18:53:22.5173794Z ##[endgroup]
+2026-11-02T18:53:22.5176951Z Secret source: Actions
+2026-11-02T18:53:22.5178520Z Cache mode: write
+2026-11-02T18:53:22.5180243Z Prepare workflow directory
+2026-11-02T18:53:22.5671889Z Prepare all required actions
+2026-11-02T18:53:22.5746067Z Getting action download info
+2026-11-02T18:53:22.7910238Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-11-02T18:53:22.8802912Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+2026-11-02T18:53:23.0805572Z Complete job name: worker-gate
+2026-11-02T18:53:23.1667505Z ##[group]Run actions/checkout@v4
+2026-11-02T18:53:23.1668412Z with:
+2026-11-02T18:53:23.1668870Z   repository: hernansgarro/vidAI
+2026-11-02T18:53:23.1672564Z   token: ***
+2026-11-02T18:53:23.1673012Z   ssh-strict: true
+2026-11-02T18:53:23.1673689Z   ssh-user: git
+2026-11-02T18:53:23.1674156Z   persist-credentials: true
+2026-11-02T18:53:23.1674647Z   clean: true
+2026-11-02T18:53:23.1675098Z   sparse-checkout-cone-mode: true
+2026-11-02T18:53:23.1675636Z   fetch-depth: 1
+2026-11-02T18:53:23.1676091Z   fetch-tags: false
+2026-11-02T18:53:23.1676540Z   show-progress: true
+2026-11-02T18:53:23.1677001Z   lfs: false
+2026-11-02T18:53:23.1677423Z   submodules: false
+2026-11-02T18:53:23.1677882Z   set-safe-directory: true
+2026-11-02T18:53:23.1678402Z   allow-unsafe-pr-checkout: false
+2026-11-02T18:53:23.1679208Z ##[endgroup]
+2026-11-02T18:53:23.4435840Z Syncing repository: hernansgarro/vidAI
+2026-11-02T18:53:23.4438883Z ##[group]Getting Git version info
+2026-11-02T18:53:23.4440320Z Working directory is '/home/runner/work/vidAI/vidAI'
+2026-11-02T18:53:23.4442381Z [command]/usr/bin/git version
+2026-11-02T18:53:23.4497919Z git version 2.56.0
+2026-11-02T18:53:23.4562769Z ##[endgroup]
+2026-11-02T18:53:23.4571925Z Temporarily overriding HOME='/home/runner/work/_temp/ca9524bb-87fb-4587-acf2-e30ba44d007e' before making global git config changes
+2026-11-02T18:53:23.4575012Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-02T18:53:23.4577204Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/vidAI/vidAI
+2026-11-02T18:53:23.4622615Z Deleting the contents of '/home/runner/work/vidAI/vidAI'
+2026-11-02T18:53:23.4625955Z ##[group]Initializing the repository
+2026-11-02T18:53:23.4644360Z [command]/usr/bin/git init /home/runner/work/vidAI/vidAI
+2026-11-02T18:53:23.4802447Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-02T18:53:23.4805348Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-02T18:53:23.4834831Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-02T18:53:23.4864361Z hint: call:
+2026-11-02T18:53:23.4885813Z hint:
+2026-11-02T18:53:23.4904988Z hint: 	git config --global init.defaultBranch <name>
+2026-11-02T18:53:23.4911325Z hint:
+2026-11-02T18:53:23.4924877Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-02T18:53:23.4926952Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-02T18:53:23.4928580Z hint:
+2026-11-02T18:53:23.4929594Z hint: 	git branch -m <name>
+2026-11-02T18:53:23.4930708Z hint:
+2026-11-02T18:53:23.4932198Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-02T18:53:23.4935027Z Initialized empty Git repository in /home/runner/work/vidAI/vidAI/.git/
+2026-11-02T18:53:23.4938974Z [command]/usr/bin/git remote add origin https://github.com/hernansgarro/vidAI
+2026-11-02T18:53:23.4942704Z ##[endgroup]
+2026-11-02T18:53:23.4944567Z ##[group]Disabling automatic garbage collection
+2026-11-02T18:53:23.4946144Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-02T18:53:23.4972394Z ##[endgroup]
+2026-11-02T18:53:23.4974482Z ##[group]Setting up auth
+2026-11-02T18:53:23.4981494Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-02T18:53:23.5030008Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-02T18:53:23.5689079Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-02T18:53:23.5721373Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-02T18:53:23.6055949Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-02T18:53:23.6100889Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-02T18:53:23.6358622Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-02T18:53:23.6416759Z ##[endgroup]
+2026-11-02T18:53:23.6418895Z ##[group]Fetching the repository
+2026-11-02T18:53:23.6430698Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +97f53e11582dbb88520d65830417ae7c2c99814d:refs/remotes/pull/62/merge
+2026-11-02T18:53:24.0135565Z From https://github.com/hernansgarro/vidAI
+2026-11-02T18:53:24.0137091Z  * [new ref]         97f53e11582dbb88520d65830417ae7c2c99814d -> pull/62/merge
+2026-11-02T18:53:24.0141359Z ##[endgroup]
+2026-11-02T18:53:24.0143243Z ##[group]Determining the checkout info
+2026-11-02T18:53:24.0145943Z ##[endgroup]
+2026-11-02T18:53:24.0149142Z [command]/usr/bin/git sparse-checkout disable
+2026-11-02T18:53:24.0210588Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-02T18:53:24.0256163Z ##[group]Checking out the ref
+2026-11-02T18:53:24.0260592Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/62/merge
+2026-11-02T18:53:24.0609111Z Note: switching to 'refs/remotes/pull/62/merge'.
+2026-11-02T18:53:24.0610050Z 
+2026-11-02T18:53:24.0611232Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-11-02T18:53:24.0614406Z changes and commit them, and you can discard any commits you make in this
+2026-11-02T18:53:24.0617171Z state without impacting any branches by switching back to a branch.
+2026-11-02T18:53:24.0618886Z 
+2026-11-02T18:53:24.0619692Z If you want to create a new branch to retain commits you create, you may
+2026-11-02T18:53:24.0621365Z do so (now or later) by using -c with the switch command. Example:
+2026-11-02T18:53:24.0622777Z 
+2026-11-02T18:53:24.0623185Z   git switch -c <new-branch-name>
+2026-11-02T18:53:24.0624419Z 
+2026-11-02T18:53:24.0624891Z Or undo this operation with:
+2026-11-02T18:53:24.0625927Z 
+2026-11-02T18:53:24.0626590Z   git switch -
+2026-11-02T18:53:24.0627311Z 
+2026-11-02T18:53:24.0628254Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-11-02T18:53:24.0629576Z 
+2026-11-02T18:53:24.0631110Z HEAD is now at 97f53e1 Merge a4554405797c0f09a790c6f8ed0341ec57a02a7e into e25e1af44d94f78f654502c2f5341fb02de7a978
+2026-11-02T18:53:24.0636254Z ##[endgroup]
+2026-11-02T18:53:24.0675988Z [command]/usr/bin/git log -1 --format=%H
+2026-11-02T18:53:24.0709421Z 97f53e11582dbb88520d65830417ae7c2c99814d
+2026-11-02T18:53:24.1151375Z ##[group]Run actions/setup-node@v4
+2026-11-02T18:53:24.1152608Z with:
+2026-11-02T18:53:24.1153859Z   node-version: 24
+2026-11-02T18:53:24.1154830Z   cache: npm
+2026-11-02T18:53:24.1155748Z   always-auth: false
+2026-11-02T18:53:24.1156747Z   check-latest: false
+2026-11-02T18:53:24.1166877Z   token: ***
+2026-11-02T18:53:24.1242321Z ##[endgroup]
+2026-11-02T18:53:24.2757886Z (node:2287) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-02T18:53:24.2762416Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-02T18:53:24.2764724Z Found in cache @ /opt/hostedtoolcache/node/24.22.1/x64
+2026-11-02T18:53:24.2766936Z ##[group]Environment details
+2026-11-02T18:53:24.6752335Z node: v24.22.1
+2026-11-02T18:53:24.6752802Z npm: 11.19.1
+2026-11-02T18:53:24.6753156Z yarn: 1.22.22
+2026-11-02T18:53:24.6754604Z ##[endgroup]
+2026-11-02T18:53:24.6779778Z [command]/opt/hostedtoolcache/node/24.22.1/x64/bin/npm config get cache
+2026-11-02T18:53:24.7872297Z /home/runner/.npm
+2026-11-02T18:53:24.8769237Z Cache hit for: node-cache-Linux-x64-npm-4f930ba74db4d945c560460bc828d8b535d9e4c505c391b64ae444c2a3b3f908
+2026-11-02T18:53:24.8873038Z (node:2287) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-11-02T18:53:25.2732157Z Received 52213118 of 52213118 (100.0%), 143.9 MBs/sec
+2026-11-02T18:53:25.2733381Z Cache Size: ~50 MB (52213118 B)
+2026-11-02T18:53:25.2759479Z [command]/usr/bin/tar -xf /home/runner/work/_temp/87caa015-8590-4ac6-bb25-41a764d7a03e/cache.tzst -P -C /home/runner/work/vidAI/vidAI --use-compress-program unzstd
+2026-11-02T18:53:25.3814039Z Cache restored successfully
+2026-11-02T18:53:25.3841537Z Cache restored from key: node-cache-Linux-x64-npm-4f930ba74db4d945c560460bc828d8b535d9e4c505c391b64ae444c2a3b3f908
+2026-11-02T18:53:25.4157038Z ##[group]Run npm ci
+2026-11-02T18:53:25.4157379Z [36;1mnpm ci[0m
+2026-11-02T18:53:25.4188991Z shell: /usr/bin/bash -e {0}
+2026-11-02T18:53:25.4189290Z ##[endgroup]
+2026-11-02T18:53:29.3173036Z 
+2026-11-02T18:53:29.3183124Z added 113 packages, and audited 114 packages in 4s
+2026-11-02T18:53:29.3184114Z 
+2026-11-02T18:53:29.3184742Z 28 packages are looking for funding
+2026-11-02T18:53:29.3185372Z   run `npm fund` for details
+2026-11-02T18:53:29.3202985Z 
+2026-11-02T18:53:29.3203927Z 1 moderate severity vulnerability
+2026-11-02T18:53:29.3204366Z 
+2026-11-02T18:53:29.3204640Z To address all issues, run:
+2026-11-02T18:53:29.3205129Z   npm audit fix
+2026-11-02T18:53:29.3205336Z 
+2026-11-02T18:53:29.3205558Z Run `npm audit` for details.
+2026-11-02T18:53:29.3215688Z npm warn install-scripts 1 package has install scripts not yet covered by allowScripts:
+2026-11-02T18:53:29.3216846Z npm warn install-scripts   esbuild@0.28.2 (postinstall: node install.js)
+2026-11-02T18:53:29.3217685Z npm warn install-scripts
+2026-11-02T18:53:29.3218856Z npm warn install-scripts Run `npm install-scripts ls` to review, or `npm install-scripts approve <pkg>` to allow.
+2026-11-02T18:53:29.3938500Z ##[group]Run npm run build
+2026-11-02T18:53:29.3938819Z [36;1mnpm run build[0m
+2026-11-02T18:53:29.3963669Z shell: /usr/bin/bash -e {0}
+2026-11-02T18:53:29.3963951Z ##[endgroup]
+2026-11-02T18:53:29.4949856Z 
+2026-11-02T18:53:29.4950229Z > vidai@0.39.0 build
+2026-11-02T18:53:29.4951063Z > tsc --noEmit && vite build
+2026-11-02T18:53:29.4951279Z 
+2026-11-02T18:53:30.6545332Z [36mvite v8.3.4 [32mbuilding client environment for production...[36m[39m
+2026-11-02T18:53:30.6667727Z transforming...
+2026-11-02T18:53:31.6069448Z ✓ 1966 modules transformed.
+2026-11-02T18:53:31.6456885Z rendering chunks...
+2026-11-02T18:53:31.7021905Z computing gzip size...
+2026-11-02T18:53:31.7094631Z dist/index.html                                    0.58 kB │ gzip:   0.36 kB
+2026-11-02T18:53:31.7095542Z dist/assets/organism_egg-BDSwlyUD.png             34.76 kB
+2026-11-02T18:53:31.7096418Z dist/assets/dna_helix_icon-C7fp0qYq.png           43.97 kB
+2026-11-02T18:53:31.7097299Z dist/assets/nutrient_particle-Ckf6HEX6.png       112.01 kB
+2026-11-02T18:53:31.7098162Z dist/assets/neural_node_icon-CNtW481w.png        146.08 kB
+2026-11-02T18:53:31.7098991Z dist/assets/simulation.worker-BOfAki5g.js        219.08 kB
+2026-11-02T18:53:31.7099830Z dist/assets/coral_depths-B6vhoJ9Z.mp3            744.65 kB
+2026-11-02T18:53:31.7100690Z dist/assets/ambient_deep_water_bgm-DKw8lmsb.mp3  744.65 kB
+2026-11-02T18:53:31.7101920Z dist/assets/index-BRFRLHvb.css                    37.22 kB │ gzip:   8.04 kB
+2026-11-02T18:53:31.7103125Z dist/assets/index-Cq_4ZBoJ.js                    554.58 kB │ gzip: 146.31 kB
+2026-11-02T18:53:31.7103962Z 
+2026-11-02T18:53:31.7104476Z [33m[plugin builtin:vite-reporter] 
+2026-11-02T18:53:31.7105332Z (!) Some chunks are larger than 500 kB after minification. Consider:
+2026-11-02T18:53:31.7106249Z - Using dynamic import() to code-split the application
+2026-11-02T18:53:31.7107812Z - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+2026-11-02T18:53:31.7109498Z - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.[39m
+2026-11-02T18:53:31.7110508Z [32m✓ built in 1.05s[39m
+2026-11-02T18:53:31.7871276Z ##[group]Run npm run test:worker
+2026-11-02T18:53:31.7871600Z [36;1mnpm run test:worker[0m
+2026-11-02T18:53:31.7892084Z shell: /usr/bin/bash -e {0}
+2026-11-02T18:53:31.7892351Z ##[endgroup]
+2026-11-02T18:53:31.8837102Z 
+2026-11-02T18:53:31.8837726Z > vidai@0.39.0 test:worker
+2026-11-02T18:53:31.8838468Z > node --import tsx scripts/check-worker.mjs
+2026-11-02T18:53:31.8838903Z 
+2026-11-02T18:53:46.3518787Z Nutrient-cycle Worker: schema-18/19 tank/tube reset, 5x exact direct decay/mineralization/PRNG continuation, paused restoration and control-switch rejection passed.
+2026-11-02T18:53:46.3521509Z Self-tube Worker: schema-17 reset, full-state L/R transfer, exact direct continuation, unchanged IDs/births/stock, paused closure and stale-command rejection passed.
+2026-11-02T18:53:46.3524429Z Environment Worker: Harsh and independent Pipe time-zero empty food/full grant, Pipe 4600x2100 with zero topology, editable controls, exact direct continuation and snapshot reset passed.
+2026-11-02T18:53:46.3526931Z Egg reserve Worker: original reference/frame/export/reset, legacy-current migration, exact 5x funded recovery, structure-only pink and x0 freeze passed.
+2026-11-02T18:53:46.3529211Z Energy activity Worker: concurrent real feeding/predation, contacted segment, exact observer-free optical/neural/PRNG/save continuation and x0 freeze passed.
+2026-11-02T18:53:46.3531305Z Unlimited MAX: measured x5847.3; 256256 exact ticks, responsive pause, frozen snapshots and finite resume passed.
+2026-11-02T18:53:46.3534044Z x0 Worker: zero ticks during manual food/spawn/clear/inspection, funded budget and caps, immediate frames, no stopped-wall-time catch-up, exact continuation and paused reset passed.
+2026-11-02T18:53:46.3537546Z Production Worker: open/closed exact exports, funded commands, independent stepping, debt, direct equivalence, all physics regimes, mouth contact in all eight physics/ecology combinations, regime-switch and stale-world rejection passed.
+2026-11-02T18:53:46.4014110Z Post job cleanup.
+2026-11-02T18:53:46.5258159Z (node:2463) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-02T18:53:46.5259354Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-02T18:53:46.5263142Z Cache hit occurred on the primary key node-cache-Linux-x64-npm-4f930ba74db4d945c560460bc828d8b535d9e4c505c391b64ae444c2a3b3f908, not saving cache.
+2026-11-02T18:53:46.5449925Z Post job cleanup.
+2026-11-02T18:53:46.6338149Z [command]/usr/bin/git version
+2026-11-02T18:53:46.6419212Z git version 2.56.0
+2026-11-02T18:53:46.6463659Z Temporarily overriding HOME='/home/runner/work/_temp/d71d3294-b494-49b2-b935-ed8770bab616' before making global git config changes
+2026-11-02T18:53:46.6465183Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-02T18:53:46.6469631Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/vidAI/vidAI
+2026-11-02T18:53:46.6512840Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-02T18:53:46.6554364Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-02T18:53:46.6819070Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-02T18:53:46.6861799Z http.https://github.com/.extraheader
+2026-11-02T18:53:46.6875467Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-02T18:53:46.6914730Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-02T18:53:46.7186024Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-02T18:53:46.7232491Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-02T18:53:46.7646684Z Cleaning up orphan processes
+2026-11-02T18:53:46.8041318Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
