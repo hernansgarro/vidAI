@@ -44,6 +44,12 @@ repeated "pending implementation" entries here.
 - **IDEA-012 — Retained agreements when tank windows disappear:** Hernan assigns **High importance**, but code and unit/browser tests confirm this is **already delivered** for local Stage 3 self-links. It is now in the [completed-work history](CONTRIBUTOR_COMPLETED.md), **not an outstanding requirement**. Do not conflate this with deferred Stage 4 cross-user agreement persistence under IDEA-010.
 - No issue/PR or new implementation is authorized merely by updating personal priority. The urgent new need Hernan mentioned remains undefined and is not superseded by this triage.
 
+### Nutrient geometry ideas (2026-11-02; no development started)
+
+- **IDEA-021 — Nutrient contact and ledge geometry:** **Medium-high** personal priority, exploring. Source review found a fixed 35-unit center clamp in ordinary tanks (`simulation.ts`) and a fixed-margin rectangular center projection around physical tubes (`selfTubes.ts`). Neither uses the nutrient's current physical radius as a boundary clearance. The proposed downward-vertex octagonal frame is a hypothesis, not approved geometry. See [IDEA-021](IDEA_LAB.md#idea-021-nutrient-contact-and-ledge-geometry).
+- **IDEA-022 — Nutrient-to-nutrient collisions:** **Medium-high** personal priority, independent exploratory proposal. No nutrient-particle pairwise collision resolution is present in the inspected nutrient-motion pass. Assess ecology/performance, deterministic state and possible pile-up before authorizing any physics change. Do not assume body-versus-nutrient collisions are required. See [IDEA-022](IDEA_LAB.md#idea-022-nutrient-to-nutrient-collisions).
+- This update is **documentation only**. No tests were newly executed, and no implementation, experiment protocol or upstream proposal was authorized.
+
 ### Submission and acceptance watchlist (not feature-development backlog)
 
 | Completed in fork | Current upstream gate | Verified evidence / next action |
