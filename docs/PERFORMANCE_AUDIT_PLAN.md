@@ -183,6 +183,10 @@ No future-world, remote-network, collision or moving-fluid scenario may be repre
 - Keep planning, code and issue content in English; chat discussions with Hernan are in Latin American Spanish.
 - Fork documentation/PR is not an upstream acceptance or release.
 
+## Stage 2 execution receipt (2026-11-02)
+
+The read-only [Stage 2 static analysis and Stage 4 handoff](PERFORMANCE_AUDIT_STAGE_2.md) was completed against the immutable contributor fork/main commit `bf75b5649c6d843c48586acca59c51830678e316`. It contains S2-01–S2-12 code-backed hypotheses, loop-growth variables, risk tiers A–D, existing optimizations, future-feature boundaries and proposed Stage 3 falsification measurements. **No runtime bottleneck, cost fraction, speedup or optimization was measured or implemented in Stage 2.** Stage 1 measurements from another session, if any, require separately verifiable archival/provenance. Stages 3 and 4 remain pending and gated by separate human decisions.
+
 ## Current audit record (2026-11-02)
 
 - **Planning:** four stages and future idea considerations documented at Hernan's request.
