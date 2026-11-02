@@ -13,6 +13,25 @@
 > historical sections below may describe different (canonical) nutrient and
 > environment behavior; do not construe them as a fork feature rollback.
 
+## Contributor-only highest priority — performance audit (IDEA-023)
+
+**P0: first investigation to discuss with Hernan before all other outstanding
+personal tasks.** VIDA is reported to demand excessive CPU resources and
+to slow noticeably when organism energy-activity glow appears. That
+correlation does **not** yet establish whether energy-receipt trigger
+computation, observer-overlay drawing/blur, Worker simulation, or another
+subsystem is the bottleneck.
+
+The planned **joint audit** will profile reproducible workloads, separate
+simulation throughput from display cost and UI responsiveness, then
+identify and compare simplifications with evidence and explicit fidelity
+trade-offs. Keep feeding/energy signal meaning, authoritative fixed ticks,
+historical saves, physics, learning and experiment baselines intact.
+**No profiling or implementation work has begun; nothing here changes
+upstream priorities or authorizes an upstream issue/PR.**
+See the [IDEA-023 card](IDEA_LAB.md#idea-023-vida-2d-performance-and-cpu-load-audit)
+and [contributor status](CONTRIBUTOR_WORKFLOW_STATUS.md).
+
 The [current Wiki](https://github.com/smeagol44/vidAI/wiki) describes shipped
 features and the original phase status. [Project status](PROJECT_STATUS.md)
 records experiments and release history. This file tracks remaining work;

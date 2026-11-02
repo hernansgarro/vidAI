@@ -4,6 +4,17 @@
 >
 > **Board implementation:** Repository-hosted Markdown with linked cards. This is a navigable **static Kanban view**, not a GitHub Projects v2 board; moving cards means editing this document. No fork issues were created to duplicate the upstream backlog.
 
+## Highest-priority next investigation
+
+**IDEA-023 — VIDA 2D performance and CPU-load audit** is the contributor's
+**P0 / top priority**, explicitly **above every other outstanding personal idea
+or task**. Requested on 2026-11-02 for a future **joint analysis with Hernan**.
+It is **queued for investigation, not yet started**. Its purpose is to identify,
+measure and rank the factors driving unacceptable processor load, slowdowns and
+reduced responsiveness. The observed slowdown when organism glow appears is a
+leading **hypothesis to test**, not a proven diagnosis or a license to weaken
+simulation semantics. See the [full IDEA-023 card](#idea-023-vida-2d-performance-and-cpu-load-audit).
+
 ## Board
 
 | Ideas | Exploring | Ready for Work | Testing in fork | Ready to share | Deferred |
@@ -21,6 +32,7 @@
 | — | [IDEA-020 · Celphone Size scenario](#idea-020-celphone-size-scenario) | — | — | — | — |
 | — | [IDEA-021 · Nutrient contact and ledge geometry](#idea-021-nutrient-contact-and-ledge-geometry) | — | — | — | — |
 | — | [IDEA-022 · Nutrient-to-nutrient collisions](#idea-022-nutrient-to-nutrient-collisions) | — | — | — | — |
+| — | [IDEA-023 · Performance & CPU audit (P0)](#idea-023-vida-2d-performance-and-cpu-load-audit) | — | — | — | — |
 
 **Completed work is not an active column.** [IDEA-001 — Pipe World](CONTRIBUTOR_COMPLETED.md) was delivered to fork main via [PR #53](https://github.com/hernansgarro/vidAI/pull/53). [IDEA-012 — Retained window agreements during resizing](CONTRIBUTOR_COMPLETED.md) was already implemented with local side-window/tube stages 1–3, as verified against code and automated tests on 2026-11-02. Both are recorded in the [completed-work register](CONTRIBUTOR_COMPLETED.md). Their implementation in the fork does not authorize an upstream PR.
 
@@ -29,9 +41,12 @@
 ## Personal priorities (2026-11-02)
 
 Priority is independent from maturity, implementation approval, and upstream project status.
+**P0 outranks High, Medium-high, Medium and Low**, without overriding upstream
+maintainer authority or authorizing work in another branch.
 
 | Idea | Hernan's priority |
 | --- | --- |
+| **IDEA-023 — VIDA 2D performance and CPU-load audit** | **P0 — Absolute top priority; joint investigation queued** |
 | IDEA-002 — Genetic egg-laying choice | Medium |
 | IDEA-003 — Parental reserve risk | Medium |
 | IDEA-004 — Parent-funded incubation | Medium |
@@ -218,9 +233,22 @@ The priorities of IDEA-013–IDEA-020 have not yet been assigned by Hernan. IDEA
 - **Open decisions:** Circle versus polygon contact shape; contact response, restitution/friction/damping and whether particles should rotate; interaction of particles with tube edges; high particle counts/near-overlaps and bounded broadphase costs; collision ordering and deterministic continuation; coupled food acquisition, sight occlusion and ecological distribution effects.
 - **Guardrails:** Do not apply arbitrary repulsive thrust or energy subsidies. Preserve food energy, identities, historical save and Worker authority; do not alter existing creature feeding or organism contact without separate approval. Design regression tests for contacts, stable piles, conservation and performance. IDEA-021 does not authorize IDEA-022 and vice versa.
 
+### IDEA-023: VIDA 2D performance and CPU-load audit
+
+- **State:** Exploring / **queued for a future joint analysis with Hernan**; **personal priority: P0 (absolute highest)**, explicitly above all other outstanding tasks as of 2026-11-02. **No profiling campaign, diagnosis, implementation or upstream proposal has begun or been authorized by this record.**
+- **User-reported problem:** VIDA currently feels too slow and processor-intensive; organism energy-activity glow appears to coincide with a substantial slowdown. The current CPU burden is **unacceptable to the user**. Do not minimize this as merely cosmetic.
+- **Purpose:** Establish evidence of what consumes CPU, rendering time and main-thread responsiveness; separate actual simulation/Worker cost from Canvas/visualization, event bookkeeping, UI state/render work and garbage collection. Rank costly subsystems and identify simpler approaches that preserve acceptable observable behavior.
+- **First hypothesis — glow:** Determine whether expensive **trigger detection / energy-receipt accounting or temporal/spatial resolution**, **drawing/compositing/blur/filters**, excessive repaint frequency, glow area/overdraw, or another correlated factor causes the measured degradation. The purpose of the glow is an **observer-only signal** that a creature is gaining energy or losing energy to another creature; human perception may not require maximal per-tick/per-part precision. Test before deciding whether event aggregation, temporal throttling, sampling, simplified geometry, lower-cost rendering or another technique is acceptable.
+- **Broad audit:** Review actual simulation tick throughput, organism count/body parts/joints, neural evaluation and learning, contact/feeding, sensing/indexing, nutrient/egg updates, tube operations, render/Canvas passes, overlays, state copies/Worker messages, snapshots, React work and memory/GC as measured—not merely as guesses.
+- **Suggested analysis protocol (to be scoped jointly before execution):** Agree on reproducible settings and reference hardware; establish baseline CPU load, FPS, effective simulation steps/s, main/Worker profiling, organism/nutrient counts and stability. Compare controlled scenes with glow present/absent and other overlays independently, keeping **simulation state, speed and seeds equivalent**. Collect per-subsystem timings or trace evidence, identify highest-impact candidates and estimate expected benefit versus loss of fidelity. Use existing approved performance tests/receipts, and register any additional experiments/budgets/controls **before** expensive runs.
+- **Decision criteria:** Prioritize optimizations by **measured impact**, simplicity, retained energy-signal meaning and visual adequacy. Preserve authoritative deterministic ticks, energy/accounting semantics, physical feeding/locomotion/genetics/learning, historical saves, Worker/render separation and off-camera simulation. Never suppress actual simulated events or substitute fake behavioral cues merely to make performance numbers look better.
+- **Non-goals:** No premature tuning of founders/brains/physics/diet, no artificial physics shortcuts without separate authorization, no skipped simulation ticks claimed as an optimization, no relaxed test gates or unexplained baseline resets. Do not choose an optimization solely from the observed glow correlation.
+- **Next action:** Conduct the **joint, evidence-led audit with Hernan** when he returns to this issue; then formulate bounded, individually reviewable optimization changes with explicit trade-offs and acceptance criteria.
+- **Related:** [Contributor workflow status](CONTRIBUTOR_WORKFLOW_STATUS.md), [simulation performance reference](wiki/Simulation-Performance.md), [energy-activity overlays](wiki/Energy-Activity.md). No new upstream issue, test campaign or PR is requested at this capture stage.
+
 ## Notes on potential promotion
 
-- IDEA-013–IDEA-022 are personal future ideas; IDEA-021/IDEA-022 were added after the initial eight and are **not the currently urgent new request**. None of these entries authorizes implementation or sets a deadline. Their statuses concern maturity only.
+- IDEA-013–IDEA-023 are personal future ideas. **IDEA-023 is now the explicitly identified P0 top priority for the next joint investigation**. IDEA-021/IDEA-022 remain medium-high, and all other user-assigned priorities remain unchanged. No entry authorizes implementation or sets an execution date. Their statuses concern maturity only.
 - A future upstream proposal may be considered alongside Pipe World, as suggested by Hernan, **but combining unrelated visual/phone/scenario changes into a single PR is not automatically approved**. After fork-main validation and separate explicit approval, prepare a clean scoped submission and evaluate reviewability, dependency order and owner preference.
 - The [completed-work register](CONTRIBUTOR_COMPLETED.md) is the place for completed work; keep it out of pending columns.
 

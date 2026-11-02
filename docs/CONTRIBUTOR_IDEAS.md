@@ -1,10 +1,33 @@
 # Contributor design journal — historical discussion and unresolved concepts
 
-> **Current navigation:** [Active personal idea board](IDEA_LAB.md) contains only unfinished ideas (IDEA-002–IDEA-020 excluding completed IDEA-012; IDEA-001 is also completed). [Verified completed work](CONTRIBUTOR_COMPLETED.md) records delivered outcomes. **This journal is a chronological archive**, not a live to-do list or current delivery-status register. Older stage-boundary statements are retained as dated evidence and may be superseded by later decisions.
+> **Current navigation:** [Active personal idea board](IDEA_LAB.md) contains unfinished ideas through IDEA-023 (excluding completed IDEA-001 and IDEA-012). [Verified completed work](CONTRIBUTOR_COMPLETED.md) records delivered outcomes. **This journal is a chronological archive**, not a live to-do list or current delivery-status register. Older stage-boundary statements are retained as dated evidence and may be superseded by later decisions.
 
 > **Historical scope:** Initial personal ideas and stage decisions were recorded on 2026-10-28–29. Their earlier statuses may no longer apply. Consult the [active idea board](IDEA_LAB.md), [completed register](CONTRIBUTOR_COMPLETED.md) and [current contributor stage register](CONTRIBUTOR_WORKFLOW_STATUS.md) for present status. New cosmetic proposals and additional built-in scenarios were added to the active board on 2026-11-02. Nothing in this journal alone authorizes implementation, upstream submission or changes to upstream priorities.
 >
 > **Visibility:** This file is in the public contributor fork `hernansgarro/vidAI`; it is not confidential. When preparing clean upstream submission branches, exclude this contributor-only journal unless separately authorized.
+
+## Highest-priority future discussion — performance and CPU cost (2026-11-02)
+
+Hernan reports unacceptable CPU consumption and slow performance in VIDA 2D,
+and observes a marked slowdown when organism energy-activity glow is active.
+He assigns the proposed **whole-system performance analysis IDEA-023 an
+absolute P0 personal priority**, above all previously discussed unfinished
+ideas, but requests **joint analysis later**, rather than immediate
+implementation. See the [active card](IDEA_LAB.md#idea-023-vida-2d-performance-and-cpu-load-audit)
+and [contributor status](CONTRIBUTOR_WORKFLOW_STATUS.md).
+
+The intended investigation includes whether the observer-only energy-gain
+and energy-loss glow requires the present level of temporal/part-level
+detail, whether its visual compositing is instead costly, and which other
+simulation/render/UI/Worker subsystems dominate CPU. A visual slowdown
+correlation is **not proof of its cause**. Quantitative CPU, FPS and
+actual simulation throughput measurements under controlled conditions
+should precede proposed simplifications. Preserve the meaning of
+physically earned/lost energy, conservation, deterministic continuation,
+historical saves, inherited behavior, off-camera simulation and
+accepted physics. Register any expensive experimental protocol before
+running it. No performance work, code change, PR to upstream or issue
+creation is authorized by this note.
 
 ## Historical delivery and promotion decision — 2026-10-29
 
