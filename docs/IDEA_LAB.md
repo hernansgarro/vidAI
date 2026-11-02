@@ -10,9 +10,9 @@
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | [IDEA-002 · Genetic egg-laying choice](#idea-002-genetic-egg-laying-choice) | [IDEA-003 · Parental reserve risk](#idea-003-parental-reserve-risk) | [IDEA-013 · Egg overlays behind creatures](#idea-013-egg-overlays-behind-creatures) | — | — | [IDEA-010 · Remote aquariums](#idea-010-remote-aquariums) |
 | [IDEA-006 · Funded egg buoyancy](#idea-006-funded-egg-buoyancy) | [IDEA-004 · Parent-funded incubation](#idea-004-parent-funded-incubation) | [IDEA-017 · Opaque inactive side walls](#idea-017-opaque-inactive-side-walls) | — | — | [IDEA-011 · Portable organism state](#idea-011-portable-organism-state) |
-| — | [IDEA-005 · Passive egg reserve uptake](#idea-005-passive-egg-reserve-uptake) | [IDEA-018 · Advanced boolean controls](#idea-018-advanced-boolean-controls) | — | — | [IDEA-012 · Persistent window agreements](#idea-012-persistent-window-agreements) |
+| — | [IDEA-005 · Passive egg reserve uptake](#idea-005-passive-egg-reserve-uptake) | [IDEA-018 · Advanced boolean controls](#idea-018-advanced-boolean-controls) | — | — | — |
 | — | [IDEA-007 · Hatching energy blockers](#idea-007-hatching-energy-blockers) | — | — | — | — |
-| — | [IDEA-008 · Fractional recycling rates](#idea-008-fractional-recycling-rates) | — | — | — | — |
+| — | [IDEA-008 · Nutrient appearance below 1/s](#idea-008-nutrient-appearance-frequencies-below-one-per-second) | — | — | — | — |
 | — | [IDEA-009 · Named scenario profiles](#idea-009-named-scenario-profiles) | — | — | — | — |
 | — | [IDEA-014 · Mouth annotation layering](#idea-014-mouth-annotation-layering) | — | — | — | — |
 | — | [IDEA-015 · Streamlined phone dialogs](#idea-015-streamlined-phone-dialogs) | — | — | — | — |
@@ -20,7 +20,7 @@
 | — | [IDEA-019 · Notebook Size scenario](#idea-019-notebook-size-scenario) | — | — | — | — |
 | — | [IDEA-020 · Celphone Size scenario](#idea-020-celphone-size-scenario) | — | — | — | — |
 
-**Completed work is not an active column.** [IDEA-001 — Pipe World](CONTRIBUTOR_COMPLETED.md) was delivered to fork main via [PR #53](https://github.com/hernansgarro/vidAI/pull/53) and is recorded in the [completed-work register](CONTRIBUTOR_COMPLETED.md). The green-pipe preset is already implemented in the fork; potential upstream submission is a separate decision.
+**Completed work is not an active column.** [IDEA-001 — Pipe World](CONTRIBUTOR_COMPLETED.md) was delivered to fork main via [PR #53](https://github.com/hernansgarro/vidAI/pull/53). [IDEA-012 — Retained window agreements during resizing](CONTRIBUTOR_COMPLETED.md) was already implemented with local side-window/tube stages 1–3, as verified against code and automated tests on 2026-11-02. Both are recorded in the [completed-work register](CONTRIBUTOR_COMPLETED.md). Their implementation in the fork does not authorize an upstream PR.
 
 **State rules:** *Ideas* = captured but not fully specified; *Exploring* = questions or design trade-offs remain; *Ready for Work* = sufficiently defined for an implementation request, but **not authorization to start**; *Testing in fork* = implemented only in the contributor fork and pending validation; *Ready to share* = contributor-approved for a possible, separately authorized upstream proposal; *Deferred* = intentionally postponed. These are **personal idea-maturity states**, not the official VIDA Project statuses.
 
@@ -36,11 +36,11 @@ Priority is independent from maturity, implementation approval, and upstream pro
 | IDEA-005 — Passive egg reserve uptake | Medium |
 | IDEA-006 — Funded egg buoyancy | High |
 | IDEA-007 — Hatching energy blockers | Medium |
-| IDEA-008 — Fractional recycling rates | Unassigned — needs review |
+| IDEA-008 — Nutrient appearance frequencies below one per second | **High** |
 | IDEA-009 — Named scenario profiles | Low |
 | IDEA-010 — Remote aquariums | Low; remains deferred |
 | IDEA-011 — Portable organism state | High; remains deferred pending design |
-| IDEA-012 — Persistent window agreements | Unassigned — needs review |
+
 
 **Egg-energy design prerequisite:** Before proposing changes to parental
 funding, incubation, shared-reserve egg uptake, or egg hatching-energy rules,
@@ -49,6 +49,8 @@ jointly evaluate any alternatives. This particularly concerns IDEA-003,
 IDEA-004, IDEA-005, and IDEA-007, plus relevant energy decisions in IDEA-002
 and IDEA-006. Current behavior is not presumed defective. No implementation
 or upstream contact is authorized by this note.
+
+**IDEA-012 has been moved out of this active priority table:** Hernan rated it High on 2026-11-02, and a code/test review confirmed its *local* behavior was already delivered in Stage 3. See [completed work](CONTRIBUTOR_COMPLETED.md). Remote multi-aquarium agreement semantics belong to deferred IDEA-010, not a reopened duplicate.
 
 The priorities of IDEA-013–IDEA-020 have not yet been assigned by Hernan.
 
@@ -100,12 +102,12 @@ The priorities of IDEA-013–IDEA-020 have not yet been assigned by Hernan.
 - **Open decisions:** Define alternative rules and test conservation and ecology; distinguish actual blockers before changing any code.
 - **Source:** [Design journal — section 5](CONTRIBUTOR_IDEAS.md#5-hatching-restrictions-and-occupied-space).
 
-### IDEA-008: Fractional recycling rates
+### IDEA-008: Nutrient appearance frequencies below one per second
 
-- **State:** Exploring.
-- **Intent:** Allow nutrient generation/recycling rates below 1 unit per simulated second (for example 0.5/s or 0.1/s) with deterministic accumulation.
-- **Open decisions:** Input representation, rounding and exact simulation-tick accumulator, save/load determinism and UI step sizes.
-- **Guardrails:** The accepted Default / Harsh selector in [#119](https://github.com/smeagol44/vidAI/issues/119) did not authorize this change.
+- **State:** Exploring; **personal priority: High**, confirmed by Hernan on 2026-11-02. High priority is not implementation authorization.
+- **Intent:** Configure the *frequency with which new funded nutrient particles appear* below one particle per simulated second, including examples **0.5/s** (one every two seconds on average) and **0.1/s** (one every ten seconds on average). This is the existing nutrient recycling/inflow rate expressed in more memorable terms, **not** a new free source of energy or a change to each particle's decay rate.
+- **Open decisions:** Accepted fractional input representation, UI precision/step, exact accumulator rounding and deterministic simulation tick behavior, save/load compatibility and preserving legacy snapshot timing.
+- **Guardrails:** Keep the energy ledger and existing nutrient-count limits. The accepted Default / Harsh selector in [#119](https://github.com/smeagol44/vidAI/issues/119) did not authorize this change.
 - **Source:** [Design journal — section 6](CONTRIBUTOR_IDEAS.md#6-fractional-nutrient-recycling-rate).
 
 ### IDEA-009: Named scenario profiles
@@ -120,7 +122,7 @@ The priorities of IDEA-013–IDEA-020 have not yet been assigned by Hernan.
 
 - **State:** Deferred — **stage 4 explicitly postponed**.
 - **Intent:** Eventually connect different users' aquariums with opt-in peer discovery, permissions and authentic transit, extending the local/self-connected windows already implemented in the fork.
-- **Open decisions:** Identity, communication, authority, synchronization, latency/disconnects, security and cross-world conservation/ecology.
+- **Open decisions:** Identity, communication, authority, synchronization, latency/disconnects, security, persistent agreements **between separate remote aquariums**, and cross-world conservation/ecology. The already working local resize/suspension/restoration behavior from IDEA-012 must not be reimplemented.
 - **Guardrails:** Do not conflate local stage-3 transfers with remote interoperability. No servers, accounts, peer directory or remote transport authorized.
 - **Source:** [Design journal — section 8](CONTRIBUTOR_IDEAS.md#8-selective-lateral-portals-and-multi-aquarium-travel); [local stage #121](https://github.com/smeagol44/vidAI/issues/121), [#122](https://github.com/smeagol44/vidAI/issues/122).
 
@@ -131,14 +133,6 @@ The priorities of IDEA-013–IDEA-020 have not yet been assigned by Hernan.
 - **Open decisions:** Identity collision policy, exact state/brain/learning/body serialization, format versioning, energy accounting and migration/security limits.
 - **Guardrails:** Do not silently implement file export/import or remote transport under local stage-3 scope.
 - **Source:** [Design journal — portable full-state files](CONTRIBUTOR_IDEAS.md#portable-full-state-organism-files-and-identity-decisions).
-
-### IDEA-012: Persistent window agreements
-
-- **State:** Deferred — future state-model review.
-- **Intent:** Preserve accepted peer/window agreements when resizing temporarily removes a window, and define restoration/cancellation after it becomes valid again.
-- **Open decisions:** Persisted agreement schema, explicit cancellation, peer disconnect/reconnect behavior and save compatibility.
-- **Guardrails:** Do not mistake temporary visual/mock agreement states from earlier tube stages for general persisted remote agreements.
-- **Source:** [Design journal — persisted agreement](CONTRIBUTOR_IDEAS.md#persisted-agreement-when-a-window-disappears).
 
 ### IDEA-013: Egg overlays behind creatures
 
