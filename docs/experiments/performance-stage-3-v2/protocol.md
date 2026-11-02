@@ -13,3 +13,15 @@ Hernan explicitly authorizes one additional graphics-focused, research-only batc
 **Validation/access:** npm ci, fast/build for research helper, existing required CI unaffected. Use preinstalled CI Chromium; no local browser download. Temporarily import the new optional helper through the existing Chromium regression entrypoint to execute once; restore original file afterward so prose commits do not rerun spent trials. Preserve every inherited test/gate. No workflow/hosting changes. Fork admin permission verified; upstream permission endpoint returns403, so no upstream write authority is inferred beyond permitted coordination comments. Existing #67 remains open; no competing backlog or native Project status change claimed.
 
 Coordination receipt: https://github.com/smeagol44/vidAI/issues/57#issuecomment-6589623007
+
+
+## Technical preflight amendment (before any research measurement)
+
+Initial source1c4927a/CI41534358441 failed in checkout-SHA metadata collection
+before browser navigation or any research measurement. All31 inherited Chromium
+cases and all other mandatory groups passed. Original failed-job log is retained
+as `preflight-failure.log`; zero scientific windows/copies/traces were started.
+A command-local safe.directory for this trusted checkout fixes only SHA readout,
+now inside try/finally evidence protection. The original budget remains unspent;
+execute it once after repair. No scientific outcome is repeated/replaced and no
+configuration, budget, source behavior, CI gate or workflow is changed.

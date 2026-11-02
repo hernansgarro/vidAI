@@ -13,11 +13,12 @@ test('Stage 3.2 registered deferred Canvas raster investigation', async ({page, 
   const hash = (x: unknown) => createHash('sha256').update(JSON.stringify(x)).digest('hex');
   const pilot = JSON.parse(gunzipSync(readFileSync('docs/experiments/performance-stage-3-v1/browser-original.json.gz')).toString());
   const held = pilot.held;
-  const result: any = {stage: '3.2', started: new Date().toISOString(), sourceSHA: execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),
+  const result: any = {stage: '3.2', started: new Date().toISOString(), sourceSHA: '',
     checkpointHash: hash(held), held, project: info.project.name, runs: [], diagnostics: [], copy: [], failures: [],
     os: execFileSync('uname',['-a'],{encoding:'utf8'}).trim(), cpu: readFileSync('/proc/cpuinfo','utf8').split('\n').find(x=>x.startsWith('model name'))};
   let cdp: any;
   try {
+    result.sourceSHA=execFileSync('git',['-c',`safe.directory=${process.cwd()}`,'rev-parse','HEAD'],{encoding:'utf8'}).trim();
     await page.setViewportSize({width:1280,height:850});
     await page.addInitScript(() => {
       const a: any = {active:false, timers:false, mode:'baseline', rows:[], frames:0, messages:0, acks:0, workers:0, previous:0, current:{}, source:null};
