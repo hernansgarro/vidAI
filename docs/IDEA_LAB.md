@@ -9,7 +9,7 @@
 **IDEA-023 — VIDA 2D performance and CPU-load audit** is the contributor's
 **P0 / top priority**, explicitly **above every other outstanding personal idea
 or task**. Requested on 2026-11-02 for a future **joint analysis with Hernan**.
-It is **queued for investigation, not yet started**. Its purpose is to identify,
+Its [four-stage audit plan](PERFORMANCE_AUDIT_PLAN.md) is now recorded and Stage 1 tool inventory has begun; **benchmark execution and diagnosis are still pending**. Its purpose is to identify,
 measure and rank the factors driving unacceptable processor load, slowdowns and
 reduced responsiveness. The observed slowdown when organism glow appears is a
 leading **hypothesis to test**, not a proven diagnosis or a license to weaken
@@ -235,7 +235,7 @@ The priorities of IDEA-013–IDEA-020 have not yet been assigned by Hernan. IDEA
 
 ### IDEA-023: VIDA 2D performance and CPU-load audit
 
-- **State:** Exploring / **queued for a future joint analysis with Hernan**; **personal priority: P0 (absolute highest)**, explicitly above all other outstanding tasks as of 2026-11-02. **No profiling campaign, diagnosis, implementation or upstream proposal has begun or been authorized by this record.**
+- **State:** Exploring / **four-stage audit planned with Hernan, Stage 1 tool inventory initiated**; **personal priority: P0 (absolute highest)**, explicitly above all other outstanding tasks as of 2026-11-02. **No executed profiling campaign, diagnosis, optimization implementation or upstream proposal is claimed.** See the [auditable four-stage plan](PERFORMANCE_AUDIT_PLAN.md) for stage boundaries, future-workload relevance and the Stage 1 execution handoff.
 - **User-reported problem:** VIDA currently feels too slow and processor-intensive; organism energy-activity glow appears to coincide with a substantial slowdown. The current CPU burden is **unacceptable to the user**. Do not minimize this as merely cosmetic.
 - **Purpose:** Establish evidence of what consumes CPU, rendering time and main-thread responsiveness; separate actual simulation/Worker cost from Canvas/visualization, event bookkeeping, UI state/render work and garbage collection. Rank costly subsystems and identify simpler approaches that preserve acceptable observable behavior.
 - **First hypothesis — glow:** Determine whether expensive **trigger detection / energy-receipt accounting or temporal/spatial resolution**, **drawing/compositing/blur/filters**, excessive repaint frequency, glow area/overdraw, or another correlated factor causes the measured degradation. The purpose of the glow is an **observer-only signal** that a creature is gaining energy or losing energy to another creature; human perception may not require maximal per-tick/per-part precision. Test before deciding whether event aggregation, temporal throttling, sampling, simplified geometry, lower-cost rendering or another technique is acceptable.
@@ -243,7 +243,7 @@ The priorities of IDEA-013–IDEA-020 have not yet been assigned by Hernan. IDEA
 - **Suggested analysis protocol (to be scoped jointly before execution):** Agree on reproducible settings and reference hardware; establish baseline CPU load, FPS, effective simulation steps/s, main/Worker profiling, organism/nutrient counts and stability. Compare controlled scenes with glow present/absent and other overlays independently, keeping **simulation state, speed and seeds equivalent**. Collect per-subsystem timings or trace evidence, identify highest-impact candidates and estimate expected benefit versus loss of fidelity. Use existing approved performance tests/receipts, and register any additional experiments/budgets/controls **before** expensive runs.
 - **Decision criteria:** Prioritize optimizations by **measured impact**, simplicity, retained energy-signal meaning and visual adequacy. Preserve authoritative deterministic ticks, energy/accounting semantics, physical feeding/locomotion/genetics/learning, historical saves, Worker/render separation and off-camera simulation. Never suppress actual simulated events or substitute fake behavioral cues merely to make performance numbers look better.
 - **Non-goals:** No premature tuning of founders/brains/physics/diet, no artificial physics shortcuts without separate authorization, no skipped simulation ticks claimed as an optimization, no relaxed test gates or unexplained baseline resets. Do not choose an optimization solely from the observed glow correlation.
-- **Next action:** Conduct the **joint, evidence-led audit with Hernan** when he returns to this issue; then formulate bounded, individually reviewable optimization changes with explicit trade-offs and acceptance criteria.
+- **Next action:** Run **Stage 1 (existing measurement tools)** through Work using a fixed, registered protocol; review evidence with Hernan before undertaking Stage 2 static algorithm analysis, Stage 3 instrumentation or Stage 4 optimization decisions.
 - **Related:** [Contributor workflow status](CONTRIBUTOR_WORKFLOW_STATUS.md), [simulation performance reference](wiki/Simulation-Performance.md), [energy-activity overlays](wiki/Energy-Activity.md). No new upstream issue, test campaign or PR is requested at this capture stage.
 
 ## Notes on potential promotion
