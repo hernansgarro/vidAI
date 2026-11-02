@@ -26,20 +26,75 @@ Track Stage 5 separately as `not authorized`, `authorized / pending`, `PR open`,
 
 The stages are a contributor-facing overlay, not replacements for board statuses (`Backlog`, `Needs decision`, `Ready`, `In progress`, `In review`, `Testing`, `Done`). Active discussion counts as upstream `In progress`. Upstream `Done` requires upstream acceptance.
 
-## Current requirement register (provisional evidence review, 2026-11-01)
+## Current requirement register (verified 2026-11-02)
 
-| Requirement | Contributor stage | Upstream status | Evidence / next verification |
-| --- | --- | --- | --- |
-| Independent Pipe World scenario (4600 × 2100; initially unconnected; independent environment initialized from Harsh World defaults) | **2 complete; Stage 3 pending** (conversation-derived, not repository-verified) | Not verified | Locate the final prompt and canonical issue; verify no existing implementation or overlapping scope before execution. Distinguish this scenario from the already integrated side-window/self-tube features. |
-| Slower nutrient decay, radius floor, and carrion mineralization | **4 reported complete; fork-main merge/head verification pending** | Issues [#125](https://github.com/smeagol44/vidAI/issues/125) open | Fork `docs/PROJECT_STATUS.md` reports 1 J/s, floor 6, schema 19 and retained mineralization, with tests. Verify internal PR, exact merge/head and deployment. Confirm upstream submission authorization and PR status before Stage 5. |
-| Automatic selection and tracking preferences | **4 reported complete; fork-main merge/head verification pending** | Issue [#126](https://github.com/smeagol44/vidAI/issues/126) open | Delivered alongside the nutrient follow-up; keep separate because upstream tracks distinct outcomes. |
+**No new personal idea is authorized for implementation by this documentation update.**
+The active [idea board](IDEA_LAB.md) contains only unfinished, exploratory,
+implementation-ready-but-unscheduled or explicitly deferred proposals. New ideas
+IDEA-013–IDEA-020 are recorded as **future work**, not requirements already in
+progress. Notebook/Cellphone dimensions are still undecided.
 
-### Important distinctions
+Finished fork work is kept in the
+[verified completion history](CONTRIBUTOR_COMPLETED.md), rather than as
+repeated "pending implementation" entries here.
 
-- The initial 30 J/s nutrient cycle and its later 1 J/s revision are not separate completed upstream submissions. The current requested outcome is the final versioned 1 J/s behavior.
-- Upstream issue #125 describes the original 30 J/s scope; its follow-up and issue #126 must be checked before composing a clean upstream submission.
-- The contributor requested attempting upstream submission for the nutrient work, but an actual PR and accepted integration are not established by the evidence summarized here.
-- No claim is made that the independent Pipe World scenario was implemented merely because tube stages 1–3 were integrated upstream.
+### P0 — Next contributor investigation: performance (IDEA-023)
+
+**Absolute highest contributor priority as designated by Hernan (2026-11-02),**
+above all other outstanding personal ideas. **Four-stage audit planned; Stage 2 static review completed 2026-11-02 on pinned fork SHA bf75b5649c6d843c48586acca59c51830678e316** ([code-backed Stage 2 report](PERFORMANCE_AUDIT_STAGE_2.md)). **Stage 2 made no CPU/FPS measurement, causal diagnosis, optimization code or upstream submission claim. Stage 1 measurement evidence still requires provenance review; Stage 3 controlled trials and Stage 4 decision remain pending.**
+The active [performance audit plan](PERFORMANCE_AUDIT_PLAN.md) governs stage gates; the [Stage 2 source review](PERFORMANCE_AUDIT_STAGE_2.md) and [current priority/measurement overlay](PERFORMANCE_AUDIT_PRIORITIES.md) preserve the hypotheses, owner choices and planned Stage 3/4 questions.
+
+Hernan reports excessive CPU load and poor interactive performance in VIDA 2D.
+He observes additional slowing when organism energy-activity glow is displayed.
+The audit must first **measure the cause**, explicitly separating the cost
+of computing energy-transfer signals from painting glow/blur/compositing,
+Canvas/React work, Worker simulation ticks, neural/contact/sensing workloads,
+render-frame frequency, message passing and GC. Glow should remain an
+observer-only indication of energy being gained or taken, not an extra sensory
+or ecological mechanism. Consider simpler acceptable visualization/event
+aggregation **only after controlled comparisons**. Review other expensive
+subsystems based on traces rather than supposition.
+
+Before executing expensive profiling, agree with Hernan on representative
+hardware, fixed seeds/worlds, baseline metrics (CPU load, FPS, actual
+simulation steps/s and memory), controls, effort budget and acceptance
+criteria. Preserve inherited physics/genetics, energy accounting, simulation
+determinism, saved-world semantics, current Worker/render separation and
+existing baseline history. Follow the project's experiment-registration
+rules if experiments are required.
+
+**Current next action (2026-11-02):** Review and reconcile any actual Stage 1 measurements/provenance, then prepare a **separately authorized Stage 3 Work protocol**, using [Hernan's ranked investigation priorities and proposed metrics](PERFORMANCE_AUDIT_PRIORITIES.md). Glow receipt computation versus drawing is first; exact physical caching, existing sight/feeding broadphase, Worker/UI reporting and other owner-selected questions follow. S2-01/05/07 remain baseline coverage. Stage 2 is complete. The Stage 3 measurement design is **not** execution approval, and Stage 4 optimization requires its own human decision. The distinct genetic ray-subset proposal remains an unapproved [IDEA-025](IDEA_LAB.md#idea-025-heritable-per-eye-ray-subsets). No upstream issue or PR is created merely by this record.
+See [IDEA-023](IDEA_LAB.md#idea-023-vida-2d-performance-and-cpu-load-audit).
+
+### Personal idea triage (2026-11-02; no new implementation authorization)
+
+- **IDEA-008 — Nutrient appearance frequencies below one per second:** Hernan assigns **High priority**. Remains exploratory because fractional-rate UI, deterministic accumulation and snapshot compatibility must be designed; see the [active idea board](IDEA_LAB.md). This is about rate of particle appearance, **not** per-particle nutrient decay.
+- **IDEA-012 — Retained agreements when tank windows disappear:** Hernan assigns **High importance**, but code and unit/browser tests confirm this is **already delivered** for local Stage 3 self-links. It is now in the [completed-work history](CONTRIBUTOR_COMPLETED.md), **not an outstanding requirement**. Do not conflate this with deferred Stage 4 cross-user agreement persistence under IDEA-010.
+- No issue/PR or new implementation is authorized merely by updating personal priority. The previously unnamed urgent need is now **IDEA-023, the P0 performance audit**; all earlier personal priorities remain subordinate to it.
+
+### Initial zoom per starting-world preset (IDEA-024; 2026-11-02)
+
+- **Exploring / priority unassigned.** Hernan wants each starting-world configuration to be able to select an initial observer zoom. For example, choosing Harsh World could start at a more distant zoom so more of the tank is visible.
+- Exact fit/zoom, scenario-specific values, viewport/aspect-ratio behavior, camera-center handling, timing on reset/import, and preservation of manual overrides are **undecided**. Keep world-unit size distinct from camera/UI scale; no physics/Worker/save behavior change is authorized.
+- This remains a separate [personal idea card](IDEA_LAB.md#idea-024-world-preset-initial-zoom-and-framing), not a committed feature or a new upstream issue. The [performance audit plan](PERFORMANCE_AUDIT_PLAN.md) records zoom/framing as a relevant control when measuring render costs.
+
+### Nutrient geometry ideas (2026-11-02; no development started)
+
+- **IDEA-021 — Nutrient contact and ledge geometry:** **Medium-high** personal priority, exploring. Source review found a fixed 35-unit center clamp in ordinary tanks (`simulation.ts`) and a fixed-margin rectangular center projection around physical tubes (`selfTubes.ts`). Neither uses the nutrient's current physical radius as a boundary clearance. The proposed downward-vertex octagonal frame is a hypothesis, not approved geometry. See [IDEA-021](IDEA_LAB.md#idea-021-nutrient-contact-and-ledge-geometry).
+- **IDEA-022 — Nutrient-to-nutrient collisions:** **Medium-high** personal priority, independent exploratory proposal. No nutrient-particle pairwise collision resolution is present in the inspected nutrient-motion pass. Assess ecology/performance, deterministic state and possible pile-up before authorizing any physics change. Do not assume body-versus-nutrient collisions are required. See [IDEA-022](IDEA_LAB.md#idea-022-nutrient-to-nutrient-collisions).
+- This update is **documentation only**. No tests were newly executed, and no implementation, experiment protocol or upstream proposal was authorized.
+
+### Submission and acceptance watchlist (not feature-development backlog)
+
+| Completed in fork | Current upstream gate | Verified evidence / next action |
+| --- | --- | --- |
+| Pipe World (IDEA-001) | **Fork Stage 4 complete; Stage 5 not authorized.** Upstream acceptance pending. | [Fork PR #53](https://github.com/hernansgarro/vidAI/pull/53) merged at `e9662a6ef5307a3349ea1338489d755a1879c8b9`; CI and fork publication confirmed in [#135](https://github.com/smeagol44/vidAI/issues/135). **Ask for explicit upstream PR authorization only after the user requests submission**; do not open it as part of this documentation update. |
+| Versioned nutrient-cycle decay-v2 / carrion mineralization | **Fork Stage 4 complete; Stage 5 PR open, awaiting upstream review.** | [Fork PR #48](https://github.com/hernansgarro/vidAI/pull/48) merged at `2ad2c7daec458ac562876b8fe8326b24bf26fa4f`. [Upstream PR #134](https://github.com/smeagol44/vidAI/pull/134) is open, **not merged** (checked 2026-11-02). [Issue #125](https://github.com/smeagol44/vidAI/issues/125). |
+| Automatic selection/tracking preferences | **Fork Stage 4 complete; Stage 5 PR open, awaiting upstream review.** | Delivered together with nutrient work in fork PR #48 and included in [upstream PR #134](https://github.com/smeagol44/vidAI/pull/134). [Issue #126](https://github.com/smeagol44/vidAI/issues/126). Keep its acceptance distinct from nutrient-cycle acceptance. |
+
+The completed upstream-integrated local tube and observer features are not
+reopened because new cosmetic enhancements mention the same interface.
+Stage 4 **remote cross-user tanks** remain explicitly deferred.
 
 ## Required fields for future entries
 

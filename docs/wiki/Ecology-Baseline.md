@@ -4,9 +4,8 @@ Physical feeding, finite reserves, funded eggs, hatching and death exist.
 Reliable unassisted food acquisition and self-sustaining populations across
 generations remain open outcomes. Startup survival alone does not show viability.
 
-## Initial environmental scenarios — contributor fork
+## Initial environmental scenarios
 
-**Fork-only: implemented in hernansgarro/vidAI; pending upstream acceptance.**
 The start-menu Environment dropdown offers world-icon **Default** (preselected)
 and mountain-icon **Harsh World**, independently of founder population/brain mode.
 Default retains configured initialization. Harsh starts a 4800 × 3000 px tank,
@@ -23,6 +22,38 @@ Controls remain editable. Imports keep exact saved conditions and never reapply
 a scenario. Returning to the start menu can select a fresh Default; existing
 in-world reseed controls keep their current-settings semantics. No custom profiles
 or fractional-rate control is included.
+
+### Pipe World — contributor fork
+
+**Fork-only in hernansgarro/vidAI; not accepted upstream.** The third Environment
+option is **Pipe World**, with an original pixel-style green angled-pipe icon
+beside the selected option. Default and Harsh keep their existing labels/icons.
+Pipe has its own frozen, explicit startup settings; it does not inherit Harsh
+or configured application defaults at runtime.
+
+| Setting | Pipe World initial value |
+| --- | --- |
+| Tank dimensions | 4600 × 2100 world units |
+| Gravity / water viscosity | 20 / 0.40 |
+| Nutrient recycling / ecological cap | 1 particle/s / 200 particles |
+| Initial nutrient grant / pattern | 275 × 3000 J / uniform, then banked |
+| Initial free nutrients / eggs | 0 / 0 |
+| Initial organisms | Existing selected founder preset (normally 18; Megafauna 12; showcase 9), with independent balanced/unbiased mode |
+| Combined living-creature + egg cap | 50; existing separate 75-egg safeguard unchanged |
+| Kinship protection / mutation severity | true / 0.25 |
+| Physics / ecology / mouth contact | passive-work-v3 / closed-v1 / capsule-v1 |
+| Nutrient cycle | decay-v2 (existing 1 J/s fork cycle) |
+| Automatic selection / tracking | Both off; editable observer preferences |
+| Initial calls / openings / tubes | None |
+
+These values were copied once from the current fork Harsh reference, except
+for dimensions. Food banking preserves the same global initial grant for the
+same seed/population; 825,000 J of food energy is in reserve at time zero.
+The dimensions already fit existing width 800–4800 and height 600–3000 limits.
+Manual local window/tube operations remain available. No remote topology or
+automatic connection is created. Saving uses the existing schema 19 and exact
+Worker export; imports restore persisted settings/state without consulting any
+starting preset. Selecting Pipe in the menu only takes effect when seeding.
 
 ## Continuous food recycling — contributor fork
 
@@ -148,23 +179,29 @@ living-relative/related-egg feeding; carrion carries no kin protection.
 
 ### Physical mouth aperture
 
-New worlds use a **rounded capsule**: the inherited `intakeWidth` span (half-span
-at least the contact radius), thickened by 4.5 px for carnivores, 4 px for omnivores
-or 3.5 px for herbivores. Prey rectangles, nutrient circles and eggs all use that
-full aperture. Endpoint grazing, containment and rotated prey count only on
-physical overlap; tank body contacts still resolve before feeding. No steering,
-automatic feeding, new reach outside this capsule or increased transfer rate is
-provided. A narrow-host mouth can overhang its face; inherited widths are not
-silently clamped or resized.
+Current mouths extend from their anatomical anchor along the outward face
+normal. Their inherited `intakeLength` sets the forward centerline reach;
+`intakeWidth` stores the fixed diameter: 7 px for herbivores, 8 px for omnivores
+and 9 px for carnivores. Reach is at least that diameter. New worlds use the
+resulting **rounded capsule** for prey rectangles, nutrient circles and eggs.
+Endpoint grazing, containment and rotated prey count only on physical overlap;
+tank body contacts still resolve before feeding. Transfer rates and diet
+permissions are unchanged, and no steering or survival subsidy is supplied.
 
-The tank aperture overlay shows that actual capsule at physical size. Bank
-previews show the inherited span and radius. Mouth icons and bite animation are
-cosmetic and do not change contact. Older saved worlds keep their original prey
-shape (span line plus central disk) until **Update mouth contact geometry** is
-chosen in settings. That authoritative upgrade retains the entire ecosystem,
-energy, random state, genes, brain, physics and economy; reset uses current contact.
-The same correction applies to carnivore and omnivore prey contact; diet balance
-and broader biological mouth sizing remain separate design work.
+The tank overlay and Bank previews show that physical capsule. Mouth icons and
+bite animation are cosmetic. Loading an older creature automatically sets
+`intakeLength = max(diet diameter, old intakeWidth)` and replaces `intakeWidth`
+with the fixed diameter. This applies to living creatures, eggs, lineage and
+saved Bank specimens. The input file is untouched; later saves use the converted
+format. IDs, learned state and energy are retained, but future mouth contacts
+use the converted forward geometry, so historical feeding is not guaranteed
+identical. This automatic mouth migration is accepted by the owner.
+
+The independently saved prey-contact model remains explicit: historical worlds
+retain their line-plus-disk contact test until **Update mouth contact geometry**
+is chosen. That authoritative action changes the contact model, retaining the
+ecosystem, energy, random state, brain, physics and economy. Reset uses current
+capsule contact. Diet balance remains separate design work.
 
 ## Chemical energy transfers
 
@@ -187,7 +224,7 @@ conservation.
 
 ## Egg reserve observation
 
-**Contributor fork feature; upstream acceptance pending.** The egg's white interior
+The egg's white interior
 shows remaining original usable reserve. A pink sector grows counterclockwise from
 12 o'clock as reserve is lost: 25% loss gives 25% pink. Exhausted reserve stays
 fully pink through subsequent structural damage. Existing uptake can shrink the
@@ -203,7 +240,8 @@ genome, and retained through save/export/import/Worker restore. Older eggs lacki
 it use their known current reserve once and carry `initialReserveIsLegacy: true`;
 loss before migration is unknown. A migrated positive-reserve egg starts white;
 an empty egg starts pink. With a zero reference, any later positive reserve is
-white. These optional v16 metadata fields do not change ecology or physics.
+white. These optional metadata fields are accepted in historical saves and current
+forward-mouth schema v16; they do not change ecology or physics.
 
 ## Funded eggs and lifecycle
 

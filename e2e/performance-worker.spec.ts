@@ -156,7 +156,7 @@ test('new worlds use requested defaults and creature clicks keep diagnostics clo
   await expect(page.getByLabel('Maximum creatures + eggs', {exact: true})).toHaveValue('30');
   await expect(page.locator('#simulation-seed')).toHaveValue('123456789');
   await expect(page.getByTestId('mouth-contact-model')).toContainText('Full rounded aperture');
-  await expect(page.getByTestId('build-version')).toHaveText('v0.38.0');
+  await expect(page.getByTestId('build-version')).toHaveText('v0.39.0');
 
   const settings = {...DEFAULT_SETTINGS, targetNutrients: 0, inflowRate: 0};
   const state = createInitialWorld(settings, 91, 'balanced', 'standard', 0);
@@ -387,7 +387,7 @@ for (const fallback of [false, true]) test(`performance pulse preserves exact ph
     const animation = node.getAnimations().find(a => a.id === 'simulation-throughput-pulse')!;
     const originalTime = animation.currentTime, wasRunning = animation.playState === 'running';
     const header = node.closest('header')!;
-    const surroundings = () => [header, node.nextElementSibling!, header.querySelector('.toolbar-controls')!].map(element => {
+    const surroundings = () => [header, node.nextElementSibling!, header.querySelector('[aria-label="Simulation speed"]')!].map(element => {
       const box = element.getBoundingClientRect();
       return [box.x, box.y, box.width, box.height];
     });

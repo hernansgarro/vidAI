@@ -1,20 +1,40 @@
 # VIDA 2D — Development Priorities
 
+> **Contributor fork context (2026-11-02):** The independent Pipe World
+> scenario (4600 × 2100, no predefined tube connections) is **implemented and
+> merged** in [fork PR #53](https://github.com/hernansgarro/vidAI/pull/53).
+> Decay-v2 nutrient recycling and automatic selection/tracking preferences
+> are also implemented in this fork; [upstream PR #134](https://github.com/smeagol44/vidAI/pull/134)
+> remains open. These deliveries belong in the
+> [completed-work history](CONTRIBUTOR_COMPLETED.md), **not** in the unfinished
+> [personal idea board](IDEA_LAB.md).
+> Future egg/phone/layer/header refinements and Notebook/Celphone presets are
+> recorded there, with no implementation authorization. Inherited upstream
+> historical sections below may describe different (canonical) nutrient and
+> environment behavior; do not construe them as a fork feature rollback.
+
+## Contributor-only highest priority — performance audit (IDEA-023)
+
+**P0: first investigation to discuss with Hernan before all other outstanding
+personal tasks.** VIDA is reported to demand excessive CPU resources and
+to slow noticeably when organism energy-activity glow appears. That
+correlation does **not** yet establish whether energy-receipt trigger
+computation, observer-overlay drawing/blur, Worker simulation, or another
+subsystem is the bottleneck.
+
+The planned **joint audit** will profile reproducible workloads, separate
+simulation throughput from display cost and UI responsiveness, then
+identify and compare simplifications with evidence and explicit fidelity
+trade-offs. Keep feeding/energy signal meaning, authoritative fixed ticks,
+historical saves, physics, learning and experiment baselines intact.
+**A four-stage audit plan is now documented, and Stage 1 tool inventory has begun; no measured profiling results or optimization implementation are claimed.** The plan does not change upstream priorities or authorize an upstream issue/PR.
+See the [performance audit plan](PERFORMANCE_AUDIT_PLAN.md) and the [IDEA-023 card](IDEA_LAB.md#idea-023-vida-2d-performance-and-cpu-load-audit)
+and [contributor status](CONTRIBUTOR_WORKFLOW_STATUS.md).
+
 The [current Wiki](https://github.com/smeagol44/vidAI/wiki) describes shipped
 features and the original phase status. [Project status](PROJECT_STATUS.md)
 records experiments and release history. This file tracks remaining work;
 listed extensions are not implementation promises.
-
-## Contributor fork food lifecycle
-
-Fork main implements the separately authorized #125 nutrient cycle for new closed
-worlds: 1 J/s decay with a 6-unit radius floor plus bounded remaining-energy carrion mineralization at 60 s.
-Saved v1 retains 30 J/s; older snapshots retain indefinite plant lifetime and original rules;
-canonical upstream is unchanged. The older no-decay decision below describes that
-historical/canonical mode. See docs/wiki/Ecology-Baseline.md for current mechanics
-and docs/experiments/nutrient-cycle-v2.md for the follow-up preproduction comparison.
-Advanced observation settings (#126) configure automatic selection/tracking,
-with Default on/Harsh off defaults and UI-only snapshot metadata.
 
 ## Active work tracking
 
