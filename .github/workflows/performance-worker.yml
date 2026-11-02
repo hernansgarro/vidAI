@@ -90,6 +90,14 @@ jobs:
     name: browser-shard (${{ matrix.suite }})
     runs-on: ubuntu-24.04
     timeout-minutes: 20
+    # Match the project's pinned @playwright/test version: browsers and OS
+    # dependencies are bundled, avoiding per-shard browser archive downloads.
+    container:
+      image: mcr.microsoft.com/playwright:v1.58.2-noble
+    # GitHub's container HOME points to /github/home (owned by pwuser),
+    # while jobs launch browsers as root. Firefox requires matching ownership.
+    env:
+      HOME: /root
     strategy:
       fail-fast: false
       matrix:
@@ -113,7 +121,10 @@ jobs:
           node-version: '24'
           cache: npm
       - run: npm ci
-      - run: npx playwright install --with-deps ${{ matrix.browser }}
+      - name: Verify preinstalled browser availability
+        run: |
+          test -d /ms-playwright
+          ls -1 /ms-playwright
       - run: npm run build
       - name: Run ${{ matrix.suite }}
         run: ${{ matrix.command }}
