@@ -1,3 +1,37 @@
+## Nutrient-cycle and observer-preference submission (#125/#126, 2026-11-02)
+
+After visually/practically accepting fork main d044188f06f0bf3519a0c974739e3642ddc723ce,
+Hernan explicitly authorized upstream submission. Clean fork branch
+submission/nutrient-cycle-observer-preferences starts directly at canonical
+041362eefa64971d9038f4ad7ec4fd59a747d3ec. Only the selected food lifecycle and
+observer-preference features/dependencies are included; no fork-main ancestry,
+contributor journal, testing overlay, unrelated renderer/toolbar/test changes,
+hosting changes, release bump or stopped experiments are submitted.
+
+New closed application worlds choose decay-v2/schema19 (1 J/s, radius floor6,
+remaining-energy mineralization at60s); saved v1/schema18 keeps30 J/s and historical
+omitted cycles remain exact. UI-only selection/tracking metadata keeps independent
+Default on/on and Harsh off/off defaults, overrides and manual Track. Canonical
+egg/halo layer order, accepted mouth conversion, physics, controllers, energy
+funding and dual-Pages remain unchanged.
+
+Exact-target local npm ci,379fast tests,build/typecheck and actual production
+Worker pass. Sixteen historical canonical combinations preserve every simulation
+snapshot for960 ticks (zero stock difference); omitted/v1/v2 tank/tube cases
+match the verified fork for720 complete ticks through mineralization. Original
+v1/v2 ecological receipts are included byte-for-byte, not rerun or relabeled as
+new upstream measurements. Material feeding/population differences are retained
+in their reports; no ecological or performance superiority is claimed.
+
+Local browser binaries remain unavailable after the earlier truncated archive.
+A temporary fork-only validation PR against the exact canonical base will supply
+remote browser evidence without merging or deploying. Final head/CI/PR/status
+receipts belong in #125/#126/#57 and the submission PR. Upstream submission is
+not upstream acceptance; issues stay open. No merge/auto-merge/release/deployment
+or actual upstream Wiki publication is authorized.
+
+---
+
 ## Maintainer integration — local tubes and complete feature stack (v0.39.0)
 
 Integrates selected #124 stages1–3 after the preceding contributor features.

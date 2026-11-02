@@ -1,3 +1,21 @@
+# Nutrient-cycle and observer-preference submission (#125/#126)
+
+- Fork main implements `nutrientCycle: decay-v2` for new closed application
+  worlds, schema 19. Saved decay-v1/schema18 retains exact 30 J/s behavior. Historical omitted settings preserve exact lifetimes/radii.
+  This authorized contributor change supersedes the earlier no-abiotic-decay
+  decision below only for new fork worlds; canonical upstream is unchanged.
+- Current food loses 1 J/s to reserve and retains radius >=6; 60-second carrion mineralizes its remaining
+  energy into <=3000 J nearby plant fragments, bounded by target/count/safety
+  limits. Overflow banks once. No organism/feeding/physics coefficient tuning.
+- Preserve historical schemas and Worker control-switch rejection. Acceptance:
+  tests/nutrient-cycle.test.ts, scripts/check-worker.mjs and focused browser
+  checks. Fixed ecological observations are in docs/experiments/nutrient-cycle-v1.json;
+  never silently repeat the registered conditions or claim improved ecology.
+- Advanced observation settings (#126) are UI-only snapshot metadata, never
+  simulation settings. Default seeds both automatic selection/tracking on;
+  Harsh seeds both off. Overrides are independent and survive import/fork;
+  in-world reseeding retains overrides. Manual Track remains available.
+
 # Current integrated interfaces and formats (v0.39.0)
 
 - The owner explicitly accepts automatic saved-mouth conversion (#108, decision
@@ -7,7 +25,8 @@
   mutated; future feeding uses the converted geometry. Preserve all other saved
   neural/physics/energy semantics. Do not add an unrequested legacy-mode gate.
 - Current worlds without topology export schema16; self-linked tube topology
-  exports schema17. Both support forward mouths and immutable egg reserve
+  exports schema17. In this submission, explicit decay-v1/v2 worlds use schema18/19,
+  with optional validated topology. All support forward mouths and immutable egg reserve
   references. Historical schemas12–15 load through the accepted mouth migration;
   they still reject smuggled topology. Do not reuse experimental controller
   semantics or silently promote an experimental branch.
