@@ -1,6 +1,6 @@
 # Contributor design journal — historical discussion and unresolved concepts
 
-> **Current navigation:** [Active personal idea board](IDEA_LAB.md) contains only unfinished ideas (IDEA-002–IDEA-020; IDEA-001 completed). [Verified completed work](CONTRIBUTOR_COMPLETED.md) records delivered outcomes. **This journal is a chronological archive**, not a live to-do list or current delivery-status register. Older stage-boundary statements are retained as dated evidence and may be superseded by later decisions.
+> **Current navigation:** [Active personal idea board](IDEA_LAB.md) contains only unfinished ideas (IDEA-002–IDEA-020 excluding completed IDEA-012; IDEA-001 is also completed). [Verified completed work](CONTRIBUTOR_COMPLETED.md) records delivered outcomes. **This journal is a chronological archive**, not a live to-do list or current delivery-status register. Older stage-boundary statements are retained as dated evidence and may be superseded by later decisions.
 
 > **Historical scope:** Initial personal ideas and stage decisions were recorded on 2026-10-28–29. Their earlier statuses may no longer apply. Consult the [active idea board](IDEA_LAB.md), [completed register](CONTRIBUTOR_COMPLETED.md) and [current contributor stage register](CONTRIBUTOR_WORKFLOW_STATUS.md) for present status. New cosmetic proposals and additional built-in scenarios were added to the active board on 2026-11-02. Nothing in this journal alone authorizes implementation, upstream submission or changes to upstream priorities.
 >
@@ -73,6 +73,11 @@ testing `d995d48`, tracked in #122. The branch name predates that scope correcti
 No physics, perception, containment repair, main changes or later stages belong
 in this observer-only follow-up.
 
+## Verified update — 2026-11-02
+
+- **IDEA-008** is now called **Nutrient appearance frequencies below one per second** in the [active board](IDEA_LAB.md), with Hernan's **High** personal priority. This refers to a deterministic particle-appearance rate such as 0.5/s or 0.1/s, not to faster/slower nutrient dissolution. The section 6 historical title below is retained so existing links and original decisions remain intact.
+- **IDEA-012** is **already implemented for local self-linked windows in Stages 1–3**, despite the original 2026-10-28 notes calling persistent agreements future work. Verified current implementation stores accepted indices while tank height decreases, displays suspended agreements, restores active windows on regrowth/reconnection and supports explicit cancellation. See [completed-work register](CONTRIBUTOR_COMPLETED.md), [unit tests](../tests/window-demo.test.ts), [browser tests](../e2e/side-windows.spec.ts) and [current side-window reference](wiki/Side-Windows.md). The original design discussion below is retained as historical evidence, **not** an outstanding task. Cross-user agreement persistence is outside the local implementation and belongs to deferred Stage 4 / IDEA-010.
+
 ## Topic index — unresolved design questions only
 
 New unresolved observer/interface improvements and the two prospective small-screen presets are maintained solely in [IDEA-013–IDEA-020](IDEA_LAB.md); do not treat the historical sections below as current implementation instructions.
@@ -86,7 +91,7 @@ New unresolved observer/interface improvements and the two prospective small-scr
 | Review passive egg energy recovery / shared-world uptake | egg energy, osmosis, replenishment, shared reserve, hatching | Deferred review and possible removal; not part of display change |
 | Egg buoyancy as a paid inherited trait | buoyancy, gravity, egg dispersal, predation, inherited physics | Separate possible requirement |
 | Simplifying hatch blockers | population occupancy, clearance, debt, expiry, hatching | Hypothesis only; needs careful review |
-| Fractional nutrient recycling rate | recycling, 0.5/s, 0.1/s, deterministic accumulator | Deferred; excluded from scenario selector |
+| Nutrient appearance frequencies below one per second (IDEA-008) | recycling/appearance, 0.5/s, 0.1/s, deterministic accumulator | High personal priority; exploratory, unimplemented; excluded from original scenario selector |
 | Named custom environmental scenarios | environment profiles, reusable settings, mnemonic names | Still exploratory; built-in Default / Harsh / fork-only Pipe World are not user-named custom profiles |
 | Remote multi-user aquariums (Stage 4 only) | network peer discovery, transfer authority, authentication, cross-world energy/identity | Explicitly deferred; completed local stages 1–3 are indexed in [completion history](CONTRIBUTOR_COMPLETED.md) |
 
