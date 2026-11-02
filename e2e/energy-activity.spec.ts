@@ -1,4 +1,5 @@
 import {test, expect} from '@playwright/test';
+import {readFile} from 'node:fs/promises';
 import {energyActivityFixture} from '../tests/support/energy-activity';
 import {createSnapshot} from '../persistence';
 
@@ -7,9 +8,14 @@ test.setTimeout(60000);
 for (const fallback of [false, true]) test(`energy contour glows follow real body paths and freeze while paused (${fallback ? 'fallback' : 'Worker'})`, async ({page}, info) => {
   const errors: string[] = []; page.on('pageerror', e => errors.push(e.message));
   await page.addInitScript(() => {
-    const capture = {armPause: false, skinFills: 0, bodyOverGlow: 0, totals: {green: 0, red: 0}, green: [] as Array<{alpha: number; path: number[]; at: number; scale: number; width: number}>,
+    const capture = {frames: 0, armPause: false, skinFills: 0, bodyOverGlow: 0, totals: {green: 0, red: 0}, green: [] as Array<{alpha: number; path: number[]; at: number; scale: number; width: number}>,
       red: [] as Array<{alpha: number; path: number[]; at: number; scale: number; width: number}>};
     Object.assign(window, {energyTintCapture: capture});
+    const originalFillRect = CanvasRenderingContext2D.prototype.fillRect;
+    CanvasRenderingContext2D.prototype.fillRect = function(...args) {
+      if (this.canvas.getAttribute('aria-label') === 'Aquatic simulation' && args[0] === 0 && args[1] === 0) capture.frames++;
+      return originalFillRect.apply(this, args);
+    };
     const paths = new WeakMap<CanvasRenderingContext2D, number[]>();
     const originalRect = CanvasRenderingContext2D.prototype.roundRect;
     CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, ...rest) {
@@ -48,9 +54,21 @@ for (const fallback of [false, true]) test(`energy contour glows follow real bod
   await page.goto(`./?autoplay${fallback ? '&mainthread' : ''}`);
   await page.getByTitle('Ecology & Physical Settings').click();
   const {state, config} = energyActivityFixture();
-  await page.locator('input[type=file]').setInputFiles({name: 'activity.json', mimeType: 'application/json',
-    buffer: Buffer.from(JSON.stringify(createSnapshot(state, config)))});
-  await expect(page.getByRole('button', {name: 'Resume', exact: true})).toBeVisible();
+  const read = async () => {
+    const download = page.waitForEvent('download');
+    await page.getByRole('button', {name: 'Export Snapshot', exact: true}).dispatchEvent('click');
+    return JSON.parse(await readFile((await (await download).path())!, 'utf8'));
+  };
+  const upload = async (name: string) => {
+    const snapshot = createSnapshot(state, config);
+    await page.locator('input[type=file]').setInputFiles({name, mimeType: 'application/json',
+      buffer: Buffer.from(JSON.stringify(snapshot))});
+    await expect(page.getByRole('button', {name: 'Resume', exact: true})).toBeVisible();
+    // Resume can already be visible before file.text() and the Worker reset finish.
+    // A full authoritative export acknowledges the actual replacement.
+    await expect.poll(async () => (await read()).state).toEqual(snapshot.state);
+  };
+  await upload('activity.json');
   await page.evaluate(() => {const c = (window as any).energyTintCapture; c.green.length = c.red.length = c.totals.green = c.totals.red = 0; c.armPause = true;});
   await page.getByRole('button', {name: '1x', exact: true}).dispatchEvent('click');
   await expect.poll(() => page.evaluate(() => {
@@ -60,7 +78,7 @@ for (const fallback of [false, true]) test(`energy contour glows follow real bod
   await expect(page.getByRole('button', {name: 'Resume', exact: true})).toBeVisible();
   const sample = () => page.evaluate(() => {
     const c = (window as any).energyTintCapture;
-    return {green: c.green.at(-1), red: c.red.at(-1), counts: [c.totals.green, c.totals.red]};
+    return {frames: c.frames, green: c.green.at(-1), red: c.red.at(-1), counts: [c.totals.green, c.totals.red]};
   });
   await page.waitForTimeout(150);
   const paused = await sample();
@@ -104,10 +122,11 @@ for (const fallback of [false, true]) test(`energy contour glows follow real bod
   await page.getByRole('button', {name: 'Pause', exact: true}).click();
   // Replacing the paused world must clear all old activity without advancing time.
   state.nutrients = []; state.organisms = [];
-  await page.locator('input[type=file]').setInputFiles({name: 'empty.json', mimeType: 'application/json',
-    buffer: Buffer.from(JSON.stringify(createSnapshot(state, config)))});
-  await page.waitForTimeout(150);
-  const cleared = await sample(); await page.waitForTimeout(150);
+  await upload('empty.json');
+  const imported = await sample();
+  await expect.poll(async () => (await sample()).frames).toBeGreaterThan(imported.frames);
+  const cleared = await sample();
+  await expect.poll(async () => (await sample()).frames).toBeGreaterThan(cleared.frames + 2);
   expect((await sample()).counts).toEqual(cleared.counts);
   expect(errors).toEqual([]);
 });
