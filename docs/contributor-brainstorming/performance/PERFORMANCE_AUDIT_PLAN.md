@@ -2,6 +2,10 @@
 
 > **Contributor-fork planning document; 2026-11-02.** Tracks Hernan's IDEA-023 (P0). This plan is not an upstream delivery, a performance diagnosis, a change to the production simulation, or authorization to implement optimizations. Its four **audit stages** are separate from the five contributor delivery workflow stages and the side-window/tube feature stages.
 
+## Deferred next Work request — Stage 3 Worker hot-path diagnosis (2026-11-03)
+
+**Research focus selected for future discussion, not approved for execution:** After Stage 3.5, Hernan wants the *next proposed investigation* to examine internal Worker tick costs, scaling and avoidable repeated work before choosing Stage 4 optimizations. The reasons, historical measured evidence, specific S2-01–S2-12 suspects, exactness safeguards, bounded protocol requirements, alternative CPU/GC attribution follow-up, and instructions for **generating a Work prompt only when later requested** are preserved in the [Worker hot-path research handoff](WORKER_HOTPATH_RESEARCH_HANDOFF.md). Do not infer that a hotspot or speedup has been demonstrated. Keep the prior Stage 3.5 stop, existing research artifacts, and all future experiment/implementation authorization gates in force. This record is fork-only and **documentation-only**; no Work execution was requested.
+
 ## Current measurement target — owner decision (2026-11-03)
 
 **This section governs all future audit protocols and Stage 4 recommendations.** It updates the target workload, **not** the historical scope, results, or validity of completed Stages 1–3.4. [Decision receipt in upstream #57](https://github.com/smeagol44/vidAI/issues/57#issuecomment-6607358209). The original stage instructions and already completed protocols below are preserved as dated research history; where they call for a broader matrix, the narrower rules here take precedence **for new performance measurements**.

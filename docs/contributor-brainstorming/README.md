@@ -11,6 +11,7 @@
 | [Scent/olfaction design](designs/SCENT_AND_OLFACTION_DESIGN.md) | Current IDEA-026 decisions, constraints and open parameters |
 | [Remote aquarium/portable state](designs/REMOTE_AQUARIUM_DESIGN.md) | Deferred IDEA-010/011 design; local tube stages 1–3 are already implemented |
 | [Performance audit](performance/PERFORMANCE_AUDIT_PLAN.md) | IDEA-023 P0 current measurement objective, protocol/stage gates |
+| [Deferred Worker research handoff](performance/WORKER_HOTPATH_RESEARCH_HANDOFF.md) | Why to prioritize tick-level Worker hotspot/scaling research; evidence, safeguards and future Work-prompt requirements; execution paused |
 | [Performance priorities](performance/PERFORMANCE_AUDIT_PRIORITIES.md) | Historical technical hypotheses and current owner priority overrides |
 | [Stage 2 evidence](performance/PERFORMANCE_AUDIT_STAGE_2.md) | Pinned source-based performance cost model; not measured proof |
 | [Verified contributor deliveries](tracking/CONTRIBUTOR_COMPLETED.md) | Fork implementations and upstream acceptance boundaries |
