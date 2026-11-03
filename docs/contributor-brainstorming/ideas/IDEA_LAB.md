@@ -8,6 +8,8 @@
 
 **IDEA-023 — Active simulation performance audit (P0)**. Its current objective is **maximal actual Worker progress under representative populated, running, minimal-observer-load conditions**, not paused/decoration FPS. See the [current measurement target and stage gates](../performance/PERFORMANCE_AUDIT_PLAN.md), [Stage 2 source review](../performance/PERFORMANCE_AUDIT_STAGE_2.md) and [measurement/decision priorities](../performance/PERFORMANCE_AUDIT_PRIORITIES.md). Preserve completed experimental evidence and uncertainties. No finding, optimization or new experiment is authorized by this board alone.
 
+**Next research handoff (deferred, documentation only):** [Worker hot-path diagnosis and future Work-prompt context](../performance/WORKER_HOTPATH_RESEARCH_HANDOFF.md). After Stage 3.5, candidate priority shifted toward Worker internal tick/phase costs, scaling and redundant computation, without claiming a proven root cause or authorizing a new run. Hernan is reserving Work credits for a separate upstream submission.
+
 ## Board
 
 | Ideas | Exploring | Ready for Work | Testing in fork | Ready to share | Deferred |
