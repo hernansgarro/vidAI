@@ -1,439 +1,68 @@
-# Contributor design journal — historical discussion and unresolved concepts
+# Contributor ideas — current references
 
-> **Current navigation:** [Active personal idea board](IDEA_LAB.md) contains unfinished ideas through IDEA-023 (excluding completed IDEA-001 and IDEA-012). [Verified completed work](CONTRIBUTOR_COMPLETED.md) records delivered outcomes. **This journal is a chronological archive**, not a live to-do list or current delivery-status register. Older stage-boundary statements are retained as dated evidence and may be superseded by later decisions.
-
-> **Historical scope:** Initial personal ideas and stage decisions were recorded on 2026-10-28–29. Their earlier statuses may no longer apply. Consult the [active idea board](IDEA_LAB.md), [completed register](CONTRIBUTOR_COMPLETED.md) and [current contributor stage register](CONTRIBUTOR_WORKFLOW_STATUS.md) for present status. New cosmetic proposals and additional built-in scenarios were added to the active board on 2026-11-02. Nothing in this journal alone authorizes implementation, upstream submission or changes to upstream priorities.
->
-> **Visibility:** This file is in the public contributor fork `hernansgarro/vidAI`; it is not confidential. When preparing clean upstream submission branches, exclude this contributor-only journal unless separately authorized.
+> **Fork-only navigation, consolidated 2026-11-03.** The [active IDEA board](IDEA_LAB.md) is the single current record for idea maturity, priority, accepted intent and open questions. [Completed work](CONTRIBUTOR_COMPLETED.md) and [workflow status](CONTRIBUTOR_WORKFLOW_STATUS.md) track delivery, not pending ideas. This document is a short compatibility index for earlier links; it is **not** a parallel roadmap, a dated discussion transcript or approval to implement. Original notes, rejected options, temporary stage restrictions and discussion history remain in Git history and linked PRs. No personal planning files are intended for clean upstream submissions without separate approval.
 
 ## Highest-priority future discussion — performance and CPU cost (2026-11-02)
 
-Hernan reports unacceptable CPU consumption and slow performance in VIDA 2D,
-and observes a marked slowdown when organism energy-activity glow is active.
-He assigns the proposed **whole-system performance analysis IDEA-023 an
-absolute P0 personal priority**, above all previously discussed unfinished
-ideas, but requests **joint analysis later**, rather than immediate
-implementation. See the [active card](IDEA_LAB.md#idea-023-vida-2d-performance-and-cpu-load-audit)
-and [contributor status](CONTRIBUTOR_WORKFLOW_STATUS.md).
-
-The intended investigation includes whether the observer-only energy-gain
-and energy-loss glow requires the present level of temporal/part-level
-detail, whether its visual compositing is instead costly, and which other
-simulation/render/UI/Worker subsystems dominate CPU. A visual slowdown
-correlation is **not proof of its cause**. Quantitative CPU, FPS and
-actual simulation throughput measurements under controlled conditions
-should precede proposed simplifications. Preserve the meaning of
-physically earned/lost energy, conservation, deterministic continuation,
-historical saves, inherited behavior, off-camera simulation and
-accepted physics. Register any expensive experimental protocol before
-running it. No performance work, code change, PR to upstream or issue
-creation is authorized by this note.
-
-## Historical delivery and promotion decision — 2026-10-29
-
-Hernan verified and approved the complete testing advance, then explicitly
-requested its integration into **fork main**, including applicable validated
-browser-CI improvements. Stages 1–3 now comprise local display names/self-calls,
-per-window consent, funded physical channels and exact local self-transfer,
-plus the universal observer mask, natural-view eye and downward phone dialogs.
-The parallel browser gates already exist in both environments; the side-window
-shard follows the feature into main. Selection and simulation sensing remain
-unchanged by the observer presentation.
-
-**Stage 4 is explicitly deferred:** no remote discovery/directory, accounts,
-peer networking or cross-aquarium identity/transport work is authorized. No
-upstream submission is authorized by the fork-main approval. The historical
-checkpoint restrictions below describe their original request dates; this
-promotion supersedes only their earlier fork-main exclusion. Preserve all
-unrelated deferred ideas and experimental stops. Tracking: #122 / #57.
-
-## Authorized Work checkpoint — 2026-10-29
-
-Hernan's explicit Work request now authorizes stages 3a/3b on the separate fork
-branch `feature/self-tubes-stage3`, targeting testing only. The exact prior
-stage-2 state is preserved by remote branch `tubos-etapa2` at
-`4e1e18f6550cb10cff3e60b9e7109f6cde6e5f00` (annotated tag local only).
-This supersedes older no-stage-3-authorization statements **for this bounded
-Work request only**. Remove floating call reset; show lost signal in the existing
-handshake position when disconnected and remove its tubes. Accepted self-links
-open physical channel water, permit organisms and funded nutrients, and perform
-local full-state transfer with unchanged identity and no birth event.
-
-The implementation uses the root-segment center as crossing reference, a 300-unit
-outward threshold and 200-unit opposite arrival. Matching self-section heights
-make proportional y mapping the identity. Closing occupied channels returns
-contents horizontally without deleting energy or life. Topology is authoritative
-world state/schema 17; names and invitations remain session UI. This is tracked
-in upstream #122 without an upstream PR. Main, stage 4, remote identity and
-separate live-creature file import/export remain unapproved. Historical notes
-below retain their original discussion context.
-
-## Authorized visual follow-up — 2026-10-29
-
-After accepting stage 3 in testing, Hernan explicitly requested that **all tube
-contents** share observer-only progressive transparency, that tube water match
-the aquarium and that visible L/R section labels disappear. This supersedes
-older label/tinted-water presentation notes for the current testing branch.
-World optics and behavior must remain unchanged. Implementation is isolated in
-`feature/tube-visual-consistency`, based on testing `9294c27`, tracked in #122;
-main, the `tubos-etapa2` checkpoint and phase-4 work remain excluded.
-
-## Authorized observer-layer follow-up — 2026-10-29
-
-Hernan approved a back-to-front observer stack: decorations, glow, entities,
-human annotations, universal outside-tank opacity, glass, connection controls,
-and existing application windows. Side fading covers the full tank height even
-beside closed windows; above/below the tank is dark. This supersedes the earlier
-per-organism fading proposal in unmerged/closed fork PR #39. The compatible eye
-control is reused; the original branch/commit remain preserved. Phone dialogs
-open downward and follow the world instead of clamping to the viewport.
-
-He then verified selection already works inside tubes and **withdrew all new
-selector ideas**. Preserve existing pointer handling and selection geometry;
-no additional invisible hit controls or mouth picking are authorized/needed.
-Implementation is isolated on `feature/observer-layers-and-selection`, based on
-testing `d995d48`, tracked in #122. The branch name predates that scope correction.
-No physics, perception, containment repair, main changes or later stages belong
-in this observer-only follow-up.
-
-## Verified update — 2026-11-02
-
-- **IDEA-008** is now called **Nutrient appearance frequencies below one per second** in the [active board](IDEA_LAB.md), with Hernan's **High** personal priority. This refers to a deterministic particle-appearance rate such as 0.5/s or 0.1/s, not to faster/slower nutrient dissolution. The section 6 historical title below is retained so existing links and original decisions remain intact.
-- **IDEA-012** is **already implemented for local self-linked windows in Stages 1–3**, despite the original 2026-10-28 notes calling persistent agreements future work. Verified current implementation stores accepted indices while tank height decreases, displays suspended agreements, restores active windows on regrowth/reconnection and supports explicit cancellation. See [completed-work register](CONTRIBUTOR_COMPLETED.md), [unit tests](../tests/window-demo.test.ts), [browser tests](../e2e/side-windows.spec.ts) and [current side-window reference](wiki/Side-Windows.md). The original design discussion below is retained as historical evidence, **not** an outstanding task. Cross-user agreement persistence is outside the local implementation and belongs to deferred Stage 4 / IDEA-010.
-
-## Exploratory nutrient contact and collision ideas — 2026-11-02
-
-Hernan separately identified two **Medium-high priority** ideas, recorded as
-[IDEA-021](IDEA_LAB.md#idea-021-nutrient-contact-and-ledge-geometry) and
-[IDEA-022](IDEA_LAB.md#idea-022-nutrient-to-nutrient-collisions):
-
-1. Small food particles appear suspended above supporting walls, and some do
-   not fall from tube ledges. Source inspection found circular/radius-based
-   nutrient bodies, rather than an existing square collider, but a fixed
-   35-world-unit center clamp in regular tanks and rectangle-based center
-   projection with a 35-unit margin in connected tube geometry. A contact
-   **octagon with a vertex aligned vertically downward** is a possible
-   alternative to study, not an approved new shape or motion model. The fixed
-   clearances need examination before adopting any new polygon.
-2. Separately evaluate **particle-particle collisions**, initially without
-   requiring collisions against creature bodies so mouths can still acquire
-   food. Potential piles, contact response, deterministic state, cost with
-   many particles, ecology and physical boundary behavior all need bounded
-   evaluation. This proposal does not authorize new forces, collider tuning,
-   or changing organism feeding.
-
-These are exploratory notes, not implemented features, experimental protocols,
-upstream requests, or permission to alter accepted physics. Exact historical
-saves, energy accounting and Worker authority remain binding constraints.
-Current implementation statements were verified by reading source; **no new
-tests or runtime measurements were performed** for this note.
+**IDEA-023 is P0.** For the current active-workload objective, stage gates, measured-source limitations and owner-selected priorities consult [the audit plan](PERFORMANCE_AUDIT_PLAN.md), [Stage 2 evidence](PERFORMANCE_AUDIT_STAGE_2.md) and [audit decision questions](PERFORMANCE_AUDIT_PRIORITIES.md). Do not treat historical glow correlation as a proven cause or stale stage summaries as current execution permission.
 
 ## Topic index — unresolved design questions only
 
-New unresolved observer/interface improvements and the two prospective small-screen presets are maintained solely in [IDEA-013–IDEA-020](IDEA_LAB.md); do not treat the historical sections below as current implementation instructions.
-
-
-| Topic | Keywords to revisit when designing a related requirement | Status |
-| --- | --- | --- |
-| Genetically controlled decision to lay | reproduction, egg laying trigger, threshold, energy sufficiency, behavior | Deferred for future design |
-| Heritable parental risk / retained reserve | reproduction, parent survival floor, reproductive sacrifice, selection | Deferred for future design |
-| Prepaid incubation energy (parent-funded) | egg energy, parental budget, incubation, conservation, hatching | Deferred; explicitly excluded from egg-display requirement |
-| Review passive egg energy recovery / shared-world uptake | egg energy, osmosis, replenishment, shared reserve, hatching | Deferred review and possible removal; not part of display change |
-| Egg buoyancy as a paid inherited trait | buoyancy, gravity, egg dispersal, predation, inherited physics | Separate possible requirement |
-| Simplifying hatch blockers | population occupancy, clearance, debt, expiry, hatching | Hypothesis only; needs careful review |
-| Nutrient appearance frequencies below one per second (IDEA-008) | recycling/appearance, 0.5/s, 0.1/s, deterministic accumulator | High personal priority; exploratory, unimplemented; excluded from original scenario selector |
-| Named custom environmental scenarios | environment profiles, reusable settings, mnemonic names | Still exploratory; built-in Default / Harsh / fork-only Pipe World are not user-named custom profiles |
-| Remote multi-user aquariums (Stage 4 only) | network peer discovery, transfer authority, authentication, cross-world energy/identity | Explicitly deferred; completed local stages 1–3 are indexed in [completion history](CONTRIBUTOR_COMPLETED.md) |
+| Topic | Current source |
+| --- | --- |
+| Genetic choice of egg laying | [IDEA-002](IDEA_LAB.md#idea-002-genetic-egg-laying-choice) |
+| Parental energy-retention risk | [IDEA-003](IDEA_LAB.md#idea-003-parental-reserve-risk) |
+| Parent-funded incubation and world-reserve uptake | [IDEA-004](IDEA_LAB.md#idea-004-parent-funded-incubation), [IDEA-005](IDEA_LAB.md#idea-005-passive-egg-reserve-uptake) |
+| Funded inherited egg buoyancy and hatch constraints | [IDEA-006](IDEA_LAB.md#idea-006-funded-egg-buoyancy), [IDEA-007](IDEA_LAB.md#idea-007-hatching-energy-blockers) |
+| Fractional nutrient appearance and named world profiles | [IDEA-008](IDEA_LAB.md#idea-008-nutrient-appearance-frequencies-below-one-per-second), [IDEA-009](IDEA_LAB.md#idea-009-named-scenario-profiles) |
+| Remote aquarium Stage 4 and portable live-organism state | [IDEA-010](IDEA_LAB.md#idea-010-remote-aquariums), [IDEA-011](IDEA_LAB.md#idea-011-portable-organism-state), [deferred detailed design](REMOTE_AQUARIUM_DESIGN.md) |
+| Observer cleanup, scenarios, nutrient geometry and variable rays | [IDEA-013–IDEA-025](IDEA_LAB.md#cards) |
+| Olfaction and pheromone traces | [IDEA-026](IDEA_LAB.md#idea-026-chemical-scents-olfaction-and-pheromone-traces), [current design](SCENT_AND_OLFACTION_DESIGN.md) |
 
 ## 1. Genetically controlled decision to lay eggs
 
-**Idea:** Reproduction should not occur through an identical automatic energy-eligibility rule for every organism. An inherited, mutable trait or controller decision should influence when a parent considers laying an egg worthwhile. Organisms with different strategies may reproduce earlier or wait for higher reserves.
-
-**Existing distinction:** The parent's `eggReserveFraction` currently influences the initial reserve allocated to eggs; this is **not** the same as a genetic decision threshold or learned reproduction policy. Clutch size, maturity and cooldown are already heritable.
-
-**Questions before adoption:** Define the measured parent-energy signal, how it connects to inherited genetics versus a neural decision, how to preserve asexual funded reproduction and exact historical saves, and how the strategy remains selectable by physical ecological outcomes. No hidden fitness or forced success.
+See [IDEA-002](IDEA_LAB.md#idea-002-genetic-egg-laying-choice). An inherited/mutable **egg-laying decision**, potentially mediated by neural policy, is distinct from the existing `eggReserveFraction` energy allocation, clutch size, maturity and cooldown. Preserve funded asexual reproduction and historical genetics.
 
 ## 2. Heritable parent reserve sacrifice
 
-**Idea:** Make the amount or proportion of energy retained by a parent after egg laying a mutable, inherited risk trait. A low-retention, high-risk ("kamikaze") strategy could produce more eggs while leaving the parent vulnerable; a high-retention strategy favors parent survival. Let natural ecology determine which strategy persists.
-
-**Current behavior:** The parent must retain at least `max(2,000 J, 12% of its energy-storage capacity)`. This floor is fixed rather than a heritable sacrifice trait. The existing inherited egg-reserve fraction is a different parameter.
-
-**Questions before adoption:** Define sensible bounds and genetic inheritance, the interaction with clutch count and mutated offspring body cost, and conservation/history compatibility. Do not implement during the present visual-egg requirement.
+See [IDEA-003](IDEA_LAB.md#idea-003-parental-reserve-risk). Consider heritable reproductive risk relative to the currently fixed parent retention floor `max(2,000 J, 12% of storage capacity)`. That floor is a **historically observed baseline to reverify at implementation time**, not approval to change biology or bypass conservation.
 
 ## 3. All egg development energy should originate with the parent
 
-**Idea:** The parent should prepay the full cost of the offspring's structure, incubation process, and intended usable reserve when laying. Eggs should not absorb abstract energy from the shared world reserve during incubation. Less food would naturally mean fewer affordable eggs. Incubation may have a separately accounted energetic cost, distinct from the energy stored in body structure and post-hatch reserve.
-
-**Current behavior:** Closed-economy eggs receive parent-funded structure and reserve, but `fundIncubatingEggs` can transfer additional available world-reserve energy; incubation progress itself currently consumes no egg energy. Closed-world hatching uses a reserve target which includes a 10% top-up, subject to storage capacity.
-
-**Scope gate (2026-10-28):** Explicitly **exclude all incubation energy costs, parent prepayment changes, and incubation-funding mechanics** from the observer-only egg-display requirement. This is a future simulation-economy change requiring separate authorization, conservation accounting, migration/legacy-save behavior, and ecology tests. Preserve existing runtime behavior and historical saves for now; no implicit replenishment mechanism is being proposed by the contributor.
+See [IDEA-004](IDEA_LAB.md#idea-004-parent-funded-incubation). The proposal is to prepay offspring structure, reserve and any explicitly defined incubation cost. This remains **a future question** requiring owner/maintainer discussion, closed-energy accounting, compatibility and ecological validation.
 
 ## 3a. Review passive egg energy recovery from the shared world reserve
 
-**Pending review / possible adjustment (2026-10-28):** Hernan does **not** propose that eggs replenish their energy, and questions the existing `fundIncubatingEggs` transfer from the shared world reserve as an unnatural, osmosis-like mechanism. In a future requirement, reconsider removing this uptake entirely and making the parent fund all egg energy before laying. This is **not approval to alter or remove existing uptake in the current visualization change**. Present observational data must reflect whatever the authoritative runtime currently does, including possible reserve restoration, without introducing another energy source or recovery path.
-
-**Related:** Parent-paid incubation energy above is a separate design decision; no egg energy conservation, reproduction, hatching, migration, or genetics rules are to be changed just to deliver the visual indicator.
+See [IDEA-005](IDEA_LAB.md#idea-005-passive-egg-reserve-uptake). Reconsider existing `fundIncubatingEggs` world-reserve transfers; the contributor is **not proposing a new free recovery mechanism**. Do not conflate this with observer-only egg energy visualization.
 
 ## 4. Genetically influenced egg buoyancy
 
-**Idea:** A parent might pay energy for inherited egg buoyancy opposing gravity, potentially dispersing eggs away from predators. Decide physical mechanism, actual energy cost, and ecological trade-offs separately. No artificial scripted propulsion. Not in the current egg-visualization scope.
+See [IDEA-006](IDEA_LAB.md#idea-006-funded-egg-buoyancy). Investigate physically grounded, inherited, energy-funded buoyancy rather than scripted egg propulsion.
 
 ## 5. Hatching restrictions and occupied space
 
-**Current agreement (2026-10-28):** Keep existing population slots reserved at laying; this already addresses the population cap for closed-world eggs. Retain physical hatch-space clearance and world-energy debt as acceptable hatch blockers. Hernan questions the *additional energy-target requirement* that can block a fully incubated egg; study that separately, not in the visual indicator requirement. Leave existing incubation, reserve-uptake, space, expiry, debt, and legacy-world hatching behavior unchanged for now.
-
-**Pending review:** Simplify remaining hatching-energy requirements in a future authorized simulation-model change, preserving conservation, clearance, and historical saves. No current change is approved.
+See [IDEA-007](IDEA_LAB.md#idea-007-hatching-energy-blockers). Retain population slots reserved at laying, physical clearance and world-energy debt blockers unless separately reviewed. The further energy-target restriction is the issue for later evaluation.
 
 ## Related discussion: observer-only egg energy display
 
-**Design direction agreed 2026-10-28; implementation not started:** Store the originally parent-funded usable egg reserve for a persistent observer-only reference. Render a white egg with a pink sector growing counterclockwise as the original usable reserve falls, and shrinking when existing code actually replenishes that reserve; clamp the white area at 100%. At zero remaining usable reserve, keep the egg fully pink even if predators then consume structural funding. Do not display structural damage as an additional color or treat the sector as a hatch-readiness indicator. Preserve the clockwise outer incubation-progress ring, sensory egg white (`EGG_RGB`) and all ecology/genetics/physics. A fully pink egg does **not** necessarily fail or immediately become carrion under the current closed-world rules, because present uptake may restore funding before expiry; avoid claiming otherwise in the UI. Historic eggs without stored original reserve need a clearly documented, noninvented compatibility fallback. Work prompt may be drafted when requested; no implementation or upstream submission authorization is inferred from these notes.
+**Already implemented**; see [egg display reference](EGG_RESERVE_DISPLAY.md) and [completed work](CONTRIBUTOR_COMPLETED.md). The current observer-layer ordering idea is [IDEA-013](IDEA_LAB.md#idea-013-egg-overlays-behind-creatures), not a reopening of the initial feature.
 
 ## 6. Fractional nutrient recycling rate
 
-**Deferred with #119 (2026-10-28):** Allow rates below one nutrient per second,
-such as 0.5/s or 0.1/s, with correct deterministic accumulation over simulation
-time. The current UI uses integer steps; #119 retains that behavior and uses
-1/s for Harsh World. No slider-step or recycling-rule change is authorized here.
+See [IDEA-008](IDEA_LAB.md#idea-008-nutrient-appearance-frequencies-below-one-per-second). Permit deterministic appearance frequency below 1 particle per simulated second (examples 0.5/s, 0.1/s), **not** faster/slower nutrient energy decay.
 
 ## 7. Named custom environmental scenarios
 
-**Deferred with #119 (2026-10-28):** Save user-configured environmental conditions
-under a memorable name for later new simulations. This consolidates the existing
-roadmap's named environment profiles idea; no separate implementation issue is
-requested now. Define storage, versioning, snapshot independence and founder
-independence in a future decision. The first selector has only Default / Harsh World.
+See [IDEA-009](IDEA_LAB.md#idea-009-named-scenario-profiles). Reusable user-named environment profiles are distinct from fixed built-in Default, Harsh and Pipe World presets.
 
 ## 8. Selective lateral portals and multi-aquarium travel
 
-**Stage-1 Work checkpoint:** Fork/testing delivery in #121 and fork PR #34 includes
-clickable observer-only phone/window states and temporary suspended-agreement
-rehearsal. The updated journal below is preserved as design context. Its separately
-scoped glass-tube appearance and all real signaling/transport remain pending.
-
-**Authorized follow-up, 2026-10-28 (fork testing only):** Hernan explicitly
-requested removal of yellow dots, accepted-handshake glass tubes, local name
-entry through the phone and self-selection from a people menu replacing Pair
-L↔R. This supersedes the older yellow-marker requirement and supplies the
-separate tube-preview authorization mentioned below. Stage 2 now implements a
-session-only editable display name. The bounded local phone/offer consent flow
-brings forward the requested self-interaction, without claiming stage 3 complete:
-no real wall opening, organism transport, remote discovery or communication.
-Implementation and acceptance are tracked in upstream #121; the older staged
-notes below remain design context for unimplemented physical/remote work.
-
-> **Exploratory and staged design notes, reviewed 2026-10-28.** The approved Work prompts so far cover phase-1 window geometry, its fixed 300-world-unit correction and interactive **observer-only** icon states on fork testing. Hernan subsequently clarified that **as much of the future glass-tube/window appearance as practical should be designed in phase 1**, while the original physical aquarium walls remain closed; implementing that additional appearance requires an explicit follow-up adjustment to Work's already-issued prompts. These notes are not new implementation authorization, upstream proposals or permission to change the simulation. Approve each bounded increment separately.
-
-### Visual window geometry — phase 1 candidate
-
-- Both physical left and right edges are partitioned vertically into identical **sections/windows**, indexed upward from the floor as `L0, L1, ...` and `R0, R1, ...`. The fixed reference/minimum window height is **300 world units**, independent of current or future default aquarium height. The present 1500-unit default yields five windows as a consequence, not as a hardcoded count.
-- Growing or **shrinking** the simulated world height `H` follows the same discrete rule in both directions: `N(H) = max(1, floor(H / 300))`, `sectionHeight = H / N(H)` for positive H. Sections expand evenly between integer-count thresholds; crossing a threshold adds/removes a section and redistributes all boundaries. When `H < 300`, there is exactly one section (index 0) per side and its height can be below 300: the sole exception to the 300-unit minimum. Do not change existing UI world-height limits just to expose this mathematical edge case.
-- **Corrected marker placement:** A small, conspicuous **yellow circle is centered exactly on each INTERNAL boundary between adjacent windows**, just outside the left/right wall. Its *center*, not the circle's entire area, aligns with the height where sections change. It is **not** located at a window's center. The tank floor and top already visibly define the outer boundaries, so markers at those two extremes are unnecessary unless later requested.
-- Therefore, `N` windows ordinarily have **`N - 1` circles per edge**: five windows have four circles; one window has zero internal circles. Internal boundary heights measured from the floor are `y_i = i * H / N` for `i = 1 ... N - 1`. Separate section labels/icons can be placed within or beside their corresponding window without relocating the boundary circles.
-- Recompute from authoritative simulated world dimensions, never browser viewport size or camera zoom. The visual markings must remain outside the organisms' sensing and physical world (no perceived colors, collisions, forces, or ecology changes).
-- **Agreed phase-1 visual target:** stable geometry plus clickable **observer-only** phone/window states, mock accepted/rejected/suspended agreements, and as much of the later **glass-channel, diffuse-edge and buffer appearance** as can be shown meaningfully without physics. **No window numbers are permanently designated open or closed.** Users must ultimately be able to open/close **any available window independently through its own controls**, changing the connected-tube drawing and grouping dynamically; the exact completeness of these controls **within phase 1 is not yet decided**, beyond the previously requested mock icon click transitions. The glass-tube appearance is an intended **phase-1 design goal** but **was not included in the previously issued Work prompts** and requires a separately communicated, bounded scope adjustment before coding. The original physical aquarium walls remain fully closed, with no real traversal, changed creature vision, peer communication or network exchange.
-
-### Planned feature sequence (future stages require separate authorization)
-
-1. **Phase 1 — Geometry and maximally faithful nonfunctional visual preview:** Verify dynamically resized left/right windows, fixed 300-unit reference, bottom-up indices, and yellow circles on internal boundaries. Provide clickable phone/window states, mock offers/acceptances/rejections/suspensions, **glass-like tubes protruding left and right**, grouped contiguous openings without internal crossbars, and visual indications of the future diffuse/fading buffer wherever feasible. **Do not hardcode open window IDs: open/closed preview combinations must ultimately be selectable per window, including isolated, consecutive, nonconsecutive, none and all.** The exact extent of opening/closing controls to deliver in phase 1 remains for Hernan to refine; the already agreed mock icon interactions are the current floor, not authorization to silently build full connection behavior. **All original lateral aquarium wall segments remain physically continuous/closed across the depicted tube mouths, even if the display says 'open'.** The glass and buffer preview are renderer-only, never actual openings, collisions or organism travel. Tube preview is an intended **phase-1 visual refinement** requiring its own communicated adjustment to the previous Work prompts; it is not postponed to phase 3 merely because the real opening is.
-2. **Phase 2 — Local caller display name:** A minimal editable name entered through the phone UI. This is the **identity-entry step of the planned availability/discovery flow** below, but **phase 2 does not automatically authorize a live online user directory, accounts, authentication, server, or cross-user communication**. Decide name persistence/identity separately.
-3. **Phase 3a — Self-connection signaling:** Link the two sides of one aquarium and negotiate their corresponding windows. **The user's own name must be a selectable entry in the eventual available-user list**, so choosing oneself through the phone workflow establishes communication with oneself and permits the left/right self-link. A local mock/self entry can provide this behavior **without requiring an actual multi-user directory, server, or remote messaging**. Confirm the precise complementary-side phone interaction when designing phase 3a.
-4. **Phase 3b — Actual bidirectional self-transfer:** Upon outward d=300 crossing of an open, uncapped 300-unit tube, capture/serialize **only the complete live organism** (not the whole aquarium), extract it from its source location, then load/place it in the matching opposite tube at d=200 with proportional vertical alignment. Preserve its full physical, neural, genetic, learned and energy state. For **self-transfer inside the same aquarium, keep its existing local organism ID** and ensure no duplicate entity remains; no server required. The final 100 units (d=200–300) are the nested rearm region. **Whether arrival increments a birth statistic is not yet decided**; statistics must not accidentally mint energy or reset the creature's state. Phase 3 completes with working two-way self-transfer.
-5. **Phase 4 — Optional cross-user discovery, connection and transfer:** If feasible and separately authorized, extend the phone-based **publish-availability / list-available-users / choose-peer** flow from local self-selection to users on different clients, and extend phase-3 single-organism transfer between aquariums, possibly through a server/mediator. Directory publication, remote presence, identity disambiguation, connectivity and transport security belong to this later stage, **not prerequisites for the local phase-3 self-link**. **Destination organism IDs must be unique**: preserve a source ID if safe, otherwise assign a new local ID and remap relevant references/lineage. Whether imported/arriving organisms count as births is **undecided**. All windows on one side address that side's same peer; different sides may have different peers. The receiving aquarium applies its normal ecology/physics. Infeasibility of phase 4 does not diminish phase-3b completion.
-
-**Stage naming:** 3a and 3b are subphases of stage 3. Implementing 3a alone is not enough to call stage 3 complete. No future stage is automatically authorized by the visual prototype.
-
-### Phone availability and peer-selection flow — evolving design, 2026-10-28
-
-**User-intended experience (a single consistent flow for self-connections and eventual cross-user connections):**
-
-1. **Publish oneself as available:** A user presses a **phone icon** and enters their desired **user/display name**. This exposes the user as **available to connect**, so their name appears on a list of users who have chosen to make themselves available. This is an explicit user action; merely loading an aquarium should not silently publish a caller.
-2. **Discover available people:** Another user presses the phone icon and enters their own user/display name. They then see a **list of users who have exposed themselves as available for connections** and may choose one name from that list.
-3. **Call one selected peer:** Selecting an exposed user places a **pending** side-to-side call, never an automatic connection. The recipient's **side-specific phone rings/moves and automatically shows a compact comic-style bubble** with the caller's name and direct **Accept / Decline** choices. **This is strictly nonmodal and nonblocking**: the recipient can use the simulation and controls normally and ignore the call **for as long as the caller leaves it pending**; there is **no automatic reject/expiration due to receiver inactivity**. The **caller may cancel** the pending call and choose another recipient, clearing the first recipient's ringing/bubble. Only explicit Accept connects; per-window offers still require separate consent with the selected side's one peer.
-4. **Choose oneself:** **The user's own name is among the listed available entries** if they exposed themselves. Selecting it **places a call to the opposite side of the same aquarium**: that side's telephone rings/moves and automatically shows its **comic-style speech bubble containing the local caller's name and Accept / Decline controls**. No click-to-open step is needed. When accepted, the opposing left/right sides become self-connected (future partially/fully cylindrical topology). This is **not another user, another client or a second aquarium**, and local phase-3a implementation requires no server.
-5. **Keep stages separate:** An **observer-only demonstration** of name entry, availability and selection may be represented in phase 1 if later approved, but **no real global directory, connection or wall opening** occurs in that phase. Phase 2 adds the local name-entry capability; **phase 3a makes same-user selection/self-connection real without needing a server**; **phase 3b adds real left/right organism transfer**; **phase 4** would make availability and peer selection work across separate users/clients. An unimplemented phase 4 must **not** prevent a working local self-selection and self-transfer feature.
-
-**Incoming-call interaction and privacy controls — clarified 2026-10-28:**
-
-- **An incoming call is shown by a ringing/moving phone icon on the receiving aquarium side.** Animate that **specific receiving-side icon** as if a physical telephone were ringing, visibly distinct from idle, available, already-connected and disabled states. **The side whose phone is ringing is the receiving lateral side**; no separate manual choice of a receiving side is needed after the routing has targeted that phone.
-- **Incoming-call bubble and direct consent:** when the receiving phone starts ringing/moving, an attached comic-style **speech bubble appears automatically** showing caller name and **Accept / Decline**. No preliminary click on the phone is needed to reveal it. Accept establishes the side-level connection, Decline rejects it; neither the bell animation nor ignoring the call constitutes consent. **Never display it as a modal, blocking dialog, forced-focus overlay, page-dimming scrim or UI lock**. The bubble must not intercept unrelated canvas/control clicks or keyboard input, stop animation/rendering, pause the authoritative simulation/Worker, or require action before the receiver continues using the app. Accepting a call does not open any numbered windows.
-- **Receiver can freely ignore a ringing phone (critical, nonblocking invariant):** while an outgoing invitation is pending, the recipient can continue watching, playing with controls, interacting with creatures and using the entire UI uninterrupted. The ringing icon and bubble are **passive**, localized notification elements, not a modal, fullscreen overlay or required decision. **No receiver-response deadline**: the invitation may remain pending without receiver action until the caller chooses to cancel, a user explicitly accepts/declines, or an actual connection/endpoint failure is dealt with by separately defined reliability logic. **Do not invent an inactivity timer** or force an answer. The **caller must be able to abandon the outgoing call and select another available person**; cancellation clears the first recipient's ringing state/bubble. Keep the motion and visual footprint unobtrusive, respect reduced-motion/accessibility needs and keep bubble hit targets limited to the notification itself.
-
-- **Optional caller-specific cooldown:** A user who rejects or does not wish to entertain another invitation from a given caller could temporarily suppress or decline repeated call invitations **from that particular caller**. This is a **possible future control**, not yet a requirement to implement or a fixed timeout. Define cooldown duration, whether it is manually or automatically enabled, what the caller sees, and whether it applies per side or across the account only in a later design decision. Do not equate the cooldown with a permanent ban or disabling all incoming calls.
-- **Disable/turn off the phone to leave the connection directory:** A user should be able to **deactivate telephone availability**, so they **are no longer displayed in the list of people exposed for new connections** and do not receive new calls through that unavailable phone. The exact relationship between per-side phone toggles, a single user directory entry, already-connected calls and ongoing window agreements is still open. Do not silently interpret turning off discovery as canceling all existing agreements without a further decision.
-- **Self-calls use exactly the same one-step bubble:** choosing one's own published directory entry rings/moves the **opposite-side phone** within the same aquarium and **immediately displays the attached bubble** with one's own name and direct Accept / Decline choices. The **local self-call can be implemented without a remote directory/server**. Any phase-1 representation is an **observer-only mock** until separately authorized real signaling.
-- **Only the telephone rings for a call:** this incoming-call notification is **side-level**, not a request to animate each numbered window. Window offer/accept/reject UI stays independent, and all window agreements on that side remain against the one accepted caller.
-
-**Details intentionally left for refinement, not decided by this note:**
-
-- **Availability lifecycle after the newly specified phone toggle:** exactly how per-side off/on state affects a user's single directory entry, visibility when one side is busy, disconnects, pending calls, already-established links and accepted windows; reconnect/re-publication semantics remain to be designed.
-- **Identity and directory keys:** how duplicate display names are distinguished, whether names are persistent, and any later account/authentication/security model. A display name alone is **not** yet a verified unique account identifier.
-- **Call routing and unanswered/overlapping requests:** caller selection places a pending call; the receiving side's phone rings with a **nonmodal** caller/Accept/Decline bubble. **The receiver may ignore it indefinitely while the caller waits**, with **no automatic reject or timeout caused by inaction**. The **caller may cancel and select another recipient**, removing the previous ring/bubble without requiring receiver action. Still decide recipient side routing for remote calls, overlapping invitations, busy/disabled behavior, cancellations and connection loss, viewport-safe bubble position, keyboard/screen-reader access and reduced-motion options. The local self-call targets the opposite-side phone. Per-window consent and one peer per side remain unchanged.
-- **Discovery implementation:** a real remote list needs a separately designed presence/directory mechanism; a self entry can be supplied locally without committing to server feasibility. Network discovery, privacy and authorization belong to **phase 4**, not to a hidden phase-2 or phase-3 server requirement.
-
-**Documentation scope only:** This section records the desired user workflow and stage boundaries. It does not authorize new UI code, directory services, authentication, real connections, physics changes, a Work prompt or an upstream submission.
-
-### Phase 1 — Intended glass-tube UI appearance (additional Work adjustment needed)
-
-- An **open window**, **connected tube**, and **glass channel** are equivalent visual descriptions. The tube extends a fixed **300 world units** outward, independent of vertical opening height; glass floors/ceilings enclose isolated open groups and merge without separators for adjacent open windows. **Its distal end at outward d=300 is visually OPEN: never draw a perpendicular closing glass wall, line, membrane, cap or plug there.** The horizontal glass edges simply terminate at an unseen connection/imaginary crossing plane.
-- **For any user-selected mock open/closed pattern**, merge all consecutive visually open-window sections into one continuous glass corridor, with **no separating membrane, horizontal crossbar or redundant wall inside that open run**. An isolated visually open section has a glass floor and ceiling matching the existing aquarium-border style; only the bottom/top of each contiguous open group receives outward-projecting horizontal glass edges. At the transition from an open to a closed section, a horizontal glass floor/ceiling ends the tube group. When the user changes the mock opening selections, recompute these tube boundaries immediately; never special-case windows 1 or 3. This is only the outward tube geometry: in phase 1 the original vertical tank wall stays physically intact behind the full mock tube.
-- **Examples, bottom to top:** opening section `0` extends the aquarium floor outward along the tube and, if section `1` remains closed, adds an outward-projecting glass ceiling at the top of section `0`. Opening section `1` too removes that intermediate ceiling and moves the glass ceiling to the top of section `1` (unless the following section is also open). When **all** lateral sections are open, there are no interior crossbars: the only extended horizontal surfaces are the aquarium's existing **floor and upper boundary**, enclosing one full-height channel. Equivalent grouping applies to any middle/upper run of adjacent open sections. This is a visual grouping rule; the numbered logical windows and their future independent connection agreements still exist even if their glass rendering is continuous.
-- **Non-negotiable phase-1 boundary:** the *original proximal* aquarium wall at d=0 remains physically closed and sensed as such across all mock opened tube entrances; no creature can move, see or transfer through it. **The distal tube end at d=300 nevertheless looks open/uncapped** even in phase 1. These are different places: never add a distal wall merely because the real proximal wall is still closed. Only actual accepted windows remove their proximal wall in phase 3b.
-- **Preview as much of the future graphical effect as practical in phase 1:** fixed-length 300-unit glass tube silhouettes/edges, interior water-like continuation, and a softly diffuse fade treatment covering outward distances **0–300**. Reserve the **outermost 100 units (distances 200–300)** as the intended nested future **transport/rearm buffer**. This is **300 total units, not 300 + 100**. The fading profile is illustrative and its exact alpha/easing is not fixed, but the future organism should be barely visible at outward distance 200 and invisible at 300. Phase 1 has **no actual physical transport buffer**, and no automatic opacity change, disappearance, emergence or relocation of real creatures; any illustrated demo must be unmistakably nonphysical and observer-only. Do not implement or invent physics, velocities or timing while rendering the preview.
-- Place **section-level connection and negotiation icons beyond the distal 300-unit tube tip** (plus sufficient visual clearance) and **outside the entire 0–300 fade/transport-preview area**; they must not cover the glass channel. Keep this offset based on **world coordinates transformed through the camera**, with sensible readability/hit-target behavior across zoom/viewport sizes. Apply symmetrically on left and right; keep the side-wide telephone/status indicators separate.
-- Keep yellow internal-boundary circles as **temporary geometry verification markers** while testing dynamic window creation, removal and reflow. Once glass openings alone clearly communicate the section layout, Hernan may approve removing those circles. **Do not automatically remove them** before graphical behavior is validated.
-- If **all** windows on a side are visually open, show **one continuous full-height glass extension** with no internal tube partitions and with the only outward glass horizontal limits at the aquarium floor and ceiling. Its outer edge can be softly diffuse, suggesting the eventual apparently **borderless** tank. This does **not** make phase-1 walls physically absent, nor permit real creatures to fade/disappear/cross. The phase-3b version later opens only the accepted segments and lets real creatures fade visually as they physically traverse the buffer.
-- This tube and fade presentation is **now an intended part of phase 1's visual outcome**, not merely an idea postponed to the physical transport stage. It is **not a retroactive edit of Work's three already issued prompts**: a separate authorized prompt/update is needed to actually add it to Work's scope. Keep world authority, physics, sensing, genetics, energy, save compatibility and movement unchanged.
-
-### Phase-1 visual/functional boundary — cross-check table
-
-| Aspect | Phase 1: observer-only preview | Phase 3b: operational self-linked aquarium |
-| --- | --- | --- |
-| Lateral sections | Fixed 300-world-unit rule, bottom-up labels, dynamic height; temporary yellow internal-boundary dots | Same logical indexed sections; dots may be removed only after UI approval |
-| Glass tubes | Fixed 300-unit glass channels, no glass closure at the d=300 distal end; the original proximal wall at d=0 remains physically closed | Same uncapped tubes, with proximal original wall removed only at truly open windows |
-| Original vertical aquarium wall | **Solid/closed everywhere**, also where a mock glass tube is visible | Open **only** at actually negotiated/accepted portal windows; closed elsewhere |
-| Window/phone icons | Interactive simulated states, one mock peer per side; outside and beyond tube/fade area | Driven by real link/negotiation/physical status |
-| Fade/buffer visuals | Illustrative **0–300 fade envelope** with reserved **200–300 transport/rearm segment** (nested final 100); no real organism fades or physical transport | Actual observer-only creature fade across 0–300; outward crossing at 300 transfers to the receiving tube at outward distance 200 |
-| Food and ecology inside channels | No actual expanded world, food generation or Worker effects | Channel interiors obey their aquarium's existing ecological rules |
-| Crossing, perception and transfer | None: original walls remain solid and no actual organism transport occurs | On open-window crossing, **atomically remove and reinsert the same organism** at the corresponding opposite tube, with proportional vertical alignment; no server for self-link |
-| User connections | Display-only simulation with no real communication | Actual self-link completed in phase 3a; no cross-user networking before phase 4 |
-
-**Illustrative configuration only — not fixed defaults or hardcoded IDs:** In a five-window aquarium, *if* the user selects `L1/R1` and `L3/R3` as open, those **two nonconsecutive openings** create **two independent glass tubes per side**, each with its own glass ceiling and floor. **This example exists only to demonstrate non-adjacent tube geometry**; any windows may be selected or deselected through the eventual controls. In **phase 1** the original thin cyan/glass physical collision wall still blocks both depicted entrances. At the **end of phase 3**, the original wall is absent only for whatever windows are *actually* accepted/open at that time and transfers follow their matching indices. Logical section guides are never physical dividing walls; tube ceilings/floors exist only at the boundaries of user-selected contiguous open runs.
-
-### Observer-only icon language to refine before connection features
-
-- **Per-side call status and single peer invariant** (visually below section 0): use a hung-up/disconnected phone when no peer is connected, and an answered/connected phone plus the **peer display name** when connected. Pressing the phone is also the intended **entry point for providing one's display name, publishing availability and choosing from exposed users** as described above; the real directory is deferred to phase 4. **Each individual aquarium side can have at most one connected remote/local peer at a time. Every numbered window of that side negotiates exclusively with this one peer; individual windows cannot target different users.** The two opposite sides may have different peers, but in a self-connection both refer to the same local user and display that user's name. The exposed self-entry is selectable; a local self-link does not need a second user or a network server.
-- **Ringing phone UI is intentionally nonmodal:** the receiving-side phone animates and automatically shows an attached caller-name and **Accept / Decline** speech bubble. It **never blocks any other interface actions, steals focus or pauses simulation**. The recipient may ignore it without limit while the outgoing call remains pending; the **caller may cancel and call someone else**, ending that notification. Clicking the phone first is unnecessary. The ringing phone identifies the receiving side, including self-calls to the opposite phone. Call acceptance does not imply window acceptance. Keep distinct disabled/unlisted state and optional caller-specific cooldown.
-- **Per-window offers:** after a side-to-side call is established, offer a particular available window to the **same indexed window of the one peer already associated with that side**. Each offer can be accepted, rejected, canceled or suspended independently, but **opening a window never selects a second peer**. If the connected peer's corresponding edge has no window with that number, show prohibited/unavailable; it must not be offered or opened. For self-linking the aquarium, index pairs are `L0 ↔ R0`, `L1 ↔ R1`, etc. (only mutually opened indices actually permit travel).
-- **Exact candidate emoji supplied by Hernan:** `🫱` (U+1FAF1 RIGHTWARDS HAND), `🫲` (U+1FAF2 LEFTWARDS HAND) for offered/receiving extended hands; `🫸` (U+1FAF8 RIGHTWARDS PUSHING HAND), `🫷` (U+1FAF7 LEFTWARDS PUSHING HAND) for refusal/rejection. Mirror orientation in the UI according to whether the endpoint is on the left or right side and whether the offer is outgoing or incoming. Accepted offers use a handshake/linked hands icon (candidate `🤝`); unavailable counterpart can use `🚫` or another prohibition mark. Precise icon-state mapping and interaction remain to be chosen during refinement.
-- Emoji glyph rendering may be unsupported in some fonts/platforms (displaying empty boxes). Record their Unicode identities and ensure an accessible, reliable fallback, e.g., bundled vector icons/SVGs, before implementation; do not silently replace their semantics with unrelated icons.
-- Distinguish **side connected**, **window available**, **outgoing offer**, **incoming offer**, **accepted**, **rejected**, **unavailable/suspended**, and **actually traversable**. Acceptance of a call does not automatically open every window; a negotiated handshake does not automatically mean physically traversable until that separate behavior is implemented.
-- **Suspended previously accepted window (agreed 2026-10-28):** consider a distinct **lost-signal / signal-unavailable** icon to indicate that an accepted agreement still exists but the corresponding window is temporarily absent because its aquarium became too short. This must not be mistaken for an overall phone disconnection, a rejected offer, or cancellation. Include an accessible tooltip/label such as `Window unavailable — agreement retained` and restore the accepted state when window indices become available again, subject to connection validity. A **nonpersisted visual mock state is included in phase 1**; actual persistent agreements and the final icon remain future work.
-
-### Persisted agreement when a window disappears
-
-- **User decision:** If a tank shrinks and loses an already accepted window index, the active opening becomes unavailable/suspended but the **underlying accepted agreement is retained**. If the corresponding window becomes available again, it can be restored without requesting the same consent again, provided the side connection and the relevant agreement remain valid.
-- To end an agreement, the user must deliberately **cancel** it. Mere height reduction is not cancellation. Future design must still define exact reconnection/recovery behavior after a side connection itself is lost.
-- Closed/suspended windows must never allow traversal. No implementation of persistent consent state is authorized in phase 1.
-
-### Future portal transit visual and rearm concept — recorded 2026-10-28
-
-**Status:** A future **phase 3b** design concept, not implementation authorization or a change to phase-1 physics. Phase **3a** establishes the actual self-connection; phase **3b** must deliver real organism transfer left-to-right and right-to-left through the self-connected aquarium's open windows. **Phase 3 is not complete without working transfer.** Cross-user connectivity is phase 4.
-
-**Desired experience:**
-
-- An accepted and eventually open lateral window becomes a short **channel** or transition corridor rather than an instantaneous, visible jump at the aquarium wall. A creature that physically moves toward the channel gradually **fades into darkness / transparency**, as though disappearing into the distance.
-- Distinguish two nested concepts: a 300-unit viewer-only fading envelope from d=0–300, including the final 100-unit return/rearm region at d=200–300. Crossing the **imaginary, uncapped and invisible** d=300 plane triggers an atomic move of the complete living organism to receiving d=200; the distal end must not have a drawn glass wall or terminal closing line. By d=300 the organism is visually fully transparent. No extra 100-unit tube is appended.
-- Transfer the organism to the corresponding **receiving channel** at outward distance **200 from the destination's original lateral wall**, i.e. **100 units inward from that tube's distal tip at 300**, at the inner end of its 100-unit rearm segment. Its **vertical placement** preserves the source entry point's signed normalized offset from the window center (see mapping below), rather than absolute height. It is **barely visible** when inserted at 200 and becomes steadily **more opaque while moving inward** toward distance 0 and into the aquarium. At outward distance 300 on the source it was fully invisible; a receiving spawn at 200 should remain visually unobtrusive (exact alpha blending remains a future rendering decision). The fade direction reverses if the creature moves outward. The receiver's normal physics immediately apply from the transfer tick, even while the creature remains in the receiver's tube.
-- **Anti-oscillation / hysteresis requirement:** arrival at **outward distance 200** must not instantly re-trigger transport. To reverse, the organism must physically travel **100 world units outward from 200 to 300** in the receiving tube and then cross that distal end in the outbound direction. Only then should it return to the originating tube at **outward distance 200 on the original side**. This applies symmetrically in both directions and for self-connection or future remote aquariums. The spatial separation is an intentional safeguard; also design robust direction/crossing detection and step/tick handling so numerical jitter, a newly inserted body or a single large simulation step cannot cause automatic recursive transfer. Do not artificially propel it through the buffer or forbid legitimate return movement.
-- Once beyond the receiving channel, moving farther into the new aquarium is simply normal movement in the destination environment, whether the destination is another user's tank or the opposite side of the same tank.
-- The fade is **observer-only**: it must not change the body's real physical properties, perception, sensory information, energy, collision behavior or neural inputs. Crucially, before actual transfer, the organism must **not see or sense through the portal into the destination aquarium**. Its sensory context changes only when the authoritative world transition occurs, consistent with normal receiving-world sensing.
-- When every lateral window is open, the aquarium's visual edges should appear effectively **borderless / diffuse**, with organisms fading into the hazy edges and returning on the connected side without abrupt pop-in. With selectively open windows, the effect applies only to each actual channel, not closed wall segments.
-- The user describes the aesthetic as an organism disappearing into the **hondananza** (a distant, dim vanishing zone), rather than a conspicuous teleport flash. No decorative portal animation that changes creature behavior is requested.
-
-### Fixed tube depth and exact transfer coordinates — example recorded 2026-10-28
-
-**Design dimensions and reference frame:**
-
-- **Tube length:** **300 world units**, measured horizontally outward from the **original** aquarium glass-wall plane to the external tube tip. This value is **fixed across all windows and aquariums**, irrespective of the window's actual vertical height, changing aquarium default height, or merged adjacent-window groups. It is a different dimension from the **300-world-unit minimum/reference *vertical* window height**: the equal numeric values do not imply coupled resizing.
-- **Fade envelope:** **all 300 outward units** of the tube, from the former wall location (distance `d = 0`) to its distal end (`d = 300`), solely affecting the human-facing rendering of an organism.
-- **Transport/rearm buffer:** the 100-unit segment 200 <= d <= 300, nested inside the 300-unit fade zone. Transfer triggers at the **invisible plane at the uncapped d=300 tube end**, not on collision with a wall. Receiving insertion is d=200 and a legitimate reverse transfer requires swimming 100 units back outward to the receiving distal plane, crossing it in the outward direction.
-- **Side-relative coordinates:** Use `d` as the unsigned **outward** distance from each aquarium's normal vertical wall: for the left wall `x = -d` if the left wall is `x = 0`; for the right wall `x = worldWidth + d`. These are **illustrative horizontal reference coordinates**, not final physics/whole-body origin definitions. In a same-aquarium self-link `L1 -> R1`, the outgoing gate is `x = -300` and the receiving insertion reference is `x = worldWidth + 200`. If that organism then reverses and crosses the right distal tip at `x = worldWidth + 300`, it is placed at the left tube reference `x = -200`. The reverse `R1 -> L1` follows the symmetric mapping.
-- **Vertical position:** Continue applying the previously accepted **signed proportional window-center mapping** between the chosen source window index and the receiving corresponding index. The fixed 300-unit tube *length* does not make the two windows equal in *height* and does not scale a creature's body.
-
-**Expected visual progression, independent of physical forces:**
-
-| Outward tube distance `d` | Intended human-observer appearance and operation |
-| --- | --- |
-| `0` | Enter through an **actually open** window without a residual vertical original-glass line, at full/normal opacity |
-| `50` | Partial fade already perceptible; progressive dimming continues as the creature moves outward |
-| `200` | Almost imperceptible; start of the final 100-unit physical transport/rearm segment |
-| `300` | Fully transparent, at the distal tube end; **outward threshold crossing causes transfer** |
-| `200` in receiving tube | Inserted at the inner edge of that side's final 100-unit buffer, **barely visible** and **immediately under that aquarium's normal physics** |
-| `200 -> 0` on receiver | Moving inward, progressively regains opacity and swims into the receiving aquarium normally |
-| `200 -> 300` on receiver | Moving back outward, traverses the full 100-unit rearm segment; may transfer back only on proper outward crossing of 300 |
-
-- The **exact alpha curve is not yet specified**. It should have reached *near-invisibility* by 200 and *complete invisibility* at the outgoing 300 threshold; on arrival at 200 the organism is only faintly visible, not abruptly drawn fully opaque. Preserve continuity by carefully choosing a future opacity curve/smooth handoff; the rendering effect never changes neural perception, collision, force or internal state.
-- **Two different ends of an operational tube:** at d=0 the original vertical glass boundary is absent only for accepted/open windows; at d=300 **no distal glass wall, line or membrane exists**, just an imaginary handoff boundary. Glass roofs and floors extend outward and end without a crossbar. In phase 1 only the d=0 original wall remains physically closed while d=300 is shown visually open; real organisms are not teleported or faded.
-- **Engineering questions deliberately deferred until phase 3b:** what reference point of a fully articulated creature crosses `d = 300`, how to avoid body-part clipping/partial crossing, robust directional rearming, high-speed steps and collisions, physical force/environment handoff, simulation-state conservation and historical saves. The positions above are specified **behavioral requirements**, not implementation authorization or permission to bypass accepted physics.
-
-### Discrete local transfer, save/load analogy, and uncapped ends — clarified 2026-10-28
-
-- **Core phase-3b rule:** serialize/capture **one entire existing living organism**, remove its original presence on outward crossing at `d=300`, and load/place it at `d=200` in the corresponding tube of the **same aquarium**. Preserve its local ID, full live physical/neural/genetic state and normal energy; never leave two live copies. Do not require a whole-world snapshot or a disk file for this move. Counting the arrival as a birth or as a transfer **remains undecided** independently of whether the same organism is physically continued.
-- **Save/load analogy is intended literally at the *single-organism serialization* level:** export/capture a full living individual (segments/joints, velocities, pose, genome, age, neural recurrence and lifetime learning, energy and state) and restore that record at another location, with only necessary validated placement transforms. A local transfer may use this serialized representation in memory. It need not write a physical file or use the genome-only bank; a separate downloadable single-organism file is a desirable future user-facing feature.
-- **Verified APIs (fork main, 2026-10-28):** `App.tsx` `saveCurrentSpecimenToBank` saves a **genome only**. `world.ts` `addExternalOrganism` calls `spawnOrganism`, increments `totalBirths`, and applies funding for a *new* creature: it may inspire import/counting behavior but is **not suitable as-is for restoring an existing live organism**. `persistence.ts` `createSnapshot`/`restoreSnapshot` serialize **a whole aquarium**, not a single organism. `simulation.ts` `spawnOrganism` generates `ORG-...` IDs using the PRNG, while `persistence.ts` checks for duplicate IDs during world restore. No current single-organism live-state export/import API was verified.
-- **No server in phase 3:** source and destination are in **one authoritative aquarium**, so keep the same unique organism ID and relocate its serialized live state without duplicate simultaneous presence. **Phase 4 remains optional**; any remote import must validate and resolve ID collisions, with a server/relay considered only then. An unsuccessful phase 4 does not invalidate phase 3b.
-- **No tube end cap in any phase:** a tube's horizontal glass roof/floor ends at the invisible `d=300` crossing threshold; no vertical end wall, closing line or membrane is drawn. The old aquarium wall at the **proximal `d=0` entrance** still blocks all phase-1 mockups. That physical entrance wall is removed only on accepted/open windows during phase 3b. Do not confuse these two boundaries.
-
+Local self-connected windows and stages 1–3 are **completed**, not pending requests. See [completed-work register](CONTRIBUTOR_COMPLETED.md). Only **Stage 4 cross-user aquariums** remains under [IDEA-010](IDEA_LAB.md#idea-010-remote-aquariums); its current deferred requirements and open questions are consolidated in [REMOTE_AQUARIUM_DESIGN.md](REMOTE_AQUARIUM_DESIGN.md). Do not revive superseded mockups, yellow-marker designs, old testing-only freezes or stale stage approval constraints.
 
 ### Portable full-state organism files and identity decisions — 2026-10-28
 
-**Desired future capability, not an approved implementation requirement:**
-
-- Create a **single-organism full-state serialization format** usable by phase-3b local transport and, if feasible, phase-4 remote transport. The payload must represent **only the chosen currently living organism**, not an entire aquarium or only its genome. A source-world transfer must remove that organism as part of a safe handoff; serializing a copy alone does **not** remove the original.
-- Consider adding a **downloadable file export and corresponding import of one complete living organism**, separate from the existing **genome-only Specimen Bank**. Saving to disk would leave the existing organism in place unless an explicit transfer action follows. Validate exact fields, schema/version, size bounds and compatibility before implementing. Preserve biology, genome, articulated body, joint state, velocities, brain recurrent state, lifetime learning, energy, age, and relevant ancestry/history.
-- **Same-world self-link (phase 3b):** preserve the creature's **existing ID**, because it is removed/repositioned within one authoritative world and no duplicate copy should exist. Avoid assigning a new ID each time it circles through a left/right window. Verify references/lineage and never leave two active records.
-- **New aquarium or imported file (future):** each receiving world needs **unique local organism IDs**. A candidate **per-aquarium historical-ID registry** (described below) could first check whether this same creature previously visited the receiving aquarium; if so, it may **reassume its former local ID** when safely available, with no collision or false attribution. On a first visit, retain the incoming ID only if safe, or assign a new destination-unique ID. If the former ID cannot be restored, assign a new local ID and keep the previous local alias in its history. Remap lineage, references and other ID-bearing records consistently. This is a **proposal, not a decision to adopt a particular namespace or conflict policy**. A changed runtime ID does not imply changed genetics, brain or a biological rebirth.
-- **Existing ID evidence (fork/main on 2026-10-28):** `simulation.ts` `spawnOrganism` generates `ORG-...` IDs using PRNG draws; `persistence.ts` `restoreSnapshot` rejects duplicate IDs among organisms; `world.ts` keeps lineage records keyed by organism ID. There is no verified globally unique cross-aquarium ID namespace, so collision handling cannot be omitted.
-**Potential historical identity across aquariums — idea to refine (2026-10-28):**
-
-- A creature could have a **history of aquariums visited and its local IDs there**, allowing a receiving aquarium to consult that history on arrival. If the same individual returns to a place where it lived before, it might **recover the previous local ID** instead of always receiving a new one. This concerns traceability and historical identity, not mutation, biological regeneration, a learned skill or an organism sensor.
-- **Illustrative example:** creature `C` lived in aquarium `A` under local ID `A-17`, then visited aquarium `B` under `B-8`, then returned to `A`. If `A-17` still unambiguously belongs to this returning individual and is available, it could resume `A-17`. If that local ID is already occupied, assigned to someone else, or cannot be safely reclaimed, **do not overwrite/reuse it**; issue a new safe local ID and keep `A-17` as a historical alias. Example IDs are illustrative, not the current VIDA ID format.
-- **Possible identity layers, still optional:** a persistent **cross-aquarium organism/provenance identity** identifying the same living individual across moves; a current **world-local runtime ID** for simulation references; and a **travel log of prior aquarium IDs and former aliases**. Decide later whether these concepts can leverage existing lineage data or need additional fields. Do not require a global identity service in phase 3.
-- **Safety on return:** confirm both active-organism IDs **and archival lineage/reference records** when deciding if a former local ID is reusable; merely finding no currently living creature with that ID is not enough to prove it is unclaimed. Preserve prior parent/offspring references and history rather than attributing them to another creature. Design any reservation, retention, collision and repeated-visit rules only when working on this future feature.
-- **Serialization and authority:** if implemented, the identity/travel record could be part of the **versioned single-organism full-state payload** or an explicitly associated trusted history. Consider bounded history growth, historical save compatibility, and verification of claimed prior IDs before allowing a cross-user import to resume an identity. A remote payload alone should not be trusted as proof of ownership of an old ID.
-- **Scope boundary:** **phase 3b self-connection requires no historical identity system** because both ends belong to the same world and the creature retains its current ID. Identity restoration matters only in **optional phase 4** (or a separately approved file-import feature). Keep the open decision about birth/arrival statistics independent. The record is **human/system metadata only** and may not inform the creature's neural inputs, ecological fitness, energy, or behavioral decisions.
-
-- **Open decision: birth/arrival counters.** Hernan has **not chosen** whether loading an already living full-state organism from a file or through a future remote window should increment `totalBirths` or appear as a 'birth'. Consider the current Specimen Bank loading behavior as a point of comparison, without assuming it is automatically correct for full-state imports. The design may distinguish **births, imports and transfers**; decide semantics later. **Regardless of counter choice**, do not duplicate biological individuals, grant unearned energy or reset a creature's lifetime state. A self-link does not change the number of organisms in the aquarium.
-- **Stage boundaries:** phase 3b requires single-organism live-state transfer *inside the same aquarium*, with its local ID conserved and no server. File export/import is an interesting separate future capability, not automatically part of phase 1 or 3b. Phase 4 may use the same serialization for network handoffs but must design server/remote identity and accounting separately.
-
-
-### Future transfer mapping and channel ecology — decisions recorded 2026-10-28
-
-**Signed proportional vertical alignment (phase 3b and phase 4):**
-
-- A creature passing through the **center of an open source window** appears at the **center of the linked destination window**. Halfway from the source center toward the **upper edge** maps to halfway from the destination center toward its **upper edge**. Likewise for the lower half. This rule must work even when the two windows have different actual heights, for instance when aquariums have different sizes.
-- Express this for a source window bounded vertically by `sourceBottom` and `sourceTop`, and a destination window bounded by `destinationBottom` and `destinationTop`. Let `cS = (sourceBottom + sourceTop)/2`, `hS = sourceTop - sourceBottom`, and likewise `cD` and `hD` at the destination. For an entry reference height `yS`, define **signed normalized offset** `q = (yS - cS) / (hS / 2)`, nominally in `[-1, +1]`. Map the exit reference height to `yD = cD + q * (hD / 2)`. The sign preserves whether the creature is in the upper or lower half, while the magnitude preserves the relative fraction between the center and that side's boundary. Use consistent physical vertical-axis orientation when applying the formula.
-- This defines **the vertical location of a reference point only**. Decide later whether this point is the organism's center of mass, body origin or a threshold-crossing anchor; transform the entire articulated organism consistently, **without scaling, stretching, mutating or re-energizing its body**. Specify how to handle creatures too large for the destination opening, contact geometry, edge cases at section boundaries and potential transfer collisions. A valid mapping must not conceal body clipping or artificial movement.
-
-**Channels as aquarium extensions (future physical stages, not phase-1 visuals):**
-
-- A physically open tube/channel is **not a sterile teleport corridor**: it belongs to the participating aquarium's habitable physical space. Existing relevant world rules also apply inside it, potentially including food/nutrient presence or generation where those rules permit, feeding, currents/forces if modeled, movement, collisions and environmental conditions. Do not invent free food/energy or bypass the closed-economy ledger; define channel-area incorporation into spawning, geometry, world bounds, perception and authoritative Worker rules when those stages are designed.
-- **Each aquarium retains its own environmental settings and ecological rules.** If an organism passes to a different aquarium with different gravity or water density/viscosity, the destination's normal settings apply **immediately upon authoritative arrival**, like changing its surrounding environment. Do not add an automatic biological recalibration, genotype adjustment, compensating force or energy subsidy. Distinguish the ordinary physical response over subsequent ticks from inventing a special transition adjustment. Preserve the existing organism's state and document any unavoidable technical coordinate/velocity transform separately.
-- For **phase 3b self-connections**, both ends belong to the same aquarium and therefore use the same local environmental settings. The different-world-rules case arises naturally in **phase 4**.
-
-**Continuous-channel rendering and single-peer routing:**
-
-- Consecutive open windows on one side present one **uninterrupted visual glass tube**, with no internal membrane. The logical window indices and individual opening agreements remain intact. **There is no multi-peer routing ambiguity within a side:** all its open sections terminate at the **same peer's corresponding opposite wall**, never at different users. The source window actually crossed determines the destination window index. Adjacent open sections may share continuous glass geometry while keeping their respective per-index positional mapping.
-- **Self-connection illustration, not an allowed-window restriction:** If the user **chooses** to open only windows **1 and 3** of a five-window self-connected aquarium, the resulting two nonconsecutive glass passages on each side have separate glass ceilings and floors; windows `0`, `2`, `4` remain closed **only in this example**. A creature crossing **L1** arrives at **R1**, and **R1** may allow a return to **L1** only after the rearm-buffer condition; similarly **L3 ↔ R3**. **Any other index or combination, including adjacent windows or all windows, must also be supportable through the future controls.** No closed window transfers a creature. This is an illustrative partial cylindrical topology, not an additional aquarium or a second user.
-- **Phase 1 versus phase 3 — same visual language, different physical state:** the phase-1 preview should approximate the **final arrangement** of glass corridors, visual buffers and status icons for **whichever window indices the demonstration selects** (the previously drawn pair `L1/R1` and `L3/R3` was *one arbitrary test configuration*). **Phase 1 retains the solid original glass/collision wall across every tube entrance**, even when an icon reads 'open'; there is no real sensory look-through, transport, channel feeding or organism fading. At the **end of phase 3**, the original lateral wall is **actually open only at the then-accepted windows**, channels participate in the normal aquarium environment, and creatures may swim through and transfer with proportional exit placement and visual fade/rearm. Closed windows remain solid.
-
-**Unresolved implementation responsibilities, not uncertainty about the operation:** implement a complete single-organism serializer/validator and an authoritative remove/load operation with deterministic fixed-tick behavior; preserve joints, body, neural memory/learning, energy, lineage and velocity. Keep ID in the same-world self-link; check/remap IDs and dependent records when importing into a different world. Ensure one living organism and coherent energy/population accounting. **Do not silently settle birth/arrival counter semantics** by reusing a spawn routine; that policy is open.
-
-**Design-only checkpoint:** Preserve the phase-3b transit *feel* while **preparing its visual envelope and recognizable glass channels during phase 1** as far as practical. Original phase-1 Work prompts remain unchanged until an explicit additional Work instruction. Do **not** start real transport mechanics during visual work.
-
-### Deferred physics, security and world-transfer architecture
-
-- Selective openings may eventually permit actual traversal between windows of one aquarium or different aquariums, including sparse top-only/bottom-only connections. Access should arise from organisms' own physical locomotion and ecology, not scripted propulsion.
-- Work out the complete articulated body crossing and boundary collision behavior, body/window size limits, joint state, velocities, forces, partially crossed bodies, destination occupancy, timing, energy conservation, authoritative Worker ownership, determinism, snapshots and historical saves. A deadband/rearm condition must prevent immediate oscillating back-transfers at a portal.
-- VIDA's prohibition on arbitrary teleportation/scripted locomotion remains. Connected windows create a bounded exception permitting discrete **single-live-organism extraction and placement** after actual swimming to the open tube end. It is not artificial thrust or freshly generated biological state. **Birth-statistic treatment of transfers/imports is unresolved** and must be distinguished from physical creation of a new organism.
-- **Phase 4 only:** possible server/mediator for cross-user transfers would validate and route strictly typed/versioned/size-bounded full organism states between authenticated endpoints, with idempotent acknowledgements preventing duplicates, loss or replay. Multi-client Worker authority, destination capacity, accounting, disconnected peers and reconciliation require future feasibility study. **Phase-3b self-transfer is local and server-free.**
-- Do not change physics, sensing, genetics, reproduction, energy, save semantics, or topology during the window-visualization stage. Avoid mixing these deferred plans into an upstream PR for markers.
-
-**Clarification on example window IDs and interaction scope (2026-10-28):** `1` and `3` were chosen solely as a visual example showing that **nonconsecutive** open windows have their **own top and bottom glass surfaces**. They are **not permanently open**, **not special indices**, and **not the only possible connected windows**. The open/closed configuration is intended to be **user-selectable and reversible per window**; adjacent selections visually merge into a single tube, and a change in selection redraws the tubes. Hernan has **not yet decided exactly how far phase-1 controls will implement these opening/closing interactions** beyond the previously requested interactive mock icon states. Preserve the intended behavior and do not infer further implementation authorization from these notes. The actual physical aquarium wall remains solid in phase 1.
-
-**Documentation-only clarification (2026-10-28):** The intentional local phase-3b crossing is atomic extraction and insertion of the same complete living organism, with no server dependency. Existing genome-only specimen-bank saving and whole-world snapshots are useful precedents but not an existing single-creature transfer. The tubes must be rendered **uncapped/open at d=300 in phases 1 and 3b**; phase 1 keeps the original proximal d=0 physical wall closed. Any cross-user server is a separate optional phase-4 feasibility decision. No code or implementation is authorized by this journal edit.
-
-**Latest discussion checkpoint (2026-10-28, documentation only):** Transfer serializes **only one full live organism** for loading elsewhere; a separate full-state creature file export/import is a future feature distinct from the genome-only bank. Within the same aquarium, keep its unique ID. For other aquariums or file imports, collision-safe local ID reassignment may be required. **Birth counter semantics remain open**; no decision is imposed. No implementation or Work prompt is authorized by these notes.
-
-**Historical organism identity idea (2026-10-28, documentation-only):** An individual could keep a record of aquariums visited and the local organism ID used in each. On returning to an aquarium, the receiving world may **restore that prior local ID if it can prove it still belongs to the same organism and is conflict-free**; otherwise assign a new local ID and preserve the former alias/history. A stable cross-world provenance key is a **possible design**, not an established implementation requirement. Self-connection in phase 3b always keeps its current ID and needs none of this; optional phase 4 or future file imports may consider the history. Birth/arrival counting remains open. No implementation or Work prompt is authorized by these notes.
-
-**Phone discovery concept (2026-10-28, documentation-only):** Press phone, enter a display name and intentionally expose oneself as available; another user enters their own name, sees available exposed names and selects one. An exposed user **sees and can choose their own name** to communicate with themself and later self-link complementary sides. The one-peer-per-side invariant still applies; opening individual windows is negotiated against that same peer. The local phase-3 self-selection can work without any remote server; real multi-user discovery and availability publication are optional phase-4 concerns. Exact phase-1 mock coverage, unique display names, acceptance flow and presence lifecycle remain to be refined; no implementation is authorized by this entry.
-
-**Incoming-phone consent clarification, updated (2026-10-28, documentation-only):** The receiving phone visibly rings/moves and automatically displays an attached **nonmodal comic-style bubble** showing caller name and direct **Accept / Decline** actions. **Never block simulation/UI, steal focus, require a decision or automatically reject/expire an unanswered invitation due to receiver inactivity.** A recipient can ignore the call **indefinitely as long as the caller keeps waiting**; the **caller controls cancellation** and can choose another user, clearing the prior recipient's ringing/bubble. Applies to self-calls. Caller-specific cooldown and directory opt-out remain separate options, and accepted calls never automatically accept any window. This supersedes click-to-inspect and any suggested receiver-side timeout. No implementation or Work prompt is authorized by this record.
-
-**Scope decisions and consistency review (2026-10-28):** Hernan issued Work prompts for **phase 1**: (1) visual window geometry, (2) fixed minimum/reference height of 300 world units including the under-300 single-window case, and (3) clickable mock phone/window iconography. He then clarified that **the phase-1 intended visual result should approximate the final glass-tube/open-window appearance as much as possible**, including grouped glass corridors, diffused outer edges and icons placed beyond the proposed fade region, but **still retaining the original fully solid walls**, without any transport, neural/sensory change, physics or actual channel ecology. These latest visual clarifications require a **separate additional Work prompt or scope update** before being implemented; journal edits alone do not alter any existing running Work task. Yellow section-boundary dots remain as temporary test markers until Hernan explicitly approves removing them. Phase 1 implementation/integration targets the fork **testing** branch and preserves its overlay, leaving **main** free; never merge testing wholesale into main. **Phase 3a** implements actual self-connection/signaling, while **phase 3b** implements physical travel between matching left/right windows, both required for phase-3 completion. **Phase 4** generalizes to cross-user tanks with exactly one peer per side (not per window). No previous prompt authorizes phase 2, 3a/3b, 4, physical portal openings, real transfer or any upstream submission. Future fork-main promotion and upstream submission require explicit authorization.
+The separate, deferred [IDEA-011](IDEA_LAB.md#idea-011-portable-organism-state) covers versioned **one-live-organism** export/import. Do not confuse this with a genome-only bank entry, whole-aquarium snapshot or already implemented local in-memory tube transfers. Destination identity and birth/import/transfer counter semantics remain open; see [the consolidated remote/portable design](REMOTE_AQUARIUM_DESIGN.md).
 
 ## Reuse protocol
 
-When a new requirement touches one of the indexed topics, re-read the relevant note, mention the potential connection to Hernan, and ask whether the idea should be considered. The file is a contributor discussion journal, not a parallel upstream roadmap or automatically authorized task list.
+Read the [current idea card](IDEA_LAB.md) and its linked detailed design rather than old PR snapshots. Preserve source links and experimental evidence. Avoid treating historical plans as current implementation authorization. For past discussions, consult this file's history and the original fork/upstream issue and PR threads.
