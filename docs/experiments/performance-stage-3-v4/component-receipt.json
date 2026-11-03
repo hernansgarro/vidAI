@@ -1,0 +1,411 @@
+{
+  "failures": [],
+  "timings": [
+    {
+      "family": "substep",
+      "mode": "recompute",
+      "rep": 1,
+      "visits": 2000000,
+      "ms": 61.26817500000004,
+      "cpu": {
+        "user": 82951,
+        "system": 5170
+      },
+      "checksum": 637053431.4969453
+    },
+    {
+      "family": "substep",
+      "mode": "direct",
+      "rep": 1,
+      "visits": 2000000,
+      "ms": 86.05355100000003,
+      "cpu": {
+        "user": 91254,
+        "system": 0
+      },
+      "checksum": 637053431.4969453
+    },
+    {
+      "family": "substep",
+      "mode": "weak",
+      "rep": 1,
+      "visits": 2000000,
+      "ms": 67.55126399999995,
+      "cpu": {
+        "user": 72734,
+        "system": 771
+      },
+      "checksum": 637053431.4969453
+    },
+    {
+      "family": "substep",
+      "mode": "weak",
+      "rep": 2,
+      "visits": 2000000,
+      "ms": 80.66520600000001,
+      "cpu": {
+        "user": 84427,
+        "system": 0
+      },
+      "checksum": 637053431.4969453
+    },
+    {
+      "family": "substep",
+      "mode": "direct",
+      "rep": 2,
+      "visits": 2000000,
+      "ms": 25.68946500000004,
+      "cpu": {
+        "user": 25734,
+        "system": 0
+      },
+      "checksum": 637053431.4969453
+    },
+    {
+      "family": "substep",
+      "mode": "recompute",
+      "rep": 2,
+      "visits": 2000000,
+      "ms": 35.22126400000002,
+      "cpu": {
+        "user": 35164,
+        "system": 71
+      },
+      "checksum": 637053431.4969453
+    },
+    {
+      "family": "substep",
+      "mode": "recompute",
+      "rep": 3,
+      "visits": 2000000,
+      "ms": 26.966013999999973,
+      "cpu": {
+        "user": 26988,
+        "system": 0
+      },
+      "checksum": 637053431.4969453
+    },
+    {
+      "family": "substep",
+      "mode": "direct",
+      "rep": 3,
+      "visits": 2000000,
+      "ms": 21.472981000000004,
+      "cpu": {
+        "user": 21492,
+        "system": 0
+      },
+      "checksum": 637053431.4969453
+    },
+    {
+      "family": "substep",
+      "mode": "weak",
+      "rep": 3,
+      "visits": 2000000,
+      "ms": 50.763277000000016,
+      "cpu": {
+        "user": 50773,
+        "system": 0
+      },
+      "checksum": 637053431.4969453
+    },
+    {
+      "family": "contact",
+      "mode": "recompute",
+      "rep": 1,
+      "visits": 2000000,
+      "ms": 50.486851,
+      "cpu": {
+        "user": 56316,
+        "system": 0
+      },
+      "checksum": 685431.5057685773
+    },
+    {
+      "family": "contact",
+      "mode": "direct",
+      "rep": 1,
+      "visits": 2000000,
+      "ms": 32.02446100000009,
+      "cpu": {
+        "user": 32042,
+        "system": 0
+      },
+      "checksum": 685431.5057685773
+    },
+    {
+      "family": "contact",
+      "mode": "weak",
+      "rep": 1,
+      "visits": 2000000,
+      "ms": 44.16567699999996,
+      "cpu": {
+        "user": 44189,
+        "system": 0
+      },
+      "checksum": 685431.5057685773
+    },
+    {
+      "family": "contact",
+      "mode": "weak",
+      "rep": 2,
+      "visits": 2000000,
+      "ms": 47.14043700000002,
+      "cpu": {
+        "user": 47161,
+        "system": 0
+      },
+      "checksum": 685431.5057685773
+    },
+    {
+      "family": "contact",
+      "mode": "direct",
+      "rep": 2,
+      "visits": 2000000,
+      "ms": 28.555792999999994,
+      "cpu": {
+        "user": 28576,
+        "system": 0
+      },
+      "checksum": 685431.5057685773
+    },
+    {
+      "family": "contact",
+      "mode": "recompute",
+      "rep": 2,
+      "visits": 2000000,
+      "ms": 44.05004299999996,
+      "cpu": {
+        "user": 44070,
+        "system": 0
+      },
+      "checksum": 685431.5057685773
+    },
+    {
+      "family": "contact",
+      "mode": "recompute",
+      "rep": 3,
+      "visits": 2000000,
+      "ms": 91.422775,
+      "cpu": {
+        "user": 90204,
+        "system": 1327
+      },
+      "checksum": 685431.5057685773
+    },
+    {
+      "family": "contact",
+      "mode": "direct",
+      "rep": 3,
+      "visits": 2000000,
+      "ms": 30.313630999999987,
+      "cpu": {
+        "user": 30326,
+        "system": 11
+      },
+      "checksum": 685431.5057685773
+    },
+    {
+      "family": "contact",
+      "mode": "weak",
+      "rep": 3,
+      "visits": 2000000,
+      "ms": 759.8991100000001,
+      "cpu": {
+        "user": 716913,
+        "system": 42890
+      },
+      "checksum": 685431.5057685773
+    },
+    {
+      "family": "projection",
+      "mode": "recompute",
+      "rep": 1,
+      "visits": 2000000,
+      "ms": 291.25966000000017,
+      "cpu": {
+        "user": 317392,
+        "system": 5773
+      },
+      "checksum": -852164.5938390265
+    },
+    {
+      "family": "projection",
+      "mode": "direct",
+      "rep": 1,
+      "visits": 2000000,
+      "ms": 203.24357899999995,
+      "cpu": {
+        "user": 198831,
+        "system": 6444
+      },
+      "checksum": -852164.5938390265
+    },
+    {
+      "family": "projection",
+      "mode": "weak",
+      "rep": 1,
+      "visits": 2000000,
+      "ms": 62.839972000000216,
+      "cpu": {
+        "user": 62876,
+        "system": 0
+      },
+      "checksum": -852164.5938390265
+    },
+    {
+      "family": "projection",
+      "mode": "weak",
+      "rep": 2,
+      "visits": 2000000,
+      "ms": 77.47797700000001,
+      "cpu": {
+        "user": 77504,
+        "system": 0
+      },
+      "checksum": -852164.5938390265
+    },
+    {
+      "family": "projection",
+      "mode": "direct",
+      "rep": 2,
+      "visits": 2000000,
+      "ms": 37.87672300000031,
+      "cpu": {
+        "user": 37888,
+        "system": 0
+      },
+      "checksum": -852164.5938390265
+    },
+    {
+      "family": "projection",
+      "mode": "recompute",
+      "rep": 2,
+      "visits": 2000000,
+      "ms": 127.67018300000018,
+      "cpu": {
+        "user": 127838,
+        "system": 0
+      },
+      "checksum": -852164.5938390265
+    },
+    {
+      "family": "projection",
+      "mode": "recompute",
+      "rep": 3,
+      "visits": 2000000,
+      "ms": 110.351361,
+      "cpu": {
+        "user": 110397,
+        "system": 0
+      },
+      "checksum": -852164.5938390265
+    },
+    {
+      "family": "projection",
+      "mode": "direct",
+      "rep": 3,
+      "visits": 2000000,
+      "ms": 111.97883999999976,
+      "cpu": {
+        "user": 112074,
+        "system": 0
+      },
+      "checksum": -852164.5938390265
+    },
+    {
+      "family": "projection",
+      "mode": "weak",
+      "rep": 3,
+      "visits": 2000000,
+      "ms": 80.44926200000009,
+      "cpu": {
+        "user": 80484,
+        "system": 0
+      },
+      "checksum": -852164.5938390265
+    }
+  ],
+  "cold": [
+    {
+      "family": "substep",
+      "entries": 225,
+      "directPrecomputeMs": 0.21509599999995999,
+      "weakMapInsertMs": 0.06668999999999414,
+      "numericPayloadBytes": 7200
+    },
+    {
+      "family": "contact",
+      "entries": 225,
+      "directPrecomputeMs": 0.7314030000000002,
+      "weakMapInsertMs": 0.20061099999998078,
+      "numericPayloadBytes": 3600
+    },
+    {
+      "family": "projection",
+      "entries": 180,
+      "directPrecomputeMs": 3.8915139999999155,
+      "weakMapInsertMs": 0.14976900000010573,
+      "numericPayloadBytes": 11520
+    }
+  ],
+  "memory": {
+    "keys": 10000,
+    "numericBytesPerEntry": 48,
+    "gcAvailable": true,
+    "initial": 15793824,
+    "keyOnly": 17548496,
+    "populated": 15981552,
+    "afterDrop": 15981712,
+    "initialUsage": {
+      "rss": 114270208,
+      "heapTotal": 33808384,
+      "heapUsed": 15793824,
+      "external": 14482371,
+      "arrayBuffers": 217203
+    },
+    "keyOnlyUsage": {
+      "rss": 114270208,
+      "heapTotal": 35643392,
+      "heapUsed": 17548496,
+      "external": 14482371,
+      "arrayBuffers": 217203
+    },
+    "populatedUsage": {
+      "rss": 115056640,
+      "heapTotal": 33812480,
+      "heapUsed": 15981552,
+      "external": 14482371,
+      "arrayBuffers": 217203
+    },
+    "afterDropUsage": {
+      "rss": 115187712,
+      "heapTotal": 33812480,
+      "heapUsed": 15981712,
+      "external": 14482371,
+      "arrayBuffers": 217203
+    },
+    "incrementalCacheHeapBytes": -1566944,
+    "weakContainerStillReferenced": true
+  },
+  "lifecycle": {
+    "restoredIdentityChanges": true,
+    "restoreMiss": true,
+    "childCloneMiss": true,
+    "sameObjectDimensionEditNeedsInvalidation": true,
+    "densityContextNeedsInvalidation": true,
+    "fullSnapshotRoundTripEqual": true,
+    "note": "Synthetic metadata edits only; no organism was stepped or evolved; real death/retained lineage/Bank/egg and all historical regimes remain untested"
+  },
+  "timerPairCalibration": {
+    "pairs": 10000,
+    "totalMs": 8.205183999980818,
+    "meanNs": 820.5183999980818
+  },
+  "elapsedMs": 3061.777862,
+  "archiveSHA256": "89b49c76e496f192acacf0040c26b97e9aa24da4c161cfb438dd75a525b85b8d",
+  "gitBlobSHA": "1fb918a81d7c7602787bd2e4d2bd3ff7a3ba4a69",
+  "archiveBytes": 2237,
+  "processReturncode": 0,
+  "stderr": "(node:5) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+}

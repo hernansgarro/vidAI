@@ -1,0 +1,817 @@
+{
+  "browserVersion": "145.0.7632.6",
+  "runs": [
+    {
+      "drawImageSelfSamplePercent": 98.77258270120313,
+      "rep": 1,
+      "omit": false,
+      "frames": 117,
+      "fps": 3.7280455078658545,
+      "seconds": 31.1155,
+      "frameCallbackMs": {
+        "n": 117,
+        "median": 258.5,
+        "p95": 297.6999999999971,
+        "p99": 303.3999999999942,
+        "min": 250.10000000000582,
+        "max": 307.8999999999942
+      },
+      "frameIntervalMs": {
+        "n": 116,
+        "median": 266.6000000000058,
+        "p95": 300,
+        "p99": 316.6000000000022,
+        "min": 249.89999999999782,
+        "max": 333.2999999999993
+      },
+      "mainThreadTaskMs": 30849.008999999995,
+      "mainThreadScriptMs": 30610.516,
+      "taskDurationFraction": 0.9998314978624637,
+      "native": {
+        "otherStroke": {
+          "calls": 968,
+          "ms": 0.6000000000203727
+        },
+        "causticFill": {
+          "calls": 184,
+          "ms": 1.099999999976717
+        },
+        "energyStroke": {
+          "calls": 560,
+          "ms": 0.40000000000873115
+        },
+        "otherFill": {
+          "calls": 528,
+          "ms": 0.1999999999825377
+        },
+        "surfaceComposite": {
+          "calls": 8,
+          "ms": 2114.5
+        }
+      },
+      "attemptedEnergyStrokes": 8190,
+      "energyStrokesPerFrame": 70,
+      "heapBefore": 9677160,
+      "heapAfter": 9280312,
+      "topProfileSelfUs": [
+        [
+          "drawImage @ :0",
+          29908100
+        ],
+        [
+          "(program) @ :0",
+          237296
+        ],
+        [
+          "Lr @ index-Cq_4ZBoJ.js:8",
+          32913
+        ],
+        [
+          "(garbage collector) @ :0",
+          16382
+        ],
+        [
+          "proto.stroke @ :61",
+          16025
+        ],
+        [
+          "n @ index-Cq_4ZBoJ.js:8",
+          12259
+        ],
+        [
+          "restore @ :0",
+          12005
+        ],
+        [
+          "P @ index-Cq_4ZBoJ.js:8",
+          8189
+        ],
+        [
+          "stroke @ :0",
+          8186
+        ],
+        [
+          "ellipse @ :0",
+          4116
+        ],
+        [
+          "fill @ :0",
+          4104
+        ],
+        [
+          "(idle) @ :0",
+          4084
+        ]
+      ],
+      "metadata": {
+        "strokes": 8190,
+        "workers": 1,
+        "messages": 27,
+        "acks": 26,
+        "viewport": [
+          1280,
+          850
+        ],
+        "canvas": [
+          1280,
+          674
+        ],
+        "dpr": 1,
+        "visibility": "visible",
+        "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+        "hardwareConcurrency": 4
+      }
+    },
+    {
+      "drawImageSelfSamplePercent": 99.07872647526133,
+      "rep": 1,
+      "omit": true,
+      "frames": 118,
+      "fps": 3.7601959158487435,
+      "seconds": 31.1154,
+      "frameCallbackMs": {
+        "n": 118,
+        "median": 258.70000000001164,
+        "p95": 297.3999999999942,
+        "p99": 306.30000000001746,
+        "min": 250.70000000001164,
+        "max": 329.3999999999942
+      },
+      "frameIntervalMs": {
+        "n": 117,
+        "median": 266.6000000000058,
+        "p95": 300,
+        "p99": 316.6000000000058,
+        "min": 249.89999999999418,
+        "max": 333.3000000000029
+      },
+      "mainThreadTaskMs": 30808.534000000003,
+      "mainThreadScriptMs": 30645.15000000001,
+      "taskDurationFraction": 0.9997755671262306,
+      "native": {
+        "otherStroke": {
+          "calls": 968,
+          "ms": 0.5
+        },
+        "causticFill": {
+          "calls": 184,
+          "ms": 0.6000000000058208
+        },
+        "otherFill": {
+          "calls": 528,
+          "ms": 0.39999999999417923
+        },
+        "surfaceComposite": {
+          "calls": 8,
+          "ms": 2088.499999999971
+        }
+      },
+      "attemptedEnergyStrokes": 8260,
+      "energyStrokesPerFrame": 70,
+      "heapBefore": 9948192,
+      "heapAfter": 8377396,
+      "topProfileSelfUs": [
+        [
+          "drawImage @ :0",
+          29965804
+        ],
+        [
+          "(program) @ :0",
+          163456
+        ],
+        [
+          "Lr @ index-Cq_4ZBoJ.js:8",
+          33279
+        ],
+        [
+          "restore @ :0",
+          12338
+        ],
+        [
+          "n @ index-Cq_4ZBoJ.js:8",
+          12286
+        ],
+        [
+          "fill @ :0",
+          8217
+        ],
+        [
+          "stroke @ :0",
+          8198
+        ],
+        [
+          "P @ index-Cq_4ZBoJ.js:8",
+          8172
+        ],
+        [
+          "roundRect @ :0",
+          4108
+        ],
+        [
+          "rotate @ :0",
+          4092
+        ],
+        [
+          "(idle) @ :0",
+          4084
+        ],
+        [
+          "createRadialGradient @ :0",
+          4082
+        ]
+      ],
+      "metadata": {
+        "strokes": 8260,
+        "workers": 1,
+        "messages": 27,
+        "acks": 26,
+        "viewport": [
+          1280,
+          850
+        ],
+        "canvas": [
+          1280,
+          674
+        ],
+        "dpr": 1,
+        "visibility": "visible",
+        "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+        "hardwareConcurrency": 4
+      }
+    },
+    {
+      "drawImageSelfSamplePercent": 99.02409998090026,
+      "rep": 2,
+      "omit": true,
+      "frames": 117,
+      "fps": 3.748125937031482,
+      "seconds": 30.948800000000016,
+      "frameCallbackMs": {
+        "n": 117,
+        "median": 258.80000000001746,
+        "p95": 301.6000000000058,
+        "p99": 305.4000000000233,
+        "min": 250.29999999998836,
+        "max": 317.4000000000233
+      },
+      "frameIntervalMs": {
+        "n": 116,
+        "median": 266.6000000000058,
+        "p95": 300,
+        "p99": 316.59999999999127,
+        "min": 249.89999999999418,
+        "max": 316.69999999998254
+      },
+      "mainThreadTaskMs": 30675.939,
+      "mainThreadScriptMs": 30510.957000000006,
+      "taskDurationFraction": 0.9997393424448755,
+      "native": {
+        "otherStroke": {
+          "calls": 968,
+          "ms": 0.3000000000174623
+        },
+        "causticFill": {
+          "calls": 184,
+          "ms": 0.8999999999359716
+        },
+        "otherFill": {
+          "calls": 528,
+          "ms": 0.3999999999650754
+        },
+        "surfaceComposite": {
+          "calls": 8,
+          "ms": 2143.4000000000233
+        }
+      },
+      "attemptedEnergyStrokes": 8190,
+      "energyStrokesPerFrame": 70,
+      "heapBefore": 9786228,
+      "heapAfter": 8549828,
+      "topProfileSelfUs": [
+        [
+          "drawImage @ :0",
+          29868363
+        ],
+        [
+          "(program) @ :0",
+          134950
+        ],
+        [
+          "Lr @ index-Cq_4ZBoJ.js:8",
+          36973
+        ],
+        [
+          "proto.stroke @ :61",
+          24576
+        ],
+        [
+          "fill @ :0",
+          12293
+        ],
+        [
+          "n @ index-Cq_4ZBoJ.js:8",
+          12272
+        ],
+        [
+          "P @ index-Cq_4ZBoJ.js:8",
+          12256
+        ],
+        [
+          "(garbage collector) @ :0",
+          12194
+        ],
+        [
+          "stroke @ :0",
+          8191
+        ],
+        [
+          "sync @ index-Cq_4ZBoJ.js:8",
+          8188
+        ],
+        [
+          "save @ :0",
+          8181
+        ],
+        [
+          "(idle) @ :0",
+          7956
+        ]
+      ],
+      "metadata": {
+        "strokes": 8190,
+        "workers": 1,
+        "messages": 27,
+        "acks": 26,
+        "viewport": [
+          1280,
+          850
+        ],
+        "canvas": [
+          1280,
+          674
+        ],
+        "dpr": 1,
+        "visibility": "visible",
+        "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+        "hardwareConcurrency": 4
+      }
+    },
+    {
+      "drawImageSelfSamplePercent": 99.11625113985266,
+      "rep": 2,
+      "omit": false,
+      "frames": 115,
+      "fps": 3.6815284155864294,
+      "seconds": 30.965399999999995,
+      "frameCallbackMs": {
+        "n": 115,
+        "median": 262,
+        "p95": 311,
+        "p99": 316.6000000000058,
+        "min": 252.60000000003492,
+        "max": 318.3999999999942
+      },
+      "frameIntervalMs": {
+        "n": 114,
+        "median": 266.69999999998254,
+        "p95": 316.70000000001164,
+        "p99": 316.70000000001164,
+        "min": 249.89999999999418,
+        "max": 316.70000000001164
+      },
+      "mainThreadTaskMs": 30635.850000000006,
+      "mainThreadScriptMs": 30472.28800000002,
+      "taskDurationFraction": 0.999827911007047,
+      "native": {
+        "otherStroke": {
+          "calls": 847,
+          "ms": 0.5
+        },
+        "causticFill": {
+          "calls": 161,
+          "ms": 0.9000000000523869
+        },
+        "energyStroke": {
+          "calls": 490,
+          "ms": 0.10000000000582077
+        },
+        "otherFill": {
+          "calls": 462,
+          "ms": 0.1999999999825377
+        },
+        "surfaceComposite": {
+          "calls": 7,
+          "ms": 1839.3000000000466
+        }
+      },
+      "attemptedEnergyStrokes": 8050,
+      "energyStrokesPerFrame": 70,
+      "heapBefore": 8451360,
+      "heapAfter": 8350816,
+      "topProfileSelfUs": [
+        [
+          "drawImage @ :0",
+          29844152
+        ],
+        [
+          "(program) @ :0",
+          163806
+        ],
+        [
+          "fill @ :0",
+          32816
+        ],
+        [
+          "Lr @ index-Cq_4ZBoJ.js:8",
+          20491
+        ],
+        [
+          "proto.stroke @ :61",
+          16409
+        ],
+        [
+          "stroke @ :0",
+          8041
+        ],
+        [
+          "proto.fill @ :72",
+          4102
+        ],
+        [
+          "save @ :0",
+          4091
+        ],
+        [
+          "P @ index-Cq_4ZBoJ.js:8",
+          4091
+        ],
+        [
+          "(anonymous) @ :33",
+          4085
+        ],
+        [
+          "begin @ index-Cq_4ZBoJ.js:8",
+          4084
+        ],
+        [
+          "(idle) @ :0",
+          4083
+        ]
+      ],
+      "metadata": {
+        "strokes": 8050,
+        "workers": 1,
+        "messages": 27,
+        "acks": 26,
+        "viewport": [
+          1280,
+          850
+        ],
+        "canvas": [
+          1280,
+          674
+        ],
+        "dpr": 1,
+        "visibility": "visible",
+        "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+        "hardwareConcurrency": 4
+      }
+    },
+    {
+      "drawImageSelfSamplePercent": 99.16723787156313,
+      "rep": 3,
+      "omit": false,
+      "frames": 115,
+      "fps": 3.671651309072524,
+      "seconds": 31.048699999999982,
+      "frameCallbackMs": {
+        "n": 115,
+        "median": 263.20000000001164,
+        "p95": 306.70000000001164,
+        "p99": 312.20000000001164,
+        "min": 252.20000000001164,
+        "max": 314.29999999998836
+      },
+      "frameIntervalMs": {
+        "n": 114,
+        "median": 266.69999999998254,
+        "p95": 316.6000000000058,
+        "p99": 316.70000000001164,
+        "min": 249.89999999999418,
+        "max": 316.79999999998836
+      },
+      "mainThreadTaskMs": 30761.775,
+      "mainThreadScriptMs": 30602.964999999982,
+      "taskDurationFraction": 0.9998157143045187,
+      "native": {
+        "otherStroke": {
+          "calls": 847,
+          "ms": 0.1000000000349246
+        },
+        "causticFill": {
+          "calls": 161,
+          "ms": 0.8000000000465661
+        },
+        "energyStroke": {
+          "calls": 490,
+          "ms": 0.29999999998835847
+        },
+        "otherFill": {
+          "calls": 462,
+          "ms": 0.20000000001164153
+        },
+        "surfaceComposite": {
+          "calls": 7,
+          "ms": 1916.7000000000116
+        }
+      },
+      "attemptedEnergyStrokes": 8050,
+      "energyStrokesPerFrame": 70,
+      "heapBefore": 9166284,
+      "heapAfter": 8784116,
+      "topProfileSelfUs": [
+        [
+          "drawImage @ :0",
+          29962300
+        ],
+        [
+          "(program) @ :0",
+          141339
+        ],
+        [
+          "proto.stroke @ :61",
+          28613
+        ],
+        [
+          "Lr @ index-Cq_4ZBoJ.js:8",
+          20261
+        ],
+        [
+          "fill @ :0",
+          12309
+        ],
+        [
+          "addColorStop @ :0",
+          4110
+        ],
+        [
+          "P @ index-Cq_4ZBoJ.js:8",
+          4102
+        ],
+        [
+          "save @ :0",
+          4101
+        ],
+        [
+          "restore @ :0",
+          4100
+        ],
+        [
+          "(garbage collector) @ :0",
+          4094
+        ],
+        [
+          "f @ index-Cq_4ZBoJ.js:8",
+          4094
+        ],
+        [
+          "n @ index-Cq_4ZBoJ.js:8",
+          4092
+        ]
+      ],
+      "metadata": {
+        "strokes": 8050,
+        "workers": 1,
+        "messages": 27,
+        "acks": 26,
+        "viewport": [
+          1280,
+          850
+        ],
+        "canvas": [
+          1280,
+          674
+        ],
+        "dpr": 1,
+        "visibility": "visible",
+        "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+        "hardwareConcurrency": 4
+      }
+    },
+    {
+      "drawImageSelfSamplePercent": 99.10683060943043,
+      "rep": 3,
+      "omit": true,
+      "frames": 119,
+      "fps": 3.8107048512210406,
+      "seconds": 30.965399999999995,
+      "frameCallbackMs": {
+        "n": 119,
+        "median": 256,
+        "p95": 291.3999999999651,
+        "p99": 295.5,
+        "min": 248.89999999996508,
+        "max": 309.29999999998836
+      },
+      "frameIntervalMs": {
+        "n": 118,
+        "median": 266.5999999999767,
+        "p95": 300,
+        "p99": 300,
+        "min": 249.89999999996508,
+        "max": 316.80000000001746
+      },
+      "mainThreadTaskMs": 30699.265999999996,
+      "mainThreadScriptMs": 30540.597999999987,
+      "taskDurationFraction": 0.9998283315589496,
+      "native": {
+        "otherStroke": {
+          "calls": 847,
+          "ms": 0.2999999999301508
+        },
+        "causticFill": {
+          "calls": 161,
+          "ms": 0.5000000000582077
+        },
+        "otherFill": {
+          "calls": 462,
+          "ms": 0.3000000001047738
+        },
+        "surfaceComposite": {
+          "calls": 7,
+          "ms": 1793.2000000000698
+        }
+      },
+      "attemptedEnergyStrokes": 8330,
+      "energyStrokesPerFrame": 70,
+      "heapBefore": 8587812,
+      "heapAfter": 8527940,
+      "topProfileSelfUs": [
+        [
+          "drawImage @ :0",
+          29911937
+        ],
+        [
+          "(program) @ :0",
+          146827
+        ],
+        [
+          "fill @ :0",
+          24599
+        ],
+        [
+          "Lr @ index-Cq_4ZBoJ.js:8",
+          20443
+        ],
+        [
+          "save @ :0",
+          12304
+        ],
+        [
+          "(idle) @ :0",
+          12286
+        ],
+        [
+          "proto.stroke @ :61",
+          8198
+        ],
+        [
+          "(garbage collector) @ :0",
+          8163
+        ],
+        [
+          "proto.fill @ :72",
+          4126
+        ],
+        [
+          "arc @ :0",
+          4097
+        ],
+        [
+          "n @ index-Cq_4ZBoJ.js:8",
+          4093
+        ],
+        [
+          "setTransform @ :0",
+          4093
+        ]
+      ],
+      "metadata": {
+        "strokes": 8330,
+        "workers": 1,
+        "messages": 27,
+        "acks": 26,
+        "viewport": [
+          1280,
+          850
+        ],
+        "canvas": [
+          1280,
+          674
+        ],
+        "dpr": 1,
+        "visibility": "visible",
+        "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+        "hardwareConcurrency": 4
+      }
+    }
+  ],
+  "groups": {
+    "draw": {
+      "fps": {
+        "n": 3,
+        "median": 3.6815284155864294,
+        "p95": null,
+        "p99": null,
+        "min": 3.671651309072524,
+        "max": 3.7280455078658545
+      },
+      "frameCallbackMs": {
+        "n": 347,
+        "median": 261.4000000000233,
+        "p95": 306.20000000001164,
+        "p99": 314.29999999998836,
+        "min": 250.10000000000582,
+        "max": 318.3999999999942
+      },
+      "frameIntervalMs": {
+        "n": 344,
+        "median": 266.69999999998254,
+        "p95": 316.5999999999767,
+        "p99": 316.70000000001164,
+        "min": 249.89999999999418,
+        "max": 333.2999999999993
+      },
+      "mainThreadTaskMs": {
+        "n": 3,
+        "median": 30761.775,
+        "p95": null,
+        "p99": null,
+        "min": 30635.850000000006,
+        "max": 30849.008999999995
+      },
+      "mainThreadScriptMs": {
+        "n": 3,
+        "median": 30602.964999999982,
+        "p95": null,
+        "p99": null,
+        "min": 30472.28800000002,
+        "max": 30610.516
+      }
+    },
+    "omit": {
+      "fps": {
+        "n": 3,
+        "median": 3.7601959158487435,
+        "p95": null,
+        "p99": null,
+        "min": 3.748125937031482,
+        "max": 3.8107048512210406
+      },
+      "frameCallbackMs": {
+        "n": 354,
+        "median": 257.70000000001164,
+        "p95": 296.3999999999942,
+        "p99": 309.29999999998836,
+        "min": 248.89999999996508,
+        "max": 329.3999999999942
+      },
+      "frameIntervalMs": {
+        "n": 351,
+        "median": 266.6000000000058,
+        "p95": 300,
+        "p99": 316.6000000000058,
+        "min": 249.89999999996508,
+        "max": 333.3000000000029
+      },
+      "mainThreadTaskMs": {
+        "n": 3,
+        "median": 30699.265999999996,
+        "p95": null,
+        "p99": null,
+        "min": 30675.939,
+        "max": 30808.534000000003
+      },
+      "mainThreadScriptMs": {
+        "n": 3,
+        "median": 30540.597999999987,
+        "p95": null,
+        "p99": null,
+        "min": 30510.957000000006,
+        "max": 30645.15000000001
+      }
+    }
+  },
+  "sourceStateEqualAcrossAllWindows": true,
+  "sourceCounts": {
+    "organisms": 15,
+    "food": 7
+  },
+  "heldCounts": {
+    "organisms": 15,
+    "parts": 17,
+    "food": 0,
+    "caustics": 28,
+    "simTime": 3.0333333333333274
+  }
+}

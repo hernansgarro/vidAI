@@ -1,0 +1,34 @@
+{
+  "stage": "3.3",
+  "status": "BLOCKED_MISSING_EVIDENCE",
+  "date": "2026-11-03",
+  "researchBase": "29e3f7569e1e788e3301d4bb9f71aa1a4a01d3ff",
+  "sourceHead": "23c49c03e2a021721b9678177baba846b8802857",
+  "slot": {
+    "index": 0,
+    "scenario": "founders15",
+    "mode": "baseline",
+    "rep": 1,
+    "plannedWarmupTicks": 60,
+    "plannedMeasuredTicks": 300,
+    "status": "OUTCOME_UNKNOWN"
+  },
+  "known": [
+    "Zero-tick diagnostic-loader/checkpoint preflight succeeded and its complete archive is preserved.",
+    "Original controller reached its archive-delivery loop after parsing a child STAGE33_RESULT.",
+    "The orchestration did not retain the receipt/archive; its pending monitor was terminated.",
+    "A subsequent unexpected input terminated the controller with Error: Expected READ before archive retrieval."
+  ],
+  "unknown": [
+    "Whether all planned ticks completed",
+    "Actual tick count, kernel duration, return status, state hashes, energy discrepancy and scientific success/failure of slot0"
+  ],
+  "retainedScientificResults": 0,
+  "unstartedKernelSlots": 11,
+  "componentStudy": "NOT_STARTED",
+  "scientificReruns": 0,
+  "stopReason": "Preregistered missing-evidence stop; contributor workflow forbids unauthorized lost-trial reruns.",
+  "repair": "Idempotent Python capture bridge retains current outcome, reprints HEADER or CHUNK n, refuses a second RUN and requires explicit archive-hash ACK before exit.",
+  "repairValidation": "Synthetic payload only; no simulation or biological ticks. Repeated CHUNK0 is identical.",
+  "nextAction": "Ask Hernan to authorize one labeled recovery evaluation of the unknown slot, retain this incident unchanged, then complete remaining originally planned studies; do not execute recovery automatically."
+}

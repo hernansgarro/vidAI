@@ -1,0 +1,27 @@
+### 2026-11-02 — IDEA-023 Stage 3.2 preregistration (Stage 3 remains ONGOING)
+
+Hernan explicitly authorizes one additional graphics-focused, research-only batch in the attached continuation request. The original completed pilot is Stage 3.1, not completion of Stage 3. Preserve draft fork PR66 and all v1 bytes; append commits on `hernansgarro:audit/performance-stage-3` from `9a040fc3b7dce13768b9c488466227e96f6694d3`. Fork main `11248f3431604a1b883a7a948a6e6baddc3fafdd`, testing `4bda30a269bd8650b6e12a99b99e4af5ef673d42`, canonical main `041362eefa64971d9038f4ad7ec4fd59a747d3ec`. No merge, upstream PR, publication, optimization, genetic/physics change, or Stage 3.3 execution.
+
+**Questions:** Is the measured composition boundary dominated by deferred caustic blur/raster, pure full-surface copying, or other backend work? Does an explicit source readback move that work before drawImage? Identify browser graphics backend if exposed. Source-inspect finite optical range and invariant physical derivations only; no optical/cache campaign.
+
+**Controls/instruments:** Built unchanged production app, actual Worker, exact archived v1 held checkpoint imported at x0 (no new biological evolution), viewport1280x850, DPR1; capture actual canvas pixels/camera transforms/visibility. Every contrast must retain complete authoritative state, including PRNG/optics/learning/ledger. Browser version/launch flags and CDP SystemInfo GPU metadata recorded; software graphics does not establish desktop behavior. Main-thread RAF wall/interval series and Canvas method timings, frame/ACK counts, CDP main-thread metrics; diagnostic V8/short native traces separately identified. Source pixels may intentionally differ in hypothetical visual ablations; no production appearance change.
+
+**Exactly bounded budget:** five app modes: baseline with aggregate timings disabled (overhead control), same baseline with timings, caustic fill blur temporarily changed to none, caustic native fills omitted, and source getImageData(1x1) forced immediately before final composition. Two repetitions, reverse order in repetition2, each2s settling+8s measurement =10 windows/100s nominal. All modes retain same prototype wrappers and RAF measurement; overhead comparison prices additional timers only, not zero instrumentation. Two additional diagnostic windows (baseline and unblur) with2s settling+3s capture each, V8 sampler and CDP trace, excluded from timing aggregates. One isolated already-flushed same-size Canvas copy study:2 blocks of30 calls, recording draw and target1x1 readback separately; component benchmark, not game FPS. Ceiling5min experimental browser time,10min test timeout,512MiB evidence. No retries/replacement of failed experiment. Stop on state mismatch, renderer failure, >512MiB evidence or elapsed ceiling; retain partial outputs/failure and do not automatically rerun. No high population stress, old pilot rerun or cache variant.
+
+**Expected evidence:** Original held checkpoint/hash, all windows and failures, exact research/source SHA, environment/backend, diagnostic profiles/traces, copy-study measurements, per-mode medians/distributions with small-sample/correlated-frame limits. Retain v1 manifest unchanged; exclusive-create v2 directory files. Measure only one batch, reassess all S2 rows in executive dashboard, append dated changed conclusions, register separate per-ray inherited range idea and mandatory future S2-02 study. Propose Stage 3.3, then STOP for Hernan's review.
+
+**Validation/access:** npm ci, fast/build for research helper, existing required CI unaffected. Use preinstalled CI Chromium; no local browser download. Temporarily import the new optional helper through the existing Chromium regression entrypoint to execute once; restore original file afterward so prose commits do not rerun spent trials. Preserve every inherited test/gate. No workflow/hosting changes. Fork admin permission verified; upstream permission endpoint returns403, so no upstream write authority is inferred beyond permitted coordination comments. Existing #67 remains open; no competing backlog or native Project status change claimed.
+
+Coordination receipt: https://github.com/smeagol44/vidAI/issues/57#issuecomment-6589623007
+
+
+## Technical preflight amendment (before any research measurement)
+
+Initial source1c4927a/CI41534358441 failed in checkout-SHA metadata collection
+before browser navigation or any research measurement. All31 inherited Chromium
+cases and all other mandatory groups passed. Original failed-job log is retained
+as `preflight-failure.log`; zero scientific windows/copies/traces were started.
+A command-local safe.directory for this trusted checkout fixes only SHA readout,
+now inside try/finally evidence protection. The original budget remains unspent;
+execute it once after repair. No scientific outcome is repeated/replaced and no
+configuration, budget, source behavior, CI gate or workflow is changed.

@@ -1,0 +1,343 @@
+﻿2026-11-02T22:06:38.7982898Z Current runner version: '2.338.2'
+2026-11-02T22:06:38.8010303Z ##[group]Runner Image Provisioner
+2026-11-02T22:06:38.8011238Z Hosted Compute Agent
+2026-11-02T22:06:38.8011969Z Version: 20261021.618
+2026-11-02T22:06:38.8012658Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+2026-11-02T22:06:38.8013397Z Build Date: 2026-10-21T00:45:21Z
+2026-11-02T22:06:38.8014201Z Worker ID: {072354f7-2a3c-4306-addb-6c589abcb104}
+2026-11-02T22:06:38.8014923Z Region: centralus
+2026-11-02T22:06:38.8015554Z Cloud: Azure
+2026-11-02T22:06:38.8016118Z ##[endgroup]
+2026-11-02T22:06:38.8017928Z ##[group]Operating System
+2026-11-02T22:06:38.8018749Z Ubuntu
+2026-11-02T22:06:38.8019293Z 24.04.5
+2026-11-02T22:06:38.8019892Z LTS
+2026-11-02T22:06:38.8020441Z ##[endgroup]
+2026-11-02T22:06:38.8021039Z ##[group]Runner Image
+2026-11-02T22:06:38.8021698Z Image: ubuntu-24.04
+2026-11-02T22:06:38.8022275Z Version: 20261025.353.1
+2026-11-02T22:06:38.8023660Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261025.353/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-02T22:06:38.8025256Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261025.353
+2026-11-02T22:06:38.8026357Z ##[endgroup]
+2026-11-02T22:06:38.8027805Z ##[group]GITHUB_TOKEN Permissions
+2026-11-02T22:06:38.8029856Z Contents: read
+2026-11-02T22:06:38.8030506Z Metadata: read
+2026-11-02T22:06:38.8031075Z ##[endgroup]
+2026-11-02T22:06:38.8033524Z Secret source: Actions
+2026-11-02T22:06:38.8034523Z Cache mode: write
+2026-11-02T22:06:38.8035379Z Prepare workflow directory
+2026-11-02T22:06:38.8625646Z Prepare all required actions
+2026-11-02T22:06:38.8700089Z Getting action download info
+2026-11-02T22:06:39.1281307Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-11-02T22:06:39.2483991Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+2026-11-02T22:06:39.3551812Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-11-02T22:06:39.5779517Z Complete job name: browser-shard (chromium-regressions)
+2026-11-02T22:06:39.6353453Z ##[group]Checking docker version
+2026-11-02T22:06:39.6367419Z ##[command]/usr/bin/docker version --format '{{.Server.APIVersion}}'
+2026-11-02T22:06:39.7492935Z '1.48'
+2026-11-02T22:06:39.7512443Z Docker daemon API version: '1.48'
+2026-11-02T22:06:39.7513501Z ##[command]/usr/bin/docker version --format '{{.Client.APIVersion}}'
+2026-11-02T22:06:39.7729937Z '1.48'
+2026-11-02T22:06:39.7748562Z Docker client API version: '1.48'
+2026-11-02T22:06:39.7754279Z ##[endgroup]
+2026-11-02T22:06:39.7758655Z ##[group]Clean up resources from previous jobs
+2026-11-02T22:06:39.7765017Z ##[command]/usr/bin/docker ps --all --quiet --no-trunc --filter "label=4d4591"
+2026-11-02T22:06:39.7947718Z ##[command]/usr/bin/docker network prune --force --filter "label=4d4591"
+2026-11-02T22:06:39.8135934Z ##[endgroup]
+2026-11-02T22:06:39.8136502Z ##[group]Create local container network
+2026-11-02T22:06:39.8148337Z ##[command]/usr/bin/docker network create --label 4d4591 github_network_bbed3f0270a94bb3ab74746db1ee77d3
+2026-11-02T22:06:39.8820690Z f803847c8dcb9d60bad22f59fa61fa4f1901fccc8ad3f14fbd48ff7dd6a7e420
+2026-11-02T22:06:39.8851570Z ##[endgroup]
+2026-11-02T22:06:39.8891001Z ##[group]Starting job container
+2026-11-02T22:06:39.8915514Z ##[command]/usr/bin/docker pull mcr.microsoft.com/playwright:v1.58.2-noble
+2026-11-02T22:06:40.0372303Z v1.58.2-noble: Pulling from playwright
+2026-11-02T22:06:40.0771705Z e93fce65fb9f: Pulling fs layer
+2026-11-02T22:06:40.0772880Z 2f544baf4e5f: Pulling fs layer
+2026-11-02T22:06:40.0773971Z a9f762cbf2c0: Pulling fs layer
+2026-11-02T22:06:40.0774773Z ca6ba77a7dd1: Pulling fs layer
+2026-11-02T22:06:40.0775638Z ca6ba77a7dd1: Waiting
+2026-11-02T22:06:40.1462818Z a9f762cbf2c0: Verifying Checksum
+2026-11-02T22:06:40.1463967Z a9f762cbf2c0: Download complete
+2026-11-02T22:06:40.2786683Z e93fce65fb9f: Verifying Checksum
+2026-11-02T22:06:40.2793530Z e93fce65fb9f: Download complete
+2026-11-02T22:06:40.6508592Z 2f544baf4e5f: Verifying Checksum
+2026-11-02T22:06:40.6510718Z 2f544baf4e5f: Download complete
+2026-11-02T22:06:41.5615136Z e93fce65fb9f: Pull complete
+2026-11-02T22:06:44.0714640Z ca6ba77a7dd1: Verifying Checksum
+2026-11-02T22:06:44.0715740Z ca6ba77a7dd1: Download complete
+2026-11-02T22:06:48.6113405Z 2f544baf4e5f: Pull complete
+2026-11-02T22:06:48.6349222Z a9f762cbf2c0: Pull complete
+2026-11-02T22:07:04.6148953Z ca6ba77a7dd1: Pull complete
+2026-11-02T22:07:04.6194101Z Digest: sha256:6446946a1d9fd62d9ae501312a2d76a43ee688542b21622056a372959b65d63d
+2026-11-02T22:07:04.6207314Z Status: Downloaded newer image for mcr.microsoft.com/playwright:v1.58.2-noble
+2026-11-02T22:07:04.6215916Z mcr.microsoft.com/playwright:v1.58.2-noble
+2026-11-02T22:07:04.6308054Z ##[command]/usr/bin/docker create --name 5463f32c48024de787eb575a10cbd570_mcrmicrosoftcomplaywrightv1582noble_203731 --label 4d4591 --workdir /__w/vidAI/vidAI --network github_network_bbed3f0270a94bb3ab74746db1ee77d3  -e "HOME=/github/home" -e GITHUB_ACTIONS=true -e CI=true -v "/var/run/docker.sock":"/var/run/docker.sock" -v "/home/runner/work":"/__w" -v "/home/runner/actions-runner/cached/2.338.2/externals":"/__e":ro -v "/home/runner/work/_temp":"/__w/_temp" -v "/home/runner/work/_actions":"/__w/_actions" -v "/opt/hostedtoolcache":"/__t" -v "/home/runner/work/_temp/_github_home":"/github/home" -v "/home/runner/work/_temp/_github_workflow":"/github/workflow" --entrypoint "tail" mcr.microsoft.com/playwright:v1.58.2-noble "-f" "/dev/null"
+2026-11-02T22:07:04.6637556Z d1ee28e1aede1639827a48c14d97897b81184a421ba22d3ef4b05af15be98c11
+2026-11-02T22:07:04.6665771Z ##[command]/usr/bin/docker start d1ee28e1aede1639827a48c14d97897b81184a421ba22d3ef4b05af15be98c11
+2026-11-02T22:07:04.8928839Z d1ee28e1aede1639827a48c14d97897b81184a421ba22d3ef4b05af15be98c11
+2026-11-02T22:07:04.8969556Z ##[command]/usr/bin/docker ps --all --filter id=d1ee28e1aede1639827a48c14d97897b81184a421ba22d3ef4b05af15be98c11 --filter status=running --no-trunc --format "{{.ID}} {{.Status}}"
+2026-11-02T22:07:04.9124338Z d1ee28e1aede1639827a48c14d97897b81184a421ba22d3ef4b05af15be98c11 Up Less than a second
+2026-11-02T22:07:04.9149345Z ##[command]/usr/bin/docker inspect --format "{{range .Config.Env}}{{println .}}{{end}}" d1ee28e1aede1639827a48c14d97897b81184a421ba22d3ef4b05af15be98c11
+2026-11-02T22:07:04.9306873Z HOME=/github/home
+2026-11-02T22:07:04.9308243Z GITHUB_ACTIONS=true
+2026-11-02T22:07:04.9308667Z CI=true
+2026-11-02T22:07:04.9309010Z PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+2026-11-02T22:07:04.9309461Z LANG=C.UTF-8
+2026-11-02T22:07:04.9309683Z LC_ALL=C.UTF-8
+2026-11-02T22:07:04.9309941Z PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
+2026-11-02T22:07:04.9332848Z ##[endgroup]
+2026-11-02T22:07:04.9342842Z ##[group]Waiting for all services to be ready
+2026-11-02T22:07:04.9345032Z ##[endgroup]
+2026-11-02T22:07:04.9739273Z ##[group]Run actions/checkout@v4
+2026-11-02T22:07:04.9739944Z with:
+2026-11-02T22:07:04.9740184Z   repository: hernansgarro/vidAI
+2026-11-02T22:07:04.9742776Z   token: ***
+2026-11-02T22:07:04.9742994Z   ssh-strict: true
+2026-11-02T22:07:04.9743214Z   ssh-user: git
+2026-11-02T22:07:04.9743437Z   persist-credentials: true
+2026-11-02T22:07:04.9743684Z   clean: true
+2026-11-02T22:07:04.9743907Z   sparse-checkout-cone-mode: true
+2026-11-02T22:07:04.9744168Z   fetch-depth: 1
+2026-11-02T22:07:04.9744373Z   fetch-tags: false
+2026-11-02T22:07:04.9744589Z   show-progress: true
+2026-11-02T22:07:04.9744802Z   lfs: false
+2026-11-02T22:07:04.9744993Z   submodules: false
+2026-11-02T22:07:04.9745206Z   set-safe-directory: true
+2026-11-02T22:07:04.9745454Z   allow-unsafe-pr-checkout: false
+2026-11-02T22:07:04.9745905Z env:
+2026-11-02T22:07:04.9746100Z   HOME: /root
+2026-11-02T22:07:04.9746304Z ##[endgroup]
+2026-11-02T22:07:04.9813317Z ##[command]/usr/bin/docker exec  d1ee28e1aede1639827a48c14d97897b81184a421ba22d3ef4b05af15be98c11 sh -c "cat /etc/*release | grep ^ID"
+2026-11-02T22:07:05.0611648Z WARNING: Error loading config file: open /root/.docker/config.json: permission denied
+2026-11-02T22:07:05.4215121Z Syncing repository: hernansgarro/vidAI
+2026-11-02T22:07:05.4217460Z ##[group]Getting Git version info
+2026-11-02T22:07:05.4218047Z Working directory is '/__w/vidAI/vidAI'
+2026-11-02T22:07:05.4218888Z [command]/usr/bin/git version
+2026-11-02T22:07:05.4219330Z git version 2.43.0
+2026-11-02T22:07:05.4229763Z ##[endgroup]
+2026-11-02T22:07:05.4278687Z Temporarily overriding HOME='/__w/_temp/cc81814b-9271-4e36-8f7d-e458c6d0beed' before making global git config changes
+2026-11-02T22:07:05.4280002Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-02T22:07:05.4280969Z [command]/usr/bin/git config --global --add safe.directory /__w/vidAI/vidAI
+2026-11-02T22:07:05.4328289Z Deleting the contents of '/__w/vidAI/vidAI'
+2026-11-02T22:07:05.4329475Z ##[group]Initializing the repository
+2026-11-02T22:07:05.4338690Z [command]/usr/bin/git init /__w/vidAI/vidAI
+2026-11-02T22:07:05.4379311Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-02T22:07:05.4380391Z hint: is subject to change. To configure the initial branch name to use in all
+2026-11-02T22:07:05.4381327Z hint: of your new repositories, which will suppress this warning, call:
+2026-11-02T22:07:05.4382055Z hint: 
+2026-11-02T22:07:05.4382548Z hint: 	git config --global init.defaultBranch <name>
+2026-11-02T22:07:05.4383150Z hint: 
+2026-11-02T22:07:05.4383655Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-02T22:07:05.4384469Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-02T22:07:05.4385112Z hint: 
+2026-11-02T22:07:05.4385532Z hint: 	git branch -m <name>
+2026-11-02T22:07:05.4386171Z Initialized empty Git repository in /__w/vidAI/vidAI/.git/
+2026-11-02T22:07:05.4409566Z [command]/usr/bin/git remote add origin https://github.com/hernansgarro/vidAI
+2026-11-02T22:07:05.4447766Z ##[endgroup]
+2026-11-02T22:07:05.4448239Z ##[group]Disabling automatic garbage collection
+2026-11-02T22:07:05.4455308Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-02T22:07:05.4496709Z ##[endgroup]
+2026-11-02T22:07:05.4497843Z ##[group]Setting up auth
+2026-11-02T22:07:05.4506575Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-02T22:07:05.4548438Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-02T22:07:05.4876400Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-02T22:07:05.4924119Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-02T22:07:05.5248779Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-02T22:07:05.5307902Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-02T22:07:05.5590368Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-02T22:07:05.5644145Z ##[endgroup]
+2026-11-02T22:07:05.5644609Z ##[group]Fetching the repository
+2026-11-02T22:07:05.5663974Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +5be73355efd19b7d8479f76afcb8351eecba2160:refs/remotes/pull/66/merge
+2026-11-02T22:07:06.5550871Z From https://github.com/hernansgarro/vidAI
+2026-11-02T22:07:06.5551461Z  * [new ref]         5be73355efd19b7d8479f76afcb8351eecba2160 -> pull/66/merge
+2026-11-02T22:07:06.5575720Z ##[endgroup]
+2026-11-02T22:07:06.5576469Z ##[group]Determining the checkout info
+2026-11-02T22:07:06.5578693Z ##[endgroup]
+2026-11-02T22:07:06.5584697Z [command]/usr/bin/git sparse-checkout disable
+2026-11-02T22:07:06.5642357Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-02T22:07:06.5686689Z ##[group]Checking out the ref
+2026-11-02T22:07:06.5708236Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/66/merge
+2026-11-02T22:07:06.6131543Z Note: switching to 'refs/remotes/pull/66/merge'.
+2026-11-02T22:07:06.6132160Z 
+2026-11-02T22:07:06.6132615Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-11-02T22:07:06.6133884Z changes and commit them, and you can discard any commits you make in this
+2026-11-02T22:07:06.6135020Z state without impacting any branches by switching back to a branch.
+2026-11-02T22:07:06.6135716Z 
+2026-11-02T22:07:06.6136262Z If you want to create a new branch to retain commits you create, you may
+2026-11-02T22:07:06.6137873Z do so (now or later) by using -c with the switch command. Example:
+2026-11-02T22:07:06.6138541Z 
+2026-11-02T22:07:06.6138786Z   git switch -c <new-branch-name>
+2026-11-02T22:07:06.6139167Z 
+2026-11-02T22:07:06.6139429Z Or undo this operation with:
+2026-11-02T22:07:06.6139824Z 
+2026-11-02T22:07:06.6140048Z   git switch -
+2026-11-02T22:07:06.6140376Z 
+2026-11-02T22:07:06.6140999Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-11-02T22:07:06.6141834Z 
+2026-11-02T22:07:06.6142775Z HEAD is now at 5be7335 Merge 1c4927ad0f9bb7d01368c6a1ede73b9d634c2969 into 11248f3431604a1b883a7a948a6e6baddc3fafdd
+2026-11-02T22:07:06.6151029Z ##[endgroup]
+2026-11-02T22:07:06.6205639Z [command]/usr/bin/git log -1 --format=%H
+2026-11-02T22:07:06.6247989Z 5be73355efd19b7d8479f76afcb8351eecba2160
+2026-11-02T22:07:06.6608893Z ##[group]Run actions/setup-node@v4
+2026-11-02T22:07:06.6609221Z with:
+2026-11-02T22:07:06.6609431Z   node-version: 24
+2026-11-02T22:07:06.6609669Z   cache: npm
+2026-11-02T22:07:06.6609882Z   always-auth: false
+2026-11-02T22:07:06.6610114Z   check-latest: false
+2026-11-02T22:07:06.6612537Z   token: ***
+2026-11-02T22:07:06.6612751Z env:
+2026-11-02T22:07:06.6612944Z   HOME: /root
+2026-11-02T22:07:06.6613150Z ##[endgroup]
+2026-11-02T22:07:06.6621085Z ##[command]/usr/bin/docker exec  d1ee28e1aede1639827a48c14d97897b81184a421ba22d3ef4b05af15be98c11 sh -c "cat /etc/*release | grep ^ID"
+2026-11-02T22:07:06.7356293Z WARNING: Error loading config file: open /root/.docker/config.json: permission denied
+2026-11-02T22:07:06.9378705Z (node:147) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-02T22:07:06.9380036Z Found in cache @ /__t/node/24.22.1/x64
+2026-11-02T22:07:06.9381137Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-02T22:07:06.9382840Z ##[group]Environment details
+2026-11-02T22:07:07.4139019Z node: v24.22.1
+2026-11-02T22:07:07.4139475Z npm: 11.19.1
+2026-11-02T22:07:07.4139834Z yarn: 1.22.22
+2026-11-02T22:07:07.4141727Z ##[endgroup]
+2026-11-02T22:07:07.4167903Z [command]/__t/node/24.22.1/x64/bin/npm config get cache
+2026-11-02T22:07:07.5358639Z /root/.npm
+2026-11-02T22:07:07.6964137Z Cache hit for: node-cache-Linux-x64-npm-4f930ba74db4d945c560460bc828d8b535d9e4c505c391b64ae444c2a3b3f908
+2026-11-02T22:07:07.7091739Z (node:147) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-11-02T22:07:08.6212135Z Received 52203376 of 52203376 (100.0%), 63.5 MBs/sec
+2026-11-02T22:07:08.6212915Z Cache Size: ~50 MB (52203376 B)
+2026-11-02T22:07:08.6232914Z [command]/usr/bin/tar -xf /__w/_temp/e724f88d-92df-4067-b272-beaa1ccb7d7a/cache.tgz -P -C /__w/vidAI/vidAI -z
+2026-11-02T22:07:08.9485178Z Cache restored successfully
+2026-11-02T22:07:08.9522452Z Cache restored from key: node-cache-Linux-x64-npm-4f930ba74db4d945c560460bc828d8b535d9e4c505c391b64ae444c2a3b3f908
+2026-11-02T22:07:08.9831054Z ##[group]Run npm ci
+2026-11-02T22:07:08.9831378Z [36;1mnpm ci[0m
+2026-11-02T22:07:08.9834851Z shell: sh -e {0}
+2026-11-02T22:07:08.9835093Z env:
+2026-11-02T22:07:08.9835302Z   HOME: /root
+2026-11-02T22:07:08.9835760Z ##[endgroup]
+2026-11-02T22:07:09.0038336Z WARNING: Error loading config file: open /root/.docker/config.json: permission denied
+2026-11-02T22:07:13.3054483Z 
+2026-11-02T22:07:13.3057697Z added 113 packages, and audited 114 packages in 4s
+2026-11-02T22:07:13.3058276Z 
+2026-11-02T22:07:13.3058655Z 28 packages are looking for funding
+2026-11-02T22:07:13.3059240Z   run `npm fund` for details
+2026-11-02T22:07:13.3077959Z 
+2026-11-02T22:07:13.3078417Z 1 moderate severity vulnerability
+2026-11-02T22:07:13.3078781Z 
+2026-11-02T22:07:13.3079127Z To address all issues, run:
+2026-11-02T22:07:13.3079582Z   npm audit fix
+2026-11-02T22:07:13.3079805Z 
+2026-11-02T22:07:13.3080021Z Run `npm audit` for details.
+2026-11-02T22:07:13.3094502Z npm warn install-scripts 1 package has install scripts not yet covered by allowScripts:
+2026-11-02T22:07:13.3095631Z npm warn install-scripts   esbuild@0.28.2 (postinstall: node install.js)
+2026-11-02T22:07:13.3096362Z npm warn install-scripts
+2026-11-02T22:07:13.3097693Z npm warn install-scripts Run `npm install-scripts ls` to review, or `npm install-scripts approve <pkg>` to allow.
+2026-11-02T22:07:13.4047923Z ##[group]Run test -d /ms-playwright
+2026-11-02T22:07:13.4048345Z [36;1mtest -d /ms-playwright[0m
+2026-11-02T22:07:13.4048706Z [36;1mls -1 /ms-playwright[0m
+2026-11-02T22:07:13.4049102Z shell: sh -e {0}
+2026-11-02T22:07:13.4049316Z env:
+2026-11-02T22:07:13.4049505Z   HOME: /root
+2026-11-02T22:07:13.4049712Z ##[endgroup]
+2026-11-02T22:07:13.4210141Z WARNING: Error loading config file: open /root/.docker/config.json: permission denied
+2026-11-02T22:07:13.4593815Z chromium-1208
+2026-11-02T22:07:13.4594336Z chromium_headless_shell-1208
+2026-11-02T22:07:13.4594743Z ffmpeg-1011
+2026-11-02T22:07:13.4595005Z firefox-1509
+2026-11-02T22:07:13.4595223Z webkit-2248
+2026-11-02T22:07:13.4666355Z ##[group]Run npm run build
+2026-11-02T22:07:13.4666684Z [36;1mnpm run build[0m
+2026-11-02T22:07:13.4667395Z shell: sh -e {0}
+2026-11-02T22:07:13.4667631Z env:
+2026-11-02T22:07:13.4667828Z   HOME: /root
+2026-11-02T22:07:13.4668058Z ##[endgroup]
+2026-11-02T22:07:13.4829338Z WARNING: Error loading config file: open /root/.docker/config.json: permission denied
+2026-11-02T22:07:13.6238012Z 
+2026-11-02T22:07:13.6238563Z > vidai@0.39.0 build
+2026-11-02T22:07:13.6239134Z > tsc --noEmit && vite build
+2026-11-02T22:07:13.6239445Z 
+2026-11-02T22:07:14.8695010Z [36mvite v8.3.4 [32mbuilding client environment for production...[36m[39m
+2026-11-02T22:07:14.8812497Z transforming...
+2026-11-02T22:07:15.8866184Z ✓ 1966 modules transformed.
+2026-11-02T22:07:15.9278518Z rendering chunks...
+2026-11-02T22:07:15.9880760Z computing gzip size...
+2026-11-02T22:07:15.9954619Z dist/index.html                                    0.58 kB │ gzip:   0.36 kB
+2026-11-02T22:07:15.9955372Z dist/assets/organism_egg-BDSwlyUD.png             34.76 kB
+2026-11-02T22:07:15.9955954Z dist/assets/dna_helix_icon-C7fp0qYq.png           43.97 kB
+2026-11-02T22:07:15.9956648Z dist/assets/nutrient_particle-Ckf6HEX6.png       112.01 kB
+2026-11-02T22:07:15.9957605Z dist/assets/neural_node_icon-CNtW481w.png        146.08 kB
+2026-11-02T22:07:15.9958347Z dist/assets/simulation.worker-BOfAki5g.js        219.08 kB
+2026-11-02T22:07:15.9958944Z dist/assets/coral_depths-B6vhoJ9Z.mp3            744.65 kB
+2026-11-02T22:07:15.9959492Z dist/assets/ambient_deep_water_bgm-DKw8lmsb.mp3  744.65 kB
+2026-11-02T22:07:15.9960232Z dist/assets/index-BRFRLHvb.css                    37.22 kB │ gzip:   8.04 kB
+2026-11-02T22:07:15.9961308Z dist/assets/index-Cq_4ZBoJ.js                    554.58 kB │ gzip: 146.31 kB
+2026-11-02T22:07:15.9961879Z 
+2026-11-02T22:07:15.9963082Z [33m[plugin builtin:vite-reporter] 
+2026-11-02T22:07:15.9964205Z (!) Some chunks are larger than 500 kB after minification. Consider:
+2026-11-02T22:07:15.9964985Z - Using dynamic import() to code-split the application
+2026-11-02T22:07:15.9965931Z - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+2026-11-02T22:07:15.9967150Z - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.[39m
+2026-11-02T22:07:15.9970902Z [32m✓ built in 1.13s[39m
+2026-11-02T22:07:16.1177242Z ##[group]Run npx playwright test e2e/performance-worker.spec.ts e2e/energy-activity.spec.ts e2e/egg-reserve.spec.ts e2e/environment-scenarios.spec.ts e2e/nutrient-cycle.spec.ts e2e/observer-preferences.spec.ts --workers=1
+2026-11-02T22:07:16.1179018Z [36;1mnpx playwright test e2e/performance-worker.spec.ts e2e/energy-activity.spec.ts e2e/egg-reserve.spec.ts e2e/environment-scenarios.spec.ts e2e/nutrient-cycle.spec.ts e2e/observer-preferences.spec.ts --workers=1[0m
+2026-11-02T22:07:16.1180045Z shell: sh -e {0}
+2026-11-02T22:07:16.1180264Z env:
+2026-11-02T22:07:16.1180452Z   HOME: /root
+2026-11-02T22:07:16.1180646Z ##[endgroup]
+2026-11-02T22:07:16.1338308Z WARNING: Error loading config file: open /root/.docker/config.json: permission denied
+2026-11-02T22:07:19.2332251Z 
+2026-11-02T22:07:19.2332838Z Running 32 tests using 1 worker
+2026-11-02T22:07:37.8566697Z fatal: detected dubious ownership in repository at '/__w/vidAI/vidAI'
+2026-11-02T22:07:37.8568405Z To add an exception for this directory, call:
+2026-11-02T22:07:37.8569127Z 
+2026-11-02T22:07:37.8569798Z 	git config --global --add safe.directory /__w/vidAI/vidAI
+2026-11-02T22:15:53.0401467Z ··F···························Indicator paired empty-world throughput (presentation visible/hidden; not gameplay FPS): {"visible":[5796.061471910116,5860.007648496659,7129.7943234106815],"hidden":[6938.338816628425,6951.516108239184,6068.7001761696165]}
+2026-11-02T22:16:07.3076615Z ··
+2026-11-02T22:16:07.3085110Z 
+2026-11-02T22:16:07.3094458Z   1) scripts/performance-stage32/browser.ts:8:1 › Stage 3.2 registered deferred Canvas raster investigation 
+2026-11-02T22:16:07.3095522Z 
+2026-11-02T22:16:07.3100410Z     Error: Command failed: git rev-parse HEAD
+2026-11-02T22:16:07.3101354Z     fatal: detected dubious ownership in repository at '/__w/vidAI/vidAI'
+2026-11-02T22:16:07.3102097Z     To add an exception for this directory, call:
+2026-11-02T22:16:07.3102562Z 
+2026-11-02T22:16:07.3102976Z     	git config --global --add safe.directory /__w/vidAI/vidAI
+2026-11-02T22:16:07.3103453Z 
+2026-11-02T22:16:07.3103461Z 
+2026-11-02T22:16:07.3104447Z       14 |   const pilot = JSON.parse(gunzipSync(readFileSync('docs/experiments/performance-stage-3-v1/browser-original.json.gz')).toString());
+2026-11-02T22:16:07.3105590Z       15 |   const held = pilot.held;
+2026-11-02T22:16:07.3107250Z     > 16 |   const result: any = {stage: '3.2', started: new Date().toISOString(), sourceSHA: execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),
+2026-11-02T22:16:07.3108682Z          |                                                                                    ^
+2026-11-02T22:16:07.3109945Z       17 |     checkpointHash: hash(held), held, project: info.project.name, runs: [], diagnostics: [], copy: [], failures: [],
+2026-11-02T22:16:07.3111764Z       18 |     os: execFileSync('uname',['-a'],{encoding:'utf8'}).trim(), cpu: readFileSync('/proc/cpuinfo','utf8').split('\n').find(x=>x.startsWith('model name'))};
+2026-11-02T22:16:07.3112963Z       19 |   let cdp: any;
+2026-11-02T22:16:07.3113406Z         at /__w/vidAI/vidAI/scripts/performance-stage32/browser.ts:16:84
+2026-11-02T22:16:07.3113718Z 
+2026-11-02T22:16:07.3113926Z   Slow test file: e2e/performance-worker.spec.ts (7.0m)
+2026-11-02T22:16:07.3114578Z   Consider running tests from slow files in parallel. See: https://playwright.dev/docs/test-parallel
+2026-11-02T22:16:07.3115082Z   1 failed
+2026-11-02T22:16:07.3115778Z     scripts/performance-stage32/browser.ts:8:1 › Stage 3.2 registered deferred Canvas raster investigation 
+2026-11-02T22:16:07.3116311Z   31 passed (8.8m)
+2026-11-02T22:16:07.3533860Z ##[error]Process completed with exit code 1.
+2026-11-02T22:16:07.3665393Z Post job cleanup.
+2026-11-02T22:16:07.3673193Z ##[command]/usr/bin/docker exec  d1ee28e1aede1639827a48c14d97897b81184a421ba22d3ef4b05af15be98c11 sh -c "cat /etc/*release | grep ^ID"
+2026-11-02T22:16:07.4367981Z WARNING: Error loading config file: open /root/.docker/config.json: permission denied
+2026-11-02T22:16:07.5654844Z [command]/usr/bin/git version
+2026-11-02T22:16:07.5706314Z git version 2.43.0
+2026-11-02T22:16:07.5758270Z Temporarily overriding HOME='/__w/_temp/1f49bef3-013a-4bda-b5a3-9f5354e20674' before making global git config changes
+2026-11-02T22:16:07.5760180Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-02T22:16:07.5788059Z [command]/usr/bin/git config --global --add safe.directory /__w/vidAI/vidAI
+2026-11-02T22:16:07.5828406Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-02T22:16:07.5884978Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-02T22:16:07.6221609Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-02T22:16:07.6275646Z http.https://github.com/.extraheader
+2026-11-02T22:16:07.6297104Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-02T22:16:07.6343030Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-02T22:16:07.6656779Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-02T22:16:07.6697654Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-02T22:16:07.7263960Z Stop and remove container: 5463f32c48024de787eb575a10cbd570_mcrmicrosoftcomplaywrightv1582noble_203731
+2026-11-02T22:16:07.7269329Z ##[command]/usr/bin/docker rm --force d1ee28e1aede1639827a48c14d97897b81184a421ba22d3ef4b05af15be98c11
+2026-11-02T22:16:07.9829533Z d1ee28e1aede1639827a48c14d97897b81184a421ba22d3ef4b05af15be98c11
+2026-11-02T22:16:07.9869714Z Remove container network: github_network_bbed3f0270a94bb3ab74746db1ee77d3
+2026-11-02T22:16:07.9874200Z ##[command]/usr/bin/docker network rm github_network_bbed3f0270a94bb3ab74746db1ee77d3
+2026-11-02T22:16:08.0873270Z github_network_bbed3f0270a94bb3ab74746db1ee77d3
+2026-11-02T22:16:08.0969423Z Cleaning up orphan processes
+2026-11-02T22:16:08.1460527Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+

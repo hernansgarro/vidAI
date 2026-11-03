@@ -1,0 +1,18 @@
+{
+  "originalV1ManifestFiles": 65,
+  "v1Unchanged": true,
+  "checkpointEqual": true,
+  "completeAuthoritativeStateEqual": true,
+  "settingsEqual": true,
+  "windows": 10,
+  "diagnostics": 2,
+  "isolatedCopies": 60,
+  "experimentalMs": 127357,
+  "originalArchiveSHA256": "4f5ea0b32c55ae30ddb7daf0f6b85ebcb85c2db3fc289c9fa6e109078a02fa5e",
+  "archiveBytes": 2781599,
+  "initialFinalFullSnapshotsPresent": true,
+  "runtimeFilesUnchanged": true,
+  "sourceTree": "7d2fc9f37c46ef0e3a18265551d49283837aa913",
+  "sourceResearchHead": "7279fc8b6d09b039bb5a738c62c8648bf89ca2ba",
+  "testedPRMerge": "6971be781a41c7c3909e554b43212ed3fd2aee88"
+}

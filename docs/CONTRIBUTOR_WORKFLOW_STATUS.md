@@ -1,3 +1,19 @@
+> **Current update —2026-11-03: Stage3.3b COMPLETE; Stage3 ONGOING.**
+> Authorized recovery and all12kernel slots,54M isolated visits and one zero-tick
+> validity control are preserved. Original3.3 observation stays UNKNOWN.
+> Substep metadata~.54/.65% sampled time; generic WeakMap benefit refuted in one
+> isolated family; no production cache/gain implemented. Historical blocked note
+> below describes the original incident, not a current authorization request.
+> [Results and limits](experiments/performance-stage-3-v4/report.md).
+> Next proposed study: real Worker/UI/IPC, not automatically executed.
+
+> **Stage3.3 update —2026-11-03:** Physical metadata research is **BLOCKED** after
+> capture loss of the first kernel slot. Its actual outcome is unknown; no new
+> performance result/cache benefit is claimed. A zero-tick preflight and synthetic
+> capture repair are preserved. Stage3 remains ONGOING. Explicit approval for one
+> labeled recovery evaluation is pending; no automatic rerun.
+> [Incident/report](experiments/performance-stage-3-v3/report.md).
+
 # VIDA 2D — Contributor workflow and requirement status
 
 **Owner:** hernansgarro  
@@ -41,7 +57,7 @@ repeated "pending implementation" entries here.
 ### P0 — Next contributor investigation: performance (IDEA-023)
 
 **Absolute highest contributor priority as designated by Hernan (2026-11-02),**
-above all other outstanding personal ideas. **Four-stage audit planned; Stage 2 static review completed 2026-11-02 on pinned fork SHA bf75b5649c6d843c48586acca59c51830678e316** ([code-backed Stage 2 report](PERFORMANCE_AUDIT_STAGE_2.md)). **Stage 2 made no CPU/FPS measurement, causal diagnosis, optimization code or upstream submission claim. Stage 1 measurement evidence still requires provenance review; Stage 3 controlled trials and Stage 4 decision remain pending.**
+above all other outstanding personal ideas. **Four-stage audit planned; Stage 2 static review completed 2026-11-02 on pinned fork SHA bf75b5649c6d843c48586acca59c51830678e316** ([code-backed Stage 2 report](PERFORMANCE_AUDIT_STAGE_2.md)). **Stage 2 made no CPU/FPS measurement, causal diagnosis, optimization code or upstream submission claim. Stage 1 evidence was reconciled in Stage 3.1; Stage 3 remains ONGOING with separately bounded batches and an executive evidence register. Stage 4 implementation remains unauthorized.**
 The active [performance audit plan](PERFORMANCE_AUDIT_PLAN.md) governs stage gates; the [Stage 2 source review](PERFORMANCE_AUDIT_STAGE_2.md) and [current priority/measurement overlay](PERFORMANCE_AUDIT_PRIORITIES.md) preserve the hypotheses, owner choices and planned Stage 3/4 questions.
 
 Hernan reports excessive CPU load and poor interactive performance in VIDA 2D.
@@ -63,7 +79,7 @@ determinism, saved-world semantics, current Worker/render separation and
 existing baseline history. Follow the project's experiment-registration
 rules if experiments are required.
 
-**Current next action (2026-11-02):** Review and reconcile any actual Stage 1 measurements/provenance, then prepare a **separately authorized Stage 3 Work protocol**, using [Hernan's ranked investigation priorities and proposed metrics](PERFORMANCE_AUDIT_PRIORITIES.md). Glow receipt computation versus drawing is first; exact physical caching, existing sight/feeding broadphase, Worker/UI reporting and other owner-selected questions follow. S2-01/05/07 remain baseline coverage. Stage 2 is complete. The Stage 3 measurement design is **not** execution approval, and Stage 4 optimization requires its own human decision. The distinct genetic ray-subset proposal remains an unapproved [IDEA-025](IDEA_LAB.md#idea-025-heritable-per-eye-ray-subsets). No upstream issue or PR is created merely by this record.
+**Current next action (2026-11-02):** Review the [completed Stage3.2 graphics batch](experiments/performance-stage-3-v2/report.md) (software-CI caustic blur attributed; no production optimization) and the [cumulative executive dashboard](PERFORMANCE_AUDIT_STAGE_3.md), then decide a bounded Stage 3.3. **Stage 3 remains ONGOING.** Stage 3.1 is a completed pilot, not audit closure. S2-02 invariant physical metadata requires dedicated future measurement; optical per-ray range IDEA-026 remains design/research only. No automatic next batch, optimization, fork-main merge, upstream submission, release or publication is authorized. Draft fork PR66 remains unmerged.
 See [IDEA-023](IDEA_LAB.md#idea-023-vida-2d-performance-and-cpu-load-audit).
 
 ### Personal idea triage (2026-11-02; no new implementation authorization)

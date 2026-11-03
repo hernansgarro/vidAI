@@ -1,0 +1,34 @@
+{
+  "researchHead": "7279fc8b6d09b039bb5a738c62c8648bf89ca2ba",
+  "testedPRMerge": "6971be781a41c7c3909e554b43212ed3fd2aee88",
+  "fastBuild": {
+    "run": 41536057133,
+    "result": "success"
+  },
+  "workerBrowser": {
+    "run": 41536057085,
+    "result": "success",
+    "chromiumJob": 125588052746,
+    "chromiumInheritedPassed": 31,
+    "researchPassed": 1,
+    "firefoxInheritedPassed": 36,
+    "toolbarPassed": 16,
+    "sideWindowsPassed": 5,
+    "worker": "success",
+    "aggregate": "success"
+  },
+  "firstPreflight": {
+    "run": 41534358441,
+    "research": "failed before measurements",
+    "inheritedChromiumPassed": 31,
+    "scientificWindowsStarted": 0
+  },
+  "pages": "assembly/deployment skipped",
+  "localFinalBuild": "passed before read-only resumption; same app/Worker asset names; no new TypeScript/runtime edits after validation",
+  "heads": {
+    "forkMain": "11248f3431604a1b883a7a948a6e6baddc3fafdd",
+    "forkTesting": "4bda30a269bd8650b6e12a99b99e4af5ef673d42",
+    "upstreamMain": "041362eefa64971d9038f4ad7ec4fd59a747d3ec"
+  },
+  "scope": "Stage 3.2 batch complete; Stage 3 ONGOING; no merge/submission/optimization/publication/next batch"
+}

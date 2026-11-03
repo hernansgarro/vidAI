@@ -76,3 +76,14 @@ Hernan has now identified the subset to examine first and asked for Stage 3 meas
 For each hypothesis ID, Stage 4 must join **Stage 1 measurement reference**, **Stage 2 code reference (above)**, **Stage 3 protocol/raw trace/result**, and classify `confirmed` / `plausible but unverified` / `refuted` / `not measured`. Report representative-hardware cost fraction, end-to-end Amdahl-bound benefit **only when measured**, implementation/GC cost, semantic tier A/B/C/D, reversible rollback path, all required exact-state/Worker/browser gates and visual acceptance. Stage 2 alone authorizes **no numerical performance estimate, optimization, changed baseline, rerun of stopped scientific trials or deployment**.
 
 **Stage 2 completion checklist:** 2.1–2.9 reviewed with code references; 2.10 tier register; 2.11 future-cost boundary; named Stage 3 falsification requests; provenance and limitations recorded. **Missing prerequisites for final optimization choice:** confirmed and archived Stage 1 results; approved Stage 3 evidence; representative hardware observations and Hernan's explicit Stage 4 decision. The inability to clone directly is an execution-method limitation, **not** a blocker to this code-only review.
+
+## Stage 3.2 interpretation overlay — 2026-11-02
+
+The original static hypotheses above remain preserved. Stage 3 is ONGOING; its
+[cumulative executive report](PERFORMANCE_AUDIT_STAGE_3.md) reassesses S2-01–12.
+S2-03 already uses **finite inherited per-eye range**, shared by five rays; IDEA-026
+would add independent per-ray range choices, separate from IDEA-025 subsets.
+[Source/compatibility review](experiments/performance-stage-3-v2/vision-range-source.md).
+S2-02 requires a dedicated future bounded cost/cache/lifetime study; counts alone
+do not establish a benefit. [Source inventory and missing measurements](experiments/performance-stage-3-v2/physical-source.md).
+No change to original measurements, sensory semantics or physics is implied.

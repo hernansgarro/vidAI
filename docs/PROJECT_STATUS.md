@@ -1,3 +1,52 @@
+> **Current update —2026-11-03: Stage3.3b COMPLETE; Stage3 ONGOING.**
+> Authorized recovery and all12kernel slots,54M isolated visits and one zero-tick
+> validity control are preserved. Original3.3 observation stays UNKNOWN.
+> Substep metadata~.54/.65% sampled time; generic WeakMap benefit refuted in one
+> isolated family; no production cache/gain implemented. Historical blocked note
+> below describes the original incident, not a current authorization request.
+> [Results and limits](experiments/performance-stage-3-v4/report.md).
+> Next proposed study: real Worker/UI/IPC, not automatically executed.
+
+> **Stage3.3 update —2026-11-03:** Physical metadata research is **BLOCKED** after
+> capture loss of the first kernel slot. Its actual outcome is unknown; no new
+> performance result/cache benefit is claimed. A zero-tick preflight and synthetic
+> capture repair are preserved. Stage3 remains ONGOING. Explicit approval for one
+> labeled recovery evaluation is pending; no automatic rerun.
+> [Incident/report](experiments/performance-stage-3-v3/report.md).
+
+# Contributor performance research — Stage 3.2 batch complete, audit ONGOING (2026-11-03)
+
+Fork-only draft [PR66](https://github.com/hernansgarro/vidAI/pull/66),
+`audit/performance-stage-3`. Runtime remains fork/main11248f3; no main/testing
+merge, upstream submission, optimization, release or publication is authorized.
+
+The completed2026-11-02 Stage3.2 graphics batch identifies **deferred caustic-blur
+raster cost on software CI**: baseline3.34FPS/288.9ms callback versus unblur58.81FPS/
+5.4ms and omitted-caustic58.94FPS/4.2ms. Forced1×1 source readback moves~287ms from
+drawImage without improvingFPS. Already-flushed isolated copy+readback median~.10ms.
+These are intentional visual controls, not implemented improvements or Worker
+acceleration. SwiftShader/software2D backend is identified; desktop/active/dense
+workloads, exact internal blur mechanism and static-scene invalidation remain open.
+
+Exactly10timed windows,2diagnostic captures and60isolated copy calls completed in
+127.357s with identical full authoritative state/settings/PRNG/optics/learning/ledger.
+The original v1 evidence remains unchanged. A first metadata preflight failed before
+any scientific measurement; its log/amendment are preserved and no scientific trial
+was repeated or replaced. Corrected research7279fc8/tested PR merge6971be7 passed
+[fast/build41536057133](https://github.com/hernansgarro/vidAI/actions/runs/41536057133)
+and [all Worker/browser gates41536057085](https://github.com/hernansgarro/vidAI/actions/runs/41536057085).
+Temporary research test discovery/import is removed after capture.
+
+[Cumulative executive report](PERFORMANCE_AUDIT_STAGE_3.md),
+[Stage3.2 findings/limitations](experiments/performance-stage-3-v2/report.md),
+[original data/digests](experiments/performance-stage-3-v2/).
+Vision is already finite and inherited per eye; separate IDEA-026 records independent
+per-ray range choices without implementation. S2-02 physical derivations remain
+unpriced and require dedicated future research; [proposed Stage3.3](experiments/performance-stage-3-v2/next-substage-proposal.md)
+is NOT executed. Stop for Hernan's review. **Stage3 remains ONGOING**.
+
+---
+
 # Pipe World Stage 2 — contributor fork (2026-11-02)
 
 Tracking upstream #135 / #57. Authorized branch `feature/pipe-world-stage-2`
