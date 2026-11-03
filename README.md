@@ -10,7 +10,7 @@ By Hernán Garro & Federico Regueira.
 **[Current Wiki](https://github.com/smeagol44/vidAI/wiki)** ·
 [Development priorities](docs/FEATURE_ROADMAP.md) · [Experiment history](docs/PROJECT_STATUS.md)
 
-**Contributor fork only:** [Unfinished ideas / personal Kanban](docs/IDEA_LAB.md) · [Verified completed work](docs/CONTRIBUTOR_COMPLETED.md) · [Delivery and upstream-review status](docs/CONTRIBUTOR_WORKFLOW_STATUS.md) · [Historical design journal](docs/CONTRIBUTOR_IDEAS.md). These personal records are separate from the canonical upstream VIDA project. The idea board is not a backlog of implemented work.
+**Contributor fork only:** [Contributor brainstorming and planning](docs/contributor-brainstorming/README.md) is organized separately from the canonical upstream VIDA project. These personal notes are not the shared roadmap or an implementation authorization.
 
 ## Current scope
 

@@ -1,6 +1,6 @@
 # IDEA-026 — Scents, olfaction and pheromone traces
 
-> **State:** Exploring, personal future concept; no implementation, experiments or upstream submission authorized. [Active idea card](IDEA_LAB.md#idea-026-chemical-scents-olfaction-and-pheromone-traces) · [related upstream #118](https://github.com/smeagol44/vidAI/issues/118) · [shared tracking #57](https://github.com/smeagol44/vidAI/issues/57). **IDEA-023 performance remains P0**.
+> **State:** Exploring, personal future concept; no implementation, experiments or upstream submission authorized. [Active idea card](../ideas/IDEA_LAB.md#idea-026-chemical-scents-olfaction-and-pheromone-traces) · [related upstream #118](https://github.com/smeagol44/vidAI/issues/118) · [shared tracking #57](https://github.com/smeagol44/vidAI/issues/57). **IDEA-023 performance remains P0**.
 >
 > This document contains **only the current design, unresolved decisions and constraints**. Previous models, naming comparisons and discussion history remain in Git history and [fork PRs](https://github.com/hernansgarro/vidAI/pulls?q=is%3Apr+author%3Ahernansgarro).
 
