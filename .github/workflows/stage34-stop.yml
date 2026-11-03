@@ -1,0 +1,21 @@
+name: Stop superseded Stage 3.4 setup
+on:
+  push:
+    branches: [audit/performance-stage-3-4-control]
+permissions:
+  actions: write
+  contents: read
+jobs:
+  stop-superseded-setup:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    steps:
+      - name: Cancel only the superseded canvas-selector setup
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          node --input-type=module -e '
+          const r=await fetch("https://api.github.com/repos/hernansgarro/vidAI/actions/runs/41637675303/cancel",{method:"POST",headers:{Authorization:"Bearer "+process.env.GH_TOKEN,Accept:"application/vnd.github+json"}});
+          console.log("Superseded setup cancellation HTTP",r.status);
+          if(![202,409].includes(r.status))throw Error("Cancellation HTTP "+r.status);
+          '
