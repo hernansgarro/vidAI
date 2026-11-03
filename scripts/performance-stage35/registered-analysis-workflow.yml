@@ -1,0 +1,3 @@
+name: Stage 3.5 evidence verification only
+# Original temporary workflow ran once at c468b1e; removed from .github after verification.
+# See Actions41665757852 and scripts/performance-stage35/analyze.mjs.

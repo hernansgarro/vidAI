@@ -1,0 +1,153 @@
+{
+  "evidenceCommit": "780cd13a73a1f653cfbe9fb31ea762214b7cc0f3",
+  "measurementRun": 41664520289,
+  "job": 126016168511,
+  "blobReceipts": [
+    {
+      "name": "O1.json.gz",
+      "gitBlob": "f785606f443053136ba030776cb722494293cce2",
+      "sha256": "acaf652441c4300f1bee8e2e49b0a412d4448cba59abe0ddefc32d82463ffc05",
+      "bytes": 6945,
+      "remoteGitObjectMatches": true,
+      "remoteSizeMatches": true
+    },
+    {
+      "name": "O2.json.gz",
+      "gitBlob": "4e19495c8cab14827d4af380ca1e1229e08c4720",
+      "sha256": "f55ad33169129247f9a484a227123d4a89af54bb5a55c2cfb5227c19c83c1087",
+      "bytes": 13651,
+      "remoteGitObjectMatches": true,
+      "remoteSizeMatches": true
+    },
+    {
+      "name": "O3.json.gz",
+      "gitBlob": "8d4ab2287548d929c024ae533be0e3d3e4e6be30",
+      "sha256": "732b99db3e2d509e06956b7b18d55b00d5a8b6981580d892b572341aead4cb4b",
+      "bytes": 13349,
+      "remoteGitObjectMatches": true,
+      "remoteSizeMatches": true
+    },
+    {
+      "name": "O4.json.gz",
+      "gitBlob": "202c6bbf11a6985b2f7774a0acd98346c7dc0c93",
+      "sha256": "f41a073aba008ab5f9d842b40b3ca143a5f0cda480c4baf326117f02ab874fbf",
+      "bytes": 6961,
+      "remoteGitObjectMatches": true,
+      "remoteSizeMatches": true
+    },
+    {
+      "name": "P01.json.gz",
+      "gitBlob": "c304f2fe6d440f58a3c9fb7f868871e850f30b63",
+      "sha256": "e9ae9ed14fc560b617855002e637494bcf8cac90d8ebcd843cbd06a49a2e00b7",
+      "bytes": 24306,
+      "remoteGitObjectMatches": true,
+      "remoteSizeMatches": true
+    },
+    {
+      "name": "P02.json.gz",
+      "gitBlob": "2ab53160438db8fae4c3608b3d25348807c87ce0",
+      "sha256": "d148e47e72179223df303d25c4b8221f846ea50f4c104bf32c0fb2cf9ca8b756",
+      "bytes": 21470,
+      "remoteGitObjectMatches": true,
+      "remoteSizeMatches": true
+    },
+    {
+      "name": "P03.json.gz",
+      "gitBlob": "013404f410ad614182a85ab32857f32ca6ceadbf",
+      "sha256": "0f28bc3f38b371892a8a0e30fd8205ff34f9fb9bf3e9ba464649a7bad5dbf7f8",
+      "bytes": 20750,
+      "remoteGitObjectMatches": true,
+      "remoteSizeMatches": true
+    },
+    {
+      "name": "P04.json.gz",
+      "gitBlob": "59ac3de3f611244a0b17a858fe0c630ca267ad66",
+      "sha256": "98bf3c871e8b1d9dcc8d093657aedbdb73b0c1c9bb9c2d6529a379830f2d230f",
+      "bytes": 19096,
+      "remoteGitObjectMatches": true,
+      "remoteSizeMatches": true
+    },
+    {
+      "name": "P05.json.gz",
+      "gitBlob": "1413f9aee4e8d562f8f9f4b1f885a970a230085b",
+      "sha256": "9313f6f463b46bd5b0e971a539bbbdd639fa114b5864d24d84b240fc8c861373",
+      "bytes": 18866,
+      "remoteGitObjectMatches": true,
+      "remoteSizeMatches": true
+    },
+    {
+      "name": "P06.json.gz",
+      "gitBlob": "f7e30493f20ed255d7874bbc48b28293b67bafe9",
+      "sha256": "3f6c4df2f29d9f224c26d67c02fb2a45781f1596a9b5a19eb0fb2b4dc05ea9b0",
+      "bytes": 20918,
+      "remoteGitObjectMatches": true,
+      "remoteSizeMatches": true
+    },
+    {
+      "name": "P07.json.gz",
+      "gitBlob": "ab8d1d413e4a46c42991442314ee30874a8d5313",
+      "sha256": "16f9df0e653881efbab4d272ac67198f5815c29912012745915ec6a7eca90c0c",
+      "bytes": 20753,
+      "remoteGitObjectMatches": true,
+      "remoteSizeMatches": true
+    },
+    {
+      "name": "P08.json.gz",
+      "gitBlob": "52cd17ca1b7fe8e62b5c5559c3aa88b0994463c7",
+      "sha256": "1250ad6457edf70251ce812d8c5c1d598c5363a7eeef3bcb10f8112c63b3f72e",
+      "bytes": 23050,
+      "remoteGitObjectMatches": true,
+      "remoteSizeMatches": true
+    },
+    {
+      "name": "checkpoint15.json.gz",
+      "gitBlob": "daeb7cdb495ff0186ffba8296345633eddcc297f",
+      "sha256": "eb2a1f2ff5c27fd5ac8758ce0c358ac3552b4e7f1a413227a5a9b9ee4fcb9394",
+      "bytes": 836831,
+      "remoteGitObjectMatches": true,
+      "remoteSizeMatches": true
+    },
+    {
+      "name": "checkpoint30.json.gz",
+      "gitBlob": "5bcee1e6f95d06678c1e1f73b3b726f8963bb457",
+      "sha256": "c6ab22b6d12f5b38f8234c5a440620218173a31f8ae23fbf4a5ef83a9455758e",
+      "bytes": 1657660,
+      "remoteGitObjectMatches": true,
+      "remoteSizeMatches": true
+    },
+    {
+      "name": "ledger.json",
+      "gitBlob": "d92e8d34e5f0fe198001506554aec406e53be360",
+      "sha256": "dbf91fcd2f46af93deae16920dd254bd826be546b65852b3d477a0ad43dad829",
+      "bytes": 1460,
+      "remoteGitObjectMatches": true,
+      "remoteSizeMatches": true
+    },
+    {
+      "name": "manifest.json.gz",
+      "gitBlob": "4db5215cdf8f9447a1758cbb7be27c7f2c033df4",
+      "sha256": "c21f16945553670d45f10ccbe6fef5b32fe0e3b6b7c531b4815418f6af1b2dde",
+      "bytes": 10423,
+      "remoteGitObjectMatches": true,
+      "remoteSizeMatches": true
+    },
+    {
+      "name": "pilot.json.gz",
+      "gitBlob": "bc77c35920b2b6730ff9f07a7cebd93664546de5",
+      "sha256": "68918705e5164ccaeb7a80b612aff65154cbafdc18c52ebb11957c39c5e2163c",
+      "bytes": 904024,
+      "remoteGitObjectMatches": true,
+      "remoteSizeMatches": true
+    },
+    {
+      "name": "summary.json",
+      "gitBlob": "de20a3f3b051c2a0a206116f840e8b6580938f41",
+      "sha256": "91f04eee110aaa30c953352fd010eea00a962543d6e710540465ed8c655403aa",
+      "bytes": 3356912,
+      "remoteGitObjectMatches": true,
+      "remoteSizeMatches": true
+    }
+  ],
+  "archiveVerificationRun": 41665757852,
+  "archiveVerificationJob": 126020482154
+}
