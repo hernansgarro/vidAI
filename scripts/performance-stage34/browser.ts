@@ -1,3 +1,4 @@
+import {readdirSync} from 'node:fs';
 // Optional, once-only registered research entrypoint; no production imports.
 import {test,expect} from '@playwright/test';
 // @ts-ignore Research build helper is intentionally JavaScript-only.
@@ -14,6 +15,7 @@ test('Stage 3.4 actual Worker UI throughput registered batch',async({browserName
  test.setTimeout(1080000);
  const out='docs/experiments/performance-stage-3-v5',hash=(x:any)=>createHash('sha256').update(typeof x==='string'||Buffer.isBuffer(x)?x:JSON.stringify(x)).digest('hex');
  mkdirSync(out,{recursive:true});
+ if(readdirSync(out).some(name=>name.endsWith('.json.gz')))throw Error('Existing scientific evidence: refuse to repeat or overwrite a spent batch');
  const receipts:any[]=[],servers:any[]=[],contexts:any[]=[],trialLedger:any[]=[];
  let activeStart=0,experimentalMs=0,failed=false;
  const archive=async(name:string,data:any)=>{
