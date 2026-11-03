@@ -1,4 +1,4 @@
-name: Stop completed Stage 3.4 job stalled in preservation
+name: Force stop completed Stage 3.4 stalled preservation
 on:
   push:
     branches: [audit/performance-stage-3-4-control]
@@ -6,20 +6,19 @@ permissions:
   actions: write
   contents: read
 jobs:
-  stop-after-completed-science:
+  force-stop-preservation:
     runs-on: ubuntu-24.04
     timeout-minutes: 2
     steps:
-      - name: Verify scientific step succeeded before stopping stalled preservation
+      - name: Force stop only after scientific step succeeded
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           node --input-type=module -e '
           const headers={Authorization:"Bearer "+process.env.GH_TOKEN,Accept:"application/vnd.github+json"};
           const j=await(await fetch("https://api.github.com/repos/hernansgarro/vidAI/actions/jobs/125923264339",{headers})).json();
-          const s=j.steps.find(s=>s.name==="Run only unspent registered measurement windows");
-          if(s?.conclusion!=="success")throw Error("Refuse to interrupt scientific execution");
-          const r=await fetch("https://api.github.com/repos/hernansgarro/vidAI/actions/runs/41637788308/cancel",{method:"POST",headers});
-          console.log("Stop stalled preservation HTTP",r.status);
-          if(![202,409].includes(r.status))throw Error("Cancellation HTTP "+r.status);
+          if(j.steps.find(s=>s.name==="Run only unspent registered measurement windows")?.conclusion!=="success")throw Error("Scientific step is not complete");
+          const r=await fetch("https://api.github.com/repos/hernansgarro/vidAI/actions/runs/41637788308/force-cancel",{method:"POST",headers});
+          console.log("Force stop stalled preservation HTTP",r.status);
+          if(![202,409].includes(r.status))throw Error("Force stop HTTP "+r.status);
           '
