@@ -4,6 +4,37 @@
 >
 > **Reference:** `hernansgarro/vidAI:main` inspected at `bf75b5649c6d843c48586acca59c51830678e316`; Stage 2 integrated at fork/main `d926557ac6ea09895afa8895311734e68290c55e`. Source facts below refer to that pinned implementation. Current/future source heads must be rechecked before the Stage 3 Work run. **IDEA-023 remains overall contributor P0.** The ranking below is *within this audit only*.
 
+## Current research overlay — 2026-11-02
+
+**Stage 3 is ONGOING.** The earlier decision-input wording below is historical,
+not the current execution gate. Hernan authorized the preserved Stage 3.1 pilot
+and exactly one graphics-focused Stage 3.2 continuation ([protocol](experiments/performance-stage-3-v2/protocol.md)).
+See the [cumulative executive dashboard](PERFORMANCE_AUDIT_STAGE_3.md) for updated
+impact/confidence and batch-by-batch conclusions. No Stage 3.3, permanent optimization,
+main merge, upstream submission or deployment is authorized.
+
+**S2-02 is mandatory future research:** separately price invariant derivation blocks,
+lookup vs recomputation, memory/GC/lifetimes/invalidation and exact continuation.
+The old300/600 derivations per tick do not establish benefit. Source inventory now
+includes contact rebuilds, joint-projection setup and COM; [dedicated pending study](experiments/performance-stage-3-v2/physical-source.md).
+No particular cache mechanism is preselected.
+
+**S2-03 range extension:** [IDEA-026](IDEA_LAB.md#idea-026-inherited-per-ray-vision-range)
+is distinct from IDEA-025. Existing `eye.range` is already finite/inherited/mutable
+per eye. Five independent per-ray range choices have no approved values or genetics.
+Range changes attenuation and normalized distance as well as cutoff; exact source
+facts/unknown costs are [recorded here](experiments/performance-stage-3-v2/vision-range-source.md).
+No optical/cache experimental campaign ran in Stage 3.2.
+
+**Stage3.2 measured update (consolidated2026-11-03):** source7279fc8/CI41536057085
+completed10timed windows,2diagnostics and60isolated copies in127.357s. Caustic blur
+on software graphics is the dominant measured raster cause: baseline3.34FPS/288.9ms
+callback vs unblur58.81FPS/5.4ms; forced flush moves~287ms to readback without improving
+FPS. The pure-copy interpretation is refuted within scope. All authoritative hashes
+agree; v1 remains unchanged. See [batch report](experiments/performance-stage-3-v2/report.md).
+Backend/desktop representativeness, exact redraw invalidations and active Worker/UI
+contention remain open. S2-02 is proposed for Stage3.3, **not executed**.
+
 ## 1. Combined investigation order (owner preferences × technical triage)
 
 Hernan explicitly elevated **S2-02, S2-03, S2-04, S2-06, S2-08, S2-09, S2-10, S2-11 and S2-12**. The order below keeps only those requested priorities in the primary sequence and applies the previously proposed technical ordering *within* that owner-selected subset. The reported glow correlation is the first **question**, not accepted causation. Each ID retains separate evidence and decisions even when paired in one experiment.

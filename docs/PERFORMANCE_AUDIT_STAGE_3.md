@@ -1,3 +1,106 @@
+# VIDA 2D performance audit — cumulative Stage 3 research
+
+**Stage 3 status: ONGOING — additional investigation remains pending.**
+
+Contributor/fork research only; updated2026-11-03. Stage3.1 is the preserved completed
+pilot; Stage3.2 is a completed bounded graphics batch; it does not close Stage3. A finished batch or execution
+budget does not close Stage3. Stop after each batch for Hernan's review; Stage3.3 and
+Stage4 optimization implementation are not authorized automatically. Completion needs
+all meaningful reasonably testable questions at justified stopping points, including
+new questions, or Hernan's explicit closure decision.
+
+Research remains on [fork draft PR66](https://github.com/hernansgarro/vidAI/pull/66),
+`audit/performance-stage-3`, based on fork/main `11248f3431604a1b883a7a948a6e6baddc3fafdd`.
+[Stage3.2 protocol](experiments/performance-stage-3-v2/protocol.md),
+[batch evidence](experiments/performance-stage-3-v2/),
+[Stage3.1 immutable evidence](experiments/performance-stage-3-v1/).
+No main/testing merge, upstream submission, optimization, release or application deployment.
+
+## Executive Performance Summary
+
+Impact describes observed workload cost or explicitly suspected potential, **not
+confidence or removable work**. Confidence describes supporting evidence. A high
+observed essential cost is not a demonstrated optimization opportunity. No permanent
+optimization or gameplay speedup has been demonstrated. Different machines/threads
+and coarse categories must not be added into one total CPU budget.
+
+Legend: 🔴 **CRITICAL** severe observed bottleneck; 🟠 **HIGH** substantial measured
+cost or strong potential; 🟡 **MEDIUM** moderate/uncertain cost; 🟢 **LOW OBSERVED**
+small in tested workloads; ⚪ **UNKNOWN** insufficient impact evidence. Text labels
+remain meaningful without color. Ranks are the current investigation order, retain
+stable S2 IDs and owner interest in S2-02; they are not implementation priorities.
+
+| Rank / ID | Component / finding | Potential impact | Evidence confidence | Key measurement | Investigation status | Next question / action |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 / S2-11 | Caustic blur / deferred raster at composition | 🔴 CRITICAL observed on software CI | High matched-controls confidence; desktop unverified |3.34FPS/288.9ms baseline vs58.81FPS/5.4ms unblur; forced flush moves~287ms before copy | Confirmed bottleneck; blur cause clarified within tested scene | Desktop/active workloads, pixel/DPR/filter scaling and exact invalidation/static-scene reuse remain open |
+| 1b / S2-11-B | Graphics backend and bare-copy interpretation | 🟢 LOW OBSERVED isolated copy; ⚪ UNKNOWN desktop scaling | High backend/source-copy evidence in this setup |SwiftShader/software2D; already-flushed copy+readback median~.10ms | Software backend confirmed; intrinsically~290ms pure-copy hypothesis refuted in scope | Fresh-context/readback policy and real hardware graphics; do not generalize component cost |
+| 2 / S2-09 + S2-12 | Active Worker/UI contention, cloning and reporting cadence | 🟡 MEDIUM suspected end-to-end impact | Medium component evidence, low causal active-browser confidence | Warm clone .803/1.433ms at15/30 founders; cap~30frames/s, one ACK already | Partial; IPC/ACK/throughput untested | Measure actual MAX ticks/s, send/receive/ACK and render contention; do not confuse copy benchmark with IPC |
+| 3 / S2-02 | Repeated invariant physical metadata | ⚪ UNKNOWN CPU impact | High repeat-count confidence, low benefit confidence |300/600 substep mass/inertia derivations/tick at15/30 founders | Dedicated future study REQUIRED; benefit unmeasured | Price each consumer, exact lookup vs recompute, memory/GC/invalidation/save continuation |
+| 4 / S2-03 | Optical index/query/intersections | 🟠 HIGH observed coarse cost | Medium coarse attribution |34.0%/40.5% sampled vision+update shares,195/390rays/tick | Confirmed broad cost; exact breakdown partial | Separate index build, finite corridor, exact tests, sorting/allocation and independent density/eye scaling |
+| 5 / S2-01 | Contact physics and articulated solve | 🟠 HIGH observed essential work | Medium measured attribution |27–38.8% coarse physics+contacts;15-founder contacts25.8–27.8% of classified samples | Confirmed cost; removable fraction unknown | Profile broad/narrowphase, iterations and existing scratch; no solver/physics change |
+| 6 / S2-05 | Recurrent inference and learning | 🟠 HIGH observed essential work | Medium coarse attribution |18.8–26.9% neural+learning share at15/30 founders | Confirmed cost; detailed scaling unresolved | Distinguish inference/plasticity/allocation; existing neural cache already present |
+| 7 / S2-12-M | Allocation, GC and retained memory | ⚪ UNKNOWN long-run impact | Low; pilot GC event telemetry invalid |10.8–139.6MB short diagnostic30 heap deltas; not retained heap | Untested retention; sampled GC includes harness | Allocation/lifetime/paused vs active traces, growing lineage and long-run stability |
+| 8 / S2-03-R | Finite per-ray range proposal (IDEA-026) | ⚪ UNKNOWN hypothetical savings | High current-source confidence; no marginal-cost measurements |Finite inherited per-eye range already; five rays share it | Source clarified; new per-ray feature unapproved | Hypothetical cost study later; attenuation/distance/energy/save decisions first |
+| 9 / S2-08 | Tubes/walls/crossing clones | 🟡 MEDIUM suspected scaling/spike cost | Medium query counts; low crossing evidence |1200 wall queries/tick in15-founder tube fixture; zero crossings | Partial; crossing/boundary load untested | Real crossing/boundary-heavy fixed states and clone spikes, not only open tubes |
+| 10 / S2-07 | Eggs, offspring creation, lineage growth | ⚪ UNKNOWN burst impact | Low relevant-load confidence |No eggs/hatches in pilot windows | Not exercised; remains open | Bounded funded hatch/offspring/large-lineage scenario |
+| 11 / S2-06 | Ecology passes and UI stats | 🟢 LOW OBSERVED in founder pilot | Medium within small tested scope |Ecology .8–3%; stats .009–.025ms component medians | Low observed; burst/scaling partial | Mineralization/expiry and independent food/age scaling; preserve phase order |
+| 12 / S2-10 | Energy collector bookkeeping | 🟢 LOW OBSERVED in tested cases | Medium sampled/omission evidence |.11–.54% classified samples at15/30;1.17–1.64% event fixture; omission mixed signs | Dominant-cause hypothesis refuted within scope; scaling open | O(A*C) at larger independent activity/count; no wholesale accounting removal |
+| 13 / S2-04 | Oral feeding broadphase | 🟢 LOW OBSERVED residual phase | High candidate counts; medium CPU specificity |.78%/.84% food candidates vs full scans at15/30 | Full-food-scan claim refuted in scope; exact contacts retained | Dense mouth/food and transient rebuild workload only if justified |
+| 14 / S2-11-G | Native energy contour strokes | 🟢 LOW OBSERVED in sparse paused fixture | Medium matched stroke contrast |Stage3.1 median3.682 vs3.760FPS drawn/omitted (~2.1% descriptive) | Dominant-stroke explanation refuted in this scene | Dense articulated glowing bodies not tested; retain truthful observer visuals |
+| 15 / S2-12-S | Paused redraw scheduling and React consumers | 🟠 HIGH observed repeated visual work on software CI | High unchanged-state/paint evidence; gain untested |23blurred caustic fills/frame atx0; no measured Worker traffic (15/14frames/ACKs) | Repeated costly render confirmed; redraw/cache benefit untested | Map exact camera/UI/presentation invalidations, active state and observer latency before any cadence/cache change |
+| 16 / SCALE | Population/age/backend representativeness | ⚪ UNKNOWN beyond tested scenes | Low independent-scaling confidence |5/15/30 recipes co-vary eyes/parts/food; CI differs from desktop | Confounded scaling; long-run/desktop untested | Independent population/anatomy/food controls and bounded age series later |
+
+All rows were reassessed for Stage3.2; unchanged rows preserve the Stage3.1 evidence
+and its environment limits. Low-cost rows remain in this register; they were not
+removed to inflate apparent optimization opportunities.
+
+## Substage register and dated assessment changes
+
+| Batch | Status and scope | Immutable evidence / decision |
+| --- | --- | --- |
+| Stage3.1 — original pilot,2026-11-02 | COMPLETED batch only:30Node trials +6paused Chromium windows | [v1](experiments/performance-stage-3-v1/), original final head9a040fc; report below preserved as historical pilot. Old references to 'complete' concern this batch. |
+| Stage3.2 —2026-11-02; consolidated2026-11-03 | COMPLETED batch only:10timed windows,2diagnostic captures,60isolated copies plus executive/vision/cache source review | [v2 protocol](experiments/performance-stage-3-v2/protocol.md), initial metadata preflight1c4927a failed before measurements; repaired source7279fc8 and tested PR merge6971be7 passed; [report](experiments/performance-stage-3-v2/report.md) |
+| Stage3.3 | PROPOSED ONLY; not executed | Select after Stage3.2 review; S2-02 must retain dedicated follow-up |
+
+2026-11-02 interpretation update: replaced the old automatic jump from completed
+pilot to Stage4 with recursive Stage3. Stage3.1 measurements/archives remain unchanged.
+Current vision is finite and already genetically variable **per eye**; IDEA-026
+concerns new independent per-ray choices. Range-dependent attenuation and distance
+normalization are compatibility questions newly made explicit. Physical inventory
+now includes contact rebuilds, pose-projection setup and COM; CPU/cache benefit
+remains unknown. No old count is relabeled as timed optimization evidence.
+2026-11-03 graphics update: matched controls identify **deferred caustic blur on
+software graphics** as the dominant measured cause:3.34→58.81FPS with blur removed,
+while forced readback moves~287ms off drawImage without raisingFPS. The raw copy-only
+interpretation weakens; current-scene blur attribution strengthens. Software backend
+is now identified. Paused redraw is elevated to HIGH observed work; no scheduling
+optimization is implemented. Every other row is reassessed with unchanged prior
+scope/uncertainty. [Completed Stage3.2 report](experiments/performance-stage-3-v2/report.md),
+[raw evidence](experiments/performance-stage-3-v2/browser-original.json.gz),
+[derived summary](experiments/performance-stage-3-v2/summary.json),
+[proposed Stage3.3](experiments/performance-stage-3-v2/next-substage-proposal.md).
+Experimental visual ablation is not a shipped speedup or active Worker gain.
+
+## Current source reviews and pending research inventory
+
+[Finite vision/source and IDEA-026 design questions](experiments/performance-stage-3-v2/vision-range-source.md).
+[Invariant physical source inventory and mandatory future study](experiments/performance-stage-3-v2/physical-source.md).
+The executive rows rank the full pending inventory: graphics/backend; actual Worker
+throughput/communications; S2-02; optics; contacts; neural work; memory/GC; hypothetical
+range; tubes; eggs/reproduction; ecology/UI stats; bookkeeping; mouth contacts;
+contour load; refresh/React; independent population/long-run/desktop scaling. New
+questions should be added rather than declaring the original queue exhausted.
+
+---
+
+# Preserved Stage 3.1 pilot report
+
+The following report describes the first completed research batch. Its Stage4
+candidate suggestions remain hypotheses, not authority to skip pending Stage3 work.
+Its original text/evidence can also be read at immutable commit9a040fc.
+The original historical Stage4 suggestions below are superseded by the ONGOING
+research gate at the top; no additional batch or optimization starts automatically.
+
 # VIDA 2D performance audit — Stage 3 bounded pilot
 
 **Contributor research only; 2026-11-02. No optimization or production change.**

@@ -1,0 +1,2766 @@
+{
+  "sourceSHA": "6971be781a41c7c3909e554b43212ed3fd2aee88",
+  "checkpointHash": "73fa51ae157e20a2f3459a277a08eeb37a8153419a2833ee9742a4a01ab4b454",
+  "browserVersion": "145.0.7632.6",
+  "graphics": {
+    "gpu": {
+      "devices": [
+        {
+          "vendorId": 65535,
+          "deviceId": 65535,
+          "vendorString": "Google Inc. (Google)",
+          "deviceString": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver-5.0.0)",
+          "driverVendor": "SwANGLE",
+          "driverVersion": "5.0.0"
+        }
+      ],
+      "auxAttributes": {
+        "amdSwitchable": false,
+        "canSupportThreadedTextureMailbox": false,
+        "directRenderingVersion": "",
+        "displayType": "ANGLE_SWIFTSHADER",
+        "glExtensions": "GL_AMD_performance_monitor GL_ANGLE_base_vertex_base_instance_shader_builtin GL_ANGLE_blob_cache GL_ANGLE_client_arrays GL_ANGLE_clip_cull_distance GL_ANGLE_compressed_texture_etc GL_ANGLE_copy_texture_3d GL_ANGLE_depth_texture GL_ANGLE_framebuffer_blit GL_ANGLE_framebuffer_multisample GL_ANGLE_get_image GL_ANGLE_get_serialized_context_string GL_ANGLE_get_tex_level_parameter GL_ANGLE_instanced_arrays GL_ANGLE_memory_object_flags GL_ANGLE_memory_size GL_ANGLE_multi_draw GL_ANGLE_pack_reverse_row_order GL_ANGLE_polygon_mode GL_ANGLE_program_binary_readiness_query GL_ANGLE_program_cache_control GL_ANGLE_read_only_depth_stencil_feedback_loops GL_ANGLE_relaxed_vertex_attribute_type GL_ANGLE_renderability_validation GL_ANGLE_request_extension GL_ANGLE_rgbx_internal_format GL_ANGLE_robust_client_memory GL_ANGLE_robust_fragment_shader_output GL_ANGLE_robust_resource_initialization GL_ANGLE_shader_pixel_local_storage GL_ANGLE_shader_pixel_local_storage_coherent GL_ANGLE_stencil_texturing GL_ANGLE_texture_compression_dxt3 GL_ANGLE_texture_compression_dxt5 GL_ANGLE_texture_multisample GL_ANGLE_texture_usage GL_ANGLE_translated_shader_source GL_ANGLE_vulkan_image GL_ANGLE_yuv_internal_format GL_APPLE_clip_distance GL_ARM_rgba8 GL_ARM_shader_framebuffer_fetch GL_ARM_shader_framebuffer_fetch_depth_stencil GL_CHROMIUM_bind_generates_resource GL_CHROMIUM_bind_uniform_location GL_CHROMIUM_copy_compressed_texture GL_CHROMIUM_copy_texture GL_CHROMIUM_lose_context GL_EXT_EGL_image_array GL_EXT_EGL_image_external_wrap_modes GL_EXT_EGL_image_storage GL_EXT_base_instance GL_EXT_blend_minmax GL_EXT_buffer_storage GL_EXT_clear_texture GL_EXT_clip_control GL_EXT_clip_cull_distance GL_EXT_color_buffer_float GL_EXT_color_buffer_half_float GL_EXT_compressed_ETC1_RGB8_sub_texture GL_EXT_conservative_depth GL_EXT_copy_image GL_EXT_debug_label GL_EXT_debug_marker GL_EXT_depth_clamp GL_EXT_discard_framebuffer GL_EXT_disjoint_timer_query GL_EXT_draw_buffers GL_EXT_draw_buffers_indexed GL_EXT_draw_elements_base_vertex GL_EXT_float_blend GL_EXT_frag_depth GL_EXT_instanced_arrays GL_EXT_map_buffer_range GL_EXT_memory_object GL_EXT_memory_object_fd GL_EXT_occlusion_query_boolean GL_EXT_polygon_offset_clamp GL_EXT_read_format_bgra GL_EXT_robustness GL_EXT_sRGB GL_EXT_sRGB_write_control GL_EXT_semaphore GL_EXT_semaphore_fd GL_EXT_separate_shader_objects GL_EXT_shader_framebuffer_fetch GL_EXT_shader_framebuffer_fetch_non_coherent GL_EXT_shader_non_constant_global_initializers GL_EXT_shader_texture_lod GL_EXT_shadow_samplers GL_EXT_texture_border_clamp GL_EXT_texture_compression_bptc GL_EXT_texture_compression_dxt1 GL_EXT_texture_compression_rgtc GL_EXT_texture_compression_s3tc_srgb GL_EXT_texture_cube_map_array GL_EXT_texture_filter_anisotropic GL_EXT_texture_format_BGRA8888 GL_EXT_texture_mirror_clamp_to_edge GL_EXT_texture_rg GL_EXT_texture_sRGB_R8 GL_EXT_texture_sRGB_RG8 GL_EXT_texture_sRGB_decode GL_EXT_texture_shadow_lod GL_EXT_texture_storage GL_EXT_texture_type_2_10_10_10_REV GL_EXT_unpack_subimage GL_KHR_blend_equation_advanced GL_KHR_debug GL_KHR_robust_buffer_access_behavior GL_KHR_robustness GL_KHR_texture_compression_astc_ldr GL_NV_depth_buffer_float2 GL_NV_fence GL_NV_framebuffer_blit GL_NV_pack_subimage GL_NV_pixel_buffer_object GL_NV_polygon_mode GL_NV_read_depth GL_NV_read_depth_stencil GL_NV_read_stencil GL_NV_shader_noperspective_interpolation GL_OES_EGL_image GL_OES_EGL_image_external GL_OES_EGL_image_external_essl3 GL_OES_EGL_sync GL_OES_compressed_EAC_R11_signed_texture GL_OES_compressed_EAC_R11_unsigned_texture GL_OES_compressed_EAC_RG11_signed_texture GL_OES_compressed_EAC_RG11_unsigned_texture GL_OES_compressed_ETC1_RGB8_texture GL_OES_compressed_ETC2_RGB8_texture GL_OES_compressed_ETC2_RGBA8_texture GL_OES_compressed_ETC2_punchthroughA_RGBA8_texture GL_OES_compressed_ETC2_punchthroughA_sRGB8_alpha_texture GL_OES_compressed_ETC2_sRGB8_alpha8_texture GL_OES_compressed_ETC2_sRGB8_texture GL_OES_compressed_paletted_texture GL_OES_copy_image GL_OES_depth24 GL_OES_depth32 GL_OES_depth_texture GL_OES_depth_texture_cube_map GL_OES_draw_buffers_indexed GL_OES_draw_elements_base_vertex GL_OES_element_index_uint GL_OES_fbo_render_mipmap GL_OES_get_program_binary GL_OES_mapbuffer GL_OES_packed_depth_stencil GL_OES_required_internalformat GL_OES_rgb8_rgba8 GL_OES_sample_shading GL_OES_sample_variables GL_OES_shader_multisample_interpolation GL_OES_standard_derivatives GL_OES_surfaceless_context GL_OES_texture_3D GL_OES_texture_border_clamp GL_OES_texture_cube_map_array GL_OES_texture_float GL_OES_texture_float_linear GL_OES_texture_half_float GL_OES_texture_half_float_linear GL_OES_texture_npot GL_OES_texture_stencil8 GL_OES_texture_storage_multisample_2d_array GL_OES_vertex_array_object GL_OES_vertex_half_float GL_OES_vertex_type_10_10_10_2 GL_OVR_multiview GL_OVR_multiview2 ",
+        "glImplementationParts": "(gl=egl-angle,angle=swiftshader)",
+        "glRenderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver-5.0.0)",
+        "glResetNotificationStrategy": 33362,
+        "glVendor": "Google Inc. (Google)",
+        "glVersion": "OpenGL ES 3.0 (ANGLE 2.1.26821 git hash: 4c0ae3917d4f)",
+        "glWsExtensions": "EGL_EXT_create_context_robustness EGL_ANGLE_surface_orientation EGL_KHR_create_context EGL_KHR_image EGL_KHR_image_base EGL_EXT_image_gl_colorspace EGL_KHR_gl_colorspace EGL_KHR_gl_texture_2D_image EGL_KHR_gl_texture_cubemap_image EGL_KHR_gl_renderbuffer_image EGL_KHR_get_all_proc_addresses EGL_KHR_fence_sync EGL_KHR_wait_sync EGL_ANGLE_create_context_webgl_compatibility EGL_CHROMIUM_create_context_bind_generates_resource EGL_KHR_swap_buffers_with_damage EGL_EXT_pixel_format_float EGL_KHR_surfaceless_context EGL_ANGLE_display_texture_share_group EGL_ANGLE_display_semaphore_share_group EGL_ANGLE_create_context_client_arrays EGL_ANGLE_program_cache_control EGL_ANGLE_robust_resource_initialization EGL_ANGLE_create_context_extensions_enabled EGL_ANDROID_blob_cache EGL_ANDROID_recordable EGL_ANGLE_create_context_backwards_compatible EGL_KHR_no_config_context EGL_IMG_context_priority EGL_KHR_create_context_no_error EGL_KHR_reusable_sync EGL_EXT_buffer_age EGL_ANGLE_create_surface_swap_interval EGL_ANGLE_vulkan_image EGL_KHR_partial_update EGL_ANGLE_global_fence_sync EGL_ANGLE_memory_usage_report ",
+        "glWsVendor": "Google Inc. (Google)",
+        "glWsVersion": "1.5 (ANGLE 2.1.26821 git hash: 4c0ae3917d4f)",
+        "hardwareSupportsVulkan": false,
+        "inProcessGpu": false,
+        "initializationTime": 0.01576,
+        "isAsan": false,
+        "isClangCoverage": false,
+        "jpegDecodeAcceleratorSupported": false,
+        "maxMsaaSamples": "4",
+        "optimus": false,
+        "passthroughCmdDecoder": true,
+        "pixelShaderVersion": "3.00",
+        "processCrashCount": 0,
+        "sandboxed": false,
+        "skiaBackendType": "GaneshGL",
+        "subpixelFontRendering": true,
+        "targetCpuBits": 64,
+        "vertexShaderVersion": "3.00",
+        "visibilityCallbackCallCount": 0
+      },
+      "featureStatus": {
+        "2d_canvas": "unavailable_software",
+        "direct_rendering_display_compositor": "disabled_off_ok",
+        "gpu_compositing": "disabled_software",
+        "multiple_raster_threads": "enabled_on",
+        "opengl": "disabled_off",
+        "rasterization": "disabled_software",
+        "raw_draw": "disabled_off_ok",
+        "skia_graphite": "disabled_off",
+        "trees_in_viz": "disabled_off",
+        "video_decode": "disabled_software",
+        "video_encode": "disabled_software",
+        "vulkan": "disabled_off",
+        "webgl": "unavailable_software",
+        "webgpu": "unavailable_software",
+        "webnn": "unavailable_software"
+      },
+      "driverBugWorkarounds": [],
+      "videoDecoding": [],
+      "videoEncoding": []
+    },
+    "modelName": "",
+    "modelVersion": "",
+    "commandLine": "/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-3r0xJk --remote-debugging-pipe --no-startup-window --use-gl=angle --use-angle=swiftshader-webgl --ozone-platform=headless --allow-pre-commit-input"
+  },
+  "browserFlags": {
+    "arguments": [
+      "/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell",
+      "--disable-field-trial-config",
+      "--disable-background-networking",
+      "--disable-background-timer-throttling",
+      "--disable-backgrounding-occluded-windows",
+      "--disable-back-forward-cache",
+      "--disable-breakpad",
+      "--disable-client-side-phishing-detection",
+      "--disable-component-extensions-with-background-pages",
+      "--disable-component-update",
+      "--no-default-browser-check",
+      "--disable-default-apps",
+      "--disable-dev-shm-usage",
+      "--disable-extensions",
+      "--disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints",
+      "--enable-features=CDPScreenshotNewSurface",
+      "--allow-pre-commit-input",
+      "--disable-hang-monitor",
+      "--disable-ipc-flooding-protection",
+      "--disable-popup-blocking",
+      "--disable-prompt-on-repost",
+      "--disable-renderer-backgrounding",
+      "--force-color-profile=srgb",
+      "--metrics-recording-only",
+      "--no-first-run",
+      "--password-store=basic",
+      "--use-mock-keychain",
+      "--no-service-autorun",
+      "--export-tagged-pdf",
+      "--disable-search-engine-choice-screen",
+      "--unsafely-disable-devtools-self-xss-warnings",
+      "--edge-skip-compat-layer-relaunch",
+      "--enable-automation",
+      "--disable-infobars",
+      "--disable-search-engine-choice-screen",
+      "--disable-sync",
+      "--enable-unsafe-swiftshader",
+      "--headless",
+      "--hide-scrollbars",
+      "--mute-audio",
+      "--blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4",
+      "--no-sandbox",
+      "--user-data-dir=/tmp/playwright_chromiumdev_profile-3r0xJk",
+      "--remote-debugging-pipe",
+      "--no-startup-window",
+      "--use-gl=angle",
+      "--use-angle=swiftshader-webgl",
+      "--ozone-platform=headless",
+      "--allow-pre-commit-input"
+    ]
+  },
+  "os": "Linux ac2f28a1b768 7.0.0-1017-azure #17~24.04.1-Ubuntu SMP PREEMPT Thu Sep 24 18:46:57 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux",
+  "cpu": "model name\t: AMD EPYC 9V74 80-Core Processor",
+  "elapsedExperimentalMs": 127357,
+  "failures": [],
+  "runs": [
+    {
+      "rep": 1,
+      "mode": "baseline",
+      "timers": false,
+      "frames": 29,
+      "fps": 3.3534540576794103,
+      "seconds": 8.349599999999999,
+      "stats": {
+        "callbackMs": {
+          "n": 29,
+          "median": 293.40000000000873,
+          "p95": null,
+          "p99": null,
+          "min": 284.1000000000058,
+          "max": 316.20000000001164
+        },
+        "intervalMs": {
+          "n": 28,
+          "median": 300,
+          "p95": null,
+          "p99": null,
+          "min": 283.2000000000007,
+          "max": 316.7000000000007
+        },
+        "compositeMs": {
+          "n": 0,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "min": null,
+          "max": null
+        },
+        "flushMs": {
+          "n": 0,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "min": null,
+          "max": null
+        },
+        "causticMs": {
+          "n": 0,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "min": null,
+          "max": null
+        },
+        "causticCalls": {
+          "n": 29,
+          "median": 23,
+          "p95": null,
+          "p99": null,
+          "min": 23,
+          "max": 23
+        }
+      },
+      "mainTaskMs": 8029.031999999999,
+      "mainTaskFraction": 0.9980867490434061,
+      "stateHash": "b22f499523d8e172306816f85f280df451fcbfe074c93e74cbb6a31126be73fa",
+      "metadata": {
+        "workers": 1,
+        "messages": 15,
+        "acks": 14,
+        "canvas": [
+          1280,
+          674
+        ],
+        "css": [
+          1280,
+          675
+        ],
+        "dpr": 1,
+        "viewport": [
+          1280,
+          850
+        ],
+        "visibility": "visible",
+        "transform": [
+          0.8500000238418579,
+          0,
+          0,
+          0,
+          0,
+          0.8500000238418579,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          -380.0000286102295,
+          -300.25001788139343,
+          0,
+          1
+        ],
+        "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+        "hardwareConcurrency": 4,
+        "contextAttributes": {
+          "alpha": true,
+          "colorSpace": "srgb",
+          "colorType": "unorm8",
+          "desynchronized": false,
+          "toneMapping": {
+            "mode": "standard"
+          },
+          "willReadFrequently": false
+        },
+        "sourceContextAttributes": {
+          "alpha": true,
+          "colorSpace": "srgb",
+          "colorType": "unorm8",
+          "desynchronized": false,
+          "toneMapping": {
+            "mode": "standard"
+          },
+          "willReadFrequently": false
+        }
+      }
+    },
+    {
+      "rep": 1,
+      "mode": "baseline",
+      "timers": true,
+      "frames": 29,
+      "fps": 3.30722984066239,
+      "seconds": 8.466300000000002,
+      "stats": {
+        "callbackMs": {
+          "n": 29,
+          "median": 291.1999999999971,
+          "p95": null,
+          "p99": null,
+          "min": 277.1000000000058,
+          "max": 350.6999999999971
+        },
+        "intervalMs": {
+          "n": 28,
+          "median": 291.64999999999964,
+          "p95": null,
+          "p99": null,
+          "min": 283.1999999999971,
+          "max": 350
+        },
+        "compositeMs": {
+          "n": 29,
+          "median": 290.1999999999971,
+          "p95": null,
+          "p99": null,
+          "min": 276.3000000000029,
+          "max": 349.3000000000029
+        },
+        "flushMs": {
+          "n": 0,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "min": null,
+          "max": null
+        },
+        "causticMs": {
+          "n": 29,
+          "median": 0.09999999999126885,
+          "p95": null,
+          "p99": null,
+          "min": 0,
+          "max": 0.40000000000873115
+        },
+        "causticCalls": {
+          "n": 29,
+          "median": 23,
+          "p95": null,
+          "p99": null,
+          "min": 23,
+          "max": 23
+        }
+      },
+      "mainTaskMs": 8111.344000000001,
+      "mainTaskFraction": 0.9998359357425252,
+      "stateHash": "b22f499523d8e172306816f85f280df451fcbfe074c93e74cbb6a31126be73fa",
+      "metadata": {
+        "workers": 1,
+        "messages": 15,
+        "acks": 14,
+        "canvas": [
+          1280,
+          674
+        ],
+        "css": [
+          1280,
+          675
+        ],
+        "dpr": 1,
+        "viewport": [
+          1280,
+          850
+        ],
+        "visibility": "visible",
+        "transform": [
+          0.8500000238418579,
+          0,
+          0,
+          0,
+          0,
+          0.8500000238418579,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          -380.0000286102295,
+          -300.25001788139343,
+          0,
+          1
+        ],
+        "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+        "hardwareConcurrency": 4,
+        "contextAttributes": {
+          "alpha": true,
+          "colorSpace": "srgb",
+          "colorType": "unorm8",
+          "desynchronized": false,
+          "toneMapping": {
+            "mode": "standard"
+          },
+          "willReadFrequently": false
+        },
+        "sourceContextAttributes": {
+          "alpha": true,
+          "colorSpace": "srgb",
+          "colorType": "unorm8",
+          "desynchronized": false,
+          "toneMapping": {
+            "mode": "standard"
+          },
+          "willReadFrequently": false
+        }
+      }
+    },
+    {
+      "rep": 1,
+      "mode": "unblur",
+      "timers": true,
+      "frames": 473,
+      "fps": 59.24958889321264,
+      "seconds": 7.966300000000003,
+      "stats": {
+        "callbackMs": {
+          "n": 473,
+          "median": 5.400000000023283,
+          "p95": 8.59999999998836,
+          "p99": 9.127999999999298,
+          "min": 5,
+          "max": 12.800000000017462
+        },
+        "intervalMs": {
+          "n": 472,
+          "median": 16.69999999999709,
+          "p95": 16.799999999995634,
+          "p99": 33.299999999997745,
+          "min": 16.5,
+          "max": 33.400000000001455
+        },
+        "compositeMs": {
+          "n": 473,
+          "median": 4.5,
+          "p95": 7.399999999994179,
+          "p99": 7.8839999999932395,
+          "min": 4.199999999982538,
+          "max": 10.699999999982538
+        },
+        "flushMs": {
+          "n": 0,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "min": null,
+          "max": null
+        },
+        "causticMs": {
+          "n": 473,
+          "median": 0,
+          "p95": 0.1999999999825377,
+          "p99": 0.20000000001164153,
+          "min": 0,
+          "max": 0.3000000000174623
+        },
+        "causticCalls": {
+          "n": 473,
+          "median": 23,
+          "p95": 23,
+          "p99": 23,
+          "min": 23,
+          "max": 23
+        }
+      },
+      "mainTaskMs": 3415.0690000000027,
+      "mainTaskFraction": 0.4267197112909007,
+      "stateHash": "b22f499523d8e172306816f85f280df451fcbfe074c93e74cbb6a31126be73fa",
+      "metadata": {
+        "workers": 1,
+        "messages": 15,
+        "acks": 14,
+        "canvas": [
+          1280,
+          674
+        ],
+        "css": [
+          1280,
+          675
+        ],
+        "dpr": 1,
+        "viewport": [
+          1280,
+          850
+        ],
+        "visibility": "visible",
+        "transform": [
+          0.8500000238418579,
+          0,
+          0,
+          0,
+          0,
+          0.8500000238418579,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          -380.0000286102295,
+          -300.25001788139343,
+          0,
+          1
+        ],
+        "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+        "hardwareConcurrency": 4,
+        "contextAttributes": {
+          "alpha": true,
+          "colorSpace": "srgb",
+          "colorType": "unorm8",
+          "desynchronized": false,
+          "toneMapping": {
+            "mode": "standard"
+          },
+          "willReadFrequently": false
+        },
+        "sourceContextAttributes": {
+          "alpha": true,
+          "colorSpace": "srgb",
+          "colorType": "unorm8",
+          "desynchronized": false,
+          "toneMapping": {
+            "mode": "standard"
+          },
+          "willReadFrequently": false
+        }
+      }
+    },
+    {
+      "rep": 1,
+      "mode": "no-caustics",
+      "timers": true,
+      "frames": 472,
+      "fps": 58.877207895296095,
+      "seconds": 7.999699999999997,
+      "stats": {
+        "callbackMs": {
+          "n": 472,
+          "median": 4.2000000000116415,
+          "p95": 6.5,
+          "p99": 7.257999999985918,
+          "min": 3.8999999999941792,
+          "max": 9.39999999999418
+        },
+        "intervalMs": {
+          "n": 471,
+          "median": 16.69999999999709,
+          "p95": 16.80000000000291,
+          "p99": 33.33000000000029,
+          "min": 16.5,
+          "max": 33.400000000001455
+        },
+        "compositeMs": {
+          "n": 472,
+          "median": 3.400000000008731,
+          "p95": 5.699999999982538,
+          "p99": 6.428999999995869,
+          "min": 3.099999999976717,
+          "max": 7.5
+        },
+        "flushMs": {
+          "n": 0,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "min": null,
+          "max": null
+        },
+        "causticMs": {
+          "n": 0,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "min": null,
+          "max": null
+        },
+        "causticCalls": {
+          "n": 472,
+          "median": 23,
+          "p95": 23,
+          "p99": 23,
+          "min": 23,
+          "max": 23
+        }
+      },
+      "mainTaskMs": 2951.333000000002,
+      "mainTaskFraction": 0.3686697545156325,
+      "stateHash": "b22f499523d8e172306816f85f280df451fcbfe074c93e74cbb6a31126be73fa",
+      "metadata": {
+        "workers": 1,
+        "messages": 15,
+        "acks": 14,
+        "canvas": [
+          1280,
+          674
+        ],
+        "css": [
+          1280,
+          675
+        ],
+        "dpr": 1,
+        "viewport": [
+          1280,
+          850
+        ],
+        "visibility": "visible",
+        "transform": [
+          0.8500000238418579,
+          0,
+          0,
+          0,
+          0,
+          0.8500000238418579,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          -380.0000286102295,
+          -300.25001788139343,
+          0,
+          1
+        ],
+        "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+        "hardwareConcurrency": 4,
+        "contextAttributes": {
+          "alpha": true,
+          "colorSpace": "srgb",
+          "colorType": "unorm8",
+          "desynchronized": false,
+          "toneMapping": {
+            "mode": "standard"
+          },
+          "willReadFrequently": false
+        },
+        "sourceContextAttributes": {
+          "alpha": true,
+          "colorSpace": "srgb",
+          "colorType": "unorm8",
+          "desynchronized": false,
+          "toneMapping": {
+            "mode": "standard"
+          },
+          "willReadFrequently": false
+        }
+      }
+    },
+    {
+      "rep": 1,
+      "mode": "flush",
+      "timers": true,
+      "frames": 29,
+      "fps": 3.3006801758790987,
+      "seconds": 8.483100000000006,
+      "stats": {
+        "callbackMs": {
+          "n": 29,
+          "median": 292.6000000000058,
+          "p95": null,
+          "p99": null,
+          "min": 279.8999999999942,
+          "max": 346.29999999998836
+        },
+        "intervalMs": {
+          "n": 28,
+          "median": 300,
+          "p95": null,
+          "p99": null,
+          "min": 283.1999999999971,
+          "max": 350
+        },
+        "compositeMs": {
+          "n": 29,
+          "median": 0,
+          "p95": null,
+          "p99": null,
+          "min": 0,
+          "max": 0.10000000000582077
+        },
+        "flushMs": {
+          "n": 29,
+          "median": 289.29999999998836,
+          "p95": null,
+          "p99": null,
+          "min": 279.1000000000058,
+          "max": 345.4000000000233
+        },
+        "causticMs": {
+          "n": 29,
+          "median": 0.10000000000582077,
+          "p95": null,
+          "p99": null,
+          "min": 0,
+          "max": 0.29999999998835847
+        },
+        "causticCalls": {
+          "n": 29,
+          "median": 23,
+          "p95": null,
+          "p99": null,
+          "min": 23,
+          "max": 23
+        }
+      },
+      "mainTaskMs": 8188.867000000002,
+      "mainTaskFraction": 0.999821985086062,
+      "stateHash": "b22f499523d8e172306816f85f280df451fcbfe074c93e74cbb6a31126be73fa",
+      "metadata": {
+        "workers": 1,
+        "messages": 15,
+        "acks": 14,
+        "canvas": [
+          1280,
+          674
+        ],
+        "css": [
+          1280,
+          675
+        ],
+        "dpr": 1,
+        "viewport": [
+          1280,
+          850
+        ],
+        "visibility": "visible",
+        "transform": [
+          0.8500000238418579,
+          0,
+          0,
+          0,
+          0,
+          0.8500000238418579,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          -380.0000286102295,
+          -300.25001788139343,
+          0,
+          1
+        ],
+        "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+        "hardwareConcurrency": 4,
+        "contextAttributes": {
+          "alpha": true,
+          "colorSpace": "srgb",
+          "colorType": "unorm8",
+          "desynchronized": false,
+          "toneMapping": {
+            "mode": "standard"
+          },
+          "willReadFrequently": false
+        },
+        "sourceContextAttributes": {
+          "alpha": true,
+          "colorSpace": "srgb",
+          "colorType": "unorm8",
+          "desynchronized": false,
+          "toneMapping": {
+            "mode": "standard"
+          },
+          "willReadFrequently": false
+        }
+      }
+    },
+    {
+      "rep": 2,
+      "mode": "flush",
+      "timers": true,
+      "frames": 29,
+      "fps": 3.326877606549195,
+      "seconds": 8.416300000000003,
+      "stats": {
+        "callbackMs": {
+          "n": 29,
+          "median": 285.70000000001164,
+          "p95": null,
+          "p99": null,
+          "min": 278.29999999998836,
+          "max": 354.6000000000058
+        },
+        "intervalMs": {
+          "n": 28,
+          "median": 299.90000000000146,
+          "p95": null,
+          "p99": null,
+          "min": 266.5,
+          "max": 366.59999999999127
+        },
+        "compositeMs": {
+          "n": 29,
+          "median": 0,
+          "p95": null,
+          "p99": null,
+          "min": 0,
+          "max": 0.10000000000582077
+        },
+        "flushMs": {
+          "n": 29,
+          "median": 284.79999999998836,
+          "p95": null,
+          "p99": null,
+          "min": 277.19999999998254,
+          "max": 352.3999999999942
+        },
+        "causticMs": {
+          "n": 29,
+          "median": 0.10000000000582077,
+          "p95": null,
+          "p99": null,
+          "min": 0,
+          "max": 0.40000000002328306
+        },
+        "causticCalls": {
+          "n": 29,
+          "median": 23,
+          "p95": null,
+          "p99": null,
+          "min": 23,
+          "max": 23
+        }
+      },
+      "mainTaskMs": 8093.091000000001,
+      "mainTaskFraction": 0.9997266316373051,
+      "stateHash": "b22f499523d8e172306816f85f280df451fcbfe074c93e74cbb6a31126be73fa",
+      "metadata": {
+        "workers": 1,
+        "messages": 15,
+        "acks": 14,
+        "canvas": [
+          1280,
+          674
+        ],
+        "css": [
+          1280,
+          675
+        ],
+        "dpr": 1,
+        "viewport": [
+          1280,
+          850
+        ],
+        "visibility": "visible",
+        "transform": [
+          0.8500000238418579,
+          0,
+          0,
+          0,
+          0,
+          0.8500000238418579,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          -380.0000286102295,
+          -300.25001788139343,
+          0,
+          1
+        ],
+        "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+        "hardwareConcurrency": 4,
+        "contextAttributes": {
+          "alpha": true,
+          "colorSpace": "srgb",
+          "colorType": "unorm8",
+          "desynchronized": false,
+          "toneMapping": {
+            "mode": "standard"
+          },
+          "willReadFrequently": false
+        },
+        "sourceContextAttributes": {
+          "alpha": true,
+          "colorSpace": "srgb",
+          "colorType": "unorm8",
+          "desynchronized": false,
+          "toneMapping": {
+            "mode": "standard"
+          },
+          "willReadFrequently": false
+        }
+      }
+    },
+    {
+      "rep": 2,
+      "mode": "no-caustics",
+      "timers": true,
+      "frames": 472,
+      "fps": 59.000375798571966,
+      "seconds": 7.983,
+      "stats": {
+        "callbackMs": {
+          "n": 472,
+          "median": 4.100000000005821,
+          "p95": 6.5,
+          "p99": 6.928999999995869,
+          "min": 3.7999999999883585,
+          "max": 11.799999999988358
+        },
+        "intervalMs": {
+          "n": 471,
+          "median": 16.69999999999709,
+          "p95": 16.79999999998836,
+          "p99": 33.30000000000291,
+          "min": 16.5,
+          "max": 33.40000000000873
+        },
+        "compositeMs": {
+          "n": 472,
+          "median": 3.3999999999941792,
+          "p95": 5.699999999982538,
+          "p99": 5.857999999991739,
+          "min": 3.099999999976717,
+          "max": 10.299999999988358
+        },
+        "flushMs": {
+          "n": 0,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "min": null,
+          "max": null
+        },
+        "causticMs": {
+          "n": 0,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "min": null,
+          "max": null
+        },
+        "causticCalls": {
+          "n": 472,
+          "median": 23,
+          "p95": 23,
+          "p99": 23,
+          "min": 23,
+          "max": 23
+        }
+      },
+      "mainTaskMs": 2908.6810000000014,
+      "mainTaskFraction": 0.36348657470243484,
+      "stateHash": "b22f499523d8e172306816f85f280df451fcbfe074c93e74cbb6a31126be73fa",
+      "metadata": {
+        "workers": 1,
+        "messages": 15,
+        "acks": 14,
+        "canvas": [
+          1280,
+          674
+        ],
+        "css": [
+          1280,
+          675
+        ],
+        "dpr": 1,
+        "viewport": [
+          1280,
+          850
+        ],
+        "visibility": "visible",
+        "transform": [
+          0.8500000238418579,
+          0,
+          0,
+          0,
+          0,
+          0.8500000238418579,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          -380.0000286102295,
+          -300.25001788139343,
+          0,
+          1
+        ],
+        "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+        "hardwareConcurrency": 4,
+        "contextAttributes": {
+          "alpha": true,
+          "colorSpace": "srgb",
+          "colorType": "unorm8",
+          "desynchronized": false,
+          "toneMapping": {
+            "mode": "standard"
+          },
+          "willReadFrequently": false
+        },
+        "sourceContextAttributes": {
+          "alpha": true,
+          "colorSpace": "srgb",
+          "colorType": "unorm8",
+          "desynchronized": false,
+          "toneMapping": {
+            "mode": "standard"
+          },
+          "willReadFrequently": false
+        }
+      }
+    },
+    {
+      "rep": 2,
+      "mode": "unblur",
+      "timers": true,
+      "frames": 467,
+      "fps": 58.37331362503284,
+      "seconds": 7.983100000000006,
+      "stats": {
+        "callbackMs": {
+          "n": 467,
+          "median": 5.399999999994179,
+          "p95": 8.39999999999418,
+          "p99": 9.206000000011386,
+          "min": 4.899999999994179,
+          "max": 16.39999999999418
+        },
+        "intervalMs": {
+          "n": 466,
+          "median": 16.69999999999709,
+          "p95": 16.80000000000291,
+          "p99": 33.39999999999418,
+          "min": 16.5,
+          "max": 33.40000000000873
+        },
+        "compositeMs": {
+          "n": 467,
+          "median": 4.600000000005821,
+          "p95": 7.400000000023283,
+          "p99": 7.802000000007676,
+          "min": 4.199999999982538,
+          "max": 15.39999999999418
+        },
+        "flushMs": {
+          "n": 0,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "min": null,
+          "max": null
+        },
+        "causticMs": {
+          "n": 467,
+          "median": 0,
+          "p95": 0.1999999999825377,
+          "p99": 0.20000000001164153,
+          "min": 0,
+          "max": 0.3000000000174623
+        },
+        "causticCalls": {
+          "n": 467,
+          "median": 23,
+          "p95": 23,
+          "p99": 23,
+          "min": 23,
+          "max": 23
+        }
+      },
+      "mainTaskMs": 3557.9820000000027,
+      "mainTaskFraction": 0.4446098653655029,
+      "stateHash": "b22f499523d8e172306816f85f280df451fcbfe074c93e74cbb6a31126be73fa",
+      "metadata": {
+        "workers": 1,
+        "messages": 15,
+        "acks": 14,
+        "canvas": [
+          1280,
+          674
+        ],
+        "css": [
+          1280,
+          675
+        ],
+        "dpr": 1,
+        "viewport": [
+          1280,
+          850
+        ],
+        "visibility": "visible",
+        "transform": [
+          0.8500000238418579,
+          0,
+          0,
+          0,
+          0,
+          0.8500000238418579,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          -380.0000286102295,
+          -300.25001788139343,
+          0,
+          1
+        ],
+        "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+        "hardwareConcurrency": 4,
+        "contextAttributes": {
+          "alpha": true,
+          "colorSpace": "srgb",
+          "colorType": "unorm8",
+          "desynchronized": false,
+          "toneMapping": {
+            "mode": "standard"
+          },
+          "willReadFrequently": false
+        },
+        "sourceContextAttributes": {
+          "alpha": true,
+          "colorSpace": "srgb",
+          "colorType": "unorm8",
+          "desynchronized": false,
+          "toneMapping": {
+            "mode": "standard"
+          },
+          "willReadFrequently": false
+        }
+      }
+    },
+    {
+      "rep": 2,
+      "mode": "baseline",
+      "timers": true,
+      "frames": 30,
+      "fps": 3.3722106585113445,
+      "seconds": 8.599699999999997,
+      "stats": {
+        "callbackMs": {
+          "n": 30,
+          "median": 288.1499999999942,
+          "p95": null,
+          "p99": null,
+          "min": 272,
+          "max": 345
+        },
+        "intervalMs": {
+          "n": 29,
+          "median": 283.40000000000873,
+          "p95": null,
+          "p99": null,
+          "min": 266.6000000000058,
+          "max": 350
+        },
+        "compositeMs": {
+          "n": 30,
+          "median": 287.25,
+          "p95": null,
+          "p99": null,
+          "min": 271.20000000001164,
+          "max": 344.29999999998836
+        },
+        "flushMs": {
+          "n": 0,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "min": null,
+          "max": null
+        },
+        "causticMs": {
+          "n": 30,
+          "median": 0.10000000000582077,
+          "p95": null,
+          "p99": null,
+          "min": 0,
+          "max": 0.3000000000174623
+        },
+        "causticCalls": {
+          "n": 30,
+          "median": 23,
+          "p95": null,
+          "p99": null,
+          "min": 23,
+          "max": 23
+        }
+      },
+      "mainTaskMs": 8264.786999999998,
+      "mainTaskFraction": 0.9998383764674207,
+      "stateHash": "b22f499523d8e172306816f85f280df451fcbfe074c93e74cbb6a31126be73fa",
+      "metadata": {
+        "workers": 1,
+        "messages": 15,
+        "acks": 14,
+        "canvas": [
+          1280,
+          674
+        ],
+        "css": [
+          1280,
+          675
+        ],
+        "dpr": 1,
+        "viewport": [
+          1280,
+          850
+        ],
+        "visibility": "visible",
+        "transform": [
+          0.8500000238418579,
+          0,
+          0,
+          0,
+          0,
+          0.8500000238418579,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          -380.0000286102295,
+          -300.25001788139343,
+          0,
+          1
+        ],
+        "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+        "hardwareConcurrency": 4,
+        "contextAttributes": {
+          "alpha": true,
+          "colorSpace": "srgb",
+          "colorType": "unorm8",
+          "desynchronized": false,
+          "toneMapping": {
+            "mode": "standard"
+          },
+          "willReadFrequently": false
+        },
+        "sourceContextAttributes": {
+          "alpha": true,
+          "colorSpace": "srgb",
+          "colorType": "unorm8",
+          "desynchronized": false,
+          "toneMapping": {
+            "mode": "standard"
+          },
+          "willReadFrequently": false
+        }
+      }
+    },
+    {
+      "rep": 2,
+      "mode": "baseline",
+      "timers": false,
+      "frames": 29,
+      "fps": 3.3137271145721163,
+      "seconds": 8.449699999999996,
+      "stats": {
+        "callbackMs": {
+          "n": 29,
+          "median": 294.3999999999942,
+          "p95": null,
+          "p99": null,
+          "min": 270.5,
+          "max": 353.3999999999942
+        },
+        "intervalMs": {
+          "n": 28,
+          "median": 300,
+          "p95": null,
+          "p99": null,
+          "min": 266.59999999999127,
+          "max": 350
+        },
+        "compositeMs": {
+          "n": 0,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "min": null,
+          "max": null
+        },
+        "flushMs": {
+          "n": 0,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "min": null,
+          "max": null
+        },
+        "causticMs": {
+          "n": 0,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "min": null,
+          "max": null
+        },
+        "causticCalls": {
+          "n": 29,
+          "median": 23,
+          "p95": null,
+          "p99": null,
+          "min": 23,
+          "max": 23
+        }
+      },
+      "mainTaskMs": 8183.378000000004,
+      "mainTaskFraction": 0.9997969466245759,
+      "stateHash": "b22f499523d8e172306816f85f280df451fcbfe074c93e74cbb6a31126be73fa",
+      "metadata": {
+        "workers": 1,
+        "messages": 15,
+        "acks": 14,
+        "canvas": [
+          1280,
+          674
+        ],
+        "css": [
+          1280,
+          675
+        ],
+        "dpr": 1,
+        "viewport": [
+          1280,
+          850
+        ],
+        "visibility": "visible",
+        "transform": [
+          0.8500000238418579,
+          0,
+          0,
+          0,
+          0,
+          0.8500000238418579,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          -380.0000286102295,
+          -300.25001788139343,
+          0,
+          1
+        ],
+        "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+        "hardwareConcurrency": 4,
+        "contextAttributes": {
+          "alpha": true,
+          "colorSpace": "srgb",
+          "colorType": "unorm8",
+          "desynchronized": false,
+          "toneMapping": {
+            "mode": "standard"
+          },
+          "willReadFrequently": false
+        },
+        "sourceContextAttributes": {
+          "alpha": true,
+          "colorSpace": "srgb",
+          "colorType": "unorm8",
+          "desynchronized": false,
+          "toneMapping": {
+            "mode": "standard"
+          },
+          "willReadFrequently": false
+        }
+      }
+    }
+  ],
+  "groups": {
+    "baseline/no-timers": {
+      "windows": 2,
+      "fps": {
+        "n": 2,
+        "median": 3.333590586125763,
+        "p95": null,
+        "p99": null,
+        "min": 3.3137271145721163,
+        "max": 3.3534540576794103
+      },
+      "perWindowFPS": [
+        3.3534540576794103,
+        3.3137271145721163
+      ],
+      "stats": {
+        "callbackMs": {
+          "n": 58,
+          "median": 294.3500000000058,
+          "p95": null,
+          "p99": null,
+          "min": 270.5,
+          "max": 353.3999999999942
+        },
+        "intervalMs": {
+          "n": 56,
+          "median": 300,
+          "p95": null,
+          "p99": null,
+          "min": 266.59999999999127,
+          "max": 350
+        },
+        "compositeMs": {
+          "n": 0,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "min": null,
+          "max": null
+        },
+        "flushMs": {
+          "n": 0,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "min": null,
+          "max": null
+        },
+        "causticMs": {
+          "n": 0,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "min": null,
+          "max": null
+        },
+        "causticCalls": {
+          "n": 58,
+          "median": 23,
+          "p95": null,
+          "p99": null,
+          "min": 23,
+          "max": 23
+        }
+      }
+    },
+    "baseline/timers": {
+      "windows": 2,
+      "fps": {
+        "n": 2,
+        "median": 3.3397202495868674,
+        "p95": null,
+        "p99": null,
+        "min": 3.30722984066239,
+        "max": 3.3722106585113445
+      },
+      "perWindowFPS": [
+        3.30722984066239,
+        3.3722106585113445
+      ],
+      "stats": {
+        "callbackMs": {
+          "n": 59,
+          "median": 288.8999999999942,
+          "p95": null,
+          "p99": null,
+          "min": 272,
+          "max": 350.6999999999971
+        },
+        "intervalMs": {
+          "n": 57,
+          "median": 283.40000000000873,
+          "p95": null,
+          "p99": null,
+          "min": 266.6000000000058,
+          "max": 350
+        },
+        "compositeMs": {
+          "n": 59,
+          "median": 287.9000000000233,
+          "p95": null,
+          "p99": null,
+          "min": 271.20000000001164,
+          "max": 349.3000000000029
+        },
+        "flushMs": {
+          "n": 0,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "min": null,
+          "max": null
+        },
+        "causticMs": {
+          "n": 59,
+          "median": 0.10000000000582077,
+          "p95": null,
+          "p99": null,
+          "min": 0,
+          "max": 0.40000000000873115
+        },
+        "causticCalls": {
+          "n": 59,
+          "median": 23,
+          "p95": null,
+          "p99": null,
+          "min": 23,
+          "max": 23
+        }
+      }
+    },
+    "unblur/timers": {
+      "windows": 2,
+      "fps": {
+        "n": 2,
+        "median": 58.81145125912274,
+        "p95": null,
+        "p99": null,
+        "min": 58.37331362503284,
+        "max": 59.24958889321264
+      },
+      "perWindowFPS": [
+        59.24958889321264,
+        58.37331362503284
+      ],
+      "stats": {
+        "callbackMs": {
+          "n": 940,
+          "median": 5.400000000023283,
+          "p95": 8.5,
+          "p99": 9.160999999991619,
+          "min": 4.899999999994179,
+          "max": 16.39999999999418
+        },
+        "intervalMs": {
+          "n": 938,
+          "median": 16.69999999999709,
+          "p95": 16.80000000000291,
+          "p99": 33.30000000000291,
+          "min": 16.5,
+          "max": 33.40000000000873
+        },
+        "compositeMs": {
+          "n": 940,
+          "median": 4.5,
+          "p95": 7.400000000023283,
+          "p99": 7.921999999995463,
+          "min": 4.199999999982538,
+          "max": 15.39999999999418
+        },
+        "flushMs": {
+          "n": 0,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "min": null,
+          "max": null
+        },
+        "causticMs": {
+          "n": 940,
+          "median": 0,
+          "p95": 0.1999999999825377,
+          "p99": 0.20000000001164153,
+          "min": 0,
+          "max": 0.3000000000174623
+        },
+        "causticCalls": {
+          "n": 940,
+          "median": 23,
+          "p95": 23,
+          "p99": 23,
+          "min": 23,
+          "max": 23
+        }
+      }
+    },
+    "no-caustics/timers": {
+      "windows": 2,
+      "fps": {
+        "n": 2,
+        "median": 58.93879184693403,
+        "p95": null,
+        "p99": null,
+        "min": 58.877207895296095,
+        "max": 59.000375798571966
+      },
+      "perWindowFPS": [
+        58.877207895296095,
+        59.000375798571966
+      ],
+      "stats": {
+        "callbackMs": {
+          "n": 944,
+          "median": 4.199999999982538,
+          "p95": 6.5,
+          "p99": 7.113999999990034,
+          "min": 3.7999999999883585,
+          "max": 11.799999999988358
+        },
+        "intervalMs": {
+          "n": 942,
+          "median": 16.69999999999709,
+          "p95": 16.800000000002548,
+          "p99": 33.30000000000291,
+          "min": 16.5,
+          "max": 33.40000000000873
+        },
+        "compositeMs": {
+          "n": 944,
+          "median": 3.3999999999941792,
+          "p95": 5.699999999982538,
+          "p99": 6,
+          "min": 3.099999999976717,
+          "max": 10.299999999988358
+        },
+        "flushMs": {
+          "n": 0,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "min": null,
+          "max": null
+        },
+        "causticMs": {
+          "n": 0,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "min": null,
+          "max": null
+        },
+        "causticCalls": {
+          "n": 944,
+          "median": 23,
+          "p95": 23,
+          "p99": 23,
+          "min": 23,
+          "max": 23
+        }
+      }
+    },
+    "flush/timers": {
+      "windows": 2,
+      "fps": {
+        "n": 2,
+        "median": 3.313778891214147,
+        "p95": null,
+        "p99": null,
+        "min": 3.3006801758790987,
+        "max": 3.326877606549195
+      },
+      "perWindowFPS": [
+        3.3006801758790987,
+        3.326877606549195
+      ],
+      "stats": {
+        "callbackMs": {
+          "n": 58,
+          "median": 289.3500000000058,
+          "p95": null,
+          "p99": null,
+          "min": 278.29999999998836,
+          "max": 354.6000000000058
+        },
+        "intervalMs": {
+          "n": 56,
+          "median": 299.95000000000437,
+          "p95": null,
+          "p99": null,
+          "min": 266.5,
+          "max": 366.59999999999127
+        },
+        "compositeMs": {
+          "n": 58,
+          "median": 0,
+          "p95": null,
+          "p99": null,
+          "min": 0,
+          "max": 0.10000000000582077
+        },
+        "flushMs": {
+          "n": 58,
+          "median": 287.34999999999127,
+          "p95": null,
+          "p99": null,
+          "min": 277.19999999998254,
+          "max": 352.3999999999942
+        },
+        "causticMs": {
+          "n": 58,
+          "median": 0.10000000000582077,
+          "p95": null,
+          "p99": null,
+          "min": 0,
+          "max": 0.40000000002328306
+        },
+        "causticCalls": {
+          "n": 58,
+          "median": 23,
+          "p95": null,
+          "p99": null,
+          "min": 23,
+          "max": 23
+        }
+      }
+    }
+  },
+  "diagnostics": [
+    {
+      "mode": "baseline",
+      "profileSamples": 748,
+      "topSelfUs": [
+        [
+          "drawImage @ :0",
+          3024234
+        ],
+        [
+          "(program) @ :0",
+          70064
+        ],
+        [
+          "Lr @ index-Cq_4ZBoJ.js:8",
+          8186
+        ],
+        [
+          "(anonymous) @ :85",
+          753
+        ]
+      ],
+      "nativeDrawImageSelfPercent": 97.45417446363265,
+      "traceEvents": 45570,
+      "traceTopCompleteEvents": [
+        [
+          "462/462 ThreadControllerImpl::RunTask",
+          {
+            "count": 314,
+            "totalUs": 3105060,
+            "maxUs": 316455
+          }
+        ],
+        [
+          "462/462 ProxyMain::BeginMainFrame",
+          {
+            "count": 10,
+            "totalUs": 3049795,
+            "maxUs": 316439
+          }
+        ],
+        [
+          "462/462 WebFrameWidgetImpl::BeginMainFrame",
+          {
+            "count": 10,
+            "totalUs": 3034956,
+            "maxUs": 314296
+          }
+        ],
+        [
+          "462/462 Blink.Animate.UpdateTime",
+          {
+            "count": 10,
+            "totalUs": 3034817,
+            "maxUs": 314288
+          }
+        ],
+        [
+          "462/462 PageAnimator::serviceScriptedAnimations",
+          {
+            "count": 10,
+            "totalUs": 3034715,
+            "maxUs": 314280
+          }
+        ],
+        [
+          "462/462 AsyncTask Run",
+          {
+            "count": 20,
+            "totalUs": 3034391,
+            "maxUs": 314221
+          }
+        ],
+        [
+          "462/462 FunctionCall",
+          {
+            "count": 24,
+            "totalUs": 3033942,
+            "maxUs": 314124
+          }
+        ],
+        [
+          "462/462 FrameRequestCallbackCollection::ExecuteFrameCallbacks",
+          {
+            "count": 10,
+            "totalUs": 3033813,
+            "maxUs": 314232
+          }
+        ],
+        [
+          "462/462 FireAnimationFrame",
+          {
+            "count": 10,
+            "totalUs": 3033758,
+            "maxUs": 314227
+          }
+        ],
+        [
+          "395/407 ThreadControllerImpl::RunTask",
+          {
+            "count": 963,
+            "totalUs": 1582345,
+            "maxUs": 21126
+          }
+        ],
+        [
+          "395/407 Graphics.Pipeline",
+          {
+            "count": 1927,
+            "totalUs": 1559817,
+            "maxUs": 21108
+          }
+        ],
+        [
+          "395/407 DisplayScheduler::OnBeginFrameDeadline",
+          {
+            "count": 240,
+            "totalUs": 1512313,
+            "maxUs": 21121
+          }
+        ],
+        [
+          "395/407 DisplayScheduler::DrawAndSwap",
+          {
+            "count": 240,
+            "totalUs": 1511335,
+            "maxUs": 21116
+          }
+        ],
+        [
+          "395/407 Display::DrawAndSwap",
+          {
+            "count": 240,
+            "totalUs": 1510413,
+            "maxUs": 21112
+          }
+        ],
+        [
+          "395/407 DirectRenderer::DrawFrame",
+          {
+            "count": 240,
+            "totalUs": 1477056,
+            "maxUs": 20903
+          }
+        ],
+        [
+          "395/407 DirectRenderer::DrawRenderPass",
+          {
+            "count": 963,
+            "totalUs": 1467671,
+            "maxUs": 19225
+          }
+        ],
+        [
+          "395/407 SoftwareRenderer::DoDrawQuad",
+          {
+            "count": 3528,
+            "totalUs": 1442917,
+            "maxUs": 11493
+          }
+        ],
+        [
+          "462/468 Graphics.Pipeline",
+          {
+            "count": 618,
+            "totalUs": 154443,
+            "maxUs": 1423
+          }
+        ],
+        [
+          "462/468 ThreadControllerImpl::RunTask",
+          {
+            "count": 1493,
+            "totalUs": 146634,
+            "maxUs": 1626
+          }
+        ],
+        [
+          "462/468 ProxyImpl::ScheduledActionDraw",
+          {
+            "count": 206,
+            "totalUs": 104264,
+            "maxUs": 1449
+          }
+        ],
+        [
+          "462/468 MainFrame.Draw",
+          {
+            "count": 206,
+            "totalUs": 103309,
+            "maxUs": 1446
+          }
+        ],
+        [
+          "462/468 LayerTreeHostImpl::PrepareToDraw",
+          {
+            "count": 206,
+            "totalUs": 54159,
+            "maxUs": 442
+          }
+        ],
+        [
+          "462/462 Receive mojo message",
+          {
+            "count": 2,
+            "totalUs": 53051,
+            "maxUs": 49916
+          }
+        ],
+        [
+          "462/468 EpollEvent",
+          {
+            "count": 419,
+            "totalUs": 38920,
+            "maxUs": 339
+          }
+        ],
+        [
+          "395/407 SimpleWatcher::OnHandleReady",
+          {
+            "count": 241,
+            "totalUs": 37898,
+            "maxUs": 268
+          }
+        ],
+        [
+          "462/468 SimpleWatcher::OnHandleReady",
+          {
+            "count": 423,
+            "totalUs": 30819,
+            "maxUs": 267
+          }
+        ],
+        [
+          "462/468 LayerTreeImpl::UpdateDrawProperties",
+          {
+            "count": 217,
+            "totalUs": 29447,
+            "maxUs": 264
+          }
+        ],
+        [
+          "462/465 ThreadPool_RunTask",
+          {
+            "count": 13,
+            "totalUs": 28225,
+            "maxUs": 19898
+          }
+        ],
+        [
+          "395/407 Receive mojo message",
+          {
+            "count": 241,
+            "totalUs": 28101,
+            "maxUs": 197
+          }
+        ],
+        [
+          "462/468 Receive mojo message",
+          {
+            "count": 423,
+            "totalUs": 25382,
+            "maxUs": 246
+          }
+        ],
+        [
+          "462/476 ThreadControllerImpl::RunTask",
+          {
+            "count": 220,
+            "totalUs": 24151,
+            "maxUs": 283
+          }
+        ],
+        [
+          "462/476 TimerBase::run",
+          {
+            "count": 212,
+            "totalUs": 20825,
+            "maxUs": 270
+          }
+        ],
+        [
+          "462/476 TimerFire",
+          {
+            "count": 212,
+            "totalUs": 19529,
+            "maxUs": 265
+          }
+        ],
+        [
+          "462/468 ExternalBeginFrameSource::OnBeginFrame",
+          {
+            "count": 206,
+            "totalUs": 17953,
+            "maxUs": 170
+          }
+        ],
+        [
+          "395/407 DelayBasedBeginFrameSource::OnTimerTick",
+          {
+            "count": 241,
+            "totalUs": 17866,
+            "maxUs": 201
+          }
+        ]
+      ],
+      "threadNames": [
+        {
+          "args": {
+            "name": "swapper"
+          },
+          "cat": "__metadata",
+          "name": "thread_name",
+          "ph": "M",
+          "pid": 0,
+          "tid": 0,
+          "ts": 0
+        },
+        {
+          "args": {
+            "name": "CrGpuMain"
+          },
+          "cat": "__metadata",
+          "name": "thread_name",
+          "ph": "M",
+          "pid": 395,
+          "tid": 395,
+          "ts": 0
+        },
+        {
+          "args": {
+            "name": "PerfettoTrace"
+          },
+          "cat": "__metadata",
+          "name": "thread_name",
+          "ph": "M",
+          "pid": 395,
+          "tid": 403,
+          "ts": 0
+        },
+        {
+          "args": {
+            "name": "CrBrowserMain"
+          },
+          "cat": "__metadata",
+          "name": "thread_name",
+          "ph": "M",
+          "pid": 377,
+          "tid": 377,
+          "ts": 0
+        },
+        {
+          "args": {
+            "name": "PerfettoTrace"
+          },
+          "cat": "__metadata",
+          "name": "thread_name",
+          "ph": "M",
+          "pid": 377,
+          "tid": 381,
+          "ts": 0
+        },
+        {
+          "args": {
+            "name": "MemoryInfra"
+          },
+          "cat": "__metadata",
+          "name": "thread_name",
+          "ph": "M",
+          "pid": 377,
+          "tid": 388,
+          "ts": 0
+        },
+        {
+          "args": {
+            "name": "Chrome_ChildIOThread"
+          },
+          "cat": "__metadata",
+          "name": "thread_name",
+          "ph": "M",
+          "pid": 395,
+          "tid": 406,
+          "ts": 0
+        },
+        {
+          "args": {
+            "name": "Chrome_IOThread"
+          },
+          "cat": "__metadata",
+          "name": "thread_name",
+          "ph": "M",
+          "pid": 377,
+          "tid": 387,
+          "ts": 0
+        },
+        {
+          "args": {
+            "name": "VizCompositorThread"
+          },
+          "cat": "__metadata",
+          "name": "thread_name",
+          "ph": "M",
+          "pid": 395,
+          "tid": 407,
+          "ts": 0
+        },
+        {
+          "args": {
+            "name": "CrRendererMain"
+          },
+          "cat": "__metadata",
+          "name": "thread_name",
+          "ph": "M",
+          "pid": 462,
+          "tid": 462,
+          "ts": 0
+        },
+        {
+          "args": {
+            "name": "Compositor"
+          },
+          "cat": "__metadata",
+          "name": "thread_name",
+          "ph": "M",
+          "pid": 462,
+          "tid": 468,
+          "ts": 0
+        },
+        {
+          "args": {
+            "name": "DedicatedWorker thread"
+          },
+          "cat": "__metadata",
+          "name": "thread_name",
+          "ph": "M",
+          "pid": 462,
+          "tid": 476,
+          "ts": 0
+        },
+        {
+          "args": {
+            "name": "Chrome_ChildIOThread"
+          },
+          "cat": "__metadata",
+          "name": "thread_name",
+          "ph": "M",
+          "pid": 462,
+          "tid": 466,
+          "ts": 0
+        },
+        {
+          "args": {
+            "name": "PerfettoTrace"
+          },
+          "cat": "__metadata",
+          "name": "thread_name",
+          "ph": "M",
+          "pid": 462,
+          "tid": 463,
+          "ts": 0
+        },
+        {
+          "args": {
+            "name": "DevToolsPipeHandlerWriteThread"
+          },
+          "cat": "__metadata",
+          "name": "thread_name",
+          "ph": "M",
+          "pid": 377,
+          "tid": 413,
+          "ts": 0
+        },
+        {
+          "args": {
+            "name": "ThreadPoolForegroundWorker"
+          },
+          "cat": "__metadata",
+          "name": "thread_name",
+          "ph": "M",
+          "pid": 462,
+          "tid": 465,
+          "ts": 0
+        },
+        {
+          "args": {
+            "name": "ThreadPoolForegroundWorker"
+          },
+          "cat": "__metadata",
+          "name": "thread_name",
+          "ph": "M",
+          "pid": 462,
+          "tid": 467,
+          "ts": 0
+        }
+      ]
+    },
+    {
+      "mode": "unblur",
+      "profileSamples": 734,
+      "topSelfUs": [
+        [
+          "(idle) @ :0",
+          1601757
+        ],
+        [
+          "drawImage @ :0",
+          965220
+        ],
+        [
+          "(program) @ :0",
+          289147
+        ],
+        [
+          "Lr @ index-Cq_4ZBoJ.js:8",
+          40804
+        ],
+        [
+          "(garbage collector) @ :0",
+          26382
+        ],
+        [
+          "proto.fill @ :50",
+          20444
+        ],
+        [
+          "restore @ :0",
+          16399
+        ],
+        [
+          "setTransform @ :0",
+          8173
+        ],
+        [
+          "roundRect @ :0",
+          8154
+        ],
+        [
+          "clearRect @ :0",
+          8149
+        ],
+        [
+          "save @ :0",
+          8141
+        ],
+        [
+          "fill @ :0",
+          4104
+        ],
+        [
+          "rotate @ :0",
+          4097
+        ],
+        [
+          "requestAnimationFrame @ :0",
+          4097
+        ],
+        [
+          "ellipse @ :0",
+          4094
+        ],
+        [
+          "fillRect @ :0",
+          4071
+        ],
+        [
+          "zn @ index-Cq_4ZBoJ.js:8",
+          4069
+        ],
+        [
+          "toFloat64Array @ :0",
+          4058
+        ]
+      ],
+      "nativeDrawImageSelfPercent": 31.94654063070935,
+      "traceEvents": 75664,
+      "traceTopCompleteEvents": [
+        [
+          "395/407 ThreadControllerImpl::RunTask",
+          {
+            "count": 703,
+            "totalUs": 2856005,
+            "maxUs": 21819
+          }
+        ],
+        [
+          "395/407 Graphics.Pipeline",
+          {
+            "count": 1407,
+            "totalUs": 2840766,
+            "maxUs": 21803
+          }
+        ],
+        [
+          "395/407 DisplayScheduler::OnBeginFrameDeadline",
+          {
+            "count": 175,
+            "totalUs": 2810848,
+            "maxUs": 21814
+          }
+        ],
+        [
+          "395/407 DisplayScheduler::DrawAndSwap",
+          {
+            "count": 175,
+            "totalUs": 2810120,
+            "maxUs": 21810
+          }
+        ],
+        [
+          "395/407 Display::DrawAndSwap",
+          {
+            "count": 175,
+            "totalUs": 2809506,
+            "maxUs": 21806
+          }
+        ],
+        [
+          "395/407 DirectRenderer::DrawFrame",
+          {
+            "count": 175,
+            "totalUs": 2781836,
+            "maxUs": 21634
+          }
+        ],
+        [
+          "395/407 DirectRenderer::DrawRenderPass",
+          {
+            "count": 703,
+            "totalUs": 2776200,
+            "maxUs": 19748
+          }
+        ],
+        [
+          "395/407 SoftwareRenderer::DoDrawQuad",
+          {
+            "count": 8095,
+            "totalUs": 2743511,
+            "maxUs": 10065
+          }
+        ],
+        [
+          "462/462 ThreadControllerImpl::RunTask",
+          {
+            "count": 1440,
+            "totalUs": 1442262,
+            "maxUs": 19504
+          }
+        ],
+        [
+          "462/462 ProxyMain::BeginMainFrame",
+          {
+            "count": 176,
+            "totalUs": 1365049,
+            "maxUs": 10262
+          }
+        ],
+        [
+          "462/462 WebFrameWidgetImpl::BeginMainFrame",
+          {
+            "count": 176,
+            "totalUs": 1173253,
+            "maxUs": 9009
+          }
+        ],
+        [
+          "462/462 Blink.Animate.UpdateTime",
+          {
+            "count": 176,
+            "totalUs": 1171689,
+            "maxUs": 9000
+          }
+        ],
+        [
+          "462/462 PageAnimator::serviceScriptedAnimations",
+          {
+            "count": 176,
+            "totalUs": 1170026,
+            "maxUs": 8991
+          }
+        ],
+        [
+          "462/462 FrameRequestCallbackCollection::ExecuteFrameCallbacks",
+          {
+            "count": 176,
+            "totalUs": 1160355,
+            "maxUs": 8945
+          }
+        ],
+        [
+          "462/462 FireAnimationFrame",
+          {
+            "count": 176,
+            "totalUs": 1159527,
+            "maxUs": 8940
+          }
+        ],
+        [
+          "462/462 AsyncTask Run",
+          {
+            "count": 190,
+            "totalUs": 1159158,
+            "maxUs": 8934
+          }
+        ],
+        [
+          "462/462 FunctionCall",
+          {
+            "count": 192,
+            "totalUs": 1155259,
+            "maxUs": 8913
+          }
+        ],
+        [
+          "462/468 ThreadControllerImpl::RunTask",
+          {
+            "count": 2104,
+            "totalUs": 170045,
+            "maxUs": 595
+          }
+        ],
+        [
+          "462/468 Graphics.Pipeline",
+          {
+            "count": 528,
+            "totalUs": 132247,
+            "maxUs": 552
+          }
+        ],
+        [
+          "462/462 LayerTreeHost::DoUpdateLayers",
+          {
+            "count": 176,
+            "totalUs": 103715,
+            "maxUs": 1902
+          }
+        ],
+        [
+          "462/462 CanvasResourceProviderSharedImage::ProduceCanvasResource",
+          {
+            "count": 176,
+            "totalUs": 98368,
+            "maxUs": 1872
+          }
+        ],
+        [
+          "462/468 ProxyImpl::ScheduledActionDraw",
+          {
+            "count": 176,
+            "totalUs": 82795,
+            "maxUs": 575
+          }
+        ],
+        [
+          "462/468 MainFrame.Draw",
+          {
+            "count": 176,
+            "totalUs": 82214,
+            "maxUs": 570
+          }
+        ],
+        [
+          "462/462 WebFrameWidgetImpl::UpdateLifecycle",
+          {
+            "count": 176,
+            "totalUs": 66243,
+            "maxUs": 603
+          }
+        ],
+        [
+          "462/468 ProxyImpl::ReadyToCommit",
+          {
+            "count": 176,
+            "totalUs": 54166,
+            "maxUs": 471
+          }
+        ],
+        [
+          "462/468 EpollEvent",
+          {
+            "count": 526,
+            "totalUs": 45783,
+            "maxUs": 287
+          }
+        ],
+        [
+          "462/468 LayerTreeHostImpl::PrepareToDraw",
+          {
+            "count": 176,
+            "totalUs": 38869,
+            "maxUs": 303
+          }
+        ],
+        [
+          "462/468 LayerTreeImpl::UpdateDrawProperties",
+          {
+            "count": 352,
+            "totalUs": 37816,
+            "maxUs": 223
+          }
+        ],
+        [
+          "462/468 LayerTreeHostImpl::CommitComplete",
+          {
+            "count": 176,
+            "totalUs": 36609,
+            "maxUs": 346
+          }
+        ],
+        [
+          "462/468 SimpleWatcher::OnHandleReady",
+          {
+            "count": 528,
+            "totalUs": 35442,
+            "maxUs": 205
+          }
+        ],
+        [
+          "462/468 Receive mojo message",
+          {
+            "count": 528,
+            "totalUs": 28955,
+            "maxUs": 185
+          }
+        ],
+        [
+          "462/462 LocalFrameView::RunStyleAndLayoutLifecyclePhases",
+          {
+            "count": 176,
+            "totalUs": 27403,
+            "maxUs": 408
+          }
+        ],
+        [
+          "462/465 ThreadPool_RunTask",
+          {
+            "count": 62,
+            "totalUs": 27329,
+            "maxUs": 6265
+          }
+        ],
+        [
+          "462/462 LocalFrameView::UpdateStyleAndLayout",
+          {
+            "count": 176,
+            "totalUs": 25024,
+            "maxUs": 395
+          }
+        ],
+        [
+          "395/407 SimpleWatcher::OnHandleReady",
+          {
+            "count": 176,
+            "totalUs": 24848,
+            "maxUs": 238
+          }
+        ]
+      ],
+      "threadNames": [
+        {
+          "args": {
+            "name": "swapper"
+          },
+          "cat": "__metadata",
+          "name": "thread_name",
+          "ph": "M",
+          "pid": 0,
+          "tid": 0,
+          "ts": 0
+        },
+        {
+          "args": {
+            "name": "CrRendererMain"
+          },
+          "cat": "__metadata",
+          "name": "thread_name",
+          "ph": "M",
+          "pid": 462,
+          "tid": 462,
+          "ts": 0
+        },
+        {
+          "args": {
+            "name": "Compositor"
+          },
+          "cat": "__metadata",
+          "name": "thread_name",
+          "ph": "M",
+          "pid": 462,
+          "tid": 468,
+          "ts": 0
+        },
+        {
+          "args": {
+            "name": "CrBrowserMain"
+          },
+          "cat": "__metadata",
+          "name": "thread_name",
+          "ph": "M",
+          "pid": 377,
+          "tid": 377,
+          "ts": 0
+        },
+        {
+          "args": {
+            "name": "PerfettoTrace"
+          },
+          "cat": "__metadata",
+          "name": "thread_name",
+          "ph": "M",
+          "pid": 377,
+          "tid": 381,
+          "ts": 0
+        },
+        {
+          "args": {
+            "name": "PerfettoTrace"
+          },
+          "cat": "__metadata",
+          "name": "thread_name",
+          "ph": "M",
+          "pid": 462,
+          "tid": 463,
+          "ts": 0
+        },
+        {
+          "args": {
+            "name": "DedicatedWorker thread"
+          },
+          "cat": "__metadata",
+          "name": "thread_name",
+          "ph": "M",
+          "pid": 462,
+          "tid": 476,
+          "ts": 0
+        },
+        {
+          "args": {
+            "name": "CrGpuMain"
+          },
+          "cat": "__metadata",
+          "name": "thread_name",
+          "ph": "M",
+          "pid": 395,
+          "tid": 395,
+          "ts": 0
+        },
+        {
+          "args": {
+            "name": "PerfettoTrace"
+          },
+          "cat": "__metadata",
+          "name": "thread_name",
+          "ph": "M",
+          "pid": 395,
+          "tid": 403,
+          "ts": 0
+        },
+        {
+          "args": {
+            "name": "Chrome_ChildIOThread"
+          },
+          "cat": "__metadata",
+          "name": "thread_name",
+          "ph": "M",
+          "pid": 395,
+          "tid": 406,
+          "ts": 0
+        },
+        {
+          "args": {
+            "name": "Chrome_IOThread"
+          },
+          "cat": "__metadata",
+          "name": "thread_name",
+          "ph": "M",
+          "pid": 377,
+          "tid": 387,
+          "ts": 0
+        },
+        {
+          "args": {
+            "name": "Chrome_ChildIOThread"
+          },
+          "cat": "__metadata",
+          "name": "thread_name",
+          "ph": "M",
+          "pid": 462,
+          "tid": 466,
+          "ts": 0
+        },
+        {
+          "args": {
+            "name": "DevToolsPipeHandlerWriteThread"
+          },
+          "cat": "__metadata",
+          "name": "thread_name",
+          "ph": "M",
+          "pid": 377,
+          "tid": 413,
+          "ts": 0
+        },
+        {
+          "args": {
+            "name": "VizCompositorThread"
+          },
+          "cat": "__metadata",
+          "name": "thread_name",
+          "ph": "M",
+          "pid": 395,
+          "tid": 407,
+          "ts": 0
+        },
+        {
+          "args": {
+            "name": "ThreadPoolForegroundWorker"
+          },
+          "cat": "__metadata",
+          "name": "thread_name",
+          "ph": "M",
+          "pid": 462,
+          "tid": 465,
+          "ts": 0
+        },
+        {
+          "args": {
+            "name": "ThreadPoolForegroundWorker"
+          },
+          "cat": "__metadata",
+          "name": "thread_name",
+          "ph": "M",
+          "pid": 462,
+          "tid": 467,
+          "ts": 0
+        },
+        {
+          "args": {
+            "name": "ThreadPoolForegroundWorker"
+          },
+          "cat": "__metadata",
+          "name": "thread_name",
+          "ph": "M",
+          "pid": 462,
+          "tid": 472,
+          "ts": 0
+        }
+      ]
+    }
+  ],
+  "copy": [
+    {
+      "rep": 1,
+      "sourceFlushMs": 0,
+      "drawMs": {
+        "n": 30,
+        "median": 0,
+        "p95": null,
+        "p99": null,
+        "min": 0,
+        "max": 1.900000000023283
+      },
+      "readMs": {
+        "n": 30,
+        "median": 0.1000000000349246,
+        "p95": null,
+        "p99": null,
+        "min": 0.09999999997671694,
+        "max": 0.40000000002328306
+      },
+      "totalMs": {
+        "n": 30,
+        "median": 0.1000000000349246,
+        "p95": null,
+        "p99": null,
+        "min": 0.09999999997671694,
+        "max": 2.099999999976717
+      }
+    },
+    {
+      "rep": 2,
+      "sourceFlushMs": 0,
+      "drawMs": {
+        "n": 30,
+        "median": 0,
+        "p95": null,
+        "p99": null,
+        "min": 0,
+        "max": 0
+      },
+      "readMs": {
+        "n": 30,
+        "median": 0.1000000000349246,
+        "p95": null,
+        "p99": null,
+        "min": 0.09999999997671694,
+        "max": 0.20000000001164153
+      },
+      "totalMs": {
+        "n": 30,
+        "median": 0.1000000000349246,
+        "p95": null,
+        "p99": null,
+        "min": 0.09999999997671694,
+        "max": 0.20000000001164153
+      }
+    }
+  ]
+}

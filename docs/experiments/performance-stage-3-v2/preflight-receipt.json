@@ -1,0 +1,16 @@
+{
+  "initialResearchHead": "1c4927ad0f9bb7d01368c6a1ede73b9d634c2969",
+  "initialWorkflowRun": 41534358441,
+  "initialChromiumJob": 125582325046,
+  "failure": "Trusted checkout SHA metadata read rejected by Git dubious ownership guard before try/setup/browser navigation",
+  "researchWindowsStarted": 0,
+  "diagnosticWindowsStarted": 0,
+  "componentCopiesStarted": 0,
+  "inheritedChromiumPassed": 31,
+  "otherRequiredGroups": "Worker,toolbar16,side-windows5,Firefox36 passed",
+  "repairHead": "7279fc8b6d09b039bb5a738c62c8648bf89ca2ba",
+  "repairWorkflowRun": 41536057085,
+  "amendmentURL": "https://github.com/smeagol44/vidAI/issues/57#issuecomment-6589871014",
+  "logSHA256": "4142338e134bc29a52f50215fe5548678e55f79b28369ac0928dbae0596cfd8f",
+  "budgetDisposition": "Entire original experiment budget unspent; same registered batch may start after diagnosed technical preflight repair; no scientific outcome repeated or replaced"
+}

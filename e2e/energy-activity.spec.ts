@@ -1,5 +1,3 @@
-// Temporary once-only registered Stage 3.2 research entrypoint.
-import '../scripts/performance-stage32/browser';
 import {test, expect} from '@playwright/test';
 import {readFile} from 'node:fs/promises';
 import {energyActivityFixture} from '../tests/support/energy-activity';

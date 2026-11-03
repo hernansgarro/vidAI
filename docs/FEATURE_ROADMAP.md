@@ -27,7 +27,7 @@ simulation throughput from display cost and UI responsiveness, then
 identify and compare simplifications with evidence and explicit fidelity
 trade-offs. Keep feeding/energy signal meaning, authoritative fixed ticks,
 historical saves, physics, learning and experiment baselines intact.
-**A four-stage audit plan is now documented, and Stage 1 tool inventory has begun; no measured profiling results or optimization implementation are claimed.** The plan does not change upstream priorities or authorize an upstream issue/PR.
+**Stage 3 is ONGOING.** The preserved Stage 3.1 pilot measured a severe CI Canvas composition boundary and coarse kernel costs; Stage 3.2 completed a separately bounded graphics batch and identified deferred caustic-blur cost on software CI. Desktop/active validation and further questions remain open. See the [cumulative executive dashboard](PERFORMANCE_AUDIT_STAGE_3.md). Stage 3.3 and permanent optimizations require further review; no merge/submission is authorized. Invariant physical metadata (S2-02) remains a required future dedicated study; finite per-ray range (IDEA-026) is separate unapproved genetic design. The plan does not change upstream priorities or authorize an upstream issue/PR.
 See the [performance audit plan](PERFORMANCE_AUDIT_PLAN.md) and the [IDEA-023 card](IDEA_LAB.md#idea-023-vida-2d-performance-and-cpu-load-audit)
 and [contributor status](CONTRIBUTOR_WORKFLOW_STATUS.md).
 

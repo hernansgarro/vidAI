@@ -23,6 +23,17 @@
 
 Stages may uncover new subtasks; record them under the originating stage and retain their IDs. No stage is considered complete merely because a script finished successfully.
 
+## Stage 3 recursive execution rule — current2026-11-02
+
+Stage3 is an ongoing sequence of bounded batches (3.1,3.2,3.3,…), each reviewing
+accumulated evidence, selecting coherent questions, preregistering controls/budget,
+executing once, preserving originals/failures, updating the cumulative executive
+impact/confidence table and dated conclusion log, reprioritizing open questions,
+then stopping for Hernan's review. A completed batch/budget/PR does not close Stage3.
+Only justified stopping points for all meaningful reasonably testable questions,
+including new findings, or Hernan's explicit decision can close it. Stage4 is not
+automatic. [Cumulative report](PERFORMANCE_AUDIT_STAGE_3.md).
+
 ## Stage 1 — Audit the tools already present
 
 **Scope:** Inventory and run existing facilities with unchanged simulation/runtime code. Existing tests may protect correctness without being timing benchmarks; report that distinction. External shell timing/OS and browser profiler facilities may be used **without committing instrumentation**. Any new persistent diagnostics or tests belong to Stage 3.
