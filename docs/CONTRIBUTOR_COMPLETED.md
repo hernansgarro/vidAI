@@ -1,6 +1,6 @@
 # VIDA 2D — Contributor completed-work register
 
-> **Fork-only record (updated 2026-11-02).** This is a concise index of verified deliveries, not a replacement for upstream issues, `docs/PROJECT_STATUS.md`, release evidence, or the original [chronological design journal](CONTRIBUTOR_IDEAS.md). A feature merged into `hernansgarro/vidAI:main` is **not** thereby accepted or released by `smeagol44/vidAI`. Only add completion claims backed by actual PR/commit/CI records.
+> **Fork-only verified delivery index.** Upstream issues, `docs/PROJECT_STATUS.md` and PR/CI receipts remain authoritative. A fork-main merge is **not** upstream acceptance or release. Current unfinished proposals belong in [IDEA_LAB.md](IDEA_LAB.md); the [contributor index](CONTRIBUTOR_IDEAS.md) is navigational, not a historical duplicate. Keep only traceable delivered outcomes here.
 
 ## Verified fork-main deliveries
 
@@ -16,10 +16,8 @@
 | **Stable toolbar, pause/speed controls and measured throughput** | [Upstream integration PR #131](https://github.com/smeagol44/vidAI/pull/131); retained in fork main | Prior stabilization is completed; the **new observer-oriented compact header/footer redesign (IDEA-016)** is separate and pending |
 | **Parallel browser/Worker validation gates** | [Upstream integration PR #132](https://github.com/smeagol44/vidAI/pull/132), [Pipe PR #53](https://github.com/hernansgarro/vidAI/pull/53) | Tests and deployment are verified per linked delivery, not a claim of universal ecological correctness |
 
-## Completion boundaries and remaining work
+## Completion boundaries
 
-- [Active personal ideas](IDEA_LAB.md) contain only **unimplemented or explicitly deferred outcomes**.
-- **IDEA-012 moved to completed on 2026-11-02 after source/test review.** Hernan rated it High before verification; this is a completed high-value requirement, **not** work requiring a new implementation. Local agreement retention survives world-height changes and connection interruption; future remote-specific contracts are outside that delivered scope. An idea does not become active development scope merely by appearing on that board.
-- New observer/UI cleanups (IDEA-013 through IDEA-018) and proposed Notebook/Cellphone presets (IDEA-019 and IDEA-020) were **recorded on 2026-11-02**, not implemented, reviewed, or approved for upstream submission.
-- The [original contributor journal](CONTRIBUTOR_IDEAS.md) is retained as **historical evidence**, including superseded stage-boundary text, and is not a live to-do list. Do not delete historical discussions to make the backlog appear shorter.
-- [Contributor delivery stages](CONTRIBUTOR_WORKFLOW_STATUS.md) record currently active implementation/submission status; original upstream issues and PR discussions remain authoritative.
+- **IDEA-012 (retained local agreements) is complete** in local stage 3; this must not be reopened as a pending fork feature. Remote persistence remains deferred under [IDEA-010](IDEA_LAB.md#idea-010-remote-aquariums).
+- New observer interface, scenario, nutrient geometry and olfaction proposals are tracked only as [unfinished personal ideas](IDEA_LAB.md), not completed deliveries.
+- Verify each linked PR, test receipt and upstream acceptance independently before making a new completion claim. Past discussion and superseded implementation prompts remain in Git/PR history.
