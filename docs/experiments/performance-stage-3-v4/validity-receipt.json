@@ -1,0 +1,41 @@
+{
+  "failures": [],
+  "initial": {
+    "rss": 49303552,
+    "heapTotal": 17616896,
+    "heapUsed": 8283736,
+    "external": 4247421,
+    "arrayBuffers": 350526
+  },
+  "keyOnly": {
+    "rss": 51007488,
+    "heapTotal": 19451904,
+    "heapUsed": 10046128,
+    "external": 4109086,
+    "arrayBuffers": 212151
+  },
+  "populated": {
+    "rss": 59658240,
+    "heapTotal": 29679616,
+    "heapUsed": 11818688,
+    "external": 4109086,
+    "arrayBuffers": 212151
+  },
+  "afterKeyDrop": {
+    "rss": 65818624,
+    "heapTotal": 25223168,
+    "heapUsed": 7420064,
+    "external": 4109086,
+    "arrayBuffers": 212151
+  },
+  "liveEntriesVerified": 10000,
+  "containerRetained": true,
+  "metadataPayloadBytes": 480000,
+  "cacheHeapBytes": 1772560,
+  "timerPairCount": 30000,
+  "archiveSHA256": "2d877581d9e8ff72e02673dd7b45daa59a584227dee6d456e27fe037ca922302",
+  "gitBlobSHA": "8d1e1c6348b6f77ccd0f1e64973d687a6eab6521",
+  "archiveBytes": 42626,
+  "processReturncode": 0,
+  "stderr": ""
+}
