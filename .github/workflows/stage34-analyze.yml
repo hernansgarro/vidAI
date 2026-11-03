@@ -1,0 +1,28 @@
+name: Analyze retained Stage 3.4 windows
+on:
+  push:
+    branches: [audit/performance-stage-3-4-evidence]
+    paths:
+      - 'scripts/performance-stage34/recover-measured.mjs'
+      - 'scripts/performance-stage34/analyze-remote.mjs'
+      - '.github/workflows/stage34-analyze.yml'
+permissions:
+  contents: write
+  actions: read
+jobs:
+  analyze-originals-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: audit/performance-stage-3-4-evidence
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Recover original archives from completed measurement log
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node scripts/performance-stage34/recover-measured.mjs
+      - name: Verify and analyze retained measurements without simulation execution
+        run: node scripts/performance-stage34/analyze-remote.mjs
