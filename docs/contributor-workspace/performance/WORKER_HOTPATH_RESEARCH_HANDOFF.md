@@ -1,5 +1,14 @@
 # VIDA 2D — Deferred Stage 3 Worker hot-path research handoff
 
+## Latest execution handoff — Stage 3.7 BLOCKED; stop (2026-11-03)
+
+The owner subsequently launched the Stage 3.7 Work request, superseding the design-only stop below for that one lot. Measured sourcef0db3e4, base73ee85b; research branch `audit/performance-stage-3-7`, [draft #90](https://github.com/hernansgarro/vidAI/pull/90), [report](https://github.com/hernansgarro/vidAI/blob/f846d67939e32d46a398768c082368dea2d553b7/docs/experiments/performance-stage-3-v8/report.md), original evidence812f511. Eight fixed120-tick controls passed complete all-real equality and independent dummy/closed-energy validation. P01 failed because the harness used `frame().steps` as a cumulative counter; zero valid TPS windows, 11 unstarted. Boundary/endpoint objects from that slot were not archived: preserve the missing observation and do not reconstruct TPS. No rerun/second campaign.
+
+Short cold phase diagnostics and deterministic dummy divergence are in [fork-main cumulative findings](../../PERFORMANCE_AUDIT_STAGE_3.md). No calibrated overhead, sustained dummy speedup or new CPU/GC result. Synthetic feeding transferred60J directly from available universe reserve, capped by stock/storage and without physical-contact learning cues. All pilot world energy errors <=3.73e-9J. Physics replay deferred. Independent count/raw-failure plumbing repaired, compile-only; no additional ticks run. Runtime production files and historical research PRs remain unchanged; temporary workflow removed, YAML retained outside.github.
+
+**Precise next action:** STOP for owner review. If and only if explicitly authorized, preregister a new bounded recovery with independent cumulative tick counting, failed-window raw-object preservation and independently priced probe overhead; preserve P01 as failed/missing and reuse immutable controls where appropriate. Do not silently repeat/replace it or promote research. Main contains documentation only; raw/probes remain unmerged. Stage3 ongoing; Stage4, upstream submission and production optimization unauthorized. The following sections are preserved historical planning, not an instruction to execute another study.
+
+
 
 ## Owner refinement — Stage 3.7 dummy-substitution experiments (2026-11-03)
 

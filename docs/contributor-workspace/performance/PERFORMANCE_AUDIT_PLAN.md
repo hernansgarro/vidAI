@@ -1,5 +1,12 @@
 # VIDA 2D — Performance Efficiency Audit: Four-Stage Plan
 
+## Current checkpoint — Stage 3.7 attempted and BLOCKED (2026-11-03)
+
+The separately authorized Stage 3.7 lot ran once and stopped at the first timed-window counter failure. Eight fixed-120-tick correctness controls are verified; zero valid end-to-end TPS/overhead/trace windows, 11 slots unstarted. **No repeat or second campaign is authorized.** See the [cumulative verified partial findings](../../PERFORMANCE_AUDIT_STAGE_3.md#stage-37-update--2026-11-03-partial-verified-pilots-timed-lot-blocked), [detailed report](https://github.com/hernansgarro/vidAI/blob/f846d67939e32d46a398768c082368dea2d553b7/docs/experiments/performance-stage-3-v8/report.md) and [research draft #90](https://github.com/hernansgarro/vidAI/pull/90). This checkpoint supersedes the earlier “3.7 not started” planning status, while preserving the dated proposal and all prior evidence below.
+
+The short pilot suggests physics/contacts, vision/query processing and inference as hotspots, with substantial nested-probe perturbation and no calibrated sustained costs. Universe-funded synthetic feeding conserved energy without fake contact cues; dummy trajectories diverged. All real variants exactly match ordinary full state/PRNG/settings/learning/energy. `frame().steps` is a draining per-frame delta, not a cumulative counter; the research-only harness repair compiled but was not executed. Original failure/raw evidence are immutable at812f511. Conclusions and limitations are in fork main; all probes/checkpoints/raw archives remain isolated/unmerged. Temporary experiment workflow removed. Stage3 remains ongoing; Stage4 unauthorized. A future recovery requires new explicit owner approval and a fresh finite protocol; unused budget is not permission to retry.
+
+
 
 ## Stage 3.7 methodology amendment — controlled component bypasses (2026-11-03)
 
