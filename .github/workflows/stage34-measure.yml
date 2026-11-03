@@ -1,0 +1,33 @@
+name: Stage 3.4 unspent measurement windows
+on:
+  push:
+    branches: [audit/performance-stage-3-4-evidence]
+    paths:
+      - 'scripts/performance-stage34/measurement.ts'
+      - 'scripts/performance-stage34/measurement.config.mjs'
+      - '.github/workflows/stage34-measure.yml'
+permissions:
+  contents: write
+jobs:
+  registered-measurements:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    container:
+      image: mcr.microsoft.com/playwright:v1.58.2-noble
+    env:
+      HOME: /root
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: audit/performance-stage-3-4-evidence
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Run only unspent registered measurement windows
+        run: npx playwright test --config=scripts/performance-stage34/measurement.config.mjs --workers=1
+      - name: Preserve original retained evidence even after scientific failure
+        if: always()
+        run: node scripts/performance-stage34/preserve.mjs
