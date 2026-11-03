@@ -14,6 +14,23 @@
 
 For Stage 5 distinguish `not authorized`, `approved / not submitted`, `PR open`, and `upstream accepted`. A fork merge is **never** an upstream merge. Do not infer permission to publish or deploy from a prompt or issue-card maturity. Shared upstream board stages are separate from these contributor stages.
 
+## Submission-wave decision — 2026-11-03
+
+Current contributor preference: isolated features where practical; multiple
+completed features may accumulate in the fork before one **new PR for a new
+wave** is authorized. Preserve every existing upstream PR as its own submitted
+wave. Saving preparation/token costs does not authorize combining open PRs or
+adding a later wave to one of them. Federico's explicit upstream contribution
+policy has final authority; cite it if a conflict arises.
+
+The earlier expansion of #134 was the agent's interpretation, not an established
+Fede requirement. Hernan explicitly directs that it remain as delivered; do not
+undo it or make any further upstream write for this clarification. The detailed
+rule is in [Contributor workflow](../../CONTRIBUTOR_WORKFLOW.md#delivery-waves-and-existing-upstream-prs)
+and the fork's root AGENTS.md. This dated clarification supersedes any inference
+from the earlier batching discussion or submission handoff, while preserving
+the historical records. No new upstream submission is authorized.
+
 ## Current personal planning
 
 - **P0 / IDEA-023 performance audit:** research and measurement are the user's highest personal priority. The [active four-stage audit plan](../performance/PERFORMANCE_AUDIT_PLAN.md) sets the **current 2026-11-03 throughput target** (populated running simulation, MAX capacity, caustics OFF, minimal observer load). [Stage 2 hypotheses](../performance/PERFORMANCE_AUDIT_STAGE_2.md) and [owner-selected measurement priorities](../performance/PERFORMANCE_AUDIT_PRIORITIES.md) are preserved. The plan references bounded Stage 3 evidence/receipts; **do not infer completed Stage 4 synthesis or authorization to optimize**. Check exact current protocol/evidence before continuing a trial. The old 2026-11-02 'no Stage 3 run' summary is not a current gate.

@@ -37,11 +37,46 @@ Wiki: https://github.com/smeagol44/vidAI/wiki
 
 ## Fork-first development and upstream submission
 
+### Delivery waves and existing upstream PRs
+
+**Contributor clarification, 2026-11-03; subject to Federico's upstream policy.**
+Federico has the final say on the upstream contribution process. This records
+Hernan's batching preference; it does not establish or reverse maintainer policy.
+If a current maintainer instruction conflicts, cite the actual source and resolve
+the conflict before acting. Do not present an agent's interpretation as Fede's
+decision.
+
+- Prefer features as isolated and easy to review as practical. Hernan may first
+  accumulate several completed features in fork/main and then authorize one
+  **new upstream PR per delivery wave** to save preparation effort and tokens.
+  Keep each feature's issue, scope, dependencies and validation distinguishable.
+- Existing upstream PRs are already submitted waves. Leave each at its established
+  scope; pending approval is not permission to fold newer work into it. Do not
+  consolidate, repurpose, replace or close those PRs merely to reduce the count.
+- A general request to submit completed/pending fork work or prepare one batch
+  applies to the newly authorized wave. It is not permission to reuse an older
+  upstream PR for additional features. Inspect overlap and dependencies, then
+  prepare a separate clean submission under the normal approval gate.
+- An explicit request to change a particular existing PR, or an actual maintainer
+  requirement, is a separate decision. Do not infer it from cost-saving language.
+- For example, if PR A is awaiting review and features B/C are completed later,
+  an authorized B/C wave gets a separate PR. PR A remains independent. This does
+  not prohibit corrections within PR A's own approved review scope.
+
+The agent's earlier expansion of upstream #134 misinterpreted Hernan's batching
+request; no maintainer requirement to consolidate it was established. Preserve
+that result exactly as Hernan now requests, but do not use it as a future rule.
+This documentation correction is **fork-only** and authorizes no upstream write.
+When upstream writes are explicitly prohibited, keep the clarification and
+handoff in the fork instead of commenting in upstream #57 or altering any PR.
+
+### Submission procedure
+
 1. Fetch upstream; sync needed main updates without discarding fork work. Branch from updated fork/main; experimental bases require recorded authorization.
 2. Implement/document/test in the fork. Use a fork PR targeting hernansgarro/vidAI main; under Hernan's merge authorization/branch rules, merge the finished feature into HIS main. Verify remote merge/head; this is not an upstream release.
 3. ONLY AFTER verifying the fork-main merge, ask in Latin American Spanish whether he wants an upstream PR. Wait for explicit approval: feature completion, fork merge and generic "continue" are not consent. No upstream PR, including drafts, before this gate.
 4. If declined/postponed, preserve fork work, record the decision and stop submission. Do not repeat the offer without a relevant new request/change.
-5. If approved, fetch upstream and create a clean submission branch IN THE FORK from upstream/main (or an explicitly approved experimental base). Copy only the selected feature/dependencies. Review diff/history; exclude unrelated features, testing overlays and Spanish artifact text. Resolve dependencies openly; never submit fork/main wholesale. Verify against the target base.
+5. If approved, fetch upstream and create a clean submission branch IN THE FORK from upstream/main (or an explicitly approved experimental base). Copy only the newly authorized wave and its necessary dependencies; preserve already submitted PR scopes. Review diff/history; exclude unrelated features, testing overlays and Spanish artifact text. Resolve dependencies openly; never submit fork/main wholesale. Verify against the target base.
 6. Open the approved PR in smeagol44/vidAI with head hernansgarro:submission-branch. English title/body/commits/docs/comments; link issue and explain behavior, target/base, checks, effects/limits. Report to Hernan in Spanish.
 7. Stop at upstream review. Owner/authorized-maintainer approval governs upstream merge/auto-merge/promotion/release/deployment. A fork merge never closes the upstream issue.
 
