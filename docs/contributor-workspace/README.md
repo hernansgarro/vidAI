@@ -31,6 +31,17 @@ For ongoing work, always check live upstream PR/issue status: this table is a da
 
 **Federico's contribution workflow remains unchanged:** implement, test and update `docs/wiki/` within the fork when appropriate; explicitly label fork-only functionality. When authorized, submit a clean feature branch based on upstream main that includes its necessary technical documentation and Wiki changes. Only accepted upstream integration/publication makes the feature official. Keep technical behavior docs, versioned experiment receipts and the original shared Wiki paths where the workflow requires them, not inside this personal workspace.
 
+## Upstream delivery waves
+
+Hernan may batch completed fork features **before preparing a new upstream PR**
+to reduce preparation and token costs. Existing upstream PRs stay separate, with
+their original submitted scope; do not absorb another wave into them without
+an explicit decision. Prefer isolated, reviewable features within Federico's
+upstream contribution policy, which has final authority. See the
+[submission-wave rule](../CONTRIBUTOR_WORKFLOW.md#delivery-waves-and-existing-upstream-prs).
+The previous #134 expansion remains untouched at Hernan's explicit direction;
+it is not a precedent for future submissions.
+
 ## Ownership and maintenance
 
 - **Current decisions first:** each active concept should contain only its chosen state, unresolved questions, constraints and evidence links. Earlier experiments, discarded variants and deliberation remain recoverable through Git/PR history.
