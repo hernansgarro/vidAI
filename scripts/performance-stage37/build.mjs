@@ -88,15 +88,16 @@ export function plugin(research){return {name:'explicit-stage37-only',enforce:'p
  if(research&&['simulation.ts','contacts.ts','neuralRuntime.ts','spatialIndex.ts'].includes(file))c=spans(c,file);
  if(file==='simulation.worker.ts'){
  c=(research?"import {r as __r} from './scripts/performance-stage37/runtime.mjs';\n":'')+c;
- c=once(c,'const host = new SimulationHost();',`const host=new SimulationHost();let __armed=false,__begin=0,__steps=0;
+ c=once(c,'const host = new SimulationHost();',`const host=new SimulationHost();let __armed=false,__begin=0,__steps=0,__completed=0;
  self.addEventListener('message',({data})=>{if(data.type!=='s37')return;try{if(data.epoch!==host.epoch)throw Error('Epoch mismatch');let value;
  if(data.op==='config'){if(host.speed!==0)throw Error('Configure while paused');${research?'__r.configure(data.mode,data.level);if(data.sequences)__r.sequences=data.sequences;':''}value={research:${research},mode:data.mode,level:data.level,selected:host.selected};}
  else if(data.op==='pilot'){if(host.speed!==0)throw Error('Pilot while paused');${research?'__r.record=!!data.capture;__r.active=true;':''}for(let i=0;i<120;i++)host.tick();${research?'__r.record=false;__r.active=false;':''}value={snapshot:host.snapshot(),diagnostic:${research?'__r.dump()':'null'},sequences:${research?'__r.sequences':'null'}};}
- else if(data.op==='arm'){if(host.speed!==0)throw Error('Arm while paused');__armed=true;value={steps:host.frame().steps};}
- else if(data.op==='end'){const end=performance.now();host.speed=0;${research?'__r.active=false;':''}value={begin:__begin,end,origin:performance.timeOrigin,steps:host.frame().steps-__steps,diagnostic:${research?'__r.dump()':'null'}};}
+ else if(data.op==='arm'){if(host.speed!==0)throw Error('Arm while paused');__armed=true;value={ready:true};}
+ else if(data.op==='end'){const end=performance.now();host.speed=0;${research?'__r.active=false;':''}value={begin:__begin,end,origin:performance.timeOrigin,steps:__completed-__steps,diagnostic:${research?'__r.dump()':'null'}};}
  else if(data.op==='snapshot')value=host.snapshot();else if(data.op==='mark'){performance.mark(data.label);value={label:data.label};}else throw Error('Unknown research op');
  self.postMessage({type:'s37-result',id:data.id,value});}catch(e){self.postMessage({type:'s37-result',id:data.id,value:{researchError:String(e)}});}});`);
- c=once(c,'      host.selected = data.selected; return;',`      host.selected=data.selected;if(__armed&&data.speed!==0){__armed=false;__begin=performance.now();__steps=host.frame().steps;${research?'__r.reset();__r.ordinal=0;__r.active=true;':''}}return;`);
+ c=once(c,'        host.tick(); dirty = true; batchTicks++;','        host.tick();__completed++;dirty=true;batchTicks++;');
+ c=once(c,'      host.selected = data.selected; return;',`      host.selected=data.selected;if(__armed&&data.speed!==0){__armed=false;__begin=performance.now();__steps=__completed;${research?'__r.reset();__r.ordinal=0;__r.active=true;':''}}return;`);
  }
  return c===code?null:{code:c,map:null};
  }};}

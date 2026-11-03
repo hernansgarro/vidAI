@@ -1,0 +1,166 @@
+{
+  "archives": [
+    {
+      "name": "dist-assets",
+      "sha256": "54ebb5d4178c31813eb86d47132ceacc70e8bce927a74ca17999ad29d9e3d91c",
+      "rawBytes": 804417,
+      "bytes": 192299
+    },
+    {
+      "name": "s37-lean-dist-assets",
+      "sha256": "ec986d6d73aa3436804ef46005f284c1f75c25b73c65481df6b9fa203fb30d79",
+      "rawBytes": 3256478,
+      "bytes": 731580
+    },
+    {
+      "name": "s37-research-dist-assets",
+      "sha256": "3aeac4678d4530b1b6d856f21e117de215ba7a43b64ac42208ca23974c06987d",
+      "rawBytes": 3306582,
+      "bytes": 745364
+    },
+    {
+      "name": "checkpoint",
+      "sha256": "4d68eb8841a3ea2b0b0dc4e2c13d9812346e7fe8b3186de506a987d0a532867c",
+      "rawBytes": 7830916,
+      "bytes": 3311704
+    },
+    {
+      "name": "pilot-1",
+      "sha256": "6887d971935e83f6687fcd15a5056eec205a14a69f8b9fb67fd91a1fb0926da1",
+      "rawBytes": 4433618,
+      "bytes": 1798342
+    },
+    {
+      "name": "pilot-2",
+      "sha256": "fdd4aa4352fd3ee45d08d9593e2145bdd2d33dcf4686eed67dd733ab1bdb80c0",
+      "rawBytes": 4433810,
+      "bytes": 1798468
+    },
+    {
+      "name": "pilot-3",
+      "sha256": "4e3eae959ff8d8a159d7dff878dc1607a9c30bed214b83654b6d283f05b885ca",
+      "rawBytes": 4435060,
+      "bytes": 1799061
+    },
+    {
+      "name": "pilot-4",
+      "sha256": "23ef515e20f695a0ffbced7ddaea387dbbdaff870880fbef79972740d71eba05",
+      "rawBytes": 4492577,
+      "bytes": 1804184
+    },
+    {
+      "name": "pilot-5",
+      "sha256": "f083acd77ccef425a83eec4ff5f006dff164816abe68d196d8a3b14f16fc1fc5",
+      "rawBytes": 4490745,
+      "bytes": 1803352
+    },
+    {
+      "name": "pilot-6",
+      "sha256": "9ecd67a4de35fc39367a58eb46298697d2c3ec36026565bfd48939bf67a00c3a",
+      "rawBytes": 4389324,
+      "bytes": 1748577
+    },
+    {
+      "name": "pilot-7",
+      "sha256": "1758530eb5092b923a647e47b77e474747ddc258926439f54824abb639fddf5c",
+      "rawBytes": 4096810,
+      "bytes": 1735114
+    },
+    {
+      "name": "pilot-8",
+      "sha256": "e312372cdbf5220739e1ae7020a0c869ee2bfd4ae12c3c27b8891c0abfb883ad",
+      "rawBytes": 4466750,
+      "bytes": 1792146
+    },
+    {
+      "name": "recorded-sequences",
+      "sha256": "ba6521b6bb107ad2b1d114e91cfdb530d5a5f13b7582e29ec5c7516d34bab54f",
+      "rawBytes": 362914,
+      "bytes": 108263
+    },
+    {
+      "name": "failure",
+      "sha256": "c3e01e32c87f443737e114ea64458430099336eb91c9304ba239121282f0f12a",
+      "rawBytes": 17046,
+      "bytes": 6302
+    }
+  ],
+  "sourceUnchanged": true,
+  "attemptedTimedWindows": 1,
+  "rawBytes": 50837124,
+  "pilotChecks": [
+    {
+      "mode": "real",
+      "research": false,
+      "level": "off",
+      "fullSnapshotSHA256": "2a7753be8bff8fc68e6cda9c93fa07d09f0e7577bdd046d44f26e59c0b9c8da6",
+      "energyError": 3.259629011154175e-9,
+      "allRealExact": true
+    },
+    {
+      "mode": "real",
+      "research": true,
+      "level": "off",
+      "fullSnapshotSHA256": "2a7753be8bff8fc68e6cda9c93fa07d09f0e7577bdd046d44f26e59c0b9c8da6",
+      "energyError": 3.259629011154175e-9,
+      "allRealExact": true
+    },
+    {
+      "mode": "real",
+      "research": true,
+      "level": "counter",
+      "fullSnapshotSHA256": "2a7753be8bff8fc68e6cda9c93fa07d09f0e7577bdd046d44f26e59c0b9c8da6",
+      "energyError": 3.259629011154175e-9,
+      "allRealExact": true
+    },
+    {
+      "mode": "real",
+      "research": true,
+      "level": "phase",
+      "fullSnapshotSHA256": "2a7753be8bff8fc68e6cda9c93fa07d09f0e7577bdd046d44f26e59c0b9c8da6",
+      "energyError": 3.259629011154175e-9,
+      "allRealExact": true
+    },
+    {
+      "mode": "vision",
+      "research": true,
+      "level": "phase",
+      "fullSnapshotSHA256": "507f93acc276210dd871e7d91e175a9c646a85bc9ba2f08c1b269825f4f43654",
+      "energyError": 3.259629011154175e-9,
+      "allRealExact": false
+    },
+    {
+      "mode": "brain",
+      "research": true,
+      "level": "phase",
+      "fullSnapshotSHA256": "a5d30672a755fcd7e1cfb2dd1fff18f0c00e205ea1a3a87a59f31553f0919739",
+      "energyError": 3.725290298461914e-9,
+      "allRealExact": false
+    },
+    {
+      "mode": "learning",
+      "research": true,
+      "level": "phase",
+      "fullSnapshotSHA256": "118860a09ab0e16a2db4c93258a4ebc8a3670bf1fecce95d1a99b4e670390c42",
+      "energyError": 4.656612873077393e-10,
+      "allRealExact": false
+    },
+    {
+      "mode": "feeding",
+      "research": true,
+      "level": "phase",
+      "fullSnapshotSHA256": "4bf45db08e8f65aaf91ab642dfab6db1c1fdf41dd0f43e6c308df77548b44fe2",
+      "energyError": 1.3969838619232178e-9,
+      "allRealExact": false
+    }
+  ],
+  "tickEquations": null,
+  "energyConserved": null,
+  "retainedTimedWindows": 0,
+  "failedOrUnknownSlots": 1,
+  "notStartedSlots": 11,
+  "completeCampaign": false,
+  "failureDocumented": true,
+  "fixedPilotValidationOnly": true,
+  "budgetsOK": true
+}
