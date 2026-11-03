@@ -10,7 +10,7 @@ By Hernán Garro & Federico Regueira.
 **[Current Wiki](https://github.com/smeagol44/vidAI/wiki)** ·
 [Development priorities](docs/FEATURE_ROADMAP.md) · [Experiment history](docs/PROJECT_STATUS.md)
 
-**Contributor fork only:** [Contributor brainstorming and planning](docs/contributor-brainstorming/README.md) is organized separately from the canonical upstream VIDA project. These personal notes are not the shared roadmap or an implementation authorization.
+**Contributor fork only:** [Contributor workspace](docs/contributor-workspace/README.md) is organized separately from the canonical upstream VIDA project. These personal notes are not the shared roadmap or an implementation authorization.
 
 ## Current scope
 

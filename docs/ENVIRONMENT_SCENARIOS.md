@@ -40,7 +40,7 @@ between scenarios.
 
 **Unimplemented:** The proposed `Notebook size` and `Celphone size`
 built-in presets (IDEA-019 / IDEA-020) do not yet have selected world-unit
-dimensions. They are recorded in the [active personal idea board](contributor-brainstorming/ideas/IDEA_LAB.md),
+dimensions. They are recorded in the [active personal idea board](contributor-workspace/ideas/IDEA_LAB.md),
 not in the scenario selector. User-defined named environment profiles
 (IDEA-009) remain separate exploratory work.
 
@@ -97,7 +97,7 @@ passed npm ci, 385/385 fast tests, build, actual Worker checks,
 and remote Chromium/Firefox scenario/toolbar/side-window gates. It verifies
 the frozen preset, 4600 × 2100 dimensions, zero initial topology,
 funded initialization, independence, and exact schema19 reload/continuation.
-See [completed work](contributor-brainstorming/tracking/CONTRIBUTOR_COMPLETED.md) and [#135](https://github.com/smeagol44/vidAI/issues/135).
+See [completed work](contributor-workspace/tracking/CONTRIBUTOR_COMPLETED.md) and [#135](https://github.com/smeagol44/vidAI/issues/135).
 
 
 - `tests/environment-scenarios.test.ts`: full Default equivalence, requested
