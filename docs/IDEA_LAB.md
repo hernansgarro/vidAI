@@ -35,6 +35,7 @@ simulation semantics. See the [full IDEA-023 card](#idea-023-vida-2d-performance
 | — | [IDEA-023 · Performance & CPU audit (P0)](#idea-023-vida-2d-performance-and-cpu-load-audit) | — | — | — | — |
 | — | [IDEA-024 · Preset initial zoom](#idea-024-world-preset-initial-zoom-and-framing) | — | — | — | — |
 | — | [IDEA-025 · Heritable per-eye ray subsets](#idea-025-heritable-per-eye-ray-subsets) | — | — | — | — |
+| — | [IDEA-026 · Chemical scents and olfaction](#idea-026-chemical-scents-olfaction-and-pheromone-traces) | — | — | — | — |
 
 **Completed work is not an active column.** [IDEA-001 — Pipe World](CONTRIBUTOR_COMPLETED.md) was delivered to fork main via [PR #53](https://github.com/hernansgarro/vidAI/pull/53). [IDEA-012 — Retained window agreements during resizing](CONTRIBUTOR_COMPLETED.md) was already implemented with local side-window/tube stages 1–3, as verified against code and automated tests on 2026-11-02. Both are recorded in the [completed-work register](CONTRIBUTOR_COMPLETED.md). Their implementation in the fork does not authorize an upstream PR.
 
@@ -267,9 +268,18 @@ The priorities of IDEA-013–IDEA-020, IDEA-024 and the newly proposed IDEA-025 
 - **Study before implementation:** Measure current ray/index/brain/input cost in IDEA-023 Stage 3 **without changing the existing five rays**. Any actual variable-ray simulation requires a separately scoped design, canonical upstream issue/authorization, exact persistence/Worker regression and ecological validation. It may change sensory behavior, physical selection and historic continuation; it is *not* an exact-preserving Stage 3 optimization.
 - **Related:** [IDEA-023 Stage 2](PERFORMANCE_AUDIT_STAGE_2.md), [current priority/measurement register](PERFORMANCE_AUDIT_PRIORITIES.md), [upstream #57](https://github.com/smeagol44/vidAI/issues/57). No claim is made that fewer rays will automatically make organisms or whole-world processing more efficient.
 
+### IDEA-026: Chemical scents, olfaction and pheromone traces
+
+- **State:** Exploring; recorded 2026-11-03; **personal priority unassigned**. Future design only, no authorized implementation, experiments or upstream submission. IDEA-023 remains P0.
+- **Intent:** Nutrients, genetically scented organisms and finite-lived pheromone/scent droplets emit three-channel chemical signatures. Inherited noses sample local concentrations and feed the brain. Organisms may leave involuntary intermittent traces or use heritable brain-controlled scent glands with an energy expense, without scripted goals or hidden source identity.
+- **Observer idea:** Optional RGB-mapped circular haloes with opacity representing intensity and radius representing scent amount. Axis names, physical diffusion/decay, units and overlaps are unresolved. Sight never gains access to this overlay.
+- **Open questions:** Neutral chemical axes versus floral/herbal/mineral; field geometry/transport, organ placement, inherited signatures, passive cadence/cost, active gland outputs, droplets' energy/material semantics, tube boundaries, conservation, determinism, historical saves and performance.
+- **Expanded design and decision log:** [Scent and olfaction notes](SCENT_AND_OLFACTION_DESIGN.md).
+- **Related context:** [Upstream #118](https://github.com/smeagol44/vidAI/issues/118) mentions future separate chemical sensing/signaling but does not authorize this feature or merge it into kin-aware retinal perception.
+
 ## Notes on potential promotion
 
-- IDEA-013–IDEA-025 are personal future ideas. **IDEA-023 is now the explicitly identified P0 top priority for the next joint investigation**. IDEA-021/IDEA-022 remain medium-high, and all other user-assigned priorities remain unchanged. No entry authorizes implementation or sets an execution date. Their statuses concern maturity only.
+- IDEA-013–IDEA-026 are personal future ideas. **IDEA-023 is now the explicitly identified P0 top priority for the next joint investigation**. IDEA-021/IDEA-022 remain medium-high, and all other user-assigned priorities remain unchanged. No entry authorizes implementation or sets an execution date. Their statuses concern maturity only.
 - A future upstream proposal may be considered alongside Pipe World, as suggested by Hernan, **but combining unrelated visual/phone/scenario changes into a single PR is not automatically approved**. After fork-main validation and separate explicit approval, prepare a clean scoped submission and evaluate reviewability, dependency order and owner preference.
 - The [completed-work register](CONTRIBUTOR_COMPLETED.md) is the place for completed work; keep it out of pending columns.
 
