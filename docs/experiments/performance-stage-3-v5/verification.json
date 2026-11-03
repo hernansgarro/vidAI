@@ -286,5 +286,11 @@
     ],
     "correctedMedianDifferencePct": -0.33569295358825135,
     "limitation": "Approximate control start; not a sub-percent instrumentation guarantee. Matched main wrappers remain."
-  }
+  },
+  "finalObservedForkMain": "9bdbec6567d9cd59dca7ee22d78b02bd50323887",
+  "concurrentMainChanges": [
+    "docs/IDEA_LAB.md",
+    "docs/SCENT_AND_OLFACTION_DESIGN.md"
+  ],
+  "concurrentMainRuntimeIdentical": true
 }

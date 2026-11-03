@@ -10,8 +10,9 @@ The intervention changes both rendering work and the rate at which backpressure 
 
 ## Source and environment
 
-- Runtime/current fork-main base: `3e7319e9d81f86a026bcb5746512fbc1b435b5d8`, includes caustic visibility PR68.
+- Pinned fork/main at preregistration: `3e7319e9d81f86a026bcb5746512fbc1b435b5d8`, includes caustic visibility PR68.
 - Measured research source: `c997001bceb7e268f03e4d649121ec1c55c2207a`, standalone evidence-branch workflow [41637788308](https://github.com/hernansgarro/vidAI/actions/runs/41637788308), job125923264339. No synthetic PR merge for these windows.
+- Final readback: fork/main advanced independently to `9bdbec6567d9cd59dca7ee22d78b02bd50323887` (scent/olfaction documentation only). Its runtime is unchanged from the pinned base. This study is not rebased or remeasured; testing4bda30a and canonical main041362e remain unchanged.
 - Historical PR66/headc80b25ac391a409da6c321bbdfc5cb7bec447db9 remains immutable. Its v1–v4 results use older source and sometimes different machines; they are not paired controls here.
 - Measured host: AMD EPYC9V74, Linux7.0.0-1017-azure, Node24.22.1, Chromium145.0.7632.6, official Playwright1.58.2 container. Pilot ran on a separate Intel Xeon8370C runner; do not mix its absolute timing with this machine.
 - Actual backend confirmed by the measured run's CDP manifest: ANGLE/SwiftShader, software Canvas2D/raster/compositing, no hardware Vulkan. A GPU-process name does not establish physical acceleration.
