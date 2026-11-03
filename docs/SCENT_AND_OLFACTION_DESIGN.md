@@ -19,13 +19,16 @@ Hernan initially suggested **floral (R), herbal (G), mineral (B)**. His initial 
 | Organism | Heritable signature; initial illustrative mineral/B-dominant plus floral/R | Blue-purple |
 | Scent droplet | A signature inherited from its source or separately produced, to decide | Corresponding color mix |
 
-An alternative worth discussing is **abstract chemical axes A/B/C**, displayed as RGB *only to the human spectator*. Source genes and nose readings would refer to independent chemical channels, not actual red/green/blue optical pigments. Channel values might represent proportions, absolute concentration or a combination; that has not been decided. No smell is visible to a creature's eyes by default.
+**User clarification (2026-11-03):** Keep the memorable metaphorical names **floral, herbal, mineral** for the three fictional chemical dimensions. They are not claimed to match real chemistry. The previously suggested unnamed A/B/C axes are explicitly **not preferred**; do not reopen that naming choice without a new user request. The human observer may map these dimensions to R/G/B, but the simulated chemicals are **not optical pigments** and noses must not receive optical color or hidden entity labels. It remains open whether per-channel values encode relative composition, absolute concentration, or both.
 
 ### Emission, spatial range and decay
 
-- Proposed spectator visualization: a circular halo centered on the source, optionally shown. **Opacity** represents scent intensity; **radius** represents scent amount. The initial proposal describes both shrinking/fading as scent dissolves.
+- Proposed spectator visualization: a circular halo centered on the source, optionally shown. **Opacity** represents concentration/intensity and **radius** represents the *effective reach* of a scent rather than a direct measurement of chemical amount. The user's clarified preference is for a scent to **grow in reach and then fade away**, not necessarily shrink.
 - Emission may begin at an organism's **center of mass** for simplicity, with part-based emission as a potential later extension.
-- These labels do not yet define a physical field model. In real diffusion, a plume can expand while becoming less concentrated. Decide between bounded local auras, spreading/fading fields, advected droplets or another deterministic simplified field.
+- **Proposed two-phase pheromone life cycle (not a fixed physical law):** during **emission/dispersal**, a small material pheromone core/droplet dissolves, emitting a localized scent cloud. Core volume/remaining amount decreases, while the emitted cloud may gain reach and retain substantial intensity from continuing release. Once the core is exhausted, **source-free diffusion/decay** starts: the residual scent cloud spreads further while its local intensity falls quickly, and disappears at a defined perceptibility/expiry cutoff.
+- For more enduring emitters (nutrients or creature bodies), an actively emitting source may sustain a bounded characteristic reach and concentration while it exists. A source's size/available emitted material can influence its characteristic reach, but **volume, area, radius, mass, concentration, and emitted flux are distinct quantities**, not interchangeable without a mapping. The user suggested reach related to pheromone quantity/volume; define the dimensional relationship later.
+- A scent cloud should be conceptualized separately from a diminishing material pheromone core. In particular, **dissolution transfers material/signaling potential out of the core into the surrounding scent field** rather than automatically deleting the emitted scent. Conversely, maintaining concentration while the area expands requires a continuing source or an explicitly acknowledged abstraction; otherwise dilution must lower concentration.
+- These principles are an evolutionary-simulation design direction, not a measured real-world diffusion model. Whether concentration varies with distance from the core (e.g. stronger near the center), whether field movement follows currents, and exact growth/fade curves are **undecided**.
 - Clarify emitted quantity, local concentration, source strength, effective radius, falloff, decay rate, lifetime and behavior when the original source moves or disappears.
 - Nearby sources can overlap. The three sensor concentrations must combine according to an explicit rule, with defined saturation; rendering layers must not determine what organisms smell.
 - Water barriers, tank edges, local tubes and potential transfer between connected water regions need explicit behavior. A human hide/show toggle must never disable actual sensing or accelerate/stop scent decay.
@@ -39,7 +42,7 @@ An alternative worth discussing is **abstract chemical axes A/B/C**, displayed a
 
 ### Passive odor trails versus active glands
 
-**Involuntary traces:** Organisms would periodically release small scent-bearing droplets, leaving short-lived trails. Their scent initially matches the organism's ordinary genetic signature. Cadence should not be high; exact interval, duration, drift, total particle bound, stationary emission and possible passive emission cost remain open. Each droplet fades and its amount decreases until expiry. Droplets need not collide with bodies, provide food, or be visible to creature vision.
+**Involuntary traces:** Organisms would periodically release small scent-bearing droplets, leaving short-lived trails. Their scent initially matches the organism's ordinary genetic signature. Cadence should not be high; exact interval, duration, drift, total particle bound, stationary emission and possible passive emission cost remain open. The **material droplet shrinks/dissolves while the associated scent cloud may initially spread**, then the residual **core-free cloud spreads further and fades** before expiry. A vanished core does not necessarily mean that its scent immediately disappears. Droplets need not collide with bodies, provide food, or be visible to creature vision.
 
 **Brain-controlled glands:** Separate inheritable organs could, on a brain output command, produce an emitted scent (possibly with a distinct heritable signature). These emissions **cost organism energy**. Quantity, timing, gland phenotype, cooldown, possible multiple signatures and maintenance expenses are unresolved; the brain is not supplied with built-in messages or predefined social goals.
 
@@ -58,8 +61,9 @@ An alternative worth discussing is **abstract chemical axes A/B/C**, displayed a
 
 ## Questions still open
 
-1. Are the three axes best named floral/herbal/mineral or neutral A/B/C, with RGB only for spectators? What do the three values quantify?
-2. Is scent a simple local halo, a spatially diffusing field, or many drifting droplets? How should radius and opacity evolve?
+1. **Naming preference resolved:** use the metaphorical floral/herbal/mineral components with R/G/B spectator mapping. Still decide whether component numbers represent chemical mixture ratios, absolute local concentrations, or separate values for both.
+2. **Two-phase direction established, mathematical model open:** how do a shrinking core, emitted amount, characteristic source reach, cloud radius, concentration gradient, continued diffusion and decay relate over time? Which intensity cutoff ends sensing?
+2a. When a *nutrient or organism* emitter disappears or moves, should its existing scent persist as a separate short-lived residual cloud, as proposed for pheromone cores, or should this special treatment apply only to deposited pheromones?
 3. Do organisms emit from their center of mass or each individual part? What is inherited?
 4. How many noses, where, at what sensing cost, and with what optional per-channel sensitivity?
 5. How often do passive droplets appear, how long do they persist, and is their release paid?
@@ -71,3 +75,4 @@ An alternative worth discussing is **abstract chemical axes A/B/C**, displayed a
 
 - **2026-10-28:** The user briefly proposed chemical signatures and scent droplets as a distinct future system, noted in [upstream #118](https://github.com/smeagol44/vidAI/issues/118). No detailed implementation choice was settled.
 - **2026-11-03:** The user expanded this to three scent channels, nutrient/body emissions, circular observer-only halos, noses, genetic body odor, passive droplets, active controlled glands and open energy accounting. This file captures his proposal and unresolved questions for iterative refinement.
+- **2026-11-03 (refinement):** The user rejected abstract A/B/C names and explicitly retained floral/herbal/mineral as mnemonic metaphors. He proposed a dissolving pheromone core that initially supports an expanding strong odor cloud, followed by source-free further expansion and rapid loss of intensity until disappearance. A sustained emitter may retain a characteristic reach while it exists; exact source quantity/reach scaling, physically plausible dilution, residual trails and concentration gradients remain open. No runtime behavior or coefficient is approved.
