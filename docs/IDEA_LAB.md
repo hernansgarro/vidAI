@@ -147,7 +147,7 @@ or upstream contact is authorized by this note.
 - **Intent:** Explore exporting and importing the complete authoritative state of *one living creature*, distinct from whole-world saves and the already implemented in-memory local tube transfer.
 - **Open decisions:** Identity collision policy, exact state/brain/learning/body serialization, format versioning, energy accounting and migration/security limits.
 - **Guardrails:** Do not silently implement file export/import or remote transport under local stage-3 scope.
-- **Detail:** [Deferred remote/portable design](REMOTE_AQUARIUM_DESIGN.md#idea-011--portable-living-organism-files).
+- **Detail:** [Deferred remote/portable design](REMOTE_AQUARIUM_DESIGN.md#idea-011-portable-living-organism-files).
 
 ### IDEA-013: Egg overlays behind creatures
 
