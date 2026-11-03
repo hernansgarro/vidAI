@@ -1,5 +1,6 @@
 // Analysis only: reads immutable receipts. Never launches or steps a simulation.
 import fs from 'node:fs';
+import {isDeepStrictEqual} from 'node:util';
 import {gunzipSync} from 'node:zlib';
 import {createHash} from 'node:crypto';
 const dir='docs/experiments/performance-stage-3-v9';
@@ -13,6 +14,14 @@ const windows=m.ledger.filter(x=>x.status==='retained').map(x=>({...read(x.id+'-
 const pilotFiles=m.receipts.filter(x=>/^pilot-\d+$/.test(x.name)),pilots=pilotFiles.map(x=>read(x.name));
 for(const p of pilots){if(p.mode==='real'){if(hash(p.snapshot)!==hash(pilots[0].snapshot))throw Error('All-real mismatch');}v.pilotChecks.push({mode:p.mode,research:p.research,level:p.level,fullSnapshotSHA256:hash(p.snapshot),energyError:p.details.validation.energy-p.details.validation.budget,allRealExact:p.mode==='real'});}
 v.retainedTimedWindows=windows.length;v.failedOrUnknownSlots=m.ledger.filter(x=>x.status!=='retained').length;v.notStartedSlots=12-m.ledger.length;if(windows.length){v.tickEquations=true;v.energyConserved=true;}
+v.counterChecks=['lean','research'].map(kind=>({kind,...read('counter-check-'+kind)}));
+if(v.counterChecks.some(x=>x.completed!==7||x.simTicks!==7||x.firstFrameSteps!==4||x.secondFrameSteps!==3))throw Error('Counter regression receipt failed');
+v.originalBeforeValidated=windows.every(w=>m.receipts.findIndex(x=>x.name===w.id+'-original')<m.receipts.findIndex(x=>x.name===w.id+'-validated'));
+v.settingsPreserved=windows.every(w=>isDeepStrictEqual(w.final.settings,checkpoint.settings));
+v.counterEqualsReceipt=windows.every(w=>w.boundary.steps===w.ticks&&Math.abs((w.boundary.end-w.boundary.begin)-w.wallMs)<1e-8);
+v.modesCorrect=windows.every(w=>!w.research||w.diagnostic.mode===w.mode&&w.diagnostic.level===w.level);
+v.syntheticIntegrity=windows.filter(w=>w.mode==='feeding').every(w=>w.diagnostic.syntheticJ>=0&&w.diagnostic.syntheticJ<=w.ticks*30/60+1e-6&&w.diagnostic.maxTransferError<1e-8&&w.final.state.organisms.every(o=>Object.values(o.mouthFeedback??{}).every(v=>v.contact===0&&v.intake===0)));
+if(!v.originalBeforeValidated||!v.settingsPreserved||!v.counterEqualsReceipt||!v.modesCorrect||!v.syntheticIntegrity)throw Error('Window integrity failed');
 const baseline=pilots[0]?.snapshot;
 const divergence=pilots.filter(x=>x.mode!=='real').map(p=>{const ref=new Map(baseline.state.organisms.map(o=>[o.id,o])),positions=[],outputs=[],hidden=[],learning=[];for(const o of p.snapshot.state.organisms){const b=ref.get(o.id);if(!b)continue;for(let i=0;i<o.segments.length;i++)positions.push(Math.hypot(o.segments[i].x-b.segments[i].x,o.segments[i].y-b.segments[i].y));outputs.push(...o.neuralOutputs.map((x,i)=>Math.abs(x-b.neuralOutputs[i])));hidden.push(...o.neuralHidden.map((x,i)=>Math.abs(x-b.neuralHidden[i])));for(const k of ['learnedMotorWeights','learnedSensoryWeights']){const before=new Map((b[k]??[]).map(x=>[x.edge,x.delta])),after=new Map((o[k]??[]).map(x=>[x.edge,x.delta]));for(const edge of new Set([...before.keys(),...after.keys()]))learning.push(Math.abs((after.get(edge)??0)-(before.get(edge)??0)));}}return {mode:p.mode,logicalTicks:24,inventory:p.details.inventory,positionsPx:stats(positions),outputDifference:stats(outputs),hiddenDifference:stats(hidden),learnedDeltaDifference:stats(learning),diagnostic:Object.fromEntries(Object.entries(p.diagnostic??{}).filter(([k])=>k!=='ticks'))};});
 const tasks=s=>s.processes.flatMap(p=>p.tasks),key=t=>`${t.pid}:${t.tid}:${t.starttime}`;
