@@ -1,0 +1,28 @@
+name: Verify final Stage 3.4 log completeness
+on:
+  push:
+    branches: [audit/performance-stage-3-4-evidence]
+    paths:
+      - 'scripts/performance-stage34/recover-final.mjs'
+      - 'scripts/performance-stage34/analyze-final.mjs'
+      - '.github/workflows/stage34-final.yml'
+permissions:
+  contents: write
+  actions: read
+jobs:
+  verify-final-originals:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: audit/performance-stage-3-4-evidence
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Wait for original job completion and recover existing bytes
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node scripts/performance-stage34/recover-final.mjs
+      - name: Analyze final existing evidence without scientific reruns
+        run: node scripts/performance-stage34/analyze-final.mjs
