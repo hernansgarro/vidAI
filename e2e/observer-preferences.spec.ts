@@ -63,12 +63,12 @@ for (const fallback of [false, true]) test(`independent observer preferences, bo
   for (const selectAddedCreature of [false, true]) for (const trackSelectedCreature of [false, true]) {
     await upload(source); await expect(badge).toHaveCount(0);
     const advanced = await openAdvanced();
-    await expect(advanced.getByRole('checkbox')).toHaveCount(2);
+    await expect(advanced.getByRole('checkbox')).toHaveCount(3);
     await setChecked(advanced.getByLabel('Automatically select added creatures', {exact: true}), selectAddedCreature);
     await setChecked(advanced.getByLabel('Automatically track selected creatures', {exact: true}), trackSelectedCreature);
     const configured = await read();
     expect(configured.state).toEqual(source.state); expect(configured.settings).toEqual(source.settings);
-    expect(configured.metadata.observerPreferences).toEqual({selectAddedCreature, trackSelectedCreature});
+    expect(configured.metadata.observerPreferences).toEqual({selectAddedCreature, trackSelectedCreature, showCaustics: true});
     await advanced.getByTitle('Close advanced settings').dispatchEvent('click');
     await page.getByTitle('Close settings (✕)').dispatchEvent('click');
     await page.getByRole('button', {name: 'Add Life', exact: true}).dispatchEvent('click');
@@ -108,12 +108,13 @@ for (const fallback of [false, true]) test(`independent observer preferences, bo
   const override = await openAdvanced();
   await setChecked(override.getByLabel('Automatically select added creatures'), false);
   await setChecked(override.getByLabel('Automatically track selected creatures'), false);
+  await setChecked(override.getByLabel('Show water caustics'), false);
   await override.getByTitle('Close advanced settings').dispatchEvent('click');
   const beforeFork = await read(), epoch = Number(await canvas.getAttribute('data-world-epoch'));
   await settings.getByRole('button', {name: 'Fork', exact: true}).dispatchEvent('click');
   await expect(canvas).toHaveAttribute('data-world-epoch', String(epoch + 1));
   const forked = await read(); expect(forked.state).toEqual(beforeFork.state);
-  expect(forked.metadata.observerPreferences).toEqual({selectAddedCreature: false, trackSelectedCreature: false});
+  expect(forked.metadata.observerPreferences).toEqual({selectAddedCreature: false, trackSelectedCreature: false, showCaustics: false});
   await page.setViewportSize({width: 375, height: 812});
   const advanced = await openAdvanced();
   await page.clock.runFor(32);
