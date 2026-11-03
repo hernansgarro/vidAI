@@ -1,0 +1,180 @@
+{
+  "commit": "d530894f668d2b116190102a324b03679649a690",
+  "method": "Fetched immutable Git objects; every evidence file independently SHA1 blob/SHA256/length verified without simulation",
+  "files": [
+    {
+      "path": "docs/experiments/performance-stage-3-v7/C1.json.gz",
+      "gitBlob": "dd518d33f0ada078b0254bc171db4b540eb94a6d",
+      "sha256": "df7aa6c04023cadb8846df719518b2a534d85b2417ccf78355881b61fc4bc7b1",
+      "bytes": 9403,
+      "remoteGitBlobVerified": true,
+      "rawBytes": 66982
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v7/C2-trace.json.gz",
+      "gitBlob": "dfbd11da1d858d5825287f7aa7ffdc70938957f4",
+      "sha256": "e73d83113b869d8c6bb8d6c012d6c7e3759e3e9a2c0473dec768c91e9db1cdf7",
+      "bytes": 742333,
+      "remoteGitBlobVerified": true,
+      "rawBytes": 6962501
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v7/C2.json.gz",
+      "gitBlob": "b9efe8b66e8ec3af37db008913dde16c71b7c3cc",
+      "sha256": "84447860e1e267bc69a9c408a73ff7930dd76e82c19255b059b9a5ae9cc37d21",
+      "bytes": 9805,
+      "remoteGitBlobVerified": true,
+      "rawBytes": 69740
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v7/D01-trace.json.gz",
+      "gitBlob": "f22d86e98a13b183a2ec4a16f6710d093805991b",
+      "sha256": "fdb83e7142e69952187492327abba3c7d04fc407514de8533cb88a1fdd5e56aa",
+      "bytes": 1629994,
+      "remoteGitBlobVerified": true,
+      "rawBytes": 15604892
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v7/D01.json.gz",
+      "gitBlob": "9c22b0fa1722c3a7c1a8c3b45e956bc1da0630fa",
+      "sha256": "c17938bbaa829a8d8e20d781fb3ae4c0a58113e5e249b4cad972e1d6e0225c23",
+      "bytes": 11833,
+      "remoteGitBlobVerified": true,
+      "rawBytes": 88614
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v7/D02-trace.json.gz",
+      "gitBlob": "3f84499a3d7e03f4a20566f3b1dc5f451a48849c",
+      "sha256": "ffb7c8346bcb7f8161d487eafb39ff4341edb453c93395e88e69bb61754f1647",
+      "bytes": 1739523,
+      "remoteGitBlobVerified": true,
+      "rawBytes": 16488496
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v7/D02.json.gz",
+      "gitBlob": "84abbbc18932978a458eb8120ca4789528c4cba7",
+      "sha256": "0c847db95963ccf4680871cac83d33aad55a867bc1d4c02425200f2e8be61d77",
+      "bytes": 12841,
+      "remoteGitBlobVerified": true,
+      "rawBytes": 98386
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v7/D03-trace.json.gz",
+      "gitBlob": "61b66fbaa49bd6bbfcf570b17ad40bfbb6f213c3",
+      "sha256": "41a718083c4f8507aa01ea5319e0edbce3b31d18b103fdf3ea88458279974ffe",
+      "bytes": 1797826,
+      "remoteGitBlobVerified": true,
+      "rawBytes": 17169599
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v7/D03.json.gz",
+      "gitBlob": "e0c225b87c859b5840437be28000ef11ce03ef5f",
+      "sha256": "2b30f79a8b079b26f5335b90b3b36b999f8726ffcf36f9c435db7cfb2ba1612e",
+      "bytes": 13062,
+      "remoteGitBlobVerified": true,
+      "rawBytes": 101566
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v7/D04-trace.json.gz",
+      "gitBlob": "287bbe33e69e51422b2aa73c6fa89a733a56c308",
+      "sha256": "6c1a781b5de887896859f583c482c29504c6f4054ed7701a4c54bc9c25781406",
+      "bytes": 1552955,
+      "remoteGitBlobVerified": true,
+      "rawBytes": 14778097
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v7/D04.json.gz",
+      "gitBlob": "39e9d9933a959606efb9498bac1b8ab799ece856",
+      "sha256": "8e65dbc260e58f3f4aab7367e22985e3f9c65ef0ca059a02c24812d013dbbe78",
+      "bytes": 11456,
+      "remoteGitBlobVerified": true,
+      "rawBytes": 85422
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v7/P01.json.gz",
+      "gitBlob": "fffcd64deb2bf3df91e06542a1ee7319160a5b89",
+      "sha256": "a643870848e5777704c4d78eaffb201551efd7505d364d858a29b82d01b74ece",
+      "bytes": 18875,
+      "remoteGitBlobVerified": true,
+      "rawBytes": 167225
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v7/P02.json.gz",
+      "gitBlob": "2400e955b2bc66968a38b0d3e2f6409dddffa07e",
+      "sha256": "be768fd6ea74ee0e7c5f12b2fcd837a54325abae58ff3cee493acdb3f3a8f606",
+      "bytes": 16789,
+      "remoteGitBlobVerified": true,
+      "rawBytes": 147910
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v7/P03.json.gz",
+      "gitBlob": "6ae8c0e9bd8bdb35763ec97c04c281582a16e0e2",
+      "sha256": "533a5b595f3a39e3559afe46868e0f721322d2b3b3483471f7d06b4d37b9ac7c",
+      "bytes": 16788,
+      "remoteGitBlobVerified": true,
+      "rawBytes": 149749
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v7/P04.json.gz",
+      "gitBlob": "075e377430b5cbe6c30090ab956f6f8a20c46e2a",
+      "sha256": "7b85d8764940dc95fcde76042ce0d75af793fac9decee47f25a339897cbf2433",
+      "bytes": 18924,
+      "remoteGitBlobVerified": true,
+      "rawBytes": 175892
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v7/P05.json.gz",
+      "gitBlob": "9dd70cac6afdd5af2a7b37e6dcb5e9f8e1c3c453",
+      "sha256": "73b4d5d3e4abe9cd35cd86f1437e1d4a05712d51168a41d009ca5e94bb959f53",
+      "bytes": 18947,
+      "remoteGitBlobVerified": true,
+      "rawBytes": 172639
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v7/P06.json.gz",
+      "gitBlob": "1475b87c29b57cf5232eaf65952319558ff797cb",
+      "sha256": "48fb6682b3438bb19e963d178d34124684bd199711f80dee1b489d8c7510a4a5",
+      "bytes": 16782,
+      "remoteGitBlobVerified": true,
+      "rawBytes": 154076
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v7/checkpoint30.json.gz",
+      "gitBlob": "914a4d72b64e66e21d33b7a94d4e53677622da38",
+      "sha256": "4e2d3157646519bacd8457e6b4c758f775b29b4d4ef80565843cbc5ced8749a1",
+      "bytes": 1654644,
+      "remoteGitBlobVerified": true,
+      "rawBytes": 3861201
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v7/ledger.json",
+      "gitBlob": "ea0605e1835112649819bf240204c454c09fdd79",
+      "sha256": "a0e58ff64889d0b0082cf4aae991dc2d27c692b5c029985225d21c78bdf86258",
+      "bytes": 1721,
+      "remoteGitBlobVerified": true
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v7/manifest.json.gz",
+      "gitBlob": "85affa507a8e3a52d85e4e774ed9926aecb99e9b",
+      "sha256": "19a3b0de5f274421046f247dd900147d045a4eedd77aa176be35e91ee225b1a6",
+      "bytes": 6565,
+      "remoteGitBlobVerified": true,
+      "rawBytes": 19129
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v7/pilot.json.gz",
+      "gitBlob": "d4406c0639dbda343ae2d53174198a3484f66669",
+      "sha256": "704b8aa3714f8064709956a6e42c5211103a711f2cbede3ddedf788d379b36aa",
+      "bytes": 1798009,
+      "remoteGitBlobVerified": true,
+      "rawBytes": 4433310
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v7/summary.json",
+      "gitBlob": "f2b8ea9b1e06a8740ecf4171fd5e8f266ed050da",
+      "sha256": "16e9a122dbce0471e9423c78cef694d756fb86617969ada24074f141b6733120",
+      "bytes": 56905,
+      "remoteGitBlobVerified": true
+    }
+  ]
+}

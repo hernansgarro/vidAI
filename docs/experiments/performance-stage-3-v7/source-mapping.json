@@ -1,0 +1,1259 @@
+{
+  "definition": "Offline hidden-source-map reconstruction; asset content-hash filenames match recorded loaded script URLs. No original CI response-body digest was captured. Unchanged source-module mappings are usable; build-transformed Worker source line numbers are not original repository line numbers. Profile interval shares are not OS CPU percentages.",
+  "provenance": [
+    {
+      "asset": "index-C4wsJ8tV.js",
+      "sha256": "b6e2288ae4a113475c4744edacc11bf326c183ea61ff75d7facec1fdf7553349",
+      "mapSHA256": "fd1751fa458b7466cc882100873e22976c28d85a49d4fd923366b7c182c39375"
+    },
+    {
+      "asset": "simulation.worker-BwGpIWtt.js",
+      "sha256": "85406dba9a283f16d34d083269454784898326ea26680c9b828d5997adcc4329",
+      "mapSHA256": "a13587d18c474f74918f6313ae9e733900f71fb20fb9e54fafebb4e3c359f39c"
+    }
+  ],
+  "mappings": [
+    {
+      "id": "D01",
+      "role": "main",
+      "name": "Dr",
+      "url": "http://127.0.0.1:4184/vidAI/assets/index-C4wsJ8tV.js",
+      "line": 7,
+      "column": 146497,
+      "codeType": "JS",
+      "ms": 351.7009999999986,
+      "percent": 3.513005174101149,
+      "original": {
+        "source": "../../App.tsx",
+        "line": 1191,
+        "column": 16,
+        "name": null
+      },
+      "sourceLine": "const draw = (ctx: CanvasRenderingContext2D) => {"
+    },
+    {
+      "id": "D01",
+      "role": "main",
+      "name": "n",
+      "url": "http://127.0.0.1:4184/vidAI/assets/index-C4wsJ8tV.js",
+      "line": 7,
+      "column": 156839,
+      "codeType": "JS",
+      "ms": 37.99899999999996,
+      "percent": 0.3795573046726337,
+      "original": {
+        "source": "../../App.tsx",
+        "line": 1717,
+        "column": 18,
+        "name": null
+      },
+      "sourceLine": "const loop = (time: number) => {"
+    },
+    {
+      "id": "D01",
+      "role": "main",
+      "name": "Pr",
+      "url": "http://127.0.0.1:4184/vidAI/assets/index-C4wsJ8tV.js",
+      "line": 0,
+      "column": 228281,
+      "codeType": "JS",
+      "ms": 31.221,
+      "percent": 0.3118544858860578,
+      "original": {
+        "source": "../../energyActivity.ts",
+        "line": 147,
+        "column": 16,
+        "name": "drawEnergyGlow"
+      },
+      "sourceLine": "export function drawEnergyGlow(ctx: CanvasRenderingContext2D, presentation: EnergyActivityPresentation,"
+    },
+    {
+      "id": "D01",
+      "role": "worker",
+      "name": "ut",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 26341,
+      "codeType": "JS",
+      "ms": 1515.3649999999977,
+      "percent": 15.136394510256693,
+      "original": {
+        "source": "../../simulation.ts",
+        "line": 988,
+        "column": 16,
+        "name": "getCardinalAnchor"
+      },
+      "sourceLine": "export function getCardinalAnchor(dir: CardinalDir, width: number, height: number): {x: number; y: number} {"
+    },
+    {
+      "id": "D01",
+      "role": "worker",
+      "name": "Cn",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 74278,
+      "codeType": "JS",
+      "ms": 1326.9610000000089,
+      "percent": 13.25449987014673,
+      "original": {
+        "source": "../../simulation.ts",
+        "line": 3579,
+        "column": 16,
+        "name": "stepSimulation"
+      },
+      "sourceLine": "export function stepSimulation("
+    },
+    {
+      "id": "D01",
+      "role": "worker",
+      "name": "query",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 16435,
+      "codeType": "JS",
+      "ms": 1208.786,
+      "percent": 12.074095531093285,
+      "original": {
+        "source": "../../spatialIndex.ts",
+        "line": 42,
+        "column": 2,
+        "name": null
+      },
+      "sourceLine": "query(x0: number, y0: number, x1: number, y1: number): number[] {"
+    },
+    {
+      "id": "D01",
+      "role": "worker",
+      "name": "oe",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 11752,
+      "codeType": "JS",
+      "ms": 1146.4100000000037,
+      "percent": 11.451045807777966,
+      "original": {
+        "source": "../../neuralRuntime.ts",
+        "line": 108,
+        "column": 9,
+        "name": "writeDeltas"
+      },
+      "sourceLine": "function writeDeltas(buffer: Float64Array, edges: readonly Edge[], slots: Map<string, number>, records: Somatic | undefined): void {"
+    },
+    {
+      "id": "D01",
+      "role": "worker",
+      "name": "_e",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 14533,
+      "codeType": "JS",
+      "ms": 879.8039999999962,
+      "percent": 8.788021655311983,
+      "original": {
+        "source": "../../contacts.ts",
+        "line": 119,
+        "column": 9,
+        "name": "pairs"
+      },
+      "sourceLine": "function pairs(list: Body[]): [Body, Body][] {"
+    },
+    {
+      "id": "D01",
+      "role": "worker",
+      "name": "pe",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 13714,
+      "codeType": "JS",
+      "ms": 653.9819999999988,
+      "percent": 6.532373094671376,
+      "original": {
+        "source": "../../contacts.ts",
+        "line": 84,
+        "column": 9,
+        "name": "bodies"
+      },
+      "sourceLine": "function bodies(organisms: Organism[], density: number): Body[] {"
+    },
+    {
+      "id": "D01",
+      "role": "worker",
+      "name": "gn",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 63772,
+      "codeType": "JS",
+      "ms": 564.0539999999974,
+      "percent": 5.634117106497974,
+      "original": {
+        "source": "../../simulation.ts",
+        "line": 3002,
+        "column": 9,
+        "name": "advanceOrganismPhysics"
+      },
+      "sourceLine": "function advanceOrganismPhysics(org: Organism, settings: SimulationSettings, dt_sub: number, observe?: MechanicalObserver, channels?: TubeGeometry): number {"
+    },
+    {
+      "id": "D01",
+      "role": "worker",
+      "name": "ue",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 12412,
+      "codeType": "JS",
+      "ms": 398.9329999999983,
+      "percent": 3.9847873424291946,
+      "original": {
+        "source": "../../contacts.ts",
+        "line": 21,
+        "column": 9,
+        "name": "rotatedContact"
+      },
+      "sourceLine": "function rotatedContact(a: PartPhys, ad: PartDef, b: PartPhys, bd: PartDef,"
+    },
+    {
+      "id": "D01",
+      "role": "worker",
+      "name": "ve",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 15189,
+      "codeType": "JS",
+      "ms": 312.05999999999943,
+      "percent": 3.1170465669133853,
+      "original": {
+        "source": "../../contacts.ts",
+        "line": 149,
+        "column": 16,
+        "name": "resolveBodyContacts"
+      },
+      "sourceLine": "export function resolveBodyContacts(organisms: Organism[], density: number,"
+    },
+    {
+      "id": "D01",
+      "role": "worker",
+      "name": "Ft",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 32882,
+      "codeType": "JS",
+      "ms": 212.49900000000022,
+      "percent": 2.122570269892102,
+      "original": {
+        "source": "../../simulation.ts",
+        "line": 1383,
+        "column": 16,
+        "name": "applyWakingPlasticity"
+      },
+      "sourceLine": "export function applyWakingPlasticity("
+    },
+    {
+      "id": "D01",
+      "role": "worker",
+      "name": "Pt",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 31785,
+      "codeType": "JS",
+      "ms": 194.14900000000006,
+      "percent": 1.9392792216870736,
+      "original": {
+        "source": "../../simulation.ts",
+        "line": 1326,
+        "column": 16,
+        "name": "applySensoryAssociations"
+      },
+      "sourceLine": "export function applySensoryAssociations("
+    },
+    {
+      "id": "D01",
+      "role": "worker",
+      "name": "",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 77406,
+      "codeType": "JS",
+      "ms": 153.96100000000033,
+      "percent": 1.5378568431985953,
+      "original": {
+        "source": "../../simulation.ts",
+        "line": 3783,
+        "column": 86,
+        "name": null
+      },
+      "sourceLine": "const bodySight = organisms.flatMap(other => other.dissolving ? [] : other.segments.map((seg, part) => {"
+    },
+    {
+      "id": "D01",
+      "role": "worker",
+      "name": "Qn",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 219765,
+      "codeType": "JS",
+      "ms": 153.16600000000062,
+      "percent": 1.529915895878544,
+      "original": {
+        "source": "../../simulation.worker.ts",
+        "line": 79,
+        "column": 9,
+        "name": "pump"
+      },
+      "sourceLine": "function pump() {"
+    },
+    {
+      "id": "D01",
+      "role": "worker",
+      "name": "bn",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 70976,
+      "codeType": "JS",
+      "ms": 116.54600000000023,
+      "percent": 1.1641328885069822,
+      "original": {
+        "source": "../../simulation.ts",
+        "line": 3423,
+        "column": 9,
+        "name": "evaluateOrganismBrain"
+      },
+      "sourceLine": "function evaluateOrganismBrain(org: Organism, dt: number): void {"
+    },
+    {
+      "id": "D02",
+      "role": "main",
+      "name": "Dr",
+      "url": "http://127.0.0.1:4184/vidAI/assets/index-C4wsJ8tV.js",
+      "line": 7,
+      "column": 146497,
+      "codeType": "JS",
+      "ms": 344.8589999999987,
+      "percent": 3.432184159716336,
+      "original": {
+        "source": "../../App.tsx",
+        "line": 1191,
+        "column": 16,
+        "name": null
+      },
+      "sourceLine": "const draw = (ctx: CanvasRenderingContext2D) => {"
+    },
+    {
+      "id": "D02",
+      "role": "main",
+      "name": "n",
+      "url": "http://127.0.0.1:4184/vidAI/assets/index-C4wsJ8tV.js",
+      "line": 7,
+      "column": 156839,
+      "codeType": "JS",
+      "ms": 32.836,
+      "percent": 0.326797906009256,
+      "original": {
+        "source": "../../App.tsx",
+        "line": 1717,
+        "column": 18,
+        "name": null
+      },
+      "sourceLine": "const loop = (time: number) => {"
+    },
+    {
+      "id": "D02",
+      "role": "main",
+      "name": "Pr",
+      "url": "http://127.0.0.1:4184/vidAI/assets/index-C4wsJ8tV.js",
+      "line": 0,
+      "column": 228281,
+      "codeType": "JS",
+      "ms": 27.915000000000003,
+      "percent": 0.2778220107884147,
+      "original": {
+        "source": "../../energyActivity.ts",
+        "line": 147,
+        "column": 16,
+        "name": "drawEnergyGlow"
+      },
+      "sourceLine": "export function drawEnergyGlow(ctx: CanvasRenderingContext2D, presentation: EnergyActivityPresentation,"
+    },
+    {
+      "id": "D02",
+      "role": "worker",
+      "name": "ut",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 26341,
+      "codeType": "JS",
+      "ms": 1486.175999999981,
+      "percent": 14.791058739225116,
+      "original": {
+        "source": "../../simulation.ts",
+        "line": 988,
+        "column": 16,
+        "name": "getCardinalAnchor"
+      },
+      "sourceLine": "export function getCardinalAnchor(dir: CardinalDir, width: number, height: number): {x: number; y: number} {"
+    },
+    {
+      "id": "D02",
+      "role": "worker",
+      "name": "Cn",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 74278,
+      "codeType": "JS",
+      "ms": 1269.495999999991,
+      "percent": 12.634566770834299,
+      "original": {
+        "source": "../../simulation.ts",
+        "line": 3579,
+        "column": 16,
+        "name": "stepSimulation"
+      },
+      "sourceLine": "export function stepSimulation("
+    },
+    {
+      "id": "D02",
+      "role": "worker",
+      "name": "query",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 16435,
+      "codeType": "JS",
+      "ms": 1249.0839999999937,
+      "percent": 12.431417822805917,
+      "original": {
+        "source": "../../spatialIndex.ts",
+        "line": 42,
+        "column": 2,
+        "name": null
+      },
+      "sourceLine": "query(x0: number, y0: number, x1: number, y1: number): number[] {"
+    },
+    {
+      "id": "D02",
+      "role": "worker",
+      "name": "oe",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 11752,
+      "codeType": "JS",
+      "ms": 1116.1869999999967,
+      "percent": 11.108770079021344,
+      "original": {
+        "source": "../../neuralRuntime.ts",
+        "line": 108,
+        "column": 9,
+        "name": "writeDeltas"
+      },
+      "sourceLine": "function writeDeltas(buffer: Float64Array, edges: readonly Edge[], slots: Map<string, number>, records: Somatic | undefined): void {"
+    },
+    {
+      "id": "D02",
+      "role": "worker",
+      "name": "_e",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 14533,
+      "codeType": "JS",
+      "ms": 853.4680000000009,
+      "percent": 8.494078305698082,
+      "original": {
+        "source": "../../contacts.ts",
+        "line": 119,
+        "column": 9,
+        "name": "pairs"
+      },
+      "sourceLine": "function pairs(list: Body[]): [Body, Body][] {"
+    },
+    {
+      "id": "D02",
+      "role": "worker",
+      "name": "pe",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 13714,
+      "codeType": "JS",
+      "ms": 649.3670000000003,
+      "percent": 6.462777921534545,
+      "original": {
+        "source": "../../contacts.ts",
+        "line": 84,
+        "column": 9,
+        "name": "bodies"
+      },
+      "sourceLine": "function bodies(organisms: Organism[], density: number): Body[] {"
+    },
+    {
+      "id": "D02",
+      "role": "worker",
+      "name": "gn",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 63772,
+      "codeType": "JS",
+      "ms": 565.3409999999966,
+      "percent": 5.626515257070712,
+      "original": {
+        "source": "../../simulation.ts",
+        "line": 3002,
+        "column": 9,
+        "name": "advanceOrganismPhysics"
+      },
+      "sourceLine": "function advanceOrganismPhysics(org: Organism, settings: SimulationSettings, dt_sub: number, observe?: MechanicalObserver, channels?: TubeGeometry): number {"
+    },
+    {
+      "id": "D02",
+      "role": "worker",
+      "name": "ue",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 12412,
+      "codeType": "JS",
+      "ms": 400.4059999999991,
+      "percent": 3.985011644339724,
+      "original": {
+        "source": "../../contacts.ts",
+        "line": 21,
+        "column": 9,
+        "name": "rotatedContact"
+      },
+      "sourceLine": "function rotatedContact(a: PartPhys, ad: PartDef, b: PartPhys, bd: PartDef,"
+    },
+    {
+      "id": "D02",
+      "role": "worker",
+      "name": "ve",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 15189,
+      "codeType": "JS",
+      "ms": 318.822999999999,
+      "percent": 3.1730627600069,
+      "original": {
+        "source": "../../contacts.ts",
+        "line": 149,
+        "column": 16,
+        "name": "resolveBodyContacts"
+      },
+      "sourceLine": "export function resolveBodyContacts(organisms: Organism[], density: number,"
+    },
+    {
+      "id": "D02",
+      "role": "worker",
+      "name": "Ft",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 32882,
+      "codeType": "JS",
+      "ms": 213.01099999999988,
+      "percent": 2.1199765122711707,
+      "original": {
+        "source": "../../simulation.ts",
+        "line": 1383,
+        "column": 16,
+        "name": "applyWakingPlasticity"
+      },
+      "sourceLine": "export function applyWakingPlasticity("
+    },
+    {
+      "id": "D02",
+      "role": "worker",
+      "name": "Pt",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 31785,
+      "codeType": "JS",
+      "ms": 198.59000000000017,
+      "percent": 1.9764525567784403,
+      "original": {
+        "source": "../../simulation.ts",
+        "line": 1326,
+        "column": 16,
+        "name": "applySensoryAssociations"
+      },
+      "sourceLine": "export function applySensoryAssociations("
+    },
+    {
+      "id": "D02",
+      "role": "worker",
+      "name": "Xn",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 218058,
+      "codeType": "JS",
+      "ms": 173.80200000000002,
+      "percent": 1.7297517864605785,
+      "original": {
+        "source": "../../simulation.worker.ts",
+        "line": 33,
+        "column": 6,
+        "name": "sendFrame"
+      },
+      "sourceLine": "const sendFrame = () => {"
+    },
+    {
+      "id": "D02",
+      "role": "worker",
+      "name": "",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 77406,
+      "codeType": "JS",
+      "ms": 159.03500000000005,
+      "percent": 1.5827842910884693,
+      "original": {
+        "source": "../../simulation.ts",
+        "line": 3783,
+        "column": 86,
+        "name": null
+      },
+      "sourceLine": "const bodySight = organisms.flatMap(other => other.dissolving ? [] : other.segments.map((seg, part) => {"
+    },
+    {
+      "id": "D02",
+      "role": "worker",
+      "name": "Qn",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 219765,
+      "codeType": "JS",
+      "ms": 152.9040000000002,
+      "percent": 1.5217659587172103,
+      "original": {
+        "source": "../../simulation.worker.ts",
+        "line": 79,
+        "column": 9,
+        "name": "pump"
+      },
+      "sourceLine": "function pump() {"
+    },
+    {
+      "id": "D03",
+      "role": "worker",
+      "name": "ut",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 26341,
+      "codeType": "JS",
+      "ms": 1477.2069999999815,
+      "percent": 14.739348646004505,
+      "original": {
+        "source": "../../simulation.ts",
+        "line": 988,
+        "column": 16,
+        "name": "getCardinalAnchor"
+      },
+      "sourceLine": "export function getCardinalAnchor(dir: CardinalDir, width: number, height: number): {x: number; y: number} {"
+    },
+    {
+      "id": "D03",
+      "role": "worker",
+      "name": "Cn",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 74278,
+      "codeType": "JS",
+      "ms": 1330.4549999999913,
+      "percent": 13.27507932389979,
+      "original": {
+        "source": "../../simulation.ts",
+        "line": 3579,
+        "column": 16,
+        "name": "stepSimulation"
+      },
+      "sourceLine": "export function stepSimulation("
+    },
+    {
+      "id": "D03",
+      "role": "worker",
+      "name": "query",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 16435,
+      "codeType": "JS",
+      "ms": 1208.3299999999892,
+      "percent": 12.056534493423527,
+      "original": {
+        "source": "../../spatialIndex.ts",
+        "line": 42,
+        "column": 2,
+        "name": null
+      },
+      "sourceLine": "query(x0: number, y0: number, x1: number, y1: number): number[] {"
+    },
+    {
+      "id": "D03",
+      "role": "worker",
+      "name": "oe",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 11752,
+      "codeType": "JS",
+      "ms": 1130.0919999999949,
+      "percent": 11.275887529683148,
+      "original": {
+        "source": "../../neuralRuntime.ts",
+        "line": 108,
+        "column": 9,
+        "name": "writeDeltas"
+      },
+      "sourceLine": "function writeDeltas(buffer: Float64Array, edges: readonly Edge[], slots: Map<string, number>, records: Somatic | undefined): void {"
+    },
+    {
+      "id": "D03",
+      "role": "worker",
+      "name": "_e",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 14533,
+      "codeType": "JS",
+      "ms": 844.8099999999995,
+      "percent": 8.429386761389036,
+      "original": {
+        "source": "../../contacts.ts",
+        "line": 119,
+        "column": 9,
+        "name": "pairs"
+      },
+      "sourceLine": "function pairs(list: Body[]): [Body, Body][] {"
+    },
+    {
+      "id": "D03",
+      "role": "worker",
+      "name": "pe",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 13714,
+      "codeType": "JS",
+      "ms": 623.9839999999973,
+      "percent": 6.226018239507767,
+      "original": {
+        "source": "../../contacts.ts",
+        "line": 84,
+        "column": 9,
+        "name": "bodies"
+      },
+      "sourceLine": "function bodies(organisms: Organism[], density: number): Body[] {"
+    },
+    {
+      "id": "D03",
+      "role": "worker",
+      "name": "gn",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 63772,
+      "codeType": "JS",
+      "ms": 572.9669999999969,
+      "percent": 5.716978308155406,
+      "original": {
+        "source": "../../simulation.ts",
+        "line": 3002,
+        "column": 9,
+        "name": "advanceOrganismPhysics"
+      },
+      "sourceLine": "function advanceOrganismPhysics(org: Organism, settings: SimulationSettings, dt_sub: number, observe?: MechanicalObserver, channels?: TubeGeometry): number {"
+    },
+    {
+      "id": "D03",
+      "role": "worker",
+      "name": "ue",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 12412,
+      "codeType": "JS",
+      "ms": 384.67399999999867,
+      "percent": 3.8382191534789563,
+      "original": {
+        "source": "../../contacts.ts",
+        "line": 21,
+        "column": 9,
+        "name": "rotatedContact"
+      },
+      "sourceLine": "function rotatedContact(a: PartPhys, ad: PartDef, b: PartPhys, bd: PartDef,"
+    },
+    {
+      "id": "D03",
+      "role": "worker",
+      "name": "ve",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 15189,
+      "codeType": "JS",
+      "ms": 329.43899999999906,
+      "percent": 3.2870926543071652,
+      "original": {
+        "source": "../../contacts.ts",
+        "line": 149,
+        "column": 16,
+        "name": "resolveBodyContacts"
+      },
+      "sourceLine": "export function resolveBodyContacts(organisms: Organism[], density: number,"
+    },
+    {
+      "id": "D03",
+      "role": "worker",
+      "name": "Ft",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 32882,
+      "codeType": "JS",
+      "ms": 194.53700000000023,
+      "percent": 1.9410608449241153,
+      "original": {
+        "source": "../../simulation.ts",
+        "line": 1383,
+        "column": 16,
+        "name": "applyWakingPlasticity"
+      },
+      "sourceLine": "export function applyWakingPlasticity("
+    },
+    {
+      "id": "D03",
+      "role": "worker",
+      "name": "Pt",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 31785,
+      "codeType": "JS",
+      "ms": 186.4360000000003,
+      "percent": 1.8602302887588094,
+      "original": {
+        "source": "../../simulation.ts",
+        "line": 1326,
+        "column": 16,
+        "name": "applySensoryAssociations"
+      },
+      "sourceLine": "export function applySensoryAssociations("
+    },
+    {
+      "id": "D03",
+      "role": "worker",
+      "name": "Xn",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 218058,
+      "codeType": "JS",
+      "ms": 168.62600000000003,
+      "percent": 1.6825247949550652,
+      "original": {
+        "source": "../../simulation.worker.ts",
+        "line": 33,
+        "column": 6,
+        "name": "sendFrame"
+      },
+      "sourceLine": "const sendFrame = () => {"
+    },
+    {
+      "id": "D03",
+      "role": "worker",
+      "name": "Qn",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 219765,
+      "codeType": "JS",
+      "ms": 159.74100000000027,
+      "percent": 1.5938716050366935,
+      "original": {
+        "source": "../../simulation.worker.ts",
+        "line": 79,
+        "column": 9,
+        "name": "pump"
+      },
+      "sourceLine": "function pump() {"
+    },
+    {
+      "id": "D03",
+      "role": "worker",
+      "name": "",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 77406,
+      "codeType": "JS",
+      "ms": 155.3700000000005,
+      "percent": 1.550258426293509,
+      "original": {
+        "source": "../../simulation.ts",
+        "line": 3783,
+        "column": 86,
+        "name": null
+      },
+      "sourceLine": "const bodySight = organisms.flatMap(other => other.dissolving ? [] : other.segments.map((seg, part) => {"
+    },
+    {
+      "id": "D03",
+      "role": "main",
+      "name": "Dr",
+      "url": "http://127.0.0.1:4184/vidAI/assets/index-C4wsJ8tV.js",
+      "line": 7,
+      "column": 146497,
+      "codeType": "JS",
+      "ms": 354.78999999999894,
+      "percent": 3.5400411087383588,
+      "original": {
+        "source": "../../App.tsx",
+        "line": 1191,
+        "column": 16,
+        "name": null
+      },
+      "sourceLine": "const draw = (ctx: CanvasRenderingContext2D) => {"
+    },
+    {
+      "id": "D03",
+      "role": "main",
+      "name": "n",
+      "url": "http://127.0.0.1:4184/vidAI/assets/index-C4wsJ8tV.js",
+      "line": 7,
+      "column": 156839,
+      "codeType": "JS",
+      "ms": 34.824,
+      "percent": 0.34746861966432246,
+      "original": {
+        "source": "../../App.tsx",
+        "line": 1717,
+        "column": 18,
+        "name": null
+      },
+      "sourceLine": "const loop = (time: number) => {"
+    },
+    {
+      "id": "D03",
+      "role": "main",
+      "name": "Pr",
+      "url": "http://127.0.0.1:4184/vidAI/assets/index-C4wsJ8tV.js",
+      "line": 0,
+      "column": 228281,
+      "codeType": "JS",
+      "ms": 30.589000000000006,
+      "percent": 0.30521242840891233,
+      "original": {
+        "source": "../../energyActivity.ts",
+        "line": 147,
+        "column": 16,
+        "name": "drawEnergyGlow"
+      },
+      "sourceLine": "export function drawEnergyGlow(ctx: CanvasRenderingContext2D, presentation: EnergyActivityPresentation,"
+    },
+    {
+      "id": "D03",
+      "role": "main",
+      "name": "Kt",
+      "url": "http://127.0.0.1:4184/vidAI/assets/index-C4wsJ8tV.js",
+      "line": 0,
+      "column": 26629,
+      "codeType": "JS",
+      "ms": 24.516999999999985,
+      "percent": 0.24462692821933693,
+      "original": {
+        "source": "../../simulation.ts",
+        "line": 988,
+        "column": 16,
+        "name": "getCardinalAnchor"
+      },
+      "sourceLine": "export function getCardinalAnchor(dir: CardinalDir, width: number, height: number): {x: number; y: number} {"
+    },
+    {
+      "id": "D04",
+      "role": "main",
+      "name": "Dr",
+      "url": "http://127.0.0.1:4184/vidAI/assets/index-C4wsJ8tV.js",
+      "line": 7,
+      "column": 146497,
+      "codeType": "JS",
+      "ms": 349.8259999999997,
+      "percent": 3.4883530772606344,
+      "original": {
+        "source": "../../App.tsx",
+        "line": 1191,
+        "column": 16,
+        "name": null
+      },
+      "sourceLine": "const draw = (ctx: CanvasRenderingContext2D) => {"
+    },
+    {
+      "id": "D04",
+      "role": "main",
+      "name": "n",
+      "url": "http://127.0.0.1:4184/vidAI/assets/index-C4wsJ8tV.js",
+      "line": 7,
+      "column": 156839,
+      "codeType": "JS",
+      "ms": 33.928000000000004,
+      "percent": 0.3383191735471318,
+      "original": {
+        "source": "../../App.tsx",
+        "line": 1717,
+        "column": 18,
+        "name": null
+      },
+      "sourceLine": "const loop = (time: number) => {"
+    },
+    {
+      "id": "D04",
+      "role": "main",
+      "name": "Pr",
+      "url": "http://127.0.0.1:4184/vidAI/assets/index-C4wsJ8tV.js",
+      "line": 0,
+      "column": 228281,
+      "codeType": "JS",
+      "ms": 25.241,
+      "percent": 0.2516951856726937,
+      "original": {
+        "source": "../../energyActivity.ts",
+        "line": 147,
+        "column": 16,
+        "name": "drawEnergyGlow"
+      },
+      "sourceLine": "export function drawEnergyGlow(ctx: CanvasRenderingContext2D, presentation: EnergyActivityPresentation,"
+    },
+    {
+      "id": "D04",
+      "role": "worker",
+      "name": "ut",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 26341,
+      "codeType": "JS",
+      "ms": 1465.9399999999755,
+      "percent": 14.61788520601455,
+      "original": {
+        "source": "../../simulation.ts",
+        "line": 988,
+        "column": 16,
+        "name": "getCardinalAnchor"
+      },
+      "sourceLine": "export function getCardinalAnchor(dir: CardinalDir, width: number, height: number): {x: number; y: number} {"
+    },
+    {
+      "id": "D04",
+      "role": "worker",
+      "name": "Cn",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 74278,
+      "codeType": "JS",
+      "ms": 1285.1269999999936,
+      "percent": 12.814875752861699,
+      "original": {
+        "source": "../../simulation.ts",
+        "line": 3579,
+        "column": 16,
+        "name": "stepSimulation"
+      },
+      "sourceLine": "export function stepSimulation("
+    },
+    {
+      "id": "D04",
+      "role": "worker",
+      "name": "query",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 16435,
+      "codeType": "JS",
+      "ms": 1220.0249999999942,
+      "percent": 12.16569941366503,
+      "original": {
+        "source": "../../spatialIndex.ts",
+        "line": 42,
+        "column": 2,
+        "name": null
+      },
+      "sourceLine": "query(x0: number, y0: number, x1: number, y1: number): number[] {"
+    },
+    {
+      "id": "D04",
+      "role": "worker",
+      "name": "oe",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 11752,
+      "codeType": "JS",
+      "ms": 1214.3899999999912,
+      "percent": 12.109508994455554,
+      "original": {
+        "source": "../../neuralRuntime.ts",
+        "line": 108,
+        "column": 9,
+        "name": "writeDeltas"
+      },
+      "sourceLine": "function writeDeltas(buffer: Float64Array, edges: readonly Edge[], slots: Map<string, number>, records: Somatic | undefined): void {"
+    },
+    {
+      "id": "D04",
+      "role": "worker",
+      "name": "_e",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 14533,
+      "codeType": "JS",
+      "ms": 837.9709999999991,
+      "percent": 8.3559790195843,
+      "original": {
+        "source": "../../contacts.ts",
+        "line": 119,
+        "column": 9,
+        "name": "pairs"
+      },
+      "sourceLine": "function pairs(list: Body[]): [Body, Body][] {"
+    },
+    {
+      "id": "D04",
+      "role": "worker",
+      "name": "pe",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 13714,
+      "codeType": "JS",
+      "ms": 623.6199999999989,
+      "percent": 6.2185393482509035,
+      "original": {
+        "source": "../../contacts.ts",
+        "line": 84,
+        "column": 9,
+        "name": "bodies"
+      },
+      "sourceLine": "function bodies(organisms: Organism[], density: number): Body[] {"
+    },
+    {
+      "id": "D04",
+      "role": "worker",
+      "name": "gn",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 63772,
+      "codeType": "JS",
+      "ms": 552.1199999999972,
+      "percent": 5.505564197678518,
+      "original": {
+        "source": "../../simulation.ts",
+        "line": 3002,
+        "column": 9,
+        "name": "advanceOrganismPhysics"
+      },
+      "sourceLine": "function advanceOrganismPhysics(org: Organism, settings: SimulationSettings, dt_sub: number, observe?: MechanicalObserver, channels?: TubeGeometry): number {"
+    },
+    {
+      "id": "D04",
+      "role": "worker",
+      "name": "ue",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 12412,
+      "codeType": "JS",
+      "ms": 402.8839999999991,
+      "percent": 4.017430497387377,
+      "original": {
+        "source": "../../contacts.ts",
+        "line": 21,
+        "column": 9,
+        "name": "rotatedContact"
+      },
+      "sourceLine": "function rotatedContact(a: PartPhys, ad: PartDef, b: PartPhys, bd: PartDef,"
+    },
+    {
+      "id": "D04",
+      "role": "worker",
+      "name": "ve",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 15189,
+      "codeType": "JS",
+      "ms": 323.2579999999995,
+      "percent": 3.2234254716604522,
+      "original": {
+        "source": "../../contacts.ts",
+        "line": 149,
+        "column": 16,
+        "name": "resolveBodyContacts"
+      },
+      "sourceLine": "export function resolveBodyContacts(organisms: Organism[], density: number,"
+    },
+    {
+      "id": "D04",
+      "role": "worker",
+      "name": "Ft",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 32882,
+      "codeType": "JS",
+      "ms": 218.73499999999996,
+      "percent": 2.18115551832793,
+      "original": {
+        "source": "../../simulation.ts",
+        "line": 1383,
+        "column": 16,
+        "name": "applyWakingPlasticity"
+      },
+      "sourceLine": "export function applyWakingPlasticity("
+    },
+    {
+      "id": "D04",
+      "role": "worker",
+      "name": "Pt",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 31785,
+      "codeType": "JS",
+      "ms": 214.86799999999977,
+      "percent": 2.142595030114454,
+      "original": {
+        "source": "../../simulation.ts",
+        "line": 1326,
+        "column": 16,
+        "name": "applySensoryAssociations"
+      },
+      "sourceLine": "export function applySensoryAssociations("
+    },
+    {
+      "id": "D04",
+      "role": "worker",
+      "name": "Qn",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 219765,
+      "codeType": "JS",
+      "ms": 174.45199999999969,
+      "percent": 1.739579593953155,
+      "original": {
+        "source": "../../simulation.worker.ts",
+        "line": 79,
+        "column": 9,
+        "name": "pump"
+      },
+      "sourceLine": "function pump() {"
+    },
+    {
+      "id": "D04",
+      "role": "worker",
+      "name": "",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 77406,
+      "codeType": "JS",
+      "ms": 165.3800000000002,
+      "percent": 1.6491165091141038,
+      "original": {
+        "source": "../../simulation.ts",
+        "line": 3783,
+        "column": 86,
+        "name": null
+      },
+      "sourceLine": "const bodySight = organisms.flatMap(other => other.dissolving ? [] : other.segments.map((seg, part) => {"
+    },
+    {
+      "id": "D04",
+      "role": "worker",
+      "name": "bn",
+      "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-BwGpIWtt.js",
+      "line": 0,
+      "column": 70976,
+      "codeType": "JS",
+      "ms": 125.46800000000042,
+      "percent": 1.2511267998883109,
+      "original": {
+        "source": "../../simulation.ts",
+        "line": 3423,
+        "column": 9,
+        "name": "evaluateOrganismBrain"
+      },
+      "sourceLine": "function evaluateOrganismBrain(org: Organism, dt: number): void {"
+    }
+  ]
+}
