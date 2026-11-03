@@ -1,3 +1,12 @@
+> **Current update —2026-11-03: Stage3.3b COMPLETE; Stage3 ONGOING.**
+> Authorized recovery and all12kernel slots,54M isolated visits and one zero-tick
+> validity control are preserved. Original3.3 observation stays UNKNOWN.
+> Substep metadata~.54/.65% sampled time; generic WeakMap benefit refuted in one
+> isolated family; no production cache/gain implemented. Historical blocked note
+> below describes the original incident, not a current authorization request.
+> [Results and limits](experiments/performance-stage-3-v4/report.md).
+> Next proposed study: real Worker/UI/IPC, not automatically executed.
+
 > **Stage3.3 update —2026-11-03:** Physical metadata research is **BLOCKED** after
 > capture loss of the first kernel slot. Its actual outcome is unknown; no new
 > performance result/cache benefit is claimed. A zero-tick preflight and synthetic

@@ -1,0 +1,41 @@
+{
+  "batch": "3.3b",
+  "originalOutcomeUnknownPreserved": true,
+  "authorizedRecoveryEvaluations": 1,
+  "uniqueKernelSlots": 12,
+  "measuredTicks": 3600,
+  "warmupTicks": 720,
+  "isolatedNumericVisits": 54000000,
+  "originalComponentProcesses": 1,
+  "zeroTickValidityControls": 1,
+  "archivesVerified": 14,
+  "archiveSHA256AndGitBlobSHAVerified": true,
+  "fullFinalSnapshots": {
+    "founders15": {
+      "finalHash": "bc7e89b26e3ec1e51df77adc2819a91b35bb4b9dbfbf9b6e5ce69b04d17bc239",
+      "archive": "recovery-founders15-baseline-1.json.gz",
+      "completeSnapshotBytes": 2182071
+    },
+    "founders30": {
+      "finalHash": "b480213ea8af3c599ea63c978e09926c485877c0d2891c47678fb489f98a5636",
+      "archive": "founders30-baseline-1.json.gz",
+      "completeSnapshotBytes": 4351803
+    }
+  },
+  "allWarmPeriodicFinalHashesEqual": true,
+  "historicalV1Tick360ReferencesEqual": true,
+  "energyErrorMaxJ": 3.67872416973114e-8,
+  "recordedProcessIntervalsMs": 46601,
+  "priorUnknownConservativeChargeMs": 20000,
+  "combinedRecordedChargeMs": 66601,
+  "registeredAbsoluteUpperBoundMs": 340000,
+  "resourceCeilingMs": 600000,
+  "scientificFailures": 0,
+  "permanentCacheImplemented": false,
+  "originalSourceModulesVerified": 18,
+  "baselineSourcesUnpatched": true,
+  "diagnosticChangesOnly": [
+    "simulation.ts",
+    "contacts.ts"
+  ]
+}

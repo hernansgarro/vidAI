@@ -3,8 +3,9 @@
 **Stage 3 status: ONGOING — additional investigation remains pending.**
 
 Contributor/fork research only; updated2026-11-03. Stage3.1 is the preserved completed
-pilot; Stage3.2 is a completed bounded graphics batch; it does not close Stage3. A finished batch or execution
-budget does not close Stage3. Stop after each batch for Hernan's review; Stage3.3 and
+pilot; Stage3.2 and the authorized Stage3.3b recovery batch are completed. The original
+Stage3.3 missing observation remains preserved. A finished batch or execution budget
+does not close Stage3. Stop after each batch for Hernan's review; Stage3.4 and
 Stage4 optimization implementation are not authorized automatically. Completion needs
 all meaningful reasonably testable questions at justified stopping points, including
 new questions, or Hernan's explicit closure decision.
@@ -35,9 +36,9 @@ stable S2 IDs and owner interest in S2-02; they are not implementation prioritie
 | 1 / S2-11 | Caustic blur / deferred raster at composition | 🔴 CRITICAL observed on software CI | High matched-controls confidence; desktop unverified |3.34FPS/288.9ms baseline vs58.81FPS/5.4ms unblur; forced flush moves~287ms before copy | Confirmed bottleneck; blur cause clarified within tested scene | Desktop/active workloads, pixel/DPR/filter scaling and exact invalidation/static-scene reuse remain open |
 | 1b / S2-11-B | Graphics backend and bare-copy interpretation | 🟢 LOW OBSERVED isolated copy; ⚪ UNKNOWN desktop scaling | High backend/source-copy evidence in this setup |SwiftShader/software2D; already-flushed copy+readback median~.10ms | Software backend confirmed; intrinsically~290ms pure-copy hypothesis refuted in scope | Fresh-context/readback policy and real hardware graphics; do not generalize component cost |
 | 2 / S2-09 + S2-12 | Active Worker/UI contention, cloning and reporting cadence | 🟡 MEDIUM suspected end-to-end impact | Medium component evidence, low causal active-browser confidence | Warm clone .803/1.433ms at15/30 founders; cap~30frames/s, one ACK already | Partial; IPC/ACK/throughput untested | Measure actual MAX ticks/s, send/receive/ACK and render contention; do not confuse copy benchmark with IPC |
-| 3 / S2-02 | Repeated invariant physical metadata | ⚪ UNKNOWN CPU impact | High repeat-count confidence, low benefit confidence |300/600 substep mass/inertia derivations/tick at15/30 founders | Stage3.3 BLOCKED (missing first result); benefit unmeasured | Price each consumer, exact lookup vs recompute, memory/GC/invalidation/save continuation |
+| 3 / S2-02 | Invariant physical metadata / conditional reuse | 🟢 LOW OBSERVED substep cost; ⚪ UNKNOWN end-to-end cache benefit | High repeat-count/exact-state confidence; medium coarse timing; low production-gain confidence |Substep~.54/.65% sampled tick time; contacts2400/~2179mass records/tick; WeakMap substep~1.92× recompute cost in isolated loop | Stage3.3b batch COMPLETE; mechanism/tradeoffs partially investigated, no cache implemented | Real-cache end-to-end gain/lifetimes/historical regimes remain untested; prioritize actual Worker/UI/IPC next |
 | 4 / S2-03 | Optical index/query/intersections | 🟠 HIGH observed coarse cost | Medium coarse attribution |34.0%/40.5% sampled vision+update shares,195/390rays/tick | Confirmed broad cost; exact breakdown partial | Separate index build, finite corridor, exact tests, sorting/allocation and independent density/eye scaling |
-| 5 / S2-01 | Contact physics and articulated solve | 🟠 HIGH observed essential work | Medium measured attribution |27–38.8% coarse physics+contacts;15-founder contacts25.8–27.8% of classified samples | Confirmed cost; removable fraction unknown | Profile broad/narrowphase, iterations and existing scratch; no solver/physics change |
+| 5 / S2-01 | Contact physics and articulated solve | 🟠 HIGH observed essential work | Medium measured attribution |Older coarse physics/contact shares retained; new body-wrapper subset~4.57/2.56% sampled tick time at15/30, includes dynamic bounds | Confirmed cost; removable fraction unknown | Profile broad/narrowphase, iterations and existing scratch; no solver/physics change |
 | 6 / S2-05 | Recurrent inference and learning | 🟠 HIGH observed essential work | Medium coarse attribution |18.8–26.9% neural+learning share at15/30 founders | Confirmed cost; detailed scaling unresolved | Distinguish inference/plasticity/allocation; existing neural cache already present |
 | 7 / S2-12-M | Allocation, GC and retained memory | ⚪ UNKNOWN long-run impact | Low; pilot GC event telemetry invalid |10.8–139.6MB short diagnostic30 heap deltas; not retained heap | Untested retention; sampled GC includes harness | Allocation/lifetime/paused vs active traces, growing lineage and long-run stability |
 | 8 / S2-03-R | Finite per-ray range proposal (IDEA-026) | ⚪ UNKNOWN hypothetical savings | High current-source confidence; no marginal-cost measurements |Finite inherited per-eye range already; five rays share it | Source clarified; new per-ray feature unapproved | Hypothetical cost study later; attenuation/distance/energy/save decisions first |
@@ -60,7 +61,9 @@ removed to inflate apparent optimization opportunities.
 | --- | --- | --- |
 | Stage3.1 — original pilot,2026-11-02 | COMPLETED batch only:30Node trials +6paused Chromium windows | [v1](experiments/performance-stage-3-v1/), original final head9a040fc; report below preserved as historical pilot. Old references to 'complete' concern this batch. |
 | Stage3.2 —2026-11-02; consolidated2026-11-03 | COMPLETED batch only:10timed windows,2diagnostic captures,60isolated copies plus executive/vision/cache source review | [v2 protocol](experiments/performance-stage-3-v2/protocol.md), initial metadata preflight1c4927a failed before measurements; repaired source7279fc8 and tested PR merge6971be7 passed; [report](experiments/performance-stage-3-v2/report.md) |
-| Stage3.3 —2026-11-03 | BLOCKED: first slot outcome missing; no new performance result | [Incident/report](experiments/performance-stage-3-v3/report.md); explicit recovery authorization pending |
+| Stage3.3 —2026-11-03 | Stopped at missing observation; original outcome stays UNKNOWN | [Immutable incident](experiments/performance-stage-3-v3/incident.json); recovery explicitly authorized under3.3b |
+| Stage3.3b —2026-11-03 | COMPLETE batch:12kernel slots,54M isolated visits and one zero-tick validity control | [v4 report/evidence](experiments/performance-stage-3-v4/report.md); all trajectories equal and match historical tick360 |
+| Stage3.4 | PROPOSED ONLY; not executed | Real Worker/UI transport/throughput next, with a separately registered budget |
 
 2026-11-02 interpretation update: replaced the old automatic jump from completed
 pilot to Stage4 with recursive Stage3. Stage3.1 measurements/archives remain unchanged.
@@ -94,7 +97,39 @@ One outcome is unknown;11kernel slots and the component study remain unstarted.
 The capture bridge was repaired/tested using synthetic data only. **Stage3.3 BLOCKED;
 Stage3 ONGOING.** No unauthorized lost-trial rerun occurred. S2-02 remains UNKNOWN
 impact/low benefit confidence; all other executive classifications remain unchanged.
-Hernan's explicit recovery decision is the next action; do not automatically continue.
+Historical stop: Hernan subsequently authorized3.3b; see its completed results below.
+The original unknown observation and this incident remain preserved.
+
+## Stage3.3b —2026-11-03: authorized recovery complete, new evidence consolidated
+
+Hernan explicitly authorized a labeled recovery and the remaining studies. The first
+old observation stays UNKNOWN; [v3](experiments/performance-stage-3-v3/) is unchanged.
+All12new kernel results, the54million-visit component study and one separately
+registered zero-tick validity control are preserved in [v4](experiments/performance-stage-3-v4/).
+Every trajectory/hash agrees and matches the original v1 tick360 reference.
+
+**Changed conclusions:** the old300/600counts omitted contact/projection/COM consumers.
+Substep mass/inertia is only~.54/.65% of sampled diagnostic time in these workloads;
+whole contact-body construction~4.57/2.56% includes necessary dynamic work. A generic
+WeakMap speedup is refuted: isolated substep lookup median67.55ms versus35.22ms
+recomputation per2million visits. Direct indexing and projection reuse have conditional
+component evidence, not a measured whole-kernel gain. One controlled retained-key
+fixture observed~1.77MB incremental heap for10000six-number records; the original
+negative heap delta is preserved as invalid size telemetry. Actual cache lifetime/
+historical compatibility and end-to-end gain remain open.
+
+All executive rows were reassessed: S2-02 changes to LOW OBSERVED for its substep
+block and UNKNOWN for net production benefit; S2-01 gets the new wrapper/iteration
+breakdown. No other impact classification changes. Synthetic heap/timer controls
+do not establish an application leak diagnosis. Graphics/vision/neural prior results,
+real IPC, independent scaling, eggs/tubes and long-run/desktop gaps remain preserved.
+[Detailed report](experiments/performance-stage-3-v4/report.md),
+[summary](experiments/performance-stage-3-v4/summary.json),
+[verification](experiments/performance-stage-3-v4/verification.json).
+
+Next proposed bounded question: actual Worker/UI transport, ACK and ticks/s versus
+display cost. **Stage3.4 is not executed. Stage3 remains ONGOING.** No optimization,
+merge, upstream submission or application publication is authorized by these results.
 
 ## Current source reviews and pending research inventory
 

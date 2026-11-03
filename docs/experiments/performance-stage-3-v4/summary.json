@@ -1,0 +1,945 @@
+{
+  "groups": {
+    "founders15/baseline": {
+      "kernelMs": {
+        "n": 3,
+        "median": 1246.6375850000009,
+        "min": 1049.3140760000038,
+        "max": 1339.5218479999978,
+        "p95": null,
+        "p99": null
+      },
+      "perRunKernelMs": [
+        1246.6375850000009,
+        1339.5218479999978,
+        1049.3140760000038
+      ],
+      "tickMs": {
+        "n": 900,
+        "median": 3.5813620000001265,
+        "min": 2.1494440000001305,
+        "max": 36.78643999999986,
+        "p95": 6.616241800000045,
+        "p99": 9.48460720000018
+      },
+      "initial": {
+        "organisms": 15,
+        "parts": 75,
+        "food": 200
+      },
+      "final": {
+        "organisms": 15,
+        "parts": 75,
+        "food": 197
+      },
+      "heapEnd": [
+        {
+          "rss": 219402240,
+          "heapTotal": 65359872,
+          "heapUsed": 47050720,
+          "external": 16615264,
+          "arrayBuffers": 2350096
+        },
+        {
+          "rss": 253767680,
+          "heapTotal": 103800832,
+          "heapUsed": 46700600,
+          "external": 16612300,
+          "arrayBuffers": 2347132
+        },
+        {
+          "rss": 252088320,
+          "heapTotal": 101613568,
+          "heapUsed": 59725944,
+          "external": 16626520,
+          "arrayBuffers": 2361352
+        }
+      ],
+      "cpuWindow": [
+        {
+          "user": 2550693,
+          "system": 159360
+        },
+        {
+          "user": 2829934,
+          "system": 79099
+        },
+        {
+          "user": 2799273,
+          "system": 81145
+        }
+      ],
+      "energyErrorJ": [
+        -1.3620592653751373e-8,
+        -1.3620592653751373e-8,
+        -1.3620592653751373e-8
+      ],
+      "finalHash": "bc7e89b26e3ec1e51df77adc2819a91b35bb4b9dbfbf9b6e5ce69b04d17bc239"
+    },
+    "founders15/diagnostic": {
+      "kernelMs": {
+        "n": 3,
+        "median": 1189.8599099999994,
+        "min": 1084.8371109999964,
+        "max": 1495.1371599999977,
+        "p95": null,
+        "p99": null
+      },
+      "perRunKernelMs": [
+        1189.8599099999994,
+        1084.8371109999964,
+        1495.1371599999977
+      ],
+      "tickMs": {
+        "n": 900,
+        "median": 3.540875999999912,
+        "min": 2.140961999999945,
+        "max": 87.44869199999994,
+        "p95": 6.659519399999789,
+        "p99": 13.964626169999743
+      },
+      "initial": {
+        "organisms": 15,
+        "parts": 75,
+        "food": 200
+      },
+      "final": {
+        "organisms": 15,
+        "parts": 75,
+        "food": 197
+      },
+      "heapEnd": [
+        {
+          "rss": 221544448,
+          "heapTotal": 66408448,
+          "heapUsed": 37527584,
+          "external": 16676272,
+          "arrayBuffers": 2345568
+        },
+        {
+          "rss": 236756992,
+          "heapTotal": 101609472,
+          "heapUsed": 55961264,
+          "external": 16686428,
+          "arrayBuffers": 2355724
+        },
+        {
+          "rss": 203001856,
+          "heapTotal": 65884160,
+          "heapUsed": 39231368,
+          "external": 16675172,
+          "arrayBuffers": 2344468
+        }
+      ],
+      "cpuWindow": [
+        {
+          "user": 3576431,
+          "system": 201000
+        },
+        {
+          "user": 2845197,
+          "system": 77885
+        },
+        {
+          "user": 3053492,
+          "system": 81373
+        }
+      ],
+      "energyErrorJ": [
+        -1.3620592653751373e-8,
+        -1.3620592653751373e-8,
+        -1.3620592653751373e-8
+      ],
+      "finalHash": "bc7e89b26e3ec1e51df77adc2819a91b35bb4b9dbfbf9b6e5ce69b04d17bc239",
+      "blocks": {
+        "com": {
+          "calls": 1140,
+          "units": 5700,
+          "uniqueParts": 75,
+          "sampledTicks": 38,
+          "perTickCalls": 30,
+          "perTickUnits": 150,
+          "blockMs": {
+            "n": 3,
+            "median": 0.5328870000013239,
+            "min": 0.5085820000033436,
+            "max": 0.7562880000022005,
+            "p95": null,
+            "p99": null
+          },
+          "msPerSampledTick": {
+            "n": 3,
+            "median": 0.014023342105297999,
+            "min": 0.013383736842193253,
+            "max": 0.019902315789531593,
+            "p95": null,
+            "p99": null
+          },
+          "fractionOfSampledTickMs": {
+            "n": 3,
+            "median": 0.3285273542970464,
+            "min": 0.16159800267819432,
+            "max": 0.5264595654798487,
+            "p95": null,
+            "p99": null
+          }
+        },
+        "substepMetadata": {
+          "calls": 2280,
+          "units": 11400,
+          "uniqueParts": 75,
+          "sampledTicks": 38,
+          "perTickCalls": 60,
+          "perTickUnits": 300,
+          "blockMs": {
+            "n": 3,
+            "median": 1.0021880000094825,
+            "min": 0.769381999999041,
+            "max": 1.3936400000014828,
+            "p95": null,
+            "p99": null
+          },
+          "msPerSampledTick": {
+            "n": 3,
+            "median": 0.02637336842130217,
+            "min": 0.02024689473681687,
+            "max": 0.036674736842144284,
+            "p95": null,
+            "p99": null
+          },
+          "fractionOfSampledTickMs": {
+            "n": 3,
+            "median": 0.5355744285329578,
+            "min": 0.3184374970182229,
+            "max": 0.8591856473171335,
+            "p95": null,
+            "p99": null
+          }
+        },
+        "contactBodies": {
+          "calls": 1216,
+          "units": 91200,
+          "uniqueParts": 75,
+          "sampledTicks": 38,
+          "perTickCalls": 32,
+          "perTickUnits": 2400,
+          "blockMs": {
+            "n": 3,
+            "median": 7.408548000003293,
+            "min": 6.702948999999876,
+            "max": 10.757900999998128,
+            "p95": null,
+            "p99": null
+          },
+          "msPerSampledTick": {
+            "n": 3,
+            "median": 0.19496178947377088,
+            "min": 0.17639339473683885,
+            "max": 0.2831026578946876,
+            "p95": null,
+            "p99": null
+          },
+          "fractionOfSampledTickMs": {
+            "n": 3,
+            "median": 4.5674048599753965,
+            "min": 3.4182399585475256,
+            "max": 4.665989170743491,
+            "p95": null,
+            "p99": null
+          }
+        },
+        "projectionSetup": {
+          "calls": 3357,
+          "units": 13932,
+          "uniqueParts": 31,
+          "sampledTicks": 38,
+          "perTickCalls": 88.34210526315789,
+          "perTickUnits": 366.63157894736844,
+          "blockMs": {
+            "n": 3,
+            "median": 2.0790570000010575,
+            "min": 1.7436930000029633,
+            "max": 2.446343000014622,
+            "p95": null,
+            "p99": null
+          },
+          "msPerSampledTick": {
+            "n": 3,
+            "median": 0.05471202631581731,
+            "min": 0.045886657894814824,
+            "max": 0.06437744736880584,
+            "p95": null,
+            "p99": null
+          },
+          "fractionOfSampledTickMs": {
+            "n": 3,
+            "median": 1.213801963153115,
+            "min": 0.7773065949356166,
+            "max": 1.281748467576437,
+            "p95": null,
+            "p99": null
+          }
+        }
+      }
+    },
+    "founders30/baseline": {
+      "kernelMs": {
+        "n": 3,
+        "median": 2339.2824260000016,
+        "min": 2039.5059289999967,
+        "max": 2547.6447140000037,
+        "p95": null,
+        "p99": null
+      },
+      "perRunKernelMs": [
+        2339.2824260000016,
+        2547.6447140000037,
+        2039.5059289999967
+      ],
+      "tickMs": {
+        "n": 900,
+        "median": 6.284461499999907,
+        "min": 3.4400940000000446,
+        "max": 95.01927899999964,
+        "p95": 15.464915750000022,
+        "p99": 29.796890880000248
+      },
+      "initial": {
+        "organisms": 30,
+        "parts": 150,
+        "food": 300
+      },
+      "final": {
+        "organisms": 30,
+        "parts": 150,
+        "food": 293
+      },
+      "heapEnd": [
+        {
+          "rss": 402681856,
+          "heapTotal": 216764416,
+          "heapUsed": 136276976,
+          "external": 14977019,
+          "arrayBuffers": 711851
+        },
+        {
+          "rss": 390471680,
+          "heapTotal": 218861568,
+          "heapUsed": 99095400,
+          "external": 14943299,
+          "arrayBuffers": 678131
+        },
+        {
+          "rss": 387969024,
+          "heapTotal": 218861568,
+          "heapUsed": 115473936,
+          "external": 14958635,
+          "arrayBuffers": 693467
+        }
+      ],
+      "cpuWindow": [
+        {
+          "user": 3303156,
+          "system": 710329
+        },
+        {
+          "user": 4119429,
+          "system": 471261
+        },
+        {
+          "user": 3909601,
+          "system": 78818
+        }
+      ],
+      "energyErrorJ": [
+        -3.67872416973114e-8,
+        -3.67872416973114e-8,
+        -3.67872416973114e-8
+      ],
+      "finalHash": "b480213ea8af3c599ea63c978e09926c485877c0d2891c47678fb489f98a5636"
+    },
+    "founders30/diagnostic": {
+      "kernelMs": {
+        "n": 3,
+        "median": 2337.3994910000038,
+        "min": 2067.1056710000003,
+        "max": 2387.738845999994,
+        "p95": null,
+        "p99": null
+      },
+      "perRunKernelMs": [
+        2387.738845999994,
+        2337.3994910000038,
+        2067.1056710000003
+      ],
+      "tickMs": {
+        "n": 900,
+        "median": 6.075509499999953,
+        "min": 3.472165999999561,
+        "max": 59.777282000000014,
+        "p95": 16.117524799999924,
+        "p99": 25.942798509999673
+      },
+      "initial": {
+        "organisms": 30,
+        "parts": 150,
+        "food": 300
+      },
+      "final": {
+        "organisms": 30,
+        "parts": 150,
+        "food": 293
+      },
+      "heapEnd": [
+        {
+          "rss": 384937984,
+          "heapTotal": 225153024,
+          "heapUsed": 109875472,
+          "external": 15013679,
+          "arrayBuffers": 682975
+        },
+        {
+          "rss": 398172160,
+          "heapTotal": 220696576,
+          "heapUsed": 138183592,
+          "external": 15036411,
+          "arrayBuffers": 705707
+        },
+        {
+          "rss": 398032896,
+          "heapTotal": 225153024,
+          "heapUsed": 96162096,
+          "external": 15054811,
+          "arrayBuffers": 675083
+        }
+      ],
+      "cpuWindow": [
+        {
+          "user": 3455776,
+          "system": 460758
+        },
+        {
+          "user": 3733973,
+          "system": 341035
+        },
+        {
+          "user": 3681689,
+          "system": 225123
+        }
+      ],
+      "energyErrorJ": [
+        -3.67872416973114e-8,
+        -3.67872416973114e-8,
+        -3.67872416973114e-8
+      ],
+      "finalHash": "b480213ea8af3c599ea63c978e09926c485877c0d2891c47678fb489f98a5636",
+      "blocks": {
+        "com": {
+          "calls": 2280,
+          "units": 11400,
+          "uniqueParts": 150,
+          "sampledTicks": 38,
+          "perTickCalls": 60,
+          "perTickUnits": 300,
+          "blockMs": {
+            "n": 3,
+            "median": 0.8758169999937309,
+            "min": 0.8211089999872456,
+            "max": 1.0090020000038749,
+            "p95": null,
+            "p99": null
+          },
+          "msPerSampledTick": {
+            "n": 3,
+            "median": 0.023047815789308708,
+            "min": 0.021608131578611727,
+            "max": 0.026552684210628286,
+            "p95": null,
+            "p99": null
+          },
+          "fractionOfSampledTickMs": {
+            "n": 3,
+            "median": 0.2883073508680675,
+            "min": 0.24542901465675257,
+            "max": 0.3148576853272444,
+            "p95": null,
+            "p99": null
+          }
+        },
+        "substepMetadata": {
+          "calls": 4560,
+          "units": 22800,
+          "uniqueParts": 150,
+          "sampledTicks": 38,
+          "perTickCalls": 120,
+          "perTickUnits": 600,
+          "blockMs": {
+            "n": 3,
+            "median": 1.9808530000170776,
+            "min": 1.877891999964504,
+            "max": 2.4492079999736234,
+            "p95": null,
+            "p99": null
+          },
+          "msPerSampledTick": {
+            "n": 3,
+            "median": 0.0521277105267652,
+            "min": 0.04941821052538169,
+            "max": 0.06445284210456903,
+            "p95": null,
+            "p99": null
+          },
+          "fractionOfSampledTickMs": {
+            "n": 3,
+            "median": 0.6520705591442912,
+            "min": 0.561300854320493,
+            "max": 0.7642719853416576,
+            "p95": null,
+            "p99": null
+          }
+        },
+        "contactBodies": {
+          "calls": 552,
+          "units": 82800,
+          "uniqueParts": 150,
+          "sampledTicks": 38,
+          "perTickCalls": 14.526315789473685,
+          "perTickUnits": 2178.9473684210525,
+          "blockMs": {
+            "n": 3,
+            "median": 8.118184000003566,
+            "min": 7.763047000002871,
+            "max": 8.757050999996864,
+            "p95": null,
+            "p99": null
+          },
+          "msPerSampledTick": {
+            "n": 3,
+            "median": 0.21363642105272543,
+            "min": 0.20429071052639133,
+            "max": 0.23044871052623325,
+            "p95": null,
+            "p99": null
+          },
+          "fractionOfSampledTickMs": {
+            "n": 3,
+            "median": 2.5554922035666667,
+            "min": 2.5332681434645097,
+            "max": 2.6174775800308416,
+            "p95": null,
+            "p99": null
+          }
+        },
+        "projectionSetup": {
+          "calls": 1703,
+          "units": 8407,
+          "uniqueParts": 50,
+          "sampledTicks": 38,
+          "perTickCalls": 44.81578947368421,
+          "perTickUnits": 221.23684210526315,
+          "blockMs": {
+            "n": 3,
+            "median": 0.9870700000064971,
+            "min": 0.8133420000015121,
+            "max": 1.3759409999870513,
+            "p95": null,
+            "p99": null
+          },
+          "msPerSampledTick": {
+            "n": 3,
+            "median": 0.02597552631596045,
+            "min": 0.021403736842145055,
+            "max": 0.03620897368386977,
+            "p95": null,
+            "p99": null
+          },
+          "fractionOfSampledTickMs": {
+            "n": 3,
+            "median": 0.324930364248757,
+            "min": 0.24310746276368211,
+            "max": 0.4293604952231148,
+            "p95": null,
+            "p99": null
+          }
+        }
+      }
+    }
+  },
+  "overhead": {
+    "founders15": {
+      "medianDifferencePercent": -4.554465201689018,
+      "pairedPercent": [
+        -4.554465201689018,
+        -19.013108101242537,
+        42.48709649445248
+      ]
+    },
+    "founders30": {
+      "medianDifferencePercent": -0.08049199100843563,
+      "pairedPercent": [
+        2.0714223926714626,
+        -8.252533088489344,
+        1.3532562768050482
+      ]
+    }
+  },
+  "component": {
+    "substep": {
+      "recompute": {
+        "ms": {
+          "n": 3,
+          "median": 35.22126400000002,
+          "min": 26.966013999999973,
+          "max": 61.26817500000004,
+          "p95": null,
+          "p99": null
+        },
+        "nsPerVisit": {
+          "n": 3,
+          "median": 17.61063200000001,
+          "min": 13.483006999999986,
+          "max": 30.63408750000002,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "direct": {
+        "ms": {
+          "n": 3,
+          "median": 25.68946500000004,
+          "min": 21.472981000000004,
+          "max": 86.05355100000003,
+          "p95": null,
+          "p99": null
+        },
+        "nsPerVisit": {
+          "n": 3,
+          "median": 12.84473250000002,
+          "min": 10.736490500000002,
+          "max": 43.026775500000014,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "weak": {
+        "ms": {
+          "n": 3,
+          "median": 67.55126399999995,
+          "min": 50.763277000000016,
+          "max": 80.66520600000001,
+          "p95": null,
+          "p99": null
+        },
+        "nsPerVisit": {
+          "n": 3,
+          "median": 33.77563199999997,
+          "min": 25.381638500000008,
+          "max": 40.332603000000006,
+          "p95": null,
+          "p99": null
+        }
+      }
+    },
+    "contact": {
+      "recompute": {
+        "ms": {
+          "n": 3,
+          "median": 50.486851,
+          "min": 44.05004299999996,
+          "max": 91.422775,
+          "p95": null,
+          "p99": null
+        },
+        "nsPerVisit": {
+          "n": 3,
+          "median": 25.2434255,
+          "min": 22.02502149999998,
+          "max": 45.7113875,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "direct": {
+        "ms": {
+          "n": 3,
+          "median": 30.313630999999987,
+          "min": 28.555792999999994,
+          "max": 32.02446100000009,
+          "p95": null,
+          "p99": null
+        },
+        "nsPerVisit": {
+          "n": 3,
+          "median": 15.156815499999993,
+          "min": 14.277896499999997,
+          "max": 16.012230500000044,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "weak": {
+        "ms": {
+          "n": 3,
+          "median": 47.14043700000002,
+          "min": 44.16567699999996,
+          "max": 759.8991100000001,
+          "p95": null,
+          "p99": null
+        },
+        "nsPerVisit": {
+          "n": 3,
+          "median": 23.57021850000001,
+          "min": 22.08283849999998,
+          "max": 379.94955500000003,
+          "p95": null,
+          "p99": null
+        }
+      }
+    },
+    "projection": {
+      "recompute": {
+        "ms": {
+          "n": 3,
+          "median": 127.67018300000018,
+          "min": 110.351361,
+          "max": 291.25966000000017,
+          "p95": null,
+          "p99": null
+        },
+        "nsPerVisit": {
+          "n": 3,
+          "median": 63.83509150000009,
+          "min": 55.1756805,
+          "max": 145.62983000000008,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "direct": {
+        "ms": {
+          "n": 3,
+          "median": 111.97883999999976,
+          "min": 37.87672300000031,
+          "max": 203.24357899999995,
+          "p95": null,
+          "p99": null
+        },
+        "nsPerVisit": {
+          "n": 3,
+          "median": 55.98941999999988,
+          "min": 18.938361500000156,
+          "max": 101.62178949999998,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "weak": {
+        "ms": {
+          "n": 3,
+          "median": 77.47797700000001,
+          "min": 62.839972000000216,
+          "max": 80.44926200000009,
+          "p95": null,
+          "p99": null
+        },
+        "nsPerVisit": {
+          "n": 3,
+          "median": 38.738988500000005,
+          "min": 31.419986000000108,
+          "max": 40.224631000000045,
+          "p95": null,
+          "p99": null
+        }
+      }
+    }
+  },
+  "cold": [
+    {
+      "family": "substep",
+      "entries": 225,
+      "directPrecomputeMs": 0.21509599999995999,
+      "weakMapInsertMs": 0.06668999999999414,
+      "numericPayloadBytes": 7200
+    },
+    {
+      "family": "contact",
+      "entries": 225,
+      "directPrecomputeMs": 0.7314030000000002,
+      "weakMapInsertMs": 0.20061099999998078,
+      "numericPayloadBytes": 3600
+    },
+    {
+      "family": "projection",
+      "entries": 180,
+      "directPrecomputeMs": 3.8915139999999155,
+      "weakMapInsertMs": 0.14976900000010573,
+      "numericPayloadBytes": 11520
+    }
+  ],
+  "originalInvalidHeapReading": {
+    "keys": 10000,
+    "numericBytesPerEntry": 48,
+    "gcAvailable": true,
+    "initial": 15793824,
+    "keyOnly": 17548496,
+    "populated": 15981552,
+    "afterDrop": 15981712,
+    "initialUsage": {
+      "rss": 114270208,
+      "heapTotal": 33808384,
+      "heapUsed": 15793824,
+      "external": 14482371,
+      "arrayBuffers": 217203
+    },
+    "keyOnlyUsage": {
+      "rss": 114270208,
+      "heapTotal": 35643392,
+      "heapUsed": 17548496,
+      "external": 14482371,
+      "arrayBuffers": 217203
+    },
+    "populatedUsage": {
+      "rss": 115056640,
+      "heapTotal": 33812480,
+      "heapUsed": 15981552,
+      "external": 14482371,
+      "arrayBuffers": 217203
+    },
+    "afterDropUsage": {
+      "rss": 115187712,
+      "heapTotal": 33812480,
+      "heapUsed": 15981712,
+      "external": 14482371,
+      "arrayBuffers": 217203
+    },
+    "incrementalCacheHeapBytes": -1566944,
+    "weakContainerStillReferenced": true
+  },
+  "validatedRetention": {
+    "started": "2026-11-03T06:33:14.810Z",
+    "failures": [],
+    "initial": {
+      "rss": 49303552,
+      "heapTotal": 17616896,
+      "heapUsed": 8283736,
+      "external": 4247421,
+      "arrayBuffers": 350526
+    },
+    "keyOnly": {
+      "rss": 51007488,
+      "heapTotal": 19451904,
+      "heapUsed": 10046128,
+      "external": 4109086,
+      "arrayBuffers": 212151
+    },
+    "populated": {
+      "rss": 59658240,
+      "heapTotal": 29679616,
+      "heapUsed": 11818688,
+      "external": 4109086,
+      "arrayBuffers": 212151
+    },
+    "liveEntriesVerified": 10000,
+    "checksum": 3188694.315058021,
+    "afterKeyDrop": {
+      "rss": 65818624,
+      "heapTotal": 25223168,
+      "heapUsed": 7420064,
+      "external": 4109086,
+      "arrayBuffers": 212151
+    },
+    "containerRetained": true,
+    "metadataPayloadBytes": 480000,
+    "cacheHeapBytes": 1772560,
+    "finished": "2026-11-03T06:33:14.920Z"
+  },
+  "validationTimerNs": {
+    "1": {
+      "n": 10000,
+      "median": 87.00000000771979,
+      "min": 79.99999999697138,
+      "max": 67425.99999998334,
+      "p95": 188.0000000085147,
+      "p99": 235.02000000348787
+    },
+    "2": {
+      "n": 10000,
+      "median": 66.00000000389628,
+      "min": 61.999999985573595,
+      "max": 140624.00000000253,
+      "p95": 154.0000000090913,
+      "p99": 237.99999999596366
+    },
+    "3": {
+      "n": 10000,
+      "median": 55.000000003246896,
+      "min": 52.9999999798747,
+      "max": 24314.000000003944,
+      "p95": 56.99999999819738,
+      "p99": 61.01000001621082
+    }
+  },
+  "originalTimerPairCalibration": {
+    "pairs": 10000,
+    "totalMs": 8.205183999980818,
+    "meanNs": 820.5183999980818
+  },
+  "lifecycle": {
+    "restoredIdentityChanges": true,
+    "restoreMiss": true,
+    "childCloneMiss": true,
+    "sameObjectDimensionEditNeedsInvalidation": true,
+    "densityContextNeedsInvalidation": true,
+    "fullSnapshotRoundTripEqual": true,
+    "note": "Synthetic metadata edits only; no organism was stepped or evolved; real death/retained lineage/Bank/egg and all historical regimes remain untested"
+  },
+  "environment": {
+    "node": "v24.22.1",
+    "os": "6.18.57",
+    "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+    "cpus": 8,
+    "flags": [
+      "--expose-gc",
+      "--input-type=module"
+    ],
+    "memoryMax": "8589934592",
+    "cpuMax": "800000 100000"
+  },
+  "fullFinalSnapshots": {
+    "founders15": {
+      "finalHash": "bc7e89b26e3ec1e51df77adc2819a91b35bb4b9dbfbf9b6e5ce69b04d17bc239",
+      "archive": "recovery-founders15-baseline-1.json.gz",
+      "completeSnapshotBytes": 2182071
+    },
+    "founders30": {
+      "finalHash": "b480213ea8af3c599ea63c978e09926c485877c0d2891c47678fb489f98a5636",
+      "archive": "founders30-baseline-1.json.gz",
+      "completeSnapshotBytes": 4351803
+    }
+  },
+  "measuredTicks": 3600,
+  "warmupTicks": 720,
+  "logicalKernelSlots": 12,
+  "isolatedVisits": 54000000,
+  "processIntervalMs": 46601,
+  "conservativeBudgetChargeMs": 66601,
+  "allAuthoritativeHashesEqual": true,
+  "historicalTick360ReferencesEqual": true,
+  "archiveManifest": {
+    "recovery-founders15-baseline-1.json.gz": "1dc7867f084e89e2a28e98fb91b3ce90e13d73ed486bc3cbfad42e04a0545449",
+    "founders15-diagnostic-1.json.gz": "30d8c6b341cc6a148f745045b1a16ccac2b2f66f6caa0321ca81b1283aa7dca7",
+    "founders30-baseline-1.json.gz": "bf8b9a0951a2f031273322f05216aa816b44a2f5d3199e3156dca11cd70e931b",
+    "founders30-diagnostic-1.json.gz": "e7b7caf523865204026bdacf8f06199c644c0c23c223efff9850771650f464d2",
+    "founders30-diagnostic-2.json.gz": "b9b3e108cc253e80726c1843ac3f09862ce7d8a6c36188572267ba14c18cbd3a",
+    "founders30-baseline-2.json.gz": "ff37217bd7fa312f482a8fe7a863f4423906f1f75ee12b6d8574918c0537ccad",
+    "founders15-diagnostic-2.json.gz": "ef1314a82696c4fd9db49d9bfa153721e3e4bed930e4215da15db6a52896c51f",
+    "founders15-baseline-2.json.gz": "f17bdd7c1e81ef769acb544dcb5a5704a2b1e41382ddbca03810ff45a889379d",
+    "founders15-baseline-3.json.gz": "9eb73d59b84a2758f1f10564d1a5ffbb1af3e68e66a4538dfad23db36e24cd48",
+    "founders15-diagnostic-3.json.gz": "a9bf4fbbfb3f774fc3751c232317de78a2c74875156b568c35f5990b398bdcfe",
+    "founders30-baseline-3.json.gz": "a4fd848499bf550405935167bb59e34bc0e7d18eff2b3c244c6bf17abc12b4ee",
+    "founders30-diagnostic-3.json.gz": "4e203de8b3fc5e21be9a3c815d57744fca98f8e3e9a32834f2501db72e00847b",
+    "component.json.gz": "89b49c76e496f192acacf0040c26b97e9aa24da4c161cfb438dd75a525b85b8d",
+    "validity.json.gz": "2d877581d9e8ff72e02673dd7b45daa59a584227dee6d456e27fe037ca922302"
+  },
+  "originalV3Incident": "../performance-stage-3-v3/incident.json"
+}
