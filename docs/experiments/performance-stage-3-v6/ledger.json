@@ -1,0 +1,98 @@
+[
+  {
+    "id": "O1",
+    "n": 15,
+    "cap": 30,
+    "diag": false,
+    "status": "retained",
+    "durationMs": 4000
+  },
+  {
+    "id": "O2",
+    "n": 15,
+    "cap": 30,
+    "diag": true,
+    "status": "retained",
+    "durationMs": 4000
+  },
+  {
+    "id": "O3",
+    "n": 15,
+    "cap": 30,
+    "diag": true,
+    "status": "retained",
+    "durationMs": 4000
+  },
+  {
+    "id": "O4",
+    "n": 15,
+    "cap": 30,
+    "diag": false,
+    "status": "retained",
+    "durationMs": 4000
+  },
+  {
+    "id": "P01",
+    "n": 15,
+    "cap": 30,
+    "diag": true,
+    "status": "retained",
+    "durationMs": 10000
+  },
+  {
+    "id": "P02",
+    "n": 15,
+    "cap": 10,
+    "diag": true,
+    "status": "retained",
+    "durationMs": 10000
+  },
+  {
+    "id": "P03",
+    "n": 30,
+    "cap": 30,
+    "diag": true,
+    "status": "retained",
+    "durationMs": 10000
+  },
+  {
+    "id": "P04",
+    "n": 30,
+    "cap": 10,
+    "diag": true,
+    "status": "retained",
+    "durationMs": 10000
+  },
+  {
+    "id": "P05",
+    "n": 30,
+    "cap": 10,
+    "diag": true,
+    "status": "retained",
+    "durationMs": 10000
+  },
+  {
+    "id": "P06",
+    "n": 30,
+    "cap": 30,
+    "diag": true,
+    "status": "retained",
+    "durationMs": 10000
+  },
+  {
+    "id": "P07",
+    "n": 15,
+    "cap": 10,
+    "diag": true,
+    "status": "retained",
+    "durationMs": 10000
+  },
+  {
+    "id": "P08",
+    "n": 15,
+    "cap": 30,
+    "diag": true,
+    "status": "retained",
+    "durationMs": 10000
+  }
+]
