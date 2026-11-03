@@ -1,5 +1,12 @@
 # VIDA 2D — Stage 3.7 experimental dummy-substitution design
 
+## Execution status — partial lot stopped (2026-11-03)
+
+The owner later authorized the Work execution described by this proposal. The single lot is **BLOCKED after its first timed-slot counter failure**, with eight verified fixed120-tick pilots and no valid sustained TPS/overhead/trace comparison. [Cumulative findings](../../PERFORMANCE_AUDIT_STAGE_3.md), [full report](https://github.com/hernansgarro/vidAI/blob/f846d67939e32d46a398768c082368dea2d553b7/docs/experiments/performance-stage-3-v8/report.md), [isolated draft #90](https://github.com/hernansgarro/vidAI/pull/90). No second campaign/retry/Stage4 is authorized. The proposal below remains historical design, not permission to execute.
+
+The owner's clarification was implemented only in the isolated synthetic-feeding fixture: transfer from positive universe reserve, capped by available stock/storage, <=1J/organism/s, zero forged physical-contact/intake feedback.60J transferred over the120-tick pilot; total world error1.4e-9J. This validates fixture conservation, not biology, survival or performance. All-real exact state/PRNG/energy/learning passed; dummies changed trajectories. Ordinary production contains no dummy or probe. A new authorized recovery protocol is required to complete the intended throughput contrasts.
+
+
 > **Owner-requested proposal, 2026-11-03. DOCUMENTATION ONLY — NOT MEASURED, NOT AUTHORIZED AS PRODUCTION BEHAVIOR.** Stage 3 remains ongoing. This file refines the next separately executed Work investigation. It does **not** run Stage 3.7, implement dummy modes, change physics/ecology, tune organisms, or authorize Stage 4 performance optimizations.
 
 ## Research question and source-confirmed execution order
