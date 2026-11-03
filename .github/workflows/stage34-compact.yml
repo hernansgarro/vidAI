@@ -1,0 +1,21 @@
+name: Compact existing Stage 3.4 analysis
+on:
+  push:
+    branches: [audit/performance-stage-3-4-evidence]
+    paths:
+      - 'scripts/performance-stage34/compact.mjs'
+      - '.github/workflows/stage34-compact.yml'
+permissions:
+  contents: write
+jobs:
+  compact-existing-analysis:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: audit/performance-stage-3-4-evidence
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: node scripts/performance-stage34/compact.mjs
