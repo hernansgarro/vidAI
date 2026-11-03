@@ -151,7 +151,7 @@ for (const fallback of [false, true]) {
         speed: .3, alpha: .09, angle: 0}];
       const source = createSnapshot(state, cfg);
       const upload = async (value: unknown) => {
-        await page.locator('input[type=file]').setInputFiles({name: 'caustic-visibility.json',
+        await page.getByTestId('settings-window').locator('input[type=file]').setInputFiles({name: 'caustic-visibility.json',
           mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(value))});
         await expect(page.getByRole('button', {name: 'Resume', exact: true})).toBeVisible();
       };
@@ -161,9 +161,10 @@ for (const fallback of [false, true]) {
         return page.evaluate(() => (window as any).causticBlurFills as number);
       };
 
-      await upload(source);
       await page.getByTitle('Ecology & Physical Settings').dispatchEvent('click');
       const settings = page.getByTestId('settings-window');
+      await expect(settings).toBeVisible();
+      await upload(source);
       await settings.getByRole('button', {name: 'Advanced Settings', exact: true}).dispatchEvent('click');
       const toggle = page.getByRole('dialog', {name: 'Advanced Settings'}).getByLabel('Show water caustics');
       await expect(toggle).toBeChecked();
