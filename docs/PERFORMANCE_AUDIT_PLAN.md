@@ -27,7 +27,7 @@
 
 ## Authority, references, and scope
 
-- Primary contributor idea: [IDEA-023](IDEA_LAB.md#idea-023-vida-2d-performance-and-cpu-load-audit) and its [historical design notes](CONTRIBUTOR_IDEAS.md#highest-priority-future-discussion--performance-and-cpu-cost-2026-11-02).
+- Primary personal priority: [IDEA-023](IDEA_LAB.md#idea-023-vida-2d-performance-and-cpu-load-audit). Other current ideas and constraints are indexed on that board; earlier discussion remains in Git history.
 - Contributor planning: [IDEA_LAB](IDEA_LAB.md), [workflow status](CONTRIBUTOR_WORKFLOW_STATUS.md), [roadmap](FEATURE_ROADMAP.md), [completion history](CONTRIBUTOR_COMPLETED.md).
 - Shared tracking: [upstream #57](https://github.com/smeagol44/vidAI/issues/57), [performance budget #67](https://github.com/smeagol44/vidAI/issues/67), and [future fluid research #62](https://github.com/smeagol44/vidAI/issues/62).
 - Current technical reference: [Simulation Performance](wiki/Simulation-Performance.md), [Energy Activity](wiki/Energy-Activity.md); upstream `AGENTS.md` and `docs/CONTRIBUTOR_WORKFLOW.md` govern execution.
@@ -201,7 +201,7 @@ This table preserves the present idea board as the authority for idea state and 
 | **Completed IDEA-012:** retained local window agreements | Already implemented; benchmark current local tube behavior, do not reimplement | 1, 2 |
 | **Upstream #67 / #62:** 100 creatures/1,000 parts, possible moving fluid | Performance target and speculative future fluid cost; #62 remains deferred research | 1 (inventory), 2–4 |
 
-No future-world, remote-network, collision or moving-fluid scenario may be represented as an existing benchmark result without actual implementation evidence. The original design/journal and current completed-work register remain canonical for each item's details.
+No future-world, remote-network, collision or moving-fluid scenario may be represented as an existing benchmark result without actual implementation evidence. The [current idea board](IDEA_LAB.md), focused design notes and [completed-work register](CONTRIBUTOR_COMPLETED.md) distinguish proposed from delivered behavior.
 
 ## Non-negotiable safeguards
 
@@ -216,15 +216,8 @@ No future-world, remote-network, collision or moving-fluid scenario may be repre
 
 ## Stage 2 execution receipt (2026-11-02)
 
-The read-only [Stage 2 static analysis and Stage 4 handoff](PERFORMANCE_AUDIT_STAGE_2.md) was completed against the immutable contributor fork/main commit `bf75b5649c6d843c48586acca59c51830678e316`. It contains S2-01–S2-12 code-backed hypotheses, loop-growth variables, risk tiers A–D, existing optimizations, future-feature boundaries and proposed Stage 3 falsification measurements. **No runtime bottleneck, cost fraction, speedup or optimization was measured or implemented in Stage 2.** Stage 1 measurements from another session, if any, require separately verifiable archival/provenance. Stages 3 and 4 remain pending and gated by separate human decisions.
+The read-only [Stage 2 static analysis and Stage 4 handoff](PERFORMANCE_AUDIT_STAGE_2.md) was completed against the immutable contributor fork/main commit `bf75b5649c6d843c48586acca59c51830678e316`. It contains S2-01–S2-12 code-backed hypotheses, loop-growth variables, risk tiers A–D, existing optimizations, future-feature boundaries and proposed Stage 3 falsification measurements. **No runtime bottleneck, cost fraction, speedup or optimization was measured or implemented in Stage 2.** Stage 1 measurements from another session require separately verifiable archival/provenance. This is a **Stage 2-only receipt**; consult the current target above and separately preserved Stage 3 evidence for later status. Stage 4 synthesis and optimization are not approved here.
 
 ## Owner-priority refinement and Stage 3 measurement design (2026-11-02)
 
-Hernan's [within-audit investigation order, owner questions, Stage 3 measurement candidates and Stage 4 decision criteria](PERFORMANCE_AUDIT_PRIORITIES.md) overlay the completed [Stage 2 hypothesis register](PERFORMANCE_AUDIT_STAGE_2.md). This ranks S2-10, S2-11, S2-02, S2-03, S2-04, S2-09, S2-12, S2-06 and S2-08; S2-01/05/07 remain diagnostic coverage. **Glow attribution is first, not a diagnosis.** S2-03's heritable variable ray subset is a distinct exploratory [IDEA-025](IDEA_LAB.md#idea-025-heritable-per-eye-ray-subsets), not permitted profiling instrumentation. The user requested **documentation only**: Stage 3 coding, measurement execution and optimization are still unapproved. The dated planning snapshot below describes its own earlier state; later verified receipts take precedence.
-
-## Initial planning snapshot (2026-11-02; historical, superseded by later receipts)
-
-- **Planning:** four stages and future idea considerations documented at Hernan's request.
-- **Stage 1:** static inventory of known tools begun; **no benchmark execution, CPU/FPS observation, validated browser profile or measured cause is claimed in this plan**.
-- **Stages 2–4:** not started; instrumentation and optimization are not approved by the plan.
-- **Next action:** Work executes Stage 1 only against a pinned fork/main SHA, first registers a bounded protocol, uses existing scripts without altering source and reports evidence/limits for Hernan's review.
+Hernan's [within-audit investigation order, owner questions, Stage 3 measurement candidates and Stage 4 decision criteria](PERFORMANCE_AUDIT_PRIORITIES.md) overlay the completed [Stage 2 hypothesis register](PERFORMANCE_AUDIT_STAGE_2.md). This ranks S2-10, S2-11, S2-02, S2-03, S2-04, S2-09, S2-12, S2-06 and S2-08; S2-01/05/07 remain diagnostic coverage. **Glow attribution is first, not a diagnosis.** S2-03's heritable variable ray subset is a distinct exploratory [IDEA-025](IDEA_LAB.md#idea-025-heritable-per-eye-ray-subsets), not permitted profiling instrumentation. The user requested **documentation only at this 2026-11-02 planning checkpoint**; it did not itself authorize trials or optimization. Later Stage 3 work and current operating-profile decisions must be assessed from their own receipts and approvals, without rewriting earlier results.
