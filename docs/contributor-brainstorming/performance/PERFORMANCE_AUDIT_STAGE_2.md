@@ -69,7 +69,7 @@ A suitable recorded control set should document: exact fork SHA, seed and checkp
 
 ## Post-review priority overlay (2026-11-02)
 
-Hernan has now identified the subset to examine first and asked for Stage 3 measurement questions, **without authorizing Stage 3 execution**. The combined ranked investigation order and exact per-ID Stage 3/Stage 4 questions are recorded in [PERFORMANCE_AUDIT_PRIORITIES.md](PERFORMANCE_AUDIT_PRIORITIES.md). This overlays rather than edits the original twelve hypotheses or their evidentiary status. The separate [IDEA-025](IDEA_LAB.md#idea-025-heritable-per-eye-ray-subsets) is a *future genetic* proposal, not a safe exact-preserving optimization.
+Hernan has now identified the subset to examine first and asked for Stage 3 measurement questions, **without authorizing Stage 3 execution**. The combined ranked investigation order and exact per-ID Stage 3/Stage 4 questions are recorded in [PERFORMANCE_AUDIT_PRIORITIES.md](PERFORMANCE_AUDIT_PRIORITIES.md). This overlays rather than edits the original twelve hypotheses or their evidentiary status. The separate [IDEA-025](../ideas/IDEA_LAB.md#idea-025-heritable-per-eye-ray-subsets) is a *future genetic* proposal, not a safe exact-preserving optimization.
 
 ## Stage 4 handoff / evidence readiness
 

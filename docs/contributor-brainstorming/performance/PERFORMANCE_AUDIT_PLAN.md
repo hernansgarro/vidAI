@@ -27,10 +27,10 @@
 
 ## Authority, references, and scope
 
-- Primary personal priority: [IDEA-023](IDEA_LAB.md#idea-023-vida-2d-performance-and-cpu-load-audit). Other current ideas and constraints are indexed on that board; earlier discussion remains in Git history.
-- Contributor planning: [IDEA_LAB](IDEA_LAB.md), [workflow status](CONTRIBUTOR_WORKFLOW_STATUS.md), [roadmap](FEATURE_ROADMAP.md), [completion history](CONTRIBUTOR_COMPLETED.md).
+- Primary personal priority: [IDEA-023](../ideas/IDEA_LAB.md#idea-023-vida-2d-performance-and-cpu-load-audit). Other current ideas and constraints are indexed on that board; earlier discussion remains in Git history.
+- Contributor planning: [IDEA_LAB](../ideas/IDEA_LAB.md), [workflow status](../tracking/CONTRIBUTOR_WORKFLOW_STATUS.md), [roadmap](../../FEATURE_ROADMAP.md), [completion history](../tracking/CONTRIBUTOR_COMPLETED.md).
 - Shared tracking: [upstream #57](https://github.com/smeagol44/vidAI/issues/57), [performance budget #67](https://github.com/smeagol44/vidAI/issues/67), and [future fluid research #62](https://github.com/smeagol44/vidAI/issues/62).
-- Current technical reference: [Simulation Performance](wiki/Simulation-Performance.md), [Energy Activity](wiki/Energy-Activity.md); upstream `AGENTS.md` and `docs/CONTRIBUTOR_WORKFLOW.md` govern execution.
+- Current technical reference: [Simulation Performance](../../wiki/Simulation-Performance.md), [Energy Activity](../../wiki/Energy-Activity.md); upstream `AGENTS.md` and `docs/CONTRIBUTOR_WORKFLOW.md` govern execution.
 - Primary target: current `hernansgarro/vidAI:main` at a **recorded, immutable commit**. The fork contains features not yet accepted upstream, including nutrient cycle v2 and Pipe World. Do not substitute upstream main or the independent testing branch for the target.
 - Motivation: user-reported unacceptable CPU load, slow response, and a perceived coincidence between organism energy-activity glow and slowdowns. **Correlation is not causation.** No measured bottleneck is established at plan creation.
 - This is a read-only diagnosis first. A tool or test exists only as a candidate until its behavior, cost, and current compatibility are verified.
@@ -201,7 +201,7 @@ This table preserves the present idea board as the authority for idea state and 
 | **Completed IDEA-012:** retained local window agreements | Already implemented; benchmark current local tube behavior, do not reimplement | 1, 2 |
 | **Upstream #67 / #62:** 100 creatures/1,000 parts, possible moving fluid | Performance target and speculative future fluid cost; #62 remains deferred research | 1 (inventory), 2–4 |
 
-No future-world, remote-network, collision or moving-fluid scenario may be represented as an existing benchmark result without actual implementation evidence. The [current idea board](IDEA_LAB.md), focused design notes and [completed-work register](CONTRIBUTOR_COMPLETED.md) distinguish proposed from delivered behavior.
+No future-world, remote-network, collision or moving-fluid scenario may be represented as an existing benchmark result without actual implementation evidence. The [current idea board](../ideas/IDEA_LAB.md), focused design notes and [completed-work register](../tracking/CONTRIBUTOR_COMPLETED.md) distinguish proposed from delivered behavior.
 
 ## Non-negotiable safeguards
 
@@ -220,4 +220,4 @@ The read-only [Stage 2 static analysis and Stage 4 handoff](PERFORMANCE_AUDIT_ST
 
 ## Owner-priority refinement and Stage 3 measurement design (2026-11-02)
 
-Hernan's [within-audit investigation order, owner questions, Stage 3 measurement candidates and Stage 4 decision criteria](PERFORMANCE_AUDIT_PRIORITIES.md) overlay the completed [Stage 2 hypothesis register](PERFORMANCE_AUDIT_STAGE_2.md). This ranks S2-10, S2-11, S2-02, S2-03, S2-04, S2-09, S2-12, S2-06 and S2-08; S2-01/05/07 remain diagnostic coverage. **Glow attribution is first, not a diagnosis.** S2-03's heritable variable ray subset is a distinct exploratory [IDEA-025](IDEA_LAB.md#idea-025-heritable-per-eye-ray-subsets), not permitted profiling instrumentation. The user requested **documentation only at this 2026-11-02 planning checkpoint**; it did not itself authorize trials or optimization. Later Stage 3 work and current operating-profile decisions must be assessed from their own receipts and approvals, without rewriting earlier results.
+Hernan's [within-audit investigation order, owner questions, Stage 3 measurement candidates and Stage 4 decision criteria](PERFORMANCE_AUDIT_PRIORITIES.md) overlay the completed [Stage 2 hypothesis register](PERFORMANCE_AUDIT_STAGE_2.md). This ranks S2-10, S2-11, S2-02, S2-03, S2-04, S2-09, S2-12, S2-06 and S2-08; S2-01/05/07 remain diagnostic coverage. **Glow attribution is first, not a diagnosis.** S2-03's heritable variable ray subset is a distinct exploratory [IDEA-025](../ideas/IDEA_LAB.md#idea-025-heritable-per-eye-ray-subsets), not permitted profiling instrumentation. The user requested **documentation only at this 2026-11-02 planning checkpoint**; it did not itself authorize trials or optimization. Later Stage 3 work and current operating-profile decisions must be assessed from their own receipts and approvals, without rewriting earlier results.
