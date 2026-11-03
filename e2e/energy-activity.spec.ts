@@ -127,3 +127,6 @@ for (const fallback of [false, true]) test(`energy contour glows follow real bod
   expect((await sample()).counts).toEqual(cleared.counts);
   expect(errors).toEqual([]);
 });
+
+// Temporary, explicitly authorized Stage 3.4 invocation; removed after capture.
+import '../scripts/performance-stage34/browser';
