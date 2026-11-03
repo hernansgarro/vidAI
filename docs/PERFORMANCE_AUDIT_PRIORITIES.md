@@ -4,6 +4,24 @@
 >
 > **Reference:** `hernansgarro/vidAI:main` inspected at `bf75b5649c6d843c48586acca59c51830678e316`; Stage 2 integrated at fork/main `d926557ac6ea09895afa8895311734e68290c55e`. Source facts below refer to that pinned implementation. Current/future source heads must be rechecked before the Stage 3 Work run. **IDEA-023 remains overall contributor P0.** The ranking below is *within this audit only*.
 
+## Current priority override — 2026-11-03
+
+**Hernan has changed the operational objective after completed Stage 3.4.** This is a forward-looking audit priority decision, not a rejection or rewrite of historical Stage 1/2/3.4 evidence. Follow the [current benchmark profile](PERFORMANCE_AUDIT_PLAN.md#current-measurement-target--owner-decision-2026-11-03) and [shared decision receipt](https://github.com/smeagol44/vidAI/issues/57#issuecomment-6607358209). The owner-selected 2026-11-02 order **below remains a historical snapshot**; it is superseded for planning future experiments and Stage 4 optimization ranking.
+
+**Target:** speed of the **running** simulation with multiple organisms and only indispensable observer detail. Every new primary measurement uses shipped `showCaustics=false`, no creature selected/tracked and no brain/inspector or optional sensory overlay; if other validated low-cost observer settings become available, consistently enable their cost-saving modes. Keep physical organism, ecology, energy and all authoritative off-camera computation intact. Tube-connected **and** disconnected worlds must remain eligible, including crossings when relevant. Do not profile paused/0x display or decoration-enabled scenes as target workloads. Limited correctness/causal controls require their own bounded, preregistered justification.
+
+**Measure and rank in this order of decision criteria (not a premature component speed ranking):**
+
+1. **Actual active simulation capacity:** Worker completed ticks/s and multiplier under MAX for populated, representative, **caustics-OFF** checkpoints; optionally a finite nonzero speed for an explicit pacing guardrail. Always report entity/part/eye/neuron/food/egg loads, evolution and exact topology. Preserve a minimum usable view and report its responsiveness separately.
+2. **Essential compute hotspots:** S2-01/02/03/04/05/06/07 — articulated physics/contacts, invariant derivations, sensing, feeding, recurrent brains and learning, ecology/eggs/lineage — with allocations/GC as cross-cutting causes. Rank by measured active throughput effect, *not* historical paused FPS or an unvalidated `O(N)` prediction.
+3. **Worker/observer interaction in the minimal mode:** S2-09/10/12 — frame construction/serialization, send cadence and ACK, main replica/RAF, energy-activity bookkeeping and necessary drawing. A bottleneck must be measured as relevant to Worker progress or a meaningful display guardrail. Existing one-frame backpressure and cap30 are part of the baseline; do not assume they are absent.
+4. **Real gameplay variation:** S2-08, connected versus disconnected local tubes, crossings and off-camera residents; varied populations/density and world presets. Tube authority/physics must remain enabled in relevant scenarios.
+5. **Not current optimization targets:** S2-11 expensive water caustics **when ON**, paused redraw, selected-organism/brain-panel diagnostics, and optional decoration quality. Their existing evidence remains scientifically valid and explains why we choose the minimal view; it does not justify more routine time spent benchmarking them.
+
+**Reassessment of completed stages:** Stage 1 tools, provenance and correctness baseline remain useful but legacy/empty-world results are not a realistic active minimal-view benchmark. Stage 2 static hypotheses still apply; only their future applicability/priority changes. **Neither stage needs a wholesale rerun.** A new targeted active Worker baseline or tube comparison, if needed, is a **new approved Stage 3 experiment**, not a repaired/repeated historical trial.
+
+**Open Stage 3 decision:** the proposed `30/s` versus `10/s` Worker report-cap experiment at fixed caustics OFF and active 15/30 MAX remains relevant, but is **only a proposal**; Hernan has not approved a new experiment or production scheduling change with this directive. Similar future tests must use matched authoritative checkpoints, an explicit budget and exact-state validation. Stage 4 remains a later synthesis/approval gate.
+
 ## 1. Combined investigation order (owner preferences × technical triage)
 
 Hernan explicitly elevated **S2-02, S2-03, S2-04, S2-06, S2-08, S2-09, S2-10, S2-11 and S2-12**. The order below keeps only those requested priorities in the primary sequence and applies the previously proposed technical ordering *within* that owner-selected subset. The reported glow correlation is the first **question**, not accepted causation. Each ID retains separate evidence and decisions even when paired in one experiment.
