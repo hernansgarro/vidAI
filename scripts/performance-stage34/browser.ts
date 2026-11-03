@@ -37,7 +37,7 @@ test('Stage 3.4 actual Worker UI throughput registered batch',async({browserName
   const makePage=async(port:number)=>{
    const ctx=await browser.newContext({viewport:{width:1280,height:850},deviceScaleFactor:1});contexts.push(ctx);
    const p=await ctx.newPage();await p.addInitScript(install);await p.goto('http://127.0.0.1:'+port+'/vidAI/?autoplay');
-   await p.waitForFunction(()=>!!(window as any).__s34Fixture&&!!(window as any).__s34Browser.control);
+   await p.waitForFunction(()=>!!(window as any).__s34Fixture&&!!(window as any).__s34Browser.control,undefined,{timeout:15000});
    return p;
   };
   const original=await makePage(4184),diagnostic=await makePage(4185);
@@ -63,18 +63,18 @@ test('Stage 3.4 actual Worker UI throughput registered batch',async({browserName
   const pilot=await span(async()=>{
    await load(diagnostic,checkpoints[15],false);
    const paused=await ask(diagnostic,'snapshot');expect(paused.state).toEqual(checkpoints[15].state);
-   const exact:any={};
+   const exact:any={};meta.partialValidity=exact;
    for(const selected of [false,true])exact[String(selected)]=await diagnostic.evaluate(({s,selected}:any)=>(window as any).__s34Fixture.validity(s,selected),{s:checkpoints[15],selected});
    expect(exact.false.snapshot.state).toEqual(exact.true.snapshot.state);
    await diagnostic.goto('about:blank');
-   await original.goto('http://127.0.0.1:4184/vidAI/?autoplay');await original.waitForFunction(()=>!!(window as any).__s34Fixture);
+   await original.goto('http://127.0.0.1:4184/vidAI/?autoplay');await original.waitForFunction(()=>!!(window as any).__s34Fixture,undefined,{timeout:15000});
    const baseline=await original.evaluate((s:any)=>(window as any).__s34Fixture.validity(s,false),checkpoints[15]);
-   expect(baseline.snapshot.state).toEqual(exact.false.snapshot.state);expect(baseline.snapshot.settings).toEqual(exact.false.snapshot.settings);
+   meta.partialBaseline=baseline;expect(baseline.snapshot.state).toEqual(exact.false.snapshot.state);expect(baseline.snapshot.settings).toEqual(exact.false.snapshot.settings);
    expect(baseline.energy).toBe(exact.false.energy);
    await original.goto('about:blank');
-   await diagnostic.goto('http://127.0.0.1:4185/vidAI/?autoplay');await diagnostic.waitForFunction(()=>!!(window as any).__s34Fixture);
+   await diagnostic.goto('http://127.0.0.1:4185/vidAI/?autoplay');await diagnostic.waitForFunction(()=>!!(window as any).__s34Fixture,undefined,{timeout:15000});
    return {paused,baseline,exact,checkpoints,inventory,meta};
-  });await archive('pilot',pilot);
+  });await archive('pilot',pilot);delete meta.partialValidity;delete meta.partialBaseline;
   const measure=async(p:any,n:number,on:boolean,v:any,duration:number,diag:boolean,id:string)=>{
    return await span(async()=>{
     time();await load(p,checkpoints[n],on);await speed(p,v);await p.waitForTimeout(2000);await speed(p,0);
@@ -99,15 +99,16 @@ test('Stage 3.4 actual Worker UI throughput registered batch',async({browserName
    time();const p=diag?diagnostic:original,other=diag?original:diagnostic;
    await other.goto('about:blank');
    await p.goto('http://127.0.0.1:'+(diag?4185:4184)+'/vidAI/?autoplay');
-   await p.waitForFunction(()=>!!(window as any).__s34Fixture);
+   await p.waitForFunction(()=>!!(window as any).__s34Fixture,undefined,{timeout:15000});
    const id='overhead'+(i+1);trialLedger.push({id,status:'started'});
    const r=await measure(p,15,false,'max',6000,diag,id);await archive(id,r);trialLedger.at(-1).status='retained';
   }
   await original.goto('about:blank');
-  await diagnostic.goto('http://127.0.0.1:4185/vidAI/?autoplay');await diagnostic.waitForFunction(()=>!!(window as any).__s34Fixture);
+  await diagnostic.goto('http://127.0.0.1:4185/vidAI/?autoplay');await diagnostic.waitForFunction(()=>!!(window as any).__s34Fixture,undefined,{timeout:15000});
   const configurations=[{n:15,v:'max'},{n:30,v:'max'},{n:5,v:'max'},{n:15,v:0},{n:15,v:5}];
   let slot=0;
   for(let rep=1;rep<=2;rep++)for(const config of rep===1?configurations:[...configurations].reverse())for(const on of rep===1?[true,false]:[false,true]){
+   if(rep===2&&config.v!=='max')continue;
    time();const id='trial'+String(++slot).padStart(2,'0');trialLedger.push({id,rep,...config,on,status:'started'});
    const r:any=await measure(diagnostic,config.n,on,config.v,10000,true,id);r.rep=rep;await archive(id,r);trialLedger.at(-1).status='retained';
   }

@@ -9,7 +9,7 @@ export const digests=()=>Object.fromEntries(sourcePaths.map(p=>[p,createHash('sh
 const once=(c,x,y)=>{if(c.split(x).length!==2)throw Error('Nonunique diagnostic anchor: '+x);return c.replace(x,y);};
 function probe(enabled){
  return {name:'explicit-stage34-only',enforce:'pre',
- transformIndexHtml(){return [{tag:'script',attrs:{type:'module',src:'/scripts/performance-stage34/fixture.ts'},injectTo:'head'}];},
+ transformIndexHtml:{order:'pre',handler(){return [{tag:'script',attrs:{type:'module',src:'/scripts/performance-stage34/fixture.ts'},injectTo:'head'}];}},
  transform(code,id){
   if(!enabled)return null;
   const path=id.split('?')[0];let c=code;
@@ -55,5 +55,6 @@ self.addEventListener('message',({data})=>{
 export async function prepare(enabled,port){
  const outDir=enabled?'s34-diagnostic-dist':'s34-control-dist';
  await build({logLevel:'warn',plugins:[probe(enabled)],worker:{plugins:()=>[probe(enabled)]},build:{outDir,emptyOutDir:true}});
+ if(readFileSync(outDir+'/index.html','utf8').includes('/scripts/performance-stage34/fixture.ts'))throw Error('Unbundled research fixture in output HTML');
  return await preview({logLevel:'warn',build:{outDir},preview:{host:'127.0.0.1',port,strictPort:true}});
 }
