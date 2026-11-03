@@ -2,6 +2,54 @@
 
 > **Fork-main research knowledge ledger — consolidated 2026-11-03.** The complete verified *findings*, historical status, negative results, uncertainty and scientific source links from Stage 3.1–3.6 are retained below. This file is documentation, **not** merged research code or a claim that an optimization has shipped. Stage 3 is ongoing; Stage 4 synthesis/optimization remains unapproved.
 
+## Stage 3.7b update — 2026-11-03: authorized recovery COMPLETE
+
+**The bounded Stage 3.7b lot completed all 12 registered windows once. Stage 3 remains ONGOING; STOP after this lot. Stage 4 implementation is not authorized.** This update supersedes the previous pending-throughput status while preserving original Stage 3.7's failed/missing P01 below. New recovery observations do not retroactively repair or replace that failure.
+
+[Detailed report](https://github.com/hernansgarro/vidAI/blob/8481613ce08be6137d347cf0d8b9eabb0aed8130/docs/experiments/performance-stage-3-v9/report.md), [immutable original evidence](https://github.com/hernansgarro/vidAI/tree/66a89ed39b7d277b22cc64b9c77bd0bb1d3193ed/docs/experiments/performance-stage-3-v9), [research DRAFT #92](https://github.com/hernansgarro/vidAI/pull/92), [preregistration](https://github.com/smeagol44/vidAI/issues/57#issuecomment-6616234234). Measured source `57a7d45f3edf812b6b147ef67a2d80445e95d778`; base fork main `a430f3b51ffd00f4327e692d1b8a417f10a98831`; original evidence `66a89ed39b7d277b22cc64b9c77bd0bb1d3193ed`; verified analysis/report `8481613ce08be6137d347cf0d8b9eabb0aed8130`. All probes, raw archives and checkpoints remain isolated and UNMERGED. Production behavior is unchanged.
+
+### Whole-Worker counterfactual effects
+
+Four unchanged real controls: median **223.94 ticks/s**, range **222.11–237.17**, a 6.78% spread relative to the minimum. Each dummy has ONE independent 12-second window; its reference is the average of its nearest real controls before/after it.
+
+| Independent dummy | Actual ticks/s | Nearby real reference | Absolute change | Relative change | Interpretation |
+| --- | ---: | ---: | ---: | ---: | --- |
+| Recorded vision A/B/C | 340.58 | 222.45 | +118.14 | +53.11% | Large observed contrast; stable gain and physically correct recoverable fraction remain unknown. |
+| Recorded brain outputs | 265.89 | 222.45 | +43.44 | +19.53% | Large observed contrast; hidden-state freezing and altered learning/contact workload confound interpretation. |
+| Learning OFF | 247.03 | 231.13 | +15.90 | +6.88% | Similar to real-control spread; reliable benefit UNKNOWN. Not permission to disable learning. |
+| Funded synthetic feeding | 235.27 | 231.13 | +4.14 | +1.79% | Below control spread; reliable benefit UNKNOWN. Ecologically invalid diagnostic. |
+
+These are actual measured **whole-system counterfactual effects**, not exclusive CPU shares, additive savings or production-safe optimizations. Dummy runs alter trajectories, acquired state, contacts, energy, food and population. Equal wall-time endpoints have different simulated horizons: the brain dummy ends with 29 living/158 parts while the vision dummy retains 30/162; real P05 also reaches one completed death. Feeding leaves 294 food versus roughly 280 in nearby real controls. All full endpoint states and changing counts are preserved. Do not generalize a single contrast or treat altered survival as an optimization.
+
+### Direct exclusive costs and diagnostic limits
+
+Separate C03 all-real phase window: 1,087 ticks, mean measured tick 4.3728 ms, SD 1.9850 ms, median 3.8 ms, p95 7.0 ms. Top-level ledger closes to measured tick span with an explicit unattributed category. Elapsed time includes probe/JIT/preemption/GC; it is not independently measured CPU per phase.
+
+| Stable IDs / exclusive phase | ms/tick | Share of measured tick elapsed | Finding |
+| --- | ---: | ---: | --- |
+| S2-01/02 — physics and contacts | 1.9180 | 43.86% | Largest measured bucket. Essential articulated solve/contact work; avoidable fraction UNKNOWN. |
+| S2-03 — vision plus sight construction | 1.3871 | 31.72% | Strong follow-up target for equivalent ordered-index/query/result/geometry work, preserving all sensing. |
+| S2-05 — recurrent inference | 0.5919 | 13.54% | Real neural work; compiled topology and somatic buffers already exist. |
+| S2-05 — motor plus sensory learning | 0.1993 | 4.56% | Preserve legitimate learning/debits; disabling it is a counterfactual only. |
+| S2-04 — feeding plus oral indices | 0.1323 | 3.03% | Physical contact, intake order and feedback remain mandatory. |
+| S2-06/07/10 — ecology, metabolism, reproduction and observer | Remaining smaller categories | See full ledger | Event-heavy/hatching scaling remains UNKNOWN. |
+
+Sparse details sampled 17 ticks (ordinal 1 mod 64): observed per sampled tick 390 rays/queries, ~7,416 vision candidates, ~5,439 body-edge tests, 120 body advances, 32 contact passes, ~1,274 contact candidates/SAT tests, ~668 actual contacts, ~186 joint projections, 1,526 cardinal anchors and 972 corner calls. Detailed source spans/counters remain in the report. Physical metadata alone is a small sampled subset; no general mass-cache payoff is established. No independent density/anatomy scaling coefficient or allocation-stack ownership was measured.
+
+**Probe uncertainty:** sampled tick mean 10.7706 ms versus 4.2711 ms without nested detail; workload/JIT positions also differ. Nested exclusive times are not added to parent phase totals. Separate five-second controls were ordinary 212.38, counter 219.62, phase 216.51 and traced 175.41 ticks/s. Positive counter/phase signs do not establish zero overhead; these are single ordered controls with noise and changing horizons. Traced C04 is 17.41% below ordinary C01, a combined guard/trace contrast. No correction is subtracted from primary TPS. Detailed phase costs describe the separate shorter diagnostic, not the entire 12-second primary horizon.
+
+**Independent C04 CPU/GC:** explicit marks identify actual Worker/main PID/TID for that Worker lifetime only. Worker/main accumulated CPU 4.86/4.85 s over the surrounding OS bracket; browser group 293.51% of one logical core. Worker GC union 166.069 ms (~3.31% of window wall), union thread CPU 112.958 ms, 75 minor/6 major pauses. V8 inter-GC allocation proxy 477.52 MB/s (~2.72 MB per normalized completed tick). This confirms transient allocation pressure in a perturbed diagnostic, not a retained-heap leak, per-component allocation source, thermal effect or primary causal mediator. Primary Worker TIDs are not inferred from a later recreated Worker. Desktop/hardware-GPU applicability remains unknown.
+
+### Correctness, conservation and evidence status
+
+The independent cumulative tick wrapper passed both ordinary/research 7-tick regressions despite draining frame deltas 4 then 3. All ordinary/all-real off/counter/phase 24-tick complete snapshots, settings, PRNG, energy and learned state match exactly (full snapshot SHA256 `ee37b9a8d317e3f77a40f5e18851817d6eb4bbbd796b7b3175567059f04bf137`). Original 120-tick controls and failed observation remain immutable at 812f511. A/B/C recordings and the 30-organism checkpoint were reused by original hashes; no authoritative PRNG draws or coefficient/genome tuning. Physics replay remains deferred; position-only replay is inadequate for shared joints/contacts/work.
+
+Synthetic feeding transferred **1,414.5 J** from positive universe reserve across 84,870 calls, capped at 1 J/organism/s and available source/storage; max transfer error 1.82e-12 J, final world error ~5.4e-8 J. No counterfeit physical-contact/intake cue, authentic feeding event, increased world budget or survival guarantee. All independent dummy modes validate but are biologically non-equivalent. Matched 24-tick divergence and equal-wall workload changes are recorded separately.
+
+[Scientific run 41729322675](https://github.com/hernansgarro/vidAI/actions/runs/41729322675), job 126242231666, **SUCCESS**: npm ci, 385 fast tests, typecheck/build, actual production Worker, focused Chromium counter/pilot checks and all 12 windows. Charged active **201.978 s**, inclusive runner **357.601 s**, original archives **111,808,143 bytes**, within 360 s/600 s/128 MiB. No lost, repeated or replaced recovery window. All **43 original files / 41 gzip archives** independently verified by SHA256, length and fetched Git blob. Original window objects precede separate validated receipts; tick equations, settings/modes, source hashes and conservation pass. Analysis-only settings equality was corrected to ignore JSON key order while comparing the same keys/values; original data and measurements were unchanged. No new full/Firefox campaign; inherited gates remain intact.
+
+Only verified conclusions/documentation are integrated into fork main. Research draft #92 stays unmerged; original drafts #66/#69/#80/#87/#90 and their evidence remain unchanged. The one-shot scientific workflow was removed; reference YAML stays outside .github. No production runtime/schema, testing, Pages, Wiki, upstream PR/code/merge or VIDA 3D changes. #67 remains In progress until upstream acceptance. **STOP after Stage 3.7b.** Further investigation or Stage 4 optimization requires explicit subsequent authorization.
+
 ## Stage 3.7 update — 2026-11-03: partial verified pilots; timed lot BLOCKED
 
 **Stage 3 remains ONGOING. Stage 3.7's scientific objective is INCOMPLETE. STOP: no further campaign or Stage 4 is authorized.** This dated checkpoint supersedes the earlier design-only “not started” status below, without rewriting any historical Stage 3.1–3.6 evidence.

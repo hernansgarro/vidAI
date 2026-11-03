@@ -1,5 +1,12 @@
 # VIDA 2D — Performance Efficiency Audit: Four-Stage Plan
 
+## Current checkpoint — Stage 3.7b recovery COMPLETE (2026-11-03)
+
+Hernan explicitly authorized a recovery after the previous stopped lot. All 12 registered windows completed once; source57a7d45, original evidence66a89ed, [research DRAFT #92](https://github.com/hernansgarro/vidAI/pull/92), [report](https://github.com/hernansgarro/vidAI/blob/8481613ce08be6137d347cf0d8b9eabb0aed8130/docs/experiments/performance-stage-3-v9/report.md). [Cumulative findings](../../PERFORMANCE_AUDIT_STAGE_3.md) contain verified phase costs, actual counterfactual TPS, controls, independent GC/CPU, divergence and conservation. Vision +53.11%, brain-output +19.53%, learning OFF +6.88%, synthetic feeding +1.79% versus nearby real controls; one window each, real-control spread6.78%, no additive/removable CPU interpretation or production-safe benefit established. Physics/contacts dominate the separate phase ledger, then vision and inference. Counter/frame draining and early raw preservation now verify correctly.
+
+This supersedes pending-throughput status, not the immutable original failed P01. All probes/raw/checkpoints remain isolated and unmerged. Active201.978s/runner357.601s/111,808,143rawbytes within bounds; scientific run41729322675 succeeded with required installation/fast/build/Worker/focusedChromium gates. Temporary workflow removed; reference YAML outside.github. Main receives documentation only. Stage3 remains ongoing; STOP after this lot. No automatic new study, upstream submission, production optimization or Stage4 authorization. Earlier checkpoints below are preserved dated history.
+
+
 ## Current checkpoint — Stage 3.7 attempted and BLOCKED (2026-11-03)
 
 The separately authorized Stage 3.7 lot ran once and stopped at the first timed-window counter failure. Eight fixed-120-tick correctness controls are verified; zero valid end-to-end TPS/overhead/trace windows, 11 slots unstarted. **No repeat or second campaign is authorized.** See the [cumulative verified partial findings](../../PERFORMANCE_AUDIT_STAGE_3.md#stage-37-update--2026-11-03-partial-verified-pilots-timed-lot-blocked), [detailed report](https://github.com/hernansgarro/vidAI/blob/f846d67939e32d46a398768c082368dea2d553b7/docs/experiments/performance-stage-3-v8/report.md) and [research draft #90](https://github.com/hernansgarro/vidAI/pull/90). This checkpoint supersedes the earlier “3.7 not started” planning status, while preserving the dated proposal and all prior evidence below.
