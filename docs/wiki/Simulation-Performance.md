@@ -137,6 +137,20 @@ unavailable, finite achievement and MAX's visual reference. During startup or a
 mode change, the pulse waits for fresh data; stale running data becomes neutral.
 
 
+## Optional caustic rendering — contributor fork
+
+**Fork-only; pending upstream acceptance.** Advanced Settings includes
+**Show water caustics**, which controls the blurred decorative water-light
+patterns. It starts enabled in Default World and disabled in Harsh World and
+Pipe World. Disabling it skips the caustic canvas fill/blur calls without
+removing caustic state, changing Worker settings or modifying sensory inputs.
+The user can enable it again at any time; the choice is retained in observer
+snapshot metadata. Historical snapshots without the option render caustics.
+
+The option changes presentation only. Its impact on displayed FPS depends
+on the browser and graphics backend; it is not a measured or guaranteed
+change to simulation ticks/s.
+
 ## Current optimizations
 
 | Area | Strategy |
