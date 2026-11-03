@@ -1,0 +1,413 @@
+{
+  "meta": {
+    "stage": "3.7",
+    "sourceSHA": "f0db3e47f3f3396492c1b6fa7ccb1fc2ee4602ee",
+    "baseSHA": "73ee85bff65f219affde3117bd7e13d5a451f986",
+    "sourceDigests": {
+      "simulation.ts": "0846437a3f54be8abdf7aaf52f5368eb398a65762f2d889df7a671a8ef66b63e",
+      "simulation.worker.ts": "50dcc968cf1b0a8a8ea496a5993c0d87992340e60e9c11c7f83fdae4db6bd6d0",
+      "simulationHost.ts": "801bda0009738bef014066b9650fedfd97e4b856e0af70e0426119178a971e86",
+      "contacts.ts": "ea9be05c5913006c6d6c6b1d2f4a22bc6a7c889d1a4df1cc956c8d3831c16cce",
+      "neuralRuntime.ts": "12f5f52f328613bc2af4c4c2c793e78c4b22abb1c585cec8aba29aca99cac84b",
+      "spatialIndex.ts": "d324b911f764afeced35df0141363c293ce97564a44a23f5facb98ac08992b40",
+      "energyEconomy.ts": "d7285aa7b351ded7a7147fccf1415549a00ccfea0c98b1a9069594daf6017f9c",
+      "persistence.ts": "3e759aadb7e2ccee8bb01da428708dd021320748f546670d67454317a63656c3",
+      "world.ts": "6cbf7da62d1ab3af7ef2c83a9ea565e5d11eb4c55cbf3f20b3c74ac511ceb387",
+      "App.tsx": "04af74c5fbbc19e44af47a8b38d6325ec433cc46148f6138f34d894b8e1e281a",
+      "package.json": "745f1c06fcfdd6a9049efa5a9dcea2f24d6841c414dd43dc9e5caa09334df59f",
+      "package-lock.json": "12450a0271695e3542f0fdf21e5bf0cb5a19c48700f976b5dca8b5678cd66994",
+      "scripts/performance-stage37/build.mjs": "db7b336f1d9748ead5461959003c43878e0c40c3f44a70ef20ada4dac30ac762",
+      "scripts/performance-stage37/runtime.mjs": "e21fa213819d023c3c0a61884f449e65d8fb55f6ea7ec7f901f666c033ff2794",
+      "scripts/performance-stage37/measurement.mjs": "3a12ae725280180a57b480705aeeb3bcf8db6d2fd7a56813f5930e474b43c947",
+      "scripts/performance-stage37/fixture.ts": "1fe518e7c2e7ec6984cf82be58d1aca6ad9bf88bb2b75451b197269c358ca121"
+    },
+    "started": "2026-11-03T21:23:52.545Z",
+    "node": "v24.22.1",
+    "browser": "145.0.7632.6",
+    "os": {
+      "type": "Linux",
+      "release": "7.0.0-1017-azure",
+      "arch": "x64"
+    },
+    "cpu": {
+      "model": "AMD EPYC 7763 64-Core Processor",
+      "speed": 0,
+      "times": {
+        "user": 42500,
+        "nice": 0,
+        "sys": 10560,
+        "idle": 292410,
+        "irq": 0
+      }
+    },
+    "cpuCount": 4,
+    "memory": 16760344576,
+    "clockTicks": 100,
+    "cgroup": {
+      "/sys/fs/cgroup/memory.max": "max",
+      "/sys/fs/cgroup/cpu.max": "max 100000"
+    },
+    "initialProcesses": {
+      "processInfo": [
+        {
+          "type": "browser",
+          "id": 1281,
+          "cpuTime": 0.15
+        },
+        {
+          "type": "GPU",
+          "id": 1299,
+          "cpuTime": 0.02
+        },
+        {
+          "type": "network.mojom.NetworkService",
+          "id": 1312,
+          "cpuTime": 0.02
+        }
+      ]
+    },
+    "browserPID": 1281,
+    "Browser.getVersion": {
+      "protocolVersion": "1.3",
+      "product": "HeadlessChrome/145.0.7632.6",
+      "revision": "@47e20adcc15fc15f01825aa17e570c8f5492ac0f",
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+      "jsVersion": "14.5.201.2"
+    },
+    "SystemInfo.getInfo": {
+      "gpu": {
+        "devices": [
+          {
+            "vendorId": 65535,
+            "deviceId": 65535,
+            "vendorString": "Google Inc. (Google)",
+            "deviceString": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver-5.0.0)",
+            "driverVendor": "SwANGLE",
+            "driverVersion": "5.0.0"
+          }
+        ],
+        "auxAttributes": {
+          "amdSwitchable": false,
+          "canSupportThreadedTextureMailbox": false,
+          "directRenderingVersion": "",
+          "displayType": "ANGLE_SWIFTSHADER",
+          "glExtensions": "GL_AMD_performance_monitor GL_ANGLE_base_vertex_base_instance_shader_builtin GL_ANGLE_blob_cache GL_ANGLE_client_arrays GL_ANGLE_clip_cull_distance GL_ANGLE_compressed_texture_etc GL_ANGLE_copy_texture_3d GL_ANGLE_depth_texture GL_ANGLE_framebuffer_blit GL_ANGLE_framebuffer_multisample GL_ANGLE_get_image GL_ANGLE_get_serialized_context_string GL_ANGLE_get_tex_level_parameter GL_ANGLE_instanced_arrays GL_ANGLE_memory_object_flags GL_ANGLE_memory_size GL_ANGLE_multi_draw GL_ANGLE_pack_reverse_row_order GL_ANGLE_polygon_mode GL_ANGLE_program_binary_readiness_query GL_ANGLE_program_cache_control GL_ANGLE_read_only_depth_stencil_feedback_loops GL_ANGLE_relaxed_vertex_attribute_type GL_ANGLE_renderability_validation GL_ANGLE_request_extension GL_ANGLE_rgbx_internal_format GL_ANGLE_robust_client_memory GL_ANGLE_robust_fragment_shader_output GL_ANGLE_robust_resource_initialization GL_ANGLE_shader_pixel_local_storage GL_ANGLE_shader_pixel_local_storage_coherent GL_ANGLE_stencil_texturing GL_ANGLE_texture_compression_dxt3 GL_ANGLE_texture_compression_dxt5 GL_ANGLE_texture_multisample GL_ANGLE_texture_usage GL_ANGLE_translated_shader_source GL_ANGLE_vulkan_image GL_ANGLE_yuv_internal_format GL_APPLE_clip_distance GL_ARM_rgba8 GL_ARM_shader_framebuffer_fetch GL_ARM_shader_framebuffer_fetch_depth_stencil GL_CHROMIUM_bind_generates_resource GL_CHROMIUM_bind_uniform_location GL_CHROMIUM_copy_compressed_texture GL_CHROMIUM_copy_texture GL_CHROMIUM_lose_context GL_EXT_EGL_image_array GL_EXT_EGL_image_external_wrap_modes GL_EXT_EGL_image_storage GL_EXT_base_instance GL_EXT_blend_minmax GL_EXT_buffer_storage GL_EXT_clear_texture GL_EXT_clip_control GL_EXT_clip_cull_distance GL_EXT_color_buffer_float GL_EXT_color_buffer_half_float GL_EXT_compressed_ETC1_RGB8_sub_texture GL_EXT_conservative_depth GL_EXT_copy_image GL_EXT_debug_label GL_EXT_debug_marker GL_EXT_depth_clamp GL_EXT_discard_framebuffer GL_EXT_disjoint_timer_query GL_EXT_draw_buffers GL_EXT_draw_buffers_indexed GL_EXT_draw_elements_base_vertex GL_EXT_float_blend GL_EXT_frag_depth GL_EXT_instanced_arrays GL_EXT_map_buffer_range GL_EXT_memory_object GL_EXT_memory_object_fd GL_EXT_occlusion_query_boolean GL_EXT_polygon_offset_clamp GL_EXT_read_format_bgra GL_EXT_robustness GL_EXT_sRGB GL_EXT_sRGB_write_control GL_EXT_semaphore GL_EXT_semaphore_fd GL_EXT_separate_shader_objects GL_EXT_shader_framebuffer_fetch GL_EXT_shader_framebuffer_fetch_non_coherent GL_EXT_shader_non_constant_global_initializers GL_EXT_shader_texture_lod GL_EXT_shadow_samplers GL_EXT_texture_border_clamp GL_EXT_texture_compression_bptc GL_EXT_texture_compression_dxt1 GL_EXT_texture_compression_rgtc GL_EXT_texture_compression_s3tc_srgb GL_EXT_texture_cube_map_array GL_EXT_texture_filter_anisotropic GL_EXT_texture_format_BGRA8888 GL_EXT_texture_mirror_clamp_to_edge GL_EXT_texture_rg GL_EXT_texture_sRGB_R8 GL_EXT_texture_sRGB_RG8 GL_EXT_texture_sRGB_decode GL_EXT_texture_shadow_lod GL_EXT_texture_storage GL_EXT_texture_type_2_10_10_10_REV GL_EXT_unpack_subimage GL_KHR_blend_equation_advanced GL_KHR_debug GL_KHR_robust_buffer_access_behavior GL_KHR_robustness GL_KHR_texture_compression_astc_ldr GL_NV_depth_buffer_float2 GL_NV_fence GL_NV_framebuffer_blit GL_NV_pack_subimage GL_NV_pixel_buffer_object GL_NV_polygon_mode GL_NV_read_depth GL_NV_read_depth_stencil GL_NV_read_stencil GL_NV_shader_noperspective_interpolation GL_OES_EGL_image GL_OES_EGL_image_external GL_OES_EGL_image_external_essl3 GL_OES_EGL_sync GL_OES_compressed_EAC_R11_signed_texture GL_OES_compressed_EAC_R11_unsigned_texture GL_OES_compressed_EAC_RG11_signed_texture GL_OES_compressed_EAC_RG11_unsigned_texture GL_OES_compressed_ETC1_RGB8_texture GL_OES_compressed_ETC2_RGB8_texture GL_OES_compressed_ETC2_RGBA8_texture GL_OES_compressed_ETC2_punchthroughA_RGBA8_texture GL_OES_compressed_ETC2_punchthroughA_sRGB8_alpha_texture GL_OES_compressed_ETC2_sRGB8_alpha8_texture GL_OES_compressed_ETC2_sRGB8_texture GL_OES_compressed_paletted_texture GL_OES_copy_image GL_OES_depth24 GL_OES_depth32 GL_OES_depth_texture GL_OES_depth_texture_cube_map GL_OES_draw_buffers_indexed GL_OES_draw_elements_base_vertex GL_OES_element_index_uint GL_OES_fbo_render_mipmap GL_OES_get_program_binary GL_OES_mapbuffer GL_OES_packed_depth_stencil GL_OES_required_internalformat GL_OES_rgb8_rgba8 GL_OES_sample_shading GL_OES_sample_variables GL_OES_shader_multisample_interpolation GL_OES_standard_derivatives GL_OES_surfaceless_context GL_OES_texture_3D GL_OES_texture_border_clamp GL_OES_texture_cube_map_array GL_OES_texture_float GL_OES_texture_float_linear GL_OES_texture_half_float GL_OES_texture_half_float_linear GL_OES_texture_npot GL_OES_texture_stencil8 GL_OES_texture_storage_multisample_2d_array GL_OES_vertex_array_object GL_OES_vertex_half_float GL_OES_vertex_type_10_10_10_2 GL_OVR_multiview GL_OVR_multiview2 ",
+          "glImplementationParts": "(gl=egl-angle,angle=swiftshader)",
+          "glRenderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver-5.0.0)",
+          "glResetNotificationStrategy": 33362,
+          "glVendor": "Google Inc. (Google)",
+          "glVersion": "OpenGL ES 3.0 (ANGLE 2.1.26821 git hash: 4c0ae3917d4f)",
+          "glWsExtensions": "EGL_EXT_create_context_robustness EGL_ANGLE_surface_orientation EGL_KHR_create_context EGL_KHR_image EGL_KHR_image_base EGL_EXT_image_gl_colorspace EGL_KHR_gl_colorspace EGL_KHR_gl_texture_2D_image EGL_KHR_gl_texture_cubemap_image EGL_KHR_gl_renderbuffer_image EGL_KHR_get_all_proc_addresses EGL_KHR_fence_sync EGL_KHR_wait_sync EGL_ANGLE_create_context_webgl_compatibility EGL_CHROMIUM_create_context_bind_generates_resource EGL_KHR_swap_buffers_with_damage EGL_EXT_pixel_format_float EGL_KHR_surfaceless_context EGL_ANGLE_display_texture_share_group EGL_ANGLE_display_semaphore_share_group EGL_ANGLE_create_context_client_arrays EGL_ANGLE_program_cache_control EGL_ANGLE_robust_resource_initialization EGL_ANGLE_create_context_extensions_enabled EGL_ANDROID_blob_cache EGL_ANDROID_recordable EGL_ANGLE_create_context_backwards_compatible EGL_KHR_no_config_context EGL_IMG_context_priority EGL_KHR_create_context_no_error EGL_KHR_reusable_sync EGL_EXT_buffer_age EGL_ANGLE_create_surface_swap_interval EGL_ANGLE_vulkan_image EGL_KHR_partial_update EGL_ANGLE_global_fence_sync EGL_ANGLE_memory_usage_report ",
+          "glWsVendor": "Google Inc. (Google)",
+          "glWsVersion": "1.5 (ANGLE 2.1.26821 git hash: 4c0ae3917d4f)",
+          "hardwareSupportsVulkan": false,
+          "inProcessGpu": false,
+          "initializationTime": 0.021754,
+          "isAsan": false,
+          "isClangCoverage": false,
+          "jpegDecodeAcceleratorSupported": false,
+          "maxMsaaSamples": "4",
+          "optimus": false,
+          "passthroughCmdDecoder": true,
+          "pixelShaderVersion": "3.00",
+          "processCrashCount": 0,
+          "sandboxed": false,
+          "skiaBackendType": "GaneshGL",
+          "subpixelFontRendering": true,
+          "targetCpuBits": 64,
+          "vertexShaderVersion": "3.00",
+          "visibilityCallbackCallCount": 0
+        },
+        "featureStatus": {
+          "2d_canvas": "unavailable_software",
+          "direct_rendering_display_compositor": "disabled_off_ok",
+          "gpu_compositing": "disabled_software",
+          "multiple_raster_threads": "enabled_on",
+          "opengl": "disabled_off",
+          "rasterization": "disabled_software",
+          "raw_draw": "disabled_off_ok",
+          "skia_graphite": "disabled_off",
+          "trees_in_viz": "disabled_off",
+          "video_decode": "disabled_software",
+          "video_encode": "disabled_software",
+          "vulkan": "disabled_off",
+          "webgl": "unavailable_software",
+          "webgpu": "unavailable_software",
+          "webnn": "unavailable_software"
+        },
+        "driverBugWorkarounds": [],
+        "videoDecoding": [],
+        "videoEncoding": []
+      },
+      "modelName": "",
+      "modelVersion": "",
+      "commandLine": "/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-oTKxWO --remote-debugging-pipe --no-startup-window --use-gl=angle --use-angle=swiftshader-webgl --ozone-platform=headless --allow-pre-commit-input"
+    },
+    "Browser.getBrowserCommandLine": {
+      "arguments": [
+        "/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell",
+        "--disable-field-trial-config",
+        "--disable-background-networking",
+        "--disable-background-timer-throttling",
+        "--disable-backgrounding-occluded-windows",
+        "--disable-back-forward-cache",
+        "--disable-breakpad",
+        "--disable-client-side-phishing-detection",
+        "--disable-component-extensions-with-background-pages",
+        "--disable-component-update",
+        "--no-default-browser-check",
+        "--disable-default-apps",
+        "--disable-dev-shm-usage",
+        "--disable-extensions",
+        "--disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints",
+        "--enable-features=CDPScreenshotNewSurface",
+        "--allow-pre-commit-input",
+        "--disable-hang-monitor",
+        "--disable-ipc-flooding-protection",
+        "--disable-popup-blocking",
+        "--disable-prompt-on-repost",
+        "--disable-renderer-backgrounding",
+        "--force-color-profile=srgb",
+        "--metrics-recording-only",
+        "--no-first-run",
+        "--password-store=basic",
+        "--use-mock-keychain",
+        "--no-service-autorun",
+        "--export-tagged-pdf",
+        "--disable-search-engine-choice-screen",
+        "--unsafely-disable-devtools-self-xss-warnings",
+        "--edge-skip-compat-layer-relaunch",
+        "--enable-automation",
+        "--disable-infobars",
+        "--disable-search-engine-choice-screen",
+        "--disable-sync",
+        "--enable-unsafe-swiftshader",
+        "--headless",
+        "--hide-scrollbars",
+        "--mute-audio",
+        "--blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4",
+        "--no-sandbox",
+        "--user-data-dir=/tmp/playwright_chromiumdev_profile-oTKxWO",
+        "--remote-debugging-pipe",
+        "--no-startup-window",
+        "--use-gl=angle",
+        "--use-angle=swiftshader-webgl",
+        "--ozone-platform=headless",
+        "--allow-pre-commit-input"
+      ]
+    },
+    "productionLoaded": true,
+    "dist": {
+      "index-Cixh8lQ-.js": {
+        "sha256": "07a72622f13bf0a8b7f272aece0149fecd9eeaaad1b9ccf90a9ab45aa0b0977d",
+        "bytes": 554982
+      },
+      "simulation.worker-BOfAki5g.js": {
+        "sha256": "60bf629cca922cfdc2505aa3ffc6ab507bfca538b72180adb0327bf7295b7205",
+        "bytes": 219086
+      }
+    },
+    "s37-lean-dist": {
+      "index-SSjM1yCw.js": {
+        "sha256": "a9affa7dba1f15bdd2dcfe093633a91de60f0d83ca5eb0906476f4c5d372640c",
+        "bytes": 556257
+      },
+      "index-SSjM1yCw.js.map": {
+        "sha256": "0474b42726c7292241590aba776cb8c6fbf9fed2467a033b3bd292b62d5208cc",
+        "bytes": 1633619
+      },
+      "simulation.worker-rtU5Obeb.js": {
+        "sha256": "902206255950d5df410650d09e3f12ef3dc11c48d9e889d1ee72b0b876b1eb9f",
+        "bytes": 220182
+      },
+      "simulation.worker-rtU5Obeb.js.map": {
+        "sha256": "48bcacdccbee8617bf10b3e79dbef8d5bf91c87d462f0f317175c0be6678abb4",
+        "bytes": 700882
+      }
+    },
+    "s37-research-dist": {
+      "index-BIBlKnlT.js": {
+        "sha256": "c66ab24814b98f3d9bd3954232059bf452c264b9027c11e2ec092fcfab416852",
+        "bytes": 563322
+      },
+      "index-BIBlKnlT.js.map": {
+        "sha256": "a8626cdf34d73bb9e9fd5791e11efa9a5dfc2ad0c0b748d288504783524d6cdb",
+        "bytes": 1650797
+      },
+      "simulation.worker-Br6AM9v5.js": {
+        "sha256": "78d3f5cc92f49febaef01ed3b4af3b201e8b07027e644b436084230733b6a53f",
+        "bytes": 227480
+      },
+      "simulation.worker-Br6AM9v5.js.map": {
+        "sha256": "766625d55709f7b6ded1d004aa55a49854af9977dda55ef03818d4abaa49f40f",
+        "bytes": 718774
+      }
+    },
+    "initial": {
+      "inventory": {
+        "organisms": 30,
+        "living": 30,
+        "parts": 162,
+        "joints": 132,
+        "eyes": 78,
+        "rays": 390,
+        "mouths": 30,
+        "hiddenNeurons": 720,
+        "inputs": 2094,
+        "outputs": 792,
+        "nutrients": 275,
+        "eggs": 0,
+        "births": 30,
+        "deaths": 0,
+        "caustics": 28,
+        "bubbles": 0,
+        "reserveJ": 300000,
+        "worldReserveJ": 0,
+        "basalRate": 0,
+        "plasticityRate": 0,
+        "motorRate": 0,
+        "motorLearnedL1": 0,
+        "sensoryLearnedL1": 0,
+        "motorOutputL1": 0,
+        "distance": 0,
+        "guards": 0,
+        "ledger": {
+          "externalInflow": 1323540,
+          "metabolicDissipation": 0,
+          "mechanicalWorkHeat": 0,
+          "recordedLosses": 0
+        }
+      },
+      "validation": {
+        "energy": 1323540,
+        "budget": 1323540
+      }
+    },
+    "initialHash": "1299114a9d1195056cacd2a2a7bac87b824d830911d7bbee88b51f1e1ce99e83",
+    "readinessSeconds": 185.023,
+    "finished": "2026-11-03T21:26:17.885Z",
+    "activeMs": 39280,
+    "failure": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m1885\u001b[39m\nReceived: \u001b[31m2\u001b[39m",
+    "ledger": [
+      {
+        "id": "P01",
+        "research": true,
+        "mode": "real",
+        "level": "off",
+        "durationMs": 12000,
+        "traced": false,
+        "status": "FAILED_OR_UNKNOWN",
+        "failure": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m1885\u001b[39m\nReceived: \u001b[31m2\u001b[39m"
+      }
+    ],
+    "rawBytesBeforeManifest": 50817047,
+    "receipts": [
+      {
+        "name": "dist-assets",
+        "sha256": "54ebb5d4178c31813eb86d47132ceacc70e8bce927a74ca17999ad29d9e3d91c",
+        "rawBytes": 804417,
+        "bytes": 192299
+      },
+      {
+        "name": "s37-lean-dist-assets",
+        "sha256": "ec986d6d73aa3436804ef46005f284c1f75c25b73c65481df6b9fa203fb30d79",
+        "rawBytes": 3256478,
+        "bytes": 731580
+      },
+      {
+        "name": "s37-research-dist-assets",
+        "sha256": "3aeac4678d4530b1b6d856f21e117de215ba7a43b64ac42208ca23974c06987d",
+        "rawBytes": 3306582,
+        "bytes": 745364
+      },
+      {
+        "name": "checkpoint",
+        "sha256": "4d68eb8841a3ea2b0b0dc4e2c13d9812346e7fe8b3186de506a987d0a532867c",
+        "rawBytes": 7830916,
+        "bytes": 3311704
+      },
+      {
+        "name": "pilot-1",
+        "sha256": "6887d971935e83f6687fcd15a5056eec205a14a69f8b9fb67fd91a1fb0926da1",
+        "rawBytes": 4433618,
+        "bytes": 1798342
+      },
+      {
+        "name": "pilot-2",
+        "sha256": "fdd4aa4352fd3ee45d08d9593e2145bdd2d33dcf4686eed67dd733ab1bdb80c0",
+        "rawBytes": 4433810,
+        "bytes": 1798468
+      },
+      {
+        "name": "pilot-3",
+        "sha256": "4e3eae959ff8d8a159d7dff878dc1607a9c30bed214b83654b6d283f05b885ca",
+        "rawBytes": 4435060,
+        "bytes": 1799061
+      },
+      {
+        "name": "pilot-4",
+        "sha256": "23ef515e20f695a0ffbced7ddaea387dbbdaff870880fbef79972740d71eba05",
+        "rawBytes": 4492577,
+        "bytes": 1804184
+      },
+      {
+        "name": "pilot-5",
+        "sha256": "f083acd77ccef425a83eec4ff5f006dff164816abe68d196d8a3b14f16fc1fc5",
+        "rawBytes": 4490745,
+        "bytes": 1803352
+      },
+      {
+        "name": "pilot-6",
+        "sha256": "9ecd67a4de35fc39367a58eb46298697d2c3ec36026565bfd48939bf67a00c3a",
+        "rawBytes": 4389324,
+        "bytes": 1748577
+      },
+      {
+        "name": "pilot-7",
+        "sha256": "1758530eb5092b923a647e47b77e474747ddc258926439f54824abb639fddf5c",
+        "rawBytes": 4096810,
+        "bytes": 1735114
+      },
+      {
+        "name": "pilot-8",
+        "sha256": "e312372cdbf5220739e1ae7020a0c869ee2bfd4ae12c3c27b8891c0abfb883ad",
+        "rawBytes": 4466750,
+        "bytes": 1792146
+      },
+      {
+        "name": "recorded-sequences",
+        "sha256": "ba6521b6bb107ad2b1d114e91cfdb530d5a5f13b7582e29ec5c7516d34bab54f",
+        "rawBytes": 362914,
+        "bytes": 108263
+      },
+      {
+        "name": "failure",
+        "sha256": "c3e01e32c87f443737e114ea64458430099336eb91c9304ba239121282f0f12a",
+        "rawBytes": 17046,
+        "bytes": 6302
+      }
+    ],
+    "finalSourceDigests": {
+      "simulation.ts": "0846437a3f54be8abdf7aaf52f5368eb398a65762f2d889df7a671a8ef66b63e",
+      "simulation.worker.ts": "50dcc968cf1b0a8a8ea496a5993c0d87992340e60e9c11c7f83fdae4db6bd6d0",
+      "simulationHost.ts": "801bda0009738bef014066b9650fedfd97e4b856e0af70e0426119178a971e86",
+      "contacts.ts": "ea9be05c5913006c6d6c6b1d2f4a22bc6a7c889d1a4df1cc956c8d3831c16cce",
+      "neuralRuntime.ts": "12f5f52f328613bc2af4c4c2c793e78c4b22abb1c585cec8aba29aca99cac84b",
+      "spatialIndex.ts": "d324b911f764afeced35df0141363c293ce97564a44a23f5facb98ac08992b40",
+      "energyEconomy.ts": "d7285aa7b351ded7a7147fccf1415549a00ccfea0c98b1a9069594daf6017f9c",
+      "persistence.ts": "3e759aadb7e2ccee8bb01da428708dd021320748f546670d67454317a63656c3",
+      "world.ts": "6cbf7da62d1ab3af7ef2c83a9ea565e5d11eb4c55cbf3f20b3c74ac511ceb387",
+      "App.tsx": "04af74c5fbbc19e44af47a8b38d6325ec433cc46148f6138f34d894b8e1e281a",
+      "package.json": "745f1c06fcfdd6a9049efa5a9dcea2f24d6841c414dd43dc9e5caa09334df59f",
+      "package-lock.json": "12450a0271695e3542f0fdf21e5bf0cb5a19c48700f976b5dca8b5678cd66994",
+      "scripts/performance-stage37/build.mjs": "db7b336f1d9748ead5461959003c43878e0c40c3f44a70ef20ada4dac30ac762",
+      "scripts/performance-stage37/runtime.mjs": "e21fa213819d023c3c0a61884f449e65d8fb55f6ea7ec7f901f666c033ff2794",
+      "scripts/performance-stage37/measurement.mjs": "3a12ae725280180a57b480705aeeb3bcf8db6d2fd7a56813f5930e474b43c947",
+      "scripts/performance-stage37/fixture.ts": "1fe518e7c2e7ec6984cf82be58d1aca6ad9bf88bb2b75451b197269c358ca121"
+    },
+    "runnerWallMs": 145350
+  },
+  "results": [],
+  "activeMs": 39280,
+  "rawBytes": 50837124
+}

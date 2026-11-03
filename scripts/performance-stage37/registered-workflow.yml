@@ -1,0 +1,40 @@
+name: Stage 3.7 registered Worker subsystem research
+on:
+  push:
+    branches: [audit/performance-stage-3-7]
+    paths:
+      - 'scripts/performance-stage37/measurement.mjs'
+      - 'scripts/performance-stage37/build.mjs'
+      - '.github/workflows/stage37-measure.yml'
+permissions:
+  contents: write
+jobs:
+  bounded-research:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    container:
+      image: mcr.microsoft.com/playwright:v1.58.2-noble
+    steps:
+      - name: Start inclusive setup clock
+        run: echo "STAGE37_JOB_STARTED=$(date +%s%3N)" >> "$GITHUB_ENV"
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Install and validate exact research source
+        run: timeout 480s bash -e -c 'npm ci && npm run test:fast && npm run build && npm run test:worker'
+      - name: Execute registered batch once
+        run: timeout --signal=TERM --kill-after=15s 600s npx playwright test --config=scripts/performance-stage37/measurement.config.mjs --workers=1
+      - name: Upload original evidence even after failure
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: stage37-original-evidence
+          path: docs/experiments/performance-stage-3-v8
+          if-no-files-found: warn
+      - name: Commit original evidence to isolated fork branch
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: timeout 120s node scripts/performance-stage37/preserve.mjs
