@@ -1,3 +1,34 @@
+## Consolidated completed-fork submission — 2026-11-03 (review pending)
+
+Hernan explicitly authorized all eligible completed advances in fork main
+772130b64fa665417a791471b75f01622b9cff86. Canonical main remains
+041362eefa64971d9038f4ad7ec4fd59a747d3ec and is already ancestral. The existing
+clean PR #134 is expanded additively on its original submission branch; its two
+original commits/receipts remain. No fork-main synchronization or history rewrite
+is needed. Neither fork main nor testing is modified.
+
+Included: reviewed nutrient cycle/observer preferences (#125/#126), independent
+Pipe World without automatic tubes (#135), observer caustics toggle (#137),
+pinned browser provisioning (#136), fork-approved egg/halo layer ordering and
+readout precision corrections, and corresponding causal test compatibility.
+Excluded: contributor workspace, unfinished performance research/Stage4 plans,
+stopped experiments, fork Pages differences, old synchronization artifacts and
+obsolete general browser-test edits. The canonical publication workflow and
+release identity are preserved. The inventory and strategy assessment are in
+[the submission report](reports/completed-fork-submission-2026-11-03.md).
+
+Local npm ci, 385 fast tests, typecheck/build and actual production Worker pass.
+Original ecological evidence remains byte-for-byte; no ecological/evolution
+protocol is rerun or rebaselined. Final candidate CI/readbacks and exact heads
+belong in #57/#134. Wiki sources describe the candidate with pending-acceptance
+labels; actual upstream Wiki publication, merge, auto-merge and release are
+not authorized. All related issues remain open for maintainer acceptance.
+
+The following dated #125/#126-only checkpoint is preserved as original scope
+and evidence; the consolidated scope above supersedes its earlier exclusions.
+
+---
+
 ## Nutrient-cycle and observer-preference submission (#125/#126, 2026-11-02)
 
 After visually/practically accepting fork main d044188f06f0bf3519a0c974739e3642ddc723ce,
@@ -8,8 +39,8 @@ observer-preference features/dependencies are included; no fork-main ancestry,
 contributor journal, testing overlay, unrelated renderer/toolbar/test changes,
 hosting changes, release bump or stopped experiments are submitted.
 
-New closed application worlds choose decay-v2/schema19 (1 J/s, radius floor6,
-remaining-energy mineralization at60s); saved v1/schema18 keeps30 J/s and historical
+New closed application worlds choose decay-v2/schema19 (1 J/s, radius floor 6,
+remaining-energy mineralization at 60 s); saved v1/schema18 keeps30 J/s and historical
 omitted cycles remain exact. UI-only selection/tracking metadata keeps independent
 Default on/on and Harsh off/off defaults, overrides and manual Track. Canonical
 egg/halo layer order, accepted mouth conversion, physics, controllers, energy

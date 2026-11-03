@@ -100,10 +100,10 @@ Observer-only energy activity is documented in [Energy Activity](Energy-Activity
 ## Advanced observation settings — contributor fork
 
 **Fork-only; pending upstream acceptance.** The button at the bottom of Settings
-opens a separate draggable Advanced Settings window with two independent options:
+opens a separate draggable Advanced Settings window with independent options:
 **Automatically select added creatures** (Add Life and every Bank spawn) and
 **Automatically track selected creatures** (manual picking and automatic selection).
-New Default worlds start with both checked; new Harsh World worlds start with
+New Default worlds start with both checked; new Harsh and Pipe worlds start with
 both unchecked. Choosing a scenario in the menu takes effect only when starting
 that world. In-world reseeding keeps current overrides.
 
@@ -115,3 +115,17 @@ restore on import; historical snapshots without them use both enabled. They neve
 enter the Worker simulation, sensory inputs, genetics, energy or random stream.
 Escape and the close button dismiss the advanced window; its size/position stay
 within the tank viewport, including on phones.
+
+
+### Pipe World and water caustics — pending upstream acceptance
+
+The submitted third startup environment, **Pipe World**, uses an independent
+4600 × 2100 preset with no automatic calls, openings or tubes. Its founder
+recipe remains selectable; full settings are in [Ecology](Ecology-Baseline).
+
+Advanced Settings also offers **Show water caustics**. New Default worlds
+start with it on; Harsh and Pipe start with it off. Manual overrides persist
+in observer snapshot metadata, including exports and world forks. Old files
+without the field keep caustics visible. Hiding the canvas blur/fill leaves
+world state, PRNG, optics and Worker behavior unchanged. These features are
+implemented in the contributor fork; upstream release acceptance is pending.

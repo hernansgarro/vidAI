@@ -1,3 +1,19 @@
+# Consolidated contributor submission — pending upstream acceptance
+
+- This candidate includes #125 decay-v2/schema19 (1 J/s, radius floor 6, bounded
+  60-second carrion mineralization), saved decay-v1/schema18, and #126 UI-only
+  observer preferences. Omitted cycles retain the canonical historical rules.
+  Do not silently enable a cycle on import or through Worker control packets.
+- #135 Pipe World is an independent 4600 × 2100 startup recipe, without initial
+  calls/openings/tubes. #137 caustics visibility changes only observer paint;
+  preserve caustic state, PRNG, optical sensing and exact snapshots.
+- Earlier no-decay statements below describe historical worlds without a cycle.
+  Genetics, brains, articulated physics, fixed ticks and energy funding remain
+  unchanged. No unmerged research, testing overlay or fork Pages setup belongs
+  in this submission. Preserve the canonical main-only publication architecture.
+- This is a review candidate, not a release. Original evidence and decisions
+  remain in #57/#134 and the linked issues; no automatic experiment reruns.
+
 # Nutrient-cycle and observer-preference submission (#125/#126)
 
 - Fork main implements `nutrientCycle: decay-v2` for new closed application

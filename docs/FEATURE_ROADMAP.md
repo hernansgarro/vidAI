@@ -5,7 +5,7 @@ features and the original phase status. [Project status](PROJECT_STATUS.md)
 records experiments and release history. This file tracks remaining work;
 listed extensions are not implementation promises.
 
-## Contributor fork food lifecycle
+## Submitted contributor advances — acceptance pending
 
 Fork main implements the separately authorized #125 nutrient cycle for new closed
 worlds: 1 J/s decay with a 6-unit radius floor plus bounded remaining-energy carrion mineralization at 60 s.
@@ -14,7 +14,10 @@ canonical upstream is unchanged. The older no-decay decision below describes tha
 historical/canonical mode. See docs/wiki/Ecology-Baseline.md for current mechanics
 and docs/experiments/nutrient-cycle-v2.md for the follow-up preproduction comparison.
 Advanced observation settings (#126) configure automatic selection/tracking,
-with Default on/Harsh off defaults and UI-only snapshot metadata.
+with Default on/Harsh/Pipe off defaults and UI-only snapshot metadata.
+The same consolidated submission includes independent Pipe World (#135),
+observer-only water caustics visibility (#137) and pinned browser CI (#136).
+These implemented fork advances are under review, not an upstream release.
 
 ## Active work tracking
 

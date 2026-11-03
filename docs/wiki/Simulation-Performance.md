@@ -216,3 +216,18 @@ Replacing a message or repeating the same message restarts its lifetime; an old
 message cannot dismiss its replacement. Noninteractive banners do not capture
 pointer input. Hinge dots are hidden; physical joints and their Worker data remain.
 This removes drawing commands, with no measured FPS or solver-speed claim.
+
+
+## Submitted observer controls — acceptance pending
+
+Advanced Settings can hide only the decorative caustics painting pass, including
+its blur. Default shows it initially; Harsh and Pipe hide it. State, random draws,
+physical vision and simulation ticks are unchanged. A large cost in software
+rendering does not establish a desktop hardware speedup or more Worker ticks.
+The toolbar rounds achieved speed to one decimal while its hover title retains
+two decimals; requested speeds and the throughput sampler are unchanged.
+
+The submitted nutrient cycle exports schema19 (decay-v2) or retains schema18
+for saved decay-v1 worlds, with or without topology. Worlds without a cycle
+retain schema16/17 as described above. Control packets cannot switch cycles;
+explicit saved-world upgrades use authoritative snapshots. See [Ecology](Ecology-Baseline).

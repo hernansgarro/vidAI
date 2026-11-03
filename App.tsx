@@ -61,9 +61,9 @@ import type {WorldAction} from './simulationHost';
 import {runProductionChecks} from './diagnostics';
 import CreaturePreview from './CreaturePreview';
 import {useNotification} from './utils/useNotification';
+import {SIMULATION_SPEEDS, selectSimulationSpeed, toggleSimulationSpeed, type PlaybackSpeed, type SimulationSpeed} from './simulationSpeed';
 import {addExternalOrganism, collectWorldStats} from './world';
 import {createScenarioWorld, type EnvironmentScenario} from './environmentScenarios';
-import {SIMULATION_SPEEDS, selectSimulationSpeed, toggleSimulationSpeed, type PlaybackSpeed, type SimulationSpeed} from './simulationSpeed';
 import {
   createFixedStepper,
   drawAsset,
@@ -287,9 +287,9 @@ export default function App() {
   const workerStepsRef = useRef(0);
   const energyCollectorRef = useRef(new EnergyActivityCollector());
   const energyPresentationRef = useRef(new EnergyActivityPresentation());
+  const worldSceneRef = useRef<WorldSceneLayer | null>(null);
   const throughputRef = useRef(new ThroughputMeter());
   const statsWallRef = useRef(0);
-  const worldSceneRef = useRef<WorldSceneLayer | null>(null);
   const viewportRef = useRef<HTMLDivElement>(null);
   const [{width: canvasWidth, height: canvasHeight}, setViewportSize] = useState({width: 1280, height: 720});
   useEffect(() => {
@@ -644,7 +644,7 @@ export default function App() {
     if (epoch !== worldEpochRef.current) return false;
     try {
       if (workerClientRef.current) await workerClientRef.current.action({kind: 'self-tubes', topology});
-      else {setSelfTubes(simStateRef.current, currentSettings(), topology); setEcoStats(prev => ({...prev, ...collectWorldStats(simStateRef.current, targetNutrientAbundance)}));}
+      else {setSelfTubes(simStateRef.current, currentSettings(), topology); refreshWorldView();}
       return epoch === worldEpochRef.current;
     } catch (error) {setSaveNotification(`Tube change failed: ${String(error)}`); return false;}
   };
@@ -1244,18 +1244,20 @@ export default function App() {
       ctx.stroke();
     }
 
-    // Caustics
-    for (const c of s.caustics) {
-      const blurMargin = Math.max(0, c.radius) + 48 / zoom;
-      if (c.x + blurMargin < viewLeft || c.x - blurMargin > viewRight
-        || c.y + blurMargin < viewTop || c.y - blurMargin > viewBottom) continue;
-      ctx.save();
-      ctx.beginPath();
-      ctx.arc(c.x, c.y, Math.max(0, c.radius), 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(56, 189, 248, ${c.alpha})`;
-      ctx.filter = 'blur(16px)';
-      ctx.fill();
-      ctx.restore();
+    // Hide only the observer paint pass; retain caustic state and PRNG exactly.
+    if (observerPreferences.showCaustics) {
+      for (const c of s.caustics) {
+        const blurMargin = Math.max(0, c.radius) + 48 / zoom;
+        if (c.x + blurMargin < viewLeft || c.x - blurMargin > viewRight
+          || c.y + blurMargin < viewTop || c.y - blurMargin > viewBottom) continue;
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(c.x, c.y, Math.max(0, c.radius), 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(56, 189, 248, ${c.alpha})`;
+        ctx.filter = 'blur(16px)';
+        ctx.fill();
+        ctx.restore();
+      }
     }
 
     // Glow pass: every halo is behind every physical entity.
@@ -1283,6 +1285,18 @@ export default function App() {
       ctx.arc(0, 0, 24 * pulse, 0, Math.PI * 2);
       ctx.fill();
 
+      ctx.restore();
+    }
+    for (const org of s.organisms) {
+      ctx.save(); ctx.globalAlpha = org.dissolving ? org.dissolveAlpha : 1;
+      for (let i = org.segments.length - 1; i >= 0; i--) {
+        const seg = org.segments[i], part = org.genome.parts[i];
+        const w = part.width, h = part.height, corner = Math.min(w * .35, h * .35, 6);
+        ctx.save(); ctx.translate(seg.x, seg.y); ctx.rotate(seg.angle);
+        ctx.beginPath(); ctx.roundRect(-w / 2, -h / 2, w, h, corner);
+        drawEnergyGlow(ctx, energyPresentationRef.current, org.id, i, zoom);
+        ctx.restore();
+      }
       ctx.restore();
     }
     // Entities: nutrients
@@ -1329,7 +1343,6 @@ export default function App() {
       ctx.translate(egg.x, egg.y);
       ctx.beginPath(); ctx.arc(0, 0, 16, 0, Math.PI * 2);
       ctx.fillStyle = '#ffffff'; ctx.fill();
-      drawEggReserveLoss(ctx, egg);
       ctx.beginPath(); ctx.arc(0, 0, 16, 0, Math.PI * 2);
       ctx.strokeStyle = '#cbd5e1'; ctx.lineWidth = 1.5; ctx.stroke();
       if (eggImg?.complete && eggImg.naturalWidth > 0) {
@@ -1375,7 +1388,6 @@ export default function App() {
         const cornerRad = Math.min(w * 0.35, h * 0.35, 6);
         ctx.beginPath();
         ctx.roundRect(-w * 0.5, -h * 0.5, w, h, [cornerRad, cornerRad, cornerRad, cornerRad]);
-        drawEnergyGlow(ctx, energyPresentationRef.current, org.id, sIdx, zoom);
         ctx.fill();
         ctx.stroke();
 
@@ -1512,6 +1524,7 @@ export default function App() {
       ctx.lineWidth = 2.5;
       ctx.stroke();
 
+      drawEggReserveLoss(ctx, egg);
       if (egg.id === selectedEggId) {
         ctx.beginPath(); ctx.arc(0, 0, 21, 0, Math.PI * 2);
         ctx.strokeStyle = '#fbbf24'; ctx.lineWidth = 2; ctx.stroke();
@@ -1565,12 +1578,13 @@ export default function App() {
           if (showMouthApertures || isSelected) {
             ctx.save();
             const normDir = getCardinalOutwardNormal(mouth.direction);
-            const a1x = mouthLoc.x, a1y = mouthLoc.y;
+            const a1x = mouthLoc.x;
+            const a1y = mouthLoc.y;
             const a2x = mouthLoc.x + normDir.x * intakeLength;
             const a2y = mouthLoc.y + normDir.y * intakeLength;
 
             if (mouthContactModel === 'capsule-v1') {
-              // Same rounded span and radius as nutrient, egg and prey contact.
+              // Match the physical capsule: centerline starts at the anatomical anchor and extends outward.
               ctx.translate((a1x + a2x) / 2, (a1y + a2y) / 2);
               ctx.rotate(Math.atan2(normDir.y, normDir.x));
               ctx.beginPath();
@@ -1601,7 +1615,6 @@ export default function App() {
             }
             ctx.restore();
           }
-
 
         }
         ctx.restore();
@@ -1747,8 +1760,8 @@ export default function App() {
             GEN <ToolbarValue value={ecoStats.maxGeneration} />
           </span>
           <span className="toolbar-performance px-1.5 py-0.5 text-[10px] rounded bg-purple-950/80 border border-purple-500/30 text-purple-300 font-mono" title="Simulation-to-Real Time Ratio & FPS">
-            <span className="toolbar-performance-text" title={`${ecoStats.simTimeRatio}x (${ecoStats.renderFPS} FPS · ${ecoStats.physicsStepsPerSec} Steps/s)`}>
-              {(ecoStats.simTimeRatio === null ? '—' : formatToolbarValue(ecoStats.simTimeRatio))}x ({formatToolbarValue(ecoStats.renderFPS)} FPS · {formatToolbarValue(ecoStats.physicsStepsPerSec)} Steps/s)
+            <span className="toolbar-performance-text" title={`${ecoStats.simTimeRatio === null ? 'Measuring speed' : `${ecoStats.simTimeRatio.toFixed(2)}x`} (${ecoStats.renderFPS} FPS · ${ecoStats.physicsStepsPerSec} Steps/s)`}>
+              {formatToolbarValue(ecoStats.simTimeRatio === null ? '—' : Math.round(ecoStats.simTimeRatio * 10) / 10)}x ({formatToolbarValue(ecoStats.renderFPS)} FPS · {formatToolbarValue(ecoStats.physicsStepsPerSec)} Steps/s)
             </span>
           </span>
           <span className="toolbar-time px-1.5 py-0.5 text-[10px] rounded bg-slate-800 border border-slate-700 text-slate-300 font-mono">
@@ -2477,6 +2490,11 @@ export default function App() {
                 <input type="checkbox" className="mt-0.5 accent-amber-400" checked={observerPreferences.trackSelectedCreature}
                   onChange={e => setObserverPreferences(p => ({...p, trackSelectedCreature: e.target.checked}))}/>
                 <span>Automatically track selected creatures</span>
+              </label>
+              <label className="flex items-start gap-3 cursor-pointer text-slate-200">
+                <input type="checkbox" className="mt-0.5 accent-amber-400" checked={observerPreferences.showCaustics}
+                  onChange={e => setObserverPreferences(p => ({...p, showCaustics: e.target.checked}))}/>
+                <span>Show water caustics</span>
               </label>
             </div>
           </div>
@@ -3318,12 +3336,25 @@ export default function App() {
             <div className="w-full flex flex-col gap-3">
               <label className="text-left text-xs text-slate-300 flex flex-col gap-1.5">
                 Environment
-                <select aria-label="Environment scenario" value={environmentScenario}
-                  onChange={e => setEnvironmentScenario(e.target.value as EnvironmentScenario)}
-                  className="w-full min-w-0 bg-slate-950 border border-cyan-500/40 rounded-xl px-3 py-2 text-sm text-cyan-100">
-                  <option value="default">🌎 Default</option>
-                  <option value="harsh-world">⛰ Harsh World</option>
-                </select>
+                <span className="relative w-full">
+                  {environmentScenario === 'pipe-world' && <svg role="img" aria-label="Green retro pipe"
+                    viewBox="0 0 24 24" shapeRendering="crispEdges"
+                    className="absolute z-10 left-3 top-2 w-5 h-5 pointer-events-none">
+                    <path d="M3 2h10v5h-2v6h10v9H8v-2H5V7H3z" fill="#14532d" />
+                    <path d="M4 3h8v3H4zM6 7h4v9h10v5H9v-2H6z" fill="#22c55e" />
+                    <path d="M5 3h2v3H5zM6 7h1v11h12v2H8v-2H6z" fill="#86efac" />
+                    <path d="M18 12h4v10h-4z" fill="#166534" />
+                    <path d="M19 13h2v8h-2z" fill="#4ade80" />
+                  </svg>}
+                  <select aria-label="Environment scenario" value={environmentScenario}
+                    onChange={e => setEnvironmentScenario(e.target.value as EnvironmentScenario)}
+                    style={environmentScenario === 'pipe-world' ? {paddingLeft: '2.5rem'} : undefined}
+                    className="w-full min-w-0 bg-slate-950 border border-cyan-500/40 rounded-xl px-3 py-2 text-sm text-cyan-100">
+                    <option value="default">🌎 Default</option>
+                    <option value="harsh-world">⛰ Harsh World</option>
+                    <option value="pipe-world">Pipe World</option>
+                  </select>
+                </span>
               </label>
               <button
                 onClick={() => initGame('standard', environmentScenario)}
