@@ -1,0 +1,12 @@
+[
+  {
+    "id": "P01",
+    "research": true,
+    "mode": "real",
+    "level": "off",
+    "durationMs": 12000,
+    "traced": false,
+    "status": "FAILED_OR_UNKNOWN",
+    "failure": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m1885\u001b[39m\nReceived: \u001b[31m2\u001b[39m"
+  }
+]
