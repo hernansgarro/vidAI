@@ -1,3 +1,10 @@
+> **Stage3.3 update —2026-11-03:** Physical metadata research is **BLOCKED** after
+> capture loss of the first kernel slot. Its actual outcome is unknown; no new
+> performance result/cache benefit is claimed. A zero-tick preflight and synthetic
+> capture repair are preserved. Stage3 remains ONGOING. Explicit approval for one
+> labeled recovery evaluation is pending; no automatic rerun.
+> [Incident/report](experiments/performance-stage-3-v3/report.md).
+
 # VIDA 2D — Contributor workflow and requirement status
 
 **Owner:** hernansgarro  

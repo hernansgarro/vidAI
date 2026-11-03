@@ -35,7 +35,7 @@ stable S2 IDs and owner interest in S2-02; they are not implementation prioritie
 | 1 / S2-11 | Caustic blur / deferred raster at composition | 🔴 CRITICAL observed on software CI | High matched-controls confidence; desktop unverified |3.34FPS/288.9ms baseline vs58.81FPS/5.4ms unblur; forced flush moves~287ms before copy | Confirmed bottleneck; blur cause clarified within tested scene | Desktop/active workloads, pixel/DPR/filter scaling and exact invalidation/static-scene reuse remain open |
 | 1b / S2-11-B | Graphics backend and bare-copy interpretation | 🟢 LOW OBSERVED isolated copy; ⚪ UNKNOWN desktop scaling | High backend/source-copy evidence in this setup |SwiftShader/software2D; already-flushed copy+readback median~.10ms | Software backend confirmed; intrinsically~290ms pure-copy hypothesis refuted in scope | Fresh-context/readback policy and real hardware graphics; do not generalize component cost |
 | 2 / S2-09 + S2-12 | Active Worker/UI contention, cloning and reporting cadence | 🟡 MEDIUM suspected end-to-end impact | Medium component evidence, low causal active-browser confidence | Warm clone .803/1.433ms at15/30 founders; cap~30frames/s, one ACK already | Partial; IPC/ACK/throughput untested | Measure actual MAX ticks/s, send/receive/ACK and render contention; do not confuse copy benchmark with IPC |
-| 3 / S2-02 | Repeated invariant physical metadata | ⚪ UNKNOWN CPU impact | High repeat-count confidence, low benefit confidence |300/600 substep mass/inertia derivations/tick at15/30 founders | Dedicated future study REQUIRED; benefit unmeasured | Price each consumer, exact lookup vs recompute, memory/GC/invalidation/save continuation |
+| 3 / S2-02 | Repeated invariant physical metadata | ⚪ UNKNOWN CPU impact | High repeat-count confidence, low benefit confidence |300/600 substep mass/inertia derivations/tick at15/30 founders | Stage3.3 BLOCKED (missing first result); benefit unmeasured | Price each consumer, exact lookup vs recompute, memory/GC/invalidation/save continuation |
 | 4 / S2-03 | Optical index/query/intersections | 🟠 HIGH observed coarse cost | Medium coarse attribution |34.0%/40.5% sampled vision+update shares,195/390rays/tick | Confirmed broad cost; exact breakdown partial | Separate index build, finite corridor, exact tests, sorting/allocation and independent density/eye scaling |
 | 5 / S2-01 | Contact physics and articulated solve | 🟠 HIGH observed essential work | Medium measured attribution |27–38.8% coarse physics+contacts;15-founder contacts25.8–27.8% of classified samples | Confirmed cost; removable fraction unknown | Profile broad/narrowphase, iterations and existing scratch; no solver/physics change |
 | 6 / S2-05 | Recurrent inference and learning | 🟠 HIGH observed essential work | Medium coarse attribution |18.8–26.9% neural+learning share at15/30 founders | Confirmed cost; detailed scaling unresolved | Distinguish inference/plasticity/allocation; existing neural cache already present |
@@ -60,7 +60,7 @@ removed to inflate apparent optimization opportunities.
 | --- | --- | --- |
 | Stage3.1 — original pilot,2026-11-02 | COMPLETED batch only:30Node trials +6paused Chromium windows | [v1](experiments/performance-stage-3-v1/), original final head9a040fc; report below preserved as historical pilot. Old references to 'complete' concern this batch. |
 | Stage3.2 —2026-11-02; consolidated2026-11-03 | COMPLETED batch only:10timed windows,2diagnostic captures,60isolated copies plus executive/vision/cache source review | [v2 protocol](experiments/performance-stage-3-v2/protocol.md), initial metadata preflight1c4927a failed before measurements; repaired source7279fc8 and tested PR merge6971be7 passed; [report](experiments/performance-stage-3-v2/report.md) |
-| Stage3.3 | PROPOSED ONLY; not executed | Select after Stage3.2 review; S2-02 must retain dedicated follow-up |
+| Stage3.3 —2026-11-03 | BLOCKED: first slot outcome missing; no new performance result | [Incident/report](experiments/performance-stage-3-v3/report.md); explicit recovery authorization pending |
 
 2026-11-02 interpretation update: replaced the old automatic jump from completed
 pilot to Stage4 with recursive Stage3. Stage3.1 measurements/archives remain unchanged.
@@ -80,6 +80,21 @@ scope/uncertainty. [Completed Stage3.2 report](experiments/performance-stage-3-v
 [derived summary](experiments/performance-stage-3-v2/summary.json),
 [proposed Stage3.3](experiments/performance-stage-3-v2/next-substage-proposal.md).
 Experimental visual ablation is not a shipped speedup or active Worker gain.
+
+## Stage 3.3 —2026-11-03: blocked at missing-evidence stop
+
+The physical derivation/isolated reuse/lifetime batch was preregistered, but its first
+kernel slot's receipt/archive were not retained after a capture-orchestration failure.
+Whether its planned ticks completed is unknown. No valid timing or new cache benefit
+is reported. The zero-tick loader/restore preflight succeeded and is preserved.
+One outcome is unknown;11kernel slots and the component study remain unstarted.
+
+[Incident, original preflight and report](experiments/performance-stage-3-v3/report.md),
+[explicit recovery proposal](experiments/performance-stage-3-v3/recovery-proposal.md).
+The capture bridge was repaired/tested using synthetic data only. **Stage3.3 BLOCKED;
+Stage3 ONGOING.** No unauthorized lost-trial rerun occurred. S2-02 remains UNKNOWN
+impact/low benefit confidence; all other executive classifications remain unchanged.
+Hernan's explicit recovery decision is the next action; do not automatically continue.
 
 ## Current source reviews and pending research inventory
 

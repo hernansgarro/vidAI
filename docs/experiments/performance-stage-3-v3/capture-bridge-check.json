@@ -1,0 +1,9 @@
+{
+  "dummyOnly": true,
+  "noBiologicalTicks": true,
+  "headerRetrievable": true,
+  "identicalRepeatedChunk": true,
+  "archiveSHA256": "8dff116c3785308228afd893f14396777486b21dadcad8a33afded897de80899",
+  "gitBlobSHA": "986adfbdcdd60b09307facd94c0ed2abedb97d13",
+  "scientificTrialRepeated": false
+}

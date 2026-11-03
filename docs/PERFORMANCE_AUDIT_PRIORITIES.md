@@ -1,3 +1,10 @@
+> **Stage3.3 update —2026-11-03:** Physical metadata research is **BLOCKED** after
+> capture loss of the first kernel slot. Its actual outcome is unknown; no new
+> performance result/cache benefit is claimed. A zero-tick preflight and synthetic
+> capture repair are preserved. Stage3 remains ONGOING. Explicit approval for one
+> labeled recovery evaluation is pending; no automatic rerun.
+> [Incident/report](experiments/performance-stage-3-v3/report.md).
+
 # VIDA 2D — Contributor performance audit: investigation priorities and Stage 3/4 decision questions
 
 > **Hernan's decision input, 2026-11-02; documentation only.** This is an overlay on the immutable [Stage 2 static source review](PERFORMANCE_AUDIT_STAGE_2.md) and the [approved four-stage audit plan](PERFORMANCE_AUDIT_PLAN.md), not an executed benchmark, permission to instrument, an optimization specification, an upstream decision or a performance guarantee. Keep the original S2-01–S2-12 IDs stable.
