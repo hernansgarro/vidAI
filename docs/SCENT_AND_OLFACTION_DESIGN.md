@@ -39,13 +39,36 @@ Selected scientific context (for name inspiration only, not calibrated chemistry
 - [Forbes et al. (2014), blood odor changes with sample age and storage conditions](https://pubmed.ncbi.nlm.nih.gov/25351882/).
 - [Chemical profiling of chilled raw lamb (2021), odor-active constituent ranges](https://pmc.ncbi.nlm.nih.gov/articles/PMC8620043/).
 
+### Cooked-meat red-channel name exploration and egg options (2026-11-03)
+
+**Red name remains open.** Hernan considers **férrico** a possible option, but does not like most previous red labels and specifically asked to broaden references to the smell of **cooked meat**. The following are **mnemonic proposals**, not claims that VIDA organic nutrient droplets undergo cooking or emit actual food volatiles. Do not silently select a default:
+
+| Candidate red label | Why it could be memorable | Limitation |
+| --- | --- | --- |
+| **Férrico** (ferric) | Metallic blood/iron association | More evocative of blood than cooked meat |
+| **Tostado** (toasted/roasted) | Maillard-derived roasted notes, including pyrazine-associated aromas | Not all organic nutrients are roasted |
+| **Asado** (roasted meat) | Immediately suggests cooked meat | A culinary process, not a single chemical |
+| **Ahumado** (smoky) | Readily recognized cooked/smoked food smell | Smoke is not a general meat odor |
+| **Azufrado** (sulfurous) | Strong sulfur-containing odorants occur in cooked meat | Also evokes rotten eggs; not uniquely meaty |
+| **Furánico** (furan-related) | Technical reference to furan-derivative odorants in cooked meat | Too chemical/opaque for many readers |
+| **Braseado** (braised/roasted) | Cooking and warm meat notes | Less precise, dependent on preparation |
+| **Umami** | Often cognitively associated with savory meat | **A taste modality, not an odor**; risks confusing olfaction with future taste |
+
+**Scientific boundary:** meat cooking produces volatile products through Maillard chemistry, lipid oxidation and interactions; reviews identify hundreds of odorants rather than any one universal dominant molecule. Potent characteristic odorants include **2-methyl-3-furanthiol** and **2-furfurylthiol** (sulfur-containing) and characteristic roasted pyrazine notes. No percentages or chemical-derived game constants are inferred from these sources:
+- [Sohail et al. (2022), cooked-meat odorants review](https://pubmed.ncbi.nlm.nih.gov/35761641/).
+- [Formation and Analysis of Volatile and Odor Compounds in Meat (2022)](https://pmc.ncbi.nlm.nih.gov/articles/PMC9572956/).
+- [Role of Lipids in Food Flavor Generation (2022)](https://pmc.ncbi.nlm.nih.gov/articles/PMC9370143).
+- [ACS study quantifying sulfur odorants in heated meat (1998)](https://pubs.acs.org/doi/10.1021/jf970892v).
+
+**Egg scent signature remains open:** Hernan identified **two equally plausible metaphors**, (A) a more mineral/shell-associated scent, which would map to the green channel even if G is ultimately named *Fresco*, or (B) a more creature/animal-associated scent with a heritable blue-dominant component reflecting origin. A **combination** of green shell-associated and inherited parent-related scent is an additional **assistant suggestion, not a user choice**. Avoid binding the egg to a chemically meaningful kin label or scripted recognition. If inherited, odor similarity may be an emergent cue but should not expose exact parent IDs, guarantee recognition or set behavioral targets. Real avian eggshells are mineralized and in chicken contain roughly 95% mineral matter, predominantly calcium carbonate, but carbonate does not thereby have a characteristic smell and VIDA eggs are not proven equivalent to avian shells. See [avian eggshell biomineralization review (2021)](https://pmc.ncbi.nlm.nih.gov/articles/PMC7881572/).
+
 ### Agreed source signatures and emission roles (reconfirmed 2026-11-03)
 
 - **Inorganic nutrients:** a **pure green-channel** signature `00GG00` (the initial user example was `00GH00` as mnemonic placeholders, not literal hexadecimal). Red and blue components are zero. Nutrient objects emit circles directly and periodically while present; the emission rate may be lower than that of pheromone objects.
 - **Organic nutrients:** a **pure red-channel** signature `RR0000` (initial illustrative `RS0000` meant placeholders, not literal hexadecimal). Green and blue components are zero. These food particles evoke raw meat/blood droplets rather than plant smell.
 - **Living creatures:** inherited **blue-dominant** body-odor signatures with lower, nonzero and genetically variable red and green components (illustrative pattern `rrggBB` with B usually largest). Creatures directly emit their body-scent circles, tentatively somewhat stronger than their **separate involuntary deposits of weak, finite pheromone objects**. The passive pheromone trail carries the inherited creature signature. The numbers, frequencies and ratios are **not fixed**.
 - **Active glands:** additionally generate brain-controlled, paid pheromone objects with a more freely mutable inherited fragrance composition; initial founders might be blue-dominant but are **not prescribed yet**. They may camouflage by **additive mixing only**, never by chemical neutralization.
-- **Eggs:** direct scent emitters under the same universal pulse/decay model, tentatively at a relatively low emission frequency; **their exact channel/signature is not decided**.
+- **Eggs:** direct scent emitters under the same universal pulse/decay model, tentatively at a relatively low emission frequency. **No signature choice yet:** shell/mineral analogy may favor a G component; creature origin may favor a B-dominant inherited component; a blend is also an option for discussion, not a decision. No automatic parent recognition or hidden kin metadata enters sensory inputs.
 - Every emitted pulse has immutable **RRGGBB chemical signature**; its independently decaying intensity equals **observer alpha TT on a one-to-one normalized scale**. Nose readings sum the attenuated three chemical components separately and saturate at a high FF bound. Actual numeric source values and input scaling are not yet approved.
 
 **Observer-compositing detail deferred by the user:** the potential difference between Canvas alpha layering and exact additive multi-source nose concentrations should **not** be analyzed or optimized further during this initial idea discussion. Keep it as a potential later fidelity question, not a present blocker or implementation requirement. The observer display remains optional; it must not change actual sensing.
@@ -102,7 +125,7 @@ Selected scientific context (for name inspiration only, not calibrated chemistry
 
 ## Questions still open
 
-1. **Naming remains open, with stronger preferences:** red evokes organic blood/raw-meat nutrients but the user dislikes the word sanguine; green favors **fresh/fresco** over mineral; blue should feel animal/corporal but **almizclado** may be too complex. Shortlists and chemical-source cautions are recorded above. **Encoding confirmed:** RRGGBB is the fixed scent signature, intensity = TT alpha one to one; normal sensing sums attenuated channel contributions. Final names are not approved.
+1. **Naming remains open:** the user now considers **férrico** possible for R and requests **cooked-meat-inspired alternatives** (such as *tostado* or *asado*) beyond the earlier raw-blood descriptors. G still favors **fresco** and B favors animal/skin-associated ideas though *almizclado* is cumbersome. No names are finalized; scientific caveats are recorded above. **Encoding confirmed:** RRGGBB is the fixed scent signature, intensity = TT alpha one to one; normal sensing sums attenuated channel contributions.
 2. **Unified pulse and overlap rules established conceptually:** pulses expand and decay faster than area dilution, disappear from authoritative state at zero, and noses sum all overlapping floral/herbal/mineral contributions. Still choose cadence, source strength, radial falloff, decay-to-zero rule and the rarely reached per-channel saturation threshold.
 2a. **Residual pulses:** emitted circles remain independently active after a source moves/disappears. Should they remain centered at release positions, drift with water, or have another explicitly modeled transport rule?
 2b. **Resource bookkeeping:** how are finite perfume units, source depletion and active/passive secretion expense paid for without making infinite-source nutrients/organisms violate closed-world energy accounting?
@@ -111,9 +134,12 @@ Selected scientific context (for name inspiration only, not calibrated chemistry
 5. What passive pheromone deposition frequency, finite unit count, weak per-pulse intensity, pulse cadence, total entity cap, lifetime and energy cost are suitable? The one-per-second and three-units examples are not requirements.
 6. **Masking by mixture is chosen, not neutralization.** Are active glands limited to one signature, or can there be multiple genetically distinct emitted signals? What range of gland intensity allows useful modulation without overwhelming receptors?
 7. Do droplets contain energy-bearing chemical material or only a sensory marker? How do decay, water movement and tubes interact with them?
+7a. Should eggs smell primarily G (shell/mineral metaphor), B (heritable animal-origin scent), or a G+B mixture? The parent-linked option must not leak hidden kin identifiers.
 8. How will we maintain acceptable CPU, Worker-to-UI traffic and renderer cost given the existing performance audit?
 
 ## Dated design history
+
+- **2026-11-03 (cooked-meat and egg naming extensions):** Hernan considered *férrico* a possible red name but requested more options inspired by **cooked meat**, without making a final choice. Options now include *tostado, asado, ahumado, azufrado, furánico,* and *braseado*, with food-chemistry references distinguishing chemically supported aroma notes from illustrative metaphors. He suggested that **egg scent** might reflect a mineral/shell association (potential G) **or** animal origin (potential inherited B). The possible blend of G with inherited B is an assistant suggestion, not user approval; the egg signature remains undecided. No implementation, coefficients, genetics or sensory recognition rules were authorized.
 
 - **2026-11-03 (fragrance-name exploration and source confirmation):** Hernan rejected *sanguine* as the red-channel name, described red organic nutrients as blood/meat-like, proposed **fresh/fresco** as the green-channel name despite inorganic nutrients not being plants, and considered animalic *almizclado* conceptually appropriate but too unwieldy for blue. He requested scientific research on blood/meat odor contributors with honest limits on percentage attribution and varied naming alternatives for all three channels. Source defaults were reconfirmed: inorganic nutrient G-only, organic nutrient R-only, creature inherited B-dominant with minor R/G, actively produced gland pheromones more genetically flexible; creatures also emit directly plus deposit weak passive pheromones. The user deferred alpha-compositing-versus-sum fidelity analysis. **No final channel names, numeric concentrations, or implementation were authorized.**
 
