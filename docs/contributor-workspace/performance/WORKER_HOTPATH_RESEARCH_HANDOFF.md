@@ -1,5 +1,12 @@
 # VIDA 2D — Deferred Stage 3 Worker hot-path research handoff
 
+## Current checkpoint — Stage 3.7b recovery COMPLETE (2026-11-03)
+
+Hernan explicitly authorized a recovery after the previous stopped lot. All 12 registered windows completed once; source57a7d45, original evidence66a89ed, [research DRAFT #92](https://github.com/hernansgarro/vidAI/pull/92), [report](https://github.com/hernansgarro/vidAI/blob/8481613ce08be6137d347cf0d8b9eabb0aed8130/docs/experiments/performance-stage-3-v9/report.md). [Cumulative findings](../../PERFORMANCE_AUDIT_STAGE_3.md) contain verified phase costs, actual counterfactual TPS, controls, independent GC/CPU, divergence and conservation. Vision +53.11%, brain-output +19.53%, learning OFF +6.88%, synthetic feeding +1.79% versus nearby real controls; one window each, real-control spread6.78%, no additive/removable CPU interpretation or production-safe benefit established. Physics/contacts dominate the separate phase ledger, then vision and inference. Counter/frame draining and early raw preservation now verify correctly.
+
+This supersedes pending-throughput status, not the immutable original failed P01. All probes/raw/checkpoints remain isolated and unmerged. Active201.978s/runner357.601s/111,808,143rawbytes within bounds; scientific run41729322675 succeeded with required installation/fast/build/Worker/focusedChromium gates. Temporary workflow removed; reference YAML outside.github. Main receives documentation only. Stage3 remains ongoing; STOP after this lot. No automatic new study, upstream submission, production optimization or Stage4 authorization. Earlier checkpoints below are preserved dated history.
+
+
 ## Latest execution handoff — Stage 3.7 BLOCKED; stop (2026-11-03)
 
 The owner subsequently launched the Stage 3.7 Work request, superseding the design-only stop below for that one lot. Measured sourcef0db3e4, base73ee85b; research branch `audit/performance-stage-3-7`, [draft #90](https://github.com/hernansgarro/vidAI/pull/90), [report](https://github.com/hernansgarro/vidAI/blob/f846d67939e32d46a398768c082368dea2d553b7/docs/experiments/performance-stage-3-v8/report.md), original evidence812f511. Eight fixed120-tick controls passed complete all-real equality and independent dummy/closed-energy validation. P01 failed because the harness used `frame().steps` as a cumulative counter; zero valid TPS windows, 11 unstarted. Boundary/endpoint objects from that slot were not archived: preserve the missing observation and do not reconstruct TPS. No rerun/second campaign.
