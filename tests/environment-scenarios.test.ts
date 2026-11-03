@@ -122,7 +122,7 @@ test('Pipe matches the frozen Harsh startup recipe except dimensions, with funde
   assert.equal(pipe.state.selfTubes, undefined);
   assert.equal(pipe.state.energyPool!.reserve, 825000);
   assert.equal(pipe.state.energyPool!.budget, harsh.state.energyPool!.budget);
-  assert.deepEqual(pipe.observerPreferences, {selectAddedCreature: false, trackSelectedCreature: false});
+  assert.deepEqual(pipe.observerPreferences, {selectAddedCreature: false, trackSelectedCreature: false, showCaustics: false});
   close(totalAccountedEnergy(pipe.state), pipe.state.energyPool!.budget);
 });
 
