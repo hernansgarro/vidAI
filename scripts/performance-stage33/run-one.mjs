@@ -23,7 +23,7 @@ try {
  const host=new SimulationHost();host.reset(checkpoint,1);
  result.sourceHash=hash(checkpoint);result.restoredHash=hash(host.snapshot());
  result.inventory={organisms:host.state.organisms.length,parts:host.state.organisms.reduce((n,o)=>n+o.segments.length,0),food:host.state.nutrients.length};
- result.environment={node:process.version,os:os.release(),cpu:os.cpus()[0]?.model,cpus:os.availableParallelism(),flags:process.execArgv.filter(x=>x!=='-e'),memoryMax:readFileSync('/sys/fs/cgroup/memory.max','utf8').trim(),cpuMax:readFileSync('/sys/fs/cgroup/cpu.max','utf8').trim()};
+ result.environment={node:process.version,os:os.release(),cpu:os.cpus()[0]?.model,cpus:os.availableParallelism(),flags:process.execArgv.filter(x=>x.startsWith('--')),memoryMax:readFileSync('/sys/fs/cgroup/memory.max','utf8').trim(),cpuMax:readFileSync('/sys/fs/cgroup/cpu.max','utf8').trim()};
  if(!cfg.preflight) {
   for(let i=0;i<60;i++)host.tick();
   result.warmHash=hash(host.snapshot());result.tickMs=[];result.periodicHashes=[];
