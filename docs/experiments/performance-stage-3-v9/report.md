@@ -179,6 +179,12 @@ Nested details sampled17 ticks. Their mean tick time is10.771ms versus4.271ms wi
 Nested spans subtract measured children. Parent top-level phases already contain their descendants: do not add both levels or compare sampled means directly to all-tick means. Per-operation quotients can be derived using matching call counts, but tiny quantized values and probe overhead prevent precision CPU constants. Subphase variance and allocation-stack ownership were not retained. `physics.drag-walls` includes prepayment/integration before joint solving; it is not pure drag. Existing scratch, compiled topology and somatic delta buffers remain intact. No independent anatomy/density scaling coefficient was measured.
 
 
+### Dummy generation cost and per-operation quotients
+
+In the separate24-tick correctness pilots, generator clocks sample only the first tick (30 calls): vision0.500ms total (~16.7us/call), feeding0.400ms (~13.3us/call), brain0.000ms at clock resolution. The last value is **unresolved/below timer resolution, not zero-cost**. These are cold, instrumented single-tick observations with coarse clocks, not sustained calibrated costs. The unprofiled primary windows deliberately add no generator clocks; their total TPS includes actual lookup/hash/copy/transfer cost. There is no global-iterator cost comparison.
+
+C03 sampled corridor-query self plus collect spans total~1.5353ms per sampled tick for390queries (~3.94us/query inclusive under probes). Recurrent-hidden spans~0.4882ms for30evaluations (~16.3us/organism), outputs~0.08235ms (~2.75us/organism). Metadata alone~0.03529ms/120bodyadvances (~0.29us/advance). These are instrumented quotients with quantization/nested-hook uncertainty, not isolated CPU constants, and provide no independently recoverable savings. Other per-operation values are left unresolved where matching call ownership is ambiguous.
+
 ## Probe and profiler controls
 
 | Control | Build / profile | Ticks/s | Relative to ordinary C01 | Browser CPU-ms/tick |
