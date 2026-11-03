@@ -1,0 +1,110 @@
+[
+  {
+    "id": "C1",
+    "n": 30,
+    "cap": 30,
+    "diag": false,
+    "traced": false,
+    "status": "retained",
+    "durationMs": 4000
+  },
+  {
+    "id": "C2",
+    "n": 30,
+    "cap": 30,
+    "diag": false,
+    "traced": true,
+    "status": "retained",
+    "durationMs": 4000
+  },
+  {
+    "id": "P01",
+    "n": 30,
+    "cap": 30,
+    "diag": false,
+    "traced": false,
+    "status": "retained",
+    "durationMs": 20000
+  },
+  {
+    "id": "P02",
+    "n": 30,
+    "cap": 10,
+    "diag": false,
+    "traced": false,
+    "status": "retained",
+    "durationMs": 20000
+  },
+  {
+    "id": "P03",
+    "n": 30,
+    "cap": 10,
+    "diag": false,
+    "traced": false,
+    "status": "retained",
+    "durationMs": 20000
+  },
+  {
+    "id": "P04",
+    "n": 30,
+    "cap": 30,
+    "diag": false,
+    "traced": false,
+    "status": "retained",
+    "durationMs": 20000
+  },
+  {
+    "id": "P05",
+    "n": 30,
+    "cap": 30,
+    "diag": false,
+    "traced": false,
+    "status": "retained",
+    "durationMs": 20000
+  },
+  {
+    "id": "P06",
+    "n": 30,
+    "cap": 10,
+    "diag": false,
+    "traced": false,
+    "status": "retained",
+    "durationMs": 20000
+  },
+  {
+    "id": "D01",
+    "n": 30,
+    "cap": 10,
+    "diag": false,
+    "traced": true,
+    "status": "retained",
+    "durationMs": 10000
+  },
+  {
+    "id": "D02",
+    "n": 30,
+    "cap": 30,
+    "diag": false,
+    "traced": true,
+    "status": "retained",
+    "durationMs": 10000
+  },
+  {
+    "id": "D03",
+    "n": 30,
+    "cap": 30,
+    "diag": false,
+    "traced": true,
+    "status": "retained",
+    "durationMs": 10000
+  },
+  {
+    "id": "D04",
+    "n": 30,
+    "cap": 10,
+    "diag": false,
+    "traced": true,
+    "status": "retained",
+    "durationMs": 10000
+  }
+]
