@@ -25,7 +25,7 @@
 - A future remote handoff should validate a typed/versioned/size-bounded payload, destination capacity, authority, ordering and closed-world energy transfers. Design atomic/idempotent acknowledgements, duplicate/replay prevention, timeout/disconnection recovery and rollback or reconciliation. No signed-off implementation protocol exists.
 - **Counters remain undecided:** distinguish births, imports and transfers. Restoring an existing living creature should not silently mint a birth, but the display/statistic policy needs a separate user decision. Preserve one live individual and faithful state regardless of counter naming.
 
-## IDEA-011 — Portable living-organism files
+## IDEA-011: Portable living-organism files
 
 - This is a **separate future feature**: export/import the full authoritative state of **one already living organism**, not the genome-only Specimen Bank or a whole-world snapshot. A normal **copy/export to disk leaves the source creature alive** unless a distinct explicit transfer/removal operation follows. Never mistake file saving for a funded biological reproduction.
 - Required future format design includes versioning, size limits, validation of all physical/neural/learning/genetic/energy/age fields, reference and lineage handling, historical saves, security of untrusted imports, and ID collision/remapping policy. Importing into a different world must not silently use `spawnOrganism` semantics (new PRNG-born ID, biological birth and funding) for an old living individual.
