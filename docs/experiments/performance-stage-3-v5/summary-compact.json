@@ -1,0 +1,4424 @@
+{
+  "archives": [
+    {
+      "name": "overhead1",
+      "bytes": 1769889,
+      "sha256": "b39b051535eb5936060558217a9e337558802f7d328ff4e2f263039281cfe534",
+      "gitBlob": "d777db67d61ae00591da496efa308ebc20474f26",
+      "uncompressedBytes": 4349057
+    },
+    {
+      "name": "overhead2",
+      "bytes": 1779291,
+      "sha256": "3701ae6c734a6f89c6df78d6a2859301e114a869d5092c3c3e773a66aafbdfe8",
+      "gitBlob": "b7a81aadd1c89011bc938b2656cadce239ee3a13",
+      "uncompressedBytes": 4430754
+    },
+    {
+      "name": "overhead3",
+      "bytes": 1779372,
+      "sha256": "3369c2a7ab26051c74cd0dc5560a0baba5a962df739840a1b9148bdd4a1dbaa2",
+      "gitBlob": "27bb9d959a966cd373156c6ee6f952a87f87b715",
+      "uncompressedBytes": 4431341
+    },
+    {
+      "name": "overhead4",
+      "bytes": 1770107,
+      "sha256": "c3fe0a36772c040f8d2eb175fd6a62fb7819887767ad1d3d7fc25b5c4e70aca8",
+      "gitBlob": "82672255c790ae9bb8c41ef21209b9371dc78034",
+      "uncompressedBytes": 4349694
+    },
+    {
+      "name": "trial01",
+      "bytes": 1849533,
+      "sha256": "bead1e0a696df61ed3ef5d02b031654be7c0f1441af0d204e3955acbcf16e23c",
+      "gitBlob": "d248839f2d0204c84cc8ca9efd206bc3c734a68a",
+      "uncompressedBytes": 4622090
+    },
+    {
+      "name": "trial02",
+      "bytes": 1785917,
+      "sha256": "647e46b7032c02bc852003e3549ceade31772cfc08615a40c37798de4aba07be",
+      "gitBlob": "332051c5ee1279bdb9795b39c48950c3e3502329",
+      "uncompressedBytes": 4503591
+    },
+    {
+      "name": "trial03",
+      "bytes": 3507931,
+      "sha256": "a2ff90333cbc818adb528cc7ec13731fb4f6eb9bbc867a2c0d9a6eff85d594f4",
+      "gitBlob": "2614f85a5a04fc264e89e6a458677d6d125f4a99",
+      "uncompressedBytes": 8583716
+    },
+    {
+      "name": "trial04",
+      "bytes": 3512840,
+      "sha256": "2092a2cd03eb396e95fef518a612de4ed441f53b04b69c5f01444bfd7e19d3a0",
+      "gitBlob": "1d3abd13e1d1788d069b0d7e85c5e13b209713e0",
+      "uncompressedBytes": 8646661
+    },
+    {
+      "name": "trial05",
+      "bytes": 595730,
+      "sha256": "65df577853eb3b5f0ea7c949cc2733917b8e848dc5280f58c393642828a7c019",
+      "gitBlob": "093703770dfd47a5c39c8fcdebca4e8da30c3070",
+      "uncompressedBytes": 1759887
+    },
+    {
+      "name": "trial06",
+      "bytes": 635920,
+      "sha256": "d0d6ea0b71bc70eaaacc39f0134f55a90a10fd9dfed8827c78a29eefe2836da3",
+      "gitBlob": "6d34756195e361b7b31152fb99d17b44bd18bec3",
+      "uncompressedBytes": 1888503
+    },
+    {
+      "name": "trial07",
+      "bytes": 1673587,
+      "sha256": "4ccba6618609c8316d8ef3c868c8716ce046d28aa8d52f9ea9526536b20ef73c",
+      "gitBlob": "09c4bce97e63dd8396e2d189e7b257b8cd6a36c9",
+      "uncompressedBytes": 3986693
+    },
+    {
+      "name": "trial08",
+      "bytes": 1677201,
+      "sha256": "d39fb6258fc57cc33b9cf628ee83fd41a45fab393885b2d472c92e356ddfefaa",
+      "gitBlob": "dec13aabef2f09ad3589a8d4a3d74ce9dad70b00",
+      "uncompressedBytes": 4031047
+    },
+    {
+      "name": "trial09",
+      "bytes": 1781850,
+      "sha256": "80ddf7aadd10ed7c5df1c00ec9701251b012f0e405527dae11b4fe728e6ea79e",
+      "gitBlob": "973ebce749fb8072ee8494085d30e3966a37278e",
+      "uncompressedBytes": 4470268
+    },
+    {
+      "name": "trial10",
+      "bytes": 1788313,
+      "sha256": "8f98e54a8901d48768514b85bb27c45e56f40bc9ca8eb6ff2cda9f054f0a29e7",
+      "gitBlob": "29a49a9ffb21322037d6b4a5cf56c1fc727d2683",
+      "uncompressedBytes": 4537941
+    },
+    {
+      "name": "trial11",
+      "bytes": 637155,
+      "sha256": "e24c252b1369178dfb96d624cbe8d9958d539cc27150f9db730facd390d8bdb4",
+      "gitBlob": "1da3575a04f8a28fdc0a39811bf0ec71d6a77959",
+      "uncompressedBytes": 1910135
+    },
+    {
+      "name": "trial12",
+      "bytes": 595890,
+      "sha256": "85560f386d9932ffec37cec5231bccb74b05b7e999064282d8c44d7fab7282b6",
+      "gitBlob": "589681f392772e4bcae8664e8a769879b40453bb",
+      "uncompressedBytes": 1754293
+    },
+    {
+      "name": "trial13",
+      "bytes": 3513279,
+      "sha256": "3a5beeb27c13bb9f822058c743e41af6d04ffcb3cae791fe78fa3ff3ad1e2895",
+      "gitBlob": "9b6656ea28f4bdc2242e7a69cfd72cc052a170a7",
+      "uncompressedBytes": 8647691
+    },
+    {
+      "name": "trial14",
+      "bytes": 3508770,
+      "sha256": "a7325da1205af51fecc2929717516e24a7b74c22770a4d166a41c6b3fbd1bfed",
+      "gitBlob": "77477e58395f952e79bf9730670f27527536e1d5",
+      "uncompressedBytes": 8587777
+    },
+    {
+      "name": "trial15",
+      "bytes": 1817381,
+      "sha256": "4e0fc479b8b5da63480c0e336a6dbb17e78b4033e272b97a3cb4f1cad72efb6e",
+      "gitBlob": "f3b9a849bd1f5a18699a634ba6a84f1ade288261",
+      "uncompressedBytes": 4578553
+    }
+  ],
+  "trials": [
+    {
+      "name": "overhead1",
+      "n": 15,
+      "on": false,
+      "speed": "max",
+      "diagnostic": false,
+      "ticks": 3461,
+      "wallMs": 6672.649999999994,
+      "ticksPerSecond": 518.6844806785914,
+      "effectiveSpeed": 8.64474134464319,
+      "fps": 57.496682883679796,
+      "render": {
+        "n": 391,
+        "median": 14.39999999999418,
+        "min": 9,
+        "max": 32.39999999999418,
+        "p95": 17,
+        "p99": 20.160000000006416,
+        "sum": 5369.799999999988
+      },
+      "intervals": {
+        "n": 390,
+        "median": 16.69999999999891,
+        "min": 16.5,
+        "max": 133.39999999999964,
+        "p95": 16.800000000000182,
+        "p99": 33.30000000000028,
+        "sum": 6782.999999999999
+      },
+      "worker": null,
+      "mainTimings": null,
+      "longTasks": {
+        "n": 1,
+        "median": 103,
+        "min": 103,
+        "max": 103,
+        "p95": null,
+        "p99": null,
+        "sum": 103
+      },
+      "framesReceived": 146,
+      "transportFrequency": 21.454182096044256,
+      "clockBest": null,
+      "calibratedSendToReceive": {
+        "n": 0,
+        "median": null,
+        "min": null,
+        "max": null,
+        "p95": null,
+        "p99": null,
+        "sum": 0
+      },
+      "payload": {
+        "jsonUtf8Bytes": 180032,
+        "topKeys": [
+          "epoch",
+          "steps",
+          "events",
+          "genomes",
+          "lineage",
+          "energyActivity",
+          "state"
+        ],
+        "stateKeys": [
+          "initialSeed",
+          "simTime",
+          "nutrients",
+          "bubbles",
+          "caustics",
+          "ledger",
+          "nutrientAccumulator",
+          "totalBirths",
+          "totalDeaths",
+          "recentDeaths",
+          "energyPool",
+          "organisms",
+          "eggs"
+        ],
+        "genomes": 0,
+        "lineage": 0,
+        "selectedNeural": 0
+      },
+      "inventory": {
+        "organisms": 15,
+        "living": 15,
+        "parts": 81,
+        "eyes": 39,
+        "hiddenNeurons": 360,
+        "nutrients": 283,
+        "eggs": 0,
+        "caustics": 28,
+        "bubbles": 0
+      },
+      "heap": {
+        "used": 50400000,
+        "total": 91700000
+      },
+      "stateBeforeHash": "ebd34df170b4e382737b4f11092b934aa2789742625cb5e3e4e6d8db1ed077d7",
+      "stateFinalHash": "f36243780c0be9f2a834e8092228ca9da716fb128e24df3e0cd08ae43b028995",
+      "settingsHash": "1ecbec90bc984fac9a5da5f4b8c178ac0c735f24f3123ed059865b3cd75db932",
+      "canvas": [
+        1280,
+        674
+      ],
+      "viewport": [
+        1280,
+        850
+      ],
+      "dpr": 1,
+      "visible": "visible"
+    },
+    {
+      "name": "overhead2",
+      "n": 15,
+      "on": false,
+      "speed": "max",
+      "diagnostic": true,
+      "ticks": 3383,
+      "wallMs": 6016.200000000012,
+      "ticksPerSecond": 562.3150826102844,
+      "effectiveSpeed": 9.37191804350474,
+      "fps": 57.29581785644465,
+      "render": {
+        "n": 382,
+        "median": 13.25,
+        "min": 9,
+        "max": 29.199999999982538,
+        "p95": 16.894999999993885,
+        "p99": 19.71399999998335,
+        "sum": 4920.900000000023
+      },
+      "intervals": {
+        "n": 381,
+        "median": 16.69999999999891,
+        "min": 16.5,
+        "max": 133.5,
+        "p95": 16.799999999999272,
+        "p99": 33.399999999999636,
+        "sum": 6649.7
+      },
+      "worker": {
+        "batchMs": {
+          "n": 686,
+          "median": 8.89999999999418,
+          "min": 0,
+          "max": 12.199999999982538,
+          "p95": 10.299999999988358,
+          "p99": 10.815000000013967,
+          "sum": 5949.600000000151
+        },
+        "batchTicks": {
+          "n": 686,
+          "median": 5,
+          "min": 0,
+          "max": 8,
+          "p95": 7,
+          "p99": 8,
+          "sum": 3383
+        },
+        "yieldGapMs": {
+          "n": 685,
+          "median": 0,
+          "min": 0,
+          "max": 18.20000000001164,
+          "p95": 0.5,
+          "p99": 16.199999999982538,
+          "sum": 485.5999999998603
+        },
+        "tickMs": {
+          "n": 3383,
+          "median": 1.6000000000058208,
+          "min": 0.7999999999883585,
+          "max": 5.800000000017462,
+          "p95": 2.6000000000058208,
+          "p99": 3.1000000000058208,
+          "sum": 5865.90000000014
+        },
+        "frameBuildMs": {
+          "n": 132,
+          "median": 0.09999999997671694,
+          "min": 0,
+          "max": 0.20000000001164153,
+          "p95": 0.10000000000582077,
+          "p99": 0.20000000001164153,
+          "sum": 7.500000000058208
+        },
+        "postMessageMs": {
+          "n": 132,
+          "median": 0.5,
+          "min": 0.29999999998835847,
+          "max": 1.6000000000058208,
+          "p95": 0.7000000000116415,
+          "p99": 1.406999999994586,
+          "sum": 71.4999999999709
+        },
+        "ackRoundTripMs": {
+          "n": 132,
+          "median": 9.39999999999418,
+          "min": 8,
+          "max": 19.60000000000582,
+          "p95": 18.98999999998632,
+          "p99": 19.5,
+          "sum": 1548.8000000000757
+        }
+      },
+      "workerCounts": {
+        "constructed": 132,
+        "sent": 132,
+        "ackReceived": 132
+      },
+      "mainCounts": {
+        "received": 144,
+        "applied": 144,
+        "ackSent": 144
+      },
+      "mainTimings": {
+        "replicaMs": {
+          "n": 144,
+          "median": 0,
+          "min": 0,
+          "max": 0.8000000000174623,
+          "p95": 0.10000000000582077,
+          "p99": 0.19999999999912688,
+          "sum": 7.100000000005821
+        },
+        "callbackMs": {
+          "n": 144,
+          "median": 0,
+          "min": 0,
+          "max": 0.5999999999767169,
+          "p95": 0.1999999999825377,
+          "p99": 0.2570000000149587,
+          "sum": 5.599999999976717
+        },
+        "receiveApplyAckMs": {
+          "n": 144,
+          "median": 0.10000000000582077,
+          "min": 0,
+          "max": 0.8000000000174623,
+          "p95": 0.20000000001164153,
+          "p99": 0.5139999999842244,
+          "sum": 14.10000000000582
+        }
+      },
+      "longTasks": {
+        "n": 1,
+        "median": 122,
+        "min": 122,
+        "max": 122,
+        "p95": null,
+        "p99": null,
+        "sum": 122
+      },
+      "framesReceived": 144,
+      "transportFrequency": 21.5391518958941,
+      "clockBest": {
+        "rtt": 0,
+        "offset": -697.6000000000058,
+        "lower": -697.6000000000058,
+        "upper": -697.6000000000058
+      },
+      "calibratedSendToReceive": {
+        "n": 132,
+        "median": 6.05000000000291,
+        "min": 0.7999999999883585,
+        "max": 17.10000000000582,
+        "p95": 15.245000000001163,
+        "p99": 16.93799999999639,
+        "sum": 873.8999999998778
+      },
+      "payload": {
+        "jsonUtf8Bytes": 180172,
+        "topKeys": [
+          "epoch",
+          "steps",
+          "events",
+          "genomes",
+          "lineage",
+          "energyActivity",
+          "state"
+        ],
+        "stateKeys": [
+          "initialSeed",
+          "simTime",
+          "nutrients",
+          "bubbles",
+          "caustics",
+          "ledger",
+          "nutrientAccumulator",
+          "totalBirths",
+          "totalDeaths",
+          "recentDeaths",
+          "energyPool",
+          "organisms",
+          "eggs"
+        ],
+        "genomes": 0,
+        "lineage": 0,
+        "selectedNeural": 0
+      },
+      "inventory": {
+        "organisms": 15,
+        "living": 15,
+        "parts": 81,
+        "eyes": 39,
+        "hiddenNeurons": 360,
+        "nutrients": 284,
+        "eggs": 0,
+        "caustics": 28,
+        "bubbles": 0
+      },
+      "heap": {
+        "used": 53500000,
+        "total": 97400000
+      },
+      "stateBeforeHash": "ebd34df170b4e382737b4f11092b934aa2789742625cb5e3e4e6d8db1ed077d7",
+      "stateFinalHash": "5e7869ffd2f354f6eafe2086bce46505c1529c9e02523fe3e934ff980d9eb78d",
+      "settingsHash": "1ecbec90bc984fac9a5da5f4b8c178ac0c735f24f3123ed059865b3cd75db932",
+      "canvas": [
+        1280,
+        674
+      ],
+      "viewport": [
+        1280,
+        850
+      ],
+      "dpr": 1,
+      "visible": "visible"
+    },
+    {
+      "name": "overhead3",
+      "n": 15,
+      "on": false,
+      "speed": "max",
+      "diagnostic": true,
+      "ticks": 3398,
+      "wallMs": 6018.200000000012,
+      "ticksPerSecond": 564.6206506928971,
+      "effectiveSpeed": 9.410344178214952,
+      "fps": 57.201828099660915,
+      "render": {
+        "n": 389,
+        "median": 10.89999999999418,
+        "min": 9,
+        "max": 28.699999999982538,
+        "p95": 16.76000000001513,
+        "p99": 22.992000000014677,
+        "sum": 4755.10000000018
+      },
+      "intervals": {
+        "n": 388,
+        "median": 16.69999999999891,
+        "min": 16.5,
+        "max": 166.70000000000073,
+        "p95": 16.799999999999272,
+        "p99": 33.30000000000109,
+        "sum": 6783
+      },
+      "worker": {
+        "batchMs": {
+          "n": 682,
+          "median": 8.89999999999418,
+          "min": 0,
+          "max": 12.099999999976717,
+          "p95": 10.10000000000582,
+          "p99": 10.5380000000022,
+          "sum": 5826.500000000029
+        },
+        "batchTicks": {
+          "n": 682,
+          "median": 5,
+          "min": 0,
+          "max": 8,
+          "p95": 7,
+          "p99": 8,
+          "sum": 3398
+        },
+        "yieldGapMs": {
+          "n": 681,
+          "median": 0.09999999997671694,
+          "min": 0,
+          "max": 19.20000000001164,
+          "p95": 2.6000000000058208,
+          "p99": 16.12000000000117,
+          "sum": 684.3999999999651
+        },
+        "tickMs": {
+          "n": 3398,
+          "median": 1.6000000000058208,
+          "min": 0.7999999999883585,
+          "max": 7.2000000000116415,
+          "p95": 2.5,
+          "p99": 3.0030000000001493,
+          "sum": 5742.100000000035
+        },
+        "frameBuildMs": {
+          "n": 131,
+          "median": 0.10000000000582077,
+          "min": 0,
+          "max": 0.20000000001164153,
+          "p95": 0.1999999999825377,
+          "p99": 0.20000000001164153,
+          "sum": 9.79999999993015
+        },
+        "postMessageMs": {
+          "n": 131,
+          "median": 0.5,
+          "min": 0.20000000001164153,
+          "max": 0.8000000000174623,
+          "p95": 0.7000000000116415,
+          "p99": 0.8000000000174623,
+          "sum": 66.40000000002328
+        },
+        "ackRoundTripMs": {
+          "n": 130,
+          "median": 9.699999999982538,
+          "min": 8,
+          "max": 27.5,
+          "p95": 19.51000000000058,
+          "p99": 22.40999999998253,
+          "sum": 1554.6000000000931
+        }
+      },
+      "workerCounts": {
+        "constructed": 131,
+        "sent": 131,
+        "ackReceived": 130
+      },
+      "mainCounts": {
+        "received": 144,
+        "applied": 144,
+        "ackSent": 144
+      },
+      "mainTimings": {
+        "replicaMs": {
+          "n": 144,
+          "median": 0,
+          "min": 0,
+          "max": 0.20000000001164153,
+          "p95": 0.10000000000582077,
+          "p99": 0.15699999999254874,
+          "sum": 5.200000000098953
+        },
+        "callbackMs": {
+          "n": 144,
+          "median": 0,
+          "min": 0,
+          "max": 2,
+          "p95": 0.10000000000582077,
+          "p99": 0.19999999999912688,
+          "sum": 5.999999999970896
+        },
+        "receiveApplyAckMs": {
+          "n": 144,
+          "median": 0.10000000000582077,
+          "min": 0,
+          "max": 2.1000000000058208,
+          "p95": 0.20000000001164153,
+          "p99": 0.30000000000494764,
+          "sum": 13.5
+        }
+      },
+      "longTasks": {
+        "n": 1,
+        "median": 149,
+        "min": 149,
+        "max": 149,
+        "p95": null,
+        "p99": null,
+        "sum": 149
+      },
+      "framesReceived": 144,
+      "transportFrequency": 21.13482255555231,
+      "clockBest": {
+        "rtt": 0,
+        "offset": -605.8000000000175,
+        "lower": -605.8000000000175,
+        "upper": -605.8000000000175
+      },
+      "calibratedSendToReceive": {
+        "n": 131,
+        "median": 5.5,
+        "min": 0.7999999999883585,
+        "max": 20.400000000023283,
+        "p95": 14.64999999999418,
+        "p99": 16.269999999995342,
+        "sum": 819.4000000000815
+      },
+      "payload": {
+        "jsonUtf8Bytes": 179959,
+        "topKeys": [
+          "epoch",
+          "steps",
+          "events",
+          "genomes",
+          "lineage",
+          "energyActivity",
+          "state"
+        ],
+        "stateKeys": [
+          "initialSeed",
+          "simTime",
+          "nutrients",
+          "bubbles",
+          "caustics",
+          "ledger",
+          "nutrientAccumulator",
+          "totalBirths",
+          "totalDeaths",
+          "recentDeaths",
+          "energyPool",
+          "organisms",
+          "eggs"
+        ],
+        "genomes": 0,
+        "lineage": 0,
+        "selectedNeural": 0
+      },
+      "inventory": {
+        "organisms": 15,
+        "living": 15,
+        "parts": 81,
+        "eyes": 39,
+        "hiddenNeurons": 360,
+        "nutrients": 284,
+        "eggs": 0,
+        "caustics": 28,
+        "bubbles": 0
+      },
+      "heap": {
+        "used": 53500000,
+        "total": 97400000
+      },
+      "stateBeforeHash": "ebd34df170b4e382737b4f11092b934aa2789742625cb5e3e4e6d8db1ed077d7",
+      "stateFinalHash": "eed782a978dd3efe48d0a2354669ec37d399225a7899f3e18f4a89a43b955e95",
+      "settingsHash": "1ecbec90bc984fac9a5da5f4b8c178ac0c735f24f3123ed059865b3cd75db932",
+      "canvas": [
+        1280,
+        674
+      ],
+      "viewport": [
+        1280,
+        850
+      ],
+      "dpr": 1,
+      "visible": "visible"
+    },
+    {
+      "name": "overhead4",
+      "n": 15,
+      "on": false,
+      "speed": "max",
+      "diagnostic": false,
+      "ticks": 3375,
+      "wallMs": 6538.299999999988,
+      "ticksPerSecond": 516.1892234984638,
+      "effectiveSpeed": 8.603153724974396,
+      "fps": 57.93331756916529,
+      "render": {
+        "n": 393,
+        "median": 11,
+        "min": 9,
+        "max": 31.5,
+        "p95": 17.19999999999418,
+        "p99": 21.675999999998567,
+        "sum": 4816.000000000029
+      },
+      "intervals": {
+        "n": 392,
+        "median": 16.69999999999891,
+        "min": 16.5,
+        "max": 133.3000000000011,
+        "p95": 16.79999999999968,
+        "p99": 33.30000000000109,
+        "sum": 6766.4
+      },
+      "worker": null,
+      "mainTimings": null,
+      "longTasks": {
+        "n": 1,
+        "median": 114,
+        "min": 114,
+        "max": 114,
+        "p95": null,
+        "p99": null,
+        "sum": 114
+      },
+      "framesReceived": 145,
+      "transportFrequency": 21.37224555973174,
+      "clockBest": null,
+      "calibratedSendToReceive": {
+        "n": 0,
+        "median": null,
+        "min": null,
+        "max": null,
+        "p95": null,
+        "p99": null,
+        "sum": 0
+      },
+      "payload": {
+        "jsonUtf8Bytes": 180054,
+        "topKeys": [
+          "epoch",
+          "steps",
+          "events",
+          "genomes",
+          "lineage",
+          "energyActivity",
+          "state"
+        ],
+        "stateKeys": [
+          "initialSeed",
+          "simTime",
+          "nutrients",
+          "bubbles",
+          "caustics",
+          "ledger",
+          "nutrientAccumulator",
+          "totalBirths",
+          "totalDeaths",
+          "recentDeaths",
+          "energyPool",
+          "organisms",
+          "eggs"
+        ],
+        "genomes": 0,
+        "lineage": 0,
+        "selectedNeural": 0
+      },
+      "inventory": {
+        "organisms": 15,
+        "living": 15,
+        "parts": 81,
+        "eyes": 39,
+        "hiddenNeurons": 360,
+        "nutrients": 284,
+        "eggs": 0,
+        "caustics": 28,
+        "bubbles": 0
+      },
+      "heap": {
+        "used": 50400000,
+        "total": 91700000
+      },
+      "stateBeforeHash": "ebd34df170b4e382737b4f11092b934aa2789742625cb5e3e4e6d8db1ed077d7",
+      "stateFinalHash": "5280c2b144ad811d5cc6a03931ad5b92f78e5ba7e51bdbf18c6f785a1560a967",
+      "settingsHash": "1ecbec90bc984fac9a5da5f4b8c178ac0c735f24f3123ed059865b3cd75db932",
+      "canvas": [
+        1280,
+        674
+      ],
+      "viewport": [
+        1280,
+        850
+      ],
+      "dpr": 1,
+      "visible": "visible"
+    },
+    {
+      "name": "trial01",
+      "rep": 1,
+      "n": 15,
+      "on": true,
+      "speed": "max",
+      "diagnostic": true,
+      "ticks": 6137,
+      "wallMs": 10117.599999999977,
+      "ticksPerSecond": 606.5667747291861,
+      "effectiveSpeed": 10.109446245486435,
+      "fps": 4.104946897708217,
+      "render": {
+        "n": 48,
+        "median": 226.25,
+        "min": 191.69999999998254,
+        "max": 334.80000000001746,
+        "p95": null,
+        "p99": null,
+        "sum": 11141.099999999919
+      },
+      "intervals": {
+        "n": 47,
+        "median": 233.29999999999927,
+        "min": 183.20000000000073,
+        "max": 450,
+        "p95": null,
+        "p99": null,
+        "sum": 11449.6
+      },
+      "worker": {
+        "batchMs": {
+          "n": 1189,
+          "median": 8.700000000011642,
+          "min": 0,
+          "max": 22,
+          "p95": 10.099999999994179,
+          "p99": 11.10000000000582,
+          "sum": 9990.500000000175
+        },
+        "batchTicks": {
+          "n": 1189,
+          "median": 6,
+          "min": 0,
+          "max": 9,
+          "p95": 7,
+          "p99": 8,
+          "sum": 6137
+        },
+        "yieldGapMs": {
+          "n": 1188,
+          "median": 0,
+          "min": 0,
+          "max": 17.79999999998836,
+          "p95": 16.099999999976717,
+          "p99": 16.20000000001164,
+          "sum": 1187.9999999998545
+        },
+        "tickMs": {
+          "n": 6137,
+          "median": 1.5,
+          "min": 0.7999999999883585,
+          "max": 14.39999999999418,
+          "p95": 2.6000000000058208,
+          "p99": 3.5,
+          "sum": 9947.60000000021
+        },
+        "frameBuildMs": {
+          "n": 45,
+          "median": 0.09999999997671694,
+          "min": 0,
+          "max": 0.29999999998835847,
+          "p95": null,
+          "p99": null,
+          "sum": 2.599999999947613
+        },
+        "postMessageMs": {
+          "n": 45,
+          "median": 0.5,
+          "min": 0.29999999998835847,
+          "max": 1.1000000000058208,
+          "p95": null,
+          "p99": null,
+          "sum": 24.69999999992433
+        },
+        "ackRoundTripMs": {
+          "n": 45,
+          "median": 219.79999999998836,
+          "min": 9,
+          "max": 294,
+          "p95": null,
+          "p99": null,
+          "sum": 9633.400000000023
+        }
+      },
+      "workerCounts": {
+        "constructed": 45,
+        "sent": 45,
+        "blockedSend": 899,
+        "ackReceived": 45
+      },
+      "mainCounts": {
+        "received": 48,
+        "applied": 48,
+        "ackSent": 48
+      },
+      "mainTimings": {
+        "replicaMs": {
+          "n": 48,
+          "median": 0,
+          "min": 0,
+          "max": 0.10000000000582077,
+          "p95": null,
+          "p99": null,
+          "sum": 1.7999999999883585
+        },
+        "callbackMs": {
+          "n": 48,
+          "median": 0,
+          "min": 0,
+          "max": 1.7000000000116415,
+          "p95": null,
+          "p99": null,
+          "sum": 4.599999999976717
+        },
+        "receiveApplyAckMs": {
+          "n": 48,
+          "median": 0.10000000000582077,
+          "min": 0,
+          "max": 1.7000000000116415,
+          "p95": null,
+          "p99": null,
+          "sum": 7.400000000023283
+        }
+      },
+      "longTasks": {
+        "n": 49,
+        "median": 227,
+        "min": 138,
+        "max": 337,
+        "p95": null,
+        "p99": null,
+        "sum": 11345
+      },
+      "framesReceived": 48,
+      "transportFrequency": 4.1053360816277635,
+      "clockBest": {
+        "rtt": 0.09999999997671694,
+        "offset": -740.9499999999825,
+        "lower": -740.9999999999709,
+        "upper": -740.8999999999942
+      },
+      "calibratedSendToReceive": {
+        "n": 45,
+        "median": 215.15000000002328,
+        "min": 0.9500000000116415,
+        "max": 290.7500000000291,
+        "p95": null,
+        "p99": null,
+        "sum": 9432.850000000471
+      },
+      "payload": {
+        "jsonUtf8Bytes": 191821,
+        "topKeys": [
+          "epoch",
+          "steps",
+          "events",
+          "genomes",
+          "lineage",
+          "energyActivity",
+          "state"
+        ],
+        "stateKeys": [
+          "initialSeed",
+          "simTime",
+          "nutrients",
+          "bubbles",
+          "caustics",
+          "ledger",
+          "nutrientAccumulator",
+          "totalBirths",
+          "totalDeaths",
+          "recentDeaths",
+          "energyPool",
+          "organisms",
+          "eggs"
+        ],
+        "genomes": 0,
+        "lineage": 0,
+        "selectedNeural": 0
+      },
+      "inventory": {
+        "organisms": 16,
+        "living": 16,
+        "parts": 87,
+        "eyes": 42,
+        "hiddenNeurons": 384,
+        "nutrients": 285,
+        "eggs": 0,
+        "caustics": 28,
+        "bubbles": 0
+      },
+      "heap": {
+        "used": 53500000,
+        "total": 97400000
+      },
+      "stateBeforeHash": "ebd34df170b4e382737b4f11092b934aa2789742625cb5e3e4e6d8db1ed077d7",
+      "stateFinalHash": "8fe430dcc8aa4c4bb5d37fd896cc8b3dd4eb8a26b9bdd4d217effb2fd798e3f2",
+      "settingsHash": "1ecbec90bc984fac9a5da5f4b8c178ac0c735f24f3123ed059865b3cd75db932",
+      "canvas": [
+        1280,
+        674
+      ],
+      "viewport": [
+        1280,
+        850
+      ],
+      "dpr": 1,
+      "visible": "visible"
+    },
+    {
+      "name": "trial02",
+      "rep": 1,
+      "n": 15,
+      "on": false,
+      "speed": "max",
+      "diagnostic": true,
+      "ticks": 5197,
+      "wallMs": 10018.399999999994,
+      "ticksPerSecond": 518.7455082647931,
+      "effectiveSpeed": 8.645758471079885,
+      "fps": 58.69378294515683,
+      "render": {
+        "n": 629,
+        "median": 10.199999999982538,
+        "min": 8.89999999999418,
+        "max": 23.300000000017462,
+        "p95": 15.39999999999418,
+        "p99": 18.94799999999234,
+        "sum": 7095.5999999996275
+      },
+      "intervals": {
+        "n": 628,
+        "median": 16.69999999999709,
+        "min": 16.5,
+        "max": 133.29999999999563,
+        "p95": 16.700000000004366,
+        "p99": 16.80000000000291,
+        "sum": 10699.599999999999
+      },
+      "worker": {
+        "batchMs": {
+          "n": 1111,
+          "median": 9.099999999976717,
+          "min": 0,
+          "max": 15.5,
+          "p95": 10.300000000017462,
+          "p99": 11.090000000005247,
+          "sum": 9910.099999999686
+        },
+        "batchTicks": {
+          "n": 1111,
+          "median": 5,
+          "min": 0,
+          "max": 7,
+          "p95": 7,
+          "p99": 7,
+          "sum": 5197
+        },
+        "yieldGapMs": {
+          "n": 1110,
+          "median": 0,
+          "min": 0,
+          "max": 17.10000000000582,
+          "p95": 0.40000000002328306,
+          "p99": 16.10000000000582,
+          "sum": 525.0000000003201
+        },
+        "tickMs": {
+          "n": 5197,
+          "median": 1.7999999999883585,
+          "min": 0.8999999999941792,
+          "max": 7.600000000005821,
+          "p95": 2.7999999999883585,
+          "p99": 3.1000000000058208,
+          "sum": 9770.89999999979
+        },
+        "frameBuildMs": {
+          "n": 217,
+          "median": 0.09999999997671694,
+          "min": 0,
+          "max": 0.20000000001164153,
+          "p95": 0.10000000000582077,
+          "p99": 0.20000000001164153,
+          "sum": 12.300000000162981
+        },
+        "postMessageMs": {
+          "n": 217,
+          "median": 0.5,
+          "min": 0.29999999998835847,
+          "max": 1.5,
+          "p95": 0.7000000000116415,
+          "p99": 1,
+          "sum": 118.6999999996915
+        },
+        "ackRoundTripMs": {
+          "n": 217,
+          "median": 9.39999999999418,
+          "min": 8,
+          "max": 22.199999999982538,
+          "p95": 19.20000000001164,
+          "p99": 20.18400000001071,
+          "sum": 2443.6000000001222
+        }
+      },
+      "workerCounts": {
+        "constructed": 217,
+        "sent": 217,
+        "ackReceived": 217
+      },
+      "mainCounts": {
+        "received": 229,
+        "applied": 229,
+        "ackSent": 229
+      },
+      "mainTimings": {
+        "replicaMs": {
+          "n": 229,
+          "median": 0,
+          "min": 0,
+          "max": 0.20000000001164153,
+          "p95": 0.10000000000582077,
+          "p99": 0.10000000000582077,
+          "sum": 7.499999999970896
+        },
+        "callbackMs": {
+          "n": 229,
+          "median": 0,
+          "min": 0,
+          "max": 0.7999999999883585,
+          "p95": 0.10000000000582077,
+          "p99": 0.20000000001164153,
+          "sum": 6.700000000040745
+        },
+        "receiveApplyAckMs": {
+          "n": 229,
+          "median": 0.09999999997671694,
+          "min": 0,
+          "max": 0.7999999999883585,
+          "p95": 0.20000000001164153,
+          "p99": 0.27200000001583235,
+          "sum": 16.39999999999418
+        }
+      },
+      "longTasks": {
+        "n": 1,
+        "median": 128,
+        "min": 128,
+        "max": 128,
+        "p95": null,
+        "p99": null,
+        "sum": 128
+      },
+      "framesReceived": 229,
+      "transportFrequency": 21.343623010103247,
+      "clockBest": {
+        "rtt": 0,
+        "offset": -740.8999999999942,
+        "lower": -740.8999999999942,
+        "upper": -740.8999999999942
+      },
+      "calibratedSendToReceive": {
+        "n": 217,
+        "median": 5.2000000000116415,
+        "min": 0.7999999999883585,
+        "max": 17.70000000001164,
+        "p95": 12.820000000006978,
+        "p99": 16.13600000000792,
+        "sum": 1248.8999999999942
+      },
+      "payload": {
+        "jsonUtf8Bytes": 184243,
+        "topKeys": [
+          "epoch",
+          "steps",
+          "events",
+          "genomes",
+          "lineage",
+          "energyActivity",
+          "state"
+        ],
+        "stateKeys": [
+          "initialSeed",
+          "simTime",
+          "nutrients",
+          "bubbles",
+          "caustics",
+          "ledger",
+          "nutrientAccumulator",
+          "totalBirths",
+          "totalDeaths",
+          "recentDeaths",
+          "energyPool",
+          "organisms",
+          "eggs"
+        ],
+        "genomes": 0,
+        "lineage": 0,
+        "selectedNeural": 0
+      },
+      "inventory": {
+        "organisms": 15,
+        "living": 15,
+        "parts": 81,
+        "eyes": 39,
+        "hiddenNeurons": 360,
+        "nutrients": 284,
+        "eggs": 0,
+        "caustics": 28,
+        "bubbles": 0
+      },
+      "heap": {
+        "used": 53500000,
+        "total": 97400000
+      },
+      "stateBeforeHash": "ebd34df170b4e382737b4f11092b934aa2789742625cb5e3e4e6d8db1ed077d7",
+      "stateFinalHash": "f0e0d375c0fdbd0c48cf89583f696d91f519fafb913bec2d76890ec28e37c4f5",
+      "settingsHash": "1ecbec90bc984fac9a5da5f4b8c178ac0c735f24f3123ed059865b3cd75db932",
+      "canvas": [
+        1280,
+        674
+      ],
+      "viewport": [
+        1280,
+        850
+      ],
+      "dpr": 1,
+      "visible": "visible"
+    },
+    {
+      "name": "trial03",
+      "rep": 1,
+      "n": 30,
+      "on": true,
+      "speed": "max",
+      "diagnostic": true,
+      "ticks": 2322,
+      "wallMs": 10114,
+      "ticksPerSecond": 229.5827565750445,
+      "effectiveSpeed": 3.8263792762507416,
+      "fps": 3.960796541466168,
+      "render": {
+        "n": 48,
+        "median": 242.39999999999418,
+        "min": 212.80000000001746,
+        "max": 301.5,
+        "p95": null,
+        "p99": null,
+        "sum": 11671.79999999996
+      },
+      "intervals": {
+        "n": 47,
+        "median": 250,
+        "min": 216.59999999999854,
+        "max": 533.3000000000029,
+        "p95": null,
+        "p99": null,
+        "sum": 11866.300000000003
+      },
+      "worker": {
+        "batchMs": {
+          "n": 1067,
+          "median": 9.699999999982538,
+          "min": 0,
+          "max": 22.89999999999418,
+          "p95": 12.370000000001157,
+          "p99": 13.60000000000582,
+          "sum": 9978.600000000093
+        },
+        "batchTicks": {
+          "n": 1067,
+          "median": 2,
+          "min": 0,
+          "max": 3,
+          "p95": 3,
+          "p99": 3,
+          "sum": 2322
+        },
+        "yieldGapMs": {
+          "n": 1066,
+          "median": 0.10000000000582077,
+          "min": 0,
+          "max": 16.70000000001164,
+          "p95": 16.099999999998545,
+          "p99": 16.20000000001164,
+          "sum": 1374.4999999999418
+        },
+        "tickMs": {
+          "n": 2322,
+          "median": 4.100000000005821,
+          "min": 3.1000000000058208,
+          "max": 15,
+          "p95": 6,
+          "p99": 6.800000000017462,
+          "sum": 9935.700000000128
+        },
+        "frameBuildMs": {
+          "n": 41,
+          "median": 0.10000000000582077,
+          "min": 0,
+          "max": 0.20000000001164153,
+          "p95": null,
+          "p99": null,
+          "sum": 4.100000000005821
+        },
+        "postMessageMs": {
+          "n": 41,
+          "median": 0.7000000000116415,
+          "min": 0.5,
+          "max": 1.400000000023283,
+          "p95": null,
+          "p99": null,
+          "sum": 31.800000000046566
+        },
+        "ackRoundTripMs": {
+          "n": 41,
+          "median": 232.5,
+          "min": 200.80000000001746,
+          "max": 292.69999999998254,
+          "p95": null,
+          "p99": null,
+          "sum": 9640.299999999988
+        }
+      },
+      "workerCounts": {
+        "constructed": 41,
+        "sent": 41,
+        "blockedSend": 790,
+        "ackReceived": 41
+      },
+      "mainCounts": {
+        "received": 46,
+        "applied": 46,
+        "ackSent": 46
+      },
+      "mainTimings": {
+        "replicaMs": {
+          "n": 46,
+          "median": 0,
+          "min": 0,
+          "max": 0.20000000001164153,
+          "p95": null,
+          "p99": null,
+          "sum": 2.3000000000174623
+        },
+        "callbackMs": {
+          "n": 46,
+          "median": 0,
+          "min": 0,
+          "max": 0.20000000001164153,
+          "p95": null,
+          "p99": null,
+          "sum": 2.800000000046566
+        },
+        "receiveApplyAckMs": {
+          "n": 46,
+          "median": 0.10000000000582077,
+          "min": 0,
+          "max": 0.3000000000174623,
+          "p95": null,
+          "p99": null,
+          "sum": 5.7000000000116415
+        }
+      },
+      "longTasks": {
+        "n": 49,
+        "median": 243,
+        "min": 214,
+        "max": 303,
+        "p95": null,
+        "p99": null,
+        "sum": 11989
+      },
+      "framesReceived": 46,
+      "transportFrequency": 3.7839216234668913,
+      "clockBest": {
+        "rtt": 0,
+        "offset": -740.8999999999942,
+        "lower": -740.8999999999942,
+        "upper": -740.8999999999942
+      },
+      "calibratedSendToReceive": {
+        "n": 41,
+        "median": 227.29999999998836,
+        "min": 194.30000000001746,
+        "max": 291.20000000001164,
+        "p95": null,
+        "p99": null,
+        "sum": 9414.899999999994
+      },
+      "payload": {
+        "jsonUtf8Bytes": 299710,
+        "topKeys": [
+          "epoch",
+          "steps",
+          "events",
+          "genomes",
+          "lineage",
+          "energyActivity",
+          "state"
+        ],
+        "stateKeys": [
+          "initialSeed",
+          "simTime",
+          "nutrients",
+          "bubbles",
+          "caustics",
+          "ledger",
+          "nutrientAccumulator",
+          "totalBirths",
+          "totalDeaths",
+          "recentDeaths",
+          "energyPool",
+          "organisms",
+          "eggs"
+        ],
+        "genomes": 0,
+        "lineage": 0,
+        "selectedNeural": 0
+      },
+      "inventory": {
+        "organisms": 30,
+        "living": 30,
+        "parts": 162,
+        "eyes": 78,
+        "hiddenNeurons": 720,
+        "nutrients": 280,
+        "eggs": 0,
+        "caustics": 28,
+        "bubbles": 0
+      },
+      "heap": {
+        "used": 53500000,
+        "total": 97400000
+      },
+      "stateBeforeHash": "1299114a9d1195056cacd2a2a7bac87b824d830911d7bbee88b51f1e1ce99e83",
+      "stateFinalHash": "b81d13d3bed6683a7bf97534e8462d2dc66e680e2c597a534ed04ac1c82986bd",
+      "settingsHash": "1ecbec90bc984fac9a5da5f4b8c178ac0c735f24f3123ed059865b3cd75db932",
+      "canvas": [
+        1280,
+        674
+      ],
+      "viewport": [
+        1280,
+        850
+      ],
+      "dpr": 1,
+      "visible": "visible"
+    },
+    {
+      "name": "trial04",
+      "rep": 1,
+      "n": 30,
+      "on": false,
+      "speed": "max",
+      "diagnostic": true,
+      "ticks": 2143,
+      "wallMs": 10019.799999999988,
+      "ticksPerSecond": 213.87652448152681,
+      "effectiveSpeed": 3.5646087413587804,
+      "fps": 57.443372834843714,
+      "render": {
+        "n": 652,
+        "median": 11.5,
+        "min": 10.5,
+        "max": 27.599999999976717,
+        "p95": 17.644999999998248,
+        "p99": 19.100000000034925,
+        "sum": 8150.100000000151
+      },
+      "intervals": {
+        "n": 651,
+        "median": 16.69999999999709,
+        "min": 16.5,
+        "max": 216.60000000000582,
+        "p95": 16.80000000000291,
+        "p99": 33.39999999999418,
+        "sum": 11332.899999999994
+      },
+      "worker": {
+        "batchMs": {
+          "n": 1017,
+          "median": 9.900000000023283,
+          "min": 0,
+          "max": 18.100000000034925,
+          "p95": 12.82000000003026,
+          "p99": 13.799999999988358,
+          "sum": 9895.000000000116
+        },
+        "batchTicks": {
+          "n": 1017,
+          "median": 2,
+          "min": 0,
+          "max": 3,
+          "p95": 3,
+          "p99": 3,
+          "sum": 2143
+        },
+        "yieldGapMs": {
+          "n": 1016,
+          "median": 0.09999999997671694,
+          "min": 0,
+          "max": 20.699999999953434,
+          "p95": 4.974999999991269,
+          "p99": 16.199999999953434,
+          "sum": 944.0999999998603
+        },
+        "tickMs": {
+          "n": 2143,
+          "median": 4.399999999965075,
+          "min": 3.099999999976717,
+          "max": 15.400000000023283,
+          "p95": 6.2000000000116415,
+          "p99": 6.7000000000116415,
+          "sum": 9719.999999999884
+        },
+        "frameBuildMs": {
+          "n": 199,
+          "median": 0.09999999997671694,
+          "min": 0,
+          "max": 0.20000000001164153,
+          "p95": 0.20000000001164153,
+          "p99": 0.20000000001164153,
+          "sum": 16.499999999941792
+        },
+        "postMessageMs": {
+          "n": 199,
+          "median": 0.7000000000116415,
+          "min": 0.3999999999650754,
+          "max": 1.2000000000116415,
+          "p95": 1,
+          "p99": 1.102000000033296,
+          "sum": 152.9000000001397
+        },
+        "ackRoundTripMs": {
+          "n": 199,
+          "median": 11,
+          "min": 8,
+          "max": 23.900000000023283,
+          "p95": 21.810000000038418,
+          "p99": 23.212000000011184,
+          "sum": 2522.399999999616
+        }
+      },
+      "workerCounts": {
+        "constructed": 199,
+        "sent": 199,
+        "ackReceived": 199
+      },
+      "mainCounts": {
+        "received": 220,
+        "applied": 220,
+        "ackSent": 220
+      },
+      "mainTimings": {
+        "replicaMs": {
+          "n": 220,
+          "median": 0.09999999997671694,
+          "min": 0,
+          "max": 0.20000000001164153,
+          "p95": 0.10500000003084836,
+          "p99": 0.20000000001164153,
+          "sum": 13.79999999993015
+        },
+        "callbackMs": {
+          "n": 220,
+          "median": 0,
+          "min": 0,
+          "max": 0.20000000001164153,
+          "p95": 0.1000000000349246,
+          "p99": 0.20000000001164153,
+          "sum": 5.7000000000116415
+        },
+        "receiveApplyAckMs": {
+          "n": 220,
+          "median": 0.09999999997671694,
+          "min": 0,
+          "max": 0.3999999999650754,
+          "p95": 0.20000000001164153,
+          "p99": 0.30000000004656613,
+          "sum": 21.700000000128057
+        }
+      },
+      "longTasks": {
+        "n": 1,
+        "median": 220,
+        "min": 220,
+        "max": 220,
+        "p95": null,
+        "p99": null,
+        "sum": 220
+      },
+      "framesReceived": 220,
+      "transportFrequency": 19.358528751814863,
+      "clockBest": {
+        "rtt": 0.09999999997671694,
+        "offset": -740.9499999999825,
+        "lower": -740.9999999999709,
+        "upper": -740.8999999999942
+      },
+      "calibratedSendToReceive": {
+        "n": 199,
+        "median": 5.250000000058208,
+        "min": 1.0500000000465661,
+        "max": 17.45000000001164,
+        "p95": 13.70000000002328,
+        "p99": 16.35200000003446,
+        "sum": 1252.8500000023632
+      },
+      "payload": {
+        "jsonUtf8Bytes": 297020,
+        "topKeys": [
+          "epoch",
+          "steps",
+          "events",
+          "genomes",
+          "lineage",
+          "energyActivity",
+          "state"
+        ],
+        "stateKeys": [
+          "initialSeed",
+          "simTime",
+          "nutrients",
+          "bubbles",
+          "caustics",
+          "ledger",
+          "nutrientAccumulator",
+          "totalBirths",
+          "totalDeaths",
+          "recentDeaths",
+          "energyPool",
+          "organisms",
+          "eggs"
+        ],
+        "genomes": 0,
+        "lineage": 0,
+        "selectedNeural": 0
+      },
+      "inventory": {
+        "organisms": 30,
+        "living": 30,
+        "parts": 162,
+        "eyes": 78,
+        "hiddenNeurons": 720,
+        "nutrients": 281,
+        "eggs": 0,
+        "caustics": 28,
+        "bubbles": 0
+      },
+      "heap": {
+        "used": 53500000,
+        "total": 97400000
+      },
+      "stateBeforeHash": "1299114a9d1195056cacd2a2a7bac87b824d830911d7bbee88b51f1e1ce99e83",
+      "stateFinalHash": "d6be2379712d4badb3d3f6dffa76330f0d35f103b7f3d75afea82eb760578684",
+      "settingsHash": "1ecbec90bc984fac9a5da5f4b8c178ac0c735f24f3123ed059865b3cd75db932",
+      "canvas": [
+        1280,
+        674
+      ],
+      "viewport": [
+        1280,
+        850
+      ],
+      "dpr": 1,
+      "visible": "visible"
+    },
+    {
+      "name": "trial05",
+      "rep": 1,
+      "n": 5,
+      "on": true,
+      "speed": "max",
+      "diagnostic": true,
+      "ticks": 18285,
+      "wallMs": 10023.300000000047,
+      "ticksPerSecond": 1824.249498668095,
+      "effectiveSpeed": 30.404158311134914,
+      "fps": 4.608464828196428,
+      "render": {
+        "n": 51,
+        "median": 200.90000000002328,
+        "min": 166.5,
+        "max": 310.1000000000349,
+        "p95": null,
+        "p99": null,
+        "sum": 10504.300000000105
+      },
+      "intervals": {
+        "n": 50,
+        "median": 216.59999999999127,
+        "min": 183.1999999999971,
+        "max": 366.6999999999971,
+        "p95": null,
+        "p99": null,
+        "sum": 10849.600000000006
+      },
+      "worker": {
+        "batchMs": {
+          "n": 1233,
+          "median": 8.200000000011642,
+          "min": 0,
+          "max": 10.399999999965075,
+          "p95": 8.700000000011642,
+          "p99": 8.968000000007457,
+          "sum": 9891.09999999957
+        },
+        "batchTicks": {
+          "n": 1233,
+          "median": 16,
+          "min": 0,
+          "max": 19,
+          "p95": 18,
+          "p99": 19,
+          "sum": 18285
+        },
+        "yieldGapMs": {
+          "n": 1232,
+          "median": 0,
+          "min": 0,
+          "max": 16.20000000001164,
+          "p95": 0.40000000002328306,
+          "p99": 16.100000000034925,
+          "sum": 736.9000000003725
+        },
+        "tickMs": {
+          "n": 18285,
+          "median": 0.5,
+          "min": 0.19999999995343387,
+          "max": 4.600000000034925,
+          "p95": 0.9000000000232831,
+          "p99": 1.2000000000116415,
+          "sum": 9856.499999999243
+        },
+        "frameBuildMs": {
+          "n": 58,
+          "median": 0,
+          "min": 0,
+          "max": 0.1000000000349246,
+          "p95": null,
+          "p99": null,
+          "sum": 2.200000000069849
+        },
+        "postMessageMs": {
+          "n": 58,
+          "median": 0.29999999998835847,
+          "min": 0.09999999997671694,
+          "max": 0.5,
+          "p95": null,
+          "p99": null,
+          "sum": 15.300000000046566
+        },
+        "ackRoundTripMs": {
+          "n": 58,
+          "median": 190.90000000002328,
+          "min": 8.199999999953434,
+          "max": 274.4000000000233,
+          "p95": null,
+          "p99": null,
+          "sum": 9213.79999999993
+        }
+      },
+      "workerCounts": {
+        "constructed": 58,
+        "sent": 58,
+        "blockedSend": 886,
+        "ackReceived": 58
+      },
+      "mainCounts": {
+        "received": 61,
+        "applied": 61,
+        "ackSent": 61
+      },
+      "mainTimings": {
+        "replicaMs": {
+          "n": 61,
+          "median": 0,
+          "min": 0,
+          "max": 0.1000000000349246,
+          "p95": null,
+          "p99": null,
+          "sum": 1.0999999999185093
+        },
+        "callbackMs": {
+          "n": 61,
+          "median": 0,
+          "min": 0,
+          "max": 0.20000000001164153,
+          "p95": null,
+          "p99": null,
+          "sum": 2.800000000104774
+        },
+        "receiveApplyAckMs": {
+          "n": 61,
+          "median": 0.09999999997671694,
+          "min": 0,
+          "max": 0.20000000001164153,
+          "p95": null,
+          "p99": null,
+          "sum": 4
+        }
+      },
+      "longTasks": {
+        "n": 51,
+        "median": 202,
+        "min": 56,
+        "max": 312,
+        "p95": null,
+        "p99": null,
+        "sum": 10418
+      },
+      "framesReceived": 61,
+      "transportFrequency": 5.522211057096018,
+      "clockBest": {
+        "rtt": 0,
+        "offset": -740.8999999999942,
+        "lower": -740.8999999999942,
+        "upper": -740.8999999999942
+      },
+      "calibratedSendToReceive": {
+        "n": 58,
+        "median": 184.79999999998836,
+        "min": 0.5,
+        "max": 269.29999999998836,
+        "p95": null,
+        "p99": null,
+        "sum": 8940.200000000012
+      },
+      "payload": {
+        "jsonUtf8Bytes": 95438,
+        "topKeys": [
+          "epoch",
+          "steps",
+          "events",
+          "genomes",
+          "lineage",
+          "energyActivity",
+          "state"
+        ],
+        "stateKeys": [
+          "initialSeed",
+          "simTime",
+          "nutrients",
+          "bubbles",
+          "caustics",
+          "ledger",
+          "nutrientAccumulator",
+          "totalBirths",
+          "totalDeaths",
+          "recentDeaths",
+          "energyPool",
+          "organisms",
+          "eggs"
+        ],
+        "genomes": 0,
+        "lineage": 0,
+        "selectedNeural": 0
+      },
+      "inventory": {
+        "organisms": 4,
+        "living": 4,
+        "parts": 21,
+        "eyes": 10,
+        "hiddenNeurons": 96,
+        "nutrients": 304,
+        "eggs": 0,
+        "caustics": 28,
+        "bubbles": 0
+      },
+      "heap": {
+        "used": 53500000,
+        "total": 97400000
+      },
+      "stateBeforeHash": "6e6c977f40a6f6ec322d59a5b4042fd7fc16a64b3b21167f67b4f5e0075902f0",
+      "stateFinalHash": "4e3d40312d97d85d2c772fbf1a94fe784451f3965a0224716553f17431a28334",
+      "settingsHash": "1ecbec90bc984fac9a5da5f4b8c178ac0c735f24f3123ed059865b3cd75db932",
+      "canvas": [
+        1280,
+        674
+      ],
+      "viewport": [
+        1280,
+        850
+      ],
+      "dpr": 1,
+      "visible": "visible"
+    },
+    {
+      "name": "trial06",
+      "rep": 1,
+      "n": 5,
+      "on": false,
+      "speed": "max",
+      "diagnostic": true,
+      "ticks": 16157,
+      "wallMs": 10016.099999999977,
+      "ticksPerSecond": 1613.1029043240421,
+      "effectiveSpeed": 26.885048405400703,
+      "fps": 59.33702287898672,
+      "render": {
+        "n": 625,
+        "median": 11.700000000011642,
+        "min": 7.7000000000116415,
+        "max": 26,
+        "p95": 13.599999999976717,
+        "p99": 21.17200000004373,
+        "sum": 6966.200000000885
+      },
+      "intervals": {
+        "n": 624,
+        "median": 16.69999999999709,
+        "min": 16.5,
+        "max": 50,
+        "p95": 16.80000000000291,
+        "p99": 16.80000000000291,
+        "sum": 10516.199999999997
+      },
+      "worker": {
+        "batchMs": {
+          "n": 1191,
+          "median": 8.299999999988358,
+          "min": 0,
+          "max": 12,
+          "p95": 8.900000000023283,
+          "p99": 9.200000000011642,
+          "sum": 9895.700000000128
+        },
+        "batchTicks": {
+          "n": 1191,
+          "median": 14,
+          "min": 0,
+          "max": 19,
+          "p95": 18,
+          "p99": 18,
+          "sum": 16157
+        },
+        "yieldGapMs": {
+          "n": 1190,
+          "median": 0,
+          "min": 0,
+          "max": 16.20000000001164,
+          "p95": 0.3999999999650754,
+          "p99": 1.2220000000064992,
+          "sum": 256.79999999993015
+        },
+        "tickMs": {
+          "n": 16157,
+          "median": 0.5999999999767169,
+          "min": 0.19999999995343387,
+          "max": 7,
+          "p95": 1,
+          "p99": 1.2000000000116415,
+          "sum": 9803.499999999534
+        },
+        "frameBuildMs": {
+          "n": 224,
+          "median": 0,
+          "min": 0,
+          "max": 0.20000000001164153,
+          "p95": 0.1000000000349246,
+          "p99": 0.19999999999825377,
+          "sum": 8.400000000023283
+        },
+        "postMessageMs": {
+          "n": 224,
+          "median": 0.29999999998835847,
+          "min": 0.09999999997671694,
+          "max": 1.1000000000349246,
+          "p95": 0.40000000002328306,
+          "p99": 0.5,
+          "sum": 67.50000000005821
+        },
+        "ackRoundTripMs": {
+          "n": 224,
+          "median": 8.5,
+          "min": 8,
+          "max": 27.100000000034925,
+          "p95": 17.185000000015133,
+          "p99": 17.85400000002061,
+          "sum": 2343.4000000003143
+        }
+      },
+      "workerCounts": {
+        "constructed": 224,
+        "sent": 224,
+        "ackReceived": 224
+      },
+      "mainCounts": {
+        "received": 235,
+        "applied": 235,
+        "ackSent": 235
+      },
+      "mainTimings": {
+        "replicaMs": {
+          "n": 235,
+          "median": 0,
+          "min": 0,
+          "max": 0.20000000001164153,
+          "p95": 0.1000000000349246,
+          "p99": 0.1000000000349246,
+          "sum": 6.200000000244472
+        },
+        "callbackMs": {
+          "n": 235,
+          "median": 0,
+          "min": 0,
+          "max": 0.5,
+          "p95": 0.09999999997671694,
+          "p99": 0.19999999999185092,
+          "sum": 3.8999999997904524
+        },
+        "receiveApplyAckMs": {
+          "n": 235,
+          "median": 0,
+          "min": 0,
+          "max": 0.5,
+          "p95": 0.19999999995343387,
+          "p99": 0.3000000000267755,
+          "sum": 12.599999999976717
+        }
+      },
+      "longTasks": {
+        "n": 0,
+        "median": null,
+        "min": null,
+        "max": null,
+        "p95": null,
+        "p99": null,
+        "sum": 0
+      },
+      "framesReceived": 235,
+      "transportFrequency": 22.293477023488762,
+      "clockBest": {
+        "rtt": 0,
+        "offset": -740.8999999999942,
+        "lower": -740.8999999999942,
+        "upper": -740.8999999999942
+      },
+      "calibratedSendToReceive": {
+        "n": 224,
+        "median": 4.100000000005821,
+        "min": 0.3999999999650754,
+        "max": 24.20000000001164,
+        "p95": 12.955000000001744,
+        "p99": 16.477000000005358,
+        "sum": 1173.5000000004075
+      },
+      "payload": {
+        "jsonUtf8Bytes": 102648,
+        "topKeys": [
+          "epoch",
+          "steps",
+          "events",
+          "genomes",
+          "lineage",
+          "energyActivity",
+          "state"
+        ],
+        "stateKeys": [
+          "initialSeed",
+          "simTime",
+          "nutrients",
+          "bubbles",
+          "caustics",
+          "ledger",
+          "nutrientAccumulator",
+          "totalBirths",
+          "totalDeaths",
+          "recentDeaths",
+          "energyPool",
+          "organisms",
+          "eggs"
+        ],
+        "genomes": 0,
+        "lineage": 0,
+        "selectedNeural": 0
+      },
+      "inventory": {
+        "organisms": 5,
+        "living": 5,
+        "parts": 27,
+        "eyes": 13,
+        "hiddenNeurons": 120,
+        "nutrients": 299,
+        "eggs": 0,
+        "caustics": 28,
+        "bubbles": 0
+      },
+      "heap": {
+        "used": 53500000,
+        "total": 97400000
+      },
+      "stateBeforeHash": "6e6c977f40a6f6ec322d59a5b4042fd7fc16a64b3b21167f67b4f5e0075902f0",
+      "stateFinalHash": "5ac3a73a3638394594852f5b8d7a1f300e5acc4c1c8e52b6337f7b0516169e43",
+      "settingsHash": "1ecbec90bc984fac9a5da5f4b8c178ac0c735f24f3123ed059865b3cd75db932",
+      "canvas": [
+        1280,
+        674
+      ],
+      "viewport": [
+        1280,
+        850
+      ],
+      "dpr": 1,
+      "visible": "visible"
+    },
+    {
+      "name": "trial07",
+      "rep": 1,
+      "n": 15,
+      "on": true,
+      "speed": 0,
+      "diagnostic": true,
+      "ticks": 0,
+      "wallMs": 11041.200000000012,
+      "ticksPerSecond": 0,
+      "effectiveSpeed": 0,
+      "fps": 4.403831333259945,
+      "render": {
+        "n": 49,
+        "median": 219.89999999996508,
+        "min": 204.69999999995343,
+        "max": 305.70000000001164,
+        "p95": null,
+        "p99": null,
+        "sum": 10989.899999999907
+      },
+      "intervals": {
+        "n": 48,
+        "median": 216.70000000001164,
+        "min": 199.89999999999418,
+        "max": 383.29999999998836,
+        "p95": null,
+        "p99": null,
+        "sum": 10899.599999999977
+      },
+      "worker": {
+        "batchMs": {
+          "n": 683,
+          "median": 0,
+          "min": 0,
+          "max": 0.1000000000349246,
+          "p95": 0.08999999997904297,
+          "p99": 0.1000000000349246,
+          "sum": 3.5
+        },
+        "batchTicks": {
+          "n": 683,
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "p95": 0,
+          "p99": 0,
+          "sum": 0
+        },
+        "yieldGapMs": {
+          "n": 682,
+          "median": 16.099999999976717,
+          "min": 16,
+          "max": 37.5,
+          "p95": 16.20000000001164,
+          "p99": 16.29999999998836,
+          "sum": 11020.399999999965
+        }
+      },
+      "workerCounts": {},
+      "mainCounts": {},
+      "mainTimings": {},
+      "longTasks": {
+        "n": 50,
+        "median": 219,
+        "min": 75,
+        "max": 306,
+        "p95": null,
+        "p99": null,
+        "sum": 11118
+      },
+      "framesReceived": 0,
+      "transportFrequency": 0,
+      "clockBest": {
+        "rtt": 0.1000000000349246,
+        "offset": -740.8499999999767,
+        "lower": -740.8999999999942,
+        "upper": -740.7999999999593
+      },
+      "calibratedSendToReceive": {
+        "n": 0,
+        "median": null,
+        "min": null,
+        "max": null,
+        "p95": null,
+        "p99": null,
+        "sum": 0
+      },
+      "payload": {
+        "jsonUtf8Bytes": 1951255,
+        "topKeys": [
+          "epoch",
+          "steps",
+          "events",
+          "genomes",
+          "lineage",
+          "energyActivity",
+          "state"
+        ],
+        "stateKeys": [
+          "initialSeed",
+          "simTime",
+          "nutrients",
+          "bubbles",
+          "caustics",
+          "ledger",
+          "nutrientAccumulator",
+          "totalBirths",
+          "totalDeaths",
+          "recentDeaths",
+          "energyPool",
+          "organisms",
+          "eggs"
+        ],
+        "genomes": 30,
+        "lineage": 15,
+        "selectedNeural": 0
+      },
+      "inventory": {
+        "organisms": 15,
+        "living": 15,
+        "parts": 81,
+        "eyes": 39,
+        "hiddenNeurons": 360,
+        "nutrients": 275,
+        "eggs": 0,
+        "caustics": 28,
+        "bubbles": 0
+      },
+      "heap": {
+        "used": 53500000,
+        "total": 97400000
+      },
+      "stateBeforeHash": "ebd34df170b4e382737b4f11092b934aa2789742625cb5e3e4e6d8db1ed077d7",
+      "stateFinalHash": "ebd34df170b4e382737b4f11092b934aa2789742625cb5e3e4e6d8db1ed077d7",
+      "settingsHash": "1ecbec90bc984fac9a5da5f4b8c178ac0c735f24f3123ed059865b3cd75db932",
+      "canvas": [
+        1280,
+        674
+      ],
+      "viewport": [
+        1280,
+        850
+      ],
+      "dpr": 1,
+      "visible": "visible"
+    },
+    {
+      "name": "trial08",
+      "rep": 1,
+      "n": 15,
+      "on": false,
+      "speed": 0,
+      "diagnostic": true,
+      "ticks": 0,
+      "wallMs": 10486.800000000047,
+      "ticksPerSecond": 0,
+      "effectiveSpeed": 0,
+      "fps": 59.71383514750564,
+      "render": {
+        "n": 622,
+        "median": 9.400000000023283,
+        "min": 8.899999999965075,
+        "max": 20.400000000023283,
+        "p95": 13.200000000011642,
+        "p99": 13.600000000034925,
+        "sum": 6386.099999999569
+      },
+      "intervals": {
+        "n": 621,
+        "median": 16.699999999982538,
+        "min": 16.5,
+        "max": 66.60000000000582,
+        "p95": 16.70000000001164,
+        "p99": 16.800000000017462,
+        "sum": 10399.600000000006
+      },
+      "worker": {
+        "batchMs": {
+          "n": 651,
+          "median": 0,
+          "min": 0,
+          "max": 0.1000000000349246,
+          "p95": 0,
+          "p99": 0.1000000000349246,
+          "sum": 2.8999999999068677
+        },
+        "batchTicks": {
+          "n": 651,
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "p95": 0,
+          "p99": 0,
+          "sum": 0
+        },
+        "yieldGapMs": {
+          "n": 650,
+          "median": 16.099999999976717,
+          "min": 16,
+          "max": 18,
+          "p95": 16.20000000001164,
+          "p99": 16.250999999999767,
+          "sum": 10472.300000000047
+        }
+      },
+      "workerCounts": {},
+      "mainCounts": {},
+      "mainTimings": {},
+      "longTasks": {
+        "n": 1,
+        "median": 66,
+        "min": 66,
+        "max": 66,
+        "p95": null,
+        "p99": null,
+        "sum": 66
+      },
+      "framesReceived": 0,
+      "transportFrequency": 0,
+      "clockBest": {
+        "rtt": 0,
+        "offset": -740.8999999999942,
+        "lower": -740.8999999999942,
+        "upper": -740.8999999999942
+      },
+      "calibratedSendToReceive": {
+        "n": 0,
+        "median": null,
+        "min": null,
+        "max": null,
+        "p95": null,
+        "p99": null,
+        "sum": 0
+      },
+      "payload": {
+        "jsonUtf8Bytes": 1951255,
+        "topKeys": [
+          "epoch",
+          "steps",
+          "events",
+          "genomes",
+          "lineage",
+          "energyActivity",
+          "state"
+        ],
+        "stateKeys": [
+          "initialSeed",
+          "simTime",
+          "nutrients",
+          "bubbles",
+          "caustics",
+          "ledger",
+          "nutrientAccumulator",
+          "totalBirths",
+          "totalDeaths",
+          "recentDeaths",
+          "energyPool",
+          "organisms",
+          "eggs"
+        ],
+        "genomes": 30,
+        "lineage": 15,
+        "selectedNeural": 0
+      },
+      "inventory": {
+        "organisms": 15,
+        "living": 15,
+        "parts": 81,
+        "eyes": 39,
+        "hiddenNeurons": 360,
+        "nutrients": 275,
+        "eggs": 0,
+        "caustics": 28,
+        "bubbles": 0
+      },
+      "heap": {
+        "used": 53500000,
+        "total": 97400000
+      },
+      "stateBeforeHash": "ebd34df170b4e382737b4f11092b934aa2789742625cb5e3e4e6d8db1ed077d7",
+      "stateFinalHash": "ebd34df170b4e382737b4f11092b934aa2789742625cb5e3e4e6d8db1ed077d7",
+      "settingsHash": "1ecbec90bc984fac9a5da5f4b8c178ac0c735f24f3123ed059865b3cd75db932",
+      "canvas": [
+        1280,
+        674
+      ],
+      "viewport": [
+        1280,
+        850
+      ],
+      "dpr": 1,
+      "visible": "visible"
+    },
+    {
+      "name": "trial09",
+      "rep": 1,
+      "n": 15,
+      "on": true,
+      "speed": 5,
+      "diagnostic": true,
+      "ticks": 3036,
+      "wallMs": 10126.100000000035,
+      "ticksPerSecond": 299.81927889315625,
+      "effectiveSpeed": 4.996987981552604,
+      "fps": 4.177926326269387,
+      "render": {
+        "n": 48,
+        "median": 224.40000000002328,
+        "min": 198.89999999996508,
+        "max": 283.70000000001164,
+        "p95": null,
+        "p99": null,
+        "sum": 11037.100000000035
+      },
+      "intervals": {
+        "n": 47,
+        "median": 233.30000000001746,
+        "min": 199.89999999999418,
+        "max": 400,
+        "p95": null,
+        "p99": null,
+        "sum": 11249.599999999977
+      },
+      "worker": {
+        "batchMs": {
+          "n": 6619,
+          "median": 0,
+          "min": 0,
+          "max": 9,
+          "p95": 3.6000000000349246,
+          "p99": 5.281999999992521,
+          "sum": 5592.600000000384
+        },
+        "batchTicks": {
+          "n": 6619,
+          "median": 0,
+          "min": 0,
+          "max": 3,
+          "p95": 2,
+          "p99": 2,
+          "sum": 3036
+        },
+        "yieldGapMs": {
+          "n": 6618,
+          "median": 0,
+          "min": 0,
+          "max": 18.20000000001164,
+          "p95": 4.100000000034925,
+          "p99": 4.2000000000116415,
+          "sum": 5551.199999999662
+        },
+        "tickMs": {
+          "n": 3036,
+          "median": 1.7000000000116415,
+          "min": 0.8999999999650754,
+          "max": 5.600000000034925,
+          "p95": 2.8999999999650754,
+          "p99": 3.465000000008158,
+          "sum": 5556.200000000012
+        },
+        "frameBuildMs": {
+          "n": 52,
+          "median": 0.09999999997671694,
+          "min": 0,
+          "max": 0.19999999995343387,
+          "p95": null,
+          "p99": null,
+          "sum": 3.699999999895226
+        },
+        "postMessageMs": {
+          "n": 52,
+          "median": 0.40000000002328306,
+          "min": 0.20000000001164153,
+          "max": 0.7000000000116415,
+          "p95": null,
+          "p99": null,
+          "sum": 21.400000000023283
+        },
+        "ackRoundTripMs": {
+          "n": 52,
+          "median": 215.29999999998836,
+          "min": 0.5999999999767169,
+          "max": 272.20000000001164,
+          "p95": null,
+          "p99": null,
+          "sum": 9632.300000000163
+        }
+      },
+      "workerCounts": {
+        "constructed": 52,
+        "sent": 52,
+        "blockedSend": 5280,
+        "ackReceived": 52
+      },
+      "mainCounts": {
+        "received": 55,
+        "applied": 55,
+        "ackSent": 55
+      },
+      "mainTimings": {
+        "replicaMs": {
+          "n": 55,
+          "median": 0,
+          "min": 0,
+          "max": 0.20000000001164153,
+          "p95": null,
+          "p99": null,
+          "sum": 2.6000000002677552
+        },
+        "callbackMs": {
+          "n": 55,
+          "median": 0,
+          "min": 0,
+          "max": 0.40000000002328306,
+          "p95": null,
+          "p99": null,
+          "sum": 1.2999999999301508
+        },
+        "receiveApplyAckMs": {
+          "n": 55,
+          "median": 0.09999999997671694,
+          "min": 0,
+          "max": 0.5,
+          "p95": null,
+          "p99": null,
+          "sum": 4.400000000139698
+        }
+      },
+      "longTasks": {
+        "n": 50,
+        "median": 224.5,
+        "min": 118,
+        "max": 285,
+        "p95": null,
+        "p99": null,
+        "sum": 11429
+      },
+      "framesReceived": 55,
+      "transportFrequency": 4.785604900459423,
+      "clockBest": {
+        "rtt": 0,
+        "offset": -740.8999999999942,
+        "lower": -740.8999999999942,
+        "upper": -740.8999999999942
+      },
+      "calibratedSendToReceive": {
+        "n": 52,
+        "median": 215.45000000001164,
+        "min": 0.7000000000116415,
+        "max": 271.19999999995343,
+        "p95": null,
+        "p99": null,
+        "sum": 9568.799999999872
+      },
+      "payload": {
+        "jsonUtf8Bytes": 180409,
+        "topKeys": [
+          "epoch",
+          "steps",
+          "events",
+          "genomes",
+          "lineage",
+          "energyActivity",
+          "state"
+        ],
+        "stateKeys": [
+          "initialSeed",
+          "simTime",
+          "nutrients",
+          "bubbles",
+          "caustics",
+          "ledger",
+          "nutrientAccumulator",
+          "totalBirths",
+          "totalDeaths",
+          "recentDeaths",
+          "energyPool",
+          "organisms",
+          "eggs"
+        ],
+        "genomes": 0,
+        "lineage": 0,
+        "selectedNeural": 0
+      },
+      "inventory": {
+        "organisms": 15,
+        "living": 15,
+        "parts": 81,
+        "eyes": 39,
+        "hiddenNeurons": 360,
+        "nutrients": 284,
+        "eggs": 0,
+        "caustics": 28,
+        "bubbles": 0
+      },
+      "heap": {
+        "used": 53500000,
+        "total": 97400000
+      },
+      "stateBeforeHash": "ebd34df170b4e382737b4f11092b934aa2789742625cb5e3e4e6d8db1ed077d7",
+      "stateFinalHash": "912366f101a3de9fee77caf3af190f886de123c231ba0a138ad6c3bab8292d55",
+      "settingsHash": "1ecbec90bc984fac9a5da5f4b8c178ac0c735f24f3123ed059865b3cd75db932",
+      "canvas": [
+        1280,
+        674
+      ],
+      "viewport": [
+        1280,
+        850
+      ],
+      "dpr": 1,
+      "visible": "visible"
+    },
+    {
+      "name": "trial10",
+      "rep": 1,
+      "n": 15,
+      "on": false,
+      "speed": 5,
+      "diagnostic": true,
+      "ticks": 3002,
+      "wallMs": 10012.700000000012,
+      "ticksPerSecond": 299.81922957843506,
+      "effectiveSpeed": 4.996987159640584,
+      "fps": 58.445246514354906,
+      "render": {
+        "n": 639,
+        "median": 12,
+        "min": 8.899999999965075,
+        "max": 41.59999999997672,
+        "p95": 15,
+        "p99": 23.657999999991155,
+        "sum": 7613.9000000000815
+      },
+      "intervals": {
+        "n": 638,
+        "median": 16.699999999982538,
+        "min": 16.5,
+        "max": 116.69999999998254,
+        "p95": 16.70000000001164,
+        "p99": 33.30000000001746,
+        "sum": 10916.199999999983
+      },
+      "worker": {
+        "batchMs": {
+          "n": 6233,
+          "median": 0,
+          "min": 0,
+          "max": 12.400000000023283,
+          "p95": 3.800000000046566,
+          "p99": 5.567999999984196,
+          "sum": 5633.700000000768
+        },
+        "batchTicks": {
+          "n": 6233,
+          "median": 0,
+          "min": 0,
+          "max": 6,
+          "p95": 2,
+          "p99": 2,
+          "sum": 3002
+        },
+        "yieldGapMs": {
+          "n": 6232,
+          "median": 0,
+          "min": 0,
+          "max": 18.79999999998836,
+          "p95": 4.100000000034925,
+          "p99": 4.2000000000116415,
+          "sum": 4968.399999999383
+        },
+        "tickMs": {
+          "n": 3002,
+          "median": 1.7000000000116415,
+          "min": 0.8999999999650754,
+          "max": 6.899999999965075,
+          "p95": 2.7999999999883585,
+          "p99": 4.7989999999885695,
+          "sum": 5497.2000000017
+        },
+        "frameBuildMs": {
+          "n": 262,
+          "median": 0.09999999997671694,
+          "min": 0,
+          "max": 0.20000000001164153,
+          "p95": 0.1000000000349246,
+          "p99": 0.20000000001164153,
+          "sum": 15.199999999720603
+        },
+        "postMessageMs": {
+          "n": 262,
+          "median": 0.40000000002328306,
+          "min": 0.19999999995343387,
+          "max": 0.7999999999883585,
+          "p95": 0.6000000000349246,
+          "p99": 0.6390000000258429,
+          "sum": 109.19999999960419
+        },
+        "ackRoundTripMs": {
+          "n": 262,
+          "median": 4.600000000005821,
+          "min": 0.5,
+          "max": 31.900000000023283,
+          "p95": 14.794999999989521,
+          "p99": 18.26800000002839,
+          "sum": 1635.7000000003027
+        }
+      },
+      "workerCounts": {
+        "constructed": 262,
+        "sent": 262,
+        "ackReceived": 262
+      },
+      "mainCounts": {
+        "received": 281,
+        "applied": 281,
+        "ackSent": 281
+      },
+      "mainTimings": {
+        "replicaMs": {
+          "n": 281,
+          "median": 0,
+          "min": 0,
+          "max": 0.3999999999650754,
+          "p95": 0.1000000000349246,
+          "p99": 0.22000000000698378,
+          "sum": 11.599999999802094
+        },
+        "callbackMs": {
+          "n": 281,
+          "median": 0,
+          "min": 0,
+          "max": 0.20000000001164153,
+          "p95": 0.1000000000349246,
+          "p99": 0.1000000000349246,
+          "sum": 3.6000000002095476
+        },
+        "receiveApplyAckMs": {
+          "n": 281,
+          "median": 0.09999999997671694,
+          "min": 0,
+          "max": 0.40000000002328306,
+          "p95": 0.20000000001164153,
+          "p99": 0.22000000000698378,
+          "sum": 18.800000000046566
+        }
+      },
+      "longTasks": {
+        "n": 1,
+        "median": 108,
+        "min": 108,
+        "max": 108,
+        "p95": null,
+        "p99": null,
+        "sum": 108
+      },
+      "framesReceived": 281,
+      "transportFrequency": 25.69236817803628,
+      "clockBest": {
+        "rtt": 0.1000000000349246,
+        "offset": -740.9500000000116,
+        "lower": -741.0000000000291,
+        "upper": -740.8999999999942
+      },
+      "calibratedSendToReceive": {
+        "n": 262,
+        "median": 4.5499999999883585,
+        "min": 0.6499999999359716,
+        "max": 23.85000000000582,
+        "p95": 14.234999999971475,
+        "p99": 16.527999999987074,
+        "sum": 1527.299999995099
+      },
+      "payload": {
+        "jsonUtf8Bytes": 180899,
+        "topKeys": [
+          "epoch",
+          "steps",
+          "events",
+          "genomes",
+          "lineage",
+          "energyActivity",
+          "state"
+        ],
+        "stateKeys": [
+          "initialSeed",
+          "simTime",
+          "nutrients",
+          "bubbles",
+          "caustics",
+          "ledger",
+          "nutrientAccumulator",
+          "totalBirths",
+          "totalDeaths",
+          "recentDeaths",
+          "energyPool",
+          "organisms",
+          "eggs"
+        ],
+        "genomes": 0,
+        "lineage": 0,
+        "selectedNeural": 0
+      },
+      "inventory": {
+        "organisms": 15,
+        "living": 15,
+        "parts": 81,
+        "eyes": 39,
+        "hiddenNeurons": 360,
+        "nutrients": 283,
+        "eggs": 0,
+        "caustics": 28,
+        "bubbles": 0
+      },
+      "heap": {
+        "used": 53500000,
+        "total": 97400000
+      },
+      "stateBeforeHash": "ebd34df170b4e382737b4f11092b934aa2789742625cb5e3e4e6d8db1ed077d7",
+      "stateFinalHash": "4d3195d135cc96f1ea44d915abacc05b3580fa67392969111c7e02c039e7de86",
+      "settingsHash": "1ecbec90bc984fac9a5da5f4b8c178ac0c735f24f3123ed059865b3cd75db932",
+      "canvas": [
+        1280,
+        674
+      ],
+      "viewport": [
+        1280,
+        850
+      ],
+      "dpr": 1,
+      "visible": "visible"
+    },
+    {
+      "name": "trial11",
+      "rep": 2,
+      "n": 5,
+      "on": false,
+      "speed": "max",
+      "diagnostic": true,
+      "ticks": 18082,
+      "wallMs": 10051.200000000012,
+      "ticksPerSecond": 1798.9891754218381,
+      "effectiveSpeed": 29.9831529236973,
+      "fps": 58.86318108023435,
+      "render": {
+        "n": 621,
+        "median": 8.299999999988358,
+        "min": 7.5,
+        "max": 29.899999999965075,
+        "p95": 12.900000000023283,
+        "p99": 21.399999999999977,
+        "sum": 6010.700000000827
+      },
+      "intervals": {
+        "n": 620,
+        "median": 16.699999999982538,
+        "min": 16.5,
+        "max": 116.59999999997672,
+        "p95": 16.70000000001164,
+        "p99": 30.164999999992986,
+        "sum": 10532.899999999994
+      },
+      "worker": {
+        "batchMs": {
+          "n": 1206,
+          "median": 8.299999999988358,
+          "min": 0,
+          "max": 14.400000000023283,
+          "p95": 8.799999999988358,
+          "p99": 9.099999999976717,
+          "sum": 9935.900000000489
+        },
+        "batchTicks": {
+          "n": 1206,
+          "median": 15,
+          "min": 0,
+          "max": 20,
+          "p95": 19,
+          "p99": 20,
+          "sum": 18082
+        },
+        "yieldGapMs": {
+          "n": 1205,
+          "median": 0,
+          "min": 0,
+          "max": 16.399999999965075,
+          "p95": 0.30000000004656613,
+          "p99": 2.2759999999893115,
+          "sum": 282.09999999945285
+        },
+        "tickMs": {
+          "n": 18082,
+          "median": 0.5,
+          "min": 0.19999999995343387,
+          "max": 3.8999999999650754,
+          "p95": 0.9000000000232831,
+          "p99": 1.099999999976717,
+          "sum": 9853.400000001013
+        },
+        "frameBuildMs": {
+          "n": 220,
+          "median": 0,
+          "min": 0,
+          "max": 0.1000000000349246,
+          "p95": 0.1000000000349246,
+          "p99": 0.1000000000349246,
+          "sum": 8.099999999511056
+        },
+        "postMessageMs": {
+          "n": 220,
+          "median": 0.29999999998835847,
+          "min": 0.09999999997671694,
+          "max": 6.2000000000116415,
+          "p95": 0.3999999999650754,
+          "p99": 0.40000000002328306,
+          "sum": 60.40000000002328
+        },
+        "ackRoundTripMs": {
+          "n": 219,
+          "median": 8.399999999965075,
+          "min": 8,
+          "max": 25.29999999998836,
+          "p95": 16.79999999998836,
+          "p99": 17.08199999998091,
+          "sum": 2021.2000000000116
+        }
+      },
+      "workerCounts": {
+        "constructed": 220,
+        "sent": 220,
+        "ackReceived": 219
+      },
+      "mainCounts": {
+        "received": 229,
+        "applied": 229,
+        "ackSent": 229
+      },
+      "mainTimings": {
+        "replicaMs": {
+          "n": 229,
+          "median": 0,
+          "min": 0,
+          "max": 0.1000000000349246,
+          "p95": 0.10000000001164153,
+          "p99": 0.1000000000349246,
+          "sum": 4.199999999720603
+        },
+        "callbackMs": {
+          "n": 229,
+          "median": 0,
+          "min": 0,
+          "max": 0.20000000001164153,
+          "p95": 0.1000000000349246,
+          "p99": 0.1000000000349246,
+          "sum": 3.5000000002910383
+        },
+        "receiveApplyAckMs": {
+          "n": 229,
+          "median": 0,
+          "min": 0,
+          "max": 0.20000000001164153,
+          "p95": 0.20000000001164153,
+          "p99": 0.20000000001164153,
+          "sum": 10.300000000046566
+        }
+      },
+      "longTasks": {
+        "n": 1,
+        "median": 94,
+        "min": 94,
+        "max": 94,
+        "p95": null,
+        "p99": null,
+        "sum": 94
+      },
+      "framesReceived": 229,
+      "transportFrequency": 21.64584002873516,
+      "clockBest": {
+        "rtt": 0,
+        "offset": -740.8999999999942,
+        "lower": -740.8999999999942,
+        "upper": -740.8999999999942
+      },
+      "calibratedSendToReceive": {
+        "n": 220,
+        "median": 2.5,
+        "min": 0.40000000002328306,
+        "max": 19.29999999998836,
+        "p95": 10.599999999979627,
+        "p99": 14.15299999996729,
+        "sum": 791.999999999709
+      },
+      "payload": {
+        "jsonUtf8Bytes": 95345,
+        "topKeys": [
+          "epoch",
+          "steps",
+          "events",
+          "genomes",
+          "lineage",
+          "energyActivity",
+          "state"
+        ],
+        "stateKeys": [
+          "initialSeed",
+          "simTime",
+          "nutrients",
+          "bubbles",
+          "caustics",
+          "ledger",
+          "nutrientAccumulator",
+          "totalBirths",
+          "totalDeaths",
+          "recentDeaths",
+          "energyPool",
+          "organisms",
+          "eggs"
+        ],
+        "genomes": 0,
+        "lineage": 0,
+        "selectedNeural": 0
+      },
+      "inventory": {
+        "organisms": 5,
+        "living": 5,
+        "parts": 27,
+        "eyes": 13,
+        "hiddenNeurons": 120,
+        "nutrients": 303,
+        "eggs": 0,
+        "caustics": 28,
+        "bubbles": 0
+      },
+      "heap": {
+        "used": 53500000,
+        "total": 97400000
+      },
+      "stateBeforeHash": "6e6c977f40a6f6ec322d59a5b4042fd7fc16a64b3b21167f67b4f5e0075902f0",
+      "stateFinalHash": "282e664694049872c52ee178e0629950aaa998405c9eedf5ce26b7bbca18c2d0",
+      "settingsHash": "1ecbec90bc984fac9a5da5f4b8c178ac0c735f24f3123ed059865b3cd75db932",
+      "canvas": [
+        1280,
+        674
+      ],
+      "viewport": [
+        1280,
+        850
+      ],
+      "dpr": 1,
+      "visible": "visible"
+    },
+    {
+      "name": "trial12",
+      "rep": 2,
+      "n": 5,
+      "on": true,
+      "speed": "max",
+      "diagnostic": true,
+      "ticks": 18390,
+      "wallMs": 10039.399999999965,
+      "ticksPerSecond": 1831.7827758631058,
+      "effectiveSpeed": 30.529712931051765,
+      "fps": 4.9304618819479975,
+      "render": {
+        "n": 54,
+        "median": 190,
+        "min": 162.80000000004657,
+        "max": 261.5999999999767,
+        "p95": null,
+        "p99": null,
+        "sum": 10490.300000000105
+      },
+      "intervals": {
+        "n": 53,
+        "median": 199.90000000002328,
+        "min": 166.59999999997672,
+        "max": 283.20000000001164,
+        "p95": null,
+        "p99": null,
+        "sum": 10749.5
+      },
+      "worker": {
+        "batchMs": {
+          "n": 1237,
+          "median": 8.200000000011642,
+          "min": 0,
+          "max": 13.300000000046566,
+          "p95": 8.600000000034925,
+          "p99": 8.900000000023283,
+          "sum": 9902.100000000268
+        },
+        "batchTicks": {
+          "n": 1237,
+          "median": 16,
+          "min": 0,
+          "max": 21,
+          "p95": 19,
+          "p99": 20,
+          "sum": 18390
+        },
+        "yieldGapMs": {
+          "n": 1236,
+          "median": 0.09999999997671694,
+          "min": 0,
+          "max": 18,
+          "p95": 0.40000000002328306,
+          "p99": 16.100000000034925,
+          "sum": 776.3999999997322
+        },
+        "tickMs": {
+          "n": 18390,
+          "median": 0.5,
+          "min": 0.19999999995343387,
+          "max": 4,
+          "p95": 0.9000000000232831,
+          "p99": 1.1999999999534339,
+          "sum": 9867.800000000396
+        },
+        "frameBuildMs": {
+          "n": 57,
+          "median": 0,
+          "min": 0,
+          "max": 0.1000000000349246,
+          "p95": null,
+          "p99": null,
+          "sum": 1.5999999999185093
+        },
+        "postMessageMs": {
+          "n": 57,
+          "median": 0.29999999998835847,
+          "min": 0.09999999997671694,
+          "max": 4.800000000046566,
+          "p95": null,
+          "p99": null,
+          "sum": 19.5
+        },
+        "ackRoundTripMs": {
+          "n": 57,
+          "median": 182.39999999996508,
+          "min": 8.199999999953434,
+          "max": 253.29999999998836,
+          "p95": null,
+          "p99": null,
+          "sum": 9337.299999999814
+        }
+      },
+      "workerCounts": {
+        "constructed": 57,
+        "sent": 57,
+        "blockedSend": 894,
+        "ackReceived": 57
+      },
+      "mainCounts": {
+        "received": 60,
+        "applied": 60,
+        "ackSent": 60
+      },
+      "mainTimings": {
+        "replicaMs": {
+          "n": 60,
+          "median": 0,
+          "min": 0,
+          "max": 0.1000000000349246,
+          "p95": null,
+          "p99": null,
+          "sum": 0.7999999999883585
+        },
+        "callbackMs": {
+          "n": 60,
+          "median": 0,
+          "min": 0,
+          "max": 0.20000000001164153,
+          "p95": null,
+          "p99": null,
+          "sum": 2.2000000000116415
+        },
+        "receiveApplyAckMs": {
+          "n": 60,
+          "median": 0,
+          "min": 0,
+          "max": 0.29999999998835847,
+          "p95": null,
+          "p99": null,
+          "sum": 3.4999999999417923
+        }
+      },
+      "longTasks": {
+        "n": 55,
+        "median": 191,
+        "min": 52,
+        "max": 263,
+        "p95": null,
+        "p99": null,
+        "sum": 10601
+      },
+      "framesReceived": 60,
+      "transportFrequency": 5.471107990553244,
+      "clockBest": {
+        "rtt": 0,
+        "offset": -740.8999999999942,
+        "lower": -740.8999999999942,
+        "upper": -740.8999999999942
+      },
+      "calibratedSendToReceive": {
+        "n": 57,
+        "median": 175.89999999996508,
+        "min": 0.3999999999650754,
+        "max": 250,
+        "p95": null,
+        "p99": null,
+        "sum": 9066.999999999825
+      },
+      "payload": {
+        "jsonUtf8Bytes": 95348,
+        "topKeys": [
+          "epoch",
+          "steps",
+          "events",
+          "genomes",
+          "lineage",
+          "energyActivity",
+          "state"
+        ],
+        "stateKeys": [
+          "initialSeed",
+          "simTime",
+          "nutrients",
+          "bubbles",
+          "caustics",
+          "ledger",
+          "nutrientAccumulator",
+          "totalBirths",
+          "totalDeaths",
+          "recentDeaths",
+          "energyPool",
+          "organisms",
+          "eggs"
+        ],
+        "genomes": 0,
+        "lineage": 0,
+        "selectedNeural": 0
+      },
+      "inventory": {
+        "organisms": 4,
+        "living": 4,
+        "parts": 21,
+        "eyes": 10,
+        "hiddenNeurons": 96,
+        "nutrients": 305,
+        "eggs": 0,
+        "caustics": 28,
+        "bubbles": 0
+      },
+      "heap": {
+        "used": 53500000,
+        "total": 97400000
+      },
+      "stateBeforeHash": "6e6c977f40a6f6ec322d59a5b4042fd7fc16a64b3b21167f67b4f5e0075902f0",
+      "stateFinalHash": "cdfc0b4bebae471d5754e81baad208d2c048295fc86ed8d78b22f031a7c0dcde",
+      "settingsHash": "1ecbec90bc984fac9a5da5f4b8c178ac0c735f24f3123ed059865b3cd75db932",
+      "canvas": [
+        1280,
+        674
+      ],
+      "viewport": [
+        1280,
+        850
+      ],
+      "dpr": 1,
+      "visible": "visible"
+    },
+    {
+      "name": "trial13",
+      "rep": 2,
+      "n": 30,
+      "on": false,
+      "speed": "max",
+      "diagnostic": true,
+      "ticks": 2216,
+      "wallMs": 10012.299999999988,
+      "ticksPerSecond": 221.32776684677873,
+      "effectiveSpeed": 3.688796114112979,
+      "fps": 57.61985017074185,
+      "render": {
+        "n": 654,
+        "median": 11.599999999976717,
+        "min": 10.5,
+        "max": 25.900000000023283,
+        "p95": 17.20000000001164,
+        "p99": 19.2470000000007,
+        "sum": 8215.39999999982
+      },
+      "intervals": {
+        "n": 653,
+        "median": 16.699999999982538,
+        "min": 16.5,
+        "max": 266.6000000000058,
+        "p95": 16.79999999998836,
+        "p99": 33.30000000001746,
+        "sum": 11332.899999999994
+      },
+      "worker": {
+        "batchMs": {
+          "n": 1005,
+          "median": 10.099999999976717,
+          "min": 0,
+          "max": 17.600000000034925,
+          "p95": 12.980000000004653,
+          "p99": 13.996000000000935,
+          "sum": 9892.999999999243
+        },
+        "batchTicks": {
+          "n": 1005,
+          "median": 2,
+          "min": 0,
+          "max": 3,
+          "p95": 3,
+          "p99": 3,
+          "sum": 2216
+        },
+        "yieldGapMs": {
+          "n": 1004,
+          "median": 0.09999999997671694,
+          "min": 0,
+          "max": 17.699999999953434,
+          "p95": 1.2100000000412727,
+          "p99": 16.20000000001164,
+          "sum": 921.1000000008498
+        },
+        "tickMs": {
+          "n": 2216,
+          "median": 4.2000000000116415,
+          "min": 2.8999999999650754,
+          "max": 13.900000000023283,
+          "p95": 6,
+          "p99": 6.784999999991842,
+          "sum": 9715.49999999901
+        },
+        "frameBuildMs": {
+          "n": 200,
+          "median": 0.09999999997671694,
+          "min": 0,
+          "max": 0.20000000001164153,
+          "p95": 0.19999999995634427,
+          "p99": 0.20000000001164153,
+          "sum": 15.499999999941792
+        },
+        "postMessageMs": {
+          "n": 200,
+          "median": 0.7000000000116415,
+          "min": 0.3999999999650754,
+          "max": 1.7000000000116415,
+          "p95": 1.0999999999796273,
+          "p99": 1.1999999999540159,
+          "sum": 155.60000000020955
+        },
+        "ackRoundTripMs": {
+          "n": 199,
+          "median": 11.399999999965075,
+          "min": 8,
+          "max": 34.79999999998836,
+          "p95": 22.210000000009313,
+          "p99": 24.972000000022856,
+          "sum": 2636.2000000004773
+        }
+      },
+      "workerCounts": {
+        "constructed": 200,
+        "sent": 200,
+        "ackReceived": 199
+      },
+      "mainCounts": {
+        "received": 220,
+        "applied": 220,
+        "ackSent": 220
+      },
+      "mainTimings": {
+        "replicaMs": {
+          "n": 220,
+          "median": 0.09999999997671694,
+          "min": 0,
+          "max": 0.20000000001164153,
+          "p95": 0.1000000000349246,
+          "p99": 0.20000000001164153,
+          "sum": 13.200000000186265
+        },
+        "callbackMs": {
+          "n": 220,
+          "median": 0,
+          "min": 0,
+          "max": 1.599999999976717,
+          "p95": 0.1000000000349246,
+          "p99": 0.20000000001164153,
+          "sum": 6.499999999883585
+        },
+        "receiveApplyAckMs": {
+          "n": 220,
+          "median": 0.09999999997671694,
+          "min": 0,
+          "max": 1.6999999999534339,
+          "p95": 0.20000000001164153,
+          "p99": 0.29999999998835847,
+          "sum": 21.79999999998836
+        }
+      },
+      "longTasks": {
+        "n": 1,
+        "median": 260,
+        "min": 260,
+        "max": 260,
+        "p95": null,
+        "p99": null,
+        "sum": 260
+      },
+      "framesReceived": 220,
+      "transportFrequency": 19.364492562274496,
+      "clockBest": {
+        "rtt": 0,
+        "offset": -740.8999999999942,
+        "lower": -740.8999999999942,
+        "upper": -740.8999999999942
+      },
+      "calibratedSendToReceive": {
+        "n": 200,
+        "median": 5.7999999999883585,
+        "min": 1.2999999999883585,
+        "max": 24.20000000001164,
+        "p95": 14.71000000001222,
+        "p99": 17.11800000003421,
+        "sum": 1325.300000000163
+      },
+      "payload": {
+        "jsonUtf8Bytes": 297585,
+        "topKeys": [
+          "epoch",
+          "steps",
+          "events",
+          "genomes",
+          "lineage",
+          "energyActivity",
+          "state"
+        ],
+        "stateKeys": [
+          "initialSeed",
+          "simTime",
+          "nutrients",
+          "bubbles",
+          "caustics",
+          "ledger",
+          "nutrientAccumulator",
+          "totalBirths",
+          "totalDeaths",
+          "recentDeaths",
+          "energyPool",
+          "organisms",
+          "eggs"
+        ],
+        "genomes": 0,
+        "lineage": 0,
+        "selectedNeural": 0
+      },
+      "inventory": {
+        "organisms": 30,
+        "living": 30,
+        "parts": 162,
+        "eyes": 78,
+        "hiddenNeurons": 720,
+        "nutrients": 280,
+        "eggs": 0,
+        "caustics": 28,
+        "bubbles": 0
+      },
+      "heap": {
+        "used": 53500000,
+        "total": 97400000
+      },
+      "stateBeforeHash": "1299114a9d1195056cacd2a2a7bac87b824d830911d7bbee88b51f1e1ce99e83",
+      "stateFinalHash": "5427d60c6e4449c20b7154e99ec84ffae42545a6eaa2a8846bf9a89ccbf2bb43",
+      "settingsHash": "1ecbec90bc984fac9a5da5f4b8c178ac0c735f24f3123ed059865b3cd75db932",
+      "canvas": [
+        1280,
+        674
+      ],
+      "viewport": [
+        1280,
+        850
+      ],
+      "dpr": 1,
+      "visible": "visible"
+    },
+    {
+      "name": "trial14",
+      "rep": 2,
+      "n": 30,
+      "on": true,
+      "speed": "max",
+      "diagnostic": true,
+      "ticks": 2494,
+      "wallMs": 10136,
+      "ticksPerSecond": 246.05367008681927,
+      "effectiveSpeed": 4.100894501446988,
+      "fps": 3.9719764385738188,
+      "render": {
+        "n": 48,
+        "median": 240.04999999998836,
+        "min": 210.90000000002328,
+        "max": 394.10000000009313,
+        "p95": null,
+        "p99": null,
+        "sum": 11681.19999999972
+      },
+      "intervals": {
+        "n": 47,
+        "median": 233.40000000002328,
+        "min": 216.59999999997672,
+        "max": 583.4000000000233,
+        "p95": null,
+        "p99": null,
+        "sum": 11832.899999999965
+      },
+      "worker": {
+        "batchMs": {
+          "n": 1079,
+          "median": 9.899999999965075,
+          "min": 0,
+          "max": 15,
+          "p95": 12.200000000011642,
+          "p99": 13.422000000018164,
+          "sum": 10004.800000000047
+        },
+        "batchTicks": {
+          "n": 1079,
+          "median": 2,
+          "min": 0,
+          "max": 3,
+          "p95": 3,
+          "p99": 3,
+          "sum": 2494
+        },
+        "yieldGapMs": {
+          "n": 1078,
+          "median": 0.09999999997671694,
+          "min": 0,
+          "max": 18.699999999953434,
+          "p95": 16.099999999976717,
+          "p99": 16.20000000001164,
+          "sum": 1549.1999999998952
+        },
+        "tickMs": {
+          "n": 2494,
+          "median": 3.7999999999883585,
+          "min": 2.8999999999650754,
+          "max": 11.299999999988358,
+          "p95": 5.599999999976717,
+          "p99": 6.506999999998387,
+          "sum": 9962.29999999964
+        },
+        "frameBuildMs": {
+          "n": 43,
+          "median": 0.09999999997671694,
+          "min": 0,
+          "max": 0.20000000001164153,
+          "p95": null,
+          "p99": null,
+          "sum": 4.10000000015134
+        },
+        "postMessageMs": {
+          "n": 43,
+          "median": 0.7000000000116415,
+          "min": 0.40000000002328306,
+          "max": 1.3999999999650754,
+          "p95": null,
+          "p99": null,
+          "sum": 33.40000000002328
+        },
+        "ackRoundTripMs": {
+          "n": 42,
+          "median": 230.20000000001164,
+          "min": 192.09999999997672,
+          "max": 282.70000000001164,
+          "p95": null,
+          "p99": null,
+          "sum": 9639
+        }
+      },
+      "workerCounts": {
+        "constructed": 43,
+        "sent": 43,
+        "blockedSend": 785,
+        "ackReceived": 42
+      },
+      "mainCounts": {
+        "received": 47,
+        "applied": 47,
+        "ackSent": 47
+      },
+      "mainTimings": {
+        "replicaMs": {
+          "n": 47,
+          "median": 0.09999999997671694,
+          "min": 0,
+          "max": 0.2000000000698492,
+          "p95": null,
+          "p99": null,
+          "sum": 3.6000000004423782
+        },
+        "callbackMs": {
+          "n": 47,
+          "median": 0,
+          "min": 0,
+          "max": 0.8000000000465661,
+          "p95": null,
+          "p99": null,
+          "sum": 3.5999999998603016
+        },
+        "receiveApplyAckMs": {
+          "n": 47,
+          "median": 0.10000000009313226,
+          "min": 0,
+          "max": 0.9000000000232831,
+          "p95": null,
+          "p99": null,
+          "sum": 7.8000000001629815
+        }
+      },
+      "longTasks": {
+        "n": 49,
+        "median": 241,
+        "min": 212,
+        "max": 400,
+        "p95": null,
+        "p99": null,
+        "sum": 12004
+      },
+      "framesReceived": 47,
+      "transportFrequency": 3.83704792227937,
+      "clockBest": {
+        "rtt": 0,
+        "offset": -740.8999999999651,
+        "lower": -740.8999999999651,
+        "upper": -740.8999999999651
+      },
+      "calibratedSendToReceive": {
+        "n": 43,
+        "median": 225.80000000004657,
+        "min": 191.09999999997672,
+        "max": 276.5999999999767,
+        "p95": null,
+        "p99": null,
+        "sum": 9623.000000000815
+      },
+      "payload": {
+        "jsonUtf8Bytes": 294144,
+        "topKeys": [
+          "epoch",
+          "steps",
+          "events",
+          "genomes",
+          "lineage",
+          "energyActivity",
+          "state"
+        ],
+        "stateKeys": [
+          "initialSeed",
+          "simTime",
+          "nutrients",
+          "bubbles",
+          "caustics",
+          "ledger",
+          "nutrientAccumulator",
+          "totalBirths",
+          "totalDeaths",
+          "recentDeaths",
+          "energyPool",
+          "organisms",
+          "eggs"
+        ],
+        "genomes": 0,
+        "lineage": 1,
+        "selectedNeural": 0
+      },
+      "inventory": {
+        "organisms": 30,
+        "living": 30,
+        "parts": 162,
+        "eyes": 78,
+        "hiddenNeurons": 720,
+        "nutrients": 280,
+        "eggs": 0,
+        "caustics": 28,
+        "bubbles": 0
+      },
+      "heap": {
+        "used": 53500000,
+        "total": 97400000
+      },
+      "stateBeforeHash": "1299114a9d1195056cacd2a2a7bac87b824d830911d7bbee88b51f1e1ce99e83",
+      "stateFinalHash": "e203536a7bb60949341c3e8a24b562f5eab4820e89fe86d06c85544ed8c6398a",
+      "settingsHash": "1ecbec90bc984fac9a5da5f4b8c178ac0c735f24f3123ed059865b3cd75db932",
+      "canvas": [
+        1280,
+        674
+      ],
+      "viewport": [
+        1280,
+        850
+      ],
+      "dpr": 1,
+      "visible": "visible"
+    },
+    {
+      "name": "trial15",
+      "rep": 2,
+      "n": 15,
+      "on": false,
+      "speed": "max",
+      "diagnostic": true,
+      "ticks": 5479,
+      "wallMs": 10029.599999999977,
+      "ticksPerSecond": 546.2830023131544,
+      "effectiveSpeed": 9.10471670521924,
+      "fps": 58.80401120778659,
+      "render": {
+        "n": 639,
+        "median": 10.099999999976717,
+        "min": 8.699999999953434,
+        "max": 21.699999999953434,
+        "p95": 15.410000000020958,
+        "p99": 16.924000000017696,
+        "sum": 7148.599999999045
+      },
+      "intervals": {
+        "n": 638,
+        "median": 16.70000000001164,
+        "min": 16.5,
+        "max": 150.09999999997672,
+        "p95": 16.79999999998836,
+        "p99": 16.800000000046566,
+        "sum": 10849.599999999977
+      },
+      "worker": {
+        "batchMs": {
+          "n": 1127,
+          "median": 8.900000000023283,
+          "min": 0,
+          "max": 14.5,
+          "p95": 10.200000000011642,
+          "p99": 10.699999999996507,
+          "sum": 9914.000000000233
+        },
+        "batchTicks": {
+          "n": 1127,
+          "median": 5,
+          "min": 0,
+          "max": 8,
+          "p95": 7,
+          "p99": 8,
+          "sum": 5479
+        },
+        "yieldGapMs": {
+          "n": 1126,
+          "median": 0,
+          "min": 0,
+          "max": 16.599999999976717,
+          "p95": 0.40000000002328306,
+          "p99": 16.100000000034925,
+          "sum": 595.4999999997672
+        },
+        "tickMs": {
+          "n": 5479,
+          "median": 1.7000000000116415,
+          "min": 0.8999999999650754,
+          "max": 7.899999999965075,
+          "p95": 2.599999999976717,
+          "p99": 2.8999999999650754,
+          "sum": 9789.900000000664
+        },
+        "frameBuildMs": {
+          "n": 219,
+          "median": 0.09999999997671694,
+          "min": 0,
+          "max": 0.20000000001164153,
+          "p95": 0.1000000000349246,
+          "p99": 0.20000000001164153,
+          "sum": 12.399999999557622
+        },
+        "postMessageMs": {
+          "n": 219,
+          "median": 0.5,
+          "min": 0.20000000001164153,
+          "max": 4.900000000023283,
+          "p95": 0.6000000000349246,
+          "p99": 0.7000000000116415,
+          "sum": 104.69999999983702
+        },
+        "ackRoundTripMs": {
+          "n": 219,
+          "median": 9.400000000023283,
+          "min": 8,
+          "max": 23.79999999998836,
+          "p95": 18.5,
+          "p99": 19.346000000025377,
+          "sum": 2451.899999999907
+        }
+      },
+      "workerCounts": {
+        "constructed": 219,
+        "sent": 219,
+        "ackReceived": 219
+      },
+      "mainCounts": {
+        "received": 234,
+        "applied": 234,
+        "ackSent": 234
+      },
+      "mainTimings": {
+        "replicaMs": {
+          "n": 234,
+          "median": 0,
+          "min": 0,
+          "max": 0.19999999995343387,
+          "p95": 0.10000000009313226,
+          "p99": 0.10000000009313226,
+          "sum": 8.999999999883585
+        },
+        "callbackMs": {
+          "n": 234,
+          "median": 0,
+          "min": 0,
+          "max": 0.2000000000698492,
+          "p95": 0.10000000009313226,
+          "p99": 0.19999999995343387,
+          "sum": 4.8000000001629815
+        },
+        "receiveApplyAckMs": {
+          "n": 234,
+          "median": 0.09999999997671694,
+          "min": 0,
+          "max": 0.30000000004656613,
+          "p95": 0.19999999999417922,
+          "p99": 0.2000000000698492,
+          "sum": 16.999999999883585
+        }
+      },
+      "longTasks": {
+        "n": 1,
+        "median": 121,
+        "min": 121,
+        "max": 121,
+        "p95": null,
+        "p99": null,
+        "sum": 121
+      },
+      "framesReceived": 234,
+      "transportFrequency": 21.514273893256103,
+      "clockBest": {
+        "rtt": 0,
+        "offset": -740.8999999999651,
+        "lower": -740.8999999999651,
+        "upper": -740.8999999999651
+      },
+      "calibratedSendToReceive": {
+        "n": 219,
+        "median": 4.7999999999883585,
+        "min": 0.7000000000698492,
+        "max": 17,
+        "p95": 13.650000000087308,
+        "p99": 15.982000000014668,
+        "sum": 1227.6000000055647
+      },
+      "payload": {
+        "jsonUtf8Bytes": 182896,
+        "topKeys": [
+          "epoch",
+          "steps",
+          "events",
+          "genomes",
+          "lineage",
+          "energyActivity",
+          "state"
+        ],
+        "stateKeys": [
+          "initialSeed",
+          "simTime",
+          "nutrients",
+          "bubbles",
+          "caustics",
+          "ledger",
+          "nutrientAccumulator",
+          "totalBirths",
+          "totalDeaths",
+          "recentDeaths",
+          "energyPool",
+          "organisms",
+          "eggs"
+        ],
+        "genomes": 0,
+        "lineage": 0,
+        "selectedNeural": 0
+      },
+      "inventory": {
+        "organisms": 15,
+        "living": 15,
+        "parts": 81,
+        "eyes": 39,
+        "hiddenNeurons": 360,
+        "nutrients": 285,
+        "eggs": 1,
+        "caustics": 28,
+        "bubbles": 0
+      },
+      "heap": {
+        "used": 53500000,
+        "total": 97400000
+      },
+      "stateBeforeHash": "ebd34df170b4e382737b4f11092b934aa2789742625cb5e3e4e6d8db1ed077d7",
+      "stateFinalHash": "71bbf0b3402e8fe4c9aaaf00b777d3645af72534aa560861a617d2f248cb299a",
+      "settingsHash": "1ecbec90bc984fac9a5da5f4b8c178ac0c735f24f3123ed059865b3cd75db932",
+      "canvas": [
+        1280,
+        674
+      ],
+      "viewport": [
+        1280,
+        850
+      ],
+      "dpr": 1,
+      "visible": "visible"
+    }
+  ],
+  "comparisons": [
+    {
+      "n": 5,
+      "speed": "max",
+      "onTPS": {
+        "n": 2,
+        "median": 1828.0161372656003,
+        "min": 1824.249498668095,
+        "max": 1831.7827758631058,
+        "p95": null,
+        "p99": null,
+        "sum": 3656.0322745312005
+      },
+      "offTPS": {
+        "n": 2,
+        "median": 1706.0460398729401,
+        "min": 1613.1029043240421,
+        "max": 1798.9891754218381,
+        "p95": null,
+        "p99": null,
+        "sum": 3412.0920797458803
+      },
+      "tpsDifference": -121.97009739266014,
+      "tpsPct": -6.672265901060726,
+      "onFPS": {
+        "n": 2,
+        "median": 4.769463355072213,
+        "min": 4.608464828196428,
+        "max": 4.9304618819479975,
+        "p95": null,
+        "p99": null,
+        "sum": 9.538926710144427
+      },
+      "offFPS": {
+        "n": 2,
+        "median": 59.100101979610535,
+        "min": 58.86318108023435,
+        "max": 59.33702287898672,
+        "p95": null,
+        "p99": null,
+        "sum": 118.20020395922107
+      },
+      "pairs": [
+        {
+          "rep": 1,
+          "onTPS": 1824.249498668095,
+          "offTPS": 1613.1029043240421,
+          "pct": -11.57443619955567,
+          "onFPS": 4.608464828196428,
+          "offFPS": 59.33702287898672
+        },
+        {
+          "rep": 2,
+          "onTPS": 1831.7827758631058,
+          "offTPS": 1798.9891754218381,
+          "pct": -1.7902559666669982,
+          "onFPS": 4.9304618819479975,
+          "offFPS": 58.86318108023435
+        }
+      ]
+    },
+    {
+      "n": 15,
+      "speed": "max",
+      "onTPS": {
+        "n": 1,
+        "median": 606.5667747291861,
+        "min": 606.5667747291861,
+        "max": 606.5667747291861,
+        "p95": null,
+        "p99": null,
+        "sum": 606.5667747291861
+      },
+      "offTPS": {
+        "n": 2,
+        "median": 532.5142552889738,
+        "min": 518.7455082647931,
+        "max": 546.2830023131544,
+        "p95": null,
+        "p99": null,
+        "sum": 1065.0285105779476
+      },
+      "tpsDifference": -74.05251944021234,
+      "tpsPct": -12.208469458828263,
+      "onFPS": {
+        "n": 1,
+        "median": 4.104946897708217,
+        "min": 4.104946897708217,
+        "max": 4.104946897708217,
+        "p95": null,
+        "p99": null,
+        "sum": 4.104946897708217
+      },
+      "offFPS": {
+        "n": 2,
+        "median": 58.74889707647171,
+        "min": 58.69378294515683,
+        "max": 58.80401120778659,
+        "p95": null,
+        "p99": null,
+        "sum": 117.49779415294341
+      },
+      "pairs": [
+        {
+          "rep": 1,
+          "onTPS": 606.5667747291861,
+          "offTPS": 518.7455082647931,
+          "pct": -14.47841690696009,
+          "onFPS": 4.104946897708217,
+          "offFPS": 58.69378294515683
+        }
+      ]
+    },
+    {
+      "n": 15,
+      "speed": 0,
+      "onTPS": {
+        "n": 1,
+        "median": 0,
+        "min": 0,
+        "max": 0,
+        "p95": null,
+        "p99": null,
+        "sum": 0
+      },
+      "offTPS": {
+        "n": 1,
+        "median": 0,
+        "min": 0,
+        "max": 0,
+        "p95": null,
+        "p99": null,
+        "sum": 0
+      },
+      "tpsDifference": 0,
+      "tpsPct": null,
+      "onFPS": {
+        "n": 1,
+        "median": 4.403831333259945,
+        "min": 4.403831333259945,
+        "max": 4.403831333259945,
+        "p95": null,
+        "p99": null,
+        "sum": 4.403831333259945
+      },
+      "offFPS": {
+        "n": 1,
+        "median": 59.71383514750564,
+        "min": 59.71383514750564,
+        "max": 59.71383514750564,
+        "p95": null,
+        "p99": null,
+        "sum": 59.71383514750564
+      },
+      "pairs": [
+        {
+          "rep": 1,
+          "onTPS": 0,
+          "offTPS": 0,
+          "pct": null,
+          "onFPS": 4.403831333259945,
+          "offFPS": 59.71383514750564
+        }
+      ]
+    },
+    {
+      "n": 15,
+      "speed": 5,
+      "onTPS": {
+        "n": 1,
+        "median": 299.81927889315625,
+        "min": 299.81927889315625,
+        "max": 299.81927889315625,
+        "p95": null,
+        "p99": null,
+        "sum": 299.81927889315625
+      },
+      "offTPS": {
+        "n": 1,
+        "median": 299.81922957843506,
+        "min": 299.81922957843506,
+        "max": 299.81922957843506,
+        "p95": null,
+        "p99": null,
+        "sum": 299.81922957843506
+      },
+      "tpsDifference": -0.00004931472119551472,
+      "tpsPct": -0.000016448148820735753,
+      "onFPS": {
+        "n": 1,
+        "median": 4.177926326269387,
+        "min": 4.177926326269387,
+        "max": 4.177926326269387,
+        "p95": null,
+        "p99": null,
+        "sum": 4.177926326269387
+      },
+      "offFPS": {
+        "n": 1,
+        "median": 58.445246514354906,
+        "min": 58.445246514354906,
+        "max": 58.445246514354906,
+        "p95": null,
+        "p99": null,
+        "sum": 58.445246514354906
+      },
+      "pairs": [
+        {
+          "rep": 1,
+          "onTPS": 299.81927889315625,
+          "offTPS": 299.81922957843506,
+          "pct": -0.000016448148820735753,
+          "onFPS": 4.177926326269387,
+          "offFPS": 58.445246514354906
+        }
+      ]
+    },
+    {
+      "n": 30,
+      "speed": "max",
+      "onTPS": {
+        "n": 2,
+        "median": 237.81821333093188,
+        "min": 229.5827565750445,
+        "max": 246.05367008681927,
+        "p95": null,
+        "p99": null,
+        "sum": 475.63642666186377
+      },
+      "offTPS": {
+        "n": 2,
+        "median": 217.60214566415277,
+        "min": 213.87652448152681,
+        "max": 221.32776684677873,
+        "p95": null,
+        "p99": null,
+        "sum": 435.20429132830554
+      },
+      "tpsDifference": -20.21606766677911,
+      "tpsPct": -8.500638947550998,
+      "onFPS": {
+        "n": 2,
+        "median": 3.9663864900199934,
+        "min": 3.960796541466168,
+        "max": 3.9719764385738188,
+        "p95": null,
+        "p99": null,
+        "sum": 7.932772980039987
+      },
+      "offFPS": {
+        "n": 2,
+        "median": 57.531611502792785,
+        "min": 57.443372834843714,
+        "max": 57.61985017074185,
+        "p95": null,
+        "p99": null,
+        "sum": 115.06322300558557
+      },
+      "pairs": [
+        {
+          "rep": 1,
+          "onTPS": 229.5827565750445,
+          "offTPS": 213.87652448152681,
+          "pct": -6.8412072090369485,
+          "onFPS": 3.960796541466168,
+          "offFPS": 57.443372834843714
+        },
+        {
+          "rep": 2,
+          "onTPS": 246.05367008681927,
+          "offTPS": 221.32776684677873,
+          "pct": -10.04898778031479,
+          "onFPS": 3.9719764385738188,
+          "offFPS": 57.61985017074185
+        }
+      ]
+    }
+  ],
+  "pilot": {
+    "meta": {
+      "stage": "3.4",
+      "started": "2026-11-03T12:21:44.622Z",
+      "sourceSHA": "d5b35448e017b540dc51b668c890b79af2956d25",
+      "runtimeBase": "3e7319e9d81f86a026bcb5746512fbc1b435b5d8",
+      "sourceDigests": {
+        "simulation.worker.ts": "50dcc968cf1b0a8a8ea496a5993c0d87992340e60e9c11c7f83fdae4db6bd6d0",
+        "simulationHost.ts": "801bda0009738bef014066b9650fedfd97e4b856e0af70e0426119178a971e86",
+        "simulationClient.ts": "20ec91040a1033229c32e101d86fdbc7a498ed74ba03e39a20d8f3eccf141334",
+        "App.tsx": "04af74c5fbbc19e44af47a8b38d6325ec433cc46148f6138f34d894b8e1e281a",
+        "worldScene.ts": "c92912a38602684c880c705a2709d0d573eaf09ec9a729fb1b57660396de1874",
+        "observerPreferences.ts": "3453b2997b6389a3a3d29c8ca714e42e228c75560fed69ca46a3888edfac3abf",
+        "world.ts": "6cbf7da62d1ab3af7ef2c83a9ea565e5d11eb4c55cbf3f20b3c74ac511ceb387",
+        "persistence.ts": "3e759aadb7e2ccee8bb01da428708dd021320748f546670d67454317a63656c3"
+      },
+      "os": "Linux 994528ffff57 7.0.0-1017-azure #17~24.04.1-Ubuntu SMP PREEMPT Thu Sep 24 18:46:57 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux",
+      "cpu": "model name\t: Intel(R) Xeon(R) Platinum 8370C CPU @ 2.80GHz",
+      "node": "v24.22.1",
+      "browser": "145.0.7632.6",
+      "Browser.getVersion": {
+        "protocolVersion": "1.3",
+        "product": "HeadlessChrome/145.0.7632.6",
+        "revision": "@47e20adcc15fc15f01825aa17e570c8f5492ac0f",
+        "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+        "jsVersion": "14.5.201.2"
+      },
+      "SystemInfo.getInfo": {
+        "gpu": {
+          "devices": [
+            {
+              "vendorId": 65535,
+              "deviceId": 65535,
+              "vendorString": "Google Inc. (Google)",
+              "deviceString": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver-5.0.0)",
+              "driverVendor": "SwANGLE",
+              "driverVersion": "5.0.0"
+            }
+          ],
+          "auxAttributes": {
+            "amdSwitchable": false,
+            "canSupportThreadedTextureMailbox": false,
+            "directRenderingVersion": "",
+            "displayType": "ANGLE_SWIFTSHADER",
+            "glExtensions": "GL_AMD_performance_monitor GL_ANGLE_base_vertex_base_instance_shader_builtin GL_ANGLE_blob_cache GL_ANGLE_client_arrays GL_ANGLE_clip_cull_distance GL_ANGLE_compressed_texture_etc GL_ANGLE_copy_texture_3d GL_ANGLE_depth_texture GL_ANGLE_framebuffer_blit GL_ANGLE_framebuffer_multisample GL_ANGLE_get_image GL_ANGLE_get_serialized_context_string GL_ANGLE_get_tex_level_parameter GL_ANGLE_instanced_arrays GL_ANGLE_memory_object_flags GL_ANGLE_memory_size GL_ANGLE_multi_draw GL_ANGLE_pack_reverse_row_order GL_ANGLE_polygon_mode GL_ANGLE_program_binary_readiness_query GL_ANGLE_program_cache_control GL_ANGLE_read_only_depth_stencil_feedback_loops GL_ANGLE_relaxed_vertex_attribute_type GL_ANGLE_renderability_validation GL_ANGLE_request_extension GL_ANGLE_rgbx_internal_format GL_ANGLE_robust_client_memory GL_ANGLE_robust_fragment_shader_output GL_ANGLE_robust_resource_initialization GL_ANGLE_shader_pixel_local_storage GL_ANGLE_shader_pixel_local_storage_coherent GL_ANGLE_stencil_texturing GL_ANGLE_texture_compression_dxt3 GL_ANGLE_texture_compression_dxt5 GL_ANGLE_texture_multisample GL_ANGLE_texture_usage GL_ANGLE_translated_shader_source GL_ANGLE_vulkan_image GL_ANGLE_yuv_internal_format GL_APPLE_clip_distance GL_ARM_rgba8 GL_ARM_shader_framebuffer_fetch GL_ARM_shader_framebuffer_fetch_depth_stencil GL_CHROMIUM_bind_generates_resource GL_CHROMIUM_bind_uniform_location GL_CHROMIUM_copy_compressed_texture GL_CHROMIUM_copy_texture GL_CHROMIUM_lose_context GL_EXT_EGL_image_array GL_EXT_EGL_image_external_wrap_modes GL_EXT_EGL_image_storage GL_EXT_base_instance GL_EXT_blend_minmax GL_EXT_buffer_storage GL_EXT_clear_texture GL_EXT_clip_control GL_EXT_clip_cull_distance GL_EXT_color_buffer_float GL_EXT_color_buffer_half_float GL_EXT_compressed_ETC1_RGB8_sub_texture GL_EXT_conservative_depth GL_EXT_copy_image GL_EXT_debug_label GL_EXT_debug_marker GL_EXT_depth_clamp GL_EXT_discard_framebuffer GL_EXT_disjoint_timer_query GL_EXT_draw_buffers GL_EXT_draw_buffers_indexed GL_EXT_draw_elements_base_vertex GL_EXT_float_blend GL_EXT_frag_depth GL_EXT_instanced_arrays GL_EXT_map_buffer_range GL_EXT_memory_object GL_EXT_memory_object_fd GL_EXT_occlusion_query_boolean GL_EXT_polygon_offset_clamp GL_EXT_read_format_bgra GL_EXT_robustness GL_EXT_sRGB GL_EXT_sRGB_write_control GL_EXT_semaphore GL_EXT_semaphore_fd GL_EXT_separate_shader_objects GL_EXT_shader_framebuffer_fetch GL_EXT_shader_framebuffer_fetch_non_coherent GL_EXT_shader_non_constant_global_initializers GL_EXT_shader_texture_lod GL_EXT_shadow_samplers GL_EXT_texture_border_clamp GL_EXT_texture_compression_bptc GL_EXT_texture_compression_dxt1 GL_EXT_texture_compression_rgtc GL_EXT_texture_compression_s3tc_srgb GL_EXT_texture_cube_map_array GL_EXT_texture_filter_anisotropic GL_EXT_texture_format_BGRA8888 GL_EXT_texture_mirror_clamp_to_edge GL_EXT_texture_rg GL_EXT_texture_sRGB_R8 GL_EXT_texture_sRGB_RG8 GL_EXT_texture_sRGB_decode GL_EXT_texture_shadow_lod GL_EXT_texture_storage GL_EXT_texture_type_2_10_10_10_REV GL_EXT_unpack_subimage GL_KHR_blend_equation_advanced GL_KHR_debug GL_KHR_robust_buffer_access_behavior GL_KHR_robustness GL_KHR_texture_compression_astc_ldr GL_NV_depth_buffer_float2 GL_NV_fence GL_NV_framebuffer_blit GL_NV_pack_subimage GL_NV_pixel_buffer_object GL_NV_polygon_mode GL_NV_read_depth GL_NV_read_depth_stencil GL_NV_read_stencil GL_NV_shader_noperspective_interpolation GL_OES_EGL_image GL_OES_EGL_image_external GL_OES_EGL_image_external_essl3 GL_OES_EGL_sync GL_OES_compressed_EAC_R11_signed_texture GL_OES_compressed_EAC_R11_unsigned_texture GL_OES_compressed_EAC_RG11_signed_texture GL_OES_compressed_EAC_RG11_unsigned_texture GL_OES_compressed_ETC1_RGB8_texture GL_OES_compressed_ETC2_RGB8_texture GL_OES_compressed_ETC2_RGBA8_texture GL_OES_compressed_ETC2_punchthroughA_RGBA8_texture GL_OES_compressed_ETC2_punchthroughA_sRGB8_alpha_texture GL_OES_compressed_ETC2_sRGB8_alpha8_texture GL_OES_compressed_ETC2_sRGB8_texture GL_OES_compressed_paletted_texture GL_OES_copy_image GL_OES_depth24 GL_OES_depth32 GL_OES_depth_texture GL_OES_depth_texture_cube_map GL_OES_draw_buffers_indexed GL_OES_draw_elements_base_vertex GL_OES_element_index_uint GL_OES_fbo_render_mipmap GL_OES_get_program_binary GL_OES_mapbuffer GL_OES_packed_depth_stencil GL_OES_required_internalformat GL_OES_rgb8_rgba8 GL_OES_sample_shading GL_OES_sample_variables GL_OES_shader_multisample_interpolation GL_OES_standard_derivatives GL_OES_surfaceless_context GL_OES_texture_3D GL_OES_texture_border_clamp GL_OES_texture_cube_map_array GL_OES_texture_float GL_OES_texture_float_linear GL_OES_texture_half_float GL_OES_texture_half_float_linear GL_OES_texture_npot GL_OES_texture_stencil8 GL_OES_texture_storage_multisample_2d_array GL_OES_vertex_array_object GL_OES_vertex_half_float GL_OES_vertex_type_10_10_10_2 GL_OVR_multiview GL_OVR_multiview2 ",
+            "glImplementationParts": "(gl=egl-angle,angle=swiftshader)",
+            "glRenderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver-5.0.0)",
+            "glResetNotificationStrategy": 33362,
+            "glVendor": "Google Inc. (Google)",
+            "glVersion": "OpenGL ES 3.0 (ANGLE 2.1.26821 git hash: 4c0ae3917d4f)",
+            "glWsExtensions": "EGL_EXT_create_context_robustness EGL_ANGLE_surface_orientation EGL_KHR_create_context EGL_KHR_image EGL_KHR_image_base EGL_EXT_image_gl_colorspace EGL_KHR_gl_colorspace EGL_KHR_gl_texture_2D_image EGL_KHR_gl_texture_cubemap_image EGL_KHR_gl_renderbuffer_image EGL_KHR_get_all_proc_addresses EGL_KHR_fence_sync EGL_KHR_wait_sync EGL_ANGLE_create_context_webgl_compatibility EGL_CHROMIUM_create_context_bind_generates_resource EGL_KHR_swap_buffers_with_damage EGL_EXT_pixel_format_float EGL_KHR_surfaceless_context EGL_ANGLE_display_texture_share_group EGL_ANGLE_display_semaphore_share_group EGL_ANGLE_create_context_client_arrays EGL_ANGLE_program_cache_control EGL_ANGLE_robust_resource_initialization EGL_ANGLE_create_context_extensions_enabled EGL_ANDROID_blob_cache EGL_ANDROID_recordable EGL_ANGLE_create_context_backwards_compatible EGL_KHR_no_config_context EGL_IMG_context_priority EGL_KHR_create_context_no_error EGL_KHR_reusable_sync EGL_EXT_buffer_age EGL_ANGLE_create_surface_swap_interval EGL_ANGLE_vulkan_image EGL_KHR_partial_update EGL_ANGLE_global_fence_sync EGL_ANGLE_memory_usage_report ",
+            "glWsVendor": "Google Inc. (Google)",
+            "glWsVersion": "1.5 (ANGLE 2.1.26821 git hash: 4c0ae3917d4f)",
+            "hardwareSupportsVulkan": false,
+            "inProcessGpu": false,
+            "initializationTime": 0.018808,
+            "isAsan": false,
+            "isClangCoverage": false,
+            "jpegDecodeAcceleratorSupported": false,
+            "maxMsaaSamples": "4",
+            "optimus": false,
+            "passthroughCmdDecoder": true,
+            "pixelShaderVersion": "3.00",
+            "processCrashCount": 0,
+            "sandboxed": false,
+            "skiaBackendType": "GaneshGL",
+            "subpixelFontRendering": true,
+            "targetCpuBits": 64,
+            "vertexShaderVersion": "3.00",
+            "visibilityCallbackCallCount": 0
+          },
+          "featureStatus": {
+            "2d_canvas": "unavailable_software",
+            "direct_rendering_display_compositor": "disabled_off_ok",
+            "gpu_compositing": "disabled_software",
+            "multiple_raster_threads": "enabled_on",
+            "opengl": "disabled_off",
+            "rasterization": "disabled_software",
+            "raw_draw": "disabled_off_ok",
+            "skia_graphite": "disabled_off",
+            "trees_in_viz": "disabled_off",
+            "video_decode": "disabled_software",
+            "video_encode": "disabled_software",
+            "vulkan": "disabled_off",
+            "webgl": "unavailable_software",
+            "webgpu": "unavailable_software",
+            "webnn": "unavailable_software"
+          },
+          "driverBugWorkarounds": [],
+          "videoDecoding": [],
+          "videoEncoding": []
+        },
+        "modelName": "",
+        "modelVersion": "",
+        "commandLine": "/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-mv4MeC --remote-debugging-pipe --no-startup-window --use-gl=angle --use-angle=swiftshader-webgl --ozone-platform=headless --allow-pre-commit-input"
+      },
+      "Browser.getBrowserCommandLine": {
+        "arguments": [
+          "/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell",
+          "--disable-field-trial-config",
+          "--disable-background-networking",
+          "--disable-background-timer-throttling",
+          "--disable-backgrounding-occluded-windows",
+          "--disable-back-forward-cache",
+          "--disable-breakpad",
+          "--disable-client-side-phishing-detection",
+          "--disable-component-extensions-with-background-pages",
+          "--disable-component-update",
+          "--no-default-browser-check",
+          "--disable-default-apps",
+          "--disable-dev-shm-usage",
+          "--disable-extensions",
+          "--disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints",
+          "--enable-features=CDPScreenshotNewSurface",
+          "--allow-pre-commit-input",
+          "--disable-hang-monitor",
+          "--disable-ipc-flooding-protection",
+          "--disable-popup-blocking",
+          "--disable-prompt-on-repost",
+          "--disable-renderer-backgrounding",
+          "--force-color-profile=srgb",
+          "--metrics-recording-only",
+          "--no-first-run",
+          "--password-store=basic",
+          "--use-mock-keychain",
+          "--no-service-autorun",
+          "--export-tagged-pdf",
+          "--disable-search-engine-choice-screen",
+          "--unsafely-disable-devtools-self-xss-warnings",
+          "--edge-skip-compat-layer-relaunch",
+          "--enable-automation",
+          "--disable-infobars",
+          "--disable-search-engine-choice-screen",
+          "--disable-sync",
+          "--enable-unsafe-swiftshader",
+          "--headless",
+          "--hide-scrollbars",
+          "--mute-audio",
+          "--blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4",
+          "--no-sandbox",
+          "--user-data-dir=/tmp/playwright_chromiumdev_profile-mv4MeC",
+          "--remote-debugging-pipe",
+          "--no-startup-window",
+          "--use-gl=angle",
+          "--use-angle=swiftshader-webgl",
+          "--ozone-platform=headless",
+          "--allow-pre-commit-input"
+        ]
+      }
+    },
+    "inventory": {
+      "5": {
+        "organisms": 5,
+        "living": 5,
+        "parts": 27,
+        "eyes": 13,
+        "hiddenNeurons": 120,
+        "nutrients": 275,
+        "eggs": 0,
+        "caustics": 28,
+        "bubbles": 0
+      },
+      "15": {
+        "organisms": 15,
+        "living": 15,
+        "parts": 81,
+        "eyes": 39,
+        "hiddenNeurons": 360,
+        "nutrients": 275,
+        "eggs": 0,
+        "caustics": 28,
+        "bubbles": 0
+      },
+      "30": {
+        "organisms": 30,
+        "living": 30,
+        "parts": 162,
+        "eyes": 78,
+        "hiddenNeurons": 720,
+        "nutrients": 275,
+        "eggs": 0,
+        "caustics": 28,
+        "bubbles": 0
+      }
+    },
+    "checkpointHashes": {
+      "5": "aec6b4a187a41d80b5a8337feeabb79be028b3e462098437b187fca4e6567d32",
+      "15": "7ec9c02a9b242dd0c07973c554187fdc2d31cec296abc3dc89597d3d90123e69",
+      "30": "f6435d6684ef538cbd6ccc39eefba6f467fb89d8bd16627ce5787a8490313c20"
+    },
+    "validityHashes": {
+      "baseline": "cde30a6f0a24837d64acfae5968626d289a2d5b1f6e95cddbd90fc1bca60aa2e",
+      "unselected": "cde30a6f0a24837d64acfae5968626d289a2d5b1f6e95cddbd90fc1bca60aa2e",
+      "selected": "cde30a6f0a24837d64acfae5968626d289a2d5b1f6e95cddbd90fc1bca60aa2e"
+    },
+    "energy": {
+      "baseline": 1074269.9999999988,
+      "instrumented": 1074269.9999999988,
+      "budget": 1074270
+    }
+  },
+  "component": null
+}
