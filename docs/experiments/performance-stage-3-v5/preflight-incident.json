@@ -1,0 +1,23 @@
+{
+  "status": "TECHNICAL_PREFLIGHT_FAILED_BEFORE_REGISTERED_SCIENCE",
+  "sourceHead": "2d938712ea2c4610f2b742dea87a23815dcb8262",
+  "testedSyntheticMerge": "1341cf7bc34d59c787010743d67bf307501414c0",
+  "run": 41633222162,
+  "job": 125907786138,
+  "registeredWindowsStarted": 0,
+  "validityControlsStarted": 0,
+  "retainedScientificResults": 0,
+  "recordedExperimentalMs": 0,
+  "preflightWallMs": 1080822,
+  "failure": "Error: page.waitForFunction: Test ended.",
+  "cause": "Research fixture HTML script was injected after Vite HTML module processing and was never bundled; readiness waited until test timeout.",
+  "budgetException": "The initial resource timer began only after readiness. The18minute preparation wait exceeded the intended12minute resource envelope despite zero registered scientific slots. This is not hidden inside the successful execution budget; corrected readiness has a15second timeout.",
+  "repair": "c92389f10a03d967b2fa514da75e45d7cb0170de",
+  "amendment": "https://github.com/smeagol44/vidAI/issues/57#issuecomment-6603630045",
+  "manifest": {
+    "name": "manifest",
+    "bytes": 4642,
+    "sha256": "51d80bad2253ecf6c9b9ee62f888142458b212320731f3c19c2ececa5dc5d43c"
+  },
+  "logSha256": "179dc3061b771a5d140d548ede4ba0e57b9cfc351e35bc48a8908b50ca172866"
+}

@@ -1,0 +1,296 @@
+{
+  "status": "ALL_20_MEASURED_WINDOWS_RECOVERED_AND_VERIFIED",
+  "runtimeBase": "3e7319e9d81f86a026bcb5746512fbc1b435b5d8",
+  "executionSource": "c997001bceb7e268f03e4d649121ec1c55c2207a",
+  "recoveredEvidenceHead": "c09cd30237558a3c05df3ba918b8691ae6e3f97c",
+  "archives": [
+    {
+      "name": "overhead1",
+      "bytes": 1769889,
+      "sha256": "b39b051535eb5936060558217a9e337558802f7d328ff4e2f263039281cfe534",
+      "gitBlob": "d777db67d61ae00591da496efa308ebc20474f26",
+      "uncompressedBytes": 4349057,
+      "path": "docs/experiments/performance-stage-3-v5/measurement/overhead1.json.gz",
+      "remoteBlob": "d777db67d61ae00591da496efa308ebc20474f26",
+      "verified": true
+    },
+    {
+      "name": "overhead2",
+      "bytes": 1779291,
+      "sha256": "3701ae6c734a6f89c6df78d6a2859301e114a869d5092c3c3e773a66aafbdfe8",
+      "gitBlob": "b7a81aadd1c89011bc938b2656cadce239ee3a13",
+      "uncompressedBytes": 4430754,
+      "path": "docs/experiments/performance-stage-3-v5/measurement/overhead2.json.gz",
+      "remoteBlob": "b7a81aadd1c89011bc938b2656cadce239ee3a13",
+      "verified": true
+    },
+    {
+      "name": "overhead3",
+      "bytes": 1779372,
+      "sha256": "3369c2a7ab26051c74cd0dc5560a0baba5a962df739840a1b9148bdd4a1dbaa2",
+      "gitBlob": "27bb9d959a966cd373156c6ee6f952a87f87b715",
+      "uncompressedBytes": 4431341,
+      "path": "docs/experiments/performance-stage-3-v5/measurement/overhead3.json.gz",
+      "remoteBlob": "27bb9d959a966cd373156c6ee6f952a87f87b715",
+      "verified": true
+    },
+    {
+      "name": "overhead4",
+      "bytes": 1770107,
+      "sha256": "c3fe0a36772c040f8d2eb175fd6a62fb7819887767ad1d3d7fc25b5c4e70aca8",
+      "gitBlob": "82672255c790ae9bb8c41ef21209b9371dc78034",
+      "uncompressedBytes": 4349694,
+      "path": "docs/experiments/performance-stage-3-v5/measurement/overhead4.json.gz",
+      "remoteBlob": "82672255c790ae9bb8c41ef21209b9371dc78034",
+      "verified": true
+    },
+    {
+      "name": "trial01",
+      "bytes": 1849533,
+      "sha256": "bead1e0a696df61ed3ef5d02b031654be7c0f1441af0d204e3955acbcf16e23c",
+      "gitBlob": "d248839f2d0204c84cc8ca9efd206bc3c734a68a",
+      "uncompressedBytes": 4622090,
+      "path": "docs/experiments/performance-stage-3-v5/measurement/trial01.json.gz",
+      "remoteBlob": "d248839f2d0204c84cc8ca9efd206bc3c734a68a",
+      "verified": true
+    },
+    {
+      "name": "trial02",
+      "bytes": 1785917,
+      "sha256": "647e46b7032c02bc852003e3549ceade31772cfc08615a40c37798de4aba07be",
+      "gitBlob": "332051c5ee1279bdb9795b39c48950c3e3502329",
+      "uncompressedBytes": 4503591,
+      "path": "docs/experiments/performance-stage-3-v5/measurement/trial02.json.gz",
+      "remoteBlob": "332051c5ee1279bdb9795b39c48950c3e3502329",
+      "verified": true
+    },
+    {
+      "name": "trial03",
+      "bytes": 3507931,
+      "sha256": "a2ff90333cbc818adb528cc7ec13731fb4f6eb9bbc867a2c0d9a6eff85d594f4",
+      "gitBlob": "2614f85a5a04fc264e89e6a458677d6d125f4a99",
+      "uncompressedBytes": 8583716,
+      "path": "docs/experiments/performance-stage-3-v5/measurement/trial03.json.gz",
+      "remoteBlob": "2614f85a5a04fc264e89e6a458677d6d125f4a99",
+      "verified": true
+    },
+    {
+      "name": "trial04",
+      "bytes": 3512840,
+      "sha256": "2092a2cd03eb396e95fef518a612de4ed441f53b04b69c5f01444bfd7e19d3a0",
+      "gitBlob": "1d3abd13e1d1788d069b0d7e85c5e13b209713e0",
+      "uncompressedBytes": 8646661,
+      "path": "docs/experiments/performance-stage-3-v5/measurement/trial04.json.gz",
+      "remoteBlob": "1d3abd13e1d1788d069b0d7e85c5e13b209713e0",
+      "verified": true
+    },
+    {
+      "name": "trial05",
+      "bytes": 595730,
+      "sha256": "65df577853eb3b5f0ea7c949cc2733917b8e848dc5280f58c393642828a7c019",
+      "gitBlob": "093703770dfd47a5c39c8fcdebca4e8da30c3070",
+      "uncompressedBytes": 1759887,
+      "path": "docs/experiments/performance-stage-3-v5/measurement/trial05.json.gz",
+      "remoteBlob": "093703770dfd47a5c39c8fcdebca4e8da30c3070",
+      "verified": true
+    },
+    {
+      "name": "trial06",
+      "bytes": 635920,
+      "sha256": "d0d6ea0b71bc70eaaacc39f0134f55a90a10fd9dfed8827c78a29eefe2836da3",
+      "gitBlob": "6d34756195e361b7b31152fb99d17b44bd18bec3",
+      "uncompressedBytes": 1888503,
+      "path": "docs/experiments/performance-stage-3-v5/measurement/trial06.json.gz",
+      "remoteBlob": "6d34756195e361b7b31152fb99d17b44bd18bec3",
+      "verified": true
+    },
+    {
+      "name": "trial07",
+      "bytes": 1673587,
+      "sha256": "4ccba6618609c8316d8ef3c868c8716ce046d28aa8d52f9ea9526536b20ef73c",
+      "gitBlob": "09c4bce97e63dd8396e2d189e7b257b8cd6a36c9",
+      "uncompressedBytes": 3986693,
+      "path": "docs/experiments/performance-stage-3-v5/measurement/trial07.json.gz",
+      "remoteBlob": "09c4bce97e63dd8396e2d189e7b257b8cd6a36c9",
+      "verified": true
+    },
+    {
+      "name": "trial08",
+      "bytes": 1677201,
+      "sha256": "d39fb6258fc57cc33b9cf628ee83fd41a45fab393885b2d472c92e356ddfefaa",
+      "gitBlob": "dec13aabef2f09ad3589a8d4a3d74ce9dad70b00",
+      "uncompressedBytes": 4031047,
+      "path": "docs/experiments/performance-stage-3-v5/measurement/trial08.json.gz",
+      "remoteBlob": "dec13aabef2f09ad3589a8d4a3d74ce9dad70b00",
+      "verified": true
+    },
+    {
+      "name": "trial09",
+      "bytes": 1781850,
+      "sha256": "80ddf7aadd10ed7c5df1c00ec9701251b012f0e405527dae11b4fe728e6ea79e",
+      "gitBlob": "973ebce749fb8072ee8494085d30e3966a37278e",
+      "uncompressedBytes": 4470268,
+      "path": "docs/experiments/performance-stage-3-v5/measurement/trial09.json.gz",
+      "remoteBlob": "973ebce749fb8072ee8494085d30e3966a37278e",
+      "verified": true
+    },
+    {
+      "name": "trial10",
+      "bytes": 1788313,
+      "sha256": "8f98e54a8901d48768514b85bb27c45e56f40bc9ca8eb6ff2cda9f054f0a29e7",
+      "gitBlob": "29a49a9ffb21322037d6b4a5cf56c1fc727d2683",
+      "uncompressedBytes": 4537941,
+      "path": "docs/experiments/performance-stage-3-v5/measurement/trial10.json.gz",
+      "remoteBlob": "29a49a9ffb21322037d6b4a5cf56c1fc727d2683",
+      "verified": true
+    },
+    {
+      "name": "trial11",
+      "bytes": 637155,
+      "sha256": "e24c252b1369178dfb96d624cbe8d9958d539cc27150f9db730facd390d8bdb4",
+      "gitBlob": "1da3575a04f8a28fdc0a39811bf0ec71d6a77959",
+      "uncompressedBytes": 1910135,
+      "path": "docs/experiments/performance-stage-3-v5/measurement/trial11.json.gz",
+      "remoteBlob": "1da3575a04f8a28fdc0a39811bf0ec71d6a77959",
+      "verified": true
+    },
+    {
+      "name": "trial12",
+      "bytes": 595890,
+      "sha256": "85560f386d9932ffec37cec5231bccb74b05b7e999064282d8c44d7fab7282b6",
+      "gitBlob": "589681f392772e4bcae8664e8a769879b40453bb",
+      "uncompressedBytes": 1754293,
+      "path": "docs/experiments/performance-stage-3-v5/measurement/trial12.json.gz",
+      "remoteBlob": "589681f392772e4bcae8664e8a769879b40453bb",
+      "verified": true
+    },
+    {
+      "name": "trial13",
+      "bytes": 3513279,
+      "sha256": "3a5beeb27c13bb9f822058c743e41af6d04ffcb3cae791fe78fa3ff3ad1e2895",
+      "gitBlob": "9b6656ea28f4bdc2242e7a69cfd72cc052a170a7",
+      "uncompressedBytes": 8647691,
+      "path": "docs/experiments/performance-stage-3-v5/measurement/trial13.json.gz",
+      "remoteBlob": "9b6656ea28f4bdc2242e7a69cfd72cc052a170a7",
+      "verified": true
+    },
+    {
+      "name": "trial14",
+      "bytes": 3508770,
+      "sha256": "a7325da1205af51fecc2929717516e24a7b74c22770a4d166a41c6b3fbd1bfed",
+      "gitBlob": "77477e58395f952e79bf9730670f27527536e1d5",
+      "uncompressedBytes": 8587777,
+      "path": "docs/experiments/performance-stage-3-v5/measurement/trial14.json.gz",
+      "remoteBlob": "77477e58395f952e79bf9730670f27527536e1d5",
+      "verified": true
+    },
+    {
+      "name": "trial15",
+      "bytes": 1817381,
+      "sha256": "4e0fc479b8b5da63480c0e336a6dbb17e78b4033e272b97a3cb4f1cad72efb6e",
+      "gitBlob": "f3b9a849bd1f5a18699a634ba6a84f1ade288261",
+      "uncompressedBytes": 4578553,
+      "path": "docs/experiments/performance-stage-3-v5/measurement/trial15.json.gz",
+      "remoteBlob": "f3b9a849bd1f5a18699a634ba6a84f1ade288261",
+      "verified": true
+    },
+    {
+      "name": "trial16",
+      "bytes": 1849475,
+      "sha256": "08281cb0423751275a690ad3a3ae058ed9f448fa512fb2fa4e0984c7fd033d8c",
+      "gitBlob": "7ad97966eed522cb454acecee54fb77b1b08dd5d",
+      "uncompressedBytes": 4621367,
+      "path": "docs/experiments/performance-stage-3-v5/measurement/trial16.json.gz",
+      "remoteBlob": "7ad97966eed522cb454acecee54fb77b1b08dd5d",
+      "verified": true
+    },
+    {
+      "name": "component",
+      "bytes": 834459,
+      "sha256": "9409e551a5ccd22b53c8e5af09ab9f3a333dac367696b2050e83af59805cb04e",
+      "gitBlob": "e61c0adfd28af1b814fad901079e1337bbcfe551",
+      "uncompressedBytes": 1956058,
+      "path": "docs/experiments/performance-stage-3-v5/measurement/component.json.gz",
+      "remoteBlob": "e61c0adfd28af1b814fad901079e1337bbcfe551",
+      "verified": true
+    },
+    {
+      "name": "manifest",
+      "bytes": 5977,
+      "sha256": "cc8378cb36bc443f097843d551beae6c029a7c09f8bd169bdc849a5a12fbff2d",
+      "gitBlob": "3a8e552a499bd6f92e9ddf9840becad645ae3040",
+      "uncompressedBytes": 17485,
+      "path": "docs/experiments/performance-stage-3-v5/measurement/manifest.json.gz",
+      "remoteBlob": "3a8e552a499bd6f92e9ddf9840becad645ae3040",
+      "verified": true
+    }
+  ],
+  "runtimePathsUnchanged": [
+    "simulation.worker.ts",
+    "simulationHost.ts",
+    "simulationClient.ts",
+    "App.tsx",
+    "worldScene.ts",
+    "observerPreferences.ts",
+    "world.ts",
+    "persistence.ts",
+    "package.json",
+    "package-lock.json",
+    "vite.config.ts"
+  ],
+  "sourceDigestsUnchanged": true,
+  "windowCount": 20,
+  "primaryWindows": 16,
+  "controls": 4,
+  "startingStateHashes": {
+    "5": [
+      "6e6c977f40a6f6ec322d59a5b4042fd7fc16a64b3b21167f67b4f5e0075902f0"
+    ],
+    "15": [
+      "ebd34df170b4e382737b4f11092b934aa2789742625cb5e3e4e6d8db1ed077d7"
+    ],
+    "30": [
+      "1299114a9d1195056cacd2a2a7bac87b824d830911d7bbee88b51f1e1ce99e83"
+    ]
+  },
+  "validity": {
+    "baseline": "cde30a6f0a24837d64acfae5968626d289a2d5b1f6e95cddbd90fc1bca60aa2e",
+    "unselected": "cde30a6f0a24837d64acfae5968626d289a2d5b1f6e95cddbd90fc1bca60aa2e",
+    "selected": "cde30a6f0a24837d64acfae5968626d289a2d5b1f6e95cddbd90fc1bca60aa2e"
+  },
+  "energy": {
+    "baseline": 1074269.9999999988,
+    "instrumented": 1074269.9999999988,
+    "budget": 1074270
+  },
+  "activeMs": 424103,
+  "carriedMs": 35731,
+  "rawMeasurementBytes": 96664602,
+  "rawBudgetBytes": 67108864,
+  "rawBudgetExceeded": true,
+  "initial18MinuteReadinessOverrunPreserved": true,
+  "missingScientificOutcomes": [],
+  "originalStage33MissingOutcome": "UNCHANGED_UNKNOWN",
+  "controlAnalysis": {
+    "originalMidpointTPS": [
+      518.6844806785914,
+      516.1892234984638
+    ],
+    "correctedTPS": [
+      572.3357284009828,
+      558.3957909366167
+    ],
+    "diagnosticTPS": [
+      562.3150826102844,
+      564.6206506928971
+    ],
+    "correctedMedianDifferencePct": -0.33569295358825135,
+    "limitation": "Approximate control start; not a sub-percent instrumentation guarantee. Matched main wrappers remain."
+  },
+  "finalObservedForkMain": "9bdbec6567d9cd59dca7ee22d78b02bd50323887",
+  "concurrentMainChanges": [
+    "docs/IDEA_LAB.md",
+    "docs/SCENT_AND_OLFACTION_DESIGN.md"
+  ],
+  "concurrentMainRuntimeIdentical": true
+}
