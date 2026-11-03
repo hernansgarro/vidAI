@@ -145,7 +145,7 @@ for (const fallback of [false, true]) {
       });
       await page.goto(`./?autoplay${fallback ? '&mainthread' : ''}`);
 
-      const cfg = {...DEFAULT_SETTINGS, targetNutrients: 0, inflowRate: 0};
+      const cfg = {...DEFAULT_SETTINGS, targetNutrients: 0, inflowRate: 0, nutrientLimit: null};
       const state = createInitialWorld(cfg, 71, 'balanced', 'standard', 1);
       state.caustics = [{x: cfg.worldWidth / 2, y: cfg.worldHeight / 2, radius: 180,
         speed: .3, alpha: .09, angle: 0}];
