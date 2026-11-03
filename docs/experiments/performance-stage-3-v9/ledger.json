@@ -1,0 +1,110 @@
+[
+  {
+    "id": "P01",
+    "research": true,
+    "mode": "real",
+    "level": "off",
+    "durationMs": 12000,
+    "traced": false,
+    "status": "retained"
+  },
+  {
+    "id": "P02",
+    "research": true,
+    "mode": "vision",
+    "level": "off",
+    "durationMs": 12000,
+    "traced": false,
+    "status": "retained"
+  },
+  {
+    "id": "P03",
+    "research": true,
+    "mode": "brain",
+    "level": "off",
+    "durationMs": 12000,
+    "traced": false,
+    "status": "retained"
+  },
+  {
+    "id": "P04",
+    "research": true,
+    "mode": "real",
+    "level": "off",
+    "durationMs": 12000,
+    "traced": false,
+    "status": "retained"
+  },
+  {
+    "id": "P05",
+    "research": true,
+    "mode": "real",
+    "level": "off",
+    "durationMs": 12000,
+    "traced": false,
+    "status": "retained"
+  },
+  {
+    "id": "P06",
+    "research": true,
+    "mode": "learning",
+    "level": "off",
+    "durationMs": 12000,
+    "traced": false,
+    "status": "retained"
+  },
+  {
+    "id": "P07",
+    "research": true,
+    "mode": "feeding",
+    "level": "off",
+    "durationMs": 12000,
+    "traced": false,
+    "status": "retained"
+  },
+  {
+    "id": "P08",
+    "research": true,
+    "mode": "real",
+    "level": "off",
+    "durationMs": 12000,
+    "traced": false,
+    "status": "retained"
+  },
+  {
+    "id": "C01",
+    "research": false,
+    "mode": "real",
+    "level": "off",
+    "durationMs": 5000,
+    "traced": false,
+    "status": "retained"
+  },
+  {
+    "id": "C02",
+    "research": true,
+    "mode": "real",
+    "level": "counter",
+    "durationMs": 5000,
+    "traced": false,
+    "status": "retained"
+  },
+  {
+    "id": "C03",
+    "research": true,
+    "mode": "real",
+    "level": "phase",
+    "durationMs": 5000,
+    "traced": false,
+    "status": "retained"
+  },
+  {
+    "id": "C04",
+    "research": true,
+    "mode": "real",
+    "level": "off",
+    "durationMs": 5000,
+    "traced": true,
+    "status": "retained"
+  }
+]
