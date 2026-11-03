@@ -12,6 +12,8 @@ import {execFileSync} from 'node:child_process';
 test('Stage 3.4 actual Worker UI throughput registered batch',async({browserName,browser},info)=>{
  test.skip(browserName!=='chromium','Registered engine only; inherited Firefox checks retained.');
  test.setTimeout(1080000);
+ const checkoutSHA=execFileSync('git',['-c','safe.directory='+process.cwd(),'rev-parse','HEAD'],{encoding:'utf8'}).trim();
+ if(process.env.GITHUB_SHA&&process.env.GITHUB_SHA!==checkoutSHA)throw Error('Superseded setup refuses scientific execution');
  const out='docs/experiments/performance-stage-3-v5/measurement',hash=(x:any)=>createHash('sha256').update(typeof x==='string'||Buffer.isBuffer(x)?x:JSON.stringify(x)).digest('hex');
  mkdirSync(out,{recursive:true});
  const receipts:any[]=[],servers:any[]=[],contexts:any[]=[],trialLedger:any[]=[];
@@ -49,7 +51,7 @@ test('Stage 3.4 actual Worker UI throughput registered batch',async({browserName
   const load=async(p:any,s:any,on:boolean)=>{
    const snap=structuredClone(s);snap.metadata={...(snap.metadata??{}),observerPreferences:{selectAddedCreature:false,trackSelectedCreature:false,showCaustics:on}};
    await p.getByTitle('Ecology & Physical Settings').dispatchEvent('click');
-   const canvas=p.getByRole('img',{name:'Aquatic simulation',exact:true});
+   const canvas=p.locator('canvas[aria-label="Aquatic simulation"]');
    const previousEpoch=Number(await canvas.getAttribute('data-world-epoch'));
    await p.locator('input[type=file]').setInputFiles({name:'s34.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(snap))});
    await expect(canvas).not.toHaveAttribute('data-world-epoch',String(previousEpoch));
