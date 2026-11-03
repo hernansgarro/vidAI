@@ -1,4 +1,4 @@
-name: Stop superseded Stage 3.4 setup
+name: Stop completed Stage 3.4 job stalled in preservation
 on:
   push:
     branches: [audit/performance-stage-3-4-control]
@@ -6,16 +6,20 @@ permissions:
   actions: write
   contents: read
 jobs:
-  stop-superseded-setup:
+  stop-after-completed-science:
     runs-on: ubuntu-24.04
     timeout-minutes: 2
     steps:
-      - name: Cancel only the superseded canvas-selector setup
+      - name: Verify scientific step succeeded before stopping stalled preservation
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           node --input-type=module -e '
-          const r=await fetch("https://api.github.com/repos/hernansgarro/vidAI/actions/runs/41637675303/cancel",{method:"POST",headers:{Authorization:"Bearer "+process.env.GH_TOKEN,Accept:"application/vnd.github+json"}});
-          console.log("Superseded setup cancellation HTTP",r.status);
+          const headers={Authorization:"Bearer "+process.env.GH_TOKEN,Accept:"application/vnd.github+json"};
+          const j=await(await fetch("https://api.github.com/repos/hernansgarro/vidAI/actions/jobs/125923264339",{headers})).json();
+          const s=j.steps.find(s=>s.name==="Run only unspent registered measurement windows");
+          if(s?.conclusion!=="success")throw Error("Refuse to interrupt scientific execution");
+          const r=await fetch("https://api.github.com/repos/hernansgarro/vidAI/actions/runs/41637788308/cancel",{method:"POST",headers});
+          console.log("Stop stalled preservation HTTP",r.status);
           if(![202,409].includes(r.status))throw Error("Cancellation HTTP "+r.status);
           '
