@@ -2,6 +2,29 @@
 
 > **Contributor-fork planning document; 2026-11-02.** Tracks Hernan's IDEA-023 (P0). This plan is not an upstream delivery, a performance diagnosis, a change to the production simulation, or authorization to implement optimizations. Its four **audit stages** are separate from the five contributor delivery workflow stages and the side-window/tube feature stages.
 
+## Current measurement target — owner decision (2026-11-03)
+
+**This section governs all future audit protocols and Stage 4 recommendations.** It updates the target workload, **not** the historical scope, results, or validity of completed Stages 1–3.4. [Decision receipt in upstream #57](https://github.com/smeagol44/vidAI/issues/57#issuecomment-6607358209). The original stage instructions and already completed protocols below are preserved as dated research history; where they call for a broader matrix, the narrower rules here take precedence **for new performance measurements**.
+
+**Primary goal:** maximize *actual progress of a running, populated simulation* while showing only what a human needs to understand organisms and their environment. Do not maximize decoration-enabled FPS or optimize a paused scene as a proxy for that goal.
+
+### Required future benchmark profile
+
+- **Playback:** simulation running, with MAX/unbounded throughput as the primary capacity measurement. Finite nonzero speeds may be measured only for a specific pacing, responsiveness or correctness question. Report achieved ticks/s and simulated-time multiplier, not just requested speed or FPS. Paused/0x FPS and idle repaint are **not performance targets**; a short paused import/reset/snapshot control is permitted when scientifically required, never as a substitute for active throughput evidence.
+- **Least-cost supported presentation:** turn **water caustics OFF** via the shipped observer setting for every new primary benchmark, including any controls and tube variants. No selected organism, brain/neural inspector, selected sensor rays, tracking traces, or optional organism-inspection overlays/panels. Keep only the minimum meaningful world/organism/nutrient/egg/tube presentation. Preserve controls and correct semantics necessary to observe behavior; do not silently hide material information that cannot currently be disabled safely.
+- **Future display/performance options:** if an accepted, independently validated setting can reduce *optional* observer cost, keep it in its least-cost acceptable state across the **entire future primary matrix**. Do not continue ranking workloads with expensive decoration settings switched back on. Do not claim a setting improves Worker throughput merely because FPS improves. An explicit paired diagnostic to establish a causal mechanism may be proposed separately but is **not** part of the new routine target profile and requires its own approval.
+- **Representative active populations:** vary living-organism count, total body parts/joints, eyes/rays, neural complexity, nutrient and egg counts, births/deaths and density. Keep background/off-camera simulation fully authoritative. Use realistic existing Default, Harsh and fork-only Pipe World conditions where applicable, comparing counts/topology rather than assuming world area alone determines cost.
+- **Tube topology:** include both **no active connection** and **active local tubes**, including occupants/crossings when a bounded approved fixture exists. Tubes are functional gameplay, **not optional decoration**. Do not drop their costs to make a benchmark faster; preserve physical continuity, state, energy, IDs and offscreen behavior.
+- **Controls and metrics:** fix/log source SHA, original checkpoint/PRNG, genetics, settings, topology, speed, camera/zoom, viewport/DPR, graphics backend, machine/browser, visible organism/food geometry, repetitions/order and instrumentation overhead. Primary metric is actual Worker ticks/s (and derived multiplier) at sustained active load; separately record per-thread CPU, Worker/main memory/GC, frame traffic/ACK and UI responsiveness when available. FPS is a minimum-usable-observation guardrail, not proof of simulation speed. Check exact-state/physics/ecology and visual truthfulness for every proposed change.
+- **Exclusions:** do not run primary benchmarks dominated by pauses, selected-organism/brain panels, maximal decorations or isolated decorative effects. Such historical research remains useful for causal explanation and acceptable-appearance decisions, but it cannot set the Stage 4 implementation priority unless it also affects the new operating profile. Never bypass essential simulation work or degrade accepted semantics merely to achieve more ticks.
+
+### Stages 1 and 2: applicability review, not repeat execution
+
+- **Stage 1:** retain the complete, immutable tool inventory, measured benchmarks, production Worker validity and all limitations. Its legacy Node/preset results, empty-world Worker smoke, and historical paused/observer measurements are **not representative end-to-end throughput baselines** for the new target. No wholesale rerun is needed. A future separately authorized short, populated, caustics-OFF active Worker baseline can fill a specific gap when making a Stage 4 decision.
+- **Stage 2:** retain the code-backed cost model and IDs S2-01–S2-12. Static complexity and exactness safeguards do not depend on presentation preference. Reprioritize hypotheses by **measured marginal contribution to active essential Worker throughput**, including contacts/physics, vision, neural evaluation, feeding/ecology, allocations/GC, scheduling, transport and active local tubes. Decoration-only/paused/selection-specific costs become secondary or excluded; observer processing still matters when unavoidable in the minimal profile.
+- **Stage 3:** preserve every historical preregistration, original measurement and uncertainty (including Stage 3.4 caustics ON/OFF as explanatory contrast). Subsequent experiments must preregister the target profile and scope only unresolved relevant questions; no automatic new run is authorized by this decision.
+- **Stage 4:** synthesize old evidence **with applicability labels** (direct / conditional / historical-out-of-target / unknown). Do not extrapolate performance across sources, machines, workloads or decoration configurations. Propose optimizations only after evidence and Hernan's explicit implementation approval.
+
 ## Authority, references, and scope
 
 - Primary contributor idea: [IDEA-023](IDEA_LAB.md#idea-023-vida-2d-performance-and-cpu-load-audit) and its [historical design notes](CONTRIBUTOR_IDEAS.md#highest-priority-future-discussion--performance-and-cpu-cost-2026-11-02).
@@ -24,6 +47,8 @@
 Stages may uncover new subtasks; record them under the originating stage and retain their IDs. No stage is considered complete merely because a script finished successfully.
 
 ## Stage 1 — Audit the tools already present
+
+> **Historical execution specification (2026-11-02):** already completed; do not rerun under the new profile. See the 2026-11-03 target above for forward-looking applicability.
 
 **Scope:** Inventory and run existing facilities with unchanged simulation/runtime code. Existing tests may protect correctness without being timing benchmarks; report that distinction. External shell timing/OS and browser profiler facilities may be used **without committing instrumentation**. Any new persistent diagnostics or tests belong to Stage 3.
 
@@ -108,6 +133,8 @@ Publish the detailed **Stage 1 report and raw outputs** under a new, dated/versi
 
 ## Stage 2 — Cold/static algorithm review (not part of Stage 1 execution)
 
+> **Historical completed static review:** retain its code-backed hypotheses; only their future measurement and prioritization are narrowed by the current target above.
+
 **No timing conclusions solely from Big-O reasoning.** Identify code paths, input sizes, call frequencies, allocation patterns, duplicated work and candidate simplifications. Document exact function names, file locations and possible hidden costs.
 
 - **2.1 Simulation scheduling:** 60 Hz fixed ticks, substeps, catch-up/refresh, Worker batch yields, main-thread fallback and offscreen execution.
@@ -126,6 +153,8 @@ Publish the detailed **Stage 1 report and raw outputs** under a new, dated/versi
 
 ## Stage 3 — Targeted instrumentation and controlled tests (separate approval required)
 
+> **Forward-looking override:** the proposals below are an original broad research inventory, **not** an instruction to rerun caustics ON, paused, selected-inspector, or decorative workloads. Every newly authorized protocol follows the 2026-11-03 minimal-observer, caustics-OFF, actively running target above.
+
 - **3.1** Approve a scoped experiment protocol: hypothesis, baseline/variant, trace budget, affected functions, environment and stop rules.
 - **3.2** Add optional coarse per-tick/phase timers (mean/p50/p95/p99), measure overhead, and avoid per-entity timers in production hot loops.
 - **3.3** Isolate CPU by physics, contacts, vision, neural learning, ecology, and observer-event accounting; use sampling + bounded event counters.
@@ -140,6 +169,8 @@ Publish the detailed **Stage 1 report and raw outputs** under a new, dated/versi
 **Deliverable:** measurement-backed hypothesis assessments with effect sizes, uncertainty and reproducible evidence. The instrumentation itself must be reversible, optional and isolated from production behavior unless separately approved.
 
 ## Stage 4 — Integrated findings, priorities and Work implementation prompt
+
+> **Decision target (2026-11-03):** optimization value must be assessed primarily as actual populated-Worker active throughput under the minimal-observer configuration, including with and without local tubes; old decoration/paused metrics are contextual, not the objective.
 
 - **4.1 Evidence matrix:** consolidate Stage 1 measured baselines, Stage 2 static concerns and Stage 3 controlled results. Classify **confirmed**, **plausible but unverified**, **refuted**, and **not measured**.
 - **4.2 Ranking:** use severity on representative hardware, contribution to total CPU/wall time/FPS, expected end-to-end gain (beware Amdahl's law), development complexity, risk to deterministic history, visual/ecological/physical fidelity, memory cost and maintenance burden.
