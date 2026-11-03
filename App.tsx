@@ -1244,18 +1244,20 @@ export default function App() {
       ctx.stroke();
     }
 
-    // Caustics
-    for (const c of s.caustics) {
-      const blurMargin = Math.max(0, c.radius) + 48 / zoom;
-      if (c.x + blurMargin < viewLeft || c.x - blurMargin > viewRight
-        || c.y + blurMargin < viewTop || c.y - blurMargin > viewBottom) continue;
-      ctx.save();
-      ctx.beginPath();
-      ctx.arc(c.x, c.y, Math.max(0, c.radius), 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(56, 189, 248, ${c.alpha})`;
-      ctx.filter = 'blur(16px)';
-      ctx.fill();
-      ctx.restore();
+    // Hide only the observer paint pass; retain caustic state and PRNG exactly.
+    if (observerPreferences.showCaustics) {
+      for (const c of s.caustics) {
+        const blurMargin = Math.max(0, c.radius) + 48 / zoom;
+        if (c.x + blurMargin < viewLeft || c.x - blurMargin > viewRight
+          || c.y + blurMargin < viewTop || c.y - blurMargin > viewBottom) continue;
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(c.x, c.y, Math.max(0, c.radius), 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(56, 189, 248, ${c.alpha})`;
+        ctx.filter = 'blur(16px)';
+        ctx.fill();
+        ctx.restore();
+      }
     }
 
     // Glow pass: every halo is behind every physical entity.
@@ -2488,6 +2490,11 @@ export default function App() {
                 <input type="checkbox" className="mt-0.5 accent-amber-400" checked={observerPreferences.trackSelectedCreature}
                   onChange={e => setObserverPreferences(p => ({...p, trackSelectedCreature: e.target.checked}))}/>
                 <span>Automatically track selected creatures</span>
+              </label>
+              <label className="flex items-start gap-3 cursor-pointer text-slate-200">
+                <input type="checkbox" className="mt-0.5 accent-amber-400" checked={observerPreferences.showCaustics}
+                  onChange={e => setObserverPreferences(p => ({...p, showCaustics: e.target.checked}))}/>
+                <span>Show water caustics</span>
               </label>
             </div>
           </div>

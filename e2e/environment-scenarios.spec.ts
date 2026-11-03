@@ -55,7 +55,7 @@ for (const fallback of [false, true]) test(`environment dropdown, initial condit
   await page.getByRole('button', {name: 'Pause', exact: true}).dispatchEvent('click');
   await page.getByTitle('Ecology & Physical Settings').dispatchEvent('click');
   const normal = await read();
-  expect(normal.metadata.observerPreferences).toEqual({selectAddedCreature: true, trackSelectedCreature: true});
+  expect(normal.metadata.observerPreferences).toEqual({selectAddedCreature: true, trackSelectedCreature: true, showCaustics: true});
   expect(normal.settings).toMatchObject({worldWidth: 2400, worldHeight: 1500,
     waterViscosity: .18, gravity: 0, maxOrganisms: 30, inflowRate: 15, nutrientLimit: null});
   const start = fallback ? normal : await page.evaluate(() => (window as any).scenarioResets.at(-1));
@@ -76,7 +76,7 @@ for (const fallback of [false, true]) test(`environment dropdown, initial condit
   await page.getByRole('button', {name: 'Pause', exact: true}).dispatchEvent('click');
   await page.getByTitle('Ecology & Physical Settings').dispatchEvent('click');
   const harsh = await read();
-  expect(harsh.metadata.observerPreferences).toEqual({selectAddedCreature: false, trackSelectedCreature: false});
+  expect(harsh.metadata.observerPreferences).toEqual({selectAddedCreature: false, trackSelectedCreature: false, showCaustics: false});
   expect(harsh.settings).toEqual({...normal.settings, inflowRate: 1, nutrientLimit: 200,
     worldWidth: 4800, worldHeight: 3000, gravity: 20, maxOrganisms: 50, waterViscosity: .4});
   const harshStart = fallback ? harsh : await page.evaluate(() => (window as any).scenarioResets.at(-1));
@@ -167,7 +167,7 @@ for (const fallback of [false, true]) test(`Pipe World startup, green icon and e
   expect(start.state.selfTubes).toBeUndefined();
   expect(start.state.energyPool.reserve).toBe(825000);
   expect(pipe.schemaVersion).toBe('19.0.0');
-  expect(pipe.metadata.observerPreferences).toEqual({selectAddedCreature: false, trackSelectedCreature: false});
+  expect(pipe.metadata.observerPreferences).toEqual({selectAddedCreature: false, trackSelectedCreature: false, showCaustics: false});
   await expect(page.getByLabel('Tank width', {exact: true})).toHaveValue('4600');
   await expect(page.getByLabel('Tank height', {exact: true})).toHaveValue('2100');
   await page.clock.runFor(50);
