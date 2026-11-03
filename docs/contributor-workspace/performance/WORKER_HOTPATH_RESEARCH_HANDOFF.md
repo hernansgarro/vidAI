@@ -1,6 +1,14 @@
 # VIDA 2D — Deferred Stage 3 Worker hot-path research handoff
 
 
+## Owner refinement — Stage 3.7 dummy-substitution experiments (2026-11-03)
+
+**Latest planning decision, no execution yet.** Hernan requests a revised Work prompt that combines detailed Worker phase/subphase instrumentation with **controlled counterfactual component bypasses**. Refer to the new [Stage 3.7 Dummy Substitution Design](STAGE_3_7_DUMMY_SUBSTITUTION_DESIGN.md), the [updated plan](PERFORMANCE_AUDIT_PLAN.md) and the [fork-main Stage 3 ledger](../../PERFORMANCE_AUDIT_STAGE_3.md).
+
+Preferred candidates: replay a genuine vision event or fixed/cyclic typed sensor input; replace brain evaluation with a known one- or multi-step fixed motor/output sequence; switch learning completely OFF as a dedicated research-mode control; bypass contact-based feeding while replaying documented transfers or accounting for a *small fully funded* artificial intake. A global A/B/C generator is possible but order-dependent; a deterministic per-organism/tick/channel selector is the stronger comparison default, without touching authoritative PRNG. Do not quietly equate bypass gains with removable CPU cost: altered behavior and ecology affect downstream work. Shared global contact physics makes a valid physics dummy particularly difficult; defer if replay would falsify semantics.
+
+All-real Worker execution stays unchanged and exactly validated. Dummy-on runs are labeled nonphysical counterfactuals, never saved as valid evolution or promoted to production. The scientific window budget and new protocol still require separate Work authorization. Only documentation in this task; no Stage 3.7 trials, implementation, upstream PR or Stage 4 optimization.
+
 ## Current continuation note — updated after completed Stage 3.6 (2026-11-03)
 
 This top-level note **supersedes only the earlier time-specific references to Stage 3.5 as the latest completed batch** below; historical language and evidence remain unchanged. Stage 3.6 has now completed the independent Linux CPU/thread/GC attribution described in [fork draft PR #87](https://github.com/hernansgarro/vidAI/pull/87), with original immutable evidence at [eed47f7](https://github.com/hernansgarro/vidAI/tree/eed47f7f211936022c06af04edc40d199b518ed2/docs/experiments/performance-stage-3-v7). The complete Stage 3.1–3.6 cumulative findings now have a durable fork-main [research evidence ledger](../../PERFORMANCE_AUDIT_STAGE_3.md) linked to immutable historical branches. **Research scripts, trace data and measurement infrastructure remain outside fork main.** This documentation update does not merge PRs #66/#69/#80/#87 or publish production changes.
