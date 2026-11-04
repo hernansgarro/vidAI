@@ -231,19 +231,20 @@ message cannot dismiss its replacement. Noninteractive banners do not capture
 pointer input. Hinge dots are hidden; physical joints and their Worker data remain.
 This removes drawing commands, with no measured FPS or solver-speed claim.
 
-## Isolated central grid primitive — contributor testing only
+## Central grid primitive — contributor testing only
 
 P1 adds `centralSpatialGrid.ts`, a typed, incrementally maintained matrix with
 fixed maximum-aquarium capacity, registration/relocation/removal, and unique
-conservative cell/bounds/ray candidates. It has **no live simulation, Worker or
-renderer consumer**; all existing broadphases and physical/sensory results remain
-unchanged. This is a developer primitive, with no setting or visual overlay yet.
-Candidate ordering is left to future consumer integration. No speedup is claimed.
+conservative cell/bounds/ray candidates. P4 now maintains its membership in the
+authoritative simulation alongside the existing broadphases; their physical and
+sensory results remain unchanged. The grid has no renderer consumer, setting or
+visual overlay yet. P4 retains explicit source-array/part ranks for later query
+migration. No speedup is claimed.
 See the [P1 API, bounds and memory contract](https://github.com/hernansgarro/vidAI/blob/testing/docs/contributor-workspace/performance/CENTRAL_GRID_P1.md).
 This section describes the fork's testing work, not upstream shipped behavior;
 the actual Wiki is not published as part of this task.
 
-## Isolated creature envelope — contributor testing only
+## Conservative creature envelope — contributor testing only
 
 P2 adds `creatureEnvelope.ts`, an anatomy-time mass-weighted tree-path bound
 covering body rectangles under all rotations, branches and COM shifts. A finite
@@ -251,8 +252,9 @@ multi-part lifetime guarantee requires a proven maximum hinge-anchor gap, which
 the current solver/import validation does not supply. Without that certificate,
 the API explicitly reports an unbounded lifetime envelope and offers a safe
 current-pose square using cached anatomy geometry; it never assumes a small
-solver residual. P4 now uses the current-pose fallback for authoritative shadow membership; neither changes rendering or existing consumer queries.
-No physics, optics, feeding, saves, UI or performance changes are claimed.
+solver residual. P4 now uses the current-pose fallback for authoritative shadow
+membership, preserving rendering and existing consumer queries. No physics,
+optics, feeding, save or UI rule changes, or performance improvements, are claimed.
 See the [P2 contract and proof](https://github.com/hernansgarro/vidAI/blob/testing/docs/contributor-workspace/performance/CREATURE_ENVELOPE_P2.md).
 This describes fork testing source only; actual upstream Wiki publication and
 later query migration remain separate.
@@ -286,7 +288,7 @@ cost is not a throughput claim. Source API details and limitations:
 ## Maintained spatial membership — contributor testing only
 
 **Fork testing only; not accepted or shipped upstream.** The authoritative world
-maintains a central128-unit matrix alongside the existing spatial indexes.
+maintains a central 128-unit matrix alongside the existing spatial indexes.
 Individual body parts, whole-organism prey views, nutrients/carrion and eggs
 retain transient local membership handles. All completed physics/contact/joint
 pose updates, particle/tube motion, lifecycle changes and paused commands update
