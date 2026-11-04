@@ -1,7 +1,7 @@
 # VIDA 2D — Vision performance: evolving design candidates
 
 **Status:** exploratory design notes only; not a specification, implementation approval, experiment authorization, performance claim, or upstream submission.
-**As of:** 2026-11-03.
+**As of:** 2026-11-04 (UTC; design clarification after the initial 2026-11-03 discussion).
 **Owner of proposed ideas:** Hernan (contributor); technical questions and alternatives remain open for discussion.
 **Tracking:** [upstream performance issue #67](https://github.com/smeagol44/vidAI/issues/67), [roadmap/handoffs #57](https://github.com/smeagol44/vidAI/issues/57), [sensory/HUD issue #65](https://github.com/smeagol44/vidAI/issues/65).
 **Evidence:** [fork cumulative Stage 3 report](PERFORMANCE_AUDIT_STAGE_3.md) and the isolated Stage 3.7b research [report](https://github.com/hernansgarro/vidAI/blob/8481613ce08be6137d347cf0d8b9eabb0aed8130/docs/experiments/performance-stage-3-v9/report.md).
@@ -73,9 +73,9 @@ The example **1 joule per ray consultation/capture** is a discussion placeholder
 
 Costs should be deterministic, hardware-independent, and based on model-defined sensor operations rather than actual elapsed processor milliseconds or the number of spatial-index candidates processed. Avoid penalizing organisms for implementation details of the engine.
 
-**Closed-energy requirement:** charge valid creature reserves and correctly account for the spent energy through the accepted universe ledger. Do not create or destroy energy; no hidden free feed, fabricated contact, extra energy budget, or reserve bypass. Existing per-eye sensitivity upkeep must be examined to prevent unintended double charging. Costs for neuronal computation and potential replacement of some basal metabolism are **separate future research**, not implied by this vision proposal.
+**Revised owner direction:** if ray-capture energy debits are adopted, **replace the existing eye-maintenance component** instead of automatically charging both eye upkeep and every exposure. Keep unrelated neural, motor, physical, and basal obligations intact unless separately reviewed. If a biologically justified eye-structure charge is retained alongside per-capture costs, the owner expects a separate ecological-energy rebalance assessment, potentially including nutrient energy and mouth absorption rates. No such rebalance or coefficient is currently authorized.
 
-Open decisions include low-energy/zero-energy behavior (skip capture vs other rules), when charges are taken relative to raycasting and neural inference, which energy stock receives spent metabolic energy, and whether cost per ray is truly biologically justified. Do not select coefficients by the measured machine's TPS.
+**Closed-energy requirement:** debit available creature reserves through the accepted economy and return the spent energy through the existing conservation ledger; no creation, destruction, extra source grant, or reserve bypass. **No special vision debt or survival exception:** current organisms are marked for death when energy reaches zero or less. This remains unchanged. Any details of debit ordering must preserve existing death and conservation rules. Costs for neuronal computation and potential replacement of other basal metabolism are **separate future research**. The example 1 J per ray is not calibrated; never choose it from machine TPS.
 
 ## 4. Candidate C — alternative spatial candidate selection
 
@@ -106,9 +106,38 @@ Keep unchanged physics, real sensory responses when sampled, motor control, ener
 ## 6. Current decision boundary and next discussion
 
 - **Accepted as the user's corrected *idea*:** genetic per-eye consultation modulo, genetic per-ray slots within that eye, same-slot grouping/empty slots, module 1 equivalent in capture frequency to the current system, and an energetic per-ray consultation cost as the proposed evolutionary counterbalance.
-- **Still exploratory:** 1 J magnitude, UI/genetic interaction, mutation and historical-save design, low-energy sampling rules, optional genetic ray count, spatial region organization, and real cost/benefit. No implementation plan accepted.
+- **Still exploratory:** 1 J magnitude, UI/genetic interaction, mutation and historical-save design, debit ordering within existing death rules, optional genetic ray count, spatial region organization, potential ecological rebalance, and real cost/benefit. No implementation plan accepted.
 - **Stage classification:** this is **Stage 4 candidate refinement / pre-design brainstorming**, **not** the execution or authorization of Stage 4. Stage 3 research is still ongoing and the standing experimental STOP remains in effect.
 - **Scope of this change:** documentation-only in Hernan's fork; no simulation, settings, schemas, genes, energy, Worker, display, tests, Wiki, testing branch, upstream runtime or Pages modification. No experiment conducted and no quantitative performance improvement claimed.
 - **Next step:** continue discussion, clarify the undecided biological/computational semantics, and only then consider an independently approved bounded experiment/implementation protocol. The upstream owner retains authority over upstream decisions and release.
 
 This is a living note for follow-up discussion. Amend it with the **latest corrected ideas** instead of accumulating contradictory interpretations.
+
+
+## 7. Candidate comparison — discussion snapshot, 2026-11-04
+
+This is a **subjective technical prioritization** of *potential* savings, **not benchmarks, implementation commitments, or additive speedup percentages**. Maturity: High = concept clearly specified (not necessarily tested); Medium = material details unresolved; Low = early hypothesis. Potential: 1 = limited direct CPU opportunity, 5 = large plausible opportunity. Genetic selection is a longer-term, indirect mechanism; biological benefit and consistency are unknown.
+
+| Candidate | Maturity | Potential (1–5) |
+| --- | --- | ---: |
+| 1. Per-eye consultation modulo and sample-and-hold | High | 5 |
+| 2. Inherited and mutable consultation slots for each ray, allowing synchronized bursts or staggering | High | 2 |
+| 3. UI-controlled experimental sample budget / modulo override (interaction with inherited eye parameters undecided) | Medium | 5 |
+| 4. Per-ray capture energy charge replacing current eye-maintenance debit; long-term genetic selection pressure | Medium | 4 |
+| 5. Inherited and mutable number of rays per eye; separate topology/save discussion | Low | 3 |
+| 6. Reduce per-query allocations, arrays, and sorting; retain exact ordered semantics | Medium | 4 |
+| 7. Equivalent optimized ray/circle/rotated-body intersections | Medium | 4 |
+| 8. Within-tick reuse of corners, transforms, directions, and safe geometric invariants | Medium | 3 |
+| 9. Shared candidate set by anatomical facet / body-part face | Medium | 3 |
+| 10. Organism-wide enclosing rectangle for candidate acquisition | Low | 2 |
+| 11. Hierarchical coarse grid + narrower visual filter + exact intersections | Low | 3 |
+| 12. Experiment with spatial index grid cell size vs current 128 world units | Medium | 3 |
+| 13. Compare direct brute-force geometric scan for low-density workloads | Low | 2 |
+| 14. Incrementally maintain or safely reuse spatial index structures across ticks | Low | 3 |
+| 15. Integrate/fade prior sensory readings beyond the simple sample-and-hold cache | Low | 1 |
+
+**Scope nuance:** items 1–3 share the same sampling mechanism; they are not independent gains. Items 6–14 are exact-computation optimization alternatives and should be compared with and without temporal sampling. Item 4's primary benefit is potential ecological selection pressure; it is not an immediate CPU optimization. A concurrent structural-eye charge or increased energy supply/uptake is not an independently demonstrated performance optimization.
+
+**Clarified survival and accounting:** shipped `simulation.ts` checks `org.energy <= 0` for starvation death (predatory depletion has its own death cause); per-capture charging does **not** authorize changing that rule, adding credit/debt, free sensory work, or artificial food. The current `eyeSensoryUpkeep(g.eyes)` contributes to sensory metabolic rate and is the eye-maintenance component proposed for replacement, not an additional per-capture charge.
+
+**Suggested future bounded comparisons only:** first isolate equivalent runtime improvements (allocations/spatial/geometric tests); then evaluate the per-eye modulo perceptual-quality-versus-Worker-throughput trade-off under multiple speeds, body plans, moving targets, and eye configurations; consider genetic and energetic changes only with separate compatibility, ecology and calibration decisions. Stage 4 execution remains unapproved.
