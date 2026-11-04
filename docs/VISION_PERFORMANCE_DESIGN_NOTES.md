@@ -8,13 +8,17 @@
 
 ## Current measured context — updated 2026-11-04
 
-The main [cumulative evidence ledger](PERFORMANCE_AUDIT_STAGE_3.md) now includes3.8–3.10.
+The main [cumulative evidence ledger](PERFORMANCE_AUDIT_STAGE_3.md) now includes3.8–3.11.
 Initially separated dense100 in3.9 costs20.60% more, with2.13x visual candidates and
 4.54x body-edge tests; this supports examining ordered optical work, not a promised
 saving from any design below.3.10's150body vision+sight share32.60% is instrumented
 elapsed kernel time; its detailed GC trace adds~60%total elapsed cost. Neither
 counterfactual gains, traced GC nor phase shares are additive/removable budgets.
 The old overlapping3.8 compact+62.20% has an explicit initial-contact/guard confound.
+Stage3.11 calibrates that warning: light outer-GC2.37–2.53% versus detailed42.36%,
+with95.57–96.08%of the latter in object-statistics observer work. Detailed tracing
+adds65.11%elapsed cost; do not let that GC artifact replace independent vision/
+physics/inference evidence. Allocation creation remains a separate cost question.
 No candidate below was implemented/tested by those studies; keep the current
 per-eye/genetic/energy semantics and conceptual rankings unchanged.
 

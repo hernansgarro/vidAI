@@ -1,6 +1,6 @@
 # VIDA 2D — Performance Efficiency Audit: Four-Stage Plan
 
-## Current evidence checkpoint — Stage 3.8–3.10 (2026-11-04)
+## Current evidence checkpoint — Stage 3.8–3.11 (2026-11-04)
 
 Hernan explicitly requires verified conclusions in fork **main**, while raw evidence,
 profilers and temporary launch workflows remain on isolated research branches.
@@ -13,23 +13,30 @@ their then-current STOP/next-study wording; they are not permission to replay tr
 |3.8 / draft98 |PARTIAL:6retained, P07 raw lost,11unstarted |25–150 scaling; compact100 initially overlaps68pairs and triggers8guards; +62.2% cost is confounded. Storage guard stopped the lot. |
 |3.9 / draft99 |PARTIAL:10retained,8unstarted; runner739.927s>720s |Initially separated dense100 costs20.60% more;2.13x visual candidates/4.54x edge tests.150spread51.61–56.57TPS. GC/finite pacing not reached. |
 |3.10 / draft100 |COMPLETE:8/8, all budgets pass |150spread lean53.46–54.15TPS; requested1x53.16TPS,2x55.13TPS. HooksOFF/counter/phase/trace elapsed contrasts+3.34/+10.08/+11.62/+59.92%, n1diagnostics. |
+|3.11 / draft102 |COMPLETE:6/6, all budgets pass |Lean66.14–66.68TPS on differentCPU; light GC2.37–2.53%with modest-cost flag passed, detailed42.36%with+65.11%elapsed cost. |
 
-Stage3.10's traced Worker GC-related union35.50% and allocation proxy281.58MB/s
-are **trace-only**. The trace perturbs throughput substantially; neither is an
-untraced GC cost, retained-heap/leak result or recoverable speedup. Instrumented
-150body vision+sight32.60%,physics28.29%,inference23.58% are separate elapsed phases,
-not additive with GC and not independently removable CPU. All8complete endpoints
-match3.9 exactly. Representative desktop, evolved populations, egg bursts and
-per-allocation ownership remain gaps. Earlier3.1–3.7b data/failures are preserved.
+**Calibrated interpretation:**3.11 light outer-GC occupies2.37–2.53%Worker wall,
+while detailed tracing adds65.11%elapsed cost and reports42.36%GC. Post-hoc raw
+scope analysis locates95.57–96.08%of detailed outer-GC in object-statistics dumping;
+immutable3.10's old35.50%GC-related measurement similarly contains94.38%observer
+object-statistics work. Preserve old measurements, but **do not prioritize ordinary
+GC pauses from that detailed percentage**. Allocation/transfer creation costs are
+separate and unisolated; positive heap reductions are not retained/allocated bytes.
+No leak or removable speedup established. Optics/physics/inference phases retain
+their own perturbed-evidence boundaries; nothing is added or subtracted across probes.
 
-**Current owner authorization:** a NEW worthwhile bounded investigative lot may
-run after explicit goals/metrics/protocol registration. Selected3.11 question:
-does meaningful GC evidence survive a less intrusive category-filtered trace?
-Six150body windows, two each lean/light-GC/detailed-GC, fixed reversed order and
-exact360tick endpoint controls, are to be preregistered before execution. This
-supersedes the previous task's stop for this new lot only. No production optimization,
-Stage4 implementation, upstream submission or old-result replacement is authorized.
-Afterward publish verified3.11 conclusions in main as well; research PRs stay unmerged.
+New3.11 hostEPYC9V74 differs from3.10EPYC7763, so higher leanTPS is NOT a code
+improvement or rebuttal of the previous host's1x/2x result. Both light observations
+meet the preregistered lean-envelope±5%descriptive criterion; n2/fixedorder/sixseconds
+and import/warmup heap context limit interpretation. See the current
+[cumulative ledger](../../PERFORMANCE_AUDIT_STAGE_3.md) and its immutable3.11report.
+
+**Current next action:** STOP after completed3.11 and authorized docs integration.
+Hernan's instruction places verified3.8–3.11 conclusions on main, while research
+code/raw/workflows stay isolated and drafts98/99/100/102 remain unmerged. No automatic
+new lot, Stage4/product optimization, upstream submission or historical-trial replay.
+Review accumulated evidence before any new separately authorized work. Historical
+dated checkpoints below retain their original status and are not executable orders.
 
 ## Current checkpoint — Stage 3.7b recovery COMPLETE (2026-11-03)
 
