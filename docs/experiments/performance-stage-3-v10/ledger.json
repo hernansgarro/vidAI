@@ -1,0 +1,165 @@
+[
+  {
+    "id": "P01",
+    "count": 25,
+    "compact": false,
+    "research": false,
+    "level": "off",
+    "traced": false,
+    "status": "retained"
+  },
+  {
+    "id": "P02",
+    "count": 50,
+    "compact": false,
+    "research": false,
+    "level": "off",
+    "traced": false,
+    "status": "retained"
+  },
+  {
+    "id": "P03",
+    "count": 100,
+    "compact": false,
+    "research": false,
+    "level": "off",
+    "traced": false,
+    "status": "retained"
+  },
+  {
+    "id": "P04",
+    "count": 150,
+    "compact": false,
+    "research": false,
+    "level": "off",
+    "traced": false,
+    "status": "retained"
+  },
+  {
+    "id": "P05",
+    "count": 100,
+    "compact": true,
+    "research": false,
+    "level": "off",
+    "traced": false,
+    "status": "retained"
+  },
+  {
+    "id": "P06",
+    "count": 150,
+    "compact": false,
+    "research": false,
+    "level": "off",
+    "traced": false,
+    "status": "retained"
+  },
+  {
+    "id": "P07",
+    "count": 100,
+    "compact": false,
+    "research": false,
+    "level": "off",
+    "traced": false,
+    "status": "FAILED_OR_UNKNOWN",
+    "failure": "Error: Raw192MiB ceiling"
+  },
+  {
+    "id": "P08",
+    "count": 50,
+    "compact": false,
+    "research": false,
+    "level": "off",
+    "traced": false,
+    "status": "not-started"
+  },
+  {
+    "id": "P09",
+    "count": 25,
+    "compact": false,
+    "research": false,
+    "level": "off",
+    "traced": false,
+    "status": "not-started"
+  },
+  {
+    "id": "P10",
+    "count": 100,
+    "compact": true,
+    "research": false,
+    "level": "off",
+    "traced": false,
+    "status": "not-started"
+  },
+  {
+    "id": "D01",
+    "count": 25,
+    "compact": false,
+    "research": true,
+    "level": "phase",
+    "traced": false,
+    "status": "not-started"
+  },
+  {
+    "id": "D02",
+    "count": 50,
+    "compact": false,
+    "research": true,
+    "level": "phase",
+    "traced": false,
+    "status": "not-started"
+  },
+  {
+    "id": "D03",
+    "count": 100,
+    "compact": false,
+    "research": true,
+    "level": "phase",
+    "traced": false,
+    "status": "not-started"
+  },
+  {
+    "id": "D04",
+    "count": 150,
+    "compact": false,
+    "research": true,
+    "level": "phase",
+    "traced": false,
+    "status": "not-started"
+  },
+  {
+    "id": "D05",
+    "count": 100,
+    "compact": true,
+    "research": true,
+    "level": "phase",
+    "traced": false,
+    "status": "not-started"
+  },
+  {
+    "id": "O01",
+    "count": 100,
+    "compact": false,
+    "research": true,
+    "level": "off",
+    "traced": false,
+    "status": "not-started"
+  },
+  {
+    "id": "T01",
+    "count": 150,
+    "compact": false,
+    "research": false,
+    "level": "off",
+    "traced": true,
+    "status": "not-started"
+  },
+  {
+    "id": "T02",
+    "count": 100,
+    "compact": true,
+    "research": false,
+    "level": "off",
+    "traced": true,
+    "status": "not-started"
+  }
+]

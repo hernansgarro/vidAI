@@ -1,0 +1,20 @@
+// Explicit build-only research runtime. Never imported by the normal application.
+export const r={
+ mode:'real',level:'off',ordinal:0,active:false,detail:false,record:false,sequences:{},
+ configure(mode='real',level='off'){if(!['real','vision','brain','learning','feeding'].includes(mode)||!['off','counter','phase'].includes(level))throw Error('Invalid mode');this.mode=mode;this.level=level;this.ordinal=0;this.reset();},
+ reset(){this.times={};this.counts={};this.ticks=[];this.stack=[];this.phaseName='unattributed';this.sampled=0;this.syntheticJ=0;this.syntheticCalls=0;this.dummyCalls={};this.generatorMs=0;this.generatorSamples=0;this.maxTransferError=0;},
+ begin(){this.ordinal++;this.detail=this.active&&this.level!=='off'&&this.ordinal%16===1;if(this.detail)this.sampled++;this.phaseName='unattributed';this.row={};if(this.active&&this.level==='phase')this.start=this.last=performance.now();},
+ phase(name){if(this.active&&this.level==='phase'){const now=performance.now();this.row[this.phaseName]=(this.row[this.phaseName]??0)+now-this.last;this.last=now;}this.phaseName=name;},
+ finish(){if(this.active&&this.level==='phase'){this.phase('unattributed');const end=performance.now();this.row.unattributed=(this.row.unattributed??0)+end-this.last;this.ticks.push({tick:this.ordinal,total:end-this.start,...this.row});if(this.ticks.length>10000)throw Error('Tick archive cap');}this.detail=false;},
+ count(k,n=1){this.counts[k]=(this.counts[k]??0)+n;},
+ enter(k){this.count(k);if(this.level!=='phase')return;const t=performance.now();this.stack.push({key:this.phaseName+'/'+k,t,child:0});},
+ leave(){if(this.level!=='phase')return;const end=performance.now(),s=this.stack.pop();const elapsed=end-s.t;this.times[s.key]=(this.times[s.key]??0)+elapsed-s.child;if(this.stack.length)this.stack.at(-1).child+=elapsed;},
+ capture(org,kind){if(!this.record||this.ordinal>3)return;const a=this.sequences[org.id]??(this.sequences[org.id]={vision:[],brain:[]});if(kind==='vision')a.vision.push({inputs:org.neuralInputs.slice(0,org.genome.eyes.length*20),rayHits:structuredClone(org.rayHits)});else a.brain.push([...org.neuralOutputs]);},
+ index(id){let h=73;for(let i=0;i<id.length;i++)h=(Math.imul(h,31)+id.charCodeAt(i))>>>0;return (h+this.ordinal-1)%3;},
+ replay(org,kind){const t=this.detail&&this.level==='phase'?performance.now():0;const a=this.sequences[org.id]?.[kind]?.[this.index(org.id)];if(!a)throw Error('Unrecorded dummy identity '+org.id);this.dummyCalls[kind]=(this.dummyCalls[kind]??0)+1;
+ if(kind==='vision'){if(a.inputs.length!==org.genome.eyes.length*20||a.rayHits.length!==org.genome.eyes.length*5)throw Error('Retinal shape');org.neuralInputs.fill(0);for(let i=0;i<a.inputs.length;i++)org.neuralInputs[i]=a.inputs[i];org.rayHits=a.rayHits;}
+ else{if(a.length!==org.neuralOutputs.length)throw Error('Output shape');for(let i=0;i<a.length;i++)org.neuralOutputs[i]=a[i];}
+ if(t){this.generatorMs+=performance.now()-t;this.generatorSamples++;}},
+ feed(org,state,dt){const t=this.detail&&this.level==='phase'?performance.now():0;const pool=state.energyPool;if(!pool)throw Error('Synthetic feeding requires closed pool');const amount=Math.min(Math.max(0,pool.reserve),dt,Math.max(0,org.genome.maxEnergyCapacity-org.energy));const before=pool.reserve+org.energy;pool.reserve-=amount;org.energy+=amount;this.maxTransferError=Math.max(this.maxTransferError,Math.abs(pool.reserve+org.energy-before));this.syntheticJ+=amount;this.syntheticCalls++;org.mouthFeedback=Object.create(null);for(const mouth of org.genome.mouths)org.mouthFeedback[mouth.id]={contact:0,intake:0};if(t){this.generatorMs+=performance.now()-t;this.generatorSamples++;}},
+ dump(){return {mode:this.mode,level:this.level,ordinal:this.ordinal,times:this.times,counts:this.counts,sampled:this.sampled,ticks:this.ticks,syntheticJ:this.syntheticJ,syntheticCalls:this.syntheticCalls,maxTransferError:this.maxTransferError,dummyCalls:this.dummyCalls,generatorMs:this.generatorMs,generatorSamples:this.generatorSamples};}
+};r.reset();
