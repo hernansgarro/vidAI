@@ -1,0 +1,2974 @@
+{
+  "stage": "3.12",
+  "sourceSHA": "a26569b0d039404cdb5bb8ceeeac46be7916e5d0",
+  "profiles": [
+    {
+      "id": "A01",
+      "parameters": {
+        "samplingInterval": 262144,
+        "stackDepth": 64,
+        "includeObjectsCollectedByMajorGC": true,
+        "includeObjectsCollectedByMinorGC": true
+      },
+      "profileJSONBytes": 520725,
+      "nodes": 143,
+      "samples": 11489,
+      "weightedSampleBytes": 3012948064,
+      "treeSelfSizeBytes": 3012737656,
+      "treeMinusSamplesBytes": -210408,
+      "verifiedOriginalWeightPercent": 99.93904826897142,
+      "mappedIncludingTransformedWeightPercent": 100,
+      "exclusiveSourceGroups": [
+        {
+          "key": "simulation.ts",
+          "weightedBytes": 2258997460,
+          "samples": 8615,
+          "status": "verified-original",
+          "sharePercent": 74.97631595418035
+        },
+        {
+          "key": "spatialIndex.ts",
+          "weightedBytes": 440386284,
+          "samples": 1679,
+          "status": "verified-original",
+          "sharePercent": 14.61645785607541
+        },
+        {
+          "key": "contacts.ts",
+          "weightedBytes": 210256216,
+          "samples": 801,
+          "status": "verified-original",
+          "sharePercent": 6.978421517192139
+        },
+        {
+          "key": "foundationPhysics.ts",
+          "weightedBytes": 39590376,
+          "samples": 151,
+          "status": "verified-original",
+          "sharePercent": 1.3140079138118193
+        },
+        {
+          "key": "sightBroadphase.ts",
+          "weightedBytes": 27531280,
+          "samples": 105,
+          "status": "verified-original",
+          "sharePercent": 0.913765501933325
+        },
+        {
+          "key": "simulationHost.ts",
+          "weightedBytes": 17304296,
+          "samples": 66,
+          "status": "verified-original",
+          "sharePercent": 0.5743310416385591
+        },
+        {
+          "key": "neuralRuntime.ts",
+          "weightedBytes": 12326308,
+          "samples": 47,
+          "status": "verified-original",
+          "sharePercent": 0.40911120066356377
+        },
+        {
+          "key": "mouthGeometry.ts",
+          "weightedBytes": 3146400,
+          "samples": 12,
+          "status": "verified-original",
+          "sharePercent": 0.10442928099539919
+        },
+        {
+          "key": "simulation.worker.ts",
+          "weightedBytes": 1836444,
+          "samples": 7,
+          "status": "transformed-research-source",
+          "sharePercent": 0.060951731028577066
+        },
+        {
+          "key": "energyActivity.ts",
+          "weightedBytes": 1573000,
+          "samples": 6,
+          "status": "verified-original",
+          "sharePercent": 0.05220800248085524
+        }
+      ],
+      "topOriginalOwnerSites": [
+        {
+          "key": "simulation.ts:3579:16:stepSimulation",
+          "weightedBytes": 1059252656,
+          "samples": 4039,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 3579,
+            "column": 17,
+            "functionName": "stepSimulation",
+            "generated": {
+              "functionName": "Cn",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 74278
+            },
+            "key": "simulation.ts:3579:16:stepSimulation"
+          },
+          "exampleLeaf": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 3579,
+            "column": 17,
+            "functionName": "stepSimulation",
+            "generated": {
+              "functionName": "Cn",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 74278
+            },
+            "key": "simulation.ts:3579:16:stepSimulation"
+          },
+          "sharePercent": 35.156684864781
+        },
+        {
+          "key": "simulation.ts:3002:9:advanceOrganismPhysics",
+          "weightedBytes": 581250920,
+          "samples": 2217,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 3002,
+            "column": 10,
+            "functionName": "advanceOrganismPhysics",
+            "generated": {
+              "functionName": "gn",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 63772
+            },
+            "key": "simulation.ts:3002:9:advanceOrganismPhysics"
+          },
+          "exampleLeaf": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 3002,
+            "column": 10,
+            "functionName": "advanceOrganismPhysics",
+            "generated": {
+              "functionName": "gn",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 63772
+            },
+            "key": "simulation.ts:3002:9:advanceOrganismPhysics"
+          },
+          "sharePercent": 19.291766988785373
+        },
+        {
+          "key": "spatialIndex.ts:42:2:query",
+          "weightedBytes": 343876260,
+          "samples": 1311,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "spatialIndex.ts",
+            "line": 42,
+            "column": 3,
+            "functionName": "query",
+            "generated": {
+              "functionName": "query",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 16435
+            },
+            "key": "spatialIndex.ts:42:2:query"
+          },
+          "exampleLeaf": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "spatialIndex.ts",
+            "line": 42,
+            "column": 3,
+            "functionName": "query",
+            "generated": {
+              "functionName": "query",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 16435
+            },
+            "key": "spatialIndex.ts:42:2:query"
+          },
+          "sharePercent": 11.413282031269691
+        },
+        {
+          "key": "simulation.ts:3783:86:",
+          "weightedBytes": 224169564,
+          "samples": 855,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 3783,
+            "column": 87,
+            "functionName": "",
+            "generated": {
+              "functionName": "",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 77406
+            },
+            "key": "simulation.ts:3783:86:"
+          },
+          "exampleLeaf": {
+            "status": "native-or-no-url",
+            "functionName": "map",
+            "generated": {
+              "functionName": "map",
+              "scriptId": "0",
+              "url": "",
+              "lineNumber": -1,
+              "columnNumber": -1
+            },
+            "key": "<native>:-1:-1:map"
+          },
+          "sharePercent": 7.440206709119032
+        },
+        {
+          "key": "contacts.ts:119:9:pairs",
+          "weightedBytes": 120088896,
+          "samples": 458,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "contacts.ts",
+            "line": 119,
+            "column": 10,
+            "functionName": "pairs",
+            "generated": {
+              "functionName": "_e",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 14533
+            },
+            "key": "contacts.ts:119:9:pairs"
+          },
+          "exampleLeaf": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "contacts.ts",
+            "line": 119,
+            "column": 10,
+            "functionName": "pairs",
+            "generated": {
+              "functionName": "_e",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 14533
+            },
+            "key": "contacts.ts:119:9:pairs"
+          },
+          "sharePercent": 3.985760572340221
+        },
+        {
+          "key": "simulation.ts:3423:9:evaluateOrganismBrain",
+          "weightedBytes": 90180288,
+          "samples": 344,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 3423,
+            "column": 10,
+            "functionName": "evaluateOrganismBrain",
+            "generated": {
+              "functionName": "bn",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 70976
+            },
+            "key": "simulation.ts:3423:9:evaluateOrganismBrain"
+          },
+          "exampleLeaf": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 3423,
+            "column": 10,
+            "functionName": "evaluateOrganismBrain",
+            "generated": {
+              "functionName": "bn",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 70976
+            },
+            "key": "simulation.ts:3423:9:evaluateOrganismBrain"
+          },
+          "sharePercent": 2.993091353864107
+        },
+        {
+          "key": "spatialIndex.ts:10:2:ye",
+          "weightedBytes": 76313696,
+          "samples": 291,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "spatialIndex.ts",
+            "line": 10,
+            "column": 3,
+            "functionName": "ye",
+            "generated": {
+              "functionName": "ye",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 15860
+            },
+            "key": "spatialIndex.ts:10:2:ye"
+          },
+          "exampleLeaf": {
+            "status": "native-or-no-url",
+            "functionName": "Map",
+            "generated": {
+              "functionName": "Map",
+              "scriptId": "0",
+              "url": "",
+              "lineNumber": -1,
+              "columnNumber": -1
+            },
+            "key": "<native>:-1:-1:Map"
+          },
+          "sharePercent": 2.5328579975150878
+        },
+        {
+          "key": "simulation.ts:3343:9:bodyBounds",
+          "weightedBytes": 55056560,
+          "samples": 210,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 3343,
+            "column": 10,
+            "functionName": "bodyBounds",
+            "generated": {
+              "functionName": "_n",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 70130
+            },
+            "key": "simulation.ts:3343:9:bodyBounds"
+          },
+          "exampleLeaf": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 3343,
+            "column": 10,
+            "functionName": "bodyBounds",
+            "generated": {
+              "functionName": "_n",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 70130
+            },
+            "key": "simulation.ts:3343:9:bodyBounds"
+          },
+          "sharePercent": 1.8273318633613194
+        },
+        {
+          "key": "simulation.ts:2802:16:lineIntersection",
+          "weightedBytes": 52956320,
+          "samples": 202,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 2802,
+            "column": 17,
+            "functionName": "lineIntersection",
+            "generated": {
+              "functionName": "on",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 60653
+            },
+            "key": "simulation.ts:2802:16:lineIntersection"
+          },
+          "exampleLeaf": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 2802,
+            "column": 17,
+            "functionName": "lineIntersection",
+            "generated": {
+              "functionName": "on",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 60653
+            },
+            "key": "simulation.ts:2802:16:lineIntersection"
+          },
+          "sharePercent": 1.7576247208753746
+        },
+        {
+          "key": "contacts.ts:84:9:bodies",
+          "weightedBytes": 42190632,
+          "samples": 160,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "contacts.ts",
+            "line": 84,
+            "column": 10,
+            "functionName": "bodies",
+            "generated": {
+              "functionName": "pe",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 13714
+            },
+            "key": "contacts.ts:84:9:bodies"
+          },
+          "exampleLeaf": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "contacts.ts",
+            "line": 84,
+            "column": 10,
+            "functionName": "bodies",
+            "generated": {
+              "functionName": "pe",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 13714
+            },
+            "key": "contacts.ts:84:9:bodies"
+          },
+          "sharePercent": 1.4003106294500003
+        },
+        {
+          "key": "foundationPhysics.ts:74:16:paidMotorBatch",
+          "weightedBytes": 39590376,
+          "samples": 151,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "foundationPhysics.ts",
+            "line": 74,
+            "column": 17,
+            "functionName": "paidMotorBatch",
+            "generated": {
+              "functionName": "F",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 8544
+            },
+            "key": "foundationPhysics.ts:74:16:paidMotorBatch"
+          },
+          "exampleLeaf": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "foundationPhysics.ts",
+            "line": 74,
+            "column": 17,
+            "functionName": "paidMotorBatch",
+            "generated": {
+              "functionName": "F",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 8544
+            },
+            "key": "foundationPhysics.ts:74:16:paidMotorBatch"
+          },
+          "sharePercent": 1.3140079138118193
+        },
+        {
+          "key": "contacts.ts:21:9:rotatedContact",
+          "weightedBytes": 29625672,
+          "samples": 113,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "contacts.ts",
+            "line": 21,
+            "column": 10,
+            "functionName": "rotatedContact",
+            "generated": {
+              "functionName": "ue",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 12412
+            },
+            "key": "contacts.ts:21:9:rotatedContact"
+          },
+          "exampleLeaf": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "contacts.ts",
+            "line": 21,
+            "column": 10,
+            "functionName": "rotatedContact",
+            "generated": {
+              "functionName": "ue",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 12412
+            },
+            "key": "contacts.ts:21:9:rotatedContact"
+          },
+          "sharePercent": 0.9832785488067411
+        },
+        {
+          "key": "simulation.ts:2928:9:projectBodyJoints",
+          "weightedBytes": 28050264,
+          "samples": 107,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 2928,
+            "column": 10,
+            "functionName": "projectBodyJoints",
+            "generated": {
+              "functionName": "pn",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 62212
+            },
+            "key": "simulation.ts:2928:9:projectBodyJoints"
+          },
+          "exampleLeaf": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 2928,
+            "column": 10,
+            "functionName": "projectBodyJoints",
+            "generated": {
+              "functionName": "pn",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 62212
+            },
+            "key": "simulation.ts:2928:9:projectBodyJoints"
+          },
+          "sharePercent": 0.9309906246030798
+        },
+        {
+          "key": "simulation.ts:2846:16:getPartCornerVertices",
+          "weightedBytes": 27008004,
+          "samples": 103,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 2846,
+            "column": 17,
+            "functionName": "getPartCornerVertices",
+            "generated": {
+              "functionName": "cn",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 61180
+            },
+            "key": "simulation.ts:2846:16:getPartCornerVertices"
+          },
+          "exampleLeaf": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 2846,
+            "column": 17,
+            "functionName": "getPartCornerVertices",
+            "generated": {
+              "functionName": "cn",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 61180
+            },
+            "key": "simulation.ts:2846:16:getPartCornerVertices"
+          },
+          "sharePercent": 0.8963979274220905
+        },
+        {
+          "key": "sightBroadphase.ts:10:24:",
+          "weightedBytes": 27004728,
+          "samples": 103,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "sightBroadphase.ts",
+            "line": 10,
+            "column": 25,
+            "functionName": "",
+            "generated": {
+              "functionName": "",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 17188
+            },
+            "key": "sightBroadphase.ts:10:24:"
+          },
+          "exampleLeaf": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "sightBroadphase.ts",
+            "line": 10,
+            "column": 25,
+            "functionName": "",
+            "generated": {
+              "functionName": "",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 17188
+            },
+            "key": "sightBroadphase.ts:10:24:"
+          },
+          "sharePercent": 0.8962891967061799
+        },
+        {
+          "key": "simulation.ts:3865:52:",
+          "weightedBytes": 26218632,
+          "samples": 100,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 3865,
+            "column": 53,
+            "functionName": "",
+            "generated": {
+              "functionName": "",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 79246
+            },
+            "key": "simulation.ts:3865:52:"
+          },
+          "exampleLeaf": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 3865,
+            "column": 53,
+            "functionName": "",
+            "generated": {
+              "functionName": "",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 79246
+            },
+            "key": "simulation.ts:3865:52:"
+          },
+          "sharePercent": 0.8701986042597779
+        },
+        {
+          "key": "simulation.ts:2818:16:rayCircleIntersection",
+          "weightedBytes": 21501056,
+          "samples": 82,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 2818,
+            "column": 17,
+            "functionName": "rayCircleIntersection",
+            "generated": {
+              "functionName": "sn",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 60922
+            },
+            "key": "simulation.ts:2818:16:rayCircleIntersection"
+          },
+          "exampleLeaf": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 2818,
+            "column": 17,
+            "functionName": "rayCircleIntersection",
+            "generated": {
+              "functionName": "sn",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 60922
+            },
+            "key": "simulation.ts:2818:16:rayCircleIntersection"
+          },
+          "sharePercent": 0.713621859497144
+        },
+        {
+          "key": "spatialIndex.ts:62:2:queryBounds",
+          "weightedBytes": 20196328,
+          "samples": 77,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "spatialIndex.ts",
+            "line": 62,
+            "column": 3,
+            "functionName": "queryBounds",
+            "generated": {
+              "functionName": "queryBounds",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 16892
+            },
+            "key": "spatialIndex.ts:62:2:queryBounds"
+          },
+          "exampleLeaf": {
+            "status": "native-or-no-url",
+            "functionName": "sort",
+            "generated": {
+              "functionName": "sort",
+              "scriptId": "0",
+              "url": "",
+              "lineNumber": -1,
+              "columnNumber": -1
+            },
+            "key": "<native>:-1:-1:sort"
+          },
+          "sharePercent": 0.6703178272906333
+        },
+        {
+          "key": "contacts.ts:149:16:resolveBodyContacts",
+          "weightedBytes": 18351016,
+          "samples": 70,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "contacts.ts",
+            "line": 149,
+            "column": 17,
+            "functionName": "resolveBodyContacts",
+            "generated": {
+              "functionName": "ve",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 15189
+            },
+            "key": "contacts.ts:149:16:resolveBodyContacts"
+          },
+          "exampleLeaf": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "contacts.ts",
+            "line": 149,
+            "column": 17,
+            "functionName": "resolveBodyContacts",
+            "generated": {
+              "functionName": "ve",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 15189
+            },
+            "key": "contacts.ts:149:16:resolveBodyContacts"
+          },
+          "sharePercent": 0.6090717665951775
+        },
+        {
+          "key": "simulationHost.ts:103:31:",
+          "weightedBytes": 16779828,
+          "samples": 64,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulationHost.ts",
+            "line": 103,
+            "column": 32,
+            "functionName": "",
+            "generated": {
+              "functionName": "",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 216021
+            },
+            "key": "simulationHost.ts:103:31:"
+          },
+          "exampleLeaf": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulationHost.ts",
+            "line": 103,
+            "column": 32,
+            "functionName": "",
+            "generated": {
+              "functionName": "",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 216021
+            },
+            "key": "simulationHost.ts:103:31:"
+          },
+          "sharePercent": 0.5569239045469321
+        }
+      ],
+      "topLeafSites": [
+        {
+          "key": "simulation.ts:3579:16:stepSimulation",
+          "weightedBytes": 1007824780,
+          "samples": 3843,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 3579,
+            "column": 17,
+            "functionName": "stepSimulation",
+            "generated": {
+              "functionName": "Cn",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 74278
+            },
+            "key": "simulation.ts:3579:16:stepSimulation"
+          },
+          "sharePercent": 33.44978932899389
+        },
+        {
+          "key": "simulation.ts:3002:9:advanceOrganismPhysics",
+          "weightedBytes": 569716176,
+          "samples": 2173,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 3002,
+            "column": 10,
+            "functionName": "advanceOrganismPhysics",
+            "generated": {
+              "functionName": "gn",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 63772
+            },
+            "key": "simulation.ts:3002:9:advanceOrganismPhysics"
+          },
+          "sharePercent": 18.908927863948737
+        },
+        {
+          "key": "<native>:-1:-1:sort",
+          "weightedBytes": 257618668,
+          "samples": 982,
+          "location": {
+            "status": "native-or-no-url",
+            "functionName": "sort",
+            "generated": {
+              "functionName": "sort",
+              "scriptId": "0",
+              "url": "",
+              "lineNumber": -1,
+              "columnNumber": -1
+            },
+            "key": "<native>:-1:-1:sort"
+          },
+          "sharePercent": 8.55038528802201
+        },
+        {
+          "key": "simulation.ts:3783:86:",
+          "weightedBytes": 181962420,
+          "samples": 694,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 3783,
+            "column": 87,
+            "functionName": "",
+            "generated": {
+              "functionName": "",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 77406
+            },
+            "key": "simulation.ts:3783:86:"
+          },
+          "sharePercent": 6.039348044998362
+        },
+        {
+          "key": "contacts.ts:119:9:pairs",
+          "weightedBytes": 120088896,
+          "samples": 458,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "contacts.ts",
+            "line": 119,
+            "column": 10,
+            "functionName": "pairs",
+            "generated": {
+              "functionName": "_e",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 14533
+            },
+            "key": "contacts.ts:119:9:pairs"
+          },
+          "sharePercent": 3.985760572340221
+        },
+        {
+          "key": "spatialIndex.ts:42:2:query",
+          "weightedBytes": 97539768,
+          "samples": 372,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "spatialIndex.ts",
+            "line": 42,
+            "column": 3,
+            "functionName": "query",
+            "generated": {
+              "functionName": "query",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 16435
+            },
+            "key": "spatialIndex.ts:42:2:query"
+          },
+          "sharePercent": 3.2373531148925903
+        },
+        {
+          "key": "simulation.ts:3423:9:evaluateOrganismBrain",
+          "weightedBytes": 90180288,
+          "samples": 344,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 3423,
+            "column": 10,
+            "functionName": "evaluateOrganismBrain",
+            "generated": {
+              "functionName": "bn",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 70976
+            },
+            "key": "simulation.ts:3423:9:evaluateOrganismBrain"
+          },
+          "sharePercent": 2.993091353864107
+        },
+        {
+          "key": "simulation.ts:3343:9:bodyBounds",
+          "weightedBytes": 55056560,
+          "samples": 210,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 3343,
+            "column": 10,
+            "functionName": "bodyBounds",
+            "generated": {
+              "functionName": "_n",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 70130
+            },
+            "key": "simulation.ts:3343:9:bodyBounds"
+          },
+          "sharePercent": 1.8273318633613194
+        },
+        {
+          "key": "simulation.ts:2802:16:lineIntersection",
+          "weightedBytes": 52956320,
+          "samples": 202,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 2802,
+            "column": 17,
+            "functionName": "lineIntersection",
+            "generated": {
+              "functionName": "on",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 60653
+            },
+            "key": "simulation.ts:2802:16:lineIntersection"
+          },
+          "sharePercent": 1.7576247208753746
+        },
+        {
+          "key": "spatialIndex.ts:10:2:ye",
+          "weightedBytes": 51389560,
+          "samples": 196,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "spatialIndex.ts",
+            "line": 10,
+            "column": 3,
+            "functionName": "ye",
+            "generated": {
+              "functionName": "ye",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 15860
+            },
+            "key": "spatialIndex.ts:10:2:ye"
+          },
+          "sharePercent": 1.7056238245200632
+        },
+        {
+          "key": "contacts.ts:84:9:bodies",
+          "weightedBytes": 42190632,
+          "samples": 160,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "contacts.ts",
+            "line": 84,
+            "column": 10,
+            "functionName": "bodies",
+            "generated": {
+              "functionName": "pe",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 13714
+            },
+            "key": "contacts.ts:84:9:bodies"
+          },
+          "sharePercent": 1.4003106294500003
+        },
+        {
+          "key": "foundationPhysics.ts:74:16:paidMotorBatch",
+          "weightedBytes": 39590376,
+          "samples": 151,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "foundationPhysics.ts",
+            "line": 74,
+            "column": 17,
+            "functionName": "paidMotorBatch",
+            "generated": {
+              "functionName": "F",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 8544
+            },
+            "key": "foundationPhysics.ts:74:16:paidMotorBatch"
+          },
+          "sharePercent": 1.3140079138118193
+        },
+        {
+          "key": "<native>:-1:-1:map",
+          "weightedBytes": 35131464,
+          "samples": 134,
+          "location": {
+            "status": "native-or-no-url",
+            "functionName": "map",
+            "generated": {
+              "functionName": "map",
+              "scriptId": "0",
+              "url": "",
+              "lineNumber": -1,
+              "columnNumber": -1
+            },
+            "key": "<native>:-1:-1:map"
+          },
+          "sharePercent": 1.166016248994327
+        },
+        {
+          "key": "<native>:-1:-1:next",
+          "weightedBytes": 30672736,
+          "samples": 117,
+          "location": {
+            "status": "native-or-no-url",
+            "functionName": "next",
+            "generated": {
+              "functionName": "next",
+              "scriptId": "0",
+              "url": "",
+              "lineNumber": -1,
+              "columnNumber": -1
+            },
+            "key": "<native>:-1:-1:next"
+          },
+          "sharePercent": 1.0180306911523318
+        },
+        {
+          "key": "contacts.ts:21:9:rotatedContact",
+          "weightedBytes": 29625672,
+          "samples": 113,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "contacts.ts",
+            "line": 21,
+            "column": 10,
+            "functionName": "rotatedContact",
+            "generated": {
+              "functionName": "ue",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 12412
+            },
+            "key": "contacts.ts:21:9:rotatedContact"
+          },
+          "sharePercent": 0.9832785488067411
+        },
+        {
+          "key": "simulation.ts:2928:9:projectBodyJoints",
+          "weightedBytes": 28050264,
+          "samples": 107,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 2928,
+            "column": 10,
+            "functionName": "projectBodyJoints",
+            "generated": {
+              "functionName": "pn",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 62212
+            },
+            "key": "simulation.ts:2928:9:projectBodyJoints"
+          },
+          "sharePercent": 0.9309906246030798
+        },
+        {
+          "key": "simulation.ts:2846:16:getPartCornerVertices",
+          "weightedBytes": 27008004,
+          "samples": 103,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 2846,
+            "column": 17,
+            "functionName": "getPartCornerVertices",
+            "generated": {
+              "functionName": "cn",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 61180
+            },
+            "key": "simulation.ts:2846:16:getPartCornerVertices"
+          },
+          "sharePercent": 0.8963979274220905
+        },
+        {
+          "key": "sightBroadphase.ts:10:24:",
+          "weightedBytes": 27004728,
+          "samples": 103,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "sightBroadphase.ts",
+            "line": 10,
+            "column": 25,
+            "functionName": "",
+            "generated": {
+              "functionName": "",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 17188
+            },
+            "key": "sightBroadphase.ts:10:24:"
+          },
+          "sharePercent": 0.8962891967061799
+        },
+        {
+          "key": "simulation.ts:3865:52:",
+          "weightedBytes": 26218632,
+          "samples": 100,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 3865,
+            "column": 53,
+            "functionName": "",
+            "generated": {
+              "functionName": "",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 79246
+            },
+            "key": "simulation.ts:3865:52:"
+          },
+          "sharePercent": 0.8701986042597779
+        },
+        {
+          "key": "<native>:-1:-1:set",
+          "weightedBytes": 25983980,
+          "samples": 99,
+          "location": {
+            "status": "native-or-no-url",
+            "functionName": "set",
+            "generated": {
+              "functionName": "set",
+              "scriptId": "0",
+              "url": "",
+              "lineNumber": -1,
+              "columnNumber": -1
+            },
+            "key": "<native>:-1:-1:set"
+          },
+          "sharePercent": 0.8624104846169696
+        }
+      ],
+      "inclusiveOriginalSourceGroups": [
+        {
+          "key": "simulationHost.ts",
+          "weightedBytes": 3011111620,
+          "samples": 11482,
+          "sharePercent": 99.93904826897142
+        },
+        {
+          "key": "simulation.ts",
+          "weightedBytes": 2992234324,
+          "samples": 11410,
+          "sharePercent": 99.31250922485201
+        },
+        {
+          "key": "spatialIndex.ts",
+          "weightedBytes": 440386284,
+          "samples": 1679,
+          "sharePercent": 14.61645785607541
+        },
+        {
+          "key": "contacts.ts",
+          "weightedBytes": 238306480,
+          "samples": 908,
+          "sharePercent": 7.909412141795219
+        },
+        {
+          "key": "sightBroadphase.ts",
+          "weightedBytes": 56116420,
+          "samples": 214,
+          "sharePercent": 1.862508706024612
+        },
+        {
+          "key": "foundationPhysics.ts",
+          "weightedBytes": 39590376,
+          "samples": 151,
+          "sharePercent": 1.3140079138118193
+        },
+        {
+          "key": "neuralRuntime.ts",
+          "weightedBytes": 12326308,
+          "samples": 47,
+          "sharePercent": 0.40911120066356377
+        },
+        {
+          "key": "mouthGeometry.ts",
+          "weightedBytes": 3146400,
+          "samples": 12,
+          "sharePercent": 0.10442928099539919
+        },
+        {
+          "key": "energyActivity.ts",
+          "weightedBytes": 1573000,
+          "samples": 6,
+          "sharePercent": 0.05220800248085524
+        }
+      ],
+      "scopeNote": "Sampling bracket includes explicit pre/post-roll. Weighted samples are estimates, not CPU, retained/wire bytes or exact allocations; inclusive groups overlap and must not be summed."
+    },
+    {
+      "id": "A02",
+      "parameters": {
+        "samplingInterval": 262144,
+        "stackDepth": 64,
+        "includeObjectsCollectedByMajorGC": true,
+        "includeObjectsCollectedByMinorGC": true
+      },
+      "profileJSONBytes": 528267,
+      "nodes": 136,
+      "samples": 11695,
+      "weightedSampleBytes": 3067052900,
+      "treeSelfSizeBytes": 3066880188,
+      "treeMinusSamplesBytes": -172712,
+      "verifiedOriginalWeightPercent": 99.92277785622804,
+      "mappedIncludingTransformedWeightPercent": 100,
+      "exclusiveSourceGroups": [
+        {
+          "key": "simulation.ts",
+          "weightedBytes": 2328504036,
+          "samples": 8880,
+          "status": "verified-original",
+          "sharePercent": 75.91991765124104
+        },
+        {
+          "key": "spatialIndex.ts",
+          "weightedBytes": 444665380,
+          "samples": 1695,
+          "status": "verified-original",
+          "sharePercent": 14.498132066779807
+        },
+        {
+          "key": "contacts.ts",
+          "weightedBytes": 200793392,
+          "samples": 765,
+          "status": "verified-original",
+          "sharePercent": 6.546786069454491
+        },
+        {
+          "key": "foundationPhysics.ts",
+          "weightedBytes": 38279120,
+          "samples": 146,
+          "status": "verified-original",
+          "sharePercent": 1.2480749842951844
+        },
+        {
+          "key": "simulationHost.ts",
+          "weightedBytes": 20974892,
+          "samples": 80,
+          "status": "verified-original",
+          "sharePercent": 0.6838777381374805
+        },
+        {
+          "key": "sightBroadphase.ts",
+          "weightedBytes": 16522256,
+          "samples": 63,
+          "status": "verified-original",
+          "sharePercent": 0.5387013702958955
+        },
+        {
+          "key": "neuralRuntime.ts",
+          "weightedBytes": 9177388,
+          "samples": 35,
+          "status": "verified-original",
+          "sharePercent": 0.29922496609041205
+        },
+        {
+          "key": "energyActivity.ts",
+          "weightedBytes": 3145992,
+          "samples": 12,
+          "status": "verified-original",
+          "sharePercent": 0.1025737769309424
+        },
+        {
+          "key": "mouthGeometry.ts",
+          "weightedBytes": 2622000,
+          "samples": 10,
+          "status": "verified-original",
+          "sharePercent": 0.08548923300279561
+        },
+        {
+          "key": "simulation.worker.ts",
+          "weightedBytes": 2368444,
+          "samples": 9,
+          "status": "transformed-research-source",
+          "sharePercent": 0.07722214377195777
+        }
+      ],
+      "topOriginalOwnerSites": [
+        {
+          "key": "simulation.ts:3579:16:stepSimulation",
+          "weightedBytes": 1087307444,
+          "samples": 4146,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 3579,
+            "column": 17,
+            "functionName": "stepSimulation",
+            "generated": {
+              "functionName": "Cn",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 74278
+            },
+            "key": "simulation.ts:3579:16:stepSimulation"
+          },
+          "exampleLeaf": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 3579,
+            "column": 17,
+            "functionName": "stepSimulation",
+            "generated": {
+              "functionName": "Cn",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 74278
+            },
+            "key": "simulation.ts:3579:16:stepSimulation"
+          },
+          "sharePercent": 35.45121259564842
+        },
+        {
+          "key": "simulation.ts:3002:9:advanceOrganismPhysics",
+          "weightedBytes": 583609688,
+          "samples": 2226,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 3002,
+            "column": 10,
+            "functionName": "advanceOrganismPhysics",
+            "generated": {
+              "functionName": "gn",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 63772
+            },
+            "key": "simulation.ts:3002:9:advanceOrganismPhysics"
+          },
+          "exampleLeaf": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 3002,
+            "column": 10,
+            "functionName": "advanceOrganismPhysics",
+            "generated": {
+              "functionName": "gn",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 63772
+            },
+            "key": "simulation.ts:3002:9:advanceOrganismPhysics"
+          },
+          "sharePercent": 19.02835415717805
+        },
+        {
+          "key": "spatialIndex.ts:42:2:query",
+          "weightedBytes": 356547492,
+          "samples": 1359,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "spatialIndex.ts",
+            "line": 42,
+            "column": 3,
+            "functionName": "query",
+            "generated": {
+              "functionName": "query",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 16435
+            },
+            "key": "spatialIndex.ts:42:2:query"
+          },
+          "exampleLeaf": {
+            "status": "native-or-no-url",
+            "functionName": "sort",
+            "generated": {
+              "functionName": "sort",
+              "scriptId": "0",
+              "url": "",
+              "lineNumber": -1,
+              "columnNumber": -1
+            },
+            "key": "<native>:-1:-1:sort"
+          },
+          "sharePercent": 11.625084523322046
+        },
+        {
+          "key": "simulation.ts:3783:86:",
+          "weightedBytes": 250648400,
+          "samples": 956,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 3783,
+            "column": 87,
+            "functionName": "",
+            "generated": {
+              "functionName": "",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 77406
+            },
+            "key": "simulation.ts:3783:86:"
+          },
+          "exampleLeaf": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 3783,
+            "column": 87,
+            "functionName": "",
+            "generated": {
+              "functionName": "",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 77406
+            },
+            "key": "simulation.ts:3783:86:"
+          },
+          "sharePercent": 8.172288127146421
+        },
+        {
+          "key": "contacts.ts:119:9:pairs",
+          "weightedBytes": 113019544,
+          "samples": 431,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "contacts.ts",
+            "line": 119,
+            "column": 10,
+            "functionName": "pairs",
+            "generated": {
+              "functionName": "_e",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 14533
+            },
+            "key": "contacts.ts:119:9:pairs"
+          },
+          "exampleLeaf": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "contacts.ts",
+            "line": 119,
+            "column": 10,
+            "functionName": "pairs",
+            "generated": {
+              "functionName": "_e",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 14533
+            },
+            "key": "contacts.ts:119:9:pairs"
+          },
+          "sharePercent": 3.6849558088808965
+        },
+        {
+          "key": "simulation.ts:2802:16:lineIntersection",
+          "weightedBytes": 84153360,
+          "samples": 321,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 2802,
+            "column": 17,
+            "functionName": "lineIntersection",
+            "generated": {
+              "functionName": "on",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 60653
+            },
+            "key": "simulation.ts:2802:16:lineIntersection"
+          },
+          "exampleLeaf": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 2802,
+            "column": 17,
+            "functionName": "lineIntersection",
+            "generated": {
+              "functionName": "on",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 60653
+            },
+            "key": "simulation.ts:2802:16:lineIntersection"
+          },
+          "sharePercent": 2.7437857364638214
+        },
+        {
+          "key": "simulation.ts:3423:9:evaluateOrganismBrain",
+          "weightedBytes": 76026888,
+          "samples": 290,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 3423,
+            "column": 10,
+            "functionName": "evaluateOrganismBrain",
+            "generated": {
+              "functionName": "bn",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 70976
+            },
+            "key": "simulation.ts:3423:9:evaluateOrganismBrain"
+          },
+          "exampleLeaf": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 3423,
+            "column": 10,
+            "functionName": "evaluateOrganismBrain",
+            "generated": {
+              "functionName": "bn",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 70976
+            },
+            "key": "simulation.ts:3423:9:evaluateOrganismBrain"
+          },
+          "sharePercent": 2.478825454885372
+        },
+        {
+          "key": "spatialIndex.ts:10:2:ye",
+          "weightedBytes": 68446236,
+          "samples": 261,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "spatialIndex.ts",
+            "line": 10,
+            "column": 3,
+            "functionName": "ye",
+            "generated": {
+              "functionName": "ye",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 15860
+            },
+            "key": "spatialIndex.ts:10:2:ye"
+          },
+          "exampleLeaf": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "spatialIndex.ts",
+            "line": 10,
+            "column": 3,
+            "functionName": "ye",
+            "generated": {
+              "functionName": "ye",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 15860
+            },
+            "key": "spatialIndex.ts:10:2:ye"
+          },
+          "sharePercent": 2.2316614102091297
+        },
+        {
+          "key": "simulation.ts:3343:9:bodyBounds",
+          "weightedBytes": 47453152,
+          "samples": 181,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 3343,
+            "column": 10,
+            "functionName": "bodyBounds",
+            "generated": {
+              "functionName": "_n",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 70130
+            },
+            "key": "simulation.ts:3343:9:bodyBounds"
+          },
+          "exampleLeaf": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 3343,
+            "column": 10,
+            "functionName": "bodyBounds",
+            "generated": {
+              "functionName": "_n",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 70130
+            },
+            "key": "simulation.ts:3343:9:bodyBounds"
+          },
+          "sharePercent": 1.5471905293840873
+        },
+        {
+          "key": "foundationPhysics.ts:74:16:paidMotorBatch",
+          "weightedBytes": 38279120,
+          "samples": 146,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "foundationPhysics.ts",
+            "line": 74,
+            "column": 17,
+            "functionName": "paidMotorBatch",
+            "generated": {
+              "functionName": "F",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 8544
+            },
+            "key": "foundationPhysics.ts:74:16:paidMotorBatch"
+          },
+          "exampleLeaf": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "foundationPhysics.ts",
+            "line": 74,
+            "column": 17,
+            "functionName": "paidMotorBatch",
+            "generated": {
+              "functionName": "F",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 8544
+            },
+            "key": "foundationPhysics.ts:74:16:paidMotorBatch"
+          },
+          "sharePercent": 1.2480749842951844
+        },
+        {
+          "key": "contacts.ts:84:9:bodies",
+          "weightedBytes": 37962952,
+          "samples": 144,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "contacts.ts",
+            "line": 84,
+            "column": 10,
+            "functionName": "bodies",
+            "generated": {
+              "functionName": "pe",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 13714
+            },
+            "key": "contacts.ts:84:9:bodies"
+          },
+          "exampleLeaf": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "contacts.ts",
+            "line": 84,
+            "column": 10,
+            "functionName": "bodies",
+            "generated": {
+              "functionName": "pe",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 13714
+            },
+            "key": "contacts.ts:84:9:bodies"
+          },
+          "sharePercent": 1.2377664565224813
+        },
+        {
+          "key": "simulation.ts:2818:16:rayCircleIntersection",
+          "weightedBytes": 33824832,
+          "samples": 129,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 2818,
+            "column": 17,
+            "functionName": "rayCircleIntersection",
+            "generated": {
+              "functionName": "sn",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 60922
+            },
+            "key": "simulation.ts:2818:16:rayCircleIntersection"
+          },
+          "exampleLeaf": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 2818,
+            "column": 17,
+            "functionName": "rayCircleIntersection",
+            "generated": {
+              "functionName": "sn",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 60922
+            },
+            "key": "simulation.ts:2818:16:rayCircleIntersection"
+          },
+          "sharePercent": 1.1028447536721653
+        },
+        {
+          "key": "contacts.ts:21:9:rotatedContact",
+          "weightedBytes": 28838736,
+          "samples": 110,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "contacts.ts",
+            "line": 21,
+            "column": 10,
+            "functionName": "rotatedContact",
+            "generated": {
+              "functionName": "ue",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 12412
+            },
+            "key": "contacts.ts:21:9:rotatedContact"
+          },
+          "exampleLeaf": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "contacts.ts",
+            "line": 21,
+            "column": 10,
+            "functionName": "rotatedContact",
+            "generated": {
+              "functionName": "ue",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 12412
+            },
+            "key": "contacts.ts:21:9:rotatedContact"
+          },
+          "sharePercent": 0.940275141651453
+        },
+        {
+          "key": "simulation.ts:2846:16:getPartCornerVertices",
+          "weightedBytes": 28319460,
+          "samples": 108,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 2846,
+            "column": 17,
+            "functionName": "getPartCornerVertices",
+            "generated": {
+              "functionName": "cn",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 61180
+            },
+            "key": "simulation.ts:2846:16:getPartCornerVertices"
+          },
+          "exampleLeaf": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 2846,
+            "column": 17,
+            "functionName": "getPartCornerVertices",
+            "generated": {
+              "functionName": "cn",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 61180
+            },
+            "key": "simulation.ts:2846:16:getPartCornerVertices"
+          },
+          "sharePercent": 0.92334436096619
+        },
+        {
+          "key": "simulation.ts:2928:9:projectBodyJoints",
+          "weightedBytes": 27788112,
+          "samples": 106,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 2928,
+            "column": 10,
+            "functionName": "projectBodyJoints",
+            "generated": {
+              "functionName": "pn",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 62212
+            },
+            "key": "simulation.ts:2928:9:projectBodyJoints"
+          },
+          "exampleLeaf": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 2928,
+            "column": 10,
+            "functionName": "projectBodyJoints",
+            "generated": {
+              "functionName": "pn",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 62212
+            },
+            "key": "simulation.ts:2928:9:projectBodyJoints"
+          },
+          "sharePercent": 0.9060199776795502
+        },
+        {
+          "key": "simulationHost.ts:103:31:",
+          "weightedBytes": 20974892,
+          "samples": 80,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulationHost.ts",
+            "line": 103,
+            "column": 32,
+            "functionName": "",
+            "generated": {
+              "functionName": "",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 216021
+            },
+            "key": "simulationHost.ts:103:31:"
+          },
+          "exampleLeaf": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulationHost.ts",
+            "line": 103,
+            "column": 32,
+            "functionName": "",
+            "generated": {
+              "functionName": "",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 216021
+            },
+            "key": "simulationHost.ts:103:31:"
+          },
+          "sharePercent": 0.6838777381374805
+        },
+        {
+          "key": "contacts.ts:149:16:resolveBodyContacts",
+          "weightedBytes": 20972160,
+          "samples": 80,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "contacts.ts",
+            "line": 149,
+            "column": 17,
+            "functionName": "resolveBodyContacts",
+            "generated": {
+              "functionName": "ve",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 15189
+            },
+            "key": "contacts.ts:149:16:resolveBodyContacts"
+          },
+          "exampleLeaf": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "contacts.ts",
+            "line": 149,
+            "column": 17,
+            "functionName": "resolveBodyContacts",
+            "generated": {
+              "functionName": "ve",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 15189
+            },
+            "key": "contacts.ts:149:16:resolveBodyContacts"
+          },
+          "sharePercent": 0.6837886623996605
+        },
+        {
+          "key": "simulation.ts:3865:52:",
+          "weightedBytes": 20713752,
+          "samples": 79,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 3865,
+            "column": 53,
+            "functionName": "",
+            "generated": {
+              "functionName": "",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 79246
+            },
+            "key": "simulation.ts:3865:52:"
+          },
+          "exampleLeaf": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 3865,
+            "column": 53,
+            "functionName": "",
+            "generated": {
+              "functionName": "",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 79246
+            },
+            "key": "simulation.ts:3865:52:"
+          },
+          "sharePercent": 0.6753633757018015
+        },
+        {
+          "key": "spatialIndex.ts:62:2:queryBounds",
+          "weightedBytes": 19409252,
+          "samples": 74,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "spatialIndex.ts",
+            "line": 62,
+            "column": 3,
+            "functionName": "queryBounds",
+            "generated": {
+              "functionName": "queryBounds",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 16892
+            },
+            "key": "spatialIndex.ts:62:2:queryBounds"
+          },
+          "exampleLeaf": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "spatialIndex.ts",
+            "line": 62,
+            "column": 3,
+            "functionName": "queryBounds",
+            "generated": {
+              "functionName": "queryBounds",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 16892
+            },
+            "key": "spatialIndex.ts:62:2:queryBounds"
+          },
+          "sharePercent": 0.6328306890305022
+        },
+        {
+          "key": "sightBroadphase.ts:10:24:",
+          "weightedBytes": 15732000,
+          "samples": 60,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "sightBroadphase.ts",
+            "line": 10,
+            "column": 25,
+            "functionName": "",
+            "generated": {
+              "functionName": "",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 17188
+            },
+            "key": "sightBroadphase.ts:10:24:"
+          },
+          "exampleLeaf": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "sightBroadphase.ts",
+            "line": 10,
+            "column": 25,
+            "functionName": "",
+            "generated": {
+              "functionName": "",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 17188
+            },
+            "key": "sightBroadphase.ts:10:24:"
+          },
+          "sharePercent": 0.5129353980167737
+        }
+      ],
+      "topLeafSites": [
+        {
+          "key": "simulation.ts:3579:16:stepSimulation",
+          "weightedBytes": 1009104816,
+          "samples": 3848,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 3579,
+            "column": 17,
+            "functionName": "stepSimulation",
+            "generated": {
+              "functionName": "Cn",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 74278
+            },
+            "key": "simulation.ts:3579:16:stepSimulation"
+          },
+          "sharePercent": 32.90144803175713
+        },
+        {
+          "key": "simulation.ts:3002:9:advanceOrganismPhysics",
+          "weightedBytes": 567880480,
+          "samples": 2166,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 3002,
+            "column": 10,
+            "functionName": "advanceOrganismPhysics",
+            "generated": {
+              "functionName": "gn",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 63772
+            },
+            "key": "simulation.ts:3002:9:advanceOrganismPhysics"
+          },
+          "sharePercent": 18.515509791174452
+        },
+        {
+          "key": "<native>:-1:-1:sort",
+          "weightedBytes": 278082692,
+          "samples": 1060,
+          "location": {
+            "status": "native-or-no-url",
+            "functionName": "sort",
+            "generated": {
+              "functionName": "sort",
+              "scriptId": "0",
+              "url": "",
+              "lineNumber": -1,
+              "columnNumber": -1
+            },
+            "key": "<native>:-1:-1:sort"
+          },
+          "sharePercent": 9.066771949058982
+        },
+        {
+          "key": "simulation.ts:3783:86:",
+          "weightedBytes": 204509000,
+          "samples": 780,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 3783,
+            "column": 87,
+            "functionName": "",
+            "generated": {
+              "functionName": "",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 77406
+            },
+            "key": "simulation.ts:3783:86:"
+          },
+          "sharePercent": 6.667931942093337
+        },
+        {
+          "key": "contacts.ts:119:9:pairs",
+          "weightedBytes": 113019544,
+          "samples": 431,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "contacts.ts",
+            "line": 119,
+            "column": 10,
+            "functionName": "pairs",
+            "generated": {
+              "functionName": "_e",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 14533
+            },
+            "key": "contacts.ts:119:9:pairs"
+          },
+          "sharePercent": 3.6849558088808965
+        },
+        {
+          "key": "spatialIndex.ts:42:2:query",
+          "weightedBytes": 89221992,
+          "samples": 340,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "spatialIndex.ts",
+            "line": 42,
+            "column": 3,
+            "functionName": "query",
+            "generated": {
+              "functionName": "query",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 16435
+            },
+            "key": "spatialIndex.ts:42:2:query"
+          },
+          "sharePercent": 2.9090464008625347
+        },
+        {
+          "key": "simulation.ts:2802:16:lineIntersection",
+          "weightedBytes": 84153360,
+          "samples": 321,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 2802,
+            "column": 17,
+            "functionName": "lineIntersection",
+            "generated": {
+              "functionName": "on",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 60653
+            },
+            "key": "simulation.ts:2802:16:lineIntersection"
+          },
+          "sharePercent": 2.7437857364638214
+        },
+        {
+          "key": "simulation.ts:3423:9:evaluateOrganismBrain",
+          "weightedBytes": 75761928,
+          "samples": 289,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 3423,
+            "column": 10,
+            "functionName": "evaluateOrganismBrain",
+            "generated": {
+              "functionName": "bn",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 70976
+            },
+            "key": "simulation.ts:3423:9:evaluateOrganismBrain"
+          },
+          "sharePercent": 2.470186542918774
+        },
+        {
+          "key": "<native>:-1:-1:next",
+          "weightedBytes": 49558384,
+          "samples": 189,
+          "location": {
+            "status": "native-or-no-url",
+            "functionName": "next",
+            "generated": {
+              "functionName": "next",
+              "scriptId": "0",
+              "url": "",
+              "lineNumber": -1,
+              "columnNumber": -1
+            },
+            "key": "<native>:-1:-1:next"
+          },
+          "sharePercent": 1.6158307540114485
+        },
+        {
+          "key": "spatialIndex.ts:10:2:ye",
+          "weightedBytes": 49554520,
+          "samples": 189,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "spatialIndex.ts",
+            "line": 10,
+            "column": 3,
+            "functionName": "ye",
+            "generated": {
+              "functionName": "ye",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 15860
+            },
+            "key": "spatialIndex.ts:10:2:ye"
+          },
+          "sharePercent": 1.6157047698786022
+        },
+        {
+          "key": "simulation.ts:3343:9:bodyBounds",
+          "weightedBytes": 47453152,
+          "samples": 181,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 3343,
+            "column": 10,
+            "functionName": "bodyBounds",
+            "generated": {
+              "functionName": "_n",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 70130
+            },
+            "key": "simulation.ts:3343:9:bodyBounds"
+          },
+          "sharePercent": 1.5471905293840873
+        },
+        {
+          "key": "foundationPhysics.ts:74:16:paidMotorBatch",
+          "weightedBytes": 38279120,
+          "samples": 146,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "foundationPhysics.ts",
+            "line": 74,
+            "column": 17,
+            "functionName": "paidMotorBatch",
+            "generated": {
+              "functionName": "F",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 8544
+            },
+            "key": "foundationPhysics.ts:74:16:paidMotorBatch"
+          },
+          "sharePercent": 1.2480749842951844
+        },
+        {
+          "key": "contacts.ts:84:9:bodies",
+          "weightedBytes": 37962952,
+          "samples": 144,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "contacts.ts",
+            "line": 84,
+            "column": 10,
+            "functionName": "bodies",
+            "generated": {
+              "functionName": "pe",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 13714
+            },
+            "key": "contacts.ts:84:9:bodies"
+          },
+          "sharePercent": 1.2377664565224813
+        },
+        {
+          "key": "<native>:-1:-1:map",
+          "weightedBytes": 34609360,
+          "samples": 132,
+          "location": {
+            "status": "native-or-no-url",
+            "functionName": "map",
+            "generated": {
+              "functionName": "map",
+              "scriptId": "0",
+              "url": "",
+              "lineNumber": -1,
+              "columnNumber": -1
+            },
+            "key": "<native>:-1:-1:map"
+          },
+          "sharePercent": 1.1284239668640863
+        },
+        {
+          "key": "simulation.ts:2818:16:rayCircleIntersection",
+          "weightedBytes": 33824832,
+          "samples": 129,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 2818,
+            "column": 17,
+            "functionName": "rayCircleIntersection",
+            "generated": {
+              "functionName": "sn",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 60922
+            },
+            "key": "simulation.ts:2818:16:rayCircleIntersection"
+          },
+          "sharePercent": 1.1028447536721653
+        },
+        {
+          "key": "contacts.ts:21:9:rotatedContact",
+          "weightedBytes": 28838736,
+          "samples": 110,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "contacts.ts",
+            "line": 21,
+            "column": 10,
+            "functionName": "rotatedContact",
+            "generated": {
+              "functionName": "ue",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 12412
+            },
+            "key": "contacts.ts:21:9:rotatedContact"
+          },
+          "sharePercent": 0.940275141651453
+        },
+        {
+          "key": "simulation.ts:2846:16:getPartCornerVertices",
+          "weightedBytes": 28319460,
+          "samples": 108,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 2846,
+            "column": 17,
+            "functionName": "getPartCornerVertices",
+            "generated": {
+              "functionName": "cn",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 61180
+            },
+            "key": "simulation.ts:2846:16:getPartCornerVertices"
+          },
+          "sharePercent": 0.92334436096619
+        },
+        {
+          "key": "simulation.ts:2928:9:projectBodyJoints",
+          "weightedBytes": 27788112,
+          "samples": 106,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulation.ts",
+            "line": 2928,
+            "column": 10,
+            "functionName": "projectBodyJoints",
+            "generated": {
+              "functionName": "pn",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 62212
+            },
+            "key": "simulation.ts:2928:9:projectBodyJoints"
+          },
+          "sharePercent": 0.9060199776795502
+        },
+        {
+          "key": "<native>:-1:-1:filter",
+          "weightedBytes": 26802716,
+          "samples": 102,
+          "location": {
+            "status": "native-or-no-url",
+            "functionName": "filter",
+            "generated": {
+              "functionName": "filter",
+              "scriptId": "0",
+              "url": "",
+              "lineNumber": -1,
+              "columnNumber": -1
+            },
+            "key": "<native>:-1:-1:filter"
+          },
+          "sharePercent": 0.8738915458549802
+        },
+        {
+          "key": "simulationHost.ts:103:31:",
+          "weightedBytes": 20974892,
+          "samples": 80,
+          "location": {
+            "status": "verified-original",
+            "verifiedOriginal": true,
+            "source": "simulationHost.ts",
+            "line": 103,
+            "column": 32,
+            "functionName": "",
+            "generated": {
+              "functionName": "",
+              "scriptId": "3",
+              "url": "http://127.0.0.1:4184/vidAI/assets/simulation.worker-ukZJOuZz.js",
+              "lineNumber": 0,
+              "columnNumber": 216021
+            },
+            "key": "simulationHost.ts:103:31:"
+          },
+          "sharePercent": 0.6838777381374805
+        }
+      ],
+      "inclusiveOriginalSourceGroups": [
+        {
+          "key": "simulationHost.ts",
+          "weightedBytes": 3064684456,
+          "samples": 11686,
+          "sharePercent": 99.92277785622804
+        },
+        {
+          "key": "simulation.ts",
+          "weightedBytes": 3040563572,
+          "samples": 11594,
+          "sharePercent": 99.13632634115962
+        },
+        {
+          "key": "spatialIndex.ts",
+          "weightedBytes": 444665380,
+          "samples": 1695,
+          "sharePercent": 14.498132066779807
+        },
+        {
+          "key": "contacts.ts",
+          "weightedBytes": 228581504,
+          "samples": 871,
+          "sharePercent": 7.452806047134041
+        },
+        {
+          "key": "sightBroadphase.ts",
+          "weightedBytes": 43796192,
+          "samples": 167,
+          "sharePercent": 1.4279568506953368
+        },
+        {
+          "key": "foundationPhysics.ts",
+          "weightedBytes": 38279120,
+          "samples": 146,
+          "sharePercent": 1.2480749842951844
+        },
+        {
+          "key": "neuralRuntime.ts",
+          "weightedBytes": 9177388,
+          "samples": 35,
+          "sharePercent": 0.29922496609041205
+        },
+        {
+          "key": "energyActivity.ts",
+          "weightedBytes": 3145992,
+          "samples": 12,
+          "sharePercent": 0.1025737769309424
+        },
+        {
+          "key": "mouthGeometry.ts",
+          "weightedBytes": 2622000,
+          "samples": 10,
+          "sharePercent": 0.08548923300279561
+        }
+      ],
+      "scopeNote": "Sampling bracket includes explicit pre/post-roll. Weighted samples are estimates, not CPU, retained/wire bytes or exact allocations; inclusive groups overlap and must not be summed."
+    }
+  ],
+  "sourceChecks": [
+    {
+      "source": "simulation.worker.ts",
+      "status": "transformed-research-source",
+      "sourceContentSHA256": "121dbcc3e3c137c4656f90e606944db189f56cc6d32d2aab4093e38c11ddbe94",
+      "repositorySHA256": "50dcc968cf1b0a8a8ea496a5993c0d87992340e60e9c11c7f83fdae4db6bd6d0",
+      "matchesRepository": false,
+      "instrumented": true
+    },
+    {
+      "source": "simulationHost.ts",
+      "status": "verified-original",
+      "sourceContentSHA256": "801bda0009738bef014066b9650fedfd97e4b856e0af70e0426119178a971e86",
+      "repositorySHA256": "801bda0009738bef014066b9650fedfd97e4b856e0af70e0426119178a971e86",
+      "matchesRepository": true,
+      "instrumented": false
+    },
+    {
+      "source": "energyActivity.ts",
+      "status": "verified-original",
+      "sourceContentSHA256": "c7ba6bba7080dedf091e039ddc447b05b006b3c2d8b57274ca984f5f47653913",
+      "repositorySHA256": "c7ba6bba7080dedf091e039ddc447b05b006b3c2d8b57274ca984f5f47653913",
+      "matchesRepository": true,
+      "instrumented": false
+    },
+    {
+      "source": "simulation.ts",
+      "status": "verified-original",
+      "sourceContentSHA256": "0846437a3f54be8abdf7aaf52f5368eb398a65762f2d889df7a671a8ef66b63e",
+      "repositorySHA256": "0846437a3f54be8abdf7aaf52f5368eb398a65762f2d889df7a671a8ef66b63e",
+      "matchesRepository": true,
+      "instrumented": false
+    },
+    {
+      "source": "mouthGeometry.ts",
+      "status": "verified-original",
+      "sourceContentSHA256": "bcd9bcb1629099697c060407a675a1606bf0a3bedab59e5a61f6bdeaeb1427ee",
+      "repositorySHA256": "bcd9bcb1629099697c060407a675a1606bf0a3bedab59e5a61f6bdeaeb1427ee",
+      "matchesRepository": true,
+      "instrumented": false
+    },
+    {
+      "source": "contacts.ts",
+      "status": "verified-original",
+      "sourceContentSHA256": "ea9be05c5913006c6d6c6b1d2f4a22bc6a7c889d1a4df1cc956c8d3831c16cce",
+      "repositorySHA256": "ea9be05c5913006c6d6c6b1d2f4a22bc6a7c889d1a4df1cc956c8d3831c16cce",
+      "matchesRepository": true,
+      "instrumented": false
+    },
+    {
+      "source": "spatialIndex.ts",
+      "status": "verified-original",
+      "sourceContentSHA256": "d324b911f764afeced35df0141363c293ce97564a44a23f5facb98ac08992b40",
+      "repositorySHA256": "d324b911f764afeced35df0141363c293ce97564a44a23f5facb98ac08992b40",
+      "matchesRepository": true,
+      "instrumented": false
+    },
+    {
+      "source": "sightBroadphase.ts",
+      "status": "verified-original",
+      "sourceContentSHA256": "40afd0128ee2d7a068bd55c699a5dcc623842dfcc22d954ae469ad8b032417a1",
+      "repositorySHA256": "40afd0128ee2d7a068bd55c699a5dcc623842dfcc22d954ae469ad8b032417a1",
+      "matchesRepository": true,
+      "instrumented": false
+    },
+    {
+      "source": "neuralRuntime.ts",
+      "status": "verified-original",
+      "sourceContentSHA256": "12f5f52f328613bc2af4c4c2c793e78c4b22abb1c585cec8aba29aca99cac84b",
+      "repositorySHA256": "12f5f52f328613bc2af4c4c2c793e78c4b22abb1c585cec8aba29aca99cac84b",
+      "matchesRepository": true,
+      "instrumented": false
+    },
+    {
+      "source": "foundationPhysics.ts",
+      "status": "verified-original",
+      "sourceContentSHA256": "3aebc966d08a8732cd42ed46e430d3386b3001c75edddae8cef890f1cb2a9e86",
+      "repositorySHA256": "3aebc966d08a8732cd42ed46e430d3386b3001c75edddae8cef890f1cb2a9e86",
+      "matchesRepository": true,
+      "instrumented": false
+    }
+  ],
+  "sourceGroupComparisons": [
+    {
+      "source": "simulation.ts",
+      "observations": [
+        {
+          "id": "A01",
+          "key": "simulation.ts",
+          "weightedBytes": 2258997460,
+          "samples": 8615,
+          "status": "verified-original",
+          "sharePercent": 74.97631595418035
+        },
+        {
+          "id": "A02",
+          "key": "simulation.ts",
+          "weightedBytes": 2328504036,
+          "samples": 8880,
+          "status": "verified-original",
+          "sharePercent": 75.91991765124104
+        }
+      ]
+    },
+    {
+      "source": "spatialIndex.ts",
+      "observations": [
+        {
+          "id": "A01",
+          "key": "spatialIndex.ts",
+          "weightedBytes": 440386284,
+          "samples": 1679,
+          "status": "verified-original",
+          "sharePercent": 14.61645785607541
+        },
+        {
+          "id": "A02",
+          "key": "spatialIndex.ts",
+          "weightedBytes": 444665380,
+          "samples": 1695,
+          "status": "verified-original",
+          "sharePercent": 14.498132066779807
+        }
+      ]
+    },
+    {
+      "source": "contacts.ts",
+      "observations": [
+        {
+          "id": "A01",
+          "key": "contacts.ts",
+          "weightedBytes": 210256216,
+          "samples": 801,
+          "status": "verified-original",
+          "sharePercent": 6.978421517192139
+        },
+        {
+          "id": "A02",
+          "key": "contacts.ts",
+          "weightedBytes": 200793392,
+          "samples": 765,
+          "status": "verified-original",
+          "sharePercent": 6.546786069454491
+        }
+      ]
+    },
+    {
+      "source": "foundationPhysics.ts",
+      "observations": [
+        {
+          "id": "A01",
+          "key": "foundationPhysics.ts",
+          "weightedBytes": 39590376,
+          "samples": 151,
+          "status": "verified-original",
+          "sharePercent": 1.3140079138118193
+        },
+        {
+          "id": "A02",
+          "key": "foundationPhysics.ts",
+          "weightedBytes": 38279120,
+          "samples": 146,
+          "status": "verified-original",
+          "sharePercent": 1.2480749842951844
+        }
+      ]
+    },
+    {
+      "source": "sightBroadphase.ts",
+      "observations": [
+        {
+          "id": "A01",
+          "key": "sightBroadphase.ts",
+          "weightedBytes": 27531280,
+          "samples": 105,
+          "status": "verified-original",
+          "sharePercent": 0.913765501933325
+        },
+        {
+          "id": "A02",
+          "key": "sightBroadphase.ts",
+          "weightedBytes": 16522256,
+          "samples": 63,
+          "status": "verified-original",
+          "sharePercent": 0.5387013702958955
+        }
+      ]
+    },
+    {
+      "source": "simulationHost.ts",
+      "observations": [
+        {
+          "id": "A01",
+          "key": "simulationHost.ts",
+          "weightedBytes": 17304296,
+          "samples": 66,
+          "status": "verified-original",
+          "sharePercent": 0.5743310416385591
+        },
+        {
+          "id": "A02",
+          "key": "simulationHost.ts",
+          "weightedBytes": 20974892,
+          "samples": 80,
+          "status": "verified-original",
+          "sharePercent": 0.6838777381374805
+        }
+      ]
+    },
+    {
+      "source": "neuralRuntime.ts",
+      "observations": [
+        {
+          "id": "A01",
+          "key": "neuralRuntime.ts",
+          "weightedBytes": 12326308,
+          "samples": 47,
+          "status": "verified-original",
+          "sharePercent": 0.40911120066356377
+        },
+        {
+          "id": "A02",
+          "key": "neuralRuntime.ts",
+          "weightedBytes": 9177388,
+          "samples": 35,
+          "status": "verified-original",
+          "sharePercent": 0.29922496609041205
+        }
+      ]
+    },
+    {
+      "source": "mouthGeometry.ts",
+      "observations": [
+        {
+          "id": "A01",
+          "key": "mouthGeometry.ts",
+          "weightedBytes": 3146400,
+          "samples": 12,
+          "status": "verified-original",
+          "sharePercent": 0.10442928099539919
+        },
+        {
+          "id": "A02",
+          "key": "mouthGeometry.ts",
+          "weightedBytes": 2622000,
+          "samples": 10,
+          "status": "verified-original",
+          "sharePercent": 0.08548923300279561
+        }
+      ]
+    },
+    {
+      "source": "simulation.worker.ts",
+      "observations": [
+        {
+          "id": "A01",
+          "key": "simulation.worker.ts",
+          "weightedBytes": 1836444,
+          "samples": 7,
+          "status": "transformed-research-source",
+          "sharePercent": 0.060951731028577066
+        },
+        {
+          "id": "A02",
+          "key": "simulation.worker.ts",
+          "weightedBytes": 2368444,
+          "samples": 9,
+          "status": "transformed-research-source",
+          "sharePercent": 0.07722214377195777
+        }
+      ]
+    },
+    {
+      "source": "energyActivity.ts",
+      "observations": [
+        {
+          "id": "A01",
+          "key": "energyActivity.ts",
+          "weightedBytes": 1573000,
+          "samples": 6,
+          "status": "verified-original",
+          "sharePercent": 0.05220800248085524
+        },
+        {
+          "id": "A02",
+          "key": "energyActivity.ts",
+          "weightedBytes": 3145992,
+          "samples": 12,
+          "status": "verified-original",
+          "sharePercent": 0.1025737769309424
+        }
+      ]
+    }
+  ],
+  "top10Agreement": {
+    "intersection": 9,
+    "union": 11,
+    "jaccard": 0.8181818181818182,
+    "sharedSites": [
+      "simulation.ts:3579:16:stepSimulation",
+      "simulation.ts:3002:9:advanceOrganismPhysics",
+      "spatialIndex.ts:42:2:query",
+      "simulation.ts:3783:86:",
+      "contacts.ts:119:9:pairs",
+      "simulation.ts:3423:9:evaluateOrganismBrain",
+      "spatialIndex.ts:10:2:ye",
+      "simulation.ts:3343:9:bodyBounds",
+      "simulation.ts:2802:16:lineIntersection"
+    ]
+  },
+  "limitations": [
+    "Native/no-url/unmapped samples are retained explicitly; closest verified original caller is ownership context, not proof of an exact allocating expression.",
+    "simulation.worker.ts is marked transformed research source regardless of source-map content; no false original line claim for injected guard.",
+    "Poisson sampling interval262144bytes, two profiles, one150bodyCI scenario; no population-wide inference, CPU-cost ranking or safe optimization saving.",
+    "V8 inspector may force GC at profile materialization after useful/CPU/trace stop; profile tail and pre-roll are explicit, no tick-by-tick allocation census."
+  ]
+}
