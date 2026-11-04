@@ -1,7 +1,7 @@
 """Compare retained evidence/source to fetched Git blobs; no simulation or replay."""
 import hashlib,json,subprocess
 from pathlib import Path
-ref='origin/audit/performance-stage-3-9'
+ref='f76bb95a764eaf872cbdb63ecef1f889198ccdb2' # Immutable original evidence, excluding later derived reports.
 base='dd7925b9d02a67459bb68985cf2d5647b737247e'
 preflight='0445603d2d0c348ec602be52284385af8b416452'
 prefix='docs/experiments/performance-stage-3-v11-execution/'
