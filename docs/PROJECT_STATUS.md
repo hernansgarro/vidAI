@@ -1,17 +1,18 @@
 # Contributor performance investigation checkpoint — 2026-11-04
 
-Verified3.8–3.11 conclusions are consolidated in the fork-main
-[Stage3 evidence ledger](PERFORMANCE_AUDIT_STAGE_3.md).3.8/3.9 remain PARTIAL with
-original storage/missing-result and runner-budget failures;3.10completed8/8 and
-3.11completed6/6with exact-state/budget verification.3.11light outer-GC2.37–2.53%
-contrasts with detailed42.36%/+65.11%elapsed cost, dominated by observer statistics.
-The older35.50%traced GC result is preserved with a corrected interpretation;
-ordinary GC pauses are not established as the dominant bottleneck in this fixture.
-New higher leanTPS uses a differentCPU and is not a code improvement. Allocation
-creation/transfer cost remains unisolated. No optimization shipped; probes/raw stay
-unmerged. STOP after3.11 and authorized docs integration; Stage3ongoing/Stage4not
-implemented. See the current [plan](contributor-workspace/performance/PERFORMANCE_AUDIT_PLAN.md)
-and [handoff](contributor-workspace/performance/WORKER_HOTPATH_RESEARCH_HANDOFF.md).
+Verified3.8–3.12 conclusions are in the fork-main
+[Stage3 ledger](PERFORMANCE_AUDIT_STAGE_3.md).3.8/3.9failures remain explicit;
+3.10/3.11/3.12completed8/6/6registered windows with exact-state/budget verification.
+3.11calibrated the detailedGC observer artifact. New3.12allocation profiles locate
+broadkernel35%,physicsadvance19%,query11.4–11.6%,bodySight7.4–8.2%,pairs3.7–4.0%of
+weighted samples; high original-caller coverage/n2agreement, modest observed
+probe cost. These are NOT CPU shares, live heap or savings. The broadkernelbucket
+remains unresolved; actual creation/transfer CPU cost/leaks/avoidable fraction
+are unmeasured. GC pauses remain~2–3%underlight observation. Different hostTPS is
+not a code improvement. No optimization shipped; probes/raw stay unmerged.
+STOP after3.12 and authorized docs integration; Stage3ongoing/Stage4notimplemented.
+See [plan](contributor-workspace/performance/PERFORMANCE_AUDIT_PLAN.md) and
+[handoff](contributor-workspace/performance/WORKER_HOTPATH_RESEARCH_HANDOFF.md).
 Upstream acceptance, gameplay runtime, historical releases and testing remain separate.
 
 ---

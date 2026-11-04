@@ -1,6 +1,34 @@
 # VIDA 2D — Cumulative Stage 3 performance evidence (fork main)
 
-> **Fork-main research knowledge ledger — consolidated 2026-11-04 through Stage 3.11.** Current conclusions belong here; executable probes/raw traces remain on immutable research branches. Stage3 is ONGOING. No optimization or Stage4 implementation is approved. The historical dated sections below retain their original decisions/failures.
+> **Fork-main research knowledge ledger — consolidated 2026-11-04 through Stage 3.12.** Current conclusions belong here; executable probes/raw traces remain on immutable research branches. Stage3 is ONGOING. No optimization or Stage4 implementation is approved. The historical dated sections below retain their original decisions/failures.
+
+## Stage 3.12 — COMPLETE: transient allocation source ownership (2026-11-04)
+
+**All6registered windows retained once; full-state, energy, source/binary integrity and every budget passed.** This lot locates repeatable allocation-stack owners with modest observed sampling cost. These are allocation weights, NOT CPU percentages, live heap, avoidable memory or achievable speedups. Stage3 remains ongoing; no optimization or Stage4 implementation is approved. Current3.12 findings/STOP supersede older dated continuation language without replacing any old trial.
+
+[Detailed report](https://github.com/hernansgarro/vidAI/blob/14773ec8adacf8baacdd8f9097a7793ce8fae89d/docs/experiments/performance-stage-3-v14-execution/report.md), [immutable originals](https://github.com/hernansgarro/vidAI/tree/28fb12bb67e8666b38d3e12e355dacaae5931993/docs/experiments/performance-stage-3-v14-execution), [research draft104](https://github.com/hernansgarro/vidAI/pull/104), [preregistration](https://github.com/smeagol44/vidAI/issues/57#issuecomment-6631707584). Base fork/maina856a2d9d9f5e650a95be3abeadbd908105e70db; sourcea26569b0d039404cdb5bb8ceeeac46be7916e5d0; original28fb12bb67e8666b38d3e12e355dacaae5931993; verifiedreport14773ec8adacf8baacdd8f9097a7793ce8fae89d. Probes/raw stay unmerged; verified conclusions return to main under the standing owner instruction.
+
+| Closest verified original stack owner |A01 weighted share |A02 weighted share |Meaning / limit |
+| --- | ---: | ---: | --- |
+|stepSimulation, simulation.ts:3579 |35.16% |35.45% |Large function-entry bucket; not one identified allocating expression or a single optical/neural phase |
+|advanceOrganismPhysics, simulation.ts:3002 |19.29% |19.03% |Whole articulated-body advancement function; not a removable physical cost |
+|OrderedSpatialIndex.query, spatialIndex.ts:42 |11.41% |11.63% |Source creates result[]/sort; preserve exact candidate ordering/corridor tangencies/reentrant lifetimes |
+|bodySight part callback, simulation.ts:3783 |7.44% |8.17% |Per-tick sight/corners/bounds construction; current pose/appearance remain essential |
+|contacts.pairs, contacts.ts:119 |3.99% |3.68% |Pair-list allocations; contact-cell pooling ALREADY exists |
+
+Top-three ownership65.86–66.10%; top-five order agrees,9of10top sites shared/Jaccard0.8182. Exclusive source-group shares simulation.ts74.98–75.92%,spatialIndex.ts14.50–14.62%,contacts.ts6.55–6.98%. Two profiles11,489/11,695samples,3.013/3.067GB weighted cumulative estimate, NOT3GBsimultaneousRAM. Original-source caller coverage99.939/99.923%; remaining transformed research-worker ownership explicitly retained. Exact archived JS/maps and source-content hashes validate mapping. Declaration/caller positions are not exact allocation-PC addresses; the35%kernel bucket remains internally unresolved. Inclusive parent groups overlap and are not added.
+
+Six360tick windows L01none/G01lightGC/A01sampler/A02sampler/G02lightGC/L02none,n2each.60lean warmup then exact initial reset; two24tick lean/sampled pilots plus4+3counter. Same150spread world/150living/690parts/540joints/330eyes/1650rays/3600hidden/600food/4000x3000/seed73,normal funded physical ecology/learning,causticsOFF/no selection/tracking/inspector/1280x850/DPR1,original30/s+ACK/off-camera work. All modes use exact prior compiled leanWorker. ALL6complete endpoints match3.9–3.11 c9189ebe919fc196e899b15780803ae85387602f54f56ea551a395b49a31bf7b including learned/recurrent/PRNG/physical/settings/energy state; final569food,no death/newoffspring/eggs/guards,energyerror<3.86e-7J.
+
+Lean79.777–83.187TPS,median12.2781ms/tick;light78.062–83.562,12.3887ms;sampler77.185–82.762,12.5193ms. Observed elapsed contrasts+0.902%light/lean,+1.965%sampler/lean,+1.054%sampler/light. Both sampler observations pass the preregistered light-envelope±5%descriptive criterion; light and sampler spans~7%show that these are not precise causal overhead coefficients. NewEPYC9V45/Node24.22.2 differs from previous hosts, not a code improvement/universal capacity limit; no new pacing study.
+
+Sampler attaches only actual dedicatedWorker, interval262144bytes/stackDepth64/both collected-object flags true. stopSampling can force collection, so it occurs AFTER useful/CPU closure AND light-trace stop, BEFORE full export. Sampling brackets include23.2/20.4mspre-roll and155.8/143.9mspost-roll (4.12/3.52%excess); individual sample timestamps unavailable. No midwindow profile materialization or separate collectGarbage. Weighted samples are a bracket estimate, not exact per-tick allocations. Tree/selfSize versus sample aggregation differs<0.007%; exclusive shares consistently use sample weights and close exactly to that denominator.
+
+Light WorkerGC2.08–2.89%,sampler2.86–2.95% remains compatible with3.11's calibrated modest GC-pause finding. Allocation creation/transfer CPU cost and unnecessary fraction remain UNISOLATED. Existing physical scratch/neural caches/contact pools are preserved; fewer allocations need not imply faster correct execution. Candidate questions are query/bodySight/pair-list lifetimes and finer stepSimulation decomposition, not authorization to cache/skip work, alter senses/learning/physics or implement Stage4.
+
+ScientificCI41837660795/job126600657300 succeeded;385fast/build/typecheck/actualWorker/codec checks and6focusedChromium windows passed.44originals/14references/all276inheritedfiles match immutable Git; lossless archive/full-state and source-map/sample-node integrity pass. Active61.894/120s; inclusive runner260.237/720s,invocation263s,lastadmission223.504<600s;normaloutput+controls+inputs29,424,082<192MiB,emergency37,638<2MiB,largestprofile528,267<8MiB,largesttrace464,331<16MiB. No retry/loss/failure/waiver. Temporary scientific launcher removed; raw/source reports remain on the research branch.
+
+**Current next action: STOP after3.12 and authorized docs-only integration.** This main ledger and current plan/priorities/handoff/project/vision context carry the conclusions; all earlier results/failed observations remain immutable. Shared#67 In progress, not upstreamDone. No automatic new lot, production optimization, upstream submission orVIDA3D.
 
 ## Stage 3.11 — COMPLETE: calibrated GC interpretation (2026-11-04)
 
@@ -39,6 +67,7 @@ This update incorporates the previously missing3.8/3.9/3.10 conclusions into mai
 |150body capacity and finite pacing |3.10 MAX53.46–54.15TPS; requested1x53.16,2x55.13TPS. |Six simulated seconds, n2MAX/n1pacing, CI hardware. No claim of sustained desktop performance or that higher requested speed inherently slows simulation. |
 |Essential Worker work |3.10 instrumented vision+sight6.238ms/32.60%,physics5.413/28.29%,inference4.512/23.58%. |Elapsed exclusive kernel phases, including probe/JIT/preemption/GC effects, not removable per-phase CPU. |
 |GC/transient allocation |3.11 light outer-GC2.37–2.53%; detailed42.36% dominated by object-statistics observer work. Old3.10 traced35.50% is preserved with refined interpretation. |Light satisfies modest-cost tolerance, not unobserved gameplay. Allocation/transfer work remains separate; no leak or recoverable-savings claim. |
+|Allocation ownership |3.12 sampled source stacks identify query/bodySight/physics/pair-list and broadkernel owners; top3weighted shares65.86–66.10%,high mapped coverage. |Sample bytes/caller context are not CPU, retained heap or removable cost; n2/bracket tails and35%unresolved broadkernel remain. |
 |Probe and evidence overhead |HooksOFF+3.34%,counter+10.08%,phase+11.62%,trace+59.92% elapsed contrasts in3.10. Large exact exports take6–7.5s outside useful intervals. |n1diagnostics/fixedorder; no exact causal subtraction. Evidence volume/processing time is not live simulator memory or tick cost. |
 
 These observations refine stable S2-01/02/03/05/09/10/12 questions; they do not erase historical feeding/ecology/tube/egg gaps or turn hypothetical exact caches/scratch buffers into tested optimizations. Per-eye sampling/energy/genetic proposals remain separate [exploratory designs](VISION_PERFORMANCE_DESIGN_NOTES.md).
@@ -87,7 +116,7 @@ P07 ran but full original hit192MiB archive guard; emergency full-payload retry 
 
 ### Current authorized next action and documentation maintenance
 
-Hernan's2026-11-04 follow-up authorized the NEW bounded3.11 lot and publication of current/previous conclusions on main. The6windows completed as registered; its verified findings and calibrated GC interpretation are above and in the updated plan/priorities/handoff. The old3.8/3.9 failures and all historical raw data remain immutable. STOP after3.11 and docs-only integration; no automatic further lot or Stage4/product change. Documentation integration is not upstream acceptance; shared#67 remains In progress.
+Hernan subsequently authorized a NEW worthwhile lot3.12. Its six registered windows and verified conclusions are now documented above and in current planning/handoff files, after docs-only integration into main. Earlier3.8/3.9failures and all3.1–3.11originals remain immutable. STOP after3.12+documentation; no automatic further lot or Stage4/product change. Shared#67remains In progress, not upstream acceptance.
 
 ---
 

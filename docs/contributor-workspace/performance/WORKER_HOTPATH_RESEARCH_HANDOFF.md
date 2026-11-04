@@ -1,6 +1,6 @@
 # VIDA 2D — Stage 3 Worker hot-path research handoff
 
-## Current evidence checkpoint — Stage 3.8–3.11 (2026-11-04)
+## Current evidence checkpoint — Stage 3.8–3.12 (2026-11-04)
 
 Hernan explicitly requires verified conclusions in fork **main**, while raw evidence,
 profilers and temporary launch workflows remain on isolated research branches.
@@ -14,6 +14,23 @@ their then-current STOP/next-study wording; they are not permission to replay tr
 |3.9 / draft99 |PARTIAL:10retained,8unstarted; runner739.927s>720s |Initially separated dense100 costs20.60% more;2.13x visual candidates/4.54x edge tests.150spread51.61–56.57TPS. GC/finite pacing not reached. |
 |3.10 / draft100 |COMPLETE:8/8, all budgets pass |150spread lean53.46–54.15TPS; requested1x53.16TPS,2x55.13TPS. HooksOFF/counter/phase/trace elapsed contrasts+3.34/+10.08/+11.62/+59.92%, n1diagnostics. |
 |3.11 / draft102 |COMPLETE:6/6, all budgets pass |Lean66.14–66.68TPS on differentCPU; light GC2.37–2.53%with modest-cost flag passed, detailed42.36%with+65.11%elapsed cost. |
+|3.12 / draft104 |COMPLETE:6/6, all budgets pass |Allocation ownership: broadkernel35%,physics advance19%,query11.4–11.6%,bodySight7.4–8.2%,pairs3.7–4.0%weighted samples; not CPU/savings. |
+
+**New3.12 ownership evidence:** two Worker profiles identify repeatable closest
+original-stack callers with99.92–99.94%weighted coverage and9/10top sites shared.
+The broad stepSimulation35%bucket remains internally unresolved; physics advance
+19%,spatial query11.4–11.6%,bodySight7.4–8.2%,contact pairs3.7–4.0%are allocation
+weights, NOT CPU costs or removable savings. Source confirms temporary result/
+sight/pair collections while existing scratch/caches/contact pools remain present.
+Preserve exact ordering, geometry, reentrancy and physics/learning semantics.
+
+Sampler/light elapsed contrast+1.054%is within control variation; both observations
+meet the preregistered5%light-envelope criterion. n2/sixseconds/oneCIscenario,
+sampling pre/post-roll and different host limit inference. stopSampling potential
+forcedGC is AFTER useful/CPU/trace closure, before full export. Ordinary GC still
+occupies~2–3%under light observation. Source ownership is now evidenced; allocation
+creation/transfer CPU cost, live retention/leaks and a safe optimization gain remain
+unisolated. See [main cumulative conclusions](../../PERFORMANCE_AUDIT_STAGE_3.md).
 
 **Calibrated interpretation:**3.11 light outer-GC occupies2.37–2.53%Worker wall,
 while detailed tracing adds65.11%elapsed cost and reports42.36%GC. Post-hoc raw
@@ -31,9 +48,9 @@ meet the preregistered lean-envelope±5%descriptive criterion; n2/fixedorder/six
 and import/warmup heap context limit interpretation. See the current
 [cumulative ledger](../../PERFORMANCE_AUDIT_STAGE_3.md) and its immutable3.11report.
 
-**Current next action:** STOP after completed3.11 and authorized docs integration.
-Hernan's instruction places verified3.8–3.11 conclusions on main, while research
-code/raw/workflows stay isolated and drafts98/99/100/102 remain unmerged. No automatic
+**Current next action:** STOP after completed3.12 and authorized docs integration.
+Hernan's instruction places verified3.8–3.12 conclusions on main, while research
+code/raw/workflows stay isolated and drafts98/99/100/102/104 remain unmerged. No automatic
 new lot, Stage4/product optimization, upstream submission or historical-trial replay.
 Review accumulated evidence before any new separately authorized work. Historical
 dated checkpoints below retain their original status and are not executable orders.

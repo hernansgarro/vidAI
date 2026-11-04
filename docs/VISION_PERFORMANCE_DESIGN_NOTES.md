@@ -8,7 +8,7 @@
 
 ## Current measured context — updated 2026-11-04
 
-The main [cumulative evidence ledger](PERFORMANCE_AUDIT_STAGE_3.md) now includes3.8–3.11.
+The main [cumulative evidence ledger](PERFORMANCE_AUDIT_STAGE_3.md) now includes3.8–3.12.
 Initially separated dense100 in3.9 costs20.60% more, with2.13x visual candidates and
 4.54x body-edge tests; this supports examining ordered optical work, not a promised
 saving from any design below.3.10's150body vision+sight share32.60% is instrumented
@@ -19,6 +19,12 @@ Stage3.11 calibrates that warning: light outer-GC2.37–2.53% versus detailed42.
 with95.57–96.08%of the latter in object-statistics observer work. Detailed tracing
 adds65.11%elapsed cost; do not let that GC artifact replace independent vision/
 physics/inference evidence. Allocation creation remains a separate cost question.
+Stage3.12 adds original-caller allocation ownership: spatial query11.4–11.6%and
+bodySight callback7.4–8.2%of weighted samples, with source-verified temporary arrays/
+corners/bounds. These are NOT CPU percentages or demonstrated savings. The broad
+kernel35%bucket remains internally unresolved; don't assign all of it to vision.
+No buffer/cache or perception change was tested. Exact ordering/occlusion/current
+pose/reentrant lifetime remain required for any future candidate comparison.
 No candidate below was implemented/tested by those studies; keep the current
 per-eye/genetic/energy semantics and conceptual rankings unchanged.
 
