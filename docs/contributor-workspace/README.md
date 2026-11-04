@@ -14,7 +14,7 @@
 | [Performance audit](performance/PERFORMANCE_AUDIT_PLAN.md) | IDEA-023 P0 current measurement objective, protocol/stage gates |
 | [Worker research handoff](performance/WORKER_HOTPATH_RESEARCH_HANDOFF.md) | Current Stage3 checkpoint, verified evidence, safeguards and next bounded-lot requirements |
 | [Performance priorities](performance/PERFORMANCE_AUDIT_PRIORITIES.md) | Historical technical hypotheses and current owner priority overrides |
-| [Maintained spatial grid design](performance/MAINTAINED_SPATIAL_GRID_DESIGN.md) | Source-backed owner discussion, query ordering, persistent central grid, diagnostics, and dependency-ordered testing implementation plan (not implemented) |
+| [Maintained spatial grid design](performance/MAINTAINED_SPATIAL_GRID_DESIGN.md) | Source-backed owner discussion, query ordering, persistent central grid, diagnostics, and dependency-ordered testing plan; P1–P4 implemented on testing, consumer migration still pending |
 | [Stage 2 evidence](performance/PERFORMANCE_AUDIT_STAGE_2.md) | Pinned source-based performance cost model; not measured proof |
 | [Verified contributor deliveries](tracking/CONTRIBUTOR_COMPLETED.md) | Fork implementations and upstream acceptance boundaries |
 | [Contributor workflow status](tracking/CONTRIBUTOR_WORKFLOW_STATUS.md) | Current delivery and upstream-submission gates |

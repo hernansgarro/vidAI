@@ -1,5 +1,7 @@
 # Creature envelope P2 — isolated anatomy calculator
 
+> **P4 integration update:** P4 now caches this descriptor and refreshes the current-pose fallback after authoritative movements. The lifetime limitation below still applies. See [P4 contract](MAINTAINED_GRID_P4.md). The isolated-stage description below records P2 at its original scope.
+
 **Fork/testing only, 2026-11-04.** Based on P1 testing
 `3f66276e3f5b223af490a9c1a857b604dcd40993`, branch
 `feature/conservative-creature-envelope-p2`. Scope and acceptance were recorded

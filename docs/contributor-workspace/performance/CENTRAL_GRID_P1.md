@@ -1,5 +1,7 @@
 # Central grid P1 — isolated matrix primitive
 
+> **P4 integration update:** P4 now wraps this primitive for authoritative shadow membership; existing consumer queries are unchanged. See [P4 contract](MAINTAINED_GRID_P4.md). The isolated-stage description below records P1 at its original scope.
+
 **Fork/testing only, 2026-11-04.** Implements P1 of the
 [maintained-grid design](MAINTAINED_SPATIAL_GRID_DESIGN.md), based on P0
 `2c3b67b2f76bfb99baa1f3156daa5047c85455cd`, branch

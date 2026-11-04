@@ -42,7 +42,7 @@ function kindCheck(kind: GridKind): void {
   if (!GRID_KINDS.includes(kind)) throw new RangeError('Unknown grid kind');
 }
 
-/** Isolated P1 primitive, deliberately unused by the live kernel.
+/** P1 matrix primitive; P4 supplies authoritative shadow integration.
  * Direct matrix slots cover fixed maximum capacity, not the current tank.
  * Buckets exist only while occupied; no persistent all-entity registry or cache.
  * Queries are conservative, unique and UNORDERED: callers retain narrowphase
