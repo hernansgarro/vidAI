@@ -6,6 +6,39 @@
 **Tracking:** [upstream performance issue #67](https://github.com/smeagol44/vidAI/issues/67), [roadmap/handoffs #57](https://github.com/smeagol44/vidAI/issues/57), [sensory/HUD issue #65](https://github.com/smeagol44/vidAI/issues/65).
 **Evidence:** [fork cumulative Stage 3 report](PERFORMANCE_AUDIT_STAGE_3.md) and the isolated Stage 3.7b research [report](https://github.com/hernansgarro/vidAI/blob/8481613ce08be6137d347cf0d8b9eabb0aed8130/docs/experiments/performance-stage-3-v9/report.md).
 
+## Candidate comparison — at a glance
+
+The ray-count candidate is a **new proposed genetic capability**; genetic **per-eye vision range already exists** in the current simulator. The proposed optimization for range is to measure whether selection for shorter useful sight genuinely reduces spatial query costs. Its savings are unverified.
+
+This is a **subjective technical prioritization** of *potential* savings, **not benchmarks, implementation commitments, or additive speedup percentages**. Maturity: High = concept clearly specified (not necessarily tested); Medium = material details unresolved; Low = early hypothesis. Potential: 1 = limited direct CPU opportunity, 5 = large plausible opportunity. Genetic selection is a longer-term, indirect mechanism; biological benefit and consistency are unknown.
+
+| Candidate | Maturity | Potential (1–5) |
+| --- | --- | ---: |
+| 1. Per-eye consultation modulo and sample-and-hold | High | 5 |
+| 2. Inherited and mutable consultation slots for each ray, allowing synchronized bursts or staggering | High | 2 |
+| 3. UI-controlled experimental sample budget / modulo override (interaction with inherited eye parameters undecided) | Medium | 5 |
+| 4. Per-ray capture energy charge replacing current eye-maintenance debit; long-term genetic selection pressure | Medium | 4 |
+| 5. Inherited and mutable number of rays per eye; separate topology/save discussion | Low | 3 |
+| 6. Existing inherited/mutable per-eye vision range: evaluate whether shorter useful ranges reduce spatial queries | High (trait already shipped; savings unmeasured) | 3 |
+| 7. Reduce per-query allocations, arrays, and sorting; retain exact ordered semantics | Medium | 4 |
+| 8. Equivalent optimized ray/circle/rotated-body intersections | Medium | 4 |
+| 9. Within-tick reuse of corners, transforms, directions, and safe geometric invariants | Medium | 3 |
+| 10. Shared candidate set by anatomical facet / body-part face | Medium | 3 |
+| 11. Organism-wide enclosing rectangle for candidate acquisition | Low | 2 |
+| 12. Hierarchical coarse grid + narrower visual filter + exact intersections | Low | 3 |
+| 13. Experiment with spatial index grid cell size vs current 128 world units | Medium | 3 |
+| 14. Compare direct brute-force geometric scan for low-density workloads | Low | 2 |
+| 15. Incrementally maintain or safely reuse spatial index structures across ticks | Low | 3 |
+| 16. Integrate/fade prior sensory readings beyond the simple sample-and-hold cache | Low | 1 |
+
+**Scope nuance:** items 1–3 share the same sampling mechanism; they are not independent gains. Items 7–15 are exact-computation optimization alternatives; item 6 uses already-existing range genetics but its CPU effect is unmeasured and should be compared with and without temporal sampling. Item 4's primary benefit is potential ecological selection pressure; it is not an immediate CPU optimization. A concurrent structural-eye charge or increased energy supply/uptake is not an independently demonstrated performance optimization.
+
+**Clarified survival and accounting:** shipped `simulation.ts` checks `org.energy <= 0` for starvation death (predatory depletion has its own death cause); per-capture charging does **not** authorize changing that rule, adding credit/debt, free sensory work, or artificial food. The current `eyeSensoryUpkeep(g.eyes)` contributes to sensory metabolic rate and is the eye-maintenance component proposed for replacement, not an additional per-capture charge.
+
+**Suggested future bounded comparisons only:** first isolate equivalent runtime improvements (allocations/spatial/geometric tests); then evaluate the per-eye modulo perceptual-quality-versus-Worker-throughput trade-off under multiple speeds, body plans, moving targets, and eye configurations; consider genetic and energetic changes only with separate compatibility, ecology and calibration decisions. Stage 4 execution remains unapproved.
+
+---
+
 This document preserves the **latest corrected version** of each discussed idea, not every superseded interpretation. In particular, visual consultation is scheduled **independently for each eye**, not by cycling over every ray in the organism. Neither ray count nor sampling modulo is being changed in the shipped simulator.
 
 ## 1. Motivation, established baseline, and constraints
@@ -13,7 +46,7 @@ This document preserves the **latest corrected version** of each discussed idea,
 The immediate objective is **better Worker throughput with useful creature vision**, considering both exact optimizations and explicitly measured perceptual approximations. Physical ecology, neural learning, authoritative off-camera simulation, closed energy, genetics, deterministic continuation, and historical saves must be preserved or explicitly/versionedly migrated under separate authorization.
 
 Current source at upstream main v0.39.0:
-- Five physical rays per eye; per-eye inherited field of view, range, physical placement/orientation, and spectral sensitivity.
+- Five physical rays per eye (fixed count). Per-eye range, field of view, physical placement/orientation, and spectral sensitivity are inherited/mutable; range mutation uses bounds of 30–680 world units. Genetic ray count is only a candidate.
 - Each ray determines its nearest geometric intersection after an ordered spatial-index candidate query, then returns attenuated/filtered RGB and normalized distance to the brain. Diagnostic ray-hit metadata is also available.
 - The current spatial index uses 128-unit grid cells and finite ray corridors. The full sensing pass runs with the simulation's fixed 1/60-second tick, independently of UI rendering frequency.
 - Existing sensory upkeep depends partly on receptor sensitivity; rays are still physically cast even with reduced receptor gain.
@@ -112,32 +145,3 @@ Keep unchanged physics, real sensory responses when sampled, motor control, ener
 - **Next step:** continue discussion, clarify the undecided biological/computational semantics, and only then consider an independently approved bounded experiment/implementation protocol. The upstream owner retains authority over upstream decisions and release.
 
 This is a living note for follow-up discussion. Amend it with the **latest corrected ideas** instead of accumulating contradictory interpretations.
-
-
-## 7. Candidate comparison — discussion snapshot, 2026-11-04
-
-This is a **subjective technical prioritization** of *potential* savings, **not benchmarks, implementation commitments, or additive speedup percentages**. Maturity: High = concept clearly specified (not necessarily tested); Medium = material details unresolved; Low = early hypothesis. Potential: 1 = limited direct CPU opportunity, 5 = large plausible opportunity. Genetic selection is a longer-term, indirect mechanism; biological benefit and consistency are unknown.
-
-| Candidate | Maturity | Potential (1–5) |
-| --- | --- | ---: |
-| 1. Per-eye consultation modulo and sample-and-hold | High | 5 |
-| 2. Inherited and mutable consultation slots for each ray, allowing synchronized bursts or staggering | High | 2 |
-| 3. UI-controlled experimental sample budget / modulo override (interaction with inherited eye parameters undecided) | Medium | 5 |
-| 4. Per-ray capture energy charge replacing current eye-maintenance debit; long-term genetic selection pressure | Medium | 4 |
-| 5. Inherited and mutable number of rays per eye; separate topology/save discussion | Low | 3 |
-| 6. Reduce per-query allocations, arrays, and sorting; retain exact ordered semantics | Medium | 4 |
-| 7. Equivalent optimized ray/circle/rotated-body intersections | Medium | 4 |
-| 8. Within-tick reuse of corners, transforms, directions, and safe geometric invariants | Medium | 3 |
-| 9. Shared candidate set by anatomical facet / body-part face | Medium | 3 |
-| 10. Organism-wide enclosing rectangle for candidate acquisition | Low | 2 |
-| 11. Hierarchical coarse grid + narrower visual filter + exact intersections | Low | 3 |
-| 12. Experiment with spatial index grid cell size vs current 128 world units | Medium | 3 |
-| 13. Compare direct brute-force geometric scan for low-density workloads | Low | 2 |
-| 14. Incrementally maintain or safely reuse spatial index structures across ticks | Low | 3 |
-| 15. Integrate/fade prior sensory readings beyond the simple sample-and-hold cache | Low | 1 |
-
-**Scope nuance:** items 1–3 share the same sampling mechanism; they are not independent gains. Items 6–14 are exact-computation optimization alternatives and should be compared with and without temporal sampling. Item 4's primary benefit is potential ecological selection pressure; it is not an immediate CPU optimization. A concurrent structural-eye charge or increased energy supply/uptake is not an independently demonstrated performance optimization.
-
-**Clarified survival and accounting:** shipped `simulation.ts` checks `org.energy <= 0` for starvation death (predatory depletion has its own death cause); per-capture charging does **not** authorize changing that rule, adding credit/debt, free sensory work, or artificial food. The current `eyeSensoryUpkeep(g.eyes)` contributes to sensory metabolic rate and is the eye-maintenance component proposed for replacement, not an additional per-capture charge.
-
-**Suggested future bounded comparisons only:** first isolate equivalent runtime improvements (allocations/spatial/geometric tests); then evaluate the per-eye modulo perceptual-quality-versus-Worker-throughput trade-off under multiple speeds, body plans, moving targets, and eye configurations; consider genetic and energetic changes only with separate compatibility, ecology and calibration decisions. Stage 4 execution remains unapproved.
