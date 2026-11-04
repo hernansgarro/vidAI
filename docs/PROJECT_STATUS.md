@@ -1,3 +1,29 @@
+# Central spatial grid P1 — isolated contributor testing primitive (2026-11-04)
+
+Authorized scope: P1 only, branch `feature/central-grid-matrix-p1`, based on P0
+fork/testing `2c3b67b2f76bfb99baa1f3156daa5047c85455cd`. Scope was registered before
+implementation in [fork PR106](https://github.com/hernansgarro/vidAI/pull/106#issuecomment-6638733161)
+because this task explicitly prohibits upstream writes; #67/#57 remain canonical.
+
+The new standalone matrix has 1075 direct default slots covering maximum
+4800 × 3000 water and 300-unit side tubes, lazy typed buckets, entity-local
+membership handles, delta bucket updates/removal and duplicate-free bounded
+cell/bounds/ray queries. Invalid/outside memberships throw; custom capacities
+and total membership have explicit ceilings. Unordered candidate sets preserve
+all narrowphase/order responsibilities for future integration. No live imports,
+P2 envelope calculator, P3 console or P4+ lifecycle wiring is introduced.
+
+Ten new fast cases include independent cell/full-geometry reference scans,
+360 seeded lifecycle operations, old-index candidate equivalence, boundaries,
+category changes and error/budget integrity. Exact-head complete local/CI results,
+PR and testing merge/publication receipts belong in the internal PR. The initial
+local syntax transform error was fixed before validation; no inherited test or
+baseline was weakened. No performance improvement or ecological effect is claimed.
+See [P1 contract](contributor-workspace/performance/CENTRAL_GRID_P1.md).
+No main/upstream/history/experiment/publication-configuration changes are authorized.
+
+---
+
 # Contributor performance investigation checkpoint — 2026-11-04
 
 Verified3.8–3.12 conclusions are in the fork-main

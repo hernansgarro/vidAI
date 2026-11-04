@@ -230,3 +230,15 @@ Replacing a message or repeating the same message restarts its lifetime; an old
 message cannot dismiss its replacement. Noninteractive banners do not capture
 pointer input. Hinge dots are hidden; physical joints and their Worker data remain.
 This removes drawing commands, with no measured FPS or solver-speed claim.
+
+## Isolated central grid primitive — contributor testing only
+
+P1 adds `centralSpatialGrid.ts`, a typed, incrementally maintained matrix with
+fixed maximum-aquarium capacity, registration/relocation/removal, and unique
+conservative cell/bounds/ray candidates. It has **no live simulation, Worker or
+renderer consumer**; all existing broadphases and physical/sensory results remain
+unchanged. This is a developer primitive, with no setting or visual overlay yet.
+Candidate ordering is left to future consumer integration. No speedup is claimed.
+See the [P1 API, bounds and memory contract](https://github.com/hernansgarro/vidAI/blob/testing/docs/contributor-workspace/performance/CENTRAL_GRID_P1.md).
+This section describes the fork's testing work, not upstream shipped behavior;
+the actual Wiki is not published as part of this task.
