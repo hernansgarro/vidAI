@@ -1,3 +1,28 @@
+# Contributor submission waves — clarified 2026-11-03
+
+- Federico/upstream maintainer policy governs how contributions are submitted.
+  Hernan's batching preference below applies within that policy; it does not
+  override an explicit maintainer requirement. Verify and cite any conflicting
+  current maintainer decision rather than attributing an agent choice to Fede.
+- Prefer isolated, reviewable features. Hernan may accumulate several completed
+  features in his fork before authorizing a NEW upstream PR for that delivery
+  wave, to reduce repeated preparation/token costs. A wave may contain multiple
+  features, with their scope, dependencies and evidence distinguishable.
+- Preserve existing upstream PRs and their established waves. An instruction
+  to submit pending fork work, batch features, or reduce PR preparation costs
+  does NOT authorize expanding, repurposing, combining or replacing an already
+  submitted PR. Prepare a separate clean submission for the newly authorized
+  wave; identify overlaps/dependencies without silently absorbing an older PR.
+- Changing an existing PR's wave requires an explicit instruction naming that
+  action, or an actual maintainer requirement; clarify a conflict before acting.
+- The prior expansion of upstream PR #134 was an agent interpretation of
+  Hernan's request, not a verified requirement from Fede and not a precedent.
+  Hernan explicitly says to leave that result as it is. This clarification
+  authorizes fork documentation only: no upstream edits, comments, PR/ref
+  updates, closures, merges or reversal of #134.
+- See docs/CONTRIBUTOR_WORKFLOW.md for the detailed rule. Keep this clarification
+  in the contributor fork; it is not itself a new upstream submission request.
+
 # Contributor fork browser-validation policy (2026-11-02)
 
 - Prefer the existing GitHub Actions browser CI for reproducible Chromium/Firefox

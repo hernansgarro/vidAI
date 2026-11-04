@@ -27,6 +27,7 @@ Megafauna choices remain independent.
 | Initial population | Existing founder preset | Same preset; normally 18, not 50 | Same preset; normally 18, not 50 |
 | Starting tube connections | None | None | **None** |
 | Observer auto-selection / auto-tracking (fork) | On / On | Off / Off | Off / Off |
+| Water caustics display (fork) | On | Off | Off |
 | Other settings | Existing defaults | Explicit Harsh preset values | **Independent explicit copy of the initial Harsh values**, except for tank size |
 
 `constants.ts` loads `playground_config.json` and any existing Playground
@@ -39,7 +40,7 @@ between scenarios.
 
 **Unimplemented:** The proposed `Notebook size` and `Celphone size`
 built-in presets (IDEA-019 / IDEA-020) do not yet have selected world-unit
-dimensions. They are recorded in the [active personal idea board](IDEA_LAB.md),
+dimensions. They are recorded in the [active personal idea board](contributor-workspace/ideas/IDEA_LAB.md),
 not in the scenario selector. User-defined named environment profiles
 (IDEA-009) remain separate exploratory work.
 
@@ -77,7 +78,13 @@ configured application defaults, independent of previous slider edits/imports.
 Switching Harsh or Pipe back to Default therefore carries over no previous scenario overrides.
 Existing in-world reseed/showcase controls retain their previous current-settings
 initialization semantics, including resetting the nutrient cap to Unlimited.
-They do not lock or continually reapply the start-menu selection.
+They do not lock or continually reapply the start-menu selection. Advanced
+Settings exposes a manual **Show water caustics** checkbox. Its initial value
+is scenario-specific (Default on, Harsh/Pipe off), and an in-world reseed
+preserves the current observer override. Hiding caustics skips only their
+decorative canvas paint/blur pass; it never removes objects from world state,
+changes Worker settings or alters the random stream. The checkbox round-trips
+through observer snapshot metadata. Old snapshots without it still show caustics.
 
 Imports, exact exports and ecosystem branching never call the scenario factory.
 They preserve saved settings, energy stocks, PRNG and continuation. No scenario
@@ -90,7 +97,7 @@ passed npm ci, 385/385 fast tests, build, actual Worker checks,
 and remote Chromium/Firefox scenario/toolbar/side-window gates. It verifies
 the frozen preset, 4600 × 2100 dimensions, zero initial topology,
 funded initialization, independence, and exact schema19 reload/continuation.
-See [completed work](CONTRIBUTOR_COMPLETED.md) and [#135](https://github.com/smeagol44/vidAI/issues/135).
+See [completed work](contributor-workspace/tracking/CONTRIBUTOR_COMPLETED.md) and [#135](https://github.com/smeagol44/vidAI/issues/135).
 
 
 - `tests/environment-scenarios.test.ts`: full Default equivalence, requested
