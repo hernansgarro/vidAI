@@ -38,6 +38,10 @@ new lot, Stage4/product optimization, upstream submission or historical-trial re
 Review accumulated evidence before any new separately authorized work. Historical
 dated checkpoints below retain their original status and are not executable orders.
 
+> **Hernan's decision input, 2026-11-02; documentation only.** This is an overlay on the immutable [Stage 2 static source review](PERFORMANCE_AUDIT_STAGE_2.md) and the [approved four-stage audit plan](PERFORMANCE_AUDIT_PLAN.md), not an executed benchmark, permission to instrument, an optimization specification, an upstream decision or a performance guarantee. Keep the original S2-01–S2-12 IDs stable.
+>
+> **Reference:** `hernansgarro/vidAI:main` inspected at `bf75b5649c6d843c48586acca59c51830678e316`; Stage 2 integrated at fork/main `d926557ac6ea09895afa8895311734e68290c55e`. Source facts below refer to that pinned implementation. Current/future source heads must be rechecked before the Stage 3 Work run. **IDEA-023 remains overall contributor P0.** The ranking below is *within this audit only*.
+
 ## Current priority override — 2026-11-03
 
 **Hernan has changed the operational objective after completed Stage 3.4.** This is a forward-looking audit priority decision, not a rejection or rewrite of historical Stage 1/2/3.4 evidence. Follow the [current benchmark profile](PERFORMANCE_AUDIT_PLAN.md#current-measurement-target--owner-decision-2026-11-03) and [shared decision receipt](https://github.com/smeagol44/vidAI/issues/57#issuecomment-6607358209). The owner-selected 2026-11-02 order **below remains a historical snapshot**; it is superseded for planning future experiments and Stage 4 optimization ranking.
