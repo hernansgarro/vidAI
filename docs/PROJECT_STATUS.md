@@ -1,3 +1,25 @@
+# Maintained grid P4 — authoritative contributor testing shadow (2026-11-04)
+
+Authorized branch `feature/maintained-grid-p4` starts at P3 testing
+`ff3e786ffa0ac68046fb7a0037c147827f9711c2`. [Pre-implementation scope/decisions/acceptance](https://github.com/hernansgarro/vidAI/pull/109#issuecomment-6642883763).
+P1 owns incremental typed matrix membership; non-enumerable entity-local handles
+cover individual food/carrion/eggs, physical segments and whole-organism prey.
+Motion, joint/contact repair, lifecycle changes, tubes, paused commands, world
+replacement and source-array ordering are wired without changing existing queries.
+P2's uncertified lifetime bound is never used to cull: current-pose bounds refresh
+after movement; out-of-capacity/overflow/budget cases remain always-candidates.
+
+[Architecture and verification contract](contributor-workspace/performance/MAINTAINED_GRID_P4.md).
+New untouched-P3 full-snapshot references cover12 scenarios/132ticks, giving144
+initial/endpoint hashes; split imports and test-only independent membership checks
+cover exact state/PRNG/energy, identity, categories, movement, lifecycle and cleanup.
+Original golden data and experimental records remain unchanged. No P5/P6/P7+,
+physics/genetics/energy/save/Worker-protocol change, main/upstream write, baseline
+reset, release bump, throughput experiment or measured improvement. P4 adds shadow
+maintenance while existing queries remain. Exact local/CI/merge/Pages receipts
+belong in the internal PR. Upstream #67/#57 are consulted read-only; source Wiki
+changes describe fork-testing behavior, not upstream acceptance/publication.
+
 # Diagnostics console P3 — contributor testing infrastructure (2026-11-04)
 
 Authorized branch `feature/diagnostics-console-p3` starts at P2 testing

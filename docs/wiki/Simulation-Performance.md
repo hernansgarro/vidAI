@@ -251,11 +251,11 @@ multi-part lifetime guarantee requires a proven maximum hinge-anchor gap, which
 the current solver/import validation does not supply. Without that certificate,
 the API explicitly reports an unbounded lifetime envelope and offers a safe
 current-pose square using cached anatomy geometry; it never assumes a small
-solver residual. Neither function is wired into simulation, P1 or rendering.
+solver residual. P4 now uses the current-pose fallback for authoritative shadow membership; neither changes rendering or existing consumer queries.
 No physics, optics, feeding, saves, UI or performance changes are claimed.
 See the [P2 contract and proof](https://github.com/hernansgarro/vidAI/blob/testing/docs/contributor-workspace/performance/CREATURE_ENVELOPE_P2.md).
 This describes fork testing source only; actual upstream Wiki publication and
-later grid integration remain separate.
+later query migration remain separate.
 
 
 ## Diagnostic console — contributor testing only
@@ -281,3 +281,23 @@ membership, run integrity audits, provide an Audit now action, repair errors,
 draw grid overlays or change simulation state/PRNG/physics. Its ordinary observer
 cost is not a throughput claim. Source API details and limitations:
 [P3 contract](https://github.com/hernansgarro/vidAI/blob/testing/docs/contributor-workspace/performance/DIAGNOSTICS_CONSOLE_P3.md).
+
+
+## Maintained spatial membership — contributor testing only
+
+**Fork testing only; not accepted or shipped upstream.** The authoritative world
+maintains a central128-unit matrix alongside the existing spatial indexes.
+Individual body parts, whole-organism prey views, nutrients/carrion and eggs
+retain transient local membership handles. All completed physics/contact/joint
+pose updates, particle/tube motion, lifecycle changes and paused commands update
+the affected views. Unchanged cell ranges do not rewrite buckets. Import/reset
+reconstructs membership and removes previous-world records; handles never travel
+in frames or saves. Source-array/part ranks retain existing interaction ordering.
+
+Articulated bodies have no guaranteed finite lifetime radius under the current
+solver/import rules. Their conservative current-pose square is refreshed after
+movement. Entries outside fixed capacity or exceeding bounded membership storage
+remain explicit always-candidates, including arithmetic overflow; nothing is
+silently clipped or culled. Existing vision, feeding and contact queries still
+run unchanged. No grid overlay, audit/timer/manual-audit/repair, extra creature
+sense or measured speedup is introduced. See the [P4 contract](https://github.com/hernansgarro/vidAI/blob/testing/docs/contributor-workspace/performance/MAINTAINED_GRID_P4.md).

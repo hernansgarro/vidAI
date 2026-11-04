@@ -211,8 +211,9 @@ test('query stamp rollover preserves uniqueness and removed/reinserted handles',
   grid.remove(e); grid.register(e, box(128)); assert.deepEqual(ids(grid.queryCells(grid.cellRange)), [1]);
 });
 
-test('P1 remains outside every existing runtime and snapshot module', () => {
-  for (const name of readdirSync(new URL('..', import.meta.url)).filter(n => /\.(ts|tsx)$/.test(n) && n !== 'centralSpatialGrid.ts'))
+test('P1 runtime integration is confined to the P4 authority', () => {
+  assert.match(readFileSync(new URL('../maintainedGrid.ts', import.meta.url), 'utf8'), /from\s*['"].*centralSpatialGrid/);
+  for (const name of readdirSync(new URL('..', import.meta.url)).filter(n => /\.(ts|tsx)$/.test(n) && n !== 'centralSpatialGrid.ts' && n !== 'maintainedGrid.ts'))
     assert.doesNotMatch(readFileSync(new URL(`../${name}`, import.meta.url), 'utf8'), /from\s*['"].*centralSpatialGrid/,
       `${name} must not integrate P1`);
 });

@@ -1,3 +1,4 @@
+import {ensureMaintainedGrid, synchronizeMaintainedGrid} from './maintainedGrid';
 import {validateSelfTubes} from './selfTubes';
 import {embodiedEnergy, FOOD_SAFETY_LIMIT} from './energyEconomy';
 import {eggReserveReference} from './eggReserve';
@@ -32,6 +33,7 @@ export function clearFreeNutrients(s: SimulationState): number {
   if (s.energyPool) s.energyPool.reserve += removed;
   s.nutrients = s.nutrients.filter(n => n.kind === 'carrion');
   s.nutrientAccumulator = 0;
+  synchronizeMaintainedGrid(s);
   return removed;
 }
 
@@ -57,6 +59,7 @@ export function resizeWorld(s: SimulationState, old: SimulationSettings, width: 
     p.x = clampVal(p.x + dx, 0, width);
     p.y = clampVal(p.y + dy, 0, height);
   }
+  synchronizeMaintainedGrid(s);
 }
 
 export function createSnapshot(s: SimulationState, settings: SimulationSettings, metadata: Record<string, unknown> = {}) {
@@ -410,6 +413,7 @@ export function restoreSnapshot(input: unknown): {state: SimulationState; settin
   for (const rec of state.lineage.values()) rec.genome = validateGenome(rec.genome, true);
   if (closed) assert(Math.abs(totalAccountedEnergy(state) - state.energyPool!.budget)
     <= Math.max(1e-5, state.energyPool!.budget * 1e-10), 'world energy conservation');
+  ensureMaintainedGrid(state);
   return {state, settings, metadata: raw.metadata ?? {legacyImport: true}};
 }
 

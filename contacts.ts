@@ -1,3 +1,4 @@
+import {syncTrackedOrganism} from './maintainedGrid';
 import {partKineticEnergy, organismKineticEnergy, type MechanicalObserver} from './mechanicalObservation';
 import type {Organism, PartDef, PartPhys} from './simulation';
 
@@ -168,6 +169,7 @@ export function resolveBodyContacts(organisms: Organism[], density: number,
       const correction = Math.min(3, Math.max(0, contact.depth - .02) * .6) / (a.im + b.im);
       a.p.x -= contact.nx * correction * a.im; a.p.y -= contact.ny * correction * a.im;
       b.p.x += contact.nx * correction * b.im; b.p.y += contact.ny * correction * b.im;
+      syncTrackedOrganism(a.org); syncTrackedOrganism(b.org);
     }
     if (!contactCount) break;
     for (const org of touched) project(org, 4);

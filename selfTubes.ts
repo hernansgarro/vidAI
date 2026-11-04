@@ -1,3 +1,4 @@
+import {syncTrackedOrganism, syncTrackedParticle, synchronizeMaintainedGrid} from './maintainedGrid';
 import type {Organism, SimulationSettings, SimulationState} from './simulation';
 
 /** Physical topology is world state; display names and pending invitations are not. */
@@ -91,6 +92,7 @@ export function translateLiveOrganism(org: Organism, dx: number, dy = 0): void {
   for (const p of org.segments) {p.x += dx; p.y += dy;}
   for (const p of org.traceHistory ?? []) {p.x += dx; p.y += dy;}
   for (const p of org.rayHits) {p.pointX += dx; p.pointY += dy;}
+  syncTrackedOrganism(org);
 }
 /** One full record, one replacement, no spawn API, ID allocation or birth event. */
 export function transferSelfOrganisms(state: SimulationState, settings: SimulationSettings, previous: Map<string, number>): number {
@@ -109,6 +111,7 @@ export function transferSelfOrganisms(state: SimulationState, settings: Simulati
     translateLiveOrganism(record, (left ? g.width + TUBE_ARRIVAL : -TUBE_ARRIVAL) - root.x);
     state.organisms[i] = record; moved++;
   }
+  if (moved) synchronizeMaintainedGrid(state);
   return moved;
 }
 export function moveTubeParticle(p: {x: number; y: number; vx: number; vy: number}, g: TubeGeometry): void {
@@ -119,6 +122,7 @@ export function moveTubeParticle(p: {x: number; y: number; vx: number; vy: numbe
   const next = projectWaterPoint(g, p.x, p.y);
   if (next.x !== p.x) p.vx = 0; if (next.y !== p.y) p.vy = 0;
   p.x = next.x; p.y = next.y;
+  syncTrackedParticle(p);
 }
 /** Explicit geometry edits return contents intact, rather than sealing them outside. */
 export function setSelfTubes(state: SimulationState, settings: SimulationSettings, value: unknown): void {
@@ -138,4 +142,5 @@ export function setSelfTubes(state: SimulationState, settings: SimulationSetting
     if (!g || !inTubeWater(g, p.x, p.y)) p.x = clamp(p.x, 35, settings.worldWidth - 35);
   }
   state.selfTubes = topology;
+  synchronizeMaintainedGrid(state);
 }

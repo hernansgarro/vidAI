@@ -1,3 +1,4 @@
+import {disposeMaintainedGrid} from './maintainedGrid';
 import {setSelfTubes, type SelfTubes} from './selfTubes';
 import {EnergyActivityCollector, type EnergyActivityFrame} from './energyActivity';
 import type {SimulationSpeed} from './simulationSpeed';
@@ -44,6 +45,7 @@ export class SimulationHost {
   reset(snapshot: WorldSnapshot, epoch: number): void {
     const restored = restoreSnapshot(snapshot);
     this.lineageChanges?.dispose();
+    if (this.state) disposeMaintainedGrid(this.state);
     this.state = restored.state; this.settings = restored.settings; this.epoch = epoch;
     this.energyActivity.clear();
     this.speed = 0; this.steps = 0; this.events.clear();

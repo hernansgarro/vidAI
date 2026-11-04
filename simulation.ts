@@ -1,3 +1,4 @@
+import {ensureMaintainedGrid, getMaintainedGrid, synchronizeMaintainedGrid, syncTrackedOrganism} from './maintainedGrid';
 import {tubeGeometry, tubeWallContact, tubeContainsBox, sampleTubeWater, projectWaterPoint, waterRects, moveTubeParticle, transferSelfOrganisms, type SelfTubes, type TubeGeometry} from './selfTubes';
 import type {EnergyTransferObserver} from './energyActivity';
 import {mouthDimensions, capsuleContactsPart} from './mouthGeometry';
@@ -900,6 +901,7 @@ export function addNutrients(state: SimulationState, settings: SimulationSetting
     if (state.energyPool) state.energyPool.reserve -= NUTRIENT_ENERGY_VALUE;
     else state.ledger.externalInflow += NUTRIENT_ENERGY_VALUE;
   }
+  synchronizeMaintainedGrid(state);
   return count;
 }
 
@@ -2964,6 +2966,7 @@ function projectBodyJoints(org: Organism, iterations: number): void {
       b.angle += angular * bii; a.angle -= angular * aii;
     }
   }
+  syncTrackedOrganism(org);
 }
 
 /** Smooth, bounded genetic waveform. A sine is the neutral allele. Adding
@@ -3336,6 +3339,7 @@ function advanceOrganismPhysics(org: Organism, settings: SimulationSettings, dt_
     seg.y += seg.vy * dt_sub;
     seg.angle += seg.angVel * dt_sub;
   }
+  syncTrackedOrganism(org);
   return frameMechanicalWork;
 }
 
@@ -3503,12 +3507,14 @@ function closedCarrion(state: SimulationState, settings: SimulationSettings, x: 
     existing.energyValue += energy;
     existing.radius = getNutrientRadius(existing.energyValue, settings.nutrientCycle);
     existing.decayTimeRemaining = CARRION_DECAY_SECONDS;
+    getMaintainedGrid(state)?.syncFood(existing, state.nutrients.indexOf(existing));
     return;
   }
   state.nutrients.push({id: `REM-${state.prng.nextUint32().toString(36)}`,
     kind: 'carrion', decayTimeRemaining: CARRION_DECAY_SECONDS,
     x, y, vx: 0, vy: 0, energyValue: energy, radius: getNutrientRadius(energy, settings.nutrientCycle),
     bottomTimer: 0, pulseTimer: state.prng.range(0, Math.PI * 2)});
+  getMaintainedGrid(state)?.syncFood(state.nutrients[state.nutrients.length - 1], state.nutrients.length - 1);
 }
 
 /** Versioned abiotic lifecycle. All loops are bounded by existing food slots.
@@ -3584,6 +3590,8 @@ export function stepSimulation(
   observeMechanics?: MechanicalObserver,
   observeEnergy?: EnergyTransferObserver,
 ): void {
+  const spatial = ensureMaintainedGrid(state);
+  spatial.synchronize();
   const channels = tubeGeometry(settings, state.selfTubes);
   const transitBefore = channels ? new Map(state.organisms.map(o => [o.id, o.segments[0].x])) : undefined;
   const mu = settings.waterViscosity ?? 0.22;
@@ -3619,7 +3627,10 @@ export function stepSimulation(
   }
 
   const cycling = !!state.energyPool && (settings.nutrientCycle === 'decay-v1' || settings.nutrientCycle === 'decay-v2');
-  if (cycling) advanceNutrientCycle(state, settings, dt);
+  if (cycling) {
+    advanceNutrientCycle(state, settings, dt);
+    spatial.synchronize();
+  }
 
   // Historical mineralization waits for a plant-food slot; stored carrion energy is never deleted.
   let decaySlots = Math.max(0, targetNutrientsVal - nutrients.filter(n => n.kind !== 'carrion').length);
@@ -3631,7 +3642,8 @@ export function stepSimulation(
       nut.decayTimeRemaining = Math.max(0, (nut.decayTimeRemaining ?? CARRION_DECAY_SECONDS) - dt);
       if (state.energyPool && nut.decayTimeRemaining === 0) {
         state.energyPool.reserve += nut.energyValue;
-        nutrients.splice(i--, 1);
+        spatial.remove(nut);
+        nutrients.splice(i--, 1); spatial.refreshRanks('food');
         continue;
       }
       if (nut.decayTimeRemaining === 0 && decaySlots > 0) {
@@ -3654,6 +3666,7 @@ export function stepSimulation(
     if (nut.y < 35) { nut.y = 35; nut.vy = 0; }
     if (nut.y > worldHeight - 35) { nut.y = worldHeight - 35; nut.vy = 0; }
     }
+    spatial.syncFood(nut, i);
   }
 
   // 3. Caustics
@@ -3676,7 +3689,7 @@ export function stepSimulation(
       egg.ageSeconds = (egg.ageSeconds ?? 0) + dt;
       if (egg.ageSeconds >= EGG_LIFETIME_MULTIPLIER * egg.totalIncubationTime) {
         closedCarrion(state, settings, egg.x, egg.y, egg.fundedStructural + egg.fundedReserve);
-        eggs.splice(i, 1);
+        spatial.remove(egg); eggs.splice(i, 1); spatial.refreshRanks('egg');
         onEvent?.('egg_loss');
         continue;
       }
@@ -3698,6 +3711,7 @@ export function stepSimulation(
     if (egg.y > worldHeight - 35) { egg.y = worldHeight - 35; egg.vy = 0; }
     }
 
+    spatial.syncEgg(egg, i);
     const remainingEggEnergy = egg.fundedStructural + egg.fundedReserve;
 
     // Check viability at completion
@@ -3724,10 +3738,11 @@ export function stepSimulation(
             bottomTimer: 0,
             pulseTimer: prng.range(0, Math.PI * 2),
           });
+          spatial.syncFood(nutrients[nutrients.length - 1], nutrients.length - 1);
         } else {
           ledger.recordedLosses += remainingEggEnergy;
         }
-        eggs.splice(i, 1);
+        spatial.remove(egg); eggs.splice(i, 1); spatial.refreshRanks('egg');
         if (onEvent) onEvent('egg_loss');
         continue;
       }
@@ -3751,6 +3766,7 @@ export function stepSimulation(
         );
         baby.structuralBiomass = requiredBodyCost;
         organisms.push(baby);
+        spatial.syncOrganism(baby, organisms.length - 1);
         for (let p = 0; p < baby.segments.length; p++)
           sharedHatchObstacles.push(bodyBounds([baby.genome.parts[p]], [baby.segments[p]]));
         state.totalBirths += 1;
@@ -3768,11 +3784,13 @@ export function stepSimulation(
         });
 
         markLineageChanged(state.lineage, baby.id);
-        eggs.splice(i, 1);
+        spatial.remove(egg); eggs.splice(i, 1); spatial.refreshRanks('egg');
         if (onEvent) onEvent('birth');
       }
     }
   }
+
+  spatial.synchronize();
 
   // Nutrient vision broadphase is per-step scratch, never part of snapshots.
   // Corpse dissolution can append carrion while iterating living organisms,
@@ -3815,6 +3833,7 @@ export function stepSimulation(
             energyValue: totalRemainingEnergy, radius: getNutrientRadius(totalRemainingEnergy),
             bottomTimer: 0, pulseTimer: prng.range(0, Math.PI * 2),
           });
+          spatial.syncFood(nutrients[nutrients.length - 1], nutrients.length - 1);
         } else ledger.recordedLosses += totalRemainingEnergy;
 
         const cause: DeathCause = org.deathCause || (org.age >= org.maxLifespan ? 'Old Age' : org.energy <= 0 ? 'Starvation' : 'Predation');
@@ -3840,7 +3859,8 @@ export function stepSimulation(
         });
         if (state.recentDeaths.length > 30) state.recentDeaths.pop();
 
-        organisms.splice(orgIdx, 1);
+        spatial.removeOrganism(org);
+        organisms.splice(orgIdx, 1); spatial.refreshRanks('organism');
         state.totalDeaths += 1;
         if (onEvent) onEvent('death');
       }
@@ -4173,6 +4193,7 @@ export function stepSimulation(
           // Its remaining tissue is conserved in the edible remains below.
           if (prey.energy <= 0) {
             prey.deathCause = 'Predation'; prey.dissolving = true; prey.dissolveAlpha = 1;
+            spatial.removeOrganism(prey);
             org.preyEaten++; org.foodEaten++;
             if (onEvent) onEvent('clash');
           }
@@ -4199,7 +4220,7 @@ export function stepSimulation(
             returnedEnergy += egg.fundedReserve + egg.fundedStructural;
             org.eggsPredated = (org.eggsPredated || 0) + 1;
             org.preyEaten++; org.foodEaten++;
-            eggs.splice(i, 1); oralEggGrid = undefined;
+            spatial.remove(egg); eggs.splice(i, 1); spatial.refreshRanks('egg'); oralEggGrid = undefined;
             if (onEvent) onEvent('clash');
           }
         }
@@ -4218,11 +4239,13 @@ export function stepSimulation(
         if (transfer <= 0) continue;
         food.energyValue = Math.max(0, food.energyValue - transfer);
         food.radius = getNutrientRadius(food.energyValue, settings.nutrientCycle);
+        spatial.syncFood(food, i);
         if (food.energyValue <= 1) {
           ledger.recordedLosses += food.energyValue;
           returnedEnergy += food.energyValue;
           org.foodEaten++;
-          nutrients.splice(i, 1);
+          spatial.remove(food);
+          nutrients.splice(i, 1); spatial.refreshRanks('food');
           if (onEvent) onEvent('eat');
         }
       }
@@ -4299,6 +4322,7 @@ export function stepSimulation(
             };
             if (state.energyPool) initializeClosedEgg(laidEgg);
             eggs.push(laidEgg);
+            spatial.syncEgg(laidEgg, eggs.length - 1);
           }
         }
 
@@ -4322,10 +4346,12 @@ export function stepSimulation(
         org.deathCause = 'Old Age';
         org.dissolving = true;
         org.dissolveAlpha = 1.0;
+        spatial.removeOrganism(org);
       } else if (org.energy <= 0) {
         org.deathCause = 'Starvation';
         org.dissolving = true;
         org.dissolveAlpha = 1.0;
+        spatial.removeOrganism(org);
       }
     }
   }
@@ -4345,5 +4371,6 @@ export function stepSimulation(
   }
   if (transitBefore) transferSelfOrganisms(state, settings, transitBefore);
   if (state.energyPool) state.energyPool.reserve += returnedEnergy;
+  spatial.synchronize();
 }
 

@@ -6,3 +6,13 @@ weights, hidden memory, joint state, lineage and PRNG are actual old-build data.
 Tests migrate this to the six-channel controller and compare every surviving
 channel by its identity, rather than synthesizing a supposed legacy layout from
 the new implementation.
+
+## Maintained grid P3 compatibility references
+
+`maintained-grid-p3.json` is a NEW, separate132-tick/12-scenario exact-state
+reference generated from untouched fork P3 `ff3e786ffa0ac68046fb7a0037c147827f9711c2`
+with `tests/support/maintained-grid-compatibility.ts`. It hashes canonical complete
+snapshots (12 initial +132 endpoint hashes). P4 and subsequent maintenance must
+match it; do not regenerate it to hide regressions. Existing historical fixtures
+are unchanged. These bounded correctness cases are not ecological experiments,
+performance measurements or cross-JavaScript-engine golden comparisons.

@@ -89,7 +89,7 @@ export function calculateCreatureEnvelope(parts: readonly EnvelopePart[], maxAnc
 
 /** Explicit safe fallback for the CURRENT pose, including unconstrained imports
  * and solver drift. O(n) COM/distance scan; does not recompute the tree bound.
- * Call again after any pose change if used by a future consumer. P2 wires none.
+ * P4 refreshes this fallback after completed authoritative pose transactions.
  * Only rigid body rectangles are covered: optical rays, forward mouth reach
  * and observer decorations require their own consumer-specific bounds.
  */

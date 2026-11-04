@@ -1,3 +1,4 @@
+import {ensureMaintainedGrid, getMaintainedGrid} from './maintainedGrid';
 import {markLineageChanged} from './lineageChanges';
 import {enableClosedEconomy, occupiedPopulation} from './energyEconomy';
 import {
@@ -19,6 +20,7 @@ export function addExternalOrganism(s: SimulationState, g: Genome, settings: Sim
     birthTime: s.simTime, offspringCount: 0, archetype: genome.archetype ?? 'Custom',
     hue: genome.hue, diet: getDietClassification(genome.mouths).label, genome});
   markLineageChanged(s.lineage, org.id);
+  getMaintainedGrid(s)?.syncOrganism(org, s.organisms.length - 1);
   return org;
 }
 
@@ -47,6 +49,7 @@ export function createInitialWorld(settings: SimulationSettings, seed = 4242, mo
     while (s.nutrients.length > (settings.nutrientLimit ?? Infinity))
       s.energyPool!.reserve += s.nutrients.pop()!.energyValue;
   }
+  ensureMaintainedGrid(s);
   return s;
 }
 
