@@ -1,0 +1,175 @@
+{
+  "method": "Read-only SAT/body-AABB inventory at archived endpoints; not cumulative dynamic contact/impulse counts. Duplicate full states reuse the same static calculation.",
+  "rows": [
+    {
+      "id": "P01",
+      "count": 100,
+      "dense": false,
+      "ticks": 360,
+      "endSHA256": "df818e4aca35a999ea6e188c258ed621cb90fdae26c489ef04e0cc65ca0a95c7",
+      "interorganismIntersectingPartPairs": 0,
+      "nonhingedSelfIntersectingPartPairs": 0,
+      "minBodyAABBGap": 10.32562593311195,
+      "insideWalls": false,
+      "occupiedBounds": {
+        "left": -6.829221649302768,
+        "right": 3916.4775398340457,
+        "top": 25.171910593823867,
+        "bottom": 2003.8345357526857
+      }
+    },
+    {
+      "id": "P02",
+      "count": 100,
+      "dense": true,
+      "ticks": 360,
+      "endSHA256": "126a904b55990b933545a02072d912cc0780704dbf62225a2f97f472768b4667",
+      "interorganismIntersectingPartPairs": 2,
+      "nonhingedSelfIntersectingPartPairs": 0,
+      "minBodyAABBGap": 0,
+      "insideWalls": true,
+      "occupiedBounds": {
+        "left": 1168.6708468650365,
+        "right": 2770.1309191131695,
+        "top": 191.6716663690822,
+        "bottom": 1826.9543257378684
+      }
+    },
+    {
+      "id": "D01",
+      "count": 100,
+      "dense": false,
+      "ticks": 360,
+      "endSHA256": "df818e4aca35a999ea6e188c258ed621cb90fdae26c489ef04e0cc65ca0a95c7",
+      "interorganismIntersectingPartPairs": 0,
+      "nonhingedSelfIntersectingPartPairs": 0,
+      "minBodyAABBGap": 10.32562593311195,
+      "insideWalls": false,
+      "occupiedBounds": {
+        "left": -6.829221649302768,
+        "right": 3916.4775398340457,
+        "top": 25.171910593823867,
+        "bottom": 2003.8345357526857
+      }
+    },
+    {
+      "id": "D02",
+      "count": 100,
+      "dense": true,
+      "ticks": 360,
+      "endSHA256": "126a904b55990b933545a02072d912cc0780704dbf62225a2f97f472768b4667",
+      "interorganismIntersectingPartPairs": 2,
+      "nonhingedSelfIntersectingPartPairs": 0,
+      "minBodyAABBGap": 0,
+      "insideWalls": true,
+      "occupiedBounds": {
+        "left": 1168.6708468650365,
+        "right": 2770.1309191131695,
+        "top": 191.6716663690822,
+        "bottom": 1826.9543257378684
+      }
+    },
+    {
+      "id": "P03",
+      "count": 150,
+      "dense": false,
+      "ticks": 360,
+      "endSHA256": "d90ec09ea4848648bd57d1e3e3719b161147310feeb2feb109865f00f4ffd0e4",
+      "interorganismIntersectingPartPairs": 0,
+      "nonhingedSelfIntersectingPartPairs": 0,
+      "minBodyAABBGap": 0,
+      "insideWalls": false,
+      "occupiedBounds": {
+        "left": -10.216726696210856,
+        "right": 3926.240211531279,
+        "top": 25.613623420261064,
+        "bottom": 3007.430753424906
+      }
+    },
+    {
+      "id": "D03",
+      "count": 150,
+      "dense": false,
+      "ticks": 360,
+      "endSHA256": "d90ec09ea4848648bd57d1e3e3719b161147310feeb2feb109865f00f4ffd0e4",
+      "interorganismIntersectingPartPairs": 0,
+      "nonhingedSelfIntersectingPartPairs": 0,
+      "minBodyAABBGap": 0,
+      "insideWalls": false,
+      "occupiedBounds": {
+        "left": -10.216726696210856,
+        "right": 3926.240211531279,
+        "top": 25.613623420261064,
+        "bottom": 3007.430753424906
+      }
+    },
+    {
+      "id": "P04",
+      "count": 100,
+      "dense": true,
+      "ticks": 360,
+      "endSHA256": "126a904b55990b933545a02072d912cc0780704dbf62225a2f97f472768b4667",
+      "interorganismIntersectingPartPairs": 2,
+      "nonhingedSelfIntersectingPartPairs": 0,
+      "minBodyAABBGap": 0,
+      "insideWalls": true,
+      "occupiedBounds": {
+        "left": 1168.6708468650365,
+        "right": 2770.1309191131695,
+        "top": 191.6716663690822,
+        "bottom": 1826.9543257378684
+      }
+    },
+    {
+      "id": "P05",
+      "count": 100,
+      "dense": false,
+      "ticks": 360,
+      "endSHA256": "df818e4aca35a999ea6e188c258ed621cb90fdae26c489ef04e0cc65ca0a95c7",
+      "interorganismIntersectingPartPairs": 0,
+      "nonhingedSelfIntersectingPartPairs": 0,
+      "minBodyAABBGap": 10.32562593311195,
+      "insideWalls": false,
+      "occupiedBounds": {
+        "left": -6.829221649302768,
+        "right": 3916.4775398340457,
+        "top": 25.171910593823867,
+        "bottom": 2003.8345357526857
+      }
+    },
+    {
+      "id": "D04",
+      "count": 150,
+      "dense": false,
+      "ticks": 360,
+      "endSHA256": "d90ec09ea4848648bd57d1e3e3719b161147310feeb2feb109865f00f4ffd0e4",
+      "interorganismIntersectingPartPairs": 0,
+      "nonhingedSelfIntersectingPartPairs": 0,
+      "minBodyAABBGap": 0,
+      "insideWalls": false,
+      "occupiedBounds": {
+        "left": -10.216726696210856,
+        "right": 3926.240211531279,
+        "top": 25.613623420261064,
+        "bottom": 3007.430753424906
+      }
+    },
+    {
+      "id": "P06",
+      "count": 150,
+      "dense": false,
+      "ticks": 360,
+      "endSHA256": "d90ec09ea4848648bd57d1e3e3719b161147310feeb2feb109865f00f4ffd0e4",
+      "interorganismIntersectingPartPairs": 0,
+      "nonhingedSelfIntersectingPartPairs": 0,
+      "minBodyAABBGap": 0,
+      "insideWalls": false,
+      "occupiedBounds": {
+        "left": -10.216726696210856,
+        "right": 3926.240211531279,
+        "top": 25.613623420261064,
+        "bottom": 3007.430753424906
+      }
+    }
+  ]
+}

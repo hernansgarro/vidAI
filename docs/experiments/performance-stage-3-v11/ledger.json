@@ -1,0 +1,200 @@
+[
+  {
+    "id": "P01",
+    "count": 100,
+    "dense": false,
+    "research": false,
+    "level": "off",
+    "traced": false,
+    "speed": "max",
+    "ticks": 360,
+    "status": "not-started"
+  },
+  {
+    "id": "P02",
+    "count": 100,
+    "dense": true,
+    "research": false,
+    "level": "off",
+    "traced": false,
+    "speed": "max",
+    "ticks": 360,
+    "status": "not-started"
+  },
+  {
+    "id": "D01",
+    "count": 100,
+    "dense": false,
+    "research": true,
+    "level": "phase",
+    "traced": false,
+    "speed": "max",
+    "ticks": 360,
+    "status": "not-started"
+  },
+  {
+    "id": "D02",
+    "count": 100,
+    "dense": true,
+    "research": true,
+    "level": "phase",
+    "traced": false,
+    "speed": "max",
+    "ticks": 360,
+    "status": "not-started"
+  },
+  {
+    "id": "P03",
+    "count": 150,
+    "dense": false,
+    "research": false,
+    "level": "off",
+    "traced": false,
+    "speed": "max",
+    "ticks": 360,
+    "status": "not-started"
+  },
+  {
+    "id": "D03",
+    "count": 150,
+    "dense": false,
+    "research": true,
+    "level": "phase",
+    "traced": false,
+    "speed": "max",
+    "ticks": 360,
+    "status": "not-started"
+  },
+  {
+    "id": "P04",
+    "count": 100,
+    "dense": true,
+    "research": false,
+    "level": "off",
+    "traced": false,
+    "speed": "max",
+    "ticks": 360,
+    "status": "not-started"
+  },
+  {
+    "id": "P05",
+    "count": 100,
+    "dense": false,
+    "research": false,
+    "level": "off",
+    "traced": false,
+    "speed": "max",
+    "ticks": 360,
+    "status": "not-started"
+  },
+  {
+    "id": "D04",
+    "count": 150,
+    "dense": false,
+    "research": true,
+    "level": "phase",
+    "traced": false,
+    "speed": "max",
+    "ticks": 360,
+    "status": "not-started"
+  },
+  {
+    "id": "P06",
+    "count": 150,
+    "dense": false,
+    "research": false,
+    "level": "off",
+    "traced": false,
+    "speed": "max",
+    "ticks": 360,
+    "status": "not-started"
+  },
+  {
+    "id": "D05",
+    "count": 100,
+    "dense": true,
+    "research": true,
+    "level": "phase",
+    "traced": false,
+    "speed": "max",
+    "ticks": 360,
+    "status": "not-started"
+  },
+  {
+    "id": "D06",
+    "count": 100,
+    "dense": false,
+    "research": true,
+    "level": "phase",
+    "traced": false,
+    "speed": "max",
+    "ticks": 360,
+    "status": "not-started"
+  },
+  {
+    "id": "O01",
+    "count": 100,
+    "dense": false,
+    "research": true,
+    "level": "off",
+    "traced": false,
+    "speed": "max",
+    "ticks": 360,
+    "status": "not-started"
+  },
+  {
+    "id": "O02",
+    "count": 100,
+    "dense": false,
+    "research": true,
+    "level": "counter",
+    "traced": false,
+    "speed": "max",
+    "ticks": 360,
+    "status": "not-started"
+  },
+  {
+    "id": "T01",
+    "count": 150,
+    "dense": false,
+    "research": false,
+    "level": "off",
+    "traced": true,
+    "speed": "max",
+    "ticks": 360,
+    "status": "not-started"
+  },
+  {
+    "id": "T02",
+    "count": 100,
+    "dense": true,
+    "research": false,
+    "level": "off",
+    "traced": true,
+    "speed": "max",
+    "ticks": 360,
+    "status": "not-started"
+  },
+  {
+    "id": "S01",
+    "count": 150,
+    "dense": false,
+    "research": false,
+    "level": "off",
+    "traced": false,
+    "speed": 1,
+    "ticks": 180,
+    "status": "not-started"
+  },
+  {
+    "id": "S02",
+    "count": 150,
+    "dense": false,
+    "research": false,
+    "level": "off",
+    "traced": false,
+    "speed": 2,
+    "ticks": 180,
+    "status": "not-started"
+  }
+]
