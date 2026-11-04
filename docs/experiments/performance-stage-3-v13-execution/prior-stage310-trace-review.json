@@ -1,0 +1,106 @@
+{
+  "analysis": "POST_HOC_ARCHIVED_TRACE_REVIEW_NO_SIMULATION",
+  "originalCommit": "a21a042c9b259f708f59fcde38f154e0d09489a3",
+  "path": "docs/experiments/performance-stage-3-v12-execution/T01-trace.json.gz",
+  "sha256": "837f987daf2f4646361c96fae8b76aa99e78afc5aa1c301344fa56bd10210493",
+  "bounds": [
+    603133694.9999999,
+    613833094.9999999
+  ],
+  "roles": [
+    {
+      "role": "worker",
+      "pid": 1335,
+      "tid": 1398,
+      "objectStatisticsEvents": [
+        {
+          "args": {},
+          "cat": "devtools.timeline,disabled-by-default-v8.gc",
+          "dur": 1311359,
+          "name": "V8.GC_OBJECT_DUMP_STATISTICS",
+          "ph": "X",
+          "pid": 1335,
+          "tdur": 1310769,
+          "tid": 1398,
+          "ts": 605503249,
+          "tts": 7426187
+        },
+        {
+          "args": {},
+          "cat": "devtools.timeline,disabled-by-default-v8.gc",
+          "dur": 1036254,
+          "name": "V8.GC_OBJECT_DUMP_STATISTICS",
+          "ph": "X",
+          "pid": 1335,
+          "tdur": 1031059,
+          "tid": 1398,
+          "ts": 608541273,
+          "tts": 10432424
+        },
+        {
+          "args": {},
+          "cat": "devtools.timeline,disabled-by-default-v8.gc",
+          "dur": 1236786,
+          "name": "V8.GC_OBJECT_DUMP_STATISTICS",
+          "ph": "X",
+          "pid": 1335,
+          "tdur": 1233973,
+          "tid": 1398,
+          "ts": 611466118,
+          "tts": 13336853
+        }
+      ],
+      "objectStatisticsUnionMs": 3584.399,
+      "priorGCRelatedUnionMs": 3798.007,
+      "fractionOfPriorGCRelatedPercent": 94.3757870904398
+    },
+    {
+      "role": "main",
+      "pid": 1335,
+      "tid": 1335,
+      "objectStatisticsEvents": [
+        {
+          "args": {},
+          "cat": "devtools.timeline,disabled-by-default-v8.gc",
+          "dur": 894624,
+          "name": "V8.GC_OBJECT_DUMP_STATISTICS",
+          "ph": "X",
+          "pid": 1335,
+          "tdur": 884430,
+          "tid": 1335,
+          "ts": 604125093,
+          "tts": 443435653
+        },
+        {
+          "args": {},
+          "cat": "devtools.timeline,disabled-by-default-v8.gc",
+          "dur": 807542,
+          "name": "V8.GC_OBJECT_DUMP_STATISTICS",
+          "ph": "X",
+          "pid": 1335,
+          "tdur": 807094,
+          "tid": 1335,
+          "ts": 607885094,
+          "tts": 447154792
+        },
+        {
+          "args": {},
+          "cat": "devtools.timeline,disabled-by-default-v8.gc",
+          "dur": 870242,
+          "name": "V8.GC_OBJECT_DUMP_STATISTICS",
+          "ph": "X",
+          "pid": 1335,
+          "tdur": 870110,
+          "tid": 1335,
+          "ts": 611656235,
+          "tts": 450909595
+        }
+      ],
+      "objectStatisticsUnionMs": 2572.408,
+      "priorGCRelatedUnionMs": 2728.935,
+      "fractionOfPriorGCRelatedPercent": 94.2641726534344
+    }
+  ],
+  "sourceMechanism": "https://chromium.googlesource.com/v8/v8/+/31c192f5465b45c6f82a780bd84423cf4caab948/src/heap/mark-compact.cc",
+  "interpretation": "Object statistics are enabled tracing work inside GC. These nested spans cannot be subtracted to predict untraced speed; source correspondence and new light/detailed comparisons provide context, not a new category-isolation trial."
+}

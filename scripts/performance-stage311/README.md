@@ -30,3 +30,22 @@ Reference YAML outside.github is historical after this single lot; remove active
 launch workflow when complete. Research draft stays unmerged. Only verified
 conclusions, not probes/raw/workflows, are integrated into main per owner request.
 No Stage4 optimization, runtime tuning, upstream submission orVIDA3D.
+
+## Completed single execution
+
+Scientific run41826625738/job126562880347 succeeded; source61d040bc35b6dc057cc01e524499632907a39082,
+immutable originalsa93f9d1e54505b3c62e96ee7be3a66e01175873a.6/6retained, exact full endpoints,
+all budgets passed. Temporary launch workflow removed. STOP after this lot.
+
+Analysis-only reproduction from a full Git checkout, including fetched historical
+branch audit/performance-stage-3-10 (for the explicitly post-hoc old-trace review):
+
+```sh
+node scripts/performance-stage311/analyze.mjs
+python scripts/performance-stage311/verify-source.py
+node scripts/performance-stage311/review-prior-trace.mjs
+```
+
+No command above simulates or launches a browser. Source audit pins immutable
+originals. Positive heap reductions are not allocated or retained memory. Read
+the report's calibrated observer finding before ranking GC as a bottleneck.

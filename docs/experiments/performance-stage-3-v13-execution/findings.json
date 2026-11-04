@@ -1,0 +1,5540 @@
+{
+  "stage": "3.11",
+  "status": "COMPLETE",
+  "manifest": {
+    "stage": "3.11",
+    "sourceSHA": "61d040bc35b6dc057cc01e524499632907a39082",
+    "baseSHA": "3e1cfeec8f71f8c76056848b344596db5148e329",
+    "sourceDigests": {
+      "simulation.ts": "0846437a3f54be8abdf7aaf52f5368eb398a65762f2d889df7a671a8ef66b63e",
+      "simulation.worker.ts": "50dcc968cf1b0a8a8ea496a5993c0d87992340e60e9c11c7f83fdae4db6bd6d0",
+      "simulationHost.ts": "801bda0009738bef014066b9650fedfd97e4b856e0af70e0426119178a971e86",
+      "contacts.ts": "ea9be05c5913006c6d6c6b1d2f4a22bc6a7c889d1a4df1cc956c8d3831c16cce",
+      "neuralRuntime.ts": "12f5f52f328613bc2af4c4c2c793e78c4b22abb1c585cec8aba29aca99cac84b",
+      "spatialIndex.ts": "d324b911f764afeced35df0141363c293ce97564a44a23f5facb98ac08992b40",
+      "energyActivity.ts": "c7ba6bba7080dedf091e039ddc447b05b006b3c2d8b57274ca984f5f47653913",
+      "energyEconomy.ts": "d7285aa7b351ded7a7147fccf1415549a00ccfea0c98b1a9069594daf6017f9c",
+      "persistence.ts": "3e759aadb7e2ccee8bb01da428708dd021320748f546670d67454317a63656c3",
+      "world.ts": "6cbf7da62d1ab3af7ef2c83a9ea565e5d11eb4c55cbf3f20b3c74ac511ceb387",
+      "App.tsx": "04af74c5fbbc19e44af47a8b38d6325ec433cc46148f6138f34d894b8e1e281a",
+      "package.json": "745f1c06fcfdd6a9049efa5a9dcea2f24d6841c414dd43dc9e5caa09334df59f",
+      "package-lock.json": "12450a0271695e3542f0fdf21e5bf0cb5a19c48700f976b5dca8b5678cd66994",
+      "scripts/performance-stage39/build.mjs": "03730add242d20291f349eb0d4df712a9047bcbef0c6a2de2bc1a5ed590eff25",
+      "scripts/performance-stage39/runtime.mjs": "046a037f02542e5ac37ffd46c24f2cac9c2564ac3eee1f8675b4d2f5457ccebb",
+      "scripts/performance-stage39/measurement.mjs": "ade15c925079817a3f39651015bf1c778fb102fdb0394d245266c22808cc971e",
+      "scripts/performance-stage39/fixture.ts": "638e46e74f6d552119a442a02cd386eb6db52c438146ff9e999e180fd47b45f2",
+      "scripts/performance-stage39/browser-init.mjs": "40e8ab74fcf818447d76883dceb68404568b305102b530ff196930cc60df0534",
+      "scripts/performance-stage39/accounting.mjs": "6350130c579587753f68dc10db4465b50afd809e6307cca300d0343ba43f1140",
+      "scripts/performance-stage39/archive.mjs": "bdec9215a58800b2ea563a78513d19573f788b60296241f9a7e70dcb480578d1",
+      "scripts/performance-stage39/test-archive.mjs": "511ee39217c69026ae1219ce4ceb0ace76932be6948e2f40071947abd828539b",
+      "scripts/performance-stage39/preserve.mjs": "396466381c567b2a1406a5e6c91e45a35fb4ddb2de818621dafd05879a95be1d",
+      "scripts/performance-stage311/measurement.mjs": "2836fbffeb2961cae260ebcb2583dbfe5090262edfbda244001052e7fc33c041",
+      "scripts/performance-stage311/accounting.mjs": "482f434001448d8035e3f6e3ee07bcec0d7d6550d0b7ae6b4a4335e0649306b9",
+      "scripts/performance-stage311/measurement.config.mjs": "ccd249020b718650316e9e94e21b4108b1d407fb552f88d37fea0183a177297a",
+      "scripts/performance-stage311/preserve.mjs": "4706d1b5ff08a953cc71d43f75cd6c3b85abcafef33477b1a15e038e01b78944"
+    },
+    "started": "2026-11-04T12:09:36.591Z",
+    "node": "v24.22.2",
+    "browser": "145.0.7632.6",
+    "os": {
+      "type": "Linux",
+      "release": "7.0.0-1017-azure",
+      "arch": "x64"
+    },
+    "cpu": {
+      "model": "AMD EPYC 9V74 80-Core Processor",
+      "speed": 0,
+      "times": {
+        "user": 31780,
+        "nice": 10,
+        "sys": 9160,
+        "idle": 60420,
+        "irq": 0
+      }
+    },
+    "cpuCount": 4,
+    "memory": 16760348672,
+    "clockTicks": 100,
+    "cgroup": {
+      "/sys/fs/cgroup/memory.max": "max",
+      "/sys/fs/cgroup/cpu.max": "max 100000"
+    },
+    "referenceFiles": [
+      {
+        "path": "docs/experiments/performance-stage-3-v12/references/preflight/fixture-150.json.gz",
+        "originalPath": "docs/experiments/performance-stage-3-v11/fixture-150.json.gz",
+        "commit": "0445603d2d0c348ec602be52284385af8b416452",
+        "gitBlob": "03e361fca1eb58eeb4844b661797e3dedd11198b",
+        "sha256": "fc8b2f0c6d30664f3e2f35a728f7315b8d248b4a8e4d25325a414d30f30321f2",
+        "bytes": 51651
+      },
+      {
+        "path": "docs/experiments/performance-stage-3-v12/references/preflight/pilot-150-lean.json.gz",
+        "originalPath": "docs/experiments/performance-stage-3-v11/pilot-150-lean.json.gz",
+        "commit": "0445603d2d0c348ec602be52284385af8b416452",
+        "gitBlob": "1d9fd4b5aea191c29f38e6391944882db5ae0bda",
+        "sha256": "ba596e396db60b7fc9883d55639763182134a8983901af600e715b6718a45d59",
+        "bytes": 612548
+      },
+      {
+        "path": "docs/experiments/performance-stage-3-v12/references/preflight/genomes/25fc22747a68d6502ac5af9e317b5ecf3fde8756667c7f6885f1c8f706cf9584.json.gz",
+        "originalPath": "docs/experiments/performance-stage-3-v11/genomes/25fc22747a68d6502ac5af9e317b5ecf3fde8756667c7f6885f1c8f706cf9584.json.gz",
+        "commit": "0445603d2d0c348ec602be52284385af8b416452",
+        "gitBlob": "72d09ee5134c74c27bb6f9203468a195a928ee29",
+        "sha256": "4676a16ba2aa4307488d6a7b918de3a6f92506336297c18a0a6be0bc4de2333c",
+        "bytes": 22547
+      },
+      {
+        "path": "docs/experiments/performance-stage-3-v12/references/preflight/genomes/e0f7f751941d3225360cfade09945a6ed41ca24616b9b4e6535163e8a6bfd8d3.json.gz",
+        "originalPath": "docs/experiments/performance-stage-3-v11/genomes/e0f7f751941d3225360cfade09945a6ed41ca24616b9b4e6535163e8a6bfd8d3.json.gz",
+        "commit": "0445603d2d0c348ec602be52284385af8b416452",
+        "gitBlob": "b849743538cfb4fd81661989aaaf268ee428b20f",
+        "sha256": "dcf280ea198ba7634bfec50fbe1b1b858e68377aab2714f41f1557f32cd93501",
+        "bytes": 24044
+      },
+      {
+        "path": "docs/experiments/performance-stage-3-v12/references/preflight/genomes/d01156627a5a71d1057d724543ae07f73f9be9d2b6c6af3e89ea4c6ffdf26e37.json.gz",
+        "originalPath": "docs/experiments/performance-stage-3-v11/genomes/d01156627a5a71d1057d724543ae07f73f9be9d2b6c6af3e89ea4c6ffdf26e37.json.gz",
+        "commit": "0445603d2d0c348ec602be52284385af8b416452",
+        "gitBlob": "e8cdb3a00999aa9650fde6c3d70983c7788dc5af",
+        "sha256": "6a608e3a2e2d21544fe8c9256dc8ba6f649151fd5a757b15bdaca92f9e5e04d4",
+        "bytes": 21128
+      },
+      {
+        "path": "docs/experiments/performance-stage-3-v12/references/preflight/genomes/d71e403421778925db4687b8dad7f6d6f53322271b6f39499fd6ae0132378a18.json.gz",
+        "originalPath": "docs/experiments/performance-stage-3-v11/genomes/d71e403421778925db4687b8dad7f6d6f53322271b6f39499fd6ae0132378a18.json.gz",
+        "commit": "0445603d2d0c348ec602be52284385af8b416452",
+        "gitBlob": "b5fc7c08b459474e13b1ec2ae143c499aa135f98",
+        "sha256": "b1e07491c1d81bf5a468de26465bd8a19575a050eb3788c80e5679f74f850b3e",
+        "bytes": 24080
+      },
+      {
+        "path": "docs/experiments/performance-stage-3-v12/references/preflight/genomes/b7ea20fc053542ea9920cee6a67b1b09a460b21ce178ec97e4138b9e9cea3545.json.gz",
+        "originalPath": "docs/experiments/performance-stage-3-v11/genomes/b7ea20fc053542ea9920cee6a67b1b09a460b21ce178ec97e4138b9e9cea3545.json.gz",
+        "commit": "0445603d2d0c348ec602be52284385af8b416452",
+        "gitBlob": "7a74ec94398b088138826f663e510ee64ccfa0c4",
+        "sha256": "b1e69a3d5e977b71caaaae8706a86b835478c1083e2cf3d37d522d755ea9411a",
+        "bytes": 30095
+      },
+      {
+        "path": "docs/experiments/performance-stage-3-v12/references/matrix/P03-original.json.gz",
+        "originalPath": "docs/experiments/performance-stage-3-v11-execution/P03-original.json.gz",
+        "commit": "f76bb95a764eaf872cbdb63ecef1f889198ccdb2",
+        "gitBlob": "4834c26ece7e0d367b9d280db009529439350672",
+        "sha256": "a534b985b7684263a502f2af18eb11217df0a75eff2aa83a65c4c64049446756",
+        "bytes": 650298
+      },
+      {
+        "path": "docs/experiments/performance-stage-3-v12/references/matrix/genomes/25fc22747a68d6502ac5af9e317b5ecf3fde8756667c7f6885f1c8f706cf9584.json.gz",
+        "originalPath": "docs/experiments/performance-stage-3-v11-execution/genomes/25fc22747a68d6502ac5af9e317b5ecf3fde8756667c7f6885f1c8f706cf9584.json.gz",
+        "commit": "f76bb95a764eaf872cbdb63ecef1f889198ccdb2",
+        "gitBlob": "72d09ee5134c74c27bb6f9203468a195a928ee29",
+        "sha256": "4676a16ba2aa4307488d6a7b918de3a6f92506336297c18a0a6be0bc4de2333c",
+        "bytes": 22547
+      },
+      {
+        "path": "docs/experiments/performance-stage-3-v12/references/matrix/genomes/e0f7f751941d3225360cfade09945a6ed41ca24616b9b4e6535163e8a6bfd8d3.json.gz",
+        "originalPath": "docs/experiments/performance-stage-3-v11-execution/genomes/e0f7f751941d3225360cfade09945a6ed41ca24616b9b4e6535163e8a6bfd8d3.json.gz",
+        "commit": "f76bb95a764eaf872cbdb63ecef1f889198ccdb2",
+        "gitBlob": "b849743538cfb4fd81661989aaaf268ee428b20f",
+        "sha256": "dcf280ea198ba7634bfec50fbe1b1b858e68377aab2714f41f1557f32cd93501",
+        "bytes": 24044
+      },
+      {
+        "path": "docs/experiments/performance-stage-3-v12/references/matrix/genomes/d01156627a5a71d1057d724543ae07f73f9be9d2b6c6af3e89ea4c6ffdf26e37.json.gz",
+        "originalPath": "docs/experiments/performance-stage-3-v11-execution/genomes/d01156627a5a71d1057d724543ae07f73f9be9d2b6c6af3e89ea4c6ffdf26e37.json.gz",
+        "commit": "f76bb95a764eaf872cbdb63ecef1f889198ccdb2",
+        "gitBlob": "e8cdb3a00999aa9650fde6c3d70983c7788dc5af",
+        "sha256": "6a608e3a2e2d21544fe8c9256dc8ba6f649151fd5a757b15bdaca92f9e5e04d4",
+        "bytes": 21128
+      },
+      {
+        "path": "docs/experiments/performance-stage-3-v12/references/matrix/genomes/d71e403421778925db4687b8dad7f6d6f53322271b6f39499fd6ae0132378a18.json.gz",
+        "originalPath": "docs/experiments/performance-stage-3-v11-execution/genomes/d71e403421778925db4687b8dad7f6d6f53322271b6f39499fd6ae0132378a18.json.gz",
+        "commit": "f76bb95a764eaf872cbdb63ecef1f889198ccdb2",
+        "gitBlob": "b5fc7c08b459474e13b1ec2ae143c499aa135f98",
+        "sha256": "b1e07491c1d81bf5a468de26465bd8a19575a050eb3788c80e5679f74f850b3e",
+        "bytes": 24080
+      },
+      {
+        "path": "docs/experiments/performance-stage-3-v12/references/matrix/genomes/b7ea20fc053542ea9920cee6a67b1b09a460b21ce178ec97e4138b9e9cea3545.json.gz",
+        "originalPath": "docs/experiments/performance-stage-3-v11-execution/genomes/b7ea20fc053542ea9920cee6a67b1b09a460b21ce178ec97e4138b9e9cea3545.json.gz",
+        "commit": "f76bb95a764eaf872cbdb63ecef1f889198ccdb2",
+        "gitBlob": "7a74ec94398b088138826f663e510ee64ccfa0c4",
+        "sha256": "b1e69a3d5e977b71caaaae8706a86b835478c1083e2cf3d37d522d755ea9411a",
+        "bytes": 30095
+      },
+      {
+        "path": "docs/experiments/performance-stage-3-v12/references/matrix/labels/44f94dc9e6d7c1f49584855b2491effb6c04ccae0cade06dd5f9c10223d10085.json.gz",
+        "originalPath": "docs/experiments/performance-stage-3-v11-execution/labels/44f94dc9e6d7c1f49584855b2491effb6c04ccae0cade06dd5f9c10223d10085.json.gz",
+        "commit": "f76bb95a764eaf872cbdb63ecef1f889198ccdb2",
+        "gitBlob": "1751a38be7fd169c2df8a56347cc2b1e043eb9cc",
+        "sha256": "a51ca7e8e58ced3665dfdad48aab9e77f5da9808ed203d874de7dafc11c0a6b2",
+        "bytes": 1565
+      }
+    ],
+    "productionUnchanged": true,
+    "initialProcesses": {
+      "processInfo": [
+        {
+          "type": "browser",
+          "id": 1336,
+          "cpuTime": 0.13
+        },
+        {
+          "type": "GPU",
+          "id": 1355,
+          "cpuTime": 0.01
+        },
+        {
+          "type": "network.mojom.NetworkService",
+          "id": 1368,
+          "cpuTime": 0.01
+        }
+      ]
+    },
+    "browserPID": 1336,
+    "Browser.getVersion": {
+      "protocolVersion": "1.3",
+      "product": "HeadlessChrome/145.0.7632.6",
+      "revision": "@47e20adcc15fc15f01825aa17e570c8f5492ac0f",
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+      "jsVersion": "14.5.201.2"
+    },
+    "SystemInfo.getInfo": {
+      "gpu": {
+        "devices": [
+          {
+            "vendorId": 65535,
+            "deviceId": 65535,
+            "vendorString": "Google Inc. (Google)",
+            "deviceString": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver-5.0.0)",
+            "driverVendor": "SwANGLE",
+            "driverVersion": "5.0.0"
+          }
+        ],
+        "auxAttributes": {
+          "amdSwitchable": false,
+          "canSupportThreadedTextureMailbox": false,
+          "directRenderingVersion": "",
+          "displayType": "ANGLE_SWIFTSHADER",
+          "glExtensions": "GL_AMD_performance_monitor GL_ANGLE_base_vertex_base_instance_shader_builtin GL_ANGLE_blob_cache GL_ANGLE_client_arrays GL_ANGLE_clip_cull_distance GL_ANGLE_compressed_texture_etc GL_ANGLE_copy_texture_3d GL_ANGLE_depth_texture GL_ANGLE_framebuffer_blit GL_ANGLE_framebuffer_multisample GL_ANGLE_get_image GL_ANGLE_get_serialized_context_string GL_ANGLE_get_tex_level_parameter GL_ANGLE_instanced_arrays GL_ANGLE_memory_object_flags GL_ANGLE_memory_size GL_ANGLE_multi_draw GL_ANGLE_pack_reverse_row_order GL_ANGLE_polygon_mode GL_ANGLE_program_binary_readiness_query GL_ANGLE_program_cache_control GL_ANGLE_read_only_depth_stencil_feedback_loops GL_ANGLE_relaxed_vertex_attribute_type GL_ANGLE_renderability_validation GL_ANGLE_request_extension GL_ANGLE_rgbx_internal_format GL_ANGLE_robust_client_memory GL_ANGLE_robust_fragment_shader_output GL_ANGLE_robust_resource_initialization GL_ANGLE_shader_pixel_local_storage GL_ANGLE_shader_pixel_local_storage_coherent GL_ANGLE_stencil_texturing GL_ANGLE_texture_compression_dxt3 GL_ANGLE_texture_compression_dxt5 GL_ANGLE_texture_multisample GL_ANGLE_texture_usage GL_ANGLE_translated_shader_source GL_ANGLE_vulkan_image GL_ANGLE_yuv_internal_format GL_APPLE_clip_distance GL_ARM_rgba8 GL_ARM_shader_framebuffer_fetch GL_ARM_shader_framebuffer_fetch_depth_stencil GL_CHROMIUM_bind_generates_resource GL_CHROMIUM_bind_uniform_location GL_CHROMIUM_copy_compressed_texture GL_CHROMIUM_copy_texture GL_CHROMIUM_lose_context GL_EXT_EGL_image_array GL_EXT_EGL_image_external_wrap_modes GL_EXT_EGL_image_storage GL_EXT_base_instance GL_EXT_blend_minmax GL_EXT_buffer_storage GL_EXT_clear_texture GL_EXT_clip_control GL_EXT_clip_cull_distance GL_EXT_color_buffer_float GL_EXT_color_buffer_half_float GL_EXT_compressed_ETC1_RGB8_sub_texture GL_EXT_conservative_depth GL_EXT_copy_image GL_EXT_debug_label GL_EXT_debug_marker GL_EXT_depth_clamp GL_EXT_discard_framebuffer GL_EXT_disjoint_timer_query GL_EXT_draw_buffers GL_EXT_draw_buffers_indexed GL_EXT_draw_elements_base_vertex GL_EXT_float_blend GL_EXT_frag_depth GL_EXT_instanced_arrays GL_EXT_map_buffer_range GL_EXT_memory_object GL_EXT_memory_object_fd GL_EXT_occlusion_query_boolean GL_EXT_polygon_offset_clamp GL_EXT_read_format_bgra GL_EXT_robustness GL_EXT_sRGB GL_EXT_sRGB_write_control GL_EXT_semaphore GL_EXT_semaphore_fd GL_EXT_separate_shader_objects GL_EXT_shader_framebuffer_fetch GL_EXT_shader_framebuffer_fetch_non_coherent GL_EXT_shader_non_constant_global_initializers GL_EXT_shader_texture_lod GL_EXT_shadow_samplers GL_EXT_texture_border_clamp GL_EXT_texture_compression_bptc GL_EXT_texture_compression_dxt1 GL_EXT_texture_compression_rgtc GL_EXT_texture_compression_s3tc_srgb GL_EXT_texture_cube_map_array GL_EXT_texture_filter_anisotropic GL_EXT_texture_format_BGRA8888 GL_EXT_texture_mirror_clamp_to_edge GL_EXT_texture_rg GL_EXT_texture_sRGB_R8 GL_EXT_texture_sRGB_RG8 GL_EXT_texture_sRGB_decode GL_EXT_texture_shadow_lod GL_EXT_texture_storage GL_EXT_texture_type_2_10_10_10_REV GL_EXT_unpack_subimage GL_KHR_blend_equation_advanced GL_KHR_debug GL_KHR_robust_buffer_access_behavior GL_KHR_robustness GL_KHR_texture_compression_astc_ldr GL_NV_depth_buffer_float2 GL_NV_fence GL_NV_framebuffer_blit GL_NV_pack_subimage GL_NV_pixel_buffer_object GL_NV_polygon_mode GL_NV_read_depth GL_NV_read_depth_stencil GL_NV_read_stencil GL_NV_shader_noperspective_interpolation GL_OES_EGL_image GL_OES_EGL_image_external GL_OES_EGL_image_external_essl3 GL_OES_EGL_sync GL_OES_compressed_EAC_R11_signed_texture GL_OES_compressed_EAC_R11_unsigned_texture GL_OES_compressed_EAC_RG11_signed_texture GL_OES_compressed_EAC_RG11_unsigned_texture GL_OES_compressed_ETC1_RGB8_texture GL_OES_compressed_ETC2_RGB8_texture GL_OES_compressed_ETC2_RGBA8_texture GL_OES_compressed_ETC2_punchthroughA_RGBA8_texture GL_OES_compressed_ETC2_punchthroughA_sRGB8_alpha_texture GL_OES_compressed_ETC2_sRGB8_alpha8_texture GL_OES_compressed_ETC2_sRGB8_texture GL_OES_compressed_paletted_texture GL_OES_copy_image GL_OES_depth24 GL_OES_depth32 GL_OES_depth_texture GL_OES_depth_texture_cube_map GL_OES_draw_buffers_indexed GL_OES_draw_elements_base_vertex GL_OES_element_index_uint GL_OES_fbo_render_mipmap GL_OES_get_program_binary GL_OES_mapbuffer GL_OES_packed_depth_stencil GL_OES_required_internalformat GL_OES_rgb8_rgba8 GL_OES_sample_shading GL_OES_sample_variables GL_OES_shader_multisample_interpolation GL_OES_standard_derivatives GL_OES_surfaceless_context GL_OES_texture_3D GL_OES_texture_border_clamp GL_OES_texture_cube_map_array GL_OES_texture_float GL_OES_texture_float_linear GL_OES_texture_half_float GL_OES_texture_half_float_linear GL_OES_texture_npot GL_OES_texture_stencil8 GL_OES_texture_storage_multisample_2d_array GL_OES_vertex_array_object GL_OES_vertex_half_float GL_OES_vertex_type_10_10_10_2 GL_OVR_multiview GL_OVR_multiview2 ",
+          "glImplementationParts": "(gl=egl-angle,angle=swiftshader)",
+          "glRenderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver-5.0.0)",
+          "glResetNotificationStrategy": 33362,
+          "glVendor": "Google Inc. (Google)",
+          "glVersion": "OpenGL ES 3.0 (ANGLE 2.1.26821 git hash: 4c0ae3917d4f)",
+          "glWsExtensions": "EGL_EXT_create_context_robustness EGL_ANGLE_surface_orientation EGL_KHR_create_context EGL_KHR_image EGL_KHR_image_base EGL_EXT_image_gl_colorspace EGL_KHR_gl_colorspace EGL_KHR_gl_texture_2D_image EGL_KHR_gl_texture_cubemap_image EGL_KHR_gl_renderbuffer_image EGL_KHR_get_all_proc_addresses EGL_KHR_fence_sync EGL_KHR_wait_sync EGL_ANGLE_create_context_webgl_compatibility EGL_CHROMIUM_create_context_bind_generates_resource EGL_KHR_swap_buffers_with_damage EGL_EXT_pixel_format_float EGL_KHR_surfaceless_context EGL_ANGLE_display_texture_share_group EGL_ANGLE_display_semaphore_share_group EGL_ANGLE_create_context_client_arrays EGL_ANGLE_program_cache_control EGL_ANGLE_robust_resource_initialization EGL_ANGLE_create_context_extensions_enabled EGL_ANDROID_blob_cache EGL_ANDROID_recordable EGL_ANGLE_create_context_backwards_compatible EGL_KHR_no_config_context EGL_IMG_context_priority EGL_KHR_create_context_no_error EGL_KHR_reusable_sync EGL_EXT_buffer_age EGL_ANGLE_create_surface_swap_interval EGL_ANGLE_vulkan_image EGL_KHR_partial_update EGL_ANGLE_global_fence_sync EGL_ANGLE_memory_usage_report ",
+          "glWsVendor": "Google Inc. (Google)",
+          "glWsVersion": "1.5 (ANGLE 2.1.26821 git hash: 4c0ae3917d4f)",
+          "hardwareSupportsVulkan": false,
+          "inProcessGpu": false,
+          "initializationTime": 0.012318,
+          "isAsan": false,
+          "isClangCoverage": false,
+          "jpegDecodeAcceleratorSupported": false,
+          "maxMsaaSamples": "4",
+          "optimus": false,
+          "passthroughCmdDecoder": true,
+          "pixelShaderVersion": "3.00",
+          "processCrashCount": 0,
+          "sandboxed": false,
+          "skiaBackendType": "GaneshGL",
+          "subpixelFontRendering": true,
+          "targetCpuBits": 64,
+          "vertexShaderVersion": "3.00",
+          "visibilityCallbackCallCount": 0
+        },
+        "featureStatus": {
+          "2d_canvas": "unavailable_software",
+          "direct_rendering_display_compositor": "disabled_off_ok",
+          "gpu_compositing": "disabled_software",
+          "multiple_raster_threads": "enabled_on",
+          "opengl": "disabled_off",
+          "rasterization": "disabled_software",
+          "raw_draw": "disabled_off_ok",
+          "skia_graphite": "disabled_off",
+          "trees_in_viz": "disabled_off",
+          "video_decode": "disabled_software",
+          "video_encode": "disabled_software",
+          "vulkan": "disabled_off",
+          "webgl": "unavailable_software",
+          "webgpu": "unavailable_software",
+          "webnn": "unavailable_software"
+        },
+        "driverBugWorkarounds": [],
+        "videoDecoding": [],
+        "videoEncoding": []
+      },
+      "modelName": "",
+      "modelVersion": "",
+      "commandLine": "/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-nwDrlp --remote-debugging-pipe --no-startup-window --use-gl=angle --use-angle=swiftshader-webgl --ozone-platform=headless --allow-pre-commit-input"
+    },
+    "Browser.getBrowserCommandLine": {
+      "arguments": [
+        "/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell",
+        "--disable-field-trial-config",
+        "--disable-background-networking",
+        "--disable-background-timer-throttling",
+        "--disable-backgrounding-occluded-windows",
+        "--disable-back-forward-cache",
+        "--disable-breakpad",
+        "--disable-client-side-phishing-detection",
+        "--disable-component-extensions-with-background-pages",
+        "--disable-component-update",
+        "--no-default-browser-check",
+        "--disable-default-apps",
+        "--disable-dev-shm-usage",
+        "--disable-extensions",
+        "--disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints",
+        "--enable-features=CDPScreenshotNewSurface",
+        "--allow-pre-commit-input",
+        "--disable-hang-monitor",
+        "--disable-ipc-flooding-protection",
+        "--disable-popup-blocking",
+        "--disable-prompt-on-repost",
+        "--disable-renderer-backgrounding",
+        "--force-color-profile=srgb",
+        "--metrics-recording-only",
+        "--no-first-run",
+        "--password-store=basic",
+        "--use-mock-keychain",
+        "--no-service-autorun",
+        "--export-tagged-pdf",
+        "--disable-search-engine-choice-screen",
+        "--unsafely-disable-devtools-self-xss-warnings",
+        "--edge-skip-compat-layer-relaunch",
+        "--enable-automation",
+        "--disable-infobars",
+        "--disable-search-engine-choice-screen",
+        "--disable-sync",
+        "--enable-unsafe-swiftshader",
+        "--headless",
+        "--hide-scrollbars",
+        "--mute-audio",
+        "--blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4",
+        "--no-sandbox",
+        "--user-data-dir=/tmp/playwright_chromiumdev_profile-nwDrlp",
+        "--remote-debugging-pipe",
+        "--no-startup-window",
+        "--use-gl=angle",
+        "--use-angle=swiftshader-webgl",
+        "--ozone-platform=headless",
+        "--allow-pre-commit-input"
+      ]
+    },
+    "assets": {
+      "dist": {
+        "index-Cixh8lQ-.js": "07a72622f13bf0a8b7f272aece0149fecd9eeaaad1b9ccf90a9ab45aa0b0977d",
+        "simulation.worker-BOfAki5g.js": "60bf629cca922cfdc2505aa3ffc6ab507bfca538b72180adb0327bf7295b7205"
+      },
+      "s39-lean-dist": {
+        "index-U80jKwhR.js": "4d0550f13d0577d9701b6b13ba180aa37a998289d26d7c14e8ddb27556bfc122",
+        "index-U80jKwhR.js.map": "5f61b46d7a8066306e5093251145d36ebda58ebd11023498a95605e7af618620",
+        "simulation.worker-ukZJOuZz.js": "8e8555fdfbb12d3f886feb88f8084f1a49af0684038b7d1d222292ad5f5084ef",
+        "simulation.worker-ukZJOuZz.js.map": "83b13d63181b18d931f20c7e44a664234c4c01d55c0e7fb541569db8cf5deb1f"
+      }
+    },
+    "workerBinaryReference": {
+      "commit": "a21a042c9b259f708f59fcde38f154e0d09489a3",
+      "manifestPath": "docs/experiments/performance-stage-3-v12-execution/manifest.json.gz",
+      "file": "simulation.worker-ukZJOuZz.js",
+      "sha256": "8e8555fdfbb12d3f886feb88f8084f1a49af0684038b7d1d222292ad5f5084ef",
+      "actualSHA256": "8e8555fdfbb12d3f886feb88f8084f1a49af0684038b7d1d222292ad5f5084ef",
+      "exact": true
+    },
+    "expectedEndpointSHA256": "c9189ebe919fc196e899b15780803ae85387602f54f56ea551a395b49a31bf7b",
+    "preflight": {
+      "largestStoredPilotBytes": 1701871,
+      "normalBytes": 8347880,
+      "projectedNormalBytes": 119189577,
+      "normalLimit": 201326592,
+      "emergencyLimit": 2097152,
+      "elapsedMs": 44153,
+      "codecTest": "Existing codec checks passed; every archive exact JSON roundtrip verified"
+    },
+    "finished": "2026-11-04T12:14:51.687Z",
+    "activeMs": 78943,
+    "failure": null,
+    "ledger": [
+      {
+        "id": "L01",
+        "traceMode": "none",
+        "count": 150,
+        "dense": false,
+        "research": false,
+        "level": "off",
+        "traced": false,
+        "speed": "max",
+        "ticks": 360,
+        "status": "retained",
+        "admittedElapsedMs": 44166
+      },
+      {
+        "id": "G01",
+        "traceMode": "light",
+        "count": 150,
+        "dense": false,
+        "research": false,
+        "level": "off",
+        "traced": true,
+        "speed": "max",
+        "ticks": 360,
+        "status": "retained",
+        "admittedElapsedMs": 85959
+      },
+      {
+        "id": "T01",
+        "traceMode": "detailed",
+        "count": 150,
+        "dense": false,
+        "research": false,
+        "level": "off",
+        "traced": true,
+        "speed": "max",
+        "ticks": 360,
+        "status": "retained",
+        "admittedElapsedMs": 127703
+      },
+      {
+        "id": "T02",
+        "traceMode": "detailed",
+        "count": 150,
+        "dense": false,
+        "research": false,
+        "level": "off",
+        "traced": true,
+        "speed": "max",
+        "ticks": 360,
+        "status": "retained",
+        "admittedElapsedMs": 177261
+      },
+      {
+        "id": "G02",
+        "traceMode": "light",
+        "count": 150,
+        "dense": false,
+        "research": false,
+        "level": "off",
+        "traced": true,
+        "speed": "max",
+        "ticks": 360,
+        "status": "retained",
+        "admittedElapsedMs": 227594
+      },
+      {
+        "id": "L02",
+        "traceMode": "none",
+        "count": 150,
+        "dense": false,
+        "research": false,
+        "level": "off",
+        "traced": false,
+        "speed": "max",
+        "ticks": 360,
+        "status": "retained",
+        "admittedElapsedMs": 271938
+      }
+    ],
+    "normalBytes": 45097797,
+    "logicalBytes": 204105462,
+    "uniqueGenomes": 5,
+    "receipts": [
+      {
+        "name": "dist-assets",
+        "sha256": "a803f6c13b4c33d901cbc8ff229651d7d118c0c3b210c47c836b829440b19092",
+        "bytes": 192428,
+        "storedRawBytes": 804593,
+        "emergency": false,
+        "expandedBytes": 804417,
+        "expandedSHA256": "ab21dea0c53affe989b208e31e44b05824cd9d648258aacfb99dd2a1a973a079"
+      },
+      {
+        "name": "s39-lean-dist-assets",
+        "sha256": "c179e6c09a43dd52a84f03ff16aee3db52cd5c75fe0a548b189959ce3b08d556",
+        "bytes": 735548,
+        "storedRawBytes": 3269101,
+        "emergency": false,
+        "expandedBytes": 3268924,
+        "expandedSHA256": "c6bbad2a33319abfe768c5a0b5e447a7710629fb34e09dde5a53c4d84ba3340a"
+      },
+      {
+        "name": "genomes/d01156627a5a71d1057d724543ae07f73f9be9d2b6c6af3e89ea4c6ffdf26e37",
+        "sha256": "6a608e3a2e2d21544fe8c9256dc8ba6f649151fd5a757b15bdaca92f9e5e04d4",
+        "bytes": 21128,
+        "storedRawBytes": 47020,
+        "emergency": false
+      },
+      {
+        "name": "genomes/25fc22747a68d6502ac5af9e317b5ecf3fde8756667c7f6885f1c8f706cf9584",
+        "sha256": "4676a16ba2aa4307488d6a7b918de3a6f92506336297c18a0a6be0bc4de2333c",
+        "bytes": 22547,
+        "storedRawBytes": 50632,
+        "emergency": false
+      },
+      {
+        "name": "genomes/e0f7f751941d3225360cfade09945a6ed41ca24616b9b4e6535163e8a6bfd8d3",
+        "sha256": "dcf280ea198ba7634bfec50fbe1b1b858e68377aab2714f41f1557f32cd93501",
+        "bytes": 24044,
+        "storedRawBytes": 54356,
+        "emergency": false
+      },
+      {
+        "name": "genomes/d71e403421778925db4687b8dad7f6d6f53322271b6f39499fd6ae0132378a18",
+        "sha256": "b1e07491c1d81bf5a468de26465bd8a19575a050eb3788c80e5679f74f850b3e",
+        "bytes": 24080,
+        "storedRawBytes": 54623,
+        "emergency": false
+      },
+      {
+        "name": "genomes/b7ea20fc053542ea9920cee6a67b1b09a460b21ce178ec97e4138b9e9cea3545",
+        "sha256": "b1e69a3d5e977b71caaaae8706a86b835478c1083e2cf3d37d522d755ea9411a",
+        "bytes": 30095,
+        "storedRawBytes": 69061,
+        "emergency": false
+      },
+      {
+        "name": "fixture-150",
+        "sha256": "d07e8c2dfb209f3402cfc547e0716257a23a432120bb09d0e68785eff93eb3c3",
+        "bytes": 40178,
+        "storedRawBytes": 485780,
+        "emergency": false,
+        "expandedBytes": 16948243,
+        "expandedSHA256": "35a370cbcdab79220e277265b17a39329d6b64baff33af05dadfd3060779c36c"
+      },
+      {
+        "name": "labels/44f94dc9e6d7c1f49584855b2491effb6c04ccae0cade06dd5f9c10223d10085",
+        "sha256": "a51ca7e8e58ced3665dfdad48aab9e77f5da9808ed203d874de7dafc11c0a6b2",
+        "bytes": 1565,
+        "storedRawBytes": 28248,
+        "emergency": false
+      },
+      {
+        "name": "golden-endpoint",
+        "sha256": "7233ea327ec34a678ef19850232489a20787c0aab3bb365a602b92ab68aa93ae",
+        "bytes": 640945,
+        "storedRawBytes": 1782354,
+        "emergency": false,
+        "expandedBytes": 19637425,
+        "expandedSHA256": "6c31993608c6ba6ebbc7f1e4af472c0c4f6a8f10225f4835e7abc4945e16ef9a"
+      },
+      {
+        "name": "counter-lean",
+        "sha256": "e0933d21922af672865c86c51070f23b951ea4e799a0bd413bbcd09201c10e16",
+        "bytes": 198,
+        "storedRawBytes": 241,
+        "emergency": false,
+        "expandedBytes": 69,
+        "expandedSHA256": "0bf022dda7c96ce4335a77932543bb3841dfa3e5e305976a535fe4b87eb2baef"
+      },
+      {
+        "name": "pilot-150-lean",
+        "sha256": "da3b2c8616e0ee0a61fa68101e3217a897ff89f4d4f7dd5a23ed2e4ec97d184c",
+        "bytes": 558727,
+        "storedRawBytes": 1701871,
+        "emergency": false,
+        "expandedBytes": 19426936,
+        "expandedSHA256": "af4ba96126680a0ebec36f8c9ebbc23354f7c0bc0f16d1997c7d3d49c2d1cdac"
+      },
+      {
+        "name": "readiness",
+        "sha256": "c44fa03ff297795d2d53fa9a8a1539b3fdae6fd2ece26ad699f71172848fa23c",
+        "bytes": 7757,
+        "storedRawBytes": 23431,
+        "emergency": false,
+        "expandedBytes": 23984,
+        "expandedSHA256": "e4569a46b702e33cf29d5d8230be21189ac9ead3bd7554865738671de738576e"
+      },
+      {
+        "name": "L01-warmup",
+        "sha256": "a75063aca82c5017604fadfebf237dc9742e102b213b17a751c59704f754c9ed",
+        "bytes": 228,
+        "storedRawBytes": 295,
+        "emergency": false,
+        "expandedBytes": 122,
+        "expandedSHA256": "e1a5357eb469ac92942dc7dfcaf5f1ea4eeef997e8309a14917353476bc1383c"
+      },
+      {
+        "name": "L01-original",
+        "sha256": "a4c5969d27dd9049533fe937e2824cc903b6c70926c2e64d144d11b637a54f95",
+        "bytes": 650255,
+        "storedRawBytes": 1832371,
+        "emergency": false,
+        "expandedBytes": 19709892,
+        "expandedSHA256": "de0d20059b3aefb0942ecbbc29abb3bbb1bda0aac2709986ae13f647a4a67dad"
+      },
+      {
+        "name": "L01-validated",
+        "sha256": "febeffde08ad5157093a92580976299e212f2c4740ce65ec84b7a1c2663c2f0c",
+        "bytes": 908,
+        "storedRawBytes": 1499,
+        "emergency": false,
+        "expandedBytes": 1325,
+        "expandedSHA256": "1310f8811e1aff12e984aef596ae919b695a79fed262967e4537c44f54f90697"
+      },
+      {
+        "name": "G01-warmup",
+        "sha256": "780f8e97c5aef4aada22fe65b7c36f38a976ea65af08d39398c88802a2ac2dd9",
+        "bytes": 229,
+        "storedRawBytes": 295,
+        "emergency": false,
+        "expandedBytes": 122,
+        "expandedSHA256": "d0ac54911d8c6161cbc5f118597df24d7bcdae0f4abaa221ed4d837cb81028d2"
+      },
+      {
+        "name": "G01-trace",
+        "sha256": "47b4ab61ca0b3047ca0c34dd4bc77aac0d30cc1b64185197fae3b9e735742509",
+        "bytes": 60231,
+        "storedRawBytes": 432690,
+        "emergency": false,
+        "expandedBytes": 432514,
+        "expandedSHA256": "f5e735511e452f6974699ae77a661146c539e05f6f2caf2603c169dee886a081"
+      },
+      {
+        "name": "G01-original",
+        "sha256": "bfea36e2031e05c8407a652ac4f6d857efdb62b38638bd1c9d23d8b40bf20173",
+        "bytes": 650598,
+        "storedRawBytes": 1834824,
+        "emergency": false,
+        "expandedBytes": 19713183,
+        "expandedSHA256": "02b9f5ea56612a6612e54539a0fca3b87c746b594d8d50d52a93b6e880827a55"
+      },
+      {
+        "name": "G01-validated",
+        "sha256": "4b676e46b938438d4acf1b69abd19a736801bc05ca830e99bcec5885d7385df8",
+        "bytes": 917,
+        "storedRawBytes": 1500,
+        "emergency": false,
+        "expandedBytes": 1326,
+        "expandedSHA256": "82ce5b0885a5f4226e1c47e2caf9c26349f0dd1bbed7db76a75f35b77f4e73b6"
+      },
+      {
+        "name": "T01-warmup",
+        "sha256": "2272a641d6780ac327fdcc5bf7e5163e3310f01c2ea062403ba4621522cc873a",
+        "bytes": 222,
+        "storedRawBytes": 280,
+        "emergency": false,
+        "expandedBytes": 107,
+        "expandedSHA256": "6362b9bba6a0eddf26dd1e2532d81c7127cdca26a76032d936ade9cb4a6b9bcf"
+      },
+      {
+        "name": "T01-trace",
+        "sha256": "00a0cbbbadb0d89f65c687e72ee57d303aff26d3c6bed4381157fc81611b644d",
+        "bytes": 1047290,
+        "storedRawBytes": 11740888,
+        "emergency": false,
+        "expandedBytes": 11740710,
+        "expandedSHA256": "4ad849f8ef7b3ae80c3d2230c691aee0fdbb6b6e6d1d04bc479ff68b326a18eb"
+      },
+      {
+        "name": "T01-original",
+        "sha256": "2860558b26c984dc4d0e9896ee7189b1debf4f22f2d9bd0283dfb78d7497d8cb",
+        "bytes": 651161,
+        "storedRawBytes": 1835946,
+        "emergency": false,
+        "expandedBytes": 19715476,
+        "expandedSHA256": "e64de2ba01798b3ceeba8de65fba30b8223b66adc5bcca6682fe15a16a0a5883"
+      },
+      {
+        "name": "T01-validated",
+        "sha256": "bfb13708b40dafec5a525930af47f38399adbfed0f11a5405d8f750eb552c858",
+        "bytes": 909,
+        "storedRawBytes": 1492,
+        "emergency": false,
+        "expandedBytes": 1318,
+        "expandedSHA256": "0a6b71126ddedc33400e45089c88991a43a7489f3dce20f0e9ae00f97f296f1b"
+      },
+      {
+        "name": "T02-warmup",
+        "sha256": "cb2435819662b1bfb76462e52b2c5c8c176b0686f9d13f1565e5964587c1a22e",
+        "bytes": 224,
+        "storedRawBytes": 282,
+        "emergency": false,
+        "expandedBytes": 109,
+        "expandedSHA256": "69a43509324a1c645bfd231a4c7e7853164249620fcaf62f8fec91abea4247f4"
+      },
+      {
+        "name": "T02-trace",
+        "sha256": "4bf6f56a1851c9f46b98ac8bcac9274bcdafeb34ddb4ca03929f41db27d90089",
+        "bytes": 1148938,
+        "storedRawBytes": 13108439,
+        "emergency": false,
+        "expandedBytes": 13108261,
+        "expandedSHA256": "859258a7d7b9bfe5beb46048a13b8bcafda66cf8cb65ac7da9358d1f4a5e1dd5"
+      },
+      {
+        "name": "T02-original",
+        "sha256": "e708b849f9319eaf2ed850f307dffdfcec6b54b1c01a18549dfb829805318822",
+        "bytes": 651195,
+        "storedRawBytes": 1836376,
+        "emergency": false,
+        "expandedBytes": 19716188,
+        "expandedSHA256": "ac617f5876b86924a4066a45b1300e2103fb3992e11712e7994b2921db11c3ca"
+      },
+      {
+        "name": "T02-validated",
+        "sha256": "12cbdf389d1e90c4a252d742de78aff1ce4c578354bb517a3627ea77a265cff7",
+        "bytes": 914,
+        "storedRawBytes": 1504,
+        "emergency": false,
+        "expandedBytes": 1330,
+        "expandedSHA256": "a1e96dc5f43fea5fe5487ac730a7d658f91bf7f5804eb6615bf9f2cddff5e06a"
+      },
+      {
+        "name": "G02-warmup",
+        "sha256": "dbbddf807659197687a11ccb57e3d41b668cbcff0b371ceebd2469c1fdf7bf75",
+        "bytes": 229,
+        "storedRawBytes": 294,
+        "emergency": false,
+        "expandedBytes": 121,
+        "expandedSHA256": "abb722a5f59aef42bdb8b90f9ef215fadca11b82264d878444d89734442fe87b"
+      },
+      {
+        "name": "G02-trace",
+        "sha256": "32c27e3b8b752493d6823a75cf45c4bd5165114f6a169834baa78673b77dd49e",
+        "bytes": 59533,
+        "storedRawBytes": 423917,
+        "emergency": false,
+        "expandedBytes": 423741,
+        "expandedSHA256": "534999b6e8ab17a9a76832fa6df024dff309352e4ba1c3b0e865939ce02645f4"
+      },
+      {
+        "name": "G02-original",
+        "sha256": "ba7c5969653a1367ff1bb01d03ab6f681ae842fa365bbf293299628874ccb442",
+        "bytes": 650800,
+        "storedRawBytes": 1835104,
+        "emergency": false,
+        "expandedBytes": 19713273,
+        "expandedSHA256": "9ebcd71e3fda01f639ad39c57f1c2ddebc9aa09dfb5802f8f961b6568c5dd376"
+      },
+      {
+        "name": "G02-validated",
+        "sha256": "e135ad70b24ea3142b7703f75b3dca78d677dc52ac78c5cc6824ec3033e93d72",
+        "bytes": 915,
+        "storedRawBytes": 1500,
+        "emergency": false,
+        "expandedBytes": 1326,
+        "expandedSHA256": "c9496ec1a70e8710fcc20e974874525809da5b0a946a3199f95de64c1cfca107"
+      },
+      {
+        "name": "L02-warmup",
+        "sha256": "2b78472f29159f2b992b63c0a1861cf4df2ea6c337b1c77137ab476fc8027178",
+        "bytes": 224,
+        "storedRawBytes": 283,
+        "emergency": false,
+        "expandedBytes": 110,
+        "expandedSHA256": "81c6e379ad1b78bdd2ffd303c25e28ed99fd6ebfec609592e1a384a3415048cd"
+      },
+      {
+        "name": "L02-original",
+        "sha256": "f385f39a21cd80e4614309d45282fd8b640aa66d3b2de6ca252177ca5655650b",
+        "bytes": 650710,
+        "storedRawBytes": 1835206,
+        "emergency": false,
+        "expandedBytes": 19713583,
+        "expandedSHA256": "86cac8adad703233cf3845294951ba9a29ef404f5c999868f070cb26c4edc011"
+      },
+      {
+        "name": "L02-validated",
+        "sha256": "f3381c3f0c58bd7ec37ab2023da70f48bc29cb1f753706184645f19ff833f20b",
+        "bytes": 912,
+        "storedRawBytes": 1501,
+        "emergency": false,
+        "expandedBytes": 1327,
+        "expandedSHA256": "e800424fe6d695adab2e414a7f85c185c8f2dc5fc21a1e7efcb5c6e79cd94c41"
+      }
+    ],
+    "finalSourceDigests": {
+      "simulation.ts": "0846437a3f54be8abdf7aaf52f5368eb398a65762f2d889df7a671a8ef66b63e",
+      "simulation.worker.ts": "50dcc968cf1b0a8a8ea496a5993c0d87992340e60e9c11c7f83fdae4db6bd6d0",
+      "simulationHost.ts": "801bda0009738bef014066b9650fedfd97e4b856e0af70e0426119178a971e86",
+      "contacts.ts": "ea9be05c5913006c6d6c6b1d2f4a22bc6a7c889d1a4df1cc956c8d3831c16cce",
+      "neuralRuntime.ts": "12f5f52f328613bc2af4c4c2c793e78c4b22abb1c585cec8aba29aca99cac84b",
+      "spatialIndex.ts": "d324b911f764afeced35df0141363c293ce97564a44a23f5facb98ac08992b40",
+      "energyActivity.ts": "c7ba6bba7080dedf091e039ddc447b05b006b3c2d8b57274ca984f5f47653913",
+      "energyEconomy.ts": "d7285aa7b351ded7a7147fccf1415549a00ccfea0c98b1a9069594daf6017f9c",
+      "persistence.ts": "3e759aadb7e2ccee8bb01da428708dd021320748f546670d67454317a63656c3",
+      "world.ts": "6cbf7da62d1ab3af7ef2c83a9ea565e5d11eb4c55cbf3f20b3c74ac511ceb387",
+      "App.tsx": "04af74c5fbbc19e44af47a8b38d6325ec433cc46148f6138f34d894b8e1e281a",
+      "package.json": "745f1c06fcfdd6a9049efa5a9dcea2f24d6841c414dd43dc9e5caa09334df59f",
+      "package-lock.json": "12450a0271695e3542f0fdf21e5bf0cb5a19c48700f976b5dca8b5678cd66994",
+      "scripts/performance-stage39/build.mjs": "03730add242d20291f349eb0d4df712a9047bcbef0c6a2de2bc1a5ed590eff25",
+      "scripts/performance-stage39/runtime.mjs": "046a037f02542e5ac37ffd46c24f2cac9c2564ac3eee1f8675b4d2f5457ccebb",
+      "scripts/performance-stage39/measurement.mjs": "ade15c925079817a3f39651015bf1c778fb102fdb0394d245266c22808cc971e",
+      "scripts/performance-stage39/fixture.ts": "638e46e74f6d552119a442a02cd386eb6db52c438146ff9e999e180fd47b45f2",
+      "scripts/performance-stage39/browser-init.mjs": "40e8ab74fcf818447d76883dceb68404568b305102b530ff196930cc60df0534",
+      "scripts/performance-stage39/accounting.mjs": "6350130c579587753f68dc10db4465b50afd809e6307cca300d0343ba43f1140",
+      "scripts/performance-stage39/archive.mjs": "bdec9215a58800b2ea563a78513d19573f788b60296241f9a7e70dcb480578d1",
+      "scripts/performance-stage39/test-archive.mjs": "511ee39217c69026ae1219ce4ceb0ace76932be6948e2f40071947abd828539b",
+      "scripts/performance-stage39/preserve.mjs": "396466381c567b2a1406a5e6c91e45a35fb4ddb2de818621dafd05879a95be1d",
+      "scripts/performance-stage311/measurement.mjs": "2836fbffeb2961cae260ebcb2583dbfe5090262edfbda244001052e7fc33c041",
+      "scripts/performance-stage311/accounting.mjs": "482f434001448d8035e3f6e3ee07bcec0d7d6550d0b7ae6b4a4335e0649306b9",
+      "scripts/performance-stage311/measurement.config.mjs": "ccd249020b718650316e9e94e21b4108b1d407fb552f88d37fea0183a177297a",
+      "scripts/performance-stage311/preserve.mjs": "4706d1b5ff08a953cc71d43f75cd6c3b85abcafef33477b1a15e038e01b78944"
+    },
+    "thisRunnerWallMs": 315368,
+    "runnerWallMs": 315368
+  },
+  "rows": [
+    {
+      "id": "L01",
+      "mode": "none",
+      "ticks": 360,
+      "wallMs": 5443.299999999988,
+      "tps": 66.1363511105397,
+      "msPerTick": 15.120277777777746,
+      "multiplier": 1.1022725185089952,
+      "browserCPUmsPerTick": 43.94444444444444,
+      "cpuBracketExcessMs": 141.2618235000191,
+      "cpuBracketExcessPercent": 2.5951504326423125,
+      "fps": 52.7253688020136,
+      "reportsPerSecond": 16.901511950471257,
+      "exportMs": 4703.425004999997,
+      "frameJSONBytes": 947678,
+      "inventory": {
+        "organisms": 150,
+        "living": 150,
+        "parts": 690,
+        "joints": 540,
+        "eyes": 330,
+        "rays": 1650,
+        "mouths": 150,
+        "hiddenNeurons": 3600,
+        "inputs": 9030,
+        "outputs": 3240,
+        "nutrients": 569,
+        "eggs": 0,
+        "births": 150,
+        "deaths": 0,
+        "caustics": 28,
+        "bubbles": 0,
+        "reserveJ": 1612432.127608911,
+        "worldReserveJ": 64201.87239150675,
+        "basalRate": 1787.999999999997,
+        "plasticityRate": 31.974408643792618,
+        "motorRate": 182.73514066241606,
+        "motorLearnedL1": 0.8727658733010183,
+        "sensoryLearnedL1": 1.4030241891916244,
+        "motorOutputL1": 100.93423845308455,
+        "distance": 13693.74006905773,
+        "guards": 0,
+        "ledger": {
+          "externalInflow": 4157700,
+          "metabolicDissipation": 59550.46758985149,
+          "mechanicalWorkHeat": 1157.4381345751217,
+          "recordedLosses": 3493.966666683544
+        }
+      },
+      "energyErrorJ": 3.8510188460350037e-7,
+      "endpointSHA256": "c9189ebe919fc196e899b15780803ae85387602f54f56ea551a395b49a31bf7b"
+    },
+    {
+      "id": "G01",
+      "mode": "light",
+      "ticks": 360,
+      "wallMs": 5364.900000000023,
+      "tps": 67.10283509478246,
+      "msPerTick": 14.902500000000064,
+      "multiplier": 1.118380584913041,
+      "browserCPUmsPerTick": 42.66666666666667,
+      "cpuBracketExcessMs": 103.48944699998538,
+      "cpuBracketExcessPercent": 1.9290098044695059,
+      "fps": 52.56388749091293,
+      "reportsPerSecond": 17.334899066152136,
+      "exportMs": 4573.431592000008,
+      "frameJSONBytes": 947678,
+      "inventory": {
+        "organisms": 150,
+        "living": 150,
+        "parts": 690,
+        "joints": 540,
+        "eyes": 330,
+        "rays": 1650,
+        "mouths": 150,
+        "hiddenNeurons": 3600,
+        "inputs": 9030,
+        "outputs": 3240,
+        "nutrients": 569,
+        "eggs": 0,
+        "births": 150,
+        "deaths": 0,
+        "caustics": 28,
+        "bubbles": 0,
+        "reserveJ": 1612432.127608911,
+        "worldReserveJ": 64201.87239150675,
+        "basalRate": 1787.999999999997,
+        "plasticityRate": 31.974408643792618,
+        "motorRate": 182.73514066241606,
+        "motorLearnedL1": 0.8727658733010183,
+        "sensoryLearnedL1": 1.4030241891916244,
+        "motorOutputL1": 100.93423845308455,
+        "distance": 13693.74006905773,
+        "guards": 0,
+        "ledger": {
+          "externalInflow": 4157700,
+          "metabolicDissipation": 59550.46758985149,
+          "mechanicalWorkHeat": 1157.4381345751217,
+          "recordedLosses": 3493.966666683544
+        }
+      },
+      "energyErrorJ": 3.8510188460350037e-7,
+      "endpointSHA256": "c9189ebe919fc196e899b15780803ae85387602f54f56ea551a395b49a31bf7b"
+    },
+    {
+      "id": "T01",
+      "mode": "detailed",
+      "ticks": 360,
+      "wallMs": 8836,
+      "tps": 40.742417383431416,
+      "msPerTick": 24.544444444444444,
+      "multiplier": 0.6790402897238569,
+      "browserCPUmsPerTick": 67.47222222222223,
+      "cpuBracketExcessMs": 119.75215899999603,
+      "cpuBracketExcessPercent": 1.3552756790402354,
+      "fps": 36.44182888184699,
+      "reportsPerSecond": 7.695789950203712,
+      "exportMs": 5255.625245000003,
+      "frameJSONBytes": 947677,
+      "inventory": {
+        "organisms": 150,
+        "living": 150,
+        "parts": 690,
+        "joints": 540,
+        "eyes": 330,
+        "rays": 1650,
+        "mouths": 150,
+        "hiddenNeurons": 3600,
+        "inputs": 9030,
+        "outputs": 3240,
+        "nutrients": 569,
+        "eggs": 0,
+        "births": 150,
+        "deaths": 0,
+        "caustics": 28,
+        "bubbles": 0,
+        "reserveJ": 1612432.127608911,
+        "worldReserveJ": 64201.87239150675,
+        "basalRate": 1787.999999999997,
+        "plasticityRate": 31.974408643792618,
+        "motorRate": 182.73514066241606,
+        "motorLearnedL1": 0.8727658733010183,
+        "sensoryLearnedL1": 1.4030241891916244,
+        "motorOutputL1": 100.93423845308455,
+        "distance": 13693.74006905773,
+        "guards": 0,
+        "ledger": {
+          "externalInflow": 4157700,
+          "metabolicDissipation": 59550.46758985149,
+          "mechanicalWorkHeat": 1157.4381345751217,
+          "recordedLosses": 3493.966666683544
+        }
+      },
+      "energyErrorJ": 3.8510188460350037e-7,
+      "endpointSHA256": "c9189ebe919fc196e899b15780803ae85387602f54f56ea551a395b49a31bf7b"
+    },
+    {
+      "id": "T02",
+      "mode": "detailed",
+      "ticks": 360,
+      "wallMs": 9065.800000000047,
+      "tps": 39.70967813099761,
+      "msPerTick": 25.182777777777908,
+      "multiplier": 0.6618279688499602,
+      "browserCPUmsPerTick": 67.33333333333333,
+      "cpuBracketExcessMs": 173.57632799996645,
+      "cpuBracketExcessPercent": 1.9146278100108605,
+      "fps": 38.49632685477268,
+      "reportsPerSecond": 5.294623750799682,
+      "exportMs": 4490.033439000021,
+      "frameJSONBytes": 947678,
+      "inventory": {
+        "organisms": 150,
+        "living": 150,
+        "parts": 690,
+        "joints": 540,
+        "eyes": 330,
+        "rays": 1650,
+        "mouths": 150,
+        "hiddenNeurons": 3600,
+        "inputs": 9030,
+        "outputs": 3240,
+        "nutrients": 569,
+        "eggs": 0,
+        "births": 150,
+        "deaths": 0,
+        "caustics": 28,
+        "bubbles": 0,
+        "reserveJ": 1612432.127608911,
+        "worldReserveJ": 64201.87239150675,
+        "basalRate": 1787.999999999997,
+        "plasticityRate": 31.974408643792618,
+        "motorRate": 182.73514066241606,
+        "motorLearnedL1": 0.8727658733010183,
+        "sensoryLearnedL1": 1.4030241891916244,
+        "motorOutputL1": 100.93423845308455,
+        "distance": 13693.74006905773,
+        "guards": 0,
+        "ledger": {
+          "externalInflow": 4157700,
+          "metabolicDissipation": 59550.46758985149,
+          "mechanicalWorkHeat": 1157.4381345751217,
+          "recordedLosses": 3493.966666683544
+        }
+      },
+      "energyErrorJ": 3.8510188460350037e-7,
+      "endpointSHA256": "c9189ebe919fc196e899b15780803ae85387602f54f56ea551a395b49a31bf7b"
+    },
+    {
+      "id": "G02",
+      "mode": "light",
+      "ticks": 360,
+      "wallMs": 5229.099999999977,
+      "tps": 68.84549922548844,
+      "msPerTick": 14.525277777777713,
+      "multiplier": 1.147424987091474,
+      "browserCPUmsPerTick": 42.77777777777778,
+      "cpuBracketExcessMs": 104.89440600005037,
+      "cpuBracketExcessPercent": 2.005974374176267,
+      "fps": 52.39907441051064,
+      "reportsPerSecond": 17.21137480637211,
+      "exportMs": 4406.094027999992,
+      "frameJSONBytes": 947678,
+      "inventory": {
+        "organisms": 150,
+        "living": 150,
+        "parts": 690,
+        "joints": 540,
+        "eyes": 330,
+        "rays": 1650,
+        "mouths": 150,
+        "hiddenNeurons": 3600,
+        "inputs": 9030,
+        "outputs": 3240,
+        "nutrients": 569,
+        "eggs": 0,
+        "births": 150,
+        "deaths": 0,
+        "caustics": 28,
+        "bubbles": 0,
+        "reserveJ": 1612432.127608911,
+        "worldReserveJ": 64201.87239150675,
+        "basalRate": 1787.999999999997,
+        "plasticityRate": 31.974408643792618,
+        "motorRate": 182.73514066241606,
+        "motorLearnedL1": 0.8727658733010183,
+        "sensoryLearnedL1": 1.4030241891916244,
+        "motorOutputL1": 100.93423845308455,
+        "distance": 13693.74006905773,
+        "guards": 0,
+        "ledger": {
+          "externalInflow": 4157700,
+          "metabolicDissipation": 59550.46758985149,
+          "mechanicalWorkHeat": 1157.4381345751217,
+          "recordedLosses": 3493.966666683544
+        }
+      },
+      "energyErrorJ": 3.8510188460350037e-7,
+      "endpointSHA256": "c9189ebe919fc196e899b15780803ae85387602f54f56ea551a395b49a31bf7b"
+    },
+    {
+      "id": "L02",
+      "mode": "none",
+      "ticks": 360,
+      "wallMs": 5399.100000000035,
+      "tps": 66.67777962993789,
+      "msPerTick": 14.997500000000096,
+      "multiplier": 1.1112963271656315,
+      "browserCPUmsPerTick": 43.02777777777778,
+      "cpuBracketExcessMs": 84.14778150001075,
+      "cpuBracketExcessPercent": 1.5585520086683013,
+      "fps": 51.49006315867426,
+      "reportsPerSecond": 17.039877016539684,
+      "exportMs": 4535.12945399998,
+      "frameJSONBytes": 947677,
+      "inventory": {
+        "organisms": 150,
+        "living": 150,
+        "parts": 690,
+        "joints": 540,
+        "eyes": 330,
+        "rays": 1650,
+        "mouths": 150,
+        "hiddenNeurons": 3600,
+        "inputs": 9030,
+        "outputs": 3240,
+        "nutrients": 569,
+        "eggs": 0,
+        "births": 150,
+        "deaths": 0,
+        "caustics": 28,
+        "bubbles": 0,
+        "reserveJ": 1612432.127608911,
+        "worldReserveJ": 64201.87239150675,
+        "basalRate": 1787.999999999997,
+        "plasticityRate": 31.974408643792618,
+        "motorRate": 182.73514066241606,
+        "motorLearnedL1": 0.8727658733010183,
+        "sensoryLearnedL1": 1.4030241891916244,
+        "motorOutputL1": 100.93423845308455,
+        "distance": 13693.74006905773,
+        "guards": 0,
+        "ledger": {
+          "externalInflow": 4157700,
+          "metabolicDissipation": 59550.46758985149,
+          "mechanicalWorkHeat": 1157.4381345751217,
+          "recordedLosses": 3493.966666683544
+        }
+      },
+      "energyErrorJ": 3.8510188460350037e-7,
+      "endpointSHA256": "c9189ebe919fc196e899b15780803ae85387602f54f56ea551a395b49a31bf7b"
+    }
+  ],
+  "modes": [
+    {
+      "mode": "none",
+      "windows": [
+        "L01",
+        "L02"
+      ],
+      "msPerTick": {
+        "n": 2,
+        "mean": 15.058888888888921,
+        "median": 15.058888888888921,
+        "min": 14.997500000000096,
+        "max": 15.120277777777746,
+        "p95": null,
+        "spanPercent": 0.8186549610111671
+      },
+      "tps": {
+        "n": 2,
+        "mean": 66.4070653702388,
+        "median": 66.4070653702388,
+        "min": 66.1363511105397,
+        "max": 66.67777962993789,
+        "p95": null,
+        "spanPercent": 0.8186549610111449
+      }
+    },
+    {
+      "mode": "light",
+      "windows": [
+        "G01",
+        "G02"
+      ],
+      "msPerTick": {
+        "n": 2,
+        "mean": 14.713888888888889,
+        "median": 14.713888888888889,
+        "min": 14.525277777777713,
+        "max": 14.902500000000064,
+        "p95": null,
+        "spanPercent": 2.5970052207845873
+      },
+      "tps": {
+        "n": 2,
+        "mean": 67.97416716013545,
+        "median": 67.97416716013545,
+        "min": 67.10283509478246,
+        "max": 68.84549922548844,
+        "p95": null,
+        "spanPercent": 2.5970052207845873
+      }
+    },
+    {
+      "mode": "detailed",
+      "windows": [
+        "T01",
+        "T02"
+      ],
+      "msPerTick": {
+        "n": 2,
+        "mean": 24.863611111111176,
+        "median": 24.863611111111176,
+        "min": 24.544444444444444,
+        "max": 25.182777777777908,
+        "p95": null,
+        "spanPercent": 2.60072430964291
+      },
+      "tps": {
+        "n": 2,
+        "mean": 40.226047757214516,
+        "median": 40.226047757214516,
+        "min": 39.70967813099761,
+        "max": 40.742417383431416,
+        "p95": null,
+        "spanPercent": 2.60072430964291
+      }
+    }
+  ],
+  "contrasts": [
+    {
+      "mode": "light",
+      "elapsedPercent": -2.291005681399161,
+      "tpsPercent": 2.3598419553094274,
+      "individualElapsedPercent": [
+        {
+          "id": "G01",
+          "percent": -1.038515457832001
+        },
+        {
+          "id": "G02",
+          "percent": -3.5434959049663206
+        }
+      ]
+    },
+    {
+      "mode": "detailed",
+      "elapsedPercent": 65.10920091492667,
+      "tpsPercent": -39.42504832438756,
+      "individualElapsedPercent": [
+        {
+          "id": "T01",
+          "percent": 62.98974396812478
+        },
+        {
+          "id": "T02",
+          "percent": 67.22865786172854
+        }
+      ]
+    }
+  ],
+  "modestCost": {
+    "rule": "Both light elapsed costs within lean min/max envelope expanded5%; descriptive tolerance, not significance.",
+    "lowerMs": 14.247625000000092,
+    "upperMs": 15.876291666666633,
+    "met": true
+  },
+  "traces": [
+    {
+      "id": "G01",
+      "mode": "light",
+      "traceJSONBytes": 432418,
+      "events": 2655,
+      "metadata": {
+        "dataLossOccurred": false,
+        "traceFormat": "json",
+        "streamCompression": "none"
+      },
+      "available": true,
+      "bounds": [
+        223796294,
+        229161194
+      ],
+      "marks": {
+        "worker": {
+          "args": {
+            "data": {
+              "callTime": 223725498,
+              "sampleTraceId": 4273664962842139,
+              "startTime": 23880.600000000006
+            }
+          },
+          "cat": "blink.user_timing",
+          "name": "S39_WORKER_G01",
+          "ph": "I",
+          "pid": 1390,
+          "s": "t",
+          "tid": 1421,
+          "ts": 223725494,
+          "tts": 3963266
+        },
+        "main": {
+          "args": {
+            "data": {
+              "callTime": 223740859,
+              "navigationId": "15653122A9AF58EBCE45CCCE003E4254",
+              "sampleTraceId": 4273664962842126,
+              "startTime": 24617.399999999994
+            }
+          },
+          "cat": "blink.user_timing",
+          "name": "S39_MAIN_G01",
+          "ph": "I",
+          "pid": 1390,
+          "s": "t",
+          "tid": 1390,
+          "ts": 223740845,
+          "tts": 98483644
+        }
+      },
+      "roles": [
+        {
+          "role": "worker",
+          "pid": 1390,
+          "tid": 1421,
+          "identityVerified": true,
+          "cpuSeconds": 5.26,
+          "cpuMsPerTick": 14.61111111111111,
+          "available": true,
+          "reason": null,
+          "outerGCUnionMs": 127.356,
+          "gcWallPercent": 2.373874629536421,
+          "gcMsPerTick": 0.3537666666666667,
+          "completeMinor": 94,
+          "completeMajor": 4,
+          "durationMs": {
+            "n": 98,
+            "mean": 1.2995510204081628,
+            "median": 0.937,
+            "min": 0.511,
+            "max": 6.022,
+            "p95": 3.421249999999996,
+            "spanPercent": 1078.4735812133074
+          },
+          "minorDurationMs": {
+            "n": 94,
+            "mean": 1.1883191489361697,
+            "median": 0.9065000000000001,
+            "min": 0.511,
+            "max": 3.868,
+            "p95": 2.783499999999998,
+            "spanPercent": 656.9471624266145
+          },
+          "majorDurationMs": {
+            "n": 4,
+            "mean": 3.9135000000000004,
+            "median": 3.563,
+            "min": 2.506,
+            "max": 6.022,
+            "p95": null,
+            "spanPercent": 140.3032721468476
+          },
+          "completeOuterThreadUnionMs": 104.209,
+          "objectStatisticsEvents": 0,
+          "objectStatisticsUnionMs": 0,
+          "objectStatisticsDurationsMs": null,
+          "heapObservations": [
+            {
+              "ts": 223829544,
+              "name": "MinorGC",
+              "durationMs": 2.654,
+              "before": 83200076,
+              "after": 34042124,
+              "positiveReductionBytes": 49157952
+            },
+            {
+              "ts": 223886719,
+              "name": "MinorGC",
+              "durationMs": 3.356,
+              "before": 66387936,
+              "after": 35413848,
+              "positiveReductionBytes": 30974088
+            },
+            {
+              "ts": 223962210,
+              "name": "MajorGC",
+              "durationMs": 6.022,
+              "before": 61237288,
+              "after": 19650052,
+              "positiveReductionBytes": 41587236
+            },
+            {
+              "ts": 224018476,
+              "name": "MinorGC",
+              "durationMs": 0.567,
+              "before": 53623012,
+              "after": 21100776,
+              "positiveReductionBytes": 32522236
+            },
+            {
+              "ts": 224061438,
+              "name": "MinorGC",
+              "durationMs": 0.774,
+              "before": 51317244,
+              "after": 22140664,
+              "positiveReductionBytes": 29176580
+            },
+            {
+              "ts": 224103442,
+              "name": "MinorGC",
+              "durationMs": 0.613,
+              "before": 52421852,
+              "after": 23161660,
+              "positiveReductionBytes": 29260192
+            },
+            {
+              "ts": 224145801,
+              "name": "MinorGC",
+              "durationMs": 0.692,
+              "before": 53183296,
+              "after": 24194336,
+              "positiveReductionBytes": 28988960
+            },
+            {
+              "ts": 224187310,
+              "name": "MinorGC",
+              "durationMs": 0.652,
+              "before": 53976292,
+              "after": 25248536,
+              "positiveReductionBytes": 28727756
+            },
+            {
+              "ts": 224240106,
+              "name": "MinorGC",
+              "durationMs": 0.511,
+              "before": 57523752,
+              "after": 26471360,
+              "positiveReductionBytes": 31052392
+            },
+            {
+              "ts": 224297987,
+              "name": "MinorGC",
+              "durationMs": 1.131,
+              "before": 55303368,
+              "after": 27739512,
+              "positiveReductionBytes": 27563856
+            },
+            {
+              "ts": 224351279,
+              "name": "MinorGC",
+              "durationMs": 1.216,
+              "before": 56343000,
+              "after": 29433648,
+              "positiveReductionBytes": 26909352
+            },
+            {
+              "ts": 224401293,
+              "name": "MinorGC",
+              "durationMs": 1.582,
+              "before": 59503868,
+              "after": 31924896,
+              "positiveReductionBytes": 27578972
+            },
+            {
+              "ts": 224452434,
+              "name": "MinorGC",
+              "durationMs": 1.391,
+              "before": 62139040,
+              "after": 34464756,
+              "positiveReductionBytes": 27674284
+            },
+            {
+              "ts": 224503157,
+              "name": "MinorGC",
+              "durationMs": 1.405,
+              "before": 64498240,
+              "after": 37005860,
+              "positiveReductionBytes": 27492380
+            },
+            {
+              "ts": 224554246,
+              "name": "MinorGC",
+              "durationMs": 1.963,
+              "before": 67906984,
+              "after": 39497656,
+              "positiveReductionBytes": 28409328
+            },
+            {
+              "ts": 224621782,
+              "name": "MinorGC",
+              "durationMs": 2.065,
+              "before": 70528296,
+              "after": 42025356,
+              "positiveReductionBytes": 28502940
+            },
+            {
+              "ts": 224689131,
+              "name": "MinorGC",
+              "durationMs": 3.024,
+              "before": 71656628,
+              "after": 44642608,
+              "positiveReductionBytes": 27014020
+            },
+            {
+              "ts": 224764701,
+              "name": "MinorGC",
+              "durationMs": 1.564,
+              "before": 74289212,
+              "after": 47184496,
+              "positiveReductionBytes": 27104716
+            },
+            {
+              "ts": 224819657,
+              "name": "MinorGC",
+              "durationMs": 0.616,
+              "before": 76653812,
+              "after": 49785600,
+              "positiveReductionBytes": 26868212
+            },
+            {
+              "ts": 224865872,
+              "name": "MinorGC",
+              "durationMs": 0.834,
+              "before": 81308916,
+              "after": 52322092,
+              "positiveReductionBytes": 28986824
+            },
+            {
+              "ts": 224934380,
+              "name": "MinorGC",
+              "durationMs": 0.654,
+              "before": 87348008,
+              "after": 54778724,
+              "positiveReductionBytes": 32569284
+            },
+            {
+              "ts": 224989362,
+              "name": "MinorGC",
+              "durationMs": 0.613,
+              "before": 84203672,
+              "after": 56783224,
+              "positiveReductionBytes": 27420448
+            },
+            {
+              "ts": 225038945,
+              "name": "MinorGC",
+              "durationMs": 0.645,
+              "before": 86039104,
+              "after": 59348956,
+              "positiveReductionBytes": 26690148
+            },
+            {
+              "ts": 225089313,
+              "name": "MinorGC",
+              "durationMs": 0.617,
+              "before": 89184488,
+              "after": 61880584,
+              "positiveReductionBytes": 27303904
+            },
+            {
+              "ts": 225139509,
+              "name": "MinorGC",
+              "durationMs": 1.34,
+              "before": 91543368,
+              "after": 64511128,
+              "positiveReductionBytes": 27032240
+            },
+            {
+              "ts": 225193202,
+              "name": "MinorGC",
+              "durationMs": 0.827,
+              "before": 94689508,
+              "after": 67016900,
+              "positiveReductionBytes": 27672608
+            },
+            {
+              "ts": 225243619,
+              "name": "MinorGC",
+              "durationMs": 1.064,
+              "before": 96786176,
+              "after": 69534384,
+              "positiveReductionBytes": 27251792
+            },
+            {
+              "ts": 225292437,
+              "name": "MinorGC",
+              "durationMs": 0.964,
+              "before": 98882752,
+              "after": 72137664,
+              "positiveReductionBytes": 26745088
+            },
+            {
+              "ts": 225341196,
+              "name": "MinorGC",
+              "durationMs": 0.953,
+              "before": 101824740,
+              "after": 74668224,
+              "positiveReductionBytes": 27156516
+            },
+            {
+              "ts": 225390431,
+              "name": "MinorGC",
+              "durationMs": 1.832,
+              "before": 104127088,
+              "after": 77290164,
+              "positiveReductionBytes": 26836924
+            },
+            {
+              "ts": 225473660,
+              "name": "MajorGC",
+              "durationMs": 2.83,
+              "before": 115615480,
+              "after": 19761368,
+              "positiveReductionBytes": 95854112
+            },
+            {
+              "ts": 225539366,
+              "name": "MinorGC",
+              "durationMs": 0.599,
+              "before": 51730452,
+              "after": 21186040,
+              "positiveReductionBytes": 30544412
+            },
+            {
+              "ts": 225591601,
+              "name": "MinorGC",
+              "durationMs": 0.798,
+              "before": 49721292,
+              "after": 22435204,
+              "positiveReductionBytes": 27286088
+            },
+            {
+              "ts": 225641948,
+              "name": "MinorGC",
+              "durationMs": 0.773,
+              "before": 53121552,
+              "after": 24077752,
+              "positiveReductionBytes": 29043800
+            },
+            {
+              "ts": 225682445,
+              "name": "MinorGC",
+              "durationMs": 0.898,
+              "before": 54127160,
+              "after": 25668508,
+              "positiveReductionBytes": 28458652
+            },
+            {
+              "ts": 225724958,
+              "name": "MinorGC",
+              "durationMs": 0.727,
+              "before": 56039692,
+              "after": 27281012,
+              "positiveReductionBytes": 28758680
+            },
+            {
+              "ts": 225768874,
+              "name": "MinorGC",
+              "durationMs": 0.641,
+              "before": 58708748,
+              "after": 28872320,
+              "positiveReductionBytes": 29836428
+            },
+            {
+              "ts": 225813394,
+              "name": "MinorGC",
+              "durationMs": 0.991,
+              "before": 60517164,
+              "after": 31006340,
+              "positiveReductionBytes": 29510824
+            },
+            {
+              "ts": 225871569,
+              "name": "MinorGC",
+              "durationMs": 1.289,
+              "before": 61383572,
+              "after": 33573148,
+              "positiveReductionBytes": 27810424
+            },
+            {
+              "ts": 225935950,
+              "name": "MinorGC",
+              "durationMs": 1.495,
+              "before": 63793068,
+              "after": 36148908,
+              "positiveReductionBytes": 27644160
+            },
+            {
+              "ts": 225991721,
+              "name": "MinorGC",
+              "durationMs": 2.038,
+              "before": 66460364,
+              "after": 38711512,
+              "positiveReductionBytes": 27748852
+            },
+            {
+              "ts": 226047162,
+              "name": "MinorGC",
+              "durationMs": 1.738,
+              "before": 72016232,
+              "after": 41225384,
+              "positiveReductionBytes": 30790848
+            },
+            {
+              "ts": 226095273,
+              "name": "MinorGC",
+              "durationMs": 1.481,
+              "before": 69953700,
+              "after": 43116236,
+              "positiveReductionBytes": 26837464
+            },
+            {
+              "ts": 226143734,
+              "name": "MinorGC",
+              "durationMs": 1.245,
+              "before": 72036028,
+              "after": 45072780,
+              "positiveReductionBytes": 26963248
+            },
+            {
+              "ts": 226196872,
+              "name": "MinorGC",
+              "durationMs": 1.223,
+              "before": 75622644,
+              "after": 47684044,
+              "positiveReductionBytes": 27938600
+            },
+            {
+              "ts": 226244977,
+              "name": "MinorGC",
+              "durationMs": 0.854,
+              "before": 77145592,
+              "after": 50189260,
+              "positiveReductionBytes": 26956332
+            },
+            {
+              "ts": 226291763,
+              "name": "MinorGC",
+              "durationMs": 0.79,
+              "before": 79754684,
+              "after": 52695832,
+              "positiveReductionBytes": 27058852
+            },
+            {
+              "ts": 226340985,
+              "name": "MinorGC",
+              "durationMs": 0.865,
+              "before": 82903492,
+              "after": 55215880,
+              "positiveReductionBytes": 27687612
+            },
+            {
+              "ts": 226400365,
+              "name": "MinorGC",
+              "durationMs": 0.732,
+              "before": 88686640,
+              "after": 57759560,
+              "positiveReductionBytes": 30927080
+            },
+            {
+              "ts": 226454808,
+              "name": "MinorGC",
+              "durationMs": 0.558,
+              "before": 89463596,
+              "after": 60294696,
+              "positiveReductionBytes": 29168900
+            },
+            {
+              "ts": 226505229,
+              "name": "MinorGC",
+              "durationMs": 0.685,
+              "before": 89463444,
+              "after": 62777588,
+              "positiveReductionBytes": 26685856
+            },
+            {
+              "ts": 226553820,
+              "name": "MinorGC",
+              "durationMs": 0.726,
+              "before": 92085256,
+              "after": 65316304,
+              "positiveReductionBytes": 26768952
+            },
+            {
+              "ts": 226606209,
+              "name": "MinorGC",
+              "durationMs": 0.557,
+              "before": 96279320,
+              "after": 67896084,
+              "positiveReductionBytes": 28383236
+            },
+            {
+              "ts": 226689916,
+              "name": "MinorGC",
+              "durationMs": 0.834,
+              "before": 102832364,
+              "after": 70314136,
+              "positiveReductionBytes": 32518228
+            },
+            {
+              "ts": 226749375,
+              "name": "MinorGC",
+              "durationMs": 0.618,
+              "before": 100262688,
+              "after": 71671860,
+              "positiveReductionBytes": 28590828
+            },
+            {
+              "ts": 226806339,
+              "name": "MinorGC",
+              "durationMs": 1.633,
+              "before": 105515632,
+              "after": 74174752,
+              "positiveReductionBytes": 31340880
+            },
+            {
+              "ts": 226856997,
+              "name": "MinorGC",
+              "durationMs": 0.57,
+              "before": 104182836,
+              "after": 76781152,
+              "positiveReductionBytes": 27401684
+            },
+            {
+              "ts": 226908151,
+              "name": "MinorGC",
+              "durationMs": 1.086,
+              "before": 106095180,
+              "after": 79276368,
+              "positiveReductionBytes": 26818812
+            },
+            {
+              "ts": 226953184,
+              "name": "MajorGC",
+              "durationMs": 4.296,
+              "before": 101361704,
+              "after": 22286164,
+              "positiveReductionBytes": 79075540
+            },
+            {
+              "ts": 227009212,
+              "name": "MinorGC",
+              "durationMs": 1.208,
+              "before": 55295972,
+              "after": 24722824,
+              "positiveReductionBytes": 30573148
+            },
+            {
+              "ts": 227062598,
+              "name": "MinorGC",
+              "durationMs": 1.566,
+              "before": 58589888,
+              "after": 27133480,
+              "positiveReductionBytes": 31456408
+            },
+            {
+              "ts": 227108063,
+              "name": "MinorGC",
+              "durationMs": 1.672,
+              "before": 58606740,
+              "after": 29767616,
+              "positiveReductionBytes": 28839124
+            },
+            {
+              "ts": 227152765,
+              "name": "MinorGC",
+              "durationMs": 1.46,
+              "before": 60026996,
+              "after": 32313288,
+              "positiveReductionBytes": 27713708
+            },
+            {
+              "ts": 227195737,
+              "name": "MinorGC",
+              "durationMs": 1.449,
+              "before": 62642420,
+              "after": 34840680,
+              "positiveReductionBytes": 27801740
+            },
+            {
+              "ts": 227250538,
+              "name": "MinorGC",
+              "durationMs": 1.407,
+              "before": 68584476,
+              "after": 37280424,
+              "positiveReductionBytes": 31304052
+            },
+            {
+              "ts": 227303836,
+              "name": "MinorGC",
+              "durationMs": 1.018,
+              "before": 67419444,
+              "after": 39243132,
+              "positiveReductionBytes": 28176312
+            },
+            {
+              "ts": 227357824,
+              "name": "MinorGC",
+              "durationMs": 0.971,
+              "before": 72541324,
+              "after": 41738276,
+              "positiveReductionBytes": 30803048
+            },
+            {
+              "ts": 227403452,
+              "name": "MinorGC",
+              "durationMs": 0.592,
+              "before": 71456196,
+              "after": 44282708,
+              "positiveReductionBytes": 27173488
+            },
+            {
+              "ts": 227454735,
+              "name": "MinorGC",
+              "durationMs": 0.647,
+              "before": 74792008,
+              "after": 46793080,
+              "positiveReductionBytes": 27998928
+            },
+            {
+              "ts": 227506215,
+              "name": "MinorGC",
+              "durationMs": 0.921,
+              "before": 76248720,
+              "after": 49334580,
+              "positiveReductionBytes": 26914140
+            },
+            {
+              "ts": 227564504,
+              "name": "MinorGC",
+              "durationMs": 0.896,
+              "before": 81849976,
+              "after": 51835644,
+              "positiveReductionBytes": 30014332
+            },
+            {
+              "ts": 227623694,
+              "name": "MinorGC",
+              "durationMs": 0.595,
+              "before": 86810796,
+              "after": 54470624,
+              "positiveReductionBytes": 32340172
+            },
+            {
+              "ts": 227684877,
+              "name": "MinorGC",
+              "durationMs": 0.672,
+              "before": 87773004,
+              "after": 57062100,
+              "positiveReductionBytes": 30710904
+            },
+            {
+              "ts": 227736462,
+              "name": "MinorGC",
+              "durationMs": 1.194,
+              "before": 86691336,
+              "after": 59545616,
+              "positiveReductionBytes": 27145720
+            },
+            {
+              "ts": 227789435,
+              "name": "MinorGC",
+              "durationMs": 0.664,
+              "before": 88973496,
+              "after": 62115096,
+              "positiveReductionBytes": 26858400
+            },
+            {
+              "ts": 227854285,
+              "name": "MinorGC",
+              "durationMs": 0.595,
+              "before": 97042400,
+              "after": 64666560,
+              "positiveReductionBytes": 32375840
+            },
+            {
+              "ts": 227914080,
+              "name": "MinorGC",
+              "durationMs": 0.787,
+              "before": 93488580,
+              "after": 66478452,
+              "positiveReductionBytes": 27010128
+            },
+            {
+              "ts": 227974337,
+              "name": "MinorGC",
+              "durationMs": 3.868,
+              "before": 100092600,
+              "after": 69005792,
+              "positiveReductionBytes": 31086808
+            },
+            {
+              "ts": 228029061,
+              "name": "MinorGC",
+              "durationMs": 0.743,
+              "before": 98783180,
+              "after": 71514264,
+              "positiveReductionBytes": 27268916
+            },
+            {
+              "ts": 228079076,
+              "name": "MinorGC",
+              "durationMs": 0.897,
+              "before": 101328440,
+              "after": 74015504,
+              "positiveReductionBytes": 27312936
+            },
+            {
+              "ts": 228129432,
+              "name": "MinorGC",
+              "durationMs": 0.89,
+              "before": 103743972,
+              "after": 76539184,
+              "positiveReductionBytes": 27204788
+            },
+            {
+              "ts": 228188243,
+              "name": "MinorGC",
+              "durationMs": 0.704,
+              "before": 109510492,
+              "after": 79045284,
+              "positiveReductionBytes": 30465208
+            },
+            {
+              "ts": 228252024,
+              "name": "MinorGC",
+              "durationMs": 0.693,
+              "before": 113192660,
+              "after": 81572884,
+              "positiveReductionBytes": 31619776
+            },
+            {
+              "ts": 228303469,
+              "name": "MinorGC",
+              "durationMs": 0.896,
+              "before": 111357596,
+              "after": 84052340,
+              "positiveReductionBytes": 27305256
+            },
+            {
+              "ts": 228353122,
+              "name": "MinorGC",
+              "durationMs": 0.915,
+              "before": 113988700,
+              "after": 86605768,
+              "positiveReductionBytes": 27382932
+            },
+            {
+              "ts": 228403452,
+              "name": "MinorGC",
+              "durationMs": 0.866,
+              "before": 116601756,
+              "after": 89087388,
+              "positiveReductionBytes": 27514368
+            },
+            {
+              "ts": 228448849,
+              "name": "MajorGC",
+              "durationMs": 2.506,
+              "before": 106901272,
+              "after": 21111900,
+              "positiveReductionBytes": 85789372
+            },
+            {
+              "ts": 228549660,
+              "name": "MinorGC",
+              "durationMs": 1.66,
+              "before": 55984980,
+              "after": 23010468,
+              "positiveReductionBytes": 32974512
+            },
+            {
+              "ts": 228599787,
+              "name": "MinorGC",
+              "durationMs": 1.067,
+              "before": 51456352,
+              "after": 24318888,
+              "positiveReductionBytes": 27137464
+            },
+            {
+              "ts": 228646738,
+              "name": "MinorGC",
+              "durationMs": 2.591,
+              "before": 58143392,
+              "after": 26232540,
+              "positiveReductionBytes": 31910852
+            },
+            {
+              "ts": 228699018,
+              "name": "MinorGC",
+              "durationMs": 1.799,
+              "before": 56947680,
+              "after": 28071564,
+              "positiveReductionBytes": 28876116
+            },
+            {
+              "ts": 228751470,
+              "name": "MinorGC",
+              "durationMs": 3.791,
+              "before": 58568556,
+              "after": 29963564,
+              "positiveReductionBytes": 28604992
+            },
+            {
+              "ts": 228829978,
+              "name": "MinorGC",
+              "durationMs": 1.655,
+              "before": 60985676,
+              "after": 31823184,
+              "positiveReductionBytes": 29162492
+            },
+            {
+              "ts": 228897145,
+              "name": "MinorGC",
+              "durationMs": 3.803,
+              "before": 64696484,
+              "after": 33718092,
+              "positiveReductionBytes": 30978392
+            },
+            {
+              "ts": 228950841,
+              "name": "MinorGC",
+              "durationMs": 1.357,
+              "before": 67003016,
+              "after": 36437712,
+              "positiveReductionBytes": 30565304
+            },
+            {
+              "ts": 229004937,
+              "name": "MinorGC",
+              "durationMs": 1.165,
+              "before": 70197120,
+              "after": 38425308,
+              "positiveReductionBytes": 31771812
+            },
+            {
+              "ts": 229068763,
+              "name": "MinorGC",
+              "durationMs": 0.833,
+              "before": 72516592,
+              "after": 40886468,
+              "positiveReductionBytes": 31630124
+            },
+            {
+              "ts": 229116516,
+              "name": "MinorGC",
+              "durationMs": 0.632,
+              "before": 71110056,
+              "after": 43539204,
+              "positiveReductionBytes": 27570852
+            }
+          ],
+          "positiveHeapReductionBytes": 3025983476,
+          "nvpSamples": 0,
+          "nvpSpanSeconds": null,
+          "interiorAllocatedBytes": null,
+          "allocationBytesPerSecond": null,
+          "allocationBytesPerTick": null
+        },
+        {
+          "role": "main",
+          "pid": 1390,
+          "tid": 1390,
+          "identityVerified": true,
+          "cpuSeconds": 5.05,
+          "cpuMsPerTick": 14.027777777777779,
+          "available": true,
+          "reason": null,
+          "outerGCUnionMs": 109.782,
+          "gcWallPercent": 2.0463009562153913,
+          "gcMsPerTick": 0.30495,
+          "completeMinor": 13,
+          "completeMajor": 3,
+          "durationMs": {
+            "n": 16,
+            "mean": 6.861374999999999,
+            "median": 6.2490000000000006,
+            "min": 4.607,
+            "max": 13.133,
+            "p95": null,
+            "spanPercent": 185.06620360321247
+          },
+          "minorDurationMs": {
+            "n": 13,
+            "mean": 6.228461538461539,
+            "median": 6.014,
+            "min": 4.607,
+            "max": 8.561,
+            "p95": null,
+            "spanPercent": 85.82591708270022
+          },
+          "majorDurationMs": {
+            "n": 3,
+            "mean": 9.604,
+            "median": 10.103,
+            "min": 5.576,
+            "max": 13.133,
+            "p95": null,
+            "spanPercent": 135.52725968436158
+          },
+          "completeOuterThreadUnionMs": 81.119,
+          "objectStatisticsEvents": 0,
+          "objectStatisticsUnionMs": 0,
+          "objectStatisticsDurationsMs": null,
+          "heapObservations": [
+            {
+              "ts": 224256651,
+              "name": "MinorGC",
+              "durationMs": 5.011,
+              "before": 124660344,
+              "after": 96120696,
+              "positiveReductionBytes": 28539648
+            },
+            {
+              "ts": 224490498,
+              "name": "MinorGC",
+              "durationMs": 6.484,
+              "before": 119476576,
+              "after": 99688236,
+              "positiveReductionBytes": 19788340
+            },
+            {
+              "ts": 224727447,
+              "name": "MajorGC",
+              "durationMs": 10.103,
+              "before": 114685452,
+              "after": 93589668,
+              "positiveReductionBytes": 21095784
+            },
+            {
+              "ts": 225171637,
+              "name": "MinorGC",
+              "durationMs": 4.607,
+              "before": 128461316,
+              "after": 99968532,
+              "positiveReductionBytes": 28492784
+            },
+            {
+              "ts": 225438157,
+              "name": "MinorGC",
+              "durationMs": 7.413,
+              "before": 122304532,
+              "after": 103685204,
+              "positiveReductionBytes": 18619328
+            },
+            {
+              "ts": 225824375,
+              "name": "MinorGC",
+              "durationMs": 5.874,
+              "before": 134273068,
+              "after": 108941468,
+              "positiveReductionBytes": 25331600
+            },
+            {
+              "ts": 226178548,
+              "name": "MinorGC",
+              "durationMs": 6.764,
+              "before": 135062288,
+              "after": 113424344,
+              "positiveReductionBytes": 21637944
+            },
+            {
+              "ts": 226473459,
+              "name": "MinorGC",
+              "durationMs": 5.273,
+              "before": 137961352,
+              "after": 117863820,
+              "positiveReductionBytes": 20097532
+            },
+            {
+              "ts": 226699916,
+              "name": "MajorGC",
+              "durationMs": 5.576,
+              "before": 132541528,
+              "after": 93208428,
+              "positiveReductionBytes": 39333100
+            },
+            {
+              "ts": 227121538,
+              "name": "MinorGC",
+              "durationMs": 5.74,
+              "before": 122636812,
+              "after": 99230412,
+              "positiveReductionBytes": 23406400
+            },
+            {
+              "ts": 227390732,
+              "name": "MinorGC",
+              "durationMs": 6.68,
+              "before": 120856872,
+              "after": 103049488,
+              "positiveReductionBytes": 17807384
+            },
+            {
+              "ts": 227690590,
+              "name": "MinorGC",
+              "durationMs": 5.663,
+              "before": 127977104,
+              "after": 107685152,
+              "positiveReductionBytes": 20291952
+            },
+            {
+              "ts": 227989165,
+              "name": "MinorGC",
+              "durationMs": 6.886,
+              "before": 132073572,
+              "after": 111644776,
+              "positiveReductionBytes": 20428796
+            },
+            {
+              "ts": 228287965,
+              "name": "MinorGC",
+              "durationMs": 6.014,
+              "before": 135312920,
+              "after": 115587480,
+              "positiveReductionBytes": 19725440
+            },
+            {
+              "ts": 228663703,
+              "name": "MinorGC",
+              "durationMs": 8.561,
+              "before": 142054640,
+              "after": 120399276,
+              "positiveReductionBytes": 21655364
+            },
+            {
+              "ts": 228847513,
+              "name": "MajorGC",
+              "durationMs": 13.133,
+              "before": 130110520,
+              "after": 93849400,
+              "positiveReductionBytes": 36261120
+            }
+          ],
+          "positiveHeapReductionBytes": 382512516,
+          "nvpSamples": 0,
+          "nvpSpanSeconds": null,
+          "interiorAllocatedBytes": null,
+          "allocationBytesPerSecond": null,
+          "allocationBytesPerTick": null
+        }
+      ]
+    },
+    {
+      "id": "T01",
+      "mode": "detailed",
+      "traceJSONBytes": 11740614,
+      "events": 45181,
+      "metadata": {
+        "dataLossOccurred": false,
+        "traceFormat": "json",
+        "streamCompression": "none"
+      },
+      "available": true,
+      "bounds": [
+        267126782,
+        275962782
+      ],
+      "marks": {
+        "worker": {
+          "args": {
+            "data": {
+              "callTime": 267017786,
+              "sampleTraceId": 4273664962796203,
+              "startTime": 25507.599999999977
+            }
+          },
+          "cat": "blink.user_timing",
+          "name": "S39_WORKER_T01",
+          "ph": "I",
+          "pid": 1390,
+          "s": "t",
+          "tid": 1431,
+          "ts": 267017782,
+          "tts": 3719403
+        },
+        "main": {
+          "args": {
+            "data": {
+              "callTime": 267050932,
+              "navigationId": "6AD4D8FAE17C19A13E3D0114C3791C41",
+              "sampleTraceId": 4273664962796184,
+              "startTime": 26182.600000000006
+            }
+          },
+          "cat": "blink.user_timing",
+          "name": "S39_MAIN_T01",
+          "ph": "I",
+          "pid": 1390,
+          "s": "t",
+          "tid": 1390,
+          "ts": 267050927,
+          "tts": 137649273
+        }
+      },
+      "roles": [
+        {
+          "role": "worker",
+          "pid": 1390,
+          "tid": 1431,
+          "identityVerified": true,
+          "cpuSeconds": 8.68,
+          "cpuMsPerTick": 24.11111111111111,
+          "available": true,
+          "reason": null,
+          "outerGCUnionMs": 3743.118,
+          "gcWallPercent": 42.36213218650973,
+          "gcMsPerTick": 10.39755,
+          "completeMinor": 94,
+          "completeMajor": 4,
+          "durationMs": {
+            "n": 98,
+            "mean": 38.195081632653064,
+            "median": 1.1105,
+            "min": 0.71,
+            "max": 1225.296,
+            "p95": 5.923099999999988,
+            "spanPercent": 172476.90140845074
+          },
+          "minorDurationMs": {
+            "n": 94,
+            "mean": 1.5243936170212764,
+            "median": 1.1025,
+            "min": 0.71,
+            "max": 7.142,
+            "p95": 3.9145499999999993,
+            "spanPercent": 905.9154929577466
+          },
+          "majorDurationMs": {
+            "n": 4,
+            "mean": 899.95625,
+            "median": 1051.562,
+            "min": 271.405,
+            "max": 1225.296,
+            "p95": null,
+            "spanPercent": 351.46404819365904
+          },
+          "completeOuterThreadUnionMs": 3693.379,
+          "objectStatisticsEvents": 4,
+          "objectStatisticsUnionMs": 3577.164,
+          "objectStatisticsDurationsMs": {
+            "n": 4,
+            "mean": 894.291,
+            "median": 1046.9035,
+            "min": 262.391,
+            "max": 1220.966,
+            "p95": null,
+            "spanPercent": 365.3231246498545
+          },
+          "heapObservations": [
+            {
+              "ts": 267218029,
+              "name": "MinorGC",
+              "durationMs": 7.142,
+              "before": 59971112,
+              "after": 27787116,
+              "positiveReductionBytes": 32183996
+            },
+            {
+              "ts": 267281410,
+              "name": "MinorGC",
+              "durationMs": 1.744,
+              "before": 58843440,
+              "after": 29402552,
+              "positiveReductionBytes": 29440888
+            },
+            {
+              "ts": 267332681,
+              "name": "MinorGC",
+              "durationMs": 1.249,
+              "before": 59262592,
+              "after": 31323208,
+              "positiveReductionBytes": 27939384
+            },
+            {
+              "ts": 267377890,
+              "name": "MajorGC",
+              "durationMs": 271.405,
+              "before": 51927740,
+              "after": 20403144,
+              "positiveReductionBytes": 31524596
+            },
+            {
+              "ts": 267705696,
+              "name": "MinorGC",
+              "durationMs": 0.94,
+              "before": 50865116,
+              "after": 21781096,
+              "positiveReductionBytes": 29084020
+            },
+            {
+              "ts": 267758619,
+              "name": "MinorGC",
+              "durationMs": 0.889,
+              "before": 51191764,
+              "after": 23028252,
+              "positiveReductionBytes": 28163512
+            },
+            {
+              "ts": 267819441,
+              "name": "MinorGC",
+              "durationMs": 0.949,
+              "before": 52413816,
+              "after": 24205320,
+              "positiveReductionBytes": 28208496
+            },
+            {
+              "ts": 267885426,
+              "name": "MinorGC",
+              "durationMs": 1.411,
+              "before": 55719072,
+              "after": 25410632,
+              "positiveReductionBytes": 30308440
+            },
+            {
+              "ts": 267958513,
+              "name": "MinorGC",
+              "durationMs": 0.93,
+              "before": 59023228,
+              "after": 26835040,
+              "positiveReductionBytes": 32188188
+            },
+            {
+              "ts": 268033857,
+              "name": "MinorGC",
+              "durationMs": 1.112,
+              "before": 55107900,
+              "after": 28129664,
+              "positiveReductionBytes": 26978236
+            },
+            {
+              "ts": 268105235,
+              "name": "MinorGC",
+              "durationMs": 1.668,
+              "before": 61272836,
+              "after": 29933496,
+              "positiveReductionBytes": 31339340
+            },
+            {
+              "ts": 268151922,
+              "name": "MinorGC",
+              "durationMs": 1.942,
+              "before": 59651172,
+              "after": 31803588,
+              "positiveReductionBytes": 27847584
+            },
+            {
+              "ts": 268191515,
+              "name": "MinorGC",
+              "durationMs": 2.914,
+              "before": 61103752,
+              "after": 33734960,
+              "positiveReductionBytes": 27368792
+            },
+            {
+              "ts": 268241568,
+              "name": "MinorGC",
+              "durationMs": 2.024,
+              "before": 63433732,
+              "after": 35622012,
+              "positiveReductionBytes": 27811720
+            },
+            {
+              "ts": 268320709,
+              "name": "MinorGC",
+              "durationMs": 4.578,
+              "before": 65339668,
+              "after": 37505044,
+              "positiveReductionBytes": 27834624
+            },
+            {
+              "ts": 268395993,
+              "name": "MinorGC",
+              "durationMs": 1.714,
+              "before": 71334640,
+              "after": 40251516,
+              "positiveReductionBytes": 31083124
+            },
+            {
+              "ts": 268444480,
+              "name": "MinorGC",
+              "durationMs": 1.791,
+              "before": 70294928,
+              "after": 42816724,
+              "positiveReductionBytes": 27478204
+            },
+            {
+              "ts": 268486985,
+              "name": "MinorGC",
+              "durationMs": 0.897,
+              "before": 71868624,
+              "after": 45355756,
+              "positiveReductionBytes": 26512868
+            },
+            {
+              "ts": 268527113,
+              "name": "MinorGC",
+              "durationMs": 0.95,
+              "before": 75015124,
+              "after": 47932476,
+              "positiveReductionBytes": 27082648
+            },
+            {
+              "ts": 268566640,
+              "name": "MinorGC",
+              "durationMs": 0.794,
+              "before": 77112096,
+              "after": 50535576,
+              "positiveReductionBytes": 26576520
+            },
+            {
+              "ts": 268616277,
+              "name": "MinorGC",
+              "durationMs": 0.71,
+              "before": 83927140,
+              "after": 53031692,
+              "positiveReductionBytes": 30895448
+            },
+            {
+              "ts": 268673451,
+              "name": "MinorGC",
+              "durationMs": 1.005,
+              "before": 88121056,
+              "after": 55456816,
+              "positiveReductionBytes": 32664240
+            },
+            {
+              "ts": 268722594,
+              "name": "MinorGC",
+              "durationMs": 0.926,
+              "before": 89693676,
+              "after": 58116964,
+              "positiveReductionBytes": 31576712
+            },
+            {
+              "ts": 268761936,
+              "name": "MinorGC",
+              "durationMs": 1.101,
+              "before": 87596492,
+              "after": 60689564,
+              "positiveReductionBytes": 26906928
+            },
+            {
+              "ts": 268801210,
+              "name": "MinorGC",
+              "durationMs": 0.977,
+              "before": 89955680,
+              "after": 63259724,
+              "positiveReductionBytes": 26695956
+            },
+            {
+              "ts": 268842562,
+              "name": "MinorGC",
+              "durationMs": 1.109,
+              "before": 92576844,
+              "after": 65816816,
+              "positiveReductionBytes": 26760028
+            },
+            {
+              "ts": 268887523,
+              "name": "MinorGC",
+              "durationMs": 1.011,
+              "before": 96508488,
+              "after": 68340636,
+              "positiveReductionBytes": 28167852
+            },
+            {
+              "ts": 268930452,
+              "name": "MinorGC",
+              "durationMs": 1.228,
+              "before": 97295228,
+              "after": 70902180,
+              "positiveReductionBytes": 26393048
+            },
+            {
+              "ts": 268970502,
+              "name": "MinorGC",
+              "durationMs": 1.472,
+              "before": 99916116,
+              "after": 73444456,
+              "positiveReductionBytes": 26471660
+            },
+            {
+              "ts": 269033107,
+              "name": "MinorGC",
+              "durationMs": 1.286,
+              "before": 102537384,
+              "after": 75963068,
+              "positiveReductionBytes": 26574316
+            },
+            {
+              "ts": 269078641,
+              "name": "MinorGC",
+              "durationMs": 0.92,
+              "before": 105683052,
+              "after": 78646756,
+              "positiveReductionBytes": 27036296
+            },
+            {
+              "ts": 269137833,
+              "name": "MinorGC",
+              "durationMs": 0.853,
+              "before": 113546604,
+              "after": 81135240,
+              "positiveReductionBytes": 32411364
+            },
+            {
+              "ts": 269205933,
+              "name": "MajorGC",
+              "durationMs": 981.726,
+              "before": 109834980,
+              "after": 21713172,
+              "positiveReductionBytes": 88121808
+            },
+            {
+              "ts": 270242878,
+              "name": "MinorGC",
+              "durationMs": 1.149,
+              "before": 55894660,
+              "after": 24150028,
+              "positiveReductionBytes": 31744632
+            },
+            {
+              "ts": 270286594,
+              "name": "MinorGC",
+              "durationMs": 1.554,
+              "before": 54136896,
+              "after": 26652788,
+              "positiveReductionBytes": 27484108
+            },
+            {
+              "ts": 270329872,
+              "name": "MinorGC",
+              "durationMs": 2.498,
+              "before": 56752356,
+              "after": 29227008,
+              "positiveReductionBytes": 27525348
+            },
+            {
+              "ts": 270396335,
+              "name": "MinorGC",
+              "durationMs": 2.587,
+              "before": 59793588,
+              "after": 31715792,
+              "positiveReductionBytes": 28077796
+            },
+            {
+              "ts": 270453609,
+              "name": "MinorGC",
+              "durationMs": 1.451,
+              "before": 63658216,
+              "after": 34236292,
+              "positiveReductionBytes": 29421924
+            },
+            {
+              "ts": 270505571,
+              "name": "MinorGC",
+              "durationMs": 1.402,
+              "before": 64585008,
+              "after": 36760492,
+              "positiveReductionBytes": 27824516
+            },
+            {
+              "ts": 270557563,
+              "name": "MinorGC",
+              "durationMs": 1.284,
+              "before": 66628896,
+              "after": 39396848,
+              "positiveReductionBytes": 27232048
+            },
+            {
+              "ts": 270609084,
+              "name": "MinorGC",
+              "durationMs": 1.254,
+              "before": 68677952,
+              "after": 41911352,
+              "positiveReductionBytes": 26766600
+            },
+            {
+              "ts": 270660741,
+              "name": "MinorGC",
+              "durationMs": 1.012,
+              "before": 71344644,
+              "after": 44475720,
+              "positiveReductionBytes": 26868924
+            },
+            {
+              "ts": 270732457,
+              "name": "MinorGC",
+              "durationMs": 0.78,
+              "before": 79490040,
+              "after": 46916848,
+              "positiveReductionBytes": 32573192
+            },
+            {
+              "ts": 270789552,
+              "name": "MinorGC",
+              "durationMs": 0.967,
+              "before": 76467768,
+              "after": 48923740,
+              "positiveReductionBytes": 27544028
+            },
+            {
+              "ts": 270848355,
+              "name": "MinorGC",
+              "durationMs": 0.754,
+              "before": 81505264,
+              "after": 51528124,
+              "positiveReductionBytes": 29977140
+            },
+            {
+              "ts": 270895068,
+              "name": "MinorGC",
+              "durationMs": 0.987,
+              "before": 80908964,
+              "after": 54046656,
+              "positiveReductionBytes": 26862308
+            },
+            {
+              "ts": 270942402,
+              "name": "MinorGC",
+              "durationMs": 0.904,
+              "before": 83492032,
+              "after": 56556756,
+              "positiveReductionBytes": 26935276
+            },
+            {
+              "ts": 270984636,
+              "name": "MinorGC",
+              "durationMs": 0.726,
+              "before": 86535000,
+              "after": 59075308,
+              "positiveReductionBytes": 27459692
+            },
+            {
+              "ts": 271036269,
+              "name": "MinorGC",
+              "durationMs": 0.797,
+              "before": 91530224,
+              "after": 61629676,
+              "positiveReductionBytes": 29900548
+            },
+            {
+              "ts": 271092061,
+              "name": "MinorGC",
+              "durationMs": 1.156,
+              "before": 94668696,
+              "after": 64113904,
+              "positiveReductionBytes": 30554792
+            },
+            {
+              "ts": 271135380,
+              "name": "MinorGC",
+              "durationMs": 1.007,
+              "before": 93364576,
+              "after": 66645720,
+              "positiveReductionBytes": 26718856
+            },
+            {
+              "ts": 271181535,
+              "name": "MinorGC",
+              "durationMs": 0.888,
+              "before": 95986212,
+              "after": 69170292,
+              "positiveReductionBytes": 26815920
+            },
+            {
+              "ts": 271246805,
+              "name": "MinorGC",
+              "durationMs": 3.962,
+              "before": 98613504,
+              "after": 71727608,
+              "positiveReductionBytes": 26885896
+            },
+            {
+              "ts": 271318180,
+              "name": "MinorGC",
+              "durationMs": 0.89,
+              "before": 106739284,
+              "after": 74149364,
+              "positiveReductionBytes": 32589920
+            },
+            {
+              "ts": 271373634,
+              "name": "MinorGC",
+              "durationMs": 1.104,
+              "before": 108837216,
+              "after": 76030024,
+              "positiveReductionBytes": 32807192
+            },
+            {
+              "ts": 271422674,
+              "name": "MinorGC",
+              "durationMs": 0.896,
+              "before": 105481744,
+              "after": 78081692,
+              "positiveReductionBytes": 27400052
+            },
+            {
+              "ts": 271478921,
+              "name": "MinorGC",
+              "durationMs": 0.882,
+              "before": 108220540,
+              "after": 80638712,
+              "positiveReductionBytes": 27581828
+            },
+            {
+              "ts": 271520344,
+              "name": "MinorGC",
+              "durationMs": 1.059,
+              "before": 110011584,
+              "after": 83132128,
+              "positiveReductionBytes": 26879456
+            },
+            {
+              "ts": 271563370,
+              "name": "MinorGC",
+              "durationMs": 1.026,
+              "before": 112370736,
+              "after": 85690336,
+              "positiveReductionBytes": 26680400
+            },
+            {
+              "ts": 271624444,
+              "name": "MajorGC",
+              "durationMs": 1121.398,
+              "before": 117123220,
+              "after": 20998200,
+              "positiveReductionBytes": 96125020
+            },
+            {
+              "ts": 272805027,
+              "name": "MinorGC",
+              "durationMs": 1.749,
+              "before": 55824940,
+              "after": 23259100,
+              "positiveReductionBytes": 32565840
+            },
+            {
+              "ts": 272850153,
+              "name": "MinorGC",
+              "durationMs": 1.592,
+              "before": 53882608,
+              "after": 25836300,
+              "positiveReductionBytes": 28046308
+            },
+            {
+              "ts": 272895875,
+              "name": "MinorGC",
+              "durationMs": 2.247,
+              "before": 56112212,
+              "after": 28360384,
+              "positiveReductionBytes": 27751828
+            },
+            {
+              "ts": 272942186,
+              "name": "MinorGC",
+              "durationMs": 2.683,
+              "before": 58663820,
+              "after": 30875716,
+              "positiveReductionBytes": 27788104
+            },
+            {
+              "ts": 273001624,
+              "name": "MinorGC",
+              "durationMs": 1.768,
+              "before": 64626308,
+              "after": 33301244,
+              "positiveReductionBytes": 31325064
+            },
+            {
+              "ts": 273055388,
+              "name": "MinorGC",
+              "durationMs": 1.693,
+              "before": 63881068,
+              "after": 35273404,
+              "positiveReductionBytes": 28607664
+            },
+            {
+              "ts": 273117024,
+              "name": "MinorGC",
+              "durationMs": 1.42,
+              "before": 69395640,
+              "after": 37780224,
+              "positiveReductionBytes": 31615416
+            },
+            {
+              "ts": 273162373,
+              "name": "MinorGC",
+              "durationMs": 1.252,
+              "before": 67334760,
+              "after": 40303092,
+              "positiveReductionBytes": 27031668
+            },
+            {
+              "ts": 273210035,
+              "name": "MinorGC",
+              "durationMs": 1.075,
+              "before": 70797212,
+              "after": 42808184,
+              "positiveReductionBytes": 27989028
+            },
+            {
+              "ts": 273251925,
+              "name": "MinorGC",
+              "durationMs": 0.81,
+              "before": 72001520,
+              "after": 45367216,
+              "positiveReductionBytes": 26634304
+            },
+            {
+              "ts": 273304148,
+              "name": "MinorGC",
+              "durationMs": 0.749,
+              "before": 77691496,
+              "after": 47891228,
+              "positiveReductionBytes": 29800268
+            },
+            {
+              "ts": 273360518,
+              "name": "MinorGC",
+              "durationMs": 1.049,
+              "before": 82876056,
+              "after": 50460800,
+              "positiveReductionBytes": 32415256
+            },
+            {
+              "ts": 273412659,
+              "name": "MinorGC",
+              "durationMs": 1.023,
+              "before": 83829952,
+              "after": 53040908,
+              "positiveReductionBytes": 30789044
+            },
+            {
+              "ts": 273456779,
+              "name": "MinorGC",
+              "durationMs": 1.165,
+              "before": 82667848,
+              "after": 55574324,
+              "positiveReductionBytes": 27093524
+            },
+            {
+              "ts": 273501459,
+              "name": "MinorGC",
+              "durationMs": 0.94,
+              "before": 85379684,
+              "after": 58162840,
+              "positiveReductionBytes": 27216844
+            },
+            {
+              "ts": 273560879,
+              "name": "MinorGC",
+              "durationMs": 1.099,
+              "before": 93017648,
+              "after": 60638044,
+              "positiveReductionBytes": 32379604
+            },
+            {
+              "ts": 273612038,
+              "name": "MinorGC",
+              "durationMs": 0.755,
+              "before": 89341044,
+              "after": 62513008,
+              "positiveReductionBytes": 26828036
+            },
+            {
+              "ts": 273665695,
+              "name": "MinorGC",
+              "durationMs": 0.82,
+              "before": 95964908,
+              "after": 65041204,
+              "positiveReductionBytes": 30923704
+            },
+            {
+              "ts": 273707562,
+              "name": "MinorGC",
+              "durationMs": 1.097,
+              "before": 94470692,
+              "after": 67529808,
+              "positiveReductionBytes": 26940884
+            },
+            {
+              "ts": 273759986,
+              "name": "MinorGC",
+              "durationMs": 1.058,
+              "before": 97409792,
+              "after": 70098656,
+              "positiveReductionBytes": 27311136
+            },
+            {
+              "ts": 273813195,
+              "name": "MinorGC",
+              "durationMs": 1.055,
+              "before": 99858780,
+              "after": 72587920,
+              "positiveReductionBytes": 27270860
+            },
+            {
+              "ts": 273866916,
+              "name": "MinorGC",
+              "durationMs": 0.936,
+              "before": 105681024,
+              "after": 75139804,
+              "positiveReductionBytes": 30541220
+            },
+            {
+              "ts": 273922183,
+              "name": "MinorGC",
+              "durationMs": 3.099,
+              "before": 109488252,
+              "after": 77599780,
+              "positiveReductionBytes": 31888472
+            },
+            {
+              "ts": 273969329,
+              "name": "MinorGC",
+              "durationMs": 0.793,
+              "before": 107544328,
+              "after": 80139600,
+              "positiveReductionBytes": 27404728
+            },
+            {
+              "ts": 274016037,
+              "name": "MinorGC",
+              "durationMs": 0.956,
+              "before": 110064100,
+              "after": 82645792,
+              "positiveReductionBytes": 27418308
+            },
+            {
+              "ts": 274085318,
+              "name": "MajorGC",
+              "durationMs": 1225.296,
+              "before": 120419292,
+              "after": 20632748,
+              "positiveReductionBytes": 99786544
+            },
+            {
+              "ts": 275372440,
+              "name": "MinorGC",
+              "durationMs": 1.515,
+              "before": 53218120,
+              "after": 22530040,
+              "positiveReductionBytes": 30688080
+            },
+            {
+              "ts": 275431217,
+              "name": "MinorGC",
+              "durationMs": 1.886,
+              "before": 56426620,
+              "after": 24520600,
+              "positiveReductionBytes": 31906020
+            },
+            {
+              "ts": 275472069,
+              "name": "MinorGC",
+              "durationMs": 4.265,
+              "before": 52342276,
+              "after": 25866968,
+              "positiveReductionBytes": 26475308
+            },
+            {
+              "ts": 275517082,
+              "name": "MinorGC",
+              "durationMs": 1.411,
+              "before": 55993132,
+              "after": 27711492,
+              "positiveReductionBytes": 28281640
+            },
+            {
+              "ts": 275558162,
+              "name": "MinorGC",
+              "durationMs": 1.601,
+              "before": 58209536,
+              "after": 29597744,
+              "positiveReductionBytes": 28611792
+            },
+            {
+              "ts": 275600353,
+              "name": "MinorGC",
+              "durationMs": 1.889,
+              "before": 60085192,
+              "after": 31473948,
+              "positiveReductionBytes": 28611244
+            },
+            {
+              "ts": 275649068,
+              "name": "MinorGC",
+              "durationMs": 3.889,
+              "before": 64340796,
+              "after": 33380236,
+              "positiveReductionBytes": 30960560
+            },
+            {
+              "ts": 275715548,
+              "name": "MinorGC",
+              "durationMs": 5.708,
+              "before": 67718564,
+              "after": 36101992,
+              "positiveReductionBytes": 31616572
+            },
+            {
+              "ts": 275775906,
+              "name": "MinorGC",
+              "durationMs": 2.502,
+              "before": 63232624,
+              "after": 37980180,
+              "positiveReductionBytes": 25252444
+            },
+            {
+              "ts": 275831870,
+              "name": "MinorGC",
+              "durationMs": 0.935,
+              "before": 72414328,
+              "after": 39846028,
+              "positiveReductionBytes": 32568300
+            },
+            {
+              "ts": 275893966,
+              "name": "MinorGC",
+              "durationMs": 0.974,
+              "before": 71723412,
+              "after": 42460392,
+              "positiveReductionBytes": 29263020
+            },
+            {
+              "ts": 275938699,
+              "name": "MinorGC",
+              "durationMs": 2.623,
+              "before": 72667400,
+              "after": 45023872,
+              "positiveReductionBytes": 27643528
+            }
+          ],
+          "positiveHeapReductionBytes": 3020110412,
+          "nvpSamples": 98,
+          "nvpSpanSeconds": 8.716156,
+          "interiorAllocatedBytes": 2984894868,
+          "allocationBytesPerSecond": 342455420.4858197,
+          "allocationBytesPerTick": 8405378.042813065
+        },
+        {
+          "role": "main",
+          "pid": 1390,
+          "tid": 1390,
+          "identityVerified": true,
+          "cpuSeconds": 8.69,
+          "cpuMsPerTick": 24.13888888888889,
+          "available": true,
+          "reason": null,
+          "outerGCUnionMs": 2841.596,
+          "gcWallPercent": 32.159302851969215,
+          "gcMsPerTick": 7.893322222222222,
+          "completeMinor": 13,
+          "completeMajor": 3,
+          "durationMs": {
+            "n": 16,
+            "mean": 177.59975,
+            "median": 6.348000000000001,
+            "min": 2.331,
+            "max": 1085.807,
+            "p95": null,
+            "spanPercent": 46481.16688116688
+          },
+          "minorDurationMs": {
+            "n": 13,
+            "mean": 5.293153846153847,
+            "median": 5.487,
+            "min": 2.331,
+            "max": 7.757,
+            "p95": null,
+            "spanPercent": 232.77563277563277
+          },
+          "majorDurationMs": {
+            "n": 3,
+            "mean": 924.2616666666667,
+            "median": 1046.725,
+            "min": 640.253,
+            "max": 1085.807,
+            "p95": null,
+            "spanPercent": 69.59030258350995
+          },
+          "completeOuterThreadUnionMs": 2810.232,
+          "objectStatisticsEvents": 3,
+          "objectStatisticsUnionMs": 2744.817,
+          "objectStatisticsDurationsMs": {
+            "n": 3,
+            "mean": 914.939,
+            "median": 1038.669,
+            "min": 628.407,
+            "max": 1077.741,
+            "p95": null,
+            "spanPercent": 71.50365925268176
+          },
+          "heapObservations": [
+            {
+              "ts": 267293605,
+              "name": "MinorGC",
+              "durationMs": 5.039,
+              "before": 125339680,
+              "after": 93223988,
+              "positiveReductionBytes": 32115692
+            },
+            {
+              "ts": 267761149,
+              "name": "MinorGC",
+              "durationMs": 4.5,
+              "before": 124288984,
+              "after": 96237880,
+              "positiveReductionBytes": 28051104
+            },
+            {
+              "ts": 268210603,
+              "name": "MinorGC",
+              "durationMs": 7.673,
+              "before": 127698312,
+              "after": 100775516,
+              "positiveReductionBytes": 26922796
+            },
+            {
+              "ts": 268359694,
+              "name": "MajorGC",
+              "durationMs": 640.253,
+              "before": 107417496,
+              "after": 93212948,
+              "positiveReductionBytes": 14204548
+            },
+            {
+              "ts": 269497913,
+              "name": "MinorGC",
+              "durationMs": 2.75,
+              "before": 123533900,
+              "after": 96603412,
+              "positiveReductionBytes": 26930488
+            },
+            {
+              "ts": 269971802,
+              "name": "MinorGC",
+              "durationMs": 2.331,
+              "before": 121399688,
+              "after": 97027808,
+              "positiveReductionBytes": 24371880
+            },
+            {
+              "ts": 270419859,
+              "name": "MinorGC",
+              "durationMs": 2.624,
+              "before": 126680356,
+              "after": 100239456,
+              "positiveReductionBytes": 26440900
+            },
+            {
+              "ts": 270719216,
+              "name": "MinorGC",
+              "durationMs": 5.487,
+              "before": 125137980,
+              "after": 104589324,
+              "positiveReductionBytes": 20548656
+            },
+            {
+              "ts": 271039725,
+              "name": "MinorGC",
+              "durationMs": 7.384,
+              "before": 130242988,
+              "after": 109063948,
+              "positiveReductionBytes": 21179040
+            },
+            {
+              "ts": 271260169,
+              "name": "MajorGC",
+              "durationMs": 1046.725,
+              "before": 125452668,
+              "after": 94205772,
+              "positiveReductionBytes": 31246896
+            },
+            {
+              "ts": 272897295,
+              "name": "MinorGC",
+              "durationMs": 2.916,
+              "before": 128588616,
+              "after": 97644780,
+              "positiveReductionBytes": 30943836
+            },
+            {
+              "ts": 273296615,
+              "name": "MinorGC",
+              "durationMs": 5.964,
+              "before": 128294532,
+              "after": 102896804,
+              "positiveReductionBytes": 25397728
+            },
+            {
+              "ts": 273605180,
+              "name": "MinorGC",
+              "durationMs": 6.732,
+              "before": 125918940,
+              "after": 106830248,
+              "positiveReductionBytes": 19088692
+            },
+            {
+              "ts": 273991652,
+              "name": "MinorGC",
+              "durationMs": 7.757,
+              "before": 136833732,
+              "after": 112364756,
+              "positiveReductionBytes": 24468976
+            },
+            {
+              "ts": 274371768,
+              "name": "MinorGC",
+              "durationMs": 7.654,
+              "before": 134778116,
+              "after": 114032868,
+              "positiveReductionBytes": 20745248
+            },
+            {
+              "ts": 274604237,
+              "name": "MajorGC",
+              "durationMs": 1085.807,
+              "before": 125009440,
+              "after": 92037808,
+              "positiveReductionBytes": 32971632
+            }
+          ],
+          "positiveHeapReductionBytes": 405628112,
+          "nvpSamples": 16,
+          "nvpSpanSeconds": 8.392555,
+          "interiorAllocatedBytes": 372333148,
+          "allocationBytesPerSecond": 44364695.61414849,
+          "allocationBytesPerTick": 1088906.8067961556
+        }
+      ]
+    },
+    {
+      "id": "T02",
+      "mode": "detailed",
+      "traceJSONBytes": 13108165,
+      "events": 50542,
+      "metadata": {
+        "dataLossOccurred": false,
+        "traceFormat": "json",
+        "streamCompression": "none"
+      },
+      "available": true,
+      "bounds": [
+        316928653.99999994,
+        325994454
+      ],
+      "marks": {
+        "worker": {
+          "args": {
+            "data": {
+              "callTime": 316784957,
+              "sampleTraceId": 4273664962813146,
+              "startTime": 25556.100000000035
+            }
+          },
+          "cat": "blink.user_timing",
+          "name": "S39_WORKER_T02",
+          "ph": "I",
+          "pid": 1390,
+          "s": "t",
+          "tid": 1435,
+          "ts": 316784954,
+          "tts": 4437797
+        },
+        "main": {
+          "args": {
+            "data": {
+              "callTime": 316819850,
+              "navigationId": "BF2EB70C5D080D1E0126BDEA436FDEC0",
+              "sampleTraceId": 4273664962813128,
+              "startTime": 26388.399999999965
+            }
+          },
+          "cat": "blink.user_timing",
+          "name": "S39_MAIN_T02",
+          "ph": "I",
+          "pid": 1390,
+          "s": "t",
+          "tid": 1390,
+          "ts": 316819846,
+          "tts": 183191733
+        }
+      },
+      "roles": [
+        {
+          "role": "worker",
+          "pid": 1390,
+          "tid": 1435,
+          "identityVerified": true,
+          "cpuSeconds": 8.84,
+          "cpuMsPerTick": 24.555555555555557,
+          "available": true,
+          "reason": null,
+          "outerGCUnionMs": 3840.238,
+          "gcWallPercent": 42.35961525734056,
+          "gcMsPerTick": 10.667327777777778,
+          "completeMinor": 93,
+          "completeMajor": 4,
+          "durationMs": {
+            "n": 97,
+            "mean": 39.5900824742268,
+            "median": 1.07,
+            "min": 0.615,
+            "max": 1210.972,
+            "p95": 5.15479999999995,
+            "spanPercent": 196806.0162601626
+          },
+          "minorDurationMs": {
+            "n": 93,
+            "mean": 1.3631182795698926,
+            "median": 1.018,
+            "min": 0.615,
+            "max": 8.658,
+            "p95": 2.4705999999999984,
+            "spanPercent": 1307.8048780487804
+          },
+          "majorDurationMs": {
+            "n": 4,
+            "mean": 928.367,
+            "median": 1044.042,
+            "min": 414.412,
+            "max": 1210.972,
+            "p95": null,
+            "spanPercent": 192.2145111628042
+          },
+          "completeOuterThreadUnionMs": 3784.921,
+          "objectStatisticsEvents": 4,
+          "objectStatisticsUnionMs": 3689.587,
+          "objectStatisticsDurationsMs": {
+            "n": 4,
+            "mean": 922.3967499999999,
+            "median": 1039.1215,
+            "min": 404.506,
+            "max": 1206.838,
+            "p95": null,
+            "spanPercent": 198.34860298734753
+          },
+          "heapObservations": [
+            {
+              "ts": 316988084,
+              "name": "MinorGC",
+              "durationMs": 2.694,
+              "before": 59435456,
+              "after": 27645792,
+              "positiveReductionBytes": 31789664
+            },
+            {
+              "ts": 317049804,
+              "name": "MinorGC",
+              "durationMs": 2.605,
+              "before": 59824384,
+              "after": 28576240,
+              "positiveReductionBytes": 31248144
+            },
+            {
+              "ts": 317110176,
+              "name": "MinorGC",
+              "durationMs": 2.207,
+              "before": 62640780,
+              "after": 30657620,
+              "positiveReductionBytes": 31983160
+            },
+            {
+              "ts": 317155696,
+              "name": "MinorGC",
+              "durationMs": 1.703,
+              "before": 61187900,
+              "after": 32636408,
+              "positiveReductionBytes": 28551492
+            },
+            {
+              "ts": 317193711,
+              "name": "MajorGC",
+              "durationMs": 414.412,
+              "before": 52303124,
+              "after": 20227100,
+              "positiveReductionBytes": 32076024
+            },
+            {
+              "ts": 317697857,
+              "name": "MinorGC",
+              "durationMs": 1.278,
+              "before": 50151492,
+              "after": 21597776,
+              "positiveReductionBytes": 28553716
+            },
+            {
+              "ts": 317761550,
+              "name": "MinorGC",
+              "durationMs": 1.7,
+              "before": 51275008,
+              "after": 22807900,
+              "positiveReductionBytes": 28467108
+            },
+            {
+              "ts": 317838187,
+              "name": "MinorGC",
+              "durationMs": 1.406,
+              "before": 54590564,
+              "after": 24015192,
+              "positiveReductionBytes": 30575372
+            },
+            {
+              "ts": 317928025,
+              "name": "MinorGC",
+              "durationMs": 1.198,
+              "before": 58186600,
+              "after": 25626884,
+              "positiveReductionBytes": 32559716
+            },
+            {
+              "ts": 317982180,
+              "name": "MinorGC",
+              "durationMs": 0.939,
+              "before": 55567444,
+              "after": 27174176,
+              "positiveReductionBytes": 28393268
+            },
+            {
+              "ts": 318032307,
+              "name": "MinorGC",
+              "durationMs": 1.577,
+              "before": 58638360,
+              "after": 29715200,
+              "positiveReductionBytes": 28923160
+            },
+            {
+              "ts": 318077518,
+              "name": "MinorGC",
+              "durationMs": 1.635,
+              "before": 59273376,
+              "after": 32257276,
+              "positiveReductionBytes": 27016100
+            },
+            {
+              "ts": 318122484,
+              "name": "MinorGC",
+              "durationMs": 1.634,
+              "before": 62299772,
+              "after": 34753692,
+              "positiveReductionBytes": 27546080
+            },
+            {
+              "ts": 318170917,
+              "name": "MinorGC",
+              "durationMs": 2.195,
+              "before": 65487868,
+              "after": 37279208,
+              "positiveReductionBytes": 28208660
+            },
+            {
+              "ts": 318220041,
+              "name": "MinorGC",
+              "durationMs": 1.578,
+              "before": 68115916,
+              "after": 39805004,
+              "positiveReductionBytes": 28310912
+            },
+            {
+              "ts": 318268534,
+              "name": "MinorGC",
+              "durationMs": 1.453,
+              "before": 69469172,
+              "after": 42421992,
+              "positiveReductionBytes": 27047180
+            },
+            {
+              "ts": 318314803,
+              "name": "MinorGC",
+              "durationMs": 0.991,
+              "before": 71551848,
+              "after": 44960388,
+              "positiveReductionBytes": 26591460
+            },
+            {
+              "ts": 318361156,
+              "name": "MinorGC",
+              "durationMs": 0.739,
+              "before": 74188352,
+              "after": 47570672,
+              "positiveReductionBytes": 26617680
+            },
+            {
+              "ts": 318406199,
+              "name": "MinorGC",
+              "durationMs": 0.927,
+              "before": 77062984,
+              "after": 50069700,
+              "positiveReductionBytes": 26993284
+            },
+            {
+              "ts": 318469299,
+              "name": "MinorGC",
+              "durationMs": 0.742,
+              "before": 85198268,
+              "after": 52516380,
+              "positiveReductionBytes": 32681888
+            },
+            {
+              "ts": 318520161,
+              "name": "MinorGC",
+              "durationMs": 0.881,
+              "before": 81781700,
+              "after": 54511108,
+              "positiveReductionBytes": 27270592
+            },
+            {
+              "ts": 318569078,
+              "name": "MinorGC",
+              "durationMs": 0.782,
+              "before": 84927012,
+              "after": 57095652,
+              "positiveReductionBytes": 27831360
+            },
+            {
+              "ts": 318614105,
+              "name": "MinorGC",
+              "durationMs": 0.8,
+              "before": 86237780,
+              "after": 59608424,
+              "positiveReductionBytes": 26629356
+            },
+            {
+              "ts": 318658271,
+              "name": "MinorGC",
+              "durationMs": 0.96,
+              "before": 88858556,
+              "after": 62234836,
+              "positiveReductionBytes": 26623720
+            },
+            {
+              "ts": 318702824,
+              "name": "MinorGC",
+              "durationMs": 0.758,
+              "before": 92266420,
+              "after": 64753244,
+              "positiveReductionBytes": 27513176
+            },
+            {
+              "ts": 318749048,
+              "name": "MinorGC",
+              "durationMs": 0.724,
+              "before": 94625356,
+              "after": 67303260,
+              "positiveReductionBytes": 27322096
+            },
+            {
+              "ts": 318795902,
+              "name": "MinorGC",
+              "durationMs": 1.583,
+              "before": 96214192,
+              "after": 69862524,
+              "positiveReductionBytes": 26351668
+            },
+            {
+              "ts": 318860394,
+              "name": "MinorGC",
+              "durationMs": 0.901,
+              "before": 99348464,
+              "after": 72363496,
+              "positiveReductionBytes": 26984968
+            },
+            {
+              "ts": 318899314,
+              "name": "MinorGC",
+              "durationMs": 0.785,
+              "before": 101445160,
+              "after": 74940384,
+              "positiveReductionBytes": 26504776
+            },
+            {
+              "ts": 318950594,
+              "name": "MinorGC",
+              "durationMs": 1.142,
+              "before": 105377224,
+              "after": 77608684,
+              "positiveReductionBytes": 27768540
+            },
+            {
+              "ts": 319025885,
+              "name": "MinorGC",
+              "durationMs": 1.213,
+              "before": 112454880,
+              "after": 80052068,
+              "positiveReductionBytes": 32402812
+            },
+            {
+              "ts": 319117046,
+              "name": "MajorGC",
+              "durationMs": 997.773,
+              "before": 110451436,
+              "after": 21448844,
+              "positiveReductionBytes": 89002592
+            },
+            {
+              "ts": 320164706,
+              "name": "MinorGC",
+              "durationMs": 2,
+              "before": 53245388,
+              "after": 24033136,
+              "positiveReductionBytes": 29212252
+            },
+            {
+              "ts": 320209083,
+              "name": "MinorGC",
+              "durationMs": 2.219,
+              "before": 53926540,
+              "after": 26558944,
+              "positiveReductionBytes": 27367596
+            },
+            {
+              "ts": 320254048,
+              "name": "MinorGC",
+              "durationMs": 1.705,
+              "before": 56392056,
+              "after": 29078584,
+              "positiveReductionBytes": 27313472
+            },
+            {
+              "ts": 320300966,
+              "name": "MinorGC",
+              "durationMs": 2.022,
+              "before": 59958932,
+              "after": 31644864,
+              "positiveReductionBytes": 28314068
+            },
+            {
+              "ts": 320350549,
+              "name": "MinorGC",
+              "durationMs": 1.755,
+              "before": 62999904,
+              "after": 34165208,
+              "positiveReductionBytes": 28834696
+            },
+            {
+              "ts": 320398690,
+              "name": "MinorGC",
+              "durationMs": 8.658,
+              "before": 64477108,
+              "after": 36669116,
+              "positiveReductionBytes": 27807992
+            },
+            {
+              "ts": 320496256,
+              "name": "MinorGC",
+              "durationMs": 1.281,
+              "before": 66172040,
+              "after": 39301792,
+              "positiveReductionBytes": 26870248
+            },
+            {
+              "ts": 320547275,
+              "name": "MinorGC",
+              "durationMs": 0.796,
+              "before": 68491300,
+              "after": 41843104,
+              "positiveReductionBytes": 26648196
+            },
+            {
+              "ts": 320594787,
+              "name": "MinorGC",
+              "durationMs": 0.87,
+              "before": 72440652,
+              "after": 44366440,
+              "positiveReductionBytes": 28074212
+            },
+            {
+              "ts": 320661879,
+              "name": "MinorGC",
+              "durationMs": 0.862,
+              "before": 79335304,
+              "after": 46840168,
+              "positiveReductionBytes": 32495136
+            },
+            {
+              "ts": 320714862,
+              "name": "MinorGC",
+              "durationMs": 0.783,
+              "before": 76724348,
+              "after": 48855704,
+              "positiveReductionBytes": 27868644
+            },
+            {
+              "ts": 320761725,
+              "name": "MinorGC",
+              "durationMs": 0.81,
+              "before": 78954204,
+              "after": 51445636,
+              "positiveReductionBytes": 27508568
+            },
+            {
+              "ts": 320806704,
+              "name": "MinorGC",
+              "durationMs": 2.59,
+              "before": 80585780,
+              "after": 53983980,
+              "positiveReductionBytes": 26601800
+            },
+            {
+              "ts": 320857187,
+              "name": "MinorGC",
+              "durationMs": 0.973,
+              "before": 83222376,
+              "after": 56455760,
+              "positiveReductionBytes": 26766616
+            },
+            {
+              "ts": 320904585,
+              "name": "MinorGC",
+              "durationMs": 1.014,
+              "before": 86272872,
+              "after": 58987880,
+              "positiveReductionBytes": 27284992
+            },
+            {
+              "ts": 320961277,
+              "name": "MinorGC",
+              "durationMs": 0.779,
+              "before": 92252312,
+              "after": 61521616,
+              "positiveReductionBytes": 30730696
+            },
+            {
+              "ts": 321004040,
+              "name": "MinorGC",
+              "durationMs": 0.878,
+              "before": 93024004,
+              "after": 64008116,
+              "positiveReductionBytes": 29015888
+            },
+            {
+              "ts": 321043901,
+              "name": "MinorGC",
+              "durationMs": 0.747,
+              "before": 93023852,
+              "after": 66552092,
+              "positiveReductionBytes": 26471760
+            },
+            {
+              "ts": 321081785,
+              "name": "MinorGC",
+              "durationMs": 0.765,
+              "before": 95644880,
+              "after": 69066016,
+              "positiveReductionBytes": 26578864
+            },
+            {
+              "ts": 321137943,
+              "name": "MinorGC",
+              "durationMs": 1.572,
+              "before": 99581572,
+              "after": 71587364,
+              "positiveReductionBytes": 27994208
+            },
+            {
+              "ts": 321199282,
+              "name": "MinorGC",
+              "durationMs": 0.89,
+              "before": 106658896,
+              "after": 74070336,
+              "positiveReductionBytes": 32588560
+            },
+            {
+              "ts": 321241138,
+              "name": "MinorGC",
+              "durationMs": 1.091,
+              "before": 108231704,
+              "after": 75299016,
+              "positiveReductionBytes": 32932688
+            },
+            {
+              "ts": 321301718,
+              "name": "MinorGC",
+              "durationMs": 1.261,
+              "before": 104621948,
+              "after": 77319296,
+              "positiveReductionBytes": 27302652
+            },
+            {
+              "ts": 321355399,
+              "name": "MinorGC",
+              "durationMs": 1.002,
+              "before": 107497352,
+              "after": 79894280,
+              "positiveReductionBytes": 27603072
+            },
+            {
+              "ts": 321399759,
+              "name": "MinorGC",
+              "durationMs": 1.144,
+              "before": 109136812,
+              "after": 82412036,
+              "positiveReductionBytes": 26724776
+            },
+            {
+              "ts": 321450363,
+              "name": "MinorGC",
+              "durationMs": 0.812,
+              "before": 112020424,
+              "after": 84945100,
+              "positiveReductionBytes": 27075324
+            },
+            {
+              "ts": 321520106,
+              "name": "MajorGC",
+              "durationMs": 1210.972,
+              "before": 116633484,
+              "after": 21279508,
+              "positiveReductionBytes": 95353976
+            },
+            {
+              "ts": 322800785,
+              "name": "MinorGC",
+              "durationMs": 1.261,
+              "before": 56096088,
+              "after": 23533844,
+              "positiveReductionBytes": 32562244
+            },
+            {
+              "ts": 322853518,
+              "name": "MinorGC",
+              "durationMs": 1.319,
+              "before": 54173068,
+              "after": 26098432,
+              "positiveReductionBytes": 28074636
+            },
+            {
+              "ts": 322906331,
+              "name": "MinorGC",
+              "durationMs": 2.391,
+              "before": 56388504,
+              "after": 28618356,
+              "positiveReductionBytes": 27770148
+            },
+            {
+              "ts": 322965430,
+              "name": "MinorGC",
+              "durationMs": 2.285,
+              "before": 58941720,
+              "after": 31155572,
+              "positiveReductionBytes": 27786148
+            },
+            {
+              "ts": 323022995,
+              "name": "MinorGC",
+              "durationMs": 1.874,
+              "before": 64898840,
+              "after": 33592936,
+              "positiveReductionBytes": 31305904
+            },
+            {
+              "ts": 323101604,
+              "name": "MinorGC",
+              "durationMs": 1.889,
+              "before": 64158608,
+              "after": 35547588,
+              "positiveReductionBytes": 28611020
+            },
+            {
+              "ts": 323176652,
+              "name": "MinorGC",
+              "durationMs": 2.235,
+              "before": 69522340,
+              "after": 38063916,
+              "positiveReductionBytes": 31458424
+            },
+            {
+              "ts": 323237053,
+              "name": "MinorGC",
+              "durationMs": 4.279,
+              "before": 67982228,
+              "after": 40567600,
+              "positiveReductionBytes": 27414628
+            },
+            {
+              "ts": 323322447,
+              "name": "MinorGC",
+              "durationMs": 0.94,
+              "before": 71095900,
+              "after": 43104692,
+              "positiveReductionBytes": 27991208
+            },
+            {
+              "ts": 323367153,
+              "name": "MinorGC",
+              "durationMs": 0.788,
+              "before": 72311568,
+              "after": 45656844,
+              "positiveReductionBytes": 26654724
+            },
+            {
+              "ts": 323419460,
+              "name": "MinorGC",
+              "durationMs": 0.775,
+              "before": 77658040,
+              "after": 48142396,
+              "positiveReductionBytes": 29515644
+            },
+            {
+              "ts": 323478379,
+              "name": "MinorGC",
+              "durationMs": 0.756,
+              "before": 83180348,
+              "after": 50715852,
+              "positiveReductionBytes": 32464496
+            },
+            {
+              "ts": 323531388,
+              "name": "MinorGC",
+              "durationMs": 0.93,
+              "before": 83584396,
+              "after": 53355916,
+              "positiveReductionBytes": 30228480
+            },
+            {
+              "ts": 323577166,
+              "name": "MinorGC",
+              "durationMs": 1.018,
+              "before": 82722596,
+              "after": 55845984,
+              "positiveReductionBytes": 26876612
+            },
+            {
+              "ts": 323621227,
+              "name": "MinorGC",
+              "durationMs": 1.07,
+              "before": 85060084,
+              "after": 58410232,
+              "positiveReductionBytes": 26649852
+            },
+            {
+              "ts": 323684203,
+              "name": "MinorGC",
+              "durationMs": 0.85,
+              "before": 93385548,
+              "after": 60958824,
+              "positiveReductionBytes": 32426724
+            },
+            {
+              "ts": 323735415,
+              "name": "MinorGC",
+              "durationMs": 1.194,
+              "before": 89065216,
+              "after": 62793652,
+              "positiveReductionBytes": 26271564
+            },
+            {
+              "ts": 323791238,
+              "name": "MinorGC",
+              "durationMs": 0.936,
+              "before": 96146464,
+              "after": 65291672,
+              "positiveReductionBytes": 30854792
+            },
+            {
+              "ts": 323832064,
+              "name": "MinorGC",
+              "durationMs": 0.948,
+              "before": 94863324,
+              "after": 67817592,
+              "positiveReductionBytes": 27045732
+            },
+            {
+              "ts": 323879132,
+              "name": "MinorGC",
+              "durationMs": 0.744,
+              "before": 97370828,
+              "after": 70376576,
+              "positiveReductionBytes": 26994252
+            },
+            {
+              "ts": 323924814,
+              "name": "MinorGC",
+              "durationMs": 1.568,
+              "before": 99941684,
+              "after": 72875264,
+              "positiveReductionBytes": 27066420
+            },
+            {
+              "ts": 323979284,
+              "name": "MinorGC",
+              "durationMs": 0.765,
+              "before": 105510764,
+              "after": 75372236,
+              "positiveReductionBytes": 30138528
+            },
+            {
+              "ts": 324047785,
+              "name": "MinorGC",
+              "durationMs": 0.842,
+              "before": 109419140,
+              "after": 77920668,
+              "positiveReductionBytes": 31498472
+            },
+            {
+              "ts": 324094113,
+              "name": "MinorGC",
+              "durationMs": 0.791,
+              "before": 107435112,
+              "after": 80389108,
+              "positiveReductionBytes": 27046004
+            },
+            {
+              "ts": 324138515,
+              "name": "MinorGC",
+              "durationMs": 1.709,
+              "before": 110055828,
+              "after": 82922020,
+              "positiveReductionBytes": 27133808
+            },
+            {
+              "ts": 324180050,
+              "name": "MinorGC",
+              "durationMs": 0.783,
+              "before": 112677396,
+              "after": 85425696,
+              "positiveReductionBytes": 27251700
+            },
+            {
+              "ts": 324219253,
+              "name": "MajorGC",
+              "durationMs": 1090.311,
+              "before": 102713444,
+              "after": 21246288,
+              "positiveReductionBytes": 81467156
+            },
+            {
+              "ts": 325385097,
+              "name": "MinorGC",
+              "durationMs": 1.485,
+              "before": 55624268,
+              "after": 22898820,
+              "positiveReductionBytes": 32725448
+            },
+            {
+              "ts": 325447183,
+              "name": "MinorGC",
+              "durationMs": 1.013,
+              "before": 56675276,
+              "after": 24249708,
+              "positiveReductionBytes": 32425568
+            },
+            {
+              "ts": 325502177,
+              "name": "MinorGC",
+              "durationMs": 1.056,
+              "before": 57839564,
+              "after": 25444812,
+              "positiveReductionBytes": 32394752
+            },
+            {
+              "ts": 325552409,
+              "name": "MinorGC",
+              "durationMs": 0.9,
+              "before": 58786292,
+              "after": 26485356,
+              "positiveReductionBytes": 32300936
+            },
+            {
+              "ts": 325595916,
+              "name": "MinorGC",
+              "durationMs": 0.881,
+              "before": 57094512,
+              "after": 27660000,
+              "positiveReductionBytes": 29434512
+            },
+            {
+              "ts": 325647420,
+              "name": "MinorGC",
+              "durationMs": 0.83,
+              "before": 59667668,
+              "after": 28844200,
+              "positiveReductionBytes": 30823468
+            },
+            {
+              "ts": 325698726,
+              "name": "MinorGC",
+              "durationMs": 0.615,
+              "before": 61558076,
+              "after": 30260812,
+              "positiveReductionBytes": 31297264
+            },
+            {
+              "ts": 325765871,
+              "name": "MinorGC",
+              "durationMs": 0.878,
+              "before": 64463396,
+              "after": 32076404,
+              "positiveReductionBytes": 32386992
+            },
+            {
+              "ts": 325812334,
+              "name": "MinorGC",
+              "durationMs": 1.368,
+              "before": 61653964,
+              "after": 33392048,
+              "positiveReductionBytes": 28261916
+            },
+            {
+              "ts": 325870709,
+              "name": "MinorGC",
+              "durationMs": 2.068,
+              "before": 67687648,
+              "after": 35919764,
+              "positiveReductionBytes": 31767884
+            },
+            {
+              "ts": 325942869,
+              "name": "MinorGC",
+              "durationMs": 1.727,
+              "before": 67877764,
+              "after": 38540560,
+              "positiveReductionBytes": 29337204
+            }
+          ],
+          "positiveHeapReductionBytes": 2979395940,
+          "nvpSamples": 97,
+          "nvpSpanSeconds": 8.953863,
+          "interiorAllocatedBytes": 2940351944,
+          "allocationBytesPerSecond": 328389204.0787312,
+          "allocationBytesPerTick": 8269752.350936046
+        },
+        {
+          "role": "main",
+          "pid": 1390,
+          "tid": 1390,
+          "identityVerified": true,
+          "cpuSeconds": 8.65,
+          "cpuMsPerTick": 24.02777777777778,
+          "available": true,
+          "reason": null,
+          "outerGCUnionMs": 2598.867,
+          "gcWallPercent": 28.66671446535316,
+          "gcMsPerTick": 7.219075,
+          "completeMinor": 11,
+          "completeMajor": 3,
+          "durationMs": {
+            "n": 14,
+            "mean": 185.63335714285716,
+            "median": 3.5115,
+            "min": 1.213,
+            "max": 1010.384,
+            "p95": null,
+            "spanPercent": 83196.29018961253
+          },
+          "minorDurationMs": {
+            "n": 11,
+            "mean": 3.3988181818181817,
+            "median": 3.052,
+            "min": 1.213,
+            "max": 8.45,
+            "p95": null,
+            "spanPercent": 596.6199505358614
+          },
+          "majorDurationMs": {
+            "n": 3,
+            "mean": 853.8266666666667,
+            "median": 914.843,
+            "min": 636.253,
+            "max": 1010.384,
+            "p95": null,
+            "spanPercent": 58.80223747471525
+          },
+          "completeOuterThreadUnionMs": 2581.624,
+          "objectStatisticsEvents": 3,
+          "objectStatisticsUnionMs": 2524.136,
+          "objectStatisticsDurationsMs": {
+            "n": 3,
+            "mean": 841.3786666666666,
+            "median": 892.922,
+            "min": 629.631,
+            "max": 1001.583,
+            "p95": null,
+            "spanPercent": 59.074600837633476
+          },
+          "heapObservations": [
+            {
+              "ts": 317358616,
+              "name": "MinorGC",
+              "durationMs": 3.581,
+              "before": 125613716,
+              "after": 94804136,
+              "positiveReductionBytes": 30809580
+            },
+            {
+              "ts": 317921205,
+              "name": "MajorGC",
+              "durationMs": 914.843,
+              "before": 126675220,
+              "after": 95921612,
+              "positiveReductionBytes": 30753608
+            },
+            {
+              "ts": 319393854,
+              "name": "MinorGC",
+              "durationMs": 3.559,
+              "before": 130544024,
+              "after": 100079240,
+              "positiveReductionBytes": 30464784
+            },
+            {
+              "ts": 319836742,
+              "name": "MinorGC",
+              "durationMs": 2.183,
+              "before": 124517368,
+              "after": 100520028,
+              "positiveReductionBytes": 23997340
+            },
+            {
+              "ts": 320356676,
+              "name": "MinorGC",
+              "durationMs": 3.052,
+              "before": 134491804,
+              "after": 104328776,
+              "positiveReductionBytes": 30163028
+            },
+            {
+              "ts": 320470158,
+              "name": "MajorGC",
+              "durationMs": 636.253,
+              "before": 111864344,
+              "after": 93313976,
+              "positiveReductionBytes": 18550368
+            },
+            {
+              "ts": 321492348,
+              "name": "MinorGC",
+              "durationMs": 8.45,
+              "before": 122141644,
+              "after": 98759208,
+              "positiveReductionBytes": 23382436
+            },
+            {
+              "ts": 321900400,
+              "name": "MinorGC",
+              "durationMs": 3.464,
+              "before": 121045100,
+              "after": 99639932,
+              "positiveReductionBytes": 21405168
+            },
+            {
+              "ts": 322417284,
+              "name": "MinorGC",
+              "durationMs": 1.213,
+              "before": 127065820,
+              "after": 99993824,
+              "positiveReductionBytes": 27071996
+            },
+            {
+              "ts": 322885826,
+              "name": "MinorGC",
+              "durationMs": 2.253,
+              "before": 129256368,
+              "after": 102419388,
+              "positiveReductionBytes": 26836980
+            },
+            {
+              "ts": 323300472,
+              "name": "MajorGC",
+              "durationMs": 1010.384,
+              "before": 128498340,
+              "after": 92535980,
+              "positiveReductionBytes": 35962360
+            },
+            {
+              "ts": 324817711,
+              "name": "MinorGC",
+              "durationMs": 1.691,
+              "before": 120187928,
+              "after": 93709316,
+              "positiveReductionBytes": 26478612
+            },
+            {
+              "ts": 325357756,
+              "name": "MinorGC",
+              "durationMs": 2.202,
+              "before": 121620444,
+              "after": 93947600,
+              "positiveReductionBytes": 27672844
+            },
+            {
+              "ts": 325758694,
+              "name": "MinorGC",
+              "durationMs": 5.739,
+              "before": 123487052,
+              "after": 99650600,
+              "positiveReductionBytes": 23836452
+            }
+          ],
+          "positiveHeapReductionBytes": 377385556,
+          "nvpSamples": 14,
+          "nvpSpanSeconds": 8.402209,
+          "interiorAllocatedBytes": 347223188,
+          "allocationBytesPerSecond": 41325226.25895167,
+          "allocationBytesPerTick": 1040683.9894955723
+        }
+      ]
+    },
+    {
+      "id": "G02",
+      "mode": "light",
+      "traceJSONBytes": 423645,
+      "events": 2585,
+      "metadata": {
+        "dataLossOccurred": false,
+        "traceFormat": "json",
+        "streamCompression": "none"
+      },
+      "available": true,
+      "bounds": [
+        367819956,
+        373049056
+      ],
+      "marks": {
+        "worker": {
+          "args": {
+            "data": {
+              "callTime": 367754460,
+              "sampleTraceId": 4273664962762243,
+              "startTime": 26286.70000000001
+            }
+          },
+          "cat": "blink.user_timing",
+          "name": "S39_WORKER_G02",
+          "ph": "I",
+          "pid": 1390,
+          "s": "t",
+          "tid": 1439,
+          "ts": 367754456,
+          "tts": 3851366
+        },
+        "main": {
+          "args": {
+            "data": {
+              "callTime": 367783032,
+              "navigationId": "CC9A8486109C9548A6358279FB10B3A1",
+              "sampleTraceId": 4273664962761200,
+              "startTime": 27023.599999999977
+            }
+          },
+          "cat": "blink.user_timing",
+          "name": "S39_MAIN_G02",
+          "ph": "I",
+          "pid": 1390,
+          "s": "t",
+          "tid": 1390,
+          "ts": 367783028,
+          "tts": 230155371
+        }
+      },
+      "roles": [
+        {
+          "role": "worker",
+          "pid": 1390,
+          "tid": 1439,
+          "identityVerified": true,
+          "cpuSeconds": 5.13,
+          "cpuMsPerTick": 14.25,
+          "available": true,
+          "reason": null,
+          "outerGCUnionMs": 132.152,
+          "gcWallPercent": 2.527241781568541,
+          "gcMsPerTick": 0.3670888888888889,
+          "completeMinor": 98,
+          "completeMajor": 4,
+          "durationMs": {
+            "n": 102,
+            "mean": 1.295607843137255,
+            "median": 0.889,
+            "min": 0.588,
+            "max": 6.297,
+            "p95": 2.7872999999999992,
+            "spanPercent": 970.9183673469388
+          },
+          "minorDurationMs": {
+            "n": 98,
+            "mean": 1.1824591836734692,
+            "median": 0.882,
+            "min": 0.588,
+            "max": 6.297,
+            "p95": 2.3234499999999962,
+            "spanPercent": 970.9183673469388
+          },
+          "majorDurationMs": {
+            "n": 4,
+            "mean": 4.06775,
+            "median": 4.0755,
+            "min": 2.277,
+            "max": 5.843,
+            "p95": null,
+            "spanPercent": 156.60957400087833
+          },
+          "completeOuterThreadUnionMs": 105.928,
+          "objectStatisticsEvents": 0,
+          "objectStatisticsUnionMs": 0,
+          "objectStatisticsDurationsMs": null,
+          "heapObservations": [
+            {
+              "ts": 367858991,
+              "name": "MinorGC",
+              "durationMs": 6.297,
+              "before": 83591972,
+              "after": 34513860,
+              "positiveReductionBytes": 49078112
+            },
+            {
+              "ts": 367928673,
+              "name": "MinorGC",
+              "durationMs": 1.959,
+              "before": 67992816,
+              "after": 36502900,
+              "positiveReductionBytes": 31489916
+            },
+            {
+              "ts": 367973466,
+              "name": "MinorGC",
+              "durationMs": 1.081,
+              "before": 65856980,
+              "after": 37986232,
+              "positiveReductionBytes": 27870748
+            },
+            {
+              "ts": 368017689,
+              "name": "MinorGC",
+              "durationMs": 1.095,
+              "before": 67663188,
+              "after": 39920092,
+              "positiveReductionBytes": 27743096
+            },
+            {
+              "ts": 368060307,
+              "name": "MajorGC",
+              "durationMs": 5.843,
+              "before": 58556824,
+              "after": 19494484,
+              "positiveReductionBytes": 39062340
+            },
+            {
+              "ts": 368130151,
+              "name": "MinorGC",
+              "durationMs": 0.646,
+              "before": 50223032,
+              "after": 20986220,
+              "positiveReductionBytes": 29236812
+            },
+            {
+              "ts": 368186530,
+              "name": "MinorGC",
+              "durationMs": 0.671,
+              "before": 50565612,
+              "after": 22182696,
+              "positiveReductionBytes": 28382916
+            },
+            {
+              "ts": 368233587,
+              "name": "MinorGC",
+              "durationMs": 0.793,
+              "before": 52707620,
+              "after": 23589228,
+              "positiveReductionBytes": 29118392
+            },
+            {
+              "ts": 368291489,
+              "name": "MinorGC",
+              "durationMs": 0.846,
+              "before": 57399304,
+              "after": 24966712,
+              "positiveReductionBytes": 32432592
+            },
+            {
+              "ts": 368348259,
+              "name": "MinorGC",
+              "durationMs": 0.895,
+              "before": 58710284,
+              "after": 26175428,
+              "positiveReductionBytes": 32534856
+            },
+            {
+              "ts": 368397454,
+              "name": "MinorGC",
+              "durationMs": 1.015,
+              "before": 54492668,
+              "after": 27481044,
+              "positiveReductionBytes": 27011624
+            },
+            {
+              "ts": 368440604,
+              "name": "MinorGC",
+              "durationMs": 1.29,
+              "before": 58460972,
+              "after": 29392924,
+              "positiveReductionBytes": 29068048
+            },
+            {
+              "ts": 368482236,
+              "name": "MinorGC",
+              "durationMs": 1.598,
+              "before": 59117436,
+              "after": 31276220,
+              "positiveReductionBytes": 27841216
+            },
+            {
+              "ts": 368531382,
+              "name": "MinorGC",
+              "durationMs": 1.535,
+              "before": 61051924,
+              "after": 33170396,
+              "positiveReductionBytes": 27881528
+            },
+            {
+              "ts": 368571457,
+              "name": "MinorGC",
+              "durationMs": 1.463,
+              "before": 60631768,
+              "after": 35245020,
+              "positiveReductionBytes": 25386748
+            },
+            {
+              "ts": 368615169,
+              "name": "MinorGC",
+              "durationMs": 1.311,
+              "before": 66060372,
+              "after": 37803980,
+              "positiveReductionBytes": 28256392
+            },
+            {
+              "ts": 368668239,
+              "name": "MinorGC",
+              "durationMs": 1.946,
+              "before": 68683256,
+              "after": 40298376,
+              "positiveReductionBytes": 28384880
+            },
+            {
+              "ts": 368736525,
+              "name": "MinorGC",
+              "durationMs": 1.98,
+              "before": 70030580,
+              "after": 42914796,
+              "positiveReductionBytes": 27115784
+            },
+            {
+              "ts": 368819259,
+              "name": "MinorGC",
+              "durationMs": 2.049,
+              "before": 72377756,
+              "after": 45516100,
+              "positiveReductionBytes": 26861656
+            },
+            {
+              "ts": 368874429,
+              "name": "MinorGC",
+              "durationMs": 0.907,
+              "before": 75269948,
+              "after": 48072064,
+              "positiveReductionBytes": 27197884
+            },
+            {
+              "ts": 368915452,
+              "name": "MinorGC",
+              "durationMs": 0.621,
+              "before": 77620692,
+              "after": 50607256,
+              "positiveReductionBytes": 27013436
+            },
+            {
+              "ts": 368973839,
+              "name": "MinorGC",
+              "durationMs": 0.896,
+              "before": 85756212,
+              "after": 53053528,
+              "positiveReductionBytes": 32702684
+            },
+            {
+              "ts": 369022258,
+              "name": "MinorGC",
+              "durationMs": 0.7,
+              "before": 82874988,
+              "after": 55050284,
+              "positiveReductionBytes": 27824704
+            },
+            {
+              "ts": 369067759,
+              "name": "MinorGC",
+              "durationMs": 0.612,
+              "before": 85758120,
+              "after": 57669172,
+              "positiveReductionBytes": 28088948
+            },
+            {
+              "ts": 369110287,
+              "name": "MinorGC",
+              "durationMs": 0.646,
+              "before": 87068932,
+              "after": 60174464,
+              "positiveReductionBytes": 26894468
+            },
+            {
+              "ts": 369152405,
+              "name": "MinorGC",
+              "durationMs": 0.777,
+              "before": 89689680,
+              "after": 62785704,
+              "positiveReductionBytes": 26903976
+            },
+            {
+              "ts": 369194177,
+              "name": "MinorGC",
+              "durationMs": 0.646,
+              "before": 92573200,
+              "after": 65328864,
+              "positiveReductionBytes": 27244336
+            },
+            {
+              "ts": 369237431,
+              "name": "MinorGC",
+              "durationMs": 0.778,
+              "before": 95456656,
+              "after": 67839036,
+              "positiveReductionBytes": 27617620
+            },
+            {
+              "ts": 369279476,
+              "name": "MinorGC",
+              "durationMs": 0.66,
+              "before": 97029396,
+              "after": 70418780,
+              "positiveReductionBytes": 26610616
+            },
+            {
+              "ts": 369322486,
+              "name": "MinorGC",
+              "durationMs": 0.64,
+              "before": 99912536,
+              "after": 72935820,
+              "positiveReductionBytes": 26976716
+            },
+            {
+              "ts": 369364359,
+              "name": "MinorGC",
+              "durationMs": 0.883,
+              "before": 102533596,
+              "after": 75544808,
+              "positiveReductionBytes": 26988788
+            },
+            {
+              "ts": 369406417,
+              "name": "MinorGC",
+              "durationMs": 0.975,
+              "before": 105693072,
+              "after": 78195404,
+              "positiveReductionBytes": 27497668
+            },
+            {
+              "ts": 369448997,
+              "name": "MajorGC",
+              "durationMs": 2.489,
+              "before": 95659340,
+              "after": 20378136,
+              "positiveReductionBytes": 75281204
+            },
+            {
+              "ts": 369502287,
+              "name": "MinorGC",
+              "durationMs": 0.683,
+              "before": 50268332,
+              "after": 21844856,
+              "positiveReductionBytes": 28423476
+            },
+            {
+              "ts": 369548309,
+              "name": "MinorGC",
+              "durationMs": 0.594,
+              "before": 49869124,
+              "after": 23113056,
+              "positiveReductionBytes": 26756068
+            },
+            {
+              "ts": 369588838,
+              "name": "MinorGC",
+              "durationMs": 0.747,
+              "before": 53011824,
+              "after": 24742040,
+              "positiveReductionBytes": 28269784
+            },
+            {
+              "ts": 369630582,
+              "name": "MinorGC",
+              "durationMs": 0.63,
+              "before": 54800520,
+              "after": 26340904,
+              "positiveReductionBytes": 28459616
+            },
+            {
+              "ts": 369675303,
+              "name": "MinorGC",
+              "durationMs": 0.821,
+              "before": 56442284,
+              "after": 27957068,
+              "positiveReductionBytes": 28485216
+            },
+            {
+              "ts": 369719577,
+              "name": "MinorGC",
+              "durationMs": 0.826,
+              "before": 58835040,
+              "after": 29551596,
+              "positiveReductionBytes": 29283444
+            },
+            {
+              "ts": 369765524,
+              "name": "MinorGC",
+              "durationMs": 1.006,
+              "before": 60902556,
+              "after": 31685308,
+              "positiveReductionBytes": 29217248
+            },
+            {
+              "ts": 369807550,
+              "name": "MinorGC",
+              "durationMs": 1.495,
+              "before": 62066828,
+              "after": 34274764,
+              "positiveReductionBytes": 27792064
+            },
+            {
+              "ts": 369848122,
+              "name": "MinorGC",
+              "durationMs": 1.457,
+              "before": 64066692,
+              "after": 36800060,
+              "positiveReductionBytes": 27266632
+            },
+            {
+              "ts": 369891847,
+              "name": "MinorGC",
+              "durationMs": 2.006,
+              "before": 67153728,
+              "after": 39406952,
+              "positiveReductionBytes": 27746776
+            },
+            {
+              "ts": 369944345,
+              "name": "MinorGC",
+              "durationMs": 1.48,
+              "before": 72567344,
+              "after": 41885492,
+              "positiveReductionBytes": 30681852
+            },
+            {
+              "ts": 369991247,
+              "name": "MinorGC",
+              "durationMs": 1.489,
+              "before": 70781644,
+              "after": 43795356,
+              "positiveReductionBytes": 26986288
+            },
+            {
+              "ts": 370044221,
+              "name": "MinorGC",
+              "durationMs": 1.227,
+              "before": 72836144,
+              "after": 45739092,
+              "positiveReductionBytes": 27097052
+            },
+            {
+              "ts": 370085849,
+              "name": "MinorGC",
+              "durationMs": 1.108,
+              "before": 75921844,
+              "after": 48360912,
+              "positiveReductionBytes": 27560932
+            },
+            {
+              "ts": 370127310,
+              "name": "MinorGC",
+              "durationMs": 0.65,
+              "before": 77777044,
+              "after": 50881244,
+              "positiveReductionBytes": 26895800
+            },
+            {
+              "ts": 370167787,
+              "name": "MinorGC",
+              "durationMs": 0.732,
+              "before": 80369760,
+              "after": 53395100,
+              "positiveReductionBytes": 26974660
+            },
+            {
+              "ts": 370211972,
+              "name": "MinorGC",
+              "durationMs": 0.778,
+              "before": 83689956,
+              "after": 55924980,
+              "positiveReductionBytes": 27764976
+            },
+            {
+              "ts": 370264978,
+              "name": "MinorGC",
+              "durationMs": 0.71,
+              "before": 89286184,
+              "after": 58426848,
+              "positiveReductionBytes": 30859336
+            },
+            {
+              "ts": 370313145,
+              "name": "MinorGC",
+              "durationMs": 0.71,
+              "before": 89966948,
+              "after": 60949688,
+              "positiveReductionBytes": 29017260
+            },
+            {
+              "ts": 370355633,
+              "name": "MinorGC",
+              "durationMs": 1.017,
+              "before": 90228800,
+              "after": 63441888,
+              "positiveReductionBytes": 26786912
+            },
+            {
+              "ts": 370395220,
+              "name": "MinorGC",
+              "durationMs": 0.631,
+              "before": 92587932,
+              "after": 65989948,
+              "positiveReductionBytes": 26597984
+            },
+            {
+              "ts": 370444091,
+              "name": "MinorGC",
+              "durationMs": 0.839,
+              "before": 96781732,
+              "after": 68601204,
+              "positiveReductionBytes": 28180528
+            },
+            {
+              "ts": 370494301,
+              "name": "MinorGC",
+              "durationMs": 0.754,
+              "before": 96519676,
+              "after": 70437556,
+              "positiveReductionBytes": 26082120
+            },
+            {
+              "ts": 370555639,
+              "name": "MinorGC",
+              "durationMs": 0.924,
+              "before": 105221448,
+              "after": 72334964,
+              "positiveReductionBytes": 32886484
+            },
+            {
+              "ts": 370607407,
+              "name": "MinorGC",
+              "durationMs": 2.791,
+              "before": 100765132,
+              "after": 74227328,
+              "positiveReductionBytes": 26537804
+            },
+            {
+              "ts": 370663336,
+              "name": "MinorGC",
+              "durationMs": 0.804,
+              "before": 104935192,
+              "after": 76862696,
+              "positiveReductionBytes": 28072496
+            },
+            {
+              "ts": 370714114,
+              "name": "MinorGC",
+              "durationMs": 0.837,
+              "before": 106335876,
+              "after": 79347288,
+              "positiveReductionBytes": 26988588
+            },
+            {
+              "ts": 370765203,
+              "name": "MinorGC",
+              "durationMs": 0.754,
+              "before": 108957236,
+              "after": 81852584,
+              "positiveReductionBytes": 27104652
+            },
+            {
+              "ts": 370799628,
+              "name": "MajorGC",
+              "durationMs": 2.277,
+              "before": 97252804,
+              "after": 20108160,
+              "positiveReductionBytes": 77144644
+            },
+            {
+              "ts": 370875088,
+              "name": "MinorGC",
+              "durationMs": 1.37,
+              "before": 55042104,
+              "after": 22666360,
+              "positiveReductionBytes": 32375744
+            },
+            {
+              "ts": 370931169,
+              "name": "MinorGC",
+              "durationMs": 1.577,
+              "before": 55199216,
+              "after": 25220704,
+              "positiveReductionBytes": 29978512
+            },
+            {
+              "ts": 370990571,
+              "name": "MinorGC",
+              "durationMs": 4.629,
+              "before": 55253988,
+              "after": 27736224,
+              "positiveReductionBytes": 27517764
+            },
+            {
+              "ts": 371067763,
+              "name": "MinorGC",
+              "durationMs": 1.485,
+              "before": 58077232,
+              "after": 30286668,
+              "positiveReductionBytes": 27790564
+            },
+            {
+              "ts": 371126817,
+              "name": "MinorGC",
+              "durationMs": 1.493,
+              "before": 62421108,
+              "after": 32803832,
+              "positiveReductionBytes": 29617276
+            },
+            {
+              "ts": 371182203,
+              "name": "MinorGC",
+              "durationMs": 1.3,
+              "before": 61462692,
+              "after": 34689000,
+              "positiveReductionBytes": 26773692
+            },
+            {
+              "ts": 371240745,
+              "name": "MinorGC",
+              "durationMs": 1.302,
+              "before": 62624056,
+              "after": 36574096,
+              "positiveReductionBytes": 26049960
+            },
+            {
+              "ts": 371296663,
+              "name": "MinorGC",
+              "durationMs": 0.71,
+              "before": 68105348,
+              "after": 39083212,
+              "positiveReductionBytes": 29022136
+            },
+            {
+              "ts": 371348654,
+              "name": "MinorGC",
+              "durationMs": 0.683,
+              "before": 69593756,
+              "after": 41617840,
+              "positiveReductionBytes": 27975916
+            },
+            {
+              "ts": 371399983,
+              "name": "MinorGC",
+              "durationMs": 0.91,
+              "before": 71031724,
+              "after": 44124220,
+              "positiveReductionBytes": 26907504
+            },
+            {
+              "ts": 371464377,
+              "name": "MinorGC",
+              "durationMs": 0.848,
+              "before": 74359220,
+              "after": 46652308,
+              "positiveReductionBytes": 27706912
+            },
+            {
+              "ts": 371527133,
+              "name": "MinorGC",
+              "durationMs": 0.739,
+              "before": 79541764,
+              "after": 49197440,
+              "positiveReductionBytes": 30344324
+            },
+            {
+              "ts": 371590223,
+              "name": "MinorGC",
+              "durationMs": 1.027,
+              "before": 84328072,
+              "after": 51811964,
+              "positiveReductionBytes": 32516108
+            },
+            {
+              "ts": 371645120,
+              "name": "MinorGC",
+              "durationMs": 0.852,
+              "before": 83778352,
+              "after": 54345476,
+              "positiveReductionBytes": 29432876
+            },
+            {
+              "ts": 371695383,
+              "name": "MinorGC",
+              "durationMs": 0.588,
+              "before": 84079292,
+              "after": 56888244,
+              "positiveReductionBytes": 27191048
+            },
+            {
+              "ts": 371747750,
+              "name": "MinorGC",
+              "durationMs": 0.691,
+              "before": 86868204,
+              "after": 59427424,
+              "positiveReductionBytes": 27440780
+            },
+            {
+              "ts": 371805834,
+              "name": "MinorGC",
+              "durationMs": 0.784,
+              "before": 87269664,
+              "after": 61320848,
+              "positiveReductionBytes": 25948816
+            },
+            {
+              "ts": 371862038,
+              "name": "MinorGC",
+              "durationMs": 0.663,
+              "before": 89775904,
+              "after": 63186248,
+              "positiveReductionBytes": 26589656
+            },
+            {
+              "ts": 371921615,
+              "name": "MinorGC",
+              "durationMs": 0.762,
+              "before": 96739384,
+              "after": 65714944,
+              "positiveReductionBytes": 31024440
+            },
+            {
+              "ts": 371970296,
+              "name": "MinorGC",
+              "durationMs": 0.793,
+              "before": 95479716,
+              "after": 68199812,
+              "positiveReductionBytes": 27279904
+            },
+            {
+              "ts": 372021382,
+              "name": "MinorGC",
+              "durationMs": 0.841,
+              "before": 97752956,
+              "after": 70739580,
+              "positiveReductionBytes": 27013376
+            },
+            {
+              "ts": 372073715,
+              "name": "MinorGC",
+              "durationMs": 0.765,
+              "before": 100540356,
+              "after": 73253660,
+              "positiveReductionBytes": 27286696
+            },
+            {
+              "ts": 372129835,
+              "name": "MinorGC",
+              "durationMs": 0.645,
+              "before": 106138472,
+              "after": 75758328,
+              "positiveReductionBytes": 30380144
+            },
+            {
+              "ts": 372186621,
+              "name": "MinorGC",
+              "durationMs": 0.816,
+              "before": 110024996,
+              "after": 78249680,
+              "positiveReductionBytes": 31775316
+            },
+            {
+              "ts": 372235955,
+              "name": "MinorGC",
+              "durationMs": 0.775,
+              "before": 108190364,
+              "after": 80762984,
+              "positiveReductionBytes": 27427380
+            },
+            {
+              "ts": 372270432,
+              "name": "MajorGC",
+              "durationMs": 5.662,
+              "before": 95740996,
+              "after": 20323560,
+              "positiveReductionBytes": 75417436
+            },
+            {
+              "ts": 372328505,
+              "name": "MinorGC",
+              "durationMs": 0.882,
+              "before": 50988464,
+              "after": 22610984,
+              "positiveReductionBytes": 28377480
+            },
+            {
+              "ts": 372389152,
+              "name": "MinorGC",
+              "durationMs": 1.594,
+              "before": 55924388,
+              "after": 25180080,
+              "positiveReductionBytes": 30744308
+            },
+            {
+              "ts": 372452135,
+              "name": "MinorGC",
+              "durationMs": 2.717,
+              "before": 58524076,
+              "after": 27127784,
+              "positiveReductionBytes": 31396292
+            },
+            {
+              "ts": 372496672,
+              "name": "MinorGC",
+              "durationMs": 1.035,
+              "before": 54209596,
+              "after": 28513148,
+              "positiveReductionBytes": 25696448
+            },
+            {
+              "ts": 372540838,
+              "name": "MinorGC",
+              "durationMs": 1.415,
+              "before": 62356160,
+              "after": 30416248,
+              "positiveReductionBytes": 31939912
+            },
+            {
+              "ts": 372590801,
+              "name": "MinorGC",
+              "durationMs": 1.558,
+              "before": 61154916,
+              "after": 32275492,
+              "positiveReductionBytes": 28879424
+            },
+            {
+              "ts": 372647528,
+              "name": "MinorGC",
+              "durationMs": 1.287,
+              "before": 63046036,
+              "after": 34177192,
+              "positiveReductionBytes": 28868844
+            },
+            {
+              "ts": 372706519,
+              "name": "MinorGC",
+              "durationMs": 4.73,
+              "before": 65201912,
+              "after": 36065588,
+              "positiveReductionBytes": 29136324
+            },
+            {
+              "ts": 372752936,
+              "name": "MinorGC",
+              "durationMs": 1.203,
+              "before": 63785128,
+              "after": 38154708,
+              "positiveReductionBytes": 25630420
+            },
+            {
+              "ts": 372803894,
+              "name": "MinorGC",
+              "durationMs": 0.882,
+              "before": 70432988,
+              "after": 40639836,
+              "positiveReductionBytes": 29793152
+            },
+            {
+              "ts": 372850127,
+              "name": "MinorGC",
+              "durationMs": 0.596,
+              "before": 74078188,
+              "after": 42614412,
+              "positiveReductionBytes": 31463776
+            },
+            {
+              "ts": 372911959,
+              "name": "MinorGC",
+              "durationMs": 1.199,
+              "before": 76360764,
+              "after": 45120068,
+              "positiveReductionBytes": 31240696
+            },
+            {
+              "ts": 372958876,
+              "name": "MinorGC",
+              "durationMs": 0.77,
+              "before": 75569168,
+              "after": 47711628,
+              "positiveReductionBytes": 27857540
+            },
+            {
+              "ts": 373012926,
+              "name": "MinorGC",
+              "durationMs": 2.254,
+              "before": 78731840,
+              "after": 49583628,
+              "positiveReductionBytes": 29148212
+            }
+          ],
+          "positiveHeapReductionBytes": 3070478504,
+          "nvpSamples": 0,
+          "nvpSpanSeconds": null,
+          "interiorAllocatedBytes": null,
+          "allocationBytesPerSecond": null,
+          "allocationBytesPerTick": null
+        },
+        {
+          "role": "main",
+          "pid": 1390,
+          "tid": 1390,
+          "identityVerified": true,
+          "cpuSeconds": 5.01,
+          "cpuMsPerTick": 13.916666666666666,
+          "available": true,
+          "reason": null,
+          "outerGCUnionMs": 99.623,
+          "gcWallPercent": 1.9051653248168985,
+          "gcMsPerTick": 0.27673055555555554,
+          "completeMinor": 12,
+          "completeMajor": 2,
+          "durationMs": {
+            "n": 14,
+            "mean": 7.115928571428571,
+            "median": 6.543,
+            "min": 4.527,
+            "max": 17.657,
+            "p95": null,
+            "spanPercent": 290.03755246299977
+          },
+          "minorDurationMs": {
+            "n": 12,
+            "mean": 6.305416666666666,
+            "median": 6.4455,
+            "min": 4.527,
+            "max": 7.741,
+            "p95": null,
+            "spanPercent": 70.99624475370001
+          },
+          "majorDurationMs": {
+            "n": 2,
+            "mean": 11.979,
+            "median": 11.979,
+            "min": 6.301,
+            "max": 17.657,
+            "p95": null,
+            "spanPercent": 180.22536105380098
+          },
+          "completeOuterThreadUnionMs": 77.907,
+          "objectStatisticsEvents": 0,
+          "objectStatisticsUnionMs": 0,
+          "objectStatisticsDurationsMs": null,
+          "heapObservations": [
+            {
+              "ts": 368203638,
+              "name": "MinorGC",
+              "durationMs": 6.883,
+              "before": 120990520,
+              "after": 95485108,
+              "positiveReductionBytes": 25505412
+            },
+            {
+              "ts": 368581125,
+              "name": "MinorGC",
+              "durationMs": 5.682,
+              "before": 125799448,
+              "after": 100465960,
+              "positiveReductionBytes": 25333488
+            },
+            {
+              "ts": 368790521,
+              "name": "MajorGC",
+              "durationMs": 17.657,
+              "before": 111581452,
+              "after": 93891264,
+              "positiveReductionBytes": 17690188
+            },
+            {
+              "ts": 369295217,
+              "name": "MinorGC",
+              "durationMs": 4.711,
+              "before": 128842420,
+              "after": 100878016,
+              "positiveReductionBytes": 27964404
+            },
+            {
+              "ts": 369659753,
+              "name": "MinorGC",
+              "durationMs": 6.785,
+              "before": 128636468,
+              "after": 105997248,
+              "positiveReductionBytes": 22639220
+            },
+            {
+              "ts": 370022988,
+              "name": "MinorGC",
+              "durationMs": 7.236,
+              "before": 133837380,
+              "after": 110459116,
+              "positiveReductionBytes": 23378264
+            },
+            {
+              "ts": 370404154,
+              "name": "MinorGC",
+              "durationMs": 7.638,
+              "before": 140320096,
+              "after": 115664368,
+              "positiveReductionBytes": 24655728
+            },
+            {
+              "ts": 370718523,
+              "name": "MinorGC",
+              "durationMs": 7.741,
+              "before": 140240680,
+              "after": 120130572,
+              "positiveReductionBytes": 20110108
+            },
+            {
+              "ts": 371030044,
+              "name": "MajorGC",
+              "durationMs": 6.301,
+              "before": 143015040,
+              "after": 93319260,
+              "positiveReductionBytes": 49695780
+            },
+            {
+              "ts": 371480571,
+              "name": "MinorGC",
+              "durationMs": 4.527,
+              "before": 127150592,
+              "after": 99595000,
+              "positiveReductionBytes": 27555592
+            },
+            {
+              "ts": 371734430,
+              "name": "MinorGC",
+              "durationMs": 6.106,
+              "before": 121106896,
+              "after": 103443640,
+              "positiveReductionBytes": 17663256
+            },
+            {
+              "ts": 372031983,
+              "name": "MinorGC",
+              "durationMs": 5.406,
+              "before": 127178940,
+              "after": 107393148,
+              "positiveReductionBytes": 19785792
+            },
+            {
+              "ts": 372351626,
+              "name": "MinorGC",
+              "durationMs": 7.299,
+              "before": 133701428,
+              "after": 112166080,
+              "positiveReductionBytes": 21535348
+            },
+            {
+              "ts": 372760092,
+              "name": "MinorGC",
+              "durationMs": 5.651,
+              "before": 141544824,
+              "after": 117071100,
+              "positiveReductionBytes": 24473724
+            }
+          ],
+          "positiveHeapReductionBytes": 347986304,
+          "nvpSamples": 0,
+          "nvpSpanSeconds": null,
+          "interiorAllocatedBytes": null,
+          "allocationBytesPerSecond": null,
+          "allocationBytesPerTick": null
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "n2 per mode, fixed reversed order, six simulated seconds, one150bodyCI scenario; no inferential confidence or desktop limit.",
+    "GC tracing can perturb collection; light events are not unobserved gameplay. No subtracted overhead or predicted optimization savings.",
+    "State reset is not a heap reset; import/warmup garbage and fresh-worker lifetimes affect collections.",
+    "Positive heap reductions are collected/churn observations, NOT allocated or retained bytes. Detailed NVP inter-GC allocation is a proxy, no source-stack ownership/leak conclusion.",
+    "GC shares across threads and prior exclusive phases must not be added. Linux CPU brackets retain residual skew; exports are outside useful windows."
+  ]
+}
