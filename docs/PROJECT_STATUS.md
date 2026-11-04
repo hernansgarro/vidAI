@@ -1,3 +1,30 @@
+# Creature envelope P2 — isolated contributor testing calculator (2026-11-04)
+
+Authorized branch `feature/conservative-creature-envelope-p2` starts from P1
+testing `3f66276e3f5b223af490a9c1a857b604dcd40993`. Scope/acceptance and the
+no-hard-hinge-gap decision were recorded before implementation in
+[fork PR107](https://github.com/hernansgarro/vidAI/pull/107#issuecomment-6639493699).
+Upstream #67/#57 remain canonical and read-only under this task's restriction.
+
+`creatureEnvelope.ts` computes an immutable O(n²) anatomy descriptor: corner
+radii plus mass-weighted pairwise tree paths enclose all rotations/branches
+relative to the moving COM. A supplied certified anchor-gap bound gives a finite
+conditional lifetime square. Without it, multi-part lifetime radius is Infinity:
+finite solver iterations and finite-coordinate imports establish no hard gap.
+The explicit O(n) current-pose square is the safe fallback, reusing anatomy data
+and failing open on overflow. No fake stretch simulation or guessed residual.
+
+Eleven added fast cases inspect all corners across long/unequal-mass/branched/
+folded/rotated/extreme bodies and all 64 catalogue anatomies, residuals, arbitrary
+saved separation, numeric overflow, invalid inputs, snapshots/PRNG and isolation.
+Validation/PR/merge/publication receipts belong in the internal P2 PR; initial
+new-test import/type errors and local npm cache-path failure were corrected
+without changing inherited assertions. See [P2 contract](contributor-workspace/performance/CREATURE_ENVELOPE_P2.md).
+No runtime/lifecycle wiring, P3/P4, main/upstream, physics/genetics/energy/save/
+baseline/workflow/version change, performance claim or actual Wiki publication.
+
+---
+
 # Central spatial grid P1 — isolated contributor testing primitive (2026-11-04)
 
 Authorized scope: P1 only, branch `feature/central-grid-matrix-p1`, based on P0

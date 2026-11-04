@@ -242,3 +242,17 @@ Candidate ordering is left to future consumer integration. No speedup is claimed
 See the [P1 API, bounds and memory contract](https://github.com/hernansgarro/vidAI/blob/testing/docs/contributor-workspace/performance/CENTRAL_GRID_P1.md).
 This section describes the fork's testing work, not upstream shipped behavior;
 the actual Wiki is not published as part of this task.
+
+## Isolated creature envelope — contributor testing only
+
+P2 adds `creatureEnvelope.ts`, an anatomy-time mass-weighted tree-path bound
+covering body rectangles under all rotations, branches and COM shifts. A finite
+multi-part lifetime guarantee requires a proven maximum hinge-anchor gap, which
+the current solver/import validation does not supply. Without that certificate,
+the API explicitly reports an unbounded lifetime envelope and offers a safe
+current-pose square using cached anatomy geometry; it never assumes a small
+solver residual. Neither function is wired into simulation, P1 or rendering.
+No physics, optics, feeding, saves, UI or performance changes are claimed.
+See the [P2 contract and proof](https://github.com/hernansgarro/vidAI/blob/testing/docs/contributor-workspace/performance/CREATURE_ENVELOPE_P2.md).
+This describes fork testing source only; actual upstream Wiki publication and
+later grid integration remain separate.
