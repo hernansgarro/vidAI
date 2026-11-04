@@ -221,7 +221,7 @@ for (const fallback of [false, true]) test(`diagnostic console retains, filters 
     await settings.getByRole('button', {name: 'Export Snapshot', exact: true}).dispatchEvent('click');
     return JSON.parse(await readFile((await (await download).path())!, 'utf8'));
   };
-  const cfg = {...DEFAULT_SETTINGS, targetNutrients: 0, inflowRate: 0};
+  const cfg = {...DEFAULT_SETTINGS, targetNutrients: 0, inflowRate: 0, nutrientLimit: null};
   const source = createSnapshot(createInitialWorld(cfg, 73, 'balanced', 'standard', 1), cfg);
   const upload = async (text: string) => settings.locator('input[type=file]').setInputFiles({name: 'diagnostics.json', mimeType: 'application/json', buffer: Buffer.from(text)});
   await upload(JSON.stringify(source));
