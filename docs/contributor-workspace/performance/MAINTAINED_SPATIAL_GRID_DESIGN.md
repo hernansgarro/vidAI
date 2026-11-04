@@ -1,6 +1,6 @@
 # VIDA 2D — Maintained Spatial Grid, Ordered Queries, and Observer Diagnostics
 
-> **Status (2026-11-04): fork-only design discussion and implementation backlog; documentation, NOT implemented code, measured improvement, owner acceptance in upstream, or permission to change production.**
+> **Status (2026-11-04): fork-only design and implementation plan. P0 is complete; P1 is implemented in isolation on the testing-based topic branch, with integration/validation receipts in its internal PR. See [P1 contract](CENTRAL_GRID_P1.md). No live simulation integration, measured improvement, upstream acceptance or production-promotion authorization. P2+ remains unimplemented by this task.**
 >
 > **Owner intent:** keep this design in `hernansgarro/vidAI:main`; after design review, refresh the fork's `testing` branch from fork `main` while preserving its independent testing overlay and historical experiment identity, then implement and manually inspect there. No experimental performance batch is a prerequisite. Automated correctness/regression tests remain mandatory. Compare against untouched `main` after the implementation is usable. No upstream PR or upstream merge is authorized.
 >
@@ -133,7 +133,7 @@ These are **bounded work packages**, not newly created issue cards and not an au
 
 ## 7. Explicit uncertainties, not blocking this documentation
 
-- The **maximum allowed aquarium dimensions** and exact coordinate behavior for current/future tube geometry must be confirmed from settings/limits for matrix allocation; do not assume the initial Pipe World size equals the maximum.
+- P1 confirmed maximum aquarium dimensions **4800 × 3000** from import validation/UI, with current **300-unit tube extensions** on both sides. Its default 1075-slot capacity covers that water; additional future conservative envelopes/solver overshoots require explicit bounded capacity provisioning, not silent clipping. See [P1 contract](CENTRAL_GRID_P1.md). Do not assume the initial Pipe World size equals the maximum.
 - Mixed typed grid vs specialized views, and whether the permanent coarse creature envelope complements individual part entries, must retain current per-consumer granularity. Document any decision before changing query behavior.
 - Whether the periodic audit interval is 60 **simulated** seconds or 60 **wall** seconds is not yet explicitly specified; recommend a deterministic simulated clock, with manual command.
 - Whether and how to cache result sets, keep source-index order without `sort`, and opportunistically filter only actual mouth contacts remain implementation hypotheses. Benchmarks can follow the owner's manual testing; **not prerequisites** for building the first testing prototype.
