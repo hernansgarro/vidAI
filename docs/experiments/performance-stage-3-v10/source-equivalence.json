@@ -1,0 +1,242 @@
+{
+  "immutableEvidenceCommit": "9c00d5497db3b351ada3230a4c2b835c79d0abcc",
+  "method": "Compare exact local artifact bytes to independently fetched remote Git blob IDs. No simulation/replay.",
+  "files": [
+    {
+      "path": "docs/experiments/performance-stage-3-v10/P01-original.json.gz",
+      "gitBlob": "60c77fb2a7a05905785507abfff5895bbc862a85",
+      "sha256": "bb61b3a032ef65a1eef98e43e38244cd9be761c239d236016b623ff49adec8ed",
+      "bytes": 1333268
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v10/P01-validated.json.gz",
+      "gitBlob": "65f9c6cc5082b6010b028ad559312861c8735ebf",
+      "sha256": "015050ad62133ddeac8f59780a48f92bfbd0809b9bf1e1a40a70f2ea79cb34bd",
+      "bytes": 754
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v10/P01-warmup.json.gz",
+      "gitBlob": "0643233d5bbe58f0c454ee182c3f107de725b895",
+      "sha256": "b85b07c2da1568f7ff932f6dd97d0d480a830f76284114846ef5c560bd709c28",
+      "bytes": 111
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v10/P02-original.json.gz",
+      "gitBlob": "a30b7e43587094f0a3e61de6f3afd7fc18c94190",
+      "sha256": "7b1babf5b9b7fcedfd17baea4a07bc7c2f610b9ed5bddbf0ba0a267435cee04b",
+      "bytes": 2648945
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v10/P02-validated.json.gz",
+      "gitBlob": "a4e9345e229c8b52b2d099ad18a95bfcda6b72ad",
+      "sha256": "0b37a42c4498f2efd3d55df6c04a72a1ff97b9eb76d1d830f85c4a273dd3f632",
+      "bytes": 759
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v10/P02-warmup.json.gz",
+      "gitBlob": "f920365393d6d4b646c5b6ece43651e378e16569",
+      "sha256": "fb4fbd42e40c89f47163b7c4cf189d0663b830120ca17bac4c560f9407b267f2",
+      "bytes": 111
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v10/P03-original.json.gz",
+      "gitBlob": "e332375f341a8b149b18384fca5e612dde28697d",
+      "sha256": "9e6d6f9b97630e05eee121627510fb40bfb3762ded2dcd991898c85968053d32",
+      "bytes": 5295061
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v10/P03-validated.json.gz",
+      "gitBlob": "cdee1b20243a8f87d565abad65d3f0686f0d9abf",
+      "sha256": "03b3227229bb7fb9b6c5e7e7a36bb019154a34321a83655dd54ad34011750589",
+      "bytes": 756
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v10/P03-warmup.json.gz",
+      "gitBlob": "db83ff8da0708977cf49fb65eb3aa2fe61ff9dac",
+      "sha256": "a6865a0b053cb613ea837a11ee6666a9470d82c35a1734fd0ffd0bd21920e7ff",
+      "bytes": 112
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v10/P04-original.json.gz",
+      "gitBlob": "b10aea58c25a91b9025ca47fa610b39a7fb175bc",
+      "sha256": "f6bff7b1b8ac23ae6eb585fd0105b597742549c7fde1253760e492e0feb84536",
+      "bytes": 7949966
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v10/P04-validated.json.gz",
+      "gitBlob": "3067ea6de84255072e6e762aefa5f55c99fb5f1f",
+      "sha256": "64c360919fbbf11ff3731a8573ebd55c7e0d3d01fc4695cb2be0df72d509fb51",
+      "bytes": 762
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v10/P04-warmup.json.gz",
+      "gitBlob": "5a8dcdfb3b8fe3e276b634725c2b3105e3d486ff",
+      "sha256": "4cfb6e50c51440dabbed5260b1b37337c27590423b886235ebf5ea40a45ae65e",
+      "bytes": 111
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v10/P05-original.json.gz",
+      "gitBlob": "75c5474f79ab4d7af9d6a4a618c0072be8aa9e68",
+      "sha256": "3a43410d2cf21a82077821eb8a2e04704e86f975190511a0faf2d1531c16b5f4",
+      "bytes": 5342135
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v10/P05-validated.json.gz",
+      "gitBlob": "2ee0ad5ce42c84865a8a8347cb29ee4ac265a524",
+      "sha256": "49320f093c8071faaeeafa0db256c2bc26a0490a2f8d64202d351d1853d13b33",
+      "bytes": 763
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v10/P05-warmup.json.gz",
+      "gitBlob": "5f7729c1e7e5acc25cd0f7ed752e0ea19f171fd9",
+      "sha256": "6c9571a2551b7c4bd5dc0234c22d5a51d1a50d1f4d02f8a9576ac891caa0bf6b",
+      "bytes": 110
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v10/P06-original.json.gz",
+      "gitBlob": "f5f3d2bd383b7dbc151dbe2f47ce0bf31022e324",
+      "sha256": "76ac11ba3b6195888b305aff45a9663d2941a34fbe6261eb441c22322428636b",
+      "bytes": 7949939
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v10/P06-validated.json.gz",
+      "gitBlob": "aafd3d2a5fc47e29f5f503539fcfaa74c530d79a",
+      "sha256": "b620a32cbe97d68e9c3c220d3838f0b9e2fb0345b82338ad2664756f36bed5b8",
+      "bytes": 752
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v10/P06-warmup.json.gz",
+      "gitBlob": "cc2977c8ec3fddcb0c1e7b3627bbebd467360c1b",
+      "sha256": "2f3b3eb101aaef2aa7f57090fead3dcae42a40cd3915a8743f25ddcce2e7520e",
+      "bytes": 112
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v10/P07-warmup.json.gz",
+      "gitBlob": "00999ba62401c4ef288173eb5039e2ec238decbe",
+      "sha256": "6e8227639eb70557a57400dd6b17bebdeac5e3eb3136cab998e30871228b1dce",
+      "bytes": 111
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v10/counter-lean.json.gz",
+      "gitBlob": "f11e1599173284baf61964d726d550e9e503967d",
+      "sha256": "b5adaee6f301e1d6dbe5e4fc1509bc12c15220da06ee4bae0fea2cb0aa97d605",
+      "bytes": 75
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v10/counter-research.json.gz",
+      "gitBlob": "f11e1599173284baf61964d726d550e9e503967d",
+      "sha256": "b5adaee6f301e1d6dbe5e4fc1509bc12c15220da06ee4bae0fea2cb0aa97d605",
+      "bytes": 75
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v10/dist-assets.json.gz",
+      "gitBlob": "03ca7479fe5cfbae6f0c837ceb922b9a9f9419a5",
+      "sha256": "54ebb5d4178c31813eb86d47132ceacc70e8bce927a74ca17999ad29d9e3d91c",
+      "bytes": 192299
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v10/fixture-100.json.gz",
+      "gitBlob": "1a36be5f5aefc4120417ec4eb2bae1d7c38ac44b",
+      "sha256": "6c6f488bb1e4960ba4e8cee4873a82f43cec10c51edf8769d212017d4562c302",
+      "bytes": 4880470
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v10/fixture-150.json.gz",
+      "gitBlob": "e3c10f90cc18989af1e421ffd296e555c06c5bbe",
+      "sha256": "b98d4c2583aa9ee7883c475768416288a7c68a6afe993d5d3265809e7116ce27",
+      "bytes": 7318258
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v10/fixture-25.json.gz",
+      "gitBlob": "8e618c2782d10ce9171ffe763624a6a8627c57a7",
+      "sha256": "9971ef3ada8e5862ce27dcf66c7239eda9bcb086d4d6570dbf2a11051836c11f",
+      "bytes": 1222780
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v10/fixture-50.json.gz",
+      "gitBlob": "d69592ecd613365bf5e378823a343d9b34d8ed46",
+      "sha256": "c6bd8d404639983595f62a89a588cb9fe67596f8a158d89307f7940daf03711e",
+      "bytes": 2441913
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v10/fixture-compact.json.gz",
+      "gitBlob": "35a77967df3fe238f1fb62c6c15be3bd4921c179",
+      "sha256": "f334c9d36eedfd1722f28801efa52823d360675edbbba22c8e0fa02a4f6b8e2c",
+      "bytes": 4880776
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v10/ledger.json",
+      "gitBlob": "f6144308212a6da44b3fabc01b69a05f999e6f5b",
+      "sha256": "b1f0f73169ca3b04c574fc4c79dce73d7e884ac337e49a42fcae7992073e6713",
+      "bytes": 2869
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v10/manifest.json.gz",
+      "gitBlob": "8ca33ec3c8b110c2ead31aec3b9c4bacb8505382",
+      "sha256": "ce4dee570187573ece062bc30e0549b36d4fa0c052a355ed78c4cd70f89f35be",
+      "bytes": 7538
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v10/pilot-100-lean.json.gz",
+      "gitBlob": "2a6360934f883d8d97543c98ad7673232513b39d",
+      "sha256": "164962585caf21b416257a4dce5bf46adcb660e4ca84df3f63db242e8328e1a6",
+      "bytes": 5273997
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v10/pilot-100-off.json.gz",
+      "gitBlob": "e699fc7c2bdef110931e59fe215bc467f5d4aa14",
+      "sha256": "e4cccc86a32351533e15cc5df04562c63537395db5f35219cbd015d04179e10a",
+      "bytes": 5274133
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v10/pilot-100-phase.json.gz",
+      "gitBlob": "0d07caaa8fddc39d770ad858b25843e8c93ed62e",
+      "sha256": "a9bb1fc6d19f7d761251d568d564009cd4b9c88fa38b003eaa53f25b2bb42b30",
+      "bytes": 5275834
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v10/pilot-150-lean.json.gz",
+      "gitBlob": "c3a92140119c362d0714e288f4168832a51b8c34",
+      "sha256": "540441db008ac257a43815bc4ad35069ebeced2fbf520e8ea7025ab6c3455bc4",
+      "bytes": 7920511
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v10/pilot-25-lean.json.gz",
+      "gitBlob": "0b6b4a32d2b31358e558378a32cfce84b455648c",
+      "sha256": "ee74e101e632b21be77db1773071104a8a568e3736fbcc47d393ccf55844c53d",
+      "bytes": 1320586
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v10/preregistration.md",
+      "gitBlob": "d99be9b12edb474e5208991586159fd52a628c74",
+      "sha256": "3c09f5ec7f8bc25287bae77716e70a29d19e25a868552851d5f4e8c79ee7f5b5",
+      "bytes": 5369
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v10/readiness.json.gz",
+      "gitBlob": "84c7fa65aa18f088dff634db568201363bda9aeb",
+      "sha256": "866f1e4c0e8e16132be1be7eaee173d2ca1ed06592db801de57136d94dce68d3",
+      "bytes": 5449
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v10/s38-lean-dist-assets.json.gz",
+      "gitBlob": "25a1603024dc41b54c88df59c2e905b0b36ab341",
+      "sha256": "8c730afa32c513e135b4ed91600d276e1195f23b39c3e7d4d94136b851808452",
+      "bytes": 732698
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v10/s38-research-dist-assets.json.gz",
+      "gitBlob": "41d1c75f3232a32ca779fe154891ca8732cacabe",
+      "sha256": "8116baf6fa4d96e3ef73016c86af6c26de29f9f92c9e846ad43cfa9f627629e8",
+      "bytes": 744316
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v10/summary.json",
+      "gitBlob": "2c94e74f8d3f075c4d2a94eef08b7f49e26265aa",
+      "sha256": "39c605162026b845eb7c8c5fe03e348a65e4fbc98c77ab32967e97d650b40517",
+      "bytes": 39080
+    }
+  ],
+  "allInheritedBaseFilesUnchanged": true,
+  "inheritedFiles": 276
+}

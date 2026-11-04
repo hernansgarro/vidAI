@@ -1,0 +1,1605 @@
+{
+  "status": "PARTIAL",
+  "sourceSHA": "f2e5e936f63eb0ca2f366a997abcacbd38460208",
+  "environment": {
+    "stage": "3.8",
+    "sourceSHA": "f2e5e936f63eb0ca2f366a997abcacbd38460208",
+    "baseSHA": "dd7925b9d02a67459bb68985cf2d5647b737247e",
+    "sourceDigests": {
+      "simulation.ts": "0846437a3f54be8abdf7aaf52f5368eb398a65762f2d889df7a671a8ef66b63e",
+      "simulation.worker.ts": "50dcc968cf1b0a8a8ea496a5993c0d87992340e60e9c11c7f83fdae4db6bd6d0",
+      "simulationHost.ts": "801bda0009738bef014066b9650fedfd97e4b856e0af70e0426119178a971e86",
+      "contacts.ts": "ea9be05c5913006c6d6c6b1d2f4a22bc6a7c889d1a4df1cc956c8d3831c16cce",
+      "neuralRuntime.ts": "12f5f52f328613bc2af4c4c2c793e78c4b22abb1c585cec8aba29aca99cac84b",
+      "spatialIndex.ts": "d324b911f764afeced35df0141363c293ce97564a44a23f5facb98ac08992b40",
+      "energyEconomy.ts": "d7285aa7b351ded7a7147fccf1415549a00ccfea0c98b1a9069594daf6017f9c",
+      "persistence.ts": "3e759aadb7e2ccee8bb01da428708dd021320748f546670d67454317a63656c3",
+      "world.ts": "6cbf7da62d1ab3af7ef2c83a9ea565e5d11eb4c55cbf3f20b3c74ac511ceb387",
+      "App.tsx": "04af74c5fbbc19e44af47a8b38d6325ec433cc46148f6138f34d894b8e1e281a",
+      "package.json": "745f1c06fcfdd6a9049efa5a9dcea2f24d6841c414dd43dc9e5caa09334df59f",
+      "package-lock.json": "12450a0271695e3542f0fdf21e5bf0cb5a19c48700f976b5dca8b5678cd66994",
+      "scripts/performance-stage38/build.mjs": "7a9e234b4c43de9a2c767ee37caef70c6216a24e40c305a412b6f6538b675d1f",
+      "scripts/performance-stage38/runtime.mjs": "e21fa213819d023c3c0a61884f449e65d8fb55f6ea7ec7f901f666c033ff2794",
+      "scripts/performance-stage38/measurement.mjs": "18cdb4e37e7c4b1a100920b21ccda7b34d667ecb987e9c85decc51f5bc0e6c33",
+      "scripts/performance-stage38/fixture.ts": "8376a575a322f24c67c566ee8060b20c8cdd468ac5614d5265368eec95333ed1",
+      "scripts/performance-stage38/browser-init.mjs": "4076fe0838c78a0b20ea568c47dd2b5508ef0bfc1cff2c85e4de07ed17ae7def",
+      "scripts/performance-stage38/accounting.mjs": "953527045641f0b3def0f7010f8d16709a08c937411821a1127d46d3fe604e93",
+      "scripts/performance-stage38/preserve.mjs": "a8f43f06f72e285628dac421cd679a5b47a20328feb3d82fe62562a572067442"
+    },
+    "started": "2026-11-04T04:00:13.615Z",
+    "node": "v24.22.1",
+    "browser": "145.0.7632.6",
+    "os": {
+      "type": "Linux",
+      "release": "7.0.0-1017-azure",
+      "arch": "x64"
+    },
+    "cpu": {
+      "model": "AMD EPYC 9V45 96-Core Processor",
+      "speed": 0,
+      "times": {
+        "user": 27000,
+        "nice": 0,
+        "sys": 6770,
+        "idle": 159640,
+        "irq": 0
+      }
+    },
+    "cpuCount": 4,
+    "memory": 16760344576,
+    "clockTicks": 100,
+    "cgroup": {
+      "/sys/fs/cgroup/memory.max": "max",
+      "/sys/fs/cgroup/cpu.max": "max 100000"
+    },
+    "initialProcesses": {
+      "processInfo": [
+        {
+          "type": "browser",
+          "id": 1276,
+          "cpuTime": 0.11
+        },
+        {
+          "type": "GPU",
+          "id": 1294,
+          "cpuTime": 0.01
+        },
+        {
+          "type": "network.mojom.NetworkService",
+          "id": 1307,
+          "cpuTime": 0.02
+        }
+      ]
+    },
+    "browserPID": 1276,
+    "Browser.getVersion": {
+      "protocolVersion": "1.3",
+      "product": "HeadlessChrome/145.0.7632.6",
+      "revision": "@47e20adcc15fc15f01825aa17e570c8f5492ac0f",
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+      "jsVersion": "14.5.201.2"
+    },
+    "SystemInfo.getInfo": {
+      "gpu": {
+        "devices": [
+          {
+            "vendorId": 65535,
+            "deviceId": 65535,
+            "vendorString": "Google Inc. (Google)",
+            "deviceString": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver-5.0.0)",
+            "driverVendor": "SwANGLE",
+            "driverVersion": "5.0.0"
+          }
+        ],
+        "auxAttributes": {
+          "amdSwitchable": false,
+          "canSupportThreadedTextureMailbox": false,
+          "directRenderingVersion": "",
+          "displayType": "ANGLE_SWIFTSHADER",
+          "glExtensions": "GL_AMD_performance_monitor GL_ANGLE_base_vertex_base_instance_shader_builtin GL_ANGLE_blob_cache GL_ANGLE_client_arrays GL_ANGLE_clip_cull_distance GL_ANGLE_compressed_texture_etc GL_ANGLE_copy_texture_3d GL_ANGLE_depth_texture GL_ANGLE_framebuffer_blit GL_ANGLE_framebuffer_multisample GL_ANGLE_get_image GL_ANGLE_get_serialized_context_string GL_ANGLE_get_tex_level_parameter GL_ANGLE_instanced_arrays GL_ANGLE_memory_object_flags GL_ANGLE_memory_size GL_ANGLE_multi_draw GL_ANGLE_pack_reverse_row_order GL_ANGLE_polygon_mode GL_ANGLE_program_binary_readiness_query GL_ANGLE_program_cache_control GL_ANGLE_read_only_depth_stencil_feedback_loops GL_ANGLE_relaxed_vertex_attribute_type GL_ANGLE_renderability_validation GL_ANGLE_request_extension GL_ANGLE_rgbx_internal_format GL_ANGLE_robust_client_memory GL_ANGLE_robust_fragment_shader_output GL_ANGLE_robust_resource_initialization GL_ANGLE_shader_pixel_local_storage GL_ANGLE_shader_pixel_local_storage_coherent GL_ANGLE_stencil_texturing GL_ANGLE_texture_compression_dxt3 GL_ANGLE_texture_compression_dxt5 GL_ANGLE_texture_multisample GL_ANGLE_texture_usage GL_ANGLE_translated_shader_source GL_ANGLE_vulkan_image GL_ANGLE_yuv_internal_format GL_APPLE_clip_distance GL_ARM_rgba8 GL_ARM_shader_framebuffer_fetch GL_ARM_shader_framebuffer_fetch_depth_stencil GL_CHROMIUM_bind_generates_resource GL_CHROMIUM_bind_uniform_location GL_CHROMIUM_copy_compressed_texture GL_CHROMIUM_copy_texture GL_CHROMIUM_lose_context GL_EXT_EGL_image_array GL_EXT_EGL_image_external_wrap_modes GL_EXT_EGL_image_storage GL_EXT_base_instance GL_EXT_blend_minmax GL_EXT_buffer_storage GL_EXT_clear_texture GL_EXT_clip_control GL_EXT_clip_cull_distance GL_EXT_color_buffer_float GL_EXT_color_buffer_half_float GL_EXT_compressed_ETC1_RGB8_sub_texture GL_EXT_conservative_depth GL_EXT_copy_image GL_EXT_debug_label GL_EXT_debug_marker GL_EXT_depth_clamp GL_EXT_discard_framebuffer GL_EXT_disjoint_timer_query GL_EXT_draw_buffers GL_EXT_draw_buffers_indexed GL_EXT_draw_elements_base_vertex GL_EXT_float_blend GL_EXT_frag_depth GL_EXT_instanced_arrays GL_EXT_map_buffer_range GL_EXT_memory_object GL_EXT_memory_object_fd GL_EXT_occlusion_query_boolean GL_EXT_polygon_offset_clamp GL_EXT_read_format_bgra GL_EXT_robustness GL_EXT_sRGB GL_EXT_sRGB_write_control GL_EXT_semaphore GL_EXT_semaphore_fd GL_EXT_separate_shader_objects GL_EXT_shader_framebuffer_fetch GL_EXT_shader_framebuffer_fetch_non_coherent GL_EXT_shader_non_constant_global_initializers GL_EXT_shader_texture_lod GL_EXT_shadow_samplers GL_EXT_texture_border_clamp GL_EXT_texture_compression_bptc GL_EXT_texture_compression_dxt1 GL_EXT_texture_compression_rgtc GL_EXT_texture_compression_s3tc_srgb GL_EXT_texture_cube_map_array GL_EXT_texture_filter_anisotropic GL_EXT_texture_format_BGRA8888 GL_EXT_texture_mirror_clamp_to_edge GL_EXT_texture_rg GL_EXT_texture_sRGB_R8 GL_EXT_texture_sRGB_RG8 GL_EXT_texture_sRGB_decode GL_EXT_texture_shadow_lod GL_EXT_texture_storage GL_EXT_texture_type_2_10_10_10_REV GL_EXT_unpack_subimage GL_KHR_blend_equation_advanced GL_KHR_debug GL_KHR_robust_buffer_access_behavior GL_KHR_robustness GL_KHR_texture_compression_astc_ldr GL_NV_depth_buffer_float2 GL_NV_fence GL_NV_framebuffer_blit GL_NV_pack_subimage GL_NV_pixel_buffer_object GL_NV_polygon_mode GL_NV_read_depth GL_NV_read_depth_stencil GL_NV_read_stencil GL_NV_shader_noperspective_interpolation GL_OES_EGL_image GL_OES_EGL_image_external GL_OES_EGL_image_external_essl3 GL_OES_EGL_sync GL_OES_compressed_EAC_R11_signed_texture GL_OES_compressed_EAC_R11_unsigned_texture GL_OES_compressed_EAC_RG11_signed_texture GL_OES_compressed_EAC_RG11_unsigned_texture GL_OES_compressed_ETC1_RGB8_texture GL_OES_compressed_ETC2_RGB8_texture GL_OES_compressed_ETC2_RGBA8_texture GL_OES_compressed_ETC2_punchthroughA_RGBA8_texture GL_OES_compressed_ETC2_punchthroughA_sRGB8_alpha_texture GL_OES_compressed_ETC2_sRGB8_alpha8_texture GL_OES_compressed_ETC2_sRGB8_texture GL_OES_compressed_paletted_texture GL_OES_copy_image GL_OES_depth24 GL_OES_depth32 GL_OES_depth_texture GL_OES_depth_texture_cube_map GL_OES_draw_buffers_indexed GL_OES_draw_elements_base_vertex GL_OES_element_index_uint GL_OES_fbo_render_mipmap GL_OES_get_program_binary GL_OES_mapbuffer GL_OES_packed_depth_stencil GL_OES_required_internalformat GL_OES_rgb8_rgba8 GL_OES_sample_shading GL_OES_sample_variables GL_OES_shader_multisample_interpolation GL_OES_standard_derivatives GL_OES_surfaceless_context GL_OES_texture_3D GL_OES_texture_border_clamp GL_OES_texture_cube_map_array GL_OES_texture_float GL_OES_texture_float_linear GL_OES_texture_half_float GL_OES_texture_half_float_linear GL_OES_texture_npot GL_OES_texture_stencil8 GL_OES_texture_storage_multisample_2d_array GL_OES_vertex_array_object GL_OES_vertex_half_float GL_OES_vertex_type_10_10_10_2 GL_OVR_multiview GL_OVR_multiview2 ",
+          "glImplementationParts": "(gl=egl-angle,angle=swiftshader)",
+          "glRenderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver-5.0.0)",
+          "glResetNotificationStrategy": 33362,
+          "glVendor": "Google Inc. (Google)",
+          "glVersion": "OpenGL ES 3.0 (ANGLE 2.1.26821 git hash: 4c0ae3917d4f)",
+          "glWsExtensions": "EGL_EXT_create_context_robustness EGL_ANGLE_surface_orientation EGL_KHR_create_context EGL_KHR_image EGL_KHR_image_base EGL_EXT_image_gl_colorspace EGL_KHR_gl_colorspace EGL_KHR_gl_texture_2D_image EGL_KHR_gl_texture_cubemap_image EGL_KHR_gl_renderbuffer_image EGL_KHR_get_all_proc_addresses EGL_KHR_fence_sync EGL_KHR_wait_sync EGL_ANGLE_create_context_webgl_compatibility EGL_CHROMIUM_create_context_bind_generates_resource EGL_KHR_swap_buffers_with_damage EGL_EXT_pixel_format_float EGL_KHR_surfaceless_context EGL_ANGLE_display_texture_share_group EGL_ANGLE_display_semaphore_share_group EGL_ANGLE_create_context_client_arrays EGL_ANGLE_program_cache_control EGL_ANGLE_robust_resource_initialization EGL_ANGLE_create_context_extensions_enabled EGL_ANDROID_blob_cache EGL_ANDROID_recordable EGL_ANGLE_create_context_backwards_compatible EGL_KHR_no_config_context EGL_IMG_context_priority EGL_KHR_create_context_no_error EGL_KHR_reusable_sync EGL_EXT_buffer_age EGL_ANGLE_create_surface_swap_interval EGL_ANGLE_vulkan_image EGL_KHR_partial_update EGL_ANGLE_global_fence_sync EGL_ANGLE_memory_usage_report ",
+          "glWsVendor": "Google Inc. (Google)",
+          "glWsVersion": "1.5 (ANGLE 2.1.26821 git hash: 4c0ae3917d4f)",
+          "hardwareSupportsVulkan": false,
+          "inProcessGpu": false,
+          "initializationTime": 0.01679,
+          "isAsan": false,
+          "isClangCoverage": false,
+          "jpegDecodeAcceleratorSupported": false,
+          "maxMsaaSamples": "4",
+          "optimus": false,
+          "passthroughCmdDecoder": true,
+          "pixelShaderVersion": "3.00",
+          "processCrashCount": 0,
+          "sandboxed": false,
+          "skiaBackendType": "GaneshGL",
+          "subpixelFontRendering": true,
+          "targetCpuBits": 64,
+          "vertexShaderVersion": "3.00",
+          "visibilityCallbackCallCount": 0
+        },
+        "featureStatus": {
+          "2d_canvas": "unavailable_software",
+          "direct_rendering_display_compositor": "disabled_off_ok",
+          "gpu_compositing": "disabled_software",
+          "multiple_raster_threads": "enabled_on",
+          "opengl": "disabled_off",
+          "rasterization": "disabled_software",
+          "raw_draw": "disabled_off_ok",
+          "skia_graphite": "disabled_off",
+          "trees_in_viz": "disabled_off",
+          "video_decode": "disabled_software",
+          "video_encode": "disabled_software",
+          "vulkan": "disabled_off",
+          "webgl": "unavailable_software",
+          "webgpu": "unavailable_software",
+          "webnn": "unavailable_software"
+        },
+        "driverBugWorkarounds": [],
+        "videoDecoding": [],
+        "videoEncoding": []
+      },
+      "modelName": "",
+      "modelVersion": "",
+      "commandLine": "/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-dQwXse --remote-debugging-pipe --no-startup-window --use-gl=angle --use-angle=swiftshader-webgl --ozone-platform=headless --allow-pre-commit-input"
+    },
+    "Browser.getBrowserCommandLine": {
+      "arguments": [
+        "/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell",
+        "--disable-field-trial-config",
+        "--disable-background-networking",
+        "--disable-background-timer-throttling",
+        "--disable-backgrounding-occluded-windows",
+        "--disable-back-forward-cache",
+        "--disable-breakpad",
+        "--disable-client-side-phishing-detection",
+        "--disable-component-extensions-with-background-pages",
+        "--disable-component-update",
+        "--no-default-browser-check",
+        "--disable-default-apps",
+        "--disable-dev-shm-usage",
+        "--disable-extensions",
+        "--disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints",
+        "--enable-features=CDPScreenshotNewSurface",
+        "--allow-pre-commit-input",
+        "--disable-hang-monitor",
+        "--disable-ipc-flooding-protection",
+        "--disable-popup-blocking",
+        "--disable-prompt-on-repost",
+        "--disable-renderer-backgrounding",
+        "--force-color-profile=srgb",
+        "--metrics-recording-only",
+        "--no-first-run",
+        "--password-store=basic",
+        "--use-mock-keychain",
+        "--no-service-autorun",
+        "--export-tagged-pdf",
+        "--disable-search-engine-choice-screen",
+        "--unsafely-disable-devtools-self-xss-warnings",
+        "--edge-skip-compat-layer-relaunch",
+        "--enable-automation",
+        "--disable-infobars",
+        "--disable-search-engine-choice-screen",
+        "--disable-sync",
+        "--enable-unsafe-swiftshader",
+        "--headless",
+        "--hide-scrollbars",
+        "--mute-audio",
+        "--blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4",
+        "--no-sandbox",
+        "--user-data-dir=/tmp/playwright_chromiumdev_profile-dQwXse",
+        "--remote-debugging-pipe",
+        "--no-startup-window",
+        "--use-gl=angle",
+        "--use-angle=swiftshader-webgl",
+        "--ozone-platform=headless",
+        "--allow-pre-commit-input"
+      ]
+    },
+    "ticks": 120,
+    "finished": "2026-11-04T04:04:40.624Z",
+    "activeMs": 59525,
+    "failure": "Error: Raw192MiB ceiling",
+    "ledger": [
+      {
+        "id": "P01",
+        "count": 25,
+        "compact": false,
+        "research": false,
+        "level": "off",
+        "traced": false,
+        "status": "retained"
+      },
+      {
+        "id": "P02",
+        "count": 50,
+        "compact": false,
+        "research": false,
+        "level": "off",
+        "traced": false,
+        "status": "retained"
+      },
+      {
+        "id": "P03",
+        "count": 100,
+        "compact": false,
+        "research": false,
+        "level": "off",
+        "traced": false,
+        "status": "retained"
+      },
+      {
+        "id": "P04",
+        "count": 150,
+        "compact": false,
+        "research": false,
+        "level": "off",
+        "traced": false,
+        "status": "retained"
+      },
+      {
+        "id": "P05",
+        "count": 100,
+        "compact": true,
+        "research": false,
+        "level": "off",
+        "traced": false,
+        "status": "retained"
+      },
+      {
+        "id": "P06",
+        "count": 150,
+        "compact": false,
+        "research": false,
+        "level": "off",
+        "traced": false,
+        "status": "retained"
+      },
+      {
+        "id": "P07",
+        "count": 100,
+        "compact": false,
+        "research": false,
+        "level": "off",
+        "traced": false,
+        "status": "FAILED_OR_UNKNOWN",
+        "failure": "Error: Raw192MiB ceiling"
+      },
+      {
+        "id": "P08",
+        "count": 50,
+        "compact": false,
+        "research": false,
+        "level": "off",
+        "traced": false,
+        "status": "not-started"
+      },
+      {
+        "id": "P09",
+        "count": 25,
+        "compact": false,
+        "research": false,
+        "level": "off",
+        "traced": false,
+        "status": "not-started"
+      },
+      {
+        "id": "P10",
+        "count": 100,
+        "compact": true,
+        "research": false,
+        "level": "off",
+        "traced": false,
+        "status": "not-started"
+      },
+      {
+        "id": "D01",
+        "count": 25,
+        "compact": false,
+        "research": true,
+        "level": "phase",
+        "traced": false,
+        "status": "not-started"
+      },
+      {
+        "id": "D02",
+        "count": 50,
+        "compact": false,
+        "research": true,
+        "level": "phase",
+        "traced": false,
+        "status": "not-started"
+      },
+      {
+        "id": "D03",
+        "count": 100,
+        "compact": false,
+        "research": true,
+        "level": "phase",
+        "traced": false,
+        "status": "not-started"
+      },
+      {
+        "id": "D04",
+        "count": 150,
+        "compact": false,
+        "research": true,
+        "level": "phase",
+        "traced": false,
+        "status": "not-started"
+      },
+      {
+        "id": "D05",
+        "count": 100,
+        "compact": true,
+        "research": true,
+        "level": "phase",
+        "traced": false,
+        "status": "not-started"
+      },
+      {
+        "id": "O01",
+        "count": 100,
+        "compact": false,
+        "research": true,
+        "level": "off",
+        "traced": false,
+        "status": "not-started"
+      },
+      {
+        "id": "T01",
+        "count": 150,
+        "compact": false,
+        "research": false,
+        "level": "off",
+        "traced": true,
+        "status": "not-started"
+      },
+      {
+        "id": "T02",
+        "count": 100,
+        "compact": true,
+        "research": false,
+        "level": "off",
+        "traced": true,
+        "status": "not-started"
+      }
+    ],
+    "rawBytesBeforeManifest": 191889276,
+    "receipts": [
+      {
+        "name": "dist-assets",
+        "sha256": "54ebb5d4178c31813eb86d47132ceacc70e8bce927a74ca17999ad29d9e3d91c",
+        "rawBytes": 804417,
+        "bytes": 192299
+      },
+      {
+        "name": "s38-lean-dist-assets",
+        "sha256": "8c730afa32c513e135b4ed91600d276e1195f23b39c3e7d4d94136b851808452",
+        "rawBytes": 3262355,
+        "bytes": 732698
+      },
+      {
+        "name": "s38-research-dist-assets",
+        "sha256": "8116baf6fa4d96e3ef73016c86af6c26de29f9f92c9e846ad43cfa9f627629e8",
+        "rawBytes": 3294097,
+        "bytes": 744316
+      },
+      {
+        "name": "fixture-25",
+        "sha256": "9971ef3ada8e5862ce27dcf66c7239eda9bcb086d4d6570dbf2a11051836c11f",
+        "rawBytes": 2826932,
+        "bytes": 1222780
+      },
+      {
+        "name": "fixture-50",
+        "sha256": "c6bd8d404639983595f62a89a588cb9fe67596f8a158d89307f7940daf03711e",
+        "rawBytes": 5647925,
+        "bytes": 2441913
+      },
+      {
+        "name": "fixture-100",
+        "sha256": "6c6f488bb1e4960ba4e8cee4873a82f43cec10c51edf8769d212017d4562c302",
+        "rawBytes": 11290173,
+        "bytes": 4880470
+      },
+      {
+        "name": "fixture-150",
+        "sha256": "b98d4c2583aa9ee7883c475768416288a7c68a6afe993d5d3265809e7116ce27",
+        "rawBytes": 16932402,
+        "bytes": 7318258
+      },
+      {
+        "name": "fixture-compact",
+        "sha256": "f334c9d36eedfd1722f28801efa52823d360675edbbba22c8e0fa02a4f6b8e2c",
+        "rawBytes": 11290207,
+        "bytes": 4880776
+      },
+      {
+        "name": "pilot-25-lean",
+        "sha256": "ee74e101e632b21be77db1773071104a8a568e3736fbcc47d393ccf55844c53d",
+        "rawBytes": 3237747,
+        "bytes": 1320586
+      },
+      {
+        "name": "pilot-150-lean",
+        "sha256": "540441db008ac257a43815bc4ad35069ebeced2fbf520e8ea7025ab6c3455bc4",
+        "rawBytes": 19426948,
+        "bytes": 7920511
+      },
+      {
+        "name": "counter-lean",
+        "sha256": "b5adaee6f301e1d6dbe5e4fc1509bc12c15220da06ee4bae0fea2cb0aa97d605",
+        "rawBytes": 69,
+        "bytes": 75
+      },
+      {
+        "name": "pilot-100-lean",
+        "sha256": "164962585caf21b416257a4dce5bf46adcb660e4ca84df3f63db242e8328e1a6",
+        "rawBytes": 12937958,
+        "bytes": 5273997
+      },
+      {
+        "name": "counter-research",
+        "sha256": "b5adaee6f301e1d6dbe5e4fc1509bc12c15220da06ee4bae0fea2cb0aa97d605",
+        "rawBytes": 69,
+        "bytes": 75
+      },
+      {
+        "name": "pilot-100-off",
+        "sha256": "e4cccc86a32351533e15cc5df04562c63537395db5f35219cbd015d04179e10a",
+        "rawBytes": 12938151,
+        "bytes": 5274133
+      },
+      {
+        "name": "pilot-100-phase",
+        "sha256": "a9bb1fc6d19f7d761251d568d564009cd4b9c88fa38b003eaa53f25b2bb42b30",
+        "rawBytes": 12950005,
+        "bytes": 5275834
+      },
+      {
+        "name": "readiness",
+        "sha256": "866f1e4c0e8e16132be1be7eaee173d2ca1ed06592db801de57136d94dce68d3",
+        "rawBytes": 16378,
+        "bytes": 5449
+      },
+      {
+        "name": "P01-warmup",
+        "sha256": "b85b07c2da1568f7ff932f6dd97d0d480a830f76284114846ef5c560bd709c28",
+        "rawBytes": 110,
+        "bytes": 111
+      },
+      {
+        "name": "P01-original",
+        "sha256": "bb61b3a032ef65a1eef98e43e38244cd9be761c239d236016b623ff49adec8ed",
+        "rawBytes": 3295295,
+        "bytes": 1333268
+      },
+      {
+        "name": "P01-validated",
+        "sha256": "015050ad62133ddeac8f59780a48f92bfbd0809b9bf1e1a40a70f2ea79cb34bd",
+        "rawBytes": 1211,
+        "bytes": 754
+      },
+      {
+        "name": "P02-warmup",
+        "sha256": "fb4fbd42e40c89f47163b7c4cf189d0663b830120ca17bac4c560f9407b267f2",
+        "rawBytes": 111,
+        "bytes": 111
+      },
+      {
+        "name": "P02-original",
+        "sha256": "7b1babf5b9b7fcedfd17baea4a07bc7c2f610b9ed5bddbf0ba0a267435cee04b",
+        "rawBytes": 6526151,
+        "bytes": 2648945
+      },
+      {
+        "name": "P02-validated",
+        "sha256": "0b37a42c4498f2efd3d55df6c04a72a1ff97b9eb76d1d830f85c4a273dd3f632",
+        "rawBytes": 1233,
+        "bytes": 759
+      },
+      {
+        "name": "P03-warmup",
+        "sha256": "a6865a0b053cb613ea837a11ee6666a9470d82c35a1734fd0ffd0bd21920e7ff",
+        "rawBytes": 111,
+        "bytes": 112
+      },
+      {
+        "name": "P03-original",
+        "sha256": "9e6d6f9b97630e05eee121627510fb40bfb3762ded2dcd991898c85968053d32",
+        "rawBytes": 13020079,
+        "bytes": 5295061
+      },
+      {
+        "name": "P03-validated",
+        "sha256": "03b3227229bb7fb9b6c5e7e7a36bb019154a34321a83655dd54ad34011750589",
+        "rawBytes": 1229,
+        "bytes": 756
+      },
+      {
+        "name": "P04-warmup",
+        "sha256": "4cfb6e50c51440dabbed5260b1b37337c27590423b886235ebf5ea40a45ae65e",
+        "rawBytes": 110,
+        "bytes": 111
+      },
+      {
+        "name": "P04-original",
+        "sha256": "f6bff7b1b8ac23ae6eb585fd0105b597742549c7fde1253760e492e0feb84536",
+        "rawBytes": 19530950,
+        "bytes": 7949966
+      },
+      {
+        "name": "P04-validated",
+        "sha256": "64c360919fbbf11ff3731a8573ebd55c7e0d3d01fc4695cb2be0df72d509fb51",
+        "rawBytes": 1240,
+        "bytes": 762
+      },
+      {
+        "name": "P05-warmup",
+        "sha256": "6c9571a2551b7c4bd5dc0234c22d5a51d1a50d1f4d02f8a9576ac891caa0bf6b",
+        "rawBytes": 111,
+        "bytes": 110
+      },
+      {
+        "name": "P05-original",
+        "sha256": "3a43410d2cf21a82077821eb8a2e04704e86f975190511a0faf2d1531c16b5f4",
+        "rawBytes": 13122757,
+        "bytes": 5342135
+      },
+      {
+        "name": "P05-validated",
+        "sha256": "49320f093c8071faaeeafa0db256c2bc26a0490a2f8d64202d351d1853d13b33",
+        "rawBytes": 1239,
+        "bytes": 763
+      },
+      {
+        "name": "P06-warmup",
+        "sha256": "2f3b3eb101aaef2aa7f57090fead3dcae42a40cd3915a8743f25ddcce2e7520e",
+        "rawBytes": 111,
+        "bytes": 112
+      },
+      {
+        "name": "P06-original",
+        "sha256": "76ac11ba3b6195888b305aff45a9663d2941a34fbe6261eb441c22322428636b",
+        "rawBytes": 19530067,
+        "bytes": 7949939
+      },
+      {
+        "name": "P06-validated",
+        "sha256": "b620a32cbe97d68e9c3c220d3838f0b9e2fb0345b82338ad2664756f36bed5b8",
+        "rawBytes": 1218,
+        "bytes": 752
+      },
+      {
+        "name": "P07-warmup",
+        "sha256": "6e8227639eb70557a57400dd6b17bebdeac5e3eb3136cab998e30871228b1dce",
+        "rawBytes": 110,
+        "bytes": 111
+      }
+    ],
+    "finalSourceDigests": {
+      "simulation.ts": "0846437a3f54be8abdf7aaf52f5368eb398a65762f2d889df7a671a8ef66b63e",
+      "simulation.worker.ts": "50dcc968cf1b0a8a8ea496a5993c0d87992340e60e9c11c7f83fdae4db6bd6d0",
+      "simulationHost.ts": "801bda0009738bef014066b9650fedfd97e4b856e0af70e0426119178a971e86",
+      "contacts.ts": "ea9be05c5913006c6d6c6b1d2f4a22bc6a7c889d1a4df1cc956c8d3831c16cce",
+      "neuralRuntime.ts": "12f5f52f328613bc2af4c4c2c793e78c4b22abb1c585cec8aba29aca99cac84b",
+      "spatialIndex.ts": "d324b911f764afeced35df0141363c293ce97564a44a23f5facb98ac08992b40",
+      "energyEconomy.ts": "d7285aa7b351ded7a7147fccf1415549a00ccfea0c98b1a9069594daf6017f9c",
+      "persistence.ts": "3e759aadb7e2ccee8bb01da428708dd021320748f546670d67454317a63656c3",
+      "world.ts": "6cbf7da62d1ab3af7ef2c83a9ea565e5d11eb4c55cbf3f20b3c74ac511ceb387",
+      "App.tsx": "04af74c5fbbc19e44af47a8b38d6325ec433cc46148f6138f34d894b8e1e281a",
+      "package.json": "745f1c06fcfdd6a9049efa5a9dcea2f24d6841c414dd43dc9e5caa09334df59f",
+      "package-lock.json": "12450a0271695e3542f0fdf21e5bf0cb5a19c48700f976b5dca8b5678cd66994",
+      "scripts/performance-stage38/build.mjs": "7a9e234b4c43de9a2c767ee37caef70c6216a24e40c305a412b6f6538b675d1f",
+      "scripts/performance-stage38/runtime.mjs": "e21fa213819d023c3c0a61884f449e65d8fb55f6ea7ec7f901f666c033ff2794",
+      "scripts/performance-stage38/measurement.mjs": "18cdb4e37e7c4b1a100920b21ccda7b34d667ecb987e9c85decc51f5bc0e6c33",
+      "scripts/performance-stage38/fixture.ts": "8376a575a322f24c67c566ee8060b20c8cdd468ac5614d5265368eec95333ed1",
+      "scripts/performance-stage38/browser-init.mjs": "4076fe0838c78a0b20ea568c47dd2b5508ef0bfc1cff2c85e4de07ed17ae7def",
+      "scripts/performance-stage38/accounting.mjs": "953527045641f0b3def0f7010f8d16709a08c937411821a1127d46d3fe604e93",
+      "scripts/performance-stage38/preserve.mjs": "a8f43f06f72e285628dac421cd679a5b47a20328feb3d82fe62562a572067442"
+    },
+    "runnerWallMs": 267048
+  },
+  "rows": [
+    {
+      "id": "P01",
+      "count": 25,
+      "compact": false,
+      "research": false,
+      "level": "off",
+      "traced": false,
+      "ticks": 120,
+      "msPerTick": 2.7641666666667635,
+      "tps": 361.7726861621821,
+      "multiplier": 6.029544769369702,
+      "wallMs": 331.70000000001164,
+      "browserCPUmsPerTick": 19.666666666666668,
+      "browserCPUOneCorePercent": 218.90547915284833,
+      "cpuBoundarySkewMs": 746.3908769999907,
+      "processStarts": [],
+      "processExits": [],
+      "initialOrganisms": 25,
+      "inventory": {
+        "organisms": 25,
+        "living": 25,
+        "parts": 115,
+        "joints": 90,
+        "eyes": 55,
+        "rays": 275,
+        "mouths": 25,
+        "hiddenNeurons": 600,
+        "inputs": 1505,
+        "outputs": 540,
+        "nutrients": 97,
+        "eggs": 0,
+        "births": 25,
+        "deaths": 0,
+        "caustics": 28,
+        "bubbles": 0,
+        "reserveJ": 259537.10991353227,
+        "worldReserveJ": 4396.890086470449,
+        "basalRate": 298,
+        "plasticityRate": 5.362478561312789,
+        "motorRate": 29.53521245804463,
+        "motorLearnedL1": 0.0851418529160113,
+        "sensoryLearnedL1": 0.1926133958131662,
+        "motorOutputL1": 18.599214491347926,
+        "distance": 369.7770119189902,
+        "guards": 0,
+        "ledger": {
+          "externalInflow": 692950,
+          "metabolicDissipation": 4131.80458539066,
+          "mechanicalWorkHeat": 66.98550107898382,
+          "recordedLosses": 198.1000000000498
+        }
+      },
+      "energyErrorJ": 2.3283064365386963e-10,
+      "fps": 54.26590292432731,
+      "reportsPerSecond": 18.088634308109103,
+      "mainHeap": {
+        "used": 47400000,
+        "total": 123000000
+      },
+      "endSHA256": "cbd9415df309f90e6c703ca1912fd58affcaf845342ad4f953063edcc46dedd7"
+    },
+    {
+      "id": "P02",
+      "count": 50,
+      "compact": false,
+      "research": false,
+      "level": "off",
+      "traced": false,
+      "ticks": 120,
+      "msPerTick": 4.94333333333343,
+      "tps": 202.29265003371148,
+      "multiplier": 3.371544167228525,
+      "wallMs": 593.2000000000116,
+      "browserCPUmsPerTick": 31.75,
+      "browserCPUOneCorePercent": 207.6251418329357,
+      "cpuBoundarySkewMs": 1241.8378795000026,
+      "processStarts": [],
+      "processExits": [],
+      "initialOrganisms": 50,
+      "inventory": {
+        "organisms": 50,
+        "living": 50,
+        "parts": 230,
+        "joints": 180,
+        "eyes": 110,
+        "rays": 550,
+        "mouths": 50,
+        "hiddenNeurons": 1200,
+        "inputs": 3010,
+        "outputs": 1080,
+        "nutrients": 196,
+        "eggs": 0,
+        "births": 50,
+        "deaths": 0,
+        "caustics": 28,
+        "bubbles": 0,
+        "reserveJ": 516721.08573427337,
+        "worldReserveJ": 8210.914265728701,
+        "basalRate": 596.0000000000001,
+        "plasticityRate": 10.679284032763503,
+        "motorRate": 44.39145026859516,
+        "motorLearnedL1": 0.18989126783614704,
+        "sensoryLearnedL1": 0.229219346919105,
+        "motorOutputL1": 32.01287891695329,
+        "distance": 731.0189990852906,
+        "guards": 0,
+        "ledger": {
+          "externalInflow": 1385900,
+          "metabolicDissipation": 7676.158807609509,
+          "mechanicalWorkHeat": 137.65545812209444,
+          "recordedLosses": 397.0999999999675
+        }
+      },
+      "energyErrorJ": -6.984919309616089e-10,
+      "fps": 53.94470667565639,
+      "reportsPerSecond": 18.543492919756886,
+      "mainHeap": {
+        "used": 47400000,
+        "total": 123000000
+      },
+      "endSHA256": "4bbe9ca2f44fbcb5ee36b369795c1582bc34992b1bf7a88b1ebf57781249ff50"
+    },
+    {
+      "id": "P03",
+      "count": 100,
+      "compact": false,
+      "research": false,
+      "level": "off",
+      "traced": false,
+      "ticks": 120,
+      "msPerTick": 9.045833333333333,
+      "tps": 110.5481345002303,
+      "multiplier": 1.8424689083371717,
+      "wallMs": 1085.5,
+      "browserCPUmsPerTick": 59.416666666666664,
+      "browserCPUOneCorePercent": 198.88585360995984,
+      "cpuBoundarySkewMs": 2499.470912000019,
+      "processStarts": [],
+      "processExits": [],
+      "initialOrganisms": 100,
+      "inventory": {
+        "organisms": 100,
+        "living": 100,
+        "parts": 460,
+        "joints": 360,
+        "eyes": 220,
+        "rays": 1100,
+        "mouths": 100,
+        "hiddenNeurons": 2400,
+        "inputs": 6020,
+        "outputs": 2160,
+        "nutrients": 396,
+        "eggs": 0,
+        "births": 100,
+        "deaths": 0,
+        "caustics": 28,
+        "bubbles": 0,
+        "reserveJ": 1033618.9217331894,
+        "worldReserveJ": 16463.078266811135,
+        "basalRate": 1192.0000000000002,
+        "plasticityRate": 21.263900303181302,
+        "motorRate": 94.4996387961548,
+        "motorLearnedL1": 0.227705168101192,
+        "sensoryLearnedL1": 0.4423615957673733,
+        "motorOutputL1": 76.48539545687858,
+        "distance": 1466.779171891484,
+        "guards": 0,
+        "ledger": {
+          "externalInflow": 2771800,
+          "metabolicDissipation": 15395.360368510976,
+          "mechanicalWorkHeat": 271.0678983042657,
+          "recordedLosses": 796.6499999996041
+        }
+      },
+      "energyErrorJ": -2.3283064365386963e-9,
+      "fps": 51.58912943344081,
+      "reportsPerSecond": 19.345923537540305,
+      "mainHeap": {
+        "used": 47400000,
+        "total": 123000000
+      },
+      "endSHA256": "1dac1e47b4d38b4150bdd00bdb5173e215bfa657df8dc6080790610d92480ca2"
+    },
+    {
+      "id": "P04",
+      "count": 150,
+      "compact": false,
+      "research": false,
+      "level": "off",
+      "traced": false,
+      "ticks": 120,
+      "msPerTick": 14.81750000000029,
+      "tps": 67.4877678420773,
+      "multiplier": 1.1247961307012884,
+      "wallMs": 1778.100000000035,
+      "browserCPUmsPerTick": 91.91666666666667,
+      "browserCPUOneCorePercent": 206.28049945901034,
+      "cpuBoundarySkewMs": 3568.9880809999595,
+      "processStarts": [],
+      "processExits": [],
+      "initialOrganisms": 150,
+      "inventory": {
+        "organisms": 150,
+        "living": 150,
+        "parts": 690,
+        "joints": 540,
+        "eyes": 330,
+        "rays": 1650,
+        "mouths": 150,
+        "hiddenNeurons": 3600,
+        "inputs": 9030,
+        "outputs": 3240,
+        "nutrients": 585,
+        "eggs": 0,
+        "births": 150,
+        "deaths": 0,
+        "caustics": 28,
+        "bubbles": 0,
+        "reserveJ": 1564384.062030844,
+        "worldReserveJ": 28165.937969152088,
+        "basalRate": 1787.999999999997,
+        "plasticityRate": 31.96522695513459,
+        "motorRate": 119.3124888230981,
+        "motorLearnedL1": 0.40245988296512974,
+        "sensoryLearnedL1": 0.6907994848005541,
+        "motorOutputL1": 91.80881867317181,
+        "distance": 2185.6847877378377,
+        "guards": 0,
+        "ledger": {
+          "externalInflow": 4157700,
+          "metabolicDissipation": 26579.317509692755,
+          "mechanicalWorkHeat": 395.68712613565776,
+          "recordedLosses": 1190.933333332579
+        }
+      },
+      "energyErrorJ": -6.51925802230835e-9,
+      "fps": 50.05342781620733,
+      "reportsPerSecond": 16.30954389516868,
+      "mainHeap": {
+        "used": 47400000,
+        "total": 123000000
+      },
+      "endSHA256": "e74667b39d2c231fd3dcf8214ba8c898eb5de75f5f803cd3207939b94e7a41f1"
+    },
+    {
+      "id": "P05",
+      "count": 100,
+      "compact": true,
+      "research": false,
+      "level": "off",
+      "traced": false,
+      "ticks": 120,
+      "msPerTick": 14.672500000000097,
+      "tps": 68.15471119441087,
+      "multiplier": 1.135911853240181,
+      "wallMs": 1760.7000000000116,
+      "browserCPUmsPerTick": 75.41666666666667,
+      "browserCPUOneCorePercent": 212.20451486337484,
+      "cpuBoundarySkewMs": 2504.053747500002,
+      "processStarts": [],
+      "processExits": [],
+      "initialOrganisms": 100,
+      "inventory": {
+        "organisms": 100,
+        "living": 100,
+        "parts": 460,
+        "joints": 360,
+        "eyes": 220,
+        "rays": 1100,
+        "mouths": 100,
+        "hiddenNeurons": 2400,
+        "inputs": 6020,
+        "outputs": 2160,
+        "nutrients": 394,
+        "eggs": 0,
+        "births": 100,
+        "deaths": 0,
+        "caustics": 28,
+        "bubbles": 0,
+        "reserveJ": 1022996.508341965,
+        "worldReserveJ": 16851.4916580327,
+        "basalRate": 1192.0000000000002,
+        "plasticityRate": 21.333796074240713,
+        "motorRate": 122.27538436980838,
+        "motorLearnedL1": 0.1448587603432099,
+        "sensoryLearnedL1": 0.5216857697456091,
+        "motorOutputL1": 60.94380711097576,
+        "distance": 2871.193423893529,
+        "guards": 8,
+        "ledger": {
+          "externalInflow": 2771800,
+          "metabolicDissipation": 15803.042754402242,
+          "mechanicalWorkHeat": 254.1655703024299,
+          "recordedLosses": 794.2833333329396
+        }
+      },
+      "energyErrorJ": -4.190951585769653e-9,
+      "fps": 32.37348781734516,
+      "reportsPerSecond": 16.470721871982626,
+      "mainHeap": {
+        "used": 47400000,
+        "total": 123000000
+      },
+      "endSHA256": "efcd2b30faab06043c9219daa1d44387a1e79e36890ca23c989c1e66e3175462"
+    },
+    {
+      "id": "P06",
+      "count": 150,
+      "compact": false,
+      "research": false,
+      "level": "off",
+      "traced": false,
+      "ticks": 120,
+      "msPerTick": 14.175,
+      "tps": 70.54673721340389,
+      "multiplier": 1.1757789535567313,
+      "wallMs": 1701,
+      "browserCPUmsPerTick": 85.33333333333333,
+      "browserCPUOneCorePercent": 200.23329830779733,
+      "cpuBoundarySkewMs": 3413.0345220000017,
+      "processStarts": [],
+      "processExits": [],
+      "initialOrganisms": 150,
+      "inventory": {
+        "organisms": 150,
+        "living": 150,
+        "parts": 690,
+        "joints": 540,
+        "eyes": 330,
+        "rays": 1650,
+        "mouths": 150,
+        "hiddenNeurons": 3600,
+        "inputs": 9030,
+        "outputs": 3240,
+        "nutrients": 585,
+        "eggs": 0,
+        "births": 150,
+        "deaths": 0,
+        "caustics": 28,
+        "bubbles": 0,
+        "reserveJ": 1564384.062030844,
+        "worldReserveJ": 28165.937969152088,
+        "basalRate": 1787.999999999997,
+        "plasticityRate": 31.96522695513459,
+        "motorRate": 119.3124888230981,
+        "motorLearnedL1": 0.40245988296512974,
+        "sensoryLearnedL1": 0.6907994848005541,
+        "motorOutputL1": 91.80881867317181,
+        "distance": 2185.6847877378377,
+        "guards": 0,
+        "ledger": {
+          "externalInflow": 4157700,
+          "metabolicDissipation": 26579.317509692755,
+          "mechanicalWorkHeat": 395.68712613565776,
+          "recordedLosses": 1190.933333332579
+        }
+      },
+      "energyErrorJ": -6.51925802230835e-9,
+      "fps": 50.558495002939445,
+      "reportsPerSecond": 16.46090534979424,
+      "mainHeap": {
+        "used": 47400000,
+        "total": 123000000
+      },
+      "endSHA256": "e74667b39d2c231fd3dcf8214ba8c898eb5de75f5f803cd3207939b94e7a41f1"
+    }
+  ],
+  "scalability": [
+    {
+      "count": 25,
+      "compact": false,
+      "windows": [
+        "P01"
+      ],
+      "msPerTick": {
+        "n": 1,
+        "mean": 2.7641666666667635,
+        "sd": null,
+        "min": 2.7641666666667635,
+        "median": 2.7641666666667635,
+        "p95": null,
+        "max": 2.7641666666667635
+      },
+      "tps": {
+        "n": 1,
+        "mean": 361.7726861621821,
+        "sd": null,
+        "min": 361.7726861621821,
+        "median": 361.7726861621821,
+        "p95": null,
+        "max": 361.7726861621821
+      },
+      "multiplier": {
+        "n": 1,
+        "mean": 6.029544769369702,
+        "sd": null,
+        "min": 6.029544769369702,
+        "median": 6.029544769369702,
+        "p95": null,
+        "max": 6.029544769369702
+      },
+      "inventory": {
+        "organisms": 25,
+        "living": 25,
+        "parts": 115,
+        "joints": 90,
+        "eyes": 55,
+        "rays": 275,
+        "mouths": 25,
+        "hiddenNeurons": 600,
+        "inputs": 1505,
+        "outputs": 540,
+        "nutrients": 97,
+        "eggs": 0,
+        "births": 25,
+        "deaths": 0,
+        "caustics": 28,
+        "bubbles": 0,
+        "reserveJ": 259537.10991353227,
+        "worldReserveJ": 4396.890086470449,
+        "basalRate": 298,
+        "plasticityRate": 5.362478561312789,
+        "motorRate": 29.53521245804463,
+        "motorLearnedL1": 0.0851418529160113,
+        "sensoryLearnedL1": 0.1926133958131662,
+        "motorOutputL1": 18.599214491347926,
+        "distance": 369.7770119189902,
+        "guards": 0,
+        "ledger": {
+          "externalInflow": 692950,
+          "metabolicDissipation": 4131.80458539066,
+          "mechanicalWorkHeat": 66.98550107898382,
+          "recordedLosses": 198.1000000000498
+        }
+      },
+      "repeatSpanPercent": null,
+      "costRatioTo25": 1,
+      "perOrganismMs": 0.11056666666667053
+    },
+    {
+      "count": 50,
+      "compact": false,
+      "windows": [
+        "P02"
+      ],
+      "msPerTick": {
+        "n": 1,
+        "mean": 4.94333333333343,
+        "sd": null,
+        "min": 4.94333333333343,
+        "median": 4.94333333333343,
+        "p95": null,
+        "max": 4.94333333333343
+      },
+      "tps": {
+        "n": 1,
+        "mean": 202.29265003371148,
+        "sd": null,
+        "min": 202.29265003371148,
+        "median": 202.29265003371148,
+        "p95": null,
+        "max": 202.29265003371148
+      },
+      "multiplier": {
+        "n": 1,
+        "mean": 3.371544167228525,
+        "sd": null,
+        "min": 3.371544167228525,
+        "median": 3.371544167228525,
+        "p95": null,
+        "max": 3.371544167228525
+      },
+      "inventory": {
+        "organisms": 50,
+        "living": 50,
+        "parts": 230,
+        "joints": 180,
+        "eyes": 110,
+        "rays": 550,
+        "mouths": 50,
+        "hiddenNeurons": 1200,
+        "inputs": 3010,
+        "outputs": 1080,
+        "nutrients": 196,
+        "eggs": 0,
+        "births": 50,
+        "deaths": 0,
+        "caustics": 28,
+        "bubbles": 0,
+        "reserveJ": 516721.08573427337,
+        "worldReserveJ": 8210.914265728701,
+        "basalRate": 596.0000000000001,
+        "plasticityRate": 10.679284032763503,
+        "motorRate": 44.39145026859516,
+        "motorLearnedL1": 0.18989126783614704,
+        "sensoryLearnedL1": 0.229219346919105,
+        "motorOutputL1": 32.01287891695329,
+        "distance": 731.0189990852906,
+        "guards": 0,
+        "ledger": {
+          "externalInflow": 1385900,
+          "metabolicDissipation": 7676.158807609509,
+          "mechanicalWorkHeat": 137.65545812209444,
+          "recordedLosses": 397.0999999999675
+        }
+      },
+      "repeatSpanPercent": null,
+      "costRatioTo25": 1.7883629785950885,
+      "perOrganismMs": 0.0988666666666686
+    },
+    {
+      "count": 100,
+      "compact": false,
+      "windows": [
+        "P03"
+      ],
+      "msPerTick": {
+        "n": 1,
+        "mean": 9.045833333333333,
+        "sd": null,
+        "min": 9.045833333333333,
+        "median": 9.045833333333333,
+        "p95": null,
+        "max": 9.045833333333333
+      },
+      "tps": {
+        "n": 1,
+        "mean": 110.5481345002303,
+        "sd": null,
+        "min": 110.5481345002303,
+        "median": 110.5481345002303,
+        "p95": null,
+        "max": 110.5481345002303
+      },
+      "multiplier": {
+        "n": 1,
+        "mean": 1.8424689083371717,
+        "sd": null,
+        "min": 1.8424689083371717,
+        "median": 1.8424689083371717,
+        "p95": null,
+        "max": 1.8424689083371717
+      },
+      "inventory": {
+        "organisms": 100,
+        "living": 100,
+        "parts": 460,
+        "joints": 360,
+        "eyes": 220,
+        "rays": 1100,
+        "mouths": 100,
+        "hiddenNeurons": 2400,
+        "inputs": 6020,
+        "outputs": 2160,
+        "nutrients": 396,
+        "eggs": 0,
+        "births": 100,
+        "deaths": 0,
+        "caustics": 28,
+        "bubbles": 0,
+        "reserveJ": 1033618.9217331894,
+        "worldReserveJ": 16463.078266811135,
+        "basalRate": 1192.0000000000002,
+        "plasticityRate": 21.263900303181302,
+        "motorRate": 94.4996387961548,
+        "motorLearnedL1": 0.227705168101192,
+        "sensoryLearnedL1": 0.4423615957673733,
+        "motorOutputL1": 76.48539545687858,
+        "distance": 1466.779171891484,
+        "guards": 0,
+        "ledger": {
+          "externalInflow": 2771800,
+          "metabolicDissipation": 15395.360368510976,
+          "mechanicalWorkHeat": 271.0678983042657,
+          "recordedLosses": 796.6499999996041
+        }
+      },
+      "repeatSpanPercent": null,
+      "costRatioTo25": 3.272535423575405,
+      "perOrganismMs": 0.09045833333333332
+    },
+    {
+      "count": 150,
+      "compact": false,
+      "windows": [
+        "P04",
+        "P06"
+      ],
+      "msPerTick": {
+        "n": 2,
+        "mean": 14.496250000000146,
+        "sd": 0.3212500000001448,
+        "min": 14.175,
+        "median": 14.496250000000146,
+        "p95": null,
+        "max": 14.81750000000029
+      },
+      "tps": {
+        "n": 2,
+        "mean": 69.0172525277406,
+        "sd": 1.5294846856632915,
+        "min": 67.4877678420773,
+        "median": 69.0172525277406,
+        "p95": null,
+        "max": 70.54673721340389
+      },
+      "multiplier": {
+        "n": 2,
+        "mean": 1.1502875421290097,
+        "sd": 0.02549141142772149,
+        "min": 1.1247961307012884,
+        "median": 1.1502875421290097,
+        "p95": null,
+        "max": 1.1757789535567313
+      },
+      "inventory": {
+        "organisms": 150,
+        "living": 150,
+        "parts": 690,
+        "joints": 540,
+        "eyes": 330,
+        "rays": 1650,
+        "mouths": 150,
+        "hiddenNeurons": 3600,
+        "inputs": 9030,
+        "outputs": 3240,
+        "nutrients": 585,
+        "eggs": 0,
+        "births": 150,
+        "deaths": 0,
+        "caustics": 28,
+        "bubbles": 0,
+        "reserveJ": 1564384.062030844,
+        "worldReserveJ": 28165.937969152088,
+        "basalRate": 1787.999999999997,
+        "plasticityRate": 31.96522695513459,
+        "motorRate": 119.3124888230981,
+        "motorLearnedL1": 0.40245988296512974,
+        "sensoryLearnedL1": 0.6907994848005541,
+        "motorOutputL1": 91.80881867317181,
+        "distance": 2185.6847877378377,
+        "guards": 0,
+        "ledger": {
+          "externalInflow": 4157700,
+          "metabolicDissipation": 26579.317509692755,
+          "mechanicalWorkHeat": 395.68712613565776,
+          "recordedLosses": 1190.933333332579
+        }
+      },
+      "repeatSpanPercent": 4.532627865963246,
+      "costRatioTo25": 5.244347301778585,
+      "perOrganismMs": 0.09664166666666764
+    },
+    {
+      "count": 100,
+      "compact": true,
+      "windows": [
+        "P05"
+      ],
+      "msPerTick": {
+        "n": 1,
+        "mean": 14.672500000000097,
+        "sd": null,
+        "min": 14.672500000000097,
+        "median": 14.672500000000097,
+        "p95": null,
+        "max": 14.672500000000097
+      },
+      "tps": {
+        "n": 1,
+        "mean": 68.15471119441087,
+        "sd": null,
+        "min": 68.15471119441087,
+        "median": 68.15471119441087,
+        "p95": null,
+        "max": 68.15471119441087
+      },
+      "multiplier": {
+        "n": 1,
+        "mean": 1.135911853240181,
+        "sd": null,
+        "min": 1.135911853240181,
+        "median": 1.135911853240181,
+        "p95": null,
+        "max": 1.135911853240181
+      },
+      "inventory": {
+        "organisms": 100,
+        "living": 100,
+        "parts": 460,
+        "joints": 360,
+        "eyes": 220,
+        "rays": 1100,
+        "mouths": 100,
+        "hiddenNeurons": 2400,
+        "inputs": 6020,
+        "outputs": 2160,
+        "nutrients": 394,
+        "eggs": 0,
+        "births": 100,
+        "deaths": 0,
+        "caustics": 28,
+        "bubbles": 0,
+        "reserveJ": 1022996.508341965,
+        "worldReserveJ": 16851.4916580327,
+        "basalRate": 1192.0000000000002,
+        "plasticityRate": 21.333796074240713,
+        "motorRate": 122.27538436980838,
+        "motorLearnedL1": 0.1448587603432099,
+        "sensoryLearnedL1": 0.5216857697456091,
+        "motorOutputL1": 60.94380711097576,
+        "distance": 2871.193423893529,
+        "guards": 8,
+        "ledger": {
+          "externalInflow": 2771800,
+          "metabolicDissipation": 15803.042754402242,
+          "mechanicalWorkHeat": 254.1655703024299,
+          "recordedLosses": 794.2833333329396
+        }
+      },
+      "repeatSpanPercent": null,
+      "costRatioTo25": 5.308109737714652,
+      "perOrganismMs": 0.14672500000000097
+    }
+  ],
+  "concentration": {
+    "spreadMs": 9.045833333333333,
+    "compactMs": 14.672500000000097,
+    "costRatio": 1.62201750345464,
+    "tpsPercent": -38.34838416538917
+  },
+  "phases": [
+    {
+      "id": "pilot-100-phase",
+      "count": 100,
+      "compact": false,
+      "pilot": true,
+      "tickElapsed": {
+        "n": 24,
+        "mean": 12.608333333332363,
+        "sd": 10.295141113926077,
+        "min": 5.2999999999883585,
+        "median": 10.60000000000582,
+        "p95": 15.299999999988358,
+        "max": 55.20000000001164
+      },
+      "sampledTicks": 2,
+      "closureMaxAbsMs": 0,
+      "phaseRows": [
+        {
+          "phase": "vision",
+          "msPerTick": 3.9541666666724873,
+          "sharePercent": 31.361533377444484,
+          "distribution": {
+            "n": 24,
+            "mean": 3.9541666666724873,
+            "sd": 3.9878961837069262,
+            "min": 1.4000000000814907,
+            "median": 2.8999999999941792,
+            "p95": 6.800000000279397,
+            "max": 21.29999999993015
+          }
+        },
+        {
+          "phase": "inference",
+          "msPerTick": 3.3125000000121267,
+          "sharePercent": 26.272306675577383,
+          "distribution": {
+            "n": 24,
+            "mean": 3.3125000000121267,
+            "sd": 4.662198381681413,
+            "min": 1.5,
+            "median": 2.1500000000814907,
+            "p95": 3.599999999976717,
+            "max": 25.40000000008149
+          }
+        },
+        {
+          "phase": "physics",
+          "msPerTick": 3.1625000000058208,
+          "sharePercent": 25.082617316637652,
+          "distribution": {
+            "n": 24,
+            "mean": 3.1625000000058208,
+            "sd": 2.877616562937503,
+            "min": 0.7999999999883585,
+            "median": 2.25,
+            "p95": 5.899999999965075,
+            "max": 13.899999999965075
+          }
+        },
+        {
+          "phase": "sensory-learning",
+          "msPerTick": 0.34999999999611947,
+          "sharePercent": 2.775941837378557,
+          "distribution": {
+            "n": 24,
+            "mean": 0.34999999999611947,
+            "sd": 0.2857738033286081,
+            "min": 0,
+            "median": 0.3000000000174623,
+            "p95": 0.5,
+            "max": 1.400000000023283
+          }
+        },
+        {
+          "phase": "motor-learning",
+          "msPerTick": 0.3416666666623011,
+          "sharePercent": 2.709847984103059,
+          "distribution": {
+            "n": 24,
+            "mean": 0.3416666666623011,
+            "sd": 0.36276331435188325,
+            "min": 0,
+            "median": 0.29999999995925464,
+            "p95": 0.5999999999767169,
+            "max": 1.8000000001629815
+          }
+        },
+        {
+          "phase": "feeding",
+          "msPerTick": 0.32916666667491273,
+          "sharePercent": 2.6107072042956094,
+          "distribution": {
+            "n": 24,
+            "mean": 0.32916666667491273,
+            "sd": 0.19467743975969082,
+            "min": 0.09999999997671694,
+            "median": 0.29999999998835847,
+            "p95": 0.5,
+            "max": 0.9999999999417923
+          }
+        },
+        {
+          "phase": "sight-build",
+          "msPerTick": 0.27499999999417923,
+          "sharePercent": 2.181097157918311,
+          "distribution": {
+            "n": 24,
+            "mean": 0.27499999999417923,
+            "sd": 0.13919410907841712,
+            "min": 0.09999999997671694,
+            "median": 0.25,
+            "p95": 0.40000000002328306,
+            "max": 0.7000000000116415
+          }
+        },
+        {
+          "phase": "reproduction-death",
+          "msPerTick": 0.2458333333270275,
+          "sharePercent": 1.949768671463686,
+          "distribution": {
+            "n": 24,
+            "mean": 0.2458333333270275,
+            "sd": 0.19574466076535432,
+            "min": 0,
+            "median": 0.20000000001164153,
+            "p95": 0.5,
+            "max": 0.8999999999068677
+          }
+        },
+        {
+          "phase": "metabolism",
+          "msPerTick": 0.229166666669092,
+          "sharePercent": 1.8175809649896335,
+          "distribution": {
+            "n": 24,
+            "mean": 0.229166666669092,
+            "sd": 0.17435396627438132,
+            "min": 0.09999999997671694,
+            "median": 0.20000000001164153,
+            "p95": 0.3999999999650754,
+            "max": 0.9000000000232831
+          }
+        },
+        {
+          "phase": "neural-inputs",
+          "msPerTick": 0.13333333332411712,
+          "sharePercent": 1.057501652273317,
+          "distribution": {
+            "n": 24,
+            "mean": 0.13333333332411712,
+            "sd": 0.1312334645547893,
+            "min": 0,
+            "median": 0.09999999997671694,
+            "p95": 0.39999999990686774,
+            "max": 0.49999999994179234
+          }
+        },
+        {
+          "phase": "environment",
+          "msPerTick": 0.09583333332799764,
+          "sharePercent": 0.7600793125816656,
+          "distribution": {
+            "n": 24,
+            "mean": 0.09583333332799764,
+            "sd": 0.10598414451077232,
+            "min": 0,
+            "median": 0.09999999997671694,
+            "p95": 0.29999999998835847,
+            "max": 0.3999999999650754
+          }
+        },
+        {
+          "phase": "organism-overhead",
+          "msPerTick": 0.07500000000194025,
+          "sharePercent": 0.5948446794602461,
+          "distribution": {
+            "n": 24,
+            "mean": 0.07500000000194025,
+            "sd": 0.09242113755026277,
+            "min": 0,
+            "median": 0.04999999998835847,
+            "p95": 0.2000000000698492,
+            "max": 0.29999999998835847
+          }
+        },
+        {
+          "phase": "feeding-index",
+          "msPerTick": 0.0666666666608459,
+          "sharePercent": 0.5287508261270405,
+          "distribution": {
+            "n": 24,
+            "mean": 0.0666666666608459,
+            "sd": 0.07453559924673908,
+            "min": 0,
+            "median": 0.04999999998835847,
+            "p95": 0.20000000001164153,
+            "max": 0.20000000001164153
+          }
+        },
+        {
+          "phase": "observer",
+          "msPerTick": 0.03333333333769891,
+          "sharePercent": 0.2643754131212278,
+          "distribution": {
+            "n": 24,
+            "mean": 0.03333333333769891,
+            "sd": 0.047140452085277014,
+            "min": 0,
+            "median": 0,
+            "p95": 0.1000000000349246,
+            "max": 0.1000000000349246
+          }
+        },
+        {
+          "phase": "unattributed",
+          "msPerTick": 0.004166666665696539,
+          "sharePercent": 0.03304692662813108,
+          "distribution": {
+            "n": 24,
+            "mean": 0.004166666665696539,
+            "sd": 0.019982631342483764,
+            "min": 0,
+            "median": 0,
+            "p95": 0,
+            "max": 0.09999999997671694
+          }
+        },
+        {
+          "phase": "finalize",
+          "msPerTick": 0,
+          "sharePercent": 0,
+          "distribution": {
+            "n": 24,
+            "mean": 0,
+            "sd": 0,
+            "min": 0,
+            "median": 0,
+            "p95": 0,
+            "max": 0
+          }
+        }
+      ],
+      "callsPerSampledTick": {
+        "indexEntries": 1360,
+        "rays": 1100,
+        "visionCandidates": 14639,
+        "circleTestsFood": 4697.5,
+        "bodyEdgeTests": 9872,
+        "contactPasses": 4,
+        "contactCandidates": 100,
+        "mouths": 100
+      },
+      "note": "Exclusive elapsed phases, not thread CPU. Sampled contact counts include repeated solver passes, not unique pairs."
+    }
+  ],
+  "diagnostics": [],
+  "limitations": [
+    "Only150spread has two retained repetitions. Other cells have one. P07 raw preservation failed at the archive budget;11 slots were not started. Only the100spread24tick phase pilot exists; no timed phase/overhead/trace diagnostics.",
+    "Population, food count and habitat co-scale at expected constant density. This does not isolate organism count from all other work.",
+    "Concentration changes initial body positions only, not food or walls; trajectories and contacts differ. No natural/evolved-population contrast.",
+    "GC traces identify transient allocation, not retained-heap scaling/leaks or per-allocation-stack ownership. Main performance.memory is not Worker heap.",
+    "No browser desktop equivalence, watts, thermal measurement, changed report cadence or sustained paced-speed sweep. No asymptotic complexity or production-safe speedup claim."
+  ]
+}

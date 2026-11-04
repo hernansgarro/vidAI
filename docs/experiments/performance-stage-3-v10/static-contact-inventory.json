@@ -1,0 +1,93 @@
+{
+  "method": "Analysis-only SAT on archived poses, excluding directly hinged neighbors. Counts snapshot intersections, not dynamic contact events, impulses or repeated solver contacts. No simulation or physical replay.",
+  "rows": [
+    {
+      "source": "fixture-25",
+      "boundary": "initial",
+      "uniqueInterorganismIntersectingPairs": 0,
+      "uniqueNonhingedSelfIntersectingPairs": 2,
+      "aabbCandidates": 6,
+      "parts": 115
+    },
+    {
+      "source": "fixture-50",
+      "boundary": "initial",
+      "uniqueInterorganismIntersectingPairs": 0,
+      "uniqueNonhingedSelfIntersectingPairs": 5,
+      "aabbCandidates": 11,
+      "parts": 230
+    },
+    {
+      "source": "fixture-100",
+      "boundary": "initial",
+      "uniqueInterorganismIntersectingPairs": 0,
+      "uniqueNonhingedSelfIntersectingPairs": 11,
+      "aabbCandidates": 22,
+      "parts": 460
+    },
+    {
+      "source": "fixture-150",
+      "boundary": "initial",
+      "uniqueInterorganismIntersectingPairs": 0,
+      "uniqueNonhingedSelfIntersectingPairs": 18,
+      "aabbCandidates": 37,
+      "parts": 690
+    },
+    {
+      "source": "fixture-compact",
+      "boundary": "initial",
+      "uniqueInterorganismIntersectingPairs": 68,
+      "uniqueNonhingedSelfIntersectingPairs": 11,
+      "aabbCandidates": 126,
+      "parts": 460
+    },
+    {
+      "source": "P01",
+      "boundary": "final",
+      "uniqueInterorganismIntersectingPairs": 0,
+      "uniqueNonhingedSelfIntersectingPairs": 0,
+      "aabbCandidates": 13,
+      "parts": 115
+    },
+    {
+      "source": "P02",
+      "boundary": "final",
+      "uniqueInterorganismIntersectingPairs": 0,
+      "uniqueNonhingedSelfIntersectingPairs": 0,
+      "aabbCandidates": 24,
+      "parts": 230
+    },
+    {
+      "source": "P03",
+      "boundary": "final",
+      "uniqueInterorganismIntersectingPairs": 0,
+      "uniqueNonhingedSelfIntersectingPairs": 0,
+      "aabbCandidates": 48,
+      "parts": 460
+    },
+    {
+      "source": "P04",
+      "boundary": "final",
+      "uniqueInterorganismIntersectingPairs": 0,
+      "uniqueNonhingedSelfIntersectingPairs": 0,
+      "aabbCandidates": 69,
+      "parts": 690
+    },
+    {
+      "source": "P05",
+      "boundary": "final",
+      "uniqueInterorganismIntersectingPairs": 28,
+      "uniqueNonhingedSelfIntersectingPairs": 0,
+      "aabbCandidates": 102,
+      "parts": 460
+    },
+    {
+      "source": "P06",
+      "boundary": "final",
+      "uniqueInterorganismIntersectingPairs": 0,
+      "uniqueNonhingedSelfIntersectingPairs": 0,
+      "aabbCandidates": 69,
+      "parts": 690
+    }
+  ]
+}

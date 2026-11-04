@@ -1,0 +1,304 @@
+{
+  "archives": [
+    {
+      "name": "dist-assets",
+      "sha256": "54ebb5d4178c31813eb86d47132ceacc70e8bce927a74ca17999ad29d9e3d91c",
+      "rawBytes": 804417,
+      "bytes": 192299
+    },
+    {
+      "name": "s38-lean-dist-assets",
+      "sha256": "8c730afa32c513e135b4ed91600d276e1195f23b39c3e7d4d94136b851808452",
+      "rawBytes": 3262355,
+      "bytes": 732698
+    },
+    {
+      "name": "s38-research-dist-assets",
+      "sha256": "8116baf6fa4d96e3ef73016c86af6c26de29f9f92c9e846ad43cfa9f627629e8",
+      "rawBytes": 3294097,
+      "bytes": 744316
+    },
+    {
+      "name": "fixture-25",
+      "sha256": "9971ef3ada8e5862ce27dcf66c7239eda9bcb086d4d6570dbf2a11051836c11f",
+      "rawBytes": 2826932,
+      "bytes": 1222780
+    },
+    {
+      "name": "fixture-50",
+      "sha256": "c6bd8d404639983595f62a89a588cb9fe67596f8a158d89307f7940daf03711e",
+      "rawBytes": 5647925,
+      "bytes": 2441913
+    },
+    {
+      "name": "fixture-100",
+      "sha256": "6c6f488bb1e4960ba4e8cee4873a82f43cec10c51edf8769d212017d4562c302",
+      "rawBytes": 11290173,
+      "bytes": 4880470
+    },
+    {
+      "name": "fixture-150",
+      "sha256": "b98d4c2583aa9ee7883c475768416288a7c68a6afe993d5d3265809e7116ce27",
+      "rawBytes": 16932402,
+      "bytes": 7318258
+    },
+    {
+      "name": "fixture-compact",
+      "sha256": "f334c9d36eedfd1722f28801efa52823d360675edbbba22c8e0fa02a4f6b8e2c",
+      "rawBytes": 11290207,
+      "bytes": 4880776
+    },
+    {
+      "name": "pilot-25-lean",
+      "sha256": "ee74e101e632b21be77db1773071104a8a568e3736fbcc47d393ccf55844c53d",
+      "rawBytes": 3237747,
+      "bytes": 1320586
+    },
+    {
+      "name": "pilot-150-lean",
+      "sha256": "540441db008ac257a43815bc4ad35069ebeced2fbf520e8ea7025ab6c3455bc4",
+      "rawBytes": 19426948,
+      "bytes": 7920511
+    },
+    {
+      "name": "counter-lean",
+      "sha256": "b5adaee6f301e1d6dbe5e4fc1509bc12c15220da06ee4bae0fea2cb0aa97d605",
+      "rawBytes": 69,
+      "bytes": 75
+    },
+    {
+      "name": "pilot-100-lean",
+      "sha256": "164962585caf21b416257a4dce5bf46adcb660e4ca84df3f63db242e8328e1a6",
+      "rawBytes": 12937958,
+      "bytes": 5273997
+    },
+    {
+      "name": "counter-research",
+      "sha256": "b5adaee6f301e1d6dbe5e4fc1509bc12c15220da06ee4bae0fea2cb0aa97d605",
+      "rawBytes": 69,
+      "bytes": 75
+    },
+    {
+      "name": "pilot-100-off",
+      "sha256": "e4cccc86a32351533e15cc5df04562c63537395db5f35219cbd015d04179e10a",
+      "rawBytes": 12938151,
+      "bytes": 5274133
+    },
+    {
+      "name": "pilot-100-phase",
+      "sha256": "a9bb1fc6d19f7d761251d568d564009cd4b9c88fa38b003eaa53f25b2bb42b30",
+      "rawBytes": 12950005,
+      "bytes": 5275834
+    },
+    {
+      "name": "readiness",
+      "sha256": "866f1e4c0e8e16132be1be7eaee173d2ca1ed06592db801de57136d94dce68d3",
+      "rawBytes": 16378,
+      "bytes": 5449
+    },
+    {
+      "name": "P01-warmup",
+      "sha256": "b85b07c2da1568f7ff932f6dd97d0d480a830f76284114846ef5c560bd709c28",
+      "rawBytes": 110,
+      "bytes": 111
+    },
+    {
+      "name": "P01-original",
+      "sha256": "bb61b3a032ef65a1eef98e43e38244cd9be761c239d236016b623ff49adec8ed",
+      "rawBytes": 3295295,
+      "bytes": 1333268
+    },
+    {
+      "name": "P01-validated",
+      "sha256": "015050ad62133ddeac8f59780a48f92bfbd0809b9bf1e1a40a70f2ea79cb34bd",
+      "rawBytes": 1211,
+      "bytes": 754
+    },
+    {
+      "name": "P02-warmup",
+      "sha256": "fb4fbd42e40c89f47163b7c4cf189d0663b830120ca17bac4c560f9407b267f2",
+      "rawBytes": 111,
+      "bytes": 111
+    },
+    {
+      "name": "P02-original",
+      "sha256": "7b1babf5b9b7fcedfd17baea4a07bc7c2f610b9ed5bddbf0ba0a267435cee04b",
+      "rawBytes": 6526151,
+      "bytes": 2648945
+    },
+    {
+      "name": "P02-validated",
+      "sha256": "0b37a42c4498f2efd3d55df6c04a72a1ff97b9eb76d1d830f85c4a273dd3f632",
+      "rawBytes": 1233,
+      "bytes": 759
+    },
+    {
+      "name": "P03-warmup",
+      "sha256": "a6865a0b053cb613ea837a11ee6666a9470d82c35a1734fd0ffd0bd21920e7ff",
+      "rawBytes": 111,
+      "bytes": 112
+    },
+    {
+      "name": "P03-original",
+      "sha256": "9e6d6f9b97630e05eee121627510fb40bfb3762ded2dcd991898c85968053d32",
+      "rawBytes": 13020079,
+      "bytes": 5295061
+    },
+    {
+      "name": "P03-validated",
+      "sha256": "03b3227229bb7fb9b6c5e7e7a36bb019154a34321a83655dd54ad34011750589",
+      "rawBytes": 1229,
+      "bytes": 756
+    },
+    {
+      "name": "P04-warmup",
+      "sha256": "4cfb6e50c51440dabbed5260b1b37337c27590423b886235ebf5ea40a45ae65e",
+      "rawBytes": 110,
+      "bytes": 111
+    },
+    {
+      "name": "P04-original",
+      "sha256": "f6bff7b1b8ac23ae6eb585fd0105b597742549c7fde1253760e492e0feb84536",
+      "rawBytes": 19530950,
+      "bytes": 7949966
+    },
+    {
+      "name": "P04-validated",
+      "sha256": "64c360919fbbf11ff3731a8573ebd55c7e0d3d01fc4695cb2be0df72d509fb51",
+      "rawBytes": 1240,
+      "bytes": 762
+    },
+    {
+      "name": "P05-warmup",
+      "sha256": "6c9571a2551b7c4bd5dc0234c22d5a51d1a50d1f4d02f8a9576ac891caa0bf6b",
+      "rawBytes": 111,
+      "bytes": 110
+    },
+    {
+      "name": "P05-original",
+      "sha256": "3a43410d2cf21a82077821eb8a2e04704e86f975190511a0faf2d1531c16b5f4",
+      "rawBytes": 13122757,
+      "bytes": 5342135
+    },
+    {
+      "name": "P05-validated",
+      "sha256": "49320f093c8071faaeeafa0db256c2bc26a0490a2f8d64202d351d1853d13b33",
+      "rawBytes": 1239,
+      "bytes": 763
+    },
+    {
+      "name": "P06-warmup",
+      "sha256": "2f3b3eb101aaef2aa7f57090fead3dcae42a40cd3915a8743f25ddcce2e7520e",
+      "rawBytes": 111,
+      "bytes": 112
+    },
+    {
+      "name": "P06-original",
+      "sha256": "76ac11ba3b6195888b305aff45a9663d2941a34fbe6261eb441c22322428636b",
+      "rawBytes": 19530067,
+      "bytes": 7949939
+    },
+    {
+      "name": "P06-validated",
+      "sha256": "b620a32cbe97d68e9c3c220d3838f0b9e2fb0345b82338ad2664756f36bed5b8",
+      "rawBytes": 1218,
+      "bytes": 752
+    },
+    {
+      "name": "P07-warmup",
+      "sha256": "6e8227639eb70557a57400dd6b17bebdeac5e3eb3136cab998e30871228b1dce",
+      "rawBytes": 110,
+      "bytes": 111
+    }
+  ],
+  "sourceUnchanged": true,
+  "rawBytes": 191912261,
+  "pilotChecks": [
+    {
+      "name": "pilot-100-lean",
+      "stateSHA256": "38417a1efbd76ee958c2f1f4f48c2b4cc2769136fb70d72f2dfc7921580608a3",
+      "fullStateEqual": true
+    },
+    {
+      "name": "pilot-100-off",
+      "stateSHA256": "38417a1efbd76ee958c2f1f4f48c2b4cc2769136fb70d72f2dfc7921580608a3",
+      "fullStateEqual": true
+    },
+    {
+      "name": "pilot-100-phase",
+      "stateSHA256": "38417a1efbd76ee958c2f1f4f48c2b4cc2769136fb70d72f2dfc7921580608a3",
+      "fullStateEqual": true
+    }
+  ],
+  "failures": [],
+  "retainedTimedWindows": 6,
+  "failedOrUnknownSlots": 1,
+  "notStartedSlots": 11,
+  "attemptedTimedWindows": 7,
+  "originalBeforeValidated": true,
+  "settingsPreserved": true,
+  "counterEqualsReceipt": true,
+  "energyConserved": true,
+  "startHashes": true,
+  "counterChecks": [
+    {
+      "kind": "lean",
+      "completed": 7,
+      "simTicks": 7,
+      "firstFrameSteps": 4,
+      "secondFrameSteps": 3
+    },
+    {
+      "kind": "research",
+      "completed": 7,
+      "simTicks": 7,
+      "firstFrameSteps": 4,
+      "secondFrameSteps": 3
+    }
+  ],
+  "equalHorizonEndpoints": [
+    {
+      "fixture": "25:false",
+      "windows": [
+        "P01"
+      ],
+      "n": 1,
+      "fullSnapshotExact": true
+    },
+    {
+      "fixture": "50:false",
+      "windows": [
+        "P02"
+      ],
+      "n": 1,
+      "fullSnapshotExact": true
+    },
+    {
+      "fixture": "100:false",
+      "windows": [
+        "P03"
+      ],
+      "n": 1,
+      "fullSnapshotExact": true
+    },
+    {
+      "fixture": "150:false",
+      "windows": [
+        "P04",
+        "P06"
+      ],
+      "n": 2,
+      "fullSnapshotExact": true
+    },
+    {
+      "fixture": "100:true",
+      "windows": [
+        "P05"
+      ],
+      "n": 1,
+      "fullSnapshotExact": true
+    }
+  ],
+  "completeCampaign": false,
+  "budgetsOK": true
+}
