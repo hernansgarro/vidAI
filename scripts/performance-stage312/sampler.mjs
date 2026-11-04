@@ -1,0 +1,16 @@
+// Dedicated Worker CDP session only. No simulation code/PRNG/state mutations.
+export async function attachWorkerSampler(root,page){
+ const urls=page.workers().map(w=>w.url()),targets=await root.send('Target.getTargets'),candidates=targets.targetInfos.filter(t=>t.type==='worker'&&urls.includes(t.url));
+ if(candidates.length!==1)throw Error('Expected exactly one live simulation Worker target');
+ const target=candidates[0],{sessionId}=await root.send('Target.attachToTarget',{targetId:target.targetId,flatten:false});
+ let next=1,running=false,closed=false;const pending=new Map();
+ const listener=event=>{if(event.sessionId!==sessionId)return;const v=JSON.parse(event.message),p=pending.get(v.id);if(!p)return;pending.delete(v.id);clearTimeout(p.timer);if(v.error)p.reject(Error('Worker CDP '+JSON.stringify(v.error)));else p.resolve(v.result);};root.on('Target.receivedMessageFromTarget',listener);
+ const send=(method,params={})=>new Promise((resolve,reject)=>{const id=next++,timer=setTimeout(()=>{pending.delete(id);reject(Error('Worker CDP timeout '+method));},15000);pending.set(id,{resolve,reject,timer});root.send('Target.sendMessageToTarget',{sessionId,message:JSON.stringify({id,method,params})}).catch(e=>{clearTimeout(timer);pending.delete(id);reject(e);});});
+ const clock=async()=>{const r=await send('Runtime.evaluate',{expression:'({origin:performance.timeOrigin,now:performance.now(),url:self.location.href,kind:self.constructor.name})',returnByValue:true});if(r.exceptionDetails)throw Error('Worker identity evaluation failed');return r.result.value;};
+ const identity=await clock();if(identity.kind!=='DedicatedWorkerGlobalScope'||identity.url!==target.url)throw Error('Worker identity mismatch');
+ await send('HeapProfiler.enable');
+ return{identity,target,async start(){if(running||closed)throw Error('Invalid sampler start');const before=await clock(),start=performance.now();const parameters={samplingInterval:262144,stackDepth:64,includeObjectsCollectedByMajorGC:true,includeObjectsCollectedByMinorGC:true};await send('HeapProfiler.startSampling',parameters);running=true;const after=await clock();return{identity,target,parameters,before,after,startCommandWallMs:performance.now()-start};},
+ async stop(){if(!running||closed)throw Error('Invalid sampler stop');running=false;const before=await clock(),start=performance.now();const {profile}=await send('HeapProfiler.stopSampling'),stopCommandWallMs=performance.now()-start,after=await clock();const bytes=Buffer.byteLength(JSON.stringify(profile));if(bytes>8*1024*1024)throw Error('Sampling profile exceeds8MiB JSON cap');if(!Array.isArray(profile.samples)||!profile.head)throw Error('Invalid sampling profile');return{identity,target,beforeStop:before,afterStop:after,stopCommandWallMs,profileJSONBytes:bytes,profile,forcedCollectionCaveat:'V8 inspector may collect when materializing stopSampling; after useful/CPU closure and trace stop, before full export.'};},
+ async close(){if(closed)return;closed=true;root.off('Target.receivedMessageFromTarget',listener);for(const p of pending.values()){clearTimeout(p.timer);p.reject(Error('Worker sampler closed'));}pending.clear();await root.send('Target.detachFromTarget',{sessionId});}
+ };
+}
