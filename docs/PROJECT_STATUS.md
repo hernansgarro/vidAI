@@ -1,3 +1,24 @@
+# Diagnostics console P3 — contributor testing infrastructure (2026-11-04)
+
+Authorized branch `feature/diagnostics-console-p3` starts at P2 testing
+`15563e92581b2cd0e2395b7c4427f82ac42a677e`. Scope/acceptance were registered
+before coding in [internal PR108](https://github.com/hernansgarro/vidAI/pull/108#issuecomment-6641268494).
+Upstream #67/#57 remain canonical and read-only under this task's restriction.
+
+Adds an app-owned, bounded ring history (200 events, bounded scalar text),
+immutable snapshots/subscriptions, exact severity/subsystem filters and clear.
+Access: Settings → Advanced Settings → System diagnostics. Sparse existing
+Worker/import outcomes are recorded; normal notification/pause semantics remain.
+Console subscriptions exist only while open; history lasts until reload and
+never enters snapshots or storage. No timer, audit, Worker protocol change,
+P1/P2 runtime integration, P4/P5/P6, main/upstream or baseline/workflow change.
+[API, isolation and verification contract](contributor-workspace/performance/DIAGNOSTICS_CONSOLE_P3.md).
+
+Local initial validation: npm ci (113 packages), 414 fast cases (8 new), build /
+TypeScript and actual production Worker passed. Browser CI, final heads, merge
+and Pages verification receipts are recorded in the internal P3 PR; this source
+record does not imply upstream acceptance or actual Wiki publication.
+
 # Creature envelope P2 — isolated contributor testing calculator (2026-11-04)
 
 Authorized branch `feature/conservative-creature-envelope-p2` starts from P1

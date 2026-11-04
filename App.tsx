@@ -1,3 +1,5 @@
+import {DiagnosticEventStore} from './diagnosticEvents';
+import {DiagnosticsConsole} from './DiagnosticsConsole';
 import {scenarioObserverPreferences, restoreObserverPreferences, type ObserverPreferences} from './observerPreferences';
 import {tubeGeometry, setSelfTubes, type SelfTubes} from './selfTubes';
 import {EnergyActivityCollector, EnergyActivityPresentation, drawEnergyGlow} from './energyActivity';
@@ -331,6 +333,12 @@ export default function App() {
   const [inspectorActiveTab, setInspectorActiveTab] = useState<'brain' | 'morphology' | 'energy' | 'lineage' | 'verification'>('brain');
   const [isEcosystemGraphOpen, setIsEcosystemGraphOpen] = useState(false);
   const [isAdvancedSettingsOpen, setIsAdvancedSettingsOpen] = useState(false);
+  const [isDiagnosticsConsoleOpen, setIsDiagnosticsConsoleOpen] = useState(false);
+  const [diagnosticEvents] = useState(() => new DiagnosticEventStore());
+  const diagnosticsEntryRef = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    if (isAdvancedSettingsOpen && !isDiagnosticsConsoleOpen) diagnosticsEntryRef.current?.focus();
+  }, [isAdvancedSettingsOpen, isDiagnosticsConsoleOpen]);
   const [observerPreferences, setObserverPreferences] = useState<ObserverPreferences>(() => scenarioObserverPreferences('default'));
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isSpecimenBankOpen, setIsSpecimenBankOpen] = useState(false);
@@ -754,7 +762,10 @@ export default function App() {
   const importEcosystemJSON = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]; e.target.value = '';
     if (!file) return;
-    if (file.size > 25_000_000) { setSaveNotification('Snapshot exceeds 25 MB.'); return; }
+    if (file.size > 25_000_000) {
+      diagnosticEvents.record({severity: 'warning', subsystem: 'persistence', message: 'Snapshot import rejected: exceeds 25 MB.'});
+      setSaveNotification('Snapshot exceeds 25 MB.'); return;
+    }
     void file.text().then(text => {
       const restored = restoreSnapshot(text);
       const v = restored.settings;
@@ -777,10 +788,15 @@ export default function App() {
       cameraRef.current.y = cameraRef.current.targetY = v.worldHeight / 2;
       selectSpeed(0);
       setGameState(prev => ({...prev, status: 'PLAYING'}));
+      diagnosticEvents.record({severity: 'info', subsystem: 'persistence', message: 'Snapshot restored; simulation paused.'});
       setSaveNotification('Snapshot restored. Resume when ready.');
       gameAudio.playLevelUpStinger();
-    }).catch(error => setSaveNotification(error instanceof Error ? error.message : 'Invalid snapshot.'));
-  }, [replaceWorld, selectSpeed]);
+    }).catch(error => {
+      const message = error instanceof Error ? error.message : 'Invalid snapshot.';
+      diagnosticEvents.record({severity: 'error', subsystem: 'persistence', message: `Snapshot import failed: ${message}`});
+      setSaveNotification(message);
+    });
+  }, [replaceWorld, selectSpeed, diagnosticEvents]);
 
   const [diagnosticsRunning, setDiagnosticsRunning] = useState(false);
   const runDiagnosticSuite = useCallback(async () => {
@@ -801,6 +817,7 @@ export default function App() {
       setNutrientCycle('decay-v2');
       if (scenario) setObserverPreferences(scenarioPreferences);
       setIsAdvancedSettingsOpen(false);
+      setIsDiagnosticsConsoleOpen(false);
       setPhysicsRegime(NEW_PHYSICS_REGIME);
       setEcologyRegime('closed-v1'); setNutrientLimit(config.nutrientLimit ?? null);
       setWorldWidth(config.worldWidth); setWorldHeight(config.worldHeight);
@@ -929,7 +946,10 @@ export default function App() {
     const handleKeyDown = (e: KeyboardEvent) => {
       const target = e.target as HTMLElement;
       if (e.key === 'Escape' && isAdvancedSettingsOpen) {
-        e.preventDefault(); e.stopPropagation(); setIsAdvancedSettingsOpen(false); return;
+        e.preventDefault(); e.stopPropagation();
+        if (isDiagnosticsConsoleOpen) setIsDiagnosticsConsoleOpen(false);
+        else setIsAdvancedSettingsOpen(false);
+        return;
       }
       if (['input', 'textarea', 'select'].includes(target?.tagName?.toLowerCase()) || target?.isContentEditable) return;
 
@@ -995,7 +1015,7 @@ export default function App() {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [spawnNutrientBurst, addPrimordialSpecimen, isBrainInspectorOpen, selectedEggId, selectedOrgId, isSettingsOpen, isAdvancedSettingsOpen, isEcosystemGraphOpen, isSpecimenBankOpen, isArenaOpen, isHowToPlayOpen, gameState.status, isGameMenuOpen, togglePause, selectSpeed]);
+  }, [spawnNutrientBurst, addPrimordialSpecimen, isBrainInspectorOpen, selectedEggId, selectedOrgId, isSettingsOpen, isAdvancedSettingsOpen, isDiagnosticsConsoleOpen, isEcosystemGraphOpen, isSpecimenBankOpen, isArenaOpen, isHowToPlayOpen, gameState.status, isGameMenuOpen, togglePause, selectSpeed]);
 
   // Zoom handling
   useEffect(() => {
@@ -1659,7 +1679,11 @@ export default function App() {
   };
 
   useEffect(() => {
-    if (typeof Worker === 'undefined' || new URLSearchParams(location.search).has('mainthread')) return;
+    if (typeof Worker === 'undefined' || new URLSearchParams(location.search).has('mainthread')) {
+      diagnosticEvents.record({severity: typeof Worker === 'undefined' ? 'warning' : 'info', subsystem: 'runtime',
+        message: typeof Worker === 'undefined' ? 'Worker unavailable; using main-thread simulation.' : 'Main-thread simulation explicitly selected.'});
+      return;
+    }
     let client: SimulationClient;
     try { client = new SimulationClient(() => simStateRef.current, (state, frame) => {
       simStateRef.current = state;
@@ -1676,12 +1700,15 @@ export default function App() {
         else if (event === 'birth') gameAudio.playPowerupChime();
       }
     }, message => {
+      diagnosticEvents.record({severity: 'error', subsystem: 'worker', message});
       selectSpeed(0);
       setSaveNotification(`Simulation paused: ${message}`);
     }); } catch {
+      diagnosticEvents.record({severity: 'warning', subsystem: 'worker', message: 'Worker unavailable; running simulation on the main thread.'});
       setSaveNotification('Worker unavailable; running simulation on the main thread.');
       return;
     }
+    diagnosticEvents.record({severity: 'info', subsystem: 'worker', message: 'Simulation Worker initialized.'});
     workerClientRef.current = client;
     client.reset(createSnapshot(simStateRef.current, workerSettingsRef.current!), worldEpochRef.current);
     return () => {client.dispose(); workerClientRef.current = null;};
@@ -2472,14 +2499,18 @@ export default function App() {
 
         {isAdvancedSettingsOpen && (
           <div ref={advancedSettingsDraggable.panelRef} data-testid="advanced-settings-window" role="dialog" aria-label="Advanced Settings"
+            onKeyDown={e => {
+              if (e.key !== 'Escape' && (isDiagnosticsConsoleOpen || e.target === diagnosticsEntryRef.current)) e.stopPropagation();
+            }}
             onPointerDown={e => e.stopPropagation()} onClick={e => e.stopPropagation()}
             style={{transform: `translate3d(${advancedSettingsDraggable.pos.x}px, ${advancedSettingsDraggable.pos.y}px, 0)`, pointerEvents: 'auto'}}
-            className="vida-window absolute top-0 left-0 bg-slate-900/95 backdrop-blur-lg border border-amber-500/50 rounded-2xl p-4 w-[352px] max-w-[calc(100%-1rem)] flex flex-col font-mono text-xs shadow-2xl z-50 pointer-events-auto">
+            className={`vida-window absolute top-0 left-0 bg-slate-900/95 backdrop-blur-lg border border-amber-500/50 rounded-2xl p-4 ${isDiagnosticsConsoleOpen ? 'w-[640px]' : 'w-[352px]'} max-w-[calc(100%-1rem)] flex flex-col font-mono text-xs shadow-2xl z-50 pointer-events-auto`}>
             <div {...advancedSettingsDraggable.headerProps} className="flex items-center justify-between border-b border-amber-500/30 pb-2 mb-3 touch-none cursor-grab active:cursor-grabbing select-none">
               <span className="font-bold text-amber-300 text-sm">ADVANCED SETTINGS</span>
               <button type="button" title="Close advanced settings" onPointerDown={e => e.stopPropagation()}
-                onClick={() => setIsAdvancedSettingsOpen(false)} className="text-slate-400 hover:text-white p-1 rounded hover:bg-slate-800"><X size={16}/></button>
+                onClick={() => {setIsAdvancedSettingsOpen(false); setIsDiagnosticsConsoleOpen(false);}} className="text-slate-400 hover:text-white p-1 rounded hover:bg-slate-800"><X size={16}/></button>
             </div>
+            {isDiagnosticsConsoleOpen ? <DiagnosticsConsole store={diagnosticEvents} onBack={() => setIsDiagnosticsConsoleOpen(false)}/> :
             <div className="space-y-4 overflow-y-auto">
               <label className="flex items-start gap-3 cursor-pointer text-slate-200">
                 <input type="checkbox" className="mt-0.5 accent-amber-400" checked={observerPreferences.selectAddedCreature}
@@ -2496,7 +2527,9 @@ export default function App() {
                   onChange={e => setObserverPreferences(p => ({...p, showCaustics: e.target.checked}))}/>
                 <span>Show water caustics</span>
               </label>
-            </div>
+              <button ref={diagnosticsEntryRef} type="button" onClick={() => setIsDiagnosticsConsoleOpen(true)}
+                className="w-full py-2 text-cyan-300 border border-cyan-500/40 rounded-xl font-bold">System diagnostics</button>
+            </div>}
           </div>
         )}
 

@@ -123,8 +123,16 @@ paint/blur pass but leaves the same caustic objects in the simulated state.
 These preferences never enter the Worker simulation, sensory inputs, genetics,
 energy or random stream. Disabling the blur may help display rendering on some
 graphics backends; it does not guarantee higher Worker throughput.
-Escape and the close button dismiss the advanced window; its size/position stay
-within the tank viewport, including on phones.
+On contributor **testing only**, **System diagnostics** opens a session event
+console in the same window. It shows local date/time, severity, subsystem and
+description, with combined severity/subsystem filters and **Clear history**.
+The newest 200 entries are retained while the console is closed; reload clears
+history. Worker startup/fallback/errors and snapshot import outcomes are
+recorded. No event history enters saved worlds or the organisms' senses.
+Back or Escape returns to the advanced options; another Escape closes the
+window. The close button also dismisses it. Its size/position stay within the
+tank viewport, including on phones. No grid-integrity auditing is implemented.
+See [observer diagnostic console](Simulation-Performance#diagnostic-console--contributor-testing-only).
 
 Observer-only energy activity is documented in [Energy Activity](Energy-Activity).
 - [Self-Linked Windows and Physical Tubes](Side-Windows)

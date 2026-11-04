@@ -11,6 +11,7 @@
 - [Continuous Food Recycling (fork only)](Ecology-Baseline#continuous-food-recycling--contributor-fork)
 - [[Energy Activity Overlays (fork only)|Energy-Activity]]
 - [[Simulation Performance|Simulation-Performance]]
+- [Diagnostic console (fork testing only)](Simulation-Performance#diagnostic-console--contributor-testing-only)
 
 - [Self-Linked Windows and Physical Tubes](Side-Windows)
 

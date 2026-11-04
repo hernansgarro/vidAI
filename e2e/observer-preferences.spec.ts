@@ -199,3 +199,120 @@ for (const fallback of [false, true]) {
       expect(pageErrors).toEqual([]);
     });
 }
+
+for (const fallback of [false, true]) test(`diagnostic console retains, filters and clears observer-only history (${fallback ? 'fallback' : 'Worker'})`, async ({page}, info) => {
+  await page.setViewportSize({width: 1280, height: 850});
+  await page.clock.install({time: new Date('2026-01-01T00:00:00Z')});
+  await page.clock.pauseAt(new Date('2026-01-02T00:00:00Z'));
+  const errors: string[] = []; page.on('pageerror', error => errors.push(error.message));
+  if (!fallback) await page.addInitScript(() => {
+    const OriginalWorker = window.Worker;
+    window.Worker = class extends OriginalWorker {
+      constructor(url: string | URL, options?: WorkerOptions) {
+        super(url, options); (window as any).diagnosticTestWorker = this;
+      }
+    };
+  });
+  await page.goto(`./?autoplay${fallback ? '&mainthread' : ''}`);
+  await page.getByTitle('Ecology & Physical Settings').dispatchEvent('click');
+  const settings = page.getByTestId('settings-window');
+  const read = async () => {
+    const download = page.waitForEvent('download');
+    await settings.getByRole('button', {name: 'Export Snapshot', exact: true}).dispatchEvent('click');
+    return JSON.parse(await readFile((await (await download).path())!, 'utf8'));
+  };
+  const cfg = {...DEFAULT_SETTINGS, targetNutrients: 0, inflowRate: 0, nutrientLimit: null};
+  const source = createSnapshot(createInitialWorld(cfg, 73, 'balanced', 'standard', 1), cfg);
+  const upload = async (text: string) => settings.locator('input[type=file]').setInputFiles({name: 'diagnostics.json', mimeType: 'application/json', buffer: Buffer.from(text)});
+  await upload(JSON.stringify(source));
+  await expect(page.getByRole('button', {name: 'Resume', exact: true})).toBeVisible();
+  await expect.poll(async () => (await read()).state).toEqual(source.state);
+  const before = await read();
+  // A real rejected import records an error while the console has never been mounted.
+  await upload('invalid-json');
+  const open = async () => {
+    await settings.getByRole('button', {name: 'Advanced Settings', exact: true}).dispatchEvent('click');
+    await page.getByRole('button', {name: 'System diagnostics', exact: true}).dispatchEvent('click');
+    return page.getByRole('region', {name: 'System diagnostics', exact: true});
+  };
+  const console = await open();
+  const rows = console.getByTestId('diagnostic-event');
+  await expect(rows).toHaveCount(3);
+  await expect(console.getByRole('heading', {name: 'System diagnostics'})).toBeFocused();
+  await expect(rows.first()).toContainText('Snapshot import failed:');
+  await expect(rows.last()).toContainText(fallback ? 'Main-thread simulation explicitly selected.' : 'Simulation Worker initialized.');
+  await expect(rows.first().locator('time')).toHaveAttribute('datetime', /2026-01-02T/);
+  await console.getByLabel('Diagnostic severity').selectOption('error');
+  await expect(rows).toHaveCount(1);
+  await console.getByLabel('Diagnostic subsystem').selectOption(fallback ? 'runtime' : 'worker');
+  await expect(rows).toHaveCount(0); await expect(console.getByText('No events match these filters.')).toBeVisible();
+  await console.getByLabel('Diagnostic severity').selectOption('');
+  await expect(rows).toHaveCount(1);
+  await console.getByLabel('Diagnostic subsystem').selectOption('persistence');
+  await expect(rows).toHaveCount(2);
+  // A live event updates the visible console without polling or simulation ticks.
+  await upload(JSON.stringify(source));
+  await expect(rows).toHaveCount(3);
+  await console.getByLabel('Diagnostic subsystem').selectOption('');
+  await expect(rows).toHaveCount(4);
+  const afterBrowsing = await read();
+  expect(afterBrowsing.state).toEqual(before.state); expect(afterBrowsing.settings).toEqual(before.settings);
+  expect(afterBrowsing.metadata).toEqual(before.metadata);
+  // Space activates the focused console control, without toggling playback.
+  await console.getByRole('button', {name: 'Clear history', exact: true}).focus();
+  await page.keyboard.press('Space');
+  await expect(rows).toHaveCount(0);
+  await expect(console.getByRole('button', {name: 'Clear history', exact: true})).toBeDisabled();
+  await expect(page.getByRole('button', {name: 'Resume', exact: true})).toBeVisible();
+  await expect(console.getByText('No diagnostic events recorded.')).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(console).toHaveCount(0);
+  const entry = page.getByRole('button', {name: 'System diagnostics', exact: true});
+  await expect(entry).toBeFocused();
+  await page.keyboard.press('Space');
+  await expect(console).toBeVisible(); await expect(rows).toHaveCount(0);
+  await console.getByRole('button', {name: 'Back to advanced settings'}).dispatchEvent('click');
+  await expect(entry).toBeFocused();
+  await page.keyboard.press('Escape');
+  await expect(page.getByTestId('advanced-settings-window')).toHaveCount(0);
+  if (!fallback) {
+    // Exercise the existing client error callback; no test seam is added to runtime code.
+    await page.evaluate(() => {
+      const worker = (window as any).diagnosticTestWorker as Worker;
+      worker.onerror?.(new ErrorEvent('error', {message: '<img src=x onerror=alert(1)> diagnostic fixture'}));
+    });
+  } else await upload('invalid-json');
+  await open(); await expect(rows).toHaveCount(1);
+  if (!fallback) {
+    await expect(rows).toContainText('<img src=x onerror=alert(1)> diagnostic fixture');
+    await expect(rows.locator('img')).toHaveCount(0);
+  }
+  await page.setViewportSize({width: 375, height: 812});
+  await page.clock.runFor(48);
+  const box = (await page.getByTestId('advanced-settings-window').boundingBox())!;
+  const tank = (await page.getByLabel('Aquatic simulation').boundingBox())!;
+  expect(box.x).toBeGreaterThanOrEqual(tank.x);
+  expect(box.x + box.width).toBeLessThanOrEqual(tank.x + tank.width);
+  expect(box.y).toBeGreaterThanOrEqual(tank.y);
+  expect(box.y + box.height).toBeLessThanOrEqual(tank.y + tank.height);
+  await page.screenshot({path: info.outputPath('diagnostics-mobile.png')});
+  const final = await read();
+  expect(final.state).toEqual(source.state); expect(final.settings).toEqual(source.settings);
+  expect(final.metadata).toEqual(before.metadata);
+  expect(errors).toEqual([]);
+});
+
+test('diagnostic warning retains a real Worker initialization fallback', async ({page}) => {
+  await page.clock.install(); await page.clock.pauseAt(new Date(Date.now() + 1000));
+  await page.addInitScript(() => {
+    window.Worker = class {constructor() {throw new Error('Worker fixture unavailable');}} as any;
+  });
+  await page.goto('./?autoplay');
+  await page.getByTitle('Ecology & Physical Settings').dispatchEvent('click');
+  await page.getByRole('button', {name: 'Advanced Settings', exact: true}).dispatchEvent('click');
+  await page.getByRole('button', {name: 'System diagnostics', exact: true}).dispatchEvent('click');
+  const console = page.getByRole('region', {name: 'System diagnostics'});
+  await console.getByLabel('Diagnostic severity').selectOption('warning');
+  await expect(console.getByTestId('diagnostic-event')).toHaveCount(1);
+  await expect(console.getByTestId('diagnostic-event')).toContainText('Worker unavailable; running simulation on the main thread.');
+});

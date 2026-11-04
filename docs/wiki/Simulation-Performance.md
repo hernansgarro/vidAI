@@ -256,3 +256,28 @@ No physics, optics, feeding, saves, UI or performance changes are claimed.
 See the [P2 contract and proof](https://github.com/hernansgarro/vidAI/blob/testing/docs/contributor-workspace/performance/CREATURE_ENVELOPE_P2.md).
 This describes fork testing source only; actual upstream Wiki publication and
 later grid integration remain separate.
+
+
+## Diagnostic console — contributor testing only
+
+**Fork testing only; not accepted or shipped upstream.** Open Settings → Advanced
+Settings → System diagnostics to read real Worker lifecycle/error and snapshot
+import events. Each row has a local wall-clock timestamp, severity, subsystem
+and description. Newest entries appear first. Severity and subsystem filters
+combine; Clear history removes all events. Back or Escape returns to the
+advanced options. Keyboard actions in the console do not trigger playback or
+feeding shortcuts; the window fits the tank viewport on phones.
+
+History retains the latest 200 entries with bounded message/subsystem text,
+including while closed. Reload clears it; world imports do not. It is session
+observer data, not snapshot metadata, local storage or a creature sense. The
+central reusable store accepts scalar severity/subsystem/message events and
+isolates failed observers. Only the visible console subscribes to updates;
+there is no periodic polling, event generation per tick or new Worker traffic.
+Existing Worker errors still pause visibly through their original handler.
+
+This infrastructure works independently of P1/P2. It does not maintain grid
+membership, run integrity audits, provide an Audit now action, repair errors,
+draw grid overlays or change simulation state/PRNG/physics. Its ordinary observer
+cost is not a throughput claim. Source API details and limitations:
+[P3 contract](https://github.com/hernansgarro/vidAI/blob/testing/docs/contributor-workspace/performance/DIAGNOSTICS_CONSOLE_P3.md).
