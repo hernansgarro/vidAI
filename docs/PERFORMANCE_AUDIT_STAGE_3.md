@@ -1,5 +1,72 @@
 # VIDA 2D — Cumulative Stage 3 performance evidence (fork main)
 
+> **Fork-main research knowledge ledger — consolidated 2026-11-04 through Stage 3.10.** Current conclusions belong here; executable probes/raw traces remain on immutable research branches. Stage3 is ONGOING. No optimization or Stage4 implementation is approved. The historical dated sections below retain their original decisions/failures.
+
+## Current synthesis and delivery boundary — 2026-11-04
+
+This update incorporates the previously missing3.8/3.9/3.10 conclusions into main at Hernan's explicit request. It does not merge research drafts98/99/100 or change production behavior. This is the current entry point; older “latest” and STOP language is dated history, not an instruction to repeat or disregard a subsequently authorized lot.
+
+| Evidence front | Current supported conclusion | Limits / next question |
+| --- | --- | --- |
+|Large active ecosystem load |25/50/100/150 combined population+food+habitat scaling substantially reduces throughput.150body has690parts, below the1000part ambition. |No asymptotic class, independent population coefficient or universal saturation threshold. |
+|Initially separated optical crowding |At100bodies, dense cost+20.60%; visual candidates2.13x, body-edge tests4.54x. |One phase pair; render contention and real trajectories differ. Earlier overlapping+62.20% is a separate stress case, not the same density effect. |
+|150body capacity and finite pacing |3.10 MAX53.46–54.15TPS; requested1x53.16,2x55.13TPS. |Six simulated seconds, n2MAX/n1pacing, CI hardware. No claim of sustained desktop performance or that higher requested speed inherently slows simulation. |
+|Essential Worker work |3.10 instrumented vision+sight6.238ms/32.60%,physics5.413/28.29%,inference4.512/23.58%. |Elapsed exclusive kernel phases, including probe/JIT/preemption/GC effects, not removable per-phase CPU. |
+|GC/transient allocation |3.10 marked Worker GC-related union35.50% and inter-GC allocation proxy281.58MB/s under detailed trace. |Trace adds59.92% elapsed cost. Ordinary untraced GC cost/allocation ownership/leaks are unresolved; calibrate observer cost before ranking savings. |
+|Probe and evidence overhead |HooksOFF+3.34%,counter+10.08%,phase+11.62%,trace+59.92% elapsed contrasts in3.10. Large exact exports take6–7.5s outside useful intervals. |n1diagnostics/fixedorder; no exact causal subtraction. Evidence volume/processing time is not live simulator memory or tick cost. |
+
+These observations refine stable S2-01/02/03/05/09/10/12 questions; they do not erase historical feeding/ecology/tube/egg gaps or turn hypothetical exact caches/scratch buffers into tested optimizations. Per-eye sampling/energy/genetic proposals remain separate [exploratory designs](VISION_PERFORMANCE_DESIGN_NOTES.md).
+
+### Stage 3.10 — COMPLETE, eight retained windows
+
+[Detailed report](https://github.com/hernansgarro/vidAI/blob/afce7aa548c165f9548e0df6fdc876752b412d72/docs/experiments/performance-stage-3-v12-execution/report.md), [raw originals](https://github.com/hernansgarro/vidAI/tree/a21a042c9b259f708f59fcde38f154e0d09489a3/docs/experiments/performance-stage-3-v12-execution), [draft100](https://github.com/hernansgarro/vidAI/pull/100), [preregistration](https://github.com/smeagol44/vidAI/issues/57#issuecomment-6629413476). Source6835f03ee42134bd00dd09c8321334bfab201aa0; originalsa21a042c9b259f708f59fcde38f154e0d09489a3; verified reportafce7aa548c165f9548e0df6fdc876752b412d72.
+
+Fixed order L01/O01/S01/L02/C01/T01/D01/S02; every window360fixedticks,60same-mode warmup then exact reset. One unchanged150spread world:150living/690parts/540joints/330eyes/1650rays/3600hidden/600initialfood,4000x3000/seed73, five current genotypes equally represented, normal learning/funded ecology, causticsOFF/no selection/tracking/inspector. Final150living/569food, no deaths/newoffspring/eggs/guards. Four24tick mode pilots and two4+3counter checks pass.
+
+| Condition | n | Actual TPS | ms/tick | Observed elapsed contrast vs lean median |
+| --- | ---: | ---: | ---: | ---: |
+|Lean MAX L01/L02 |2 |53.465–54.153; median53.809 |18.466–18.704; median18.585 |Reference;1.288%repeatspan |
+|HooksOFF O01 |1 |52.070 |19.205 |+3.34% |
+|Counter C01 |1 |48.879 |20.459 |+10.08% |
+|Phase D01 |1 |48.206 |20.744 |+11.62% |
+|Detailed trace T01 |1 |33.647 |29.721 |+59.92% |
+|Requested1x S01 |1 |53.156 |18.813 |Effective0.88594x |
+|Requested2x S02 |1 |55.132 |18.138 |Effective0.91886x;45.94%of requested120TPS |
+
+The2x window is only3.72% faster than1x. All complete endpoint/settings/PRNG/neural/learning/physical/energy snapshots match each other and archived3.9 exactly (full SHA256c9189ebe919fc196e899b15780803ae85387602f54f56ea551a395b49a31bf7b). Max energy closure error3.8511e-7J. Transient observer frames legitimately differ; inherited wall-AABB limitations remain disclosed.
+
+D01 has360exclusive phase rows with ledger closure0 and23sampled counter ticks. Vision+sight32.60%,physics28.29%,inference23.58%,learning7.01%,feeding/index3.02% of19.137ms mean kernel tick.1650rays/22604.78candidates/16416.70edge tests per sampled tick;600body/2760part/2160joint advances. Frame-build median0.40ms/postMessage call3.10ms are synchronous components, not end-to-end IPC; no cadence ablation. Non-traced reports14.46–15.74/s, canvas38.17–41.95FPS, approximate frameJSON947.7KB, not wire bytes.
+
+T01 retains46,756events/12.20MB/noDataLoss. Worker/main Linux PID/TID start identities verified. Worker GC-related wall union3.798s/35.50% of10.6994s traced window;95Minor/3Major events; inter-GC proxy281.58MB/s from2.957GB over10.503s. Main separately25.51%/41.20MB/s. **Do not apply these traced fractions to untraced gameplay, add threads/GC to exclusive phase costs, infer leaks or source-stack ownership, or promise equivalent savings.** The trace's~60% perturbation is the main unresolved attribution caveat.
+
+ScientificCI41821659990/job126546033488 and finalCI41824370165/job126555224099 succeeded;385fast/build/actualWorker and8focusedChromium windows pass. All47originals/14references and276inheritedbasefiles verified against Git, exact lossless JSON reconstruction; clean checkout reproduces findings/verification. Active148.961/180s; inclusive runner623.218/720s, full invocation627s; last slot admitted565.657<600s with120sreserve. Normal output+controls+inputs49,625,831<192MiB, emergency38,264<2MiB, trace12,200,561<16MiB. All8retained, no failure/retry/missing trial. Temporary launch workflow removed; draft remains unmerged.
+
+### Stage 3.9 — PARTIAL, valid crowding evidence, runner budget FAILED
+
+[Report](https://github.com/hernansgarro/vidAI/blob/4eb25207c90e85d738d2d736fa142034d5e81a80/docs/experiments/performance-stage-3-v11-execution/report.md), [immutable matrix originals](https://github.com/hernansgarro/vidAI/tree/f76bb95a764eaf872cbdb63ecef1f889198ccdb2/docs/experiments/performance-stage-3-v11-execution), [draft99](https://github.com/hernansgarro/vidAI/pull/99). Source4bc35f0198d6997fed06d543d973589d0df87490; preflightoriginals0445603d2d0c348ec602be52284385af8b416452; finalreport4eb25207c90e85d738d2d736fa142034d5e81a80. Initial storage-only preflight attempted ZERO scientific windows; permitted lossless codec repair reused the same pilots without simulation and charged original setup against unchanged limits.
+
+10attempted/10retained/8unstarted,360ticks each. Lean n2per100spread/100dense/150spread: medians11.782/14.209/18.527ms per tick and84.88/70.39/54.09TPS; ranges84.23–85.53/69.35–71.43/51.61–56.57.100→150 co-scales population/food/area1.5x and cost1.572x, with9.61%repeatspan at150; no superlinear-law proof. New dense100 translates whole bodies to fixed140px grid, ZERO initial external intersections/minimumAABBgap30.842px. Same genes/food/PRNG/settings/energy; dense cost+20.60%, visual candidates2.13x and edge checks4.54x. Phase vision+sight3.868→7.516ms, physics3.466→3.842, inference2.865→2.769; n1each100phase. Later contacts/render/learning legitimately diverge; this is no guaranteed optimization saving.
+
+All retained endpoints exactlymatch within eachfixture group, energyerror<3.86e-7J, no deaths/newoffspring/eggs/guards.54matrixoriginal files and23preflightoriginals match immutable Git. Source/runtime and all3Worker binaries matched original preflight; no dummy or simulation rule change. Codec2 losslessly interns genomes/edge labels/columns/IEEE754 arrays;49.94MB combined retained raw/control versus277.60MB expanded current receipts, not a live memory reduction.
+
+Scientificrun41778306250 FAILED beforeD05: combined runner739.927>720s, active147.117<360s. Last useful window ended715.943s; export/validation/archive caused19.927s overrun. All useful spans before deadline do NOT waive the global failure. Analyzer intentionally exits1 for budgetsOK=false. Missing D05/D06,O01/O02,T01/T02,S01/S02 are not zeros or later replaced by3.10. Budget/protocol failure stays explicit. Temporary workflow removed, draft99 unmerged.
+
+### Stage 3.8 — PARTIAL, storage stop and missing original
+
+[Report](https://github.com/hernansgarro/vidAI/blob/e5101841d57cdb0e035c310b5551609b536038ff/docs/experiments/performance-stage-3-v10/report.md), [immutable originals](https://github.com/hernansgarro/vidAI/tree/9c00d5497db3b351ada3230a4c2b835c79d0abcc/docs/experiments/performance-stage-3-v10), [draft98](https://github.com/hernansgarro/vidAI/pull/98). Sourcef2e5e936f63eb0ca2f366a997abcacbd38460208; finalreporte5101841d57cdb0e035c310b5551609b536038ff.
+
+Six120tick primary windows retained:25spread361.77TPS(n1),50spread202.29(n1),100spread110.55(n1),150spread67.49–70.55(n2),100compact68.15(n1). Loads115/230/460/690parts; food100/200/400/600 and habitat co-scale. No pure population coefficient, asymptotic class or universal saturation claim. Compact100 starts68external intersecting part pairs and ends8guards, costs62.20% more than spread; initial overlap/contact/optics/render/trajectory changes confound that contrast. It is not equivalent to3.9's initially separated density case.24tick100phase pilot only; all timed phase/GC/overhead cells unstarted. CPU brackets include large full exports, so CPU-ms/tick are contaminated and not ranked.
+
+P07 ran but full original hit192MiB archive guard; emergency full-payload retry hit the same guard. **P07 has no usable rate or retained endpoint, and remains missing.**11slots unstarted; no rerun. Scientificrun41770391294 FAILED on storage refusal. Retained191,912,261bytes/active59.525s/runner267.048s stay within retained caps, but the refused next write and preservation weakness stopped the lot.39originalfiles match immutable Git; all276basefiles unchanged. Original failure is not repaired by later codec/workflows; draft98 stays unmerged.
+
+### Current authorized next action and documentation maintenance
+
+Hernan's2026-11-04 follow-up authorizes a worthwhile NEW bounded lot after goals/metrics/preregistration. Selected3.11 question: does GC remain material under lightweight outer-GC tracing, with quantified overhead versus both no trace and detailed trace? Six150body360tick windows/two per condition are to be registered before execution. No Stage4/product change or old-trial rerun. Findings from that lot must also be integrated into this main ledger and the current plan/priorities/handoff; raw evidence and launch tools stay on research branches. Documentation integration is not upstream acceptance; shared#67 remains In progress.
+
+---
+
+# Preserved Stage 3.1–3.7b findings and dated decisions
+
 > **Fork-main research knowledge ledger — consolidated 2026-11-03.** The complete verified *findings*, historical status, negative results, uncertainty and scientific source links from Stage 3.1–3.6 are retained below. This file is documentation, **not** merged research code or a claim that an optimization has shipped. Stage 3 is ongoing; Stage 4 synthesis/optimization remains unapproved.
 
 ## Stage 3.7b update — 2026-11-03: authorized recovery COMPLETE

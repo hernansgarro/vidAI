@@ -6,6 +6,18 @@
 **Tracking:** [upstream performance issue #67](https://github.com/smeagol44/vidAI/issues/67), [roadmap/handoffs #57](https://github.com/smeagol44/vidAI/issues/57), [sensory/HUD issue #65](https://github.com/smeagol44/vidAI/issues/65).
 **Evidence:** [fork cumulative Stage 3 report](PERFORMANCE_AUDIT_STAGE_3.md) and the isolated Stage 3.7b research [report](https://github.com/hernansgarro/vidAI/blob/8481613ce08be6137d347cf0d8b9eabb0aed8130/docs/experiments/performance-stage-3-v9/report.md).
 
+## Current measured context — updated 2026-11-04
+
+The main [cumulative evidence ledger](PERFORMANCE_AUDIT_STAGE_3.md) now includes3.8–3.10.
+Initially separated dense100 in3.9 costs20.60% more, with2.13x visual candidates and
+4.54x body-edge tests; this supports examining ordered optical work, not a promised
+saving from any design below.3.10's150body vision+sight share32.60% is instrumented
+elapsed kernel time; its detailed GC trace adds~60%total elapsed cost. Neither
+counterfactual gains, traced GC nor phase shares are additive/removable budgets.
+The old overlapping3.8 compact+62.20% has an explicit initial-contact/guard confound.
+No candidate below was implemented/tested by those studies; keep the current
+per-eye/genetic/energy semantics and conceptual rankings unchanged.
+
 ## Candidate comparison — at a glance
 
 The ray-count candidate is a **new proposed genetic capability**; genetic **per-eye vision range already exists** in the current simulator. The proposed optimization for range is to measure whether selection for shorter useful sight genuinely reduces spatial query costs. Its savings are unverified.

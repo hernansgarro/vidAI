@@ -1,5 +1,36 @@
 # VIDA 2D — Contributor performance audit: investigation priorities and Stage 3/4 decision questions
 
+## Current evidence checkpoint — Stage 3.8–3.10 (2026-11-04)
+
+Hernan explicitly requires verified conclusions in fork **main**, while raw evidence,
+profilers and temporary launch workflows remain on isolated research branches.
+The [cumulative Stage 3 ledger](../../PERFORMANCE_AUDIT_STAGE_3.md) is the current
+scientific entry point. Older dated checkpoints below are historical, including
+their then-current STOP/next-study wording; they are not permission to replay trials.
+
+| Lot | Verified outcome | Primary finding / limitation |
+| --- | --- | --- |
+|3.8 / draft98 |PARTIAL:6retained, P07 raw lost,11unstarted |25–150 scaling; compact100 initially overlaps68pairs and triggers8guards; +62.2% cost is confounded. Storage guard stopped the lot. |
+|3.9 / draft99 |PARTIAL:10retained,8unstarted; runner739.927s>720s |Initially separated dense100 costs20.60% more;2.13x visual candidates/4.54x edge tests.150spread51.61–56.57TPS. GC/finite pacing not reached. |
+|3.10 / draft100 |COMPLETE:8/8, all budgets pass |150spread lean53.46–54.15TPS; requested1x53.16TPS,2x55.13TPS. HooksOFF/counter/phase/trace elapsed contrasts+3.34/+10.08/+11.62/+59.92%, n1diagnostics. |
+
+Stage3.10's traced Worker GC-related union35.50% and allocation proxy281.58MB/s
+are **trace-only**. The trace perturbs throughput substantially; neither is an
+untraced GC cost, retained-heap/leak result or recoverable speedup. Instrumented
+150body vision+sight32.60%,physics28.29%,inference23.58% are separate elapsed phases,
+not additive with GC and not independently removable CPU. All8complete endpoints
+match3.9 exactly. Representative desktop, evolved populations, egg bursts and
+per-allocation ownership remain gaps. Earlier3.1–3.7b data/failures are preserved.
+
+**Current owner authorization:** a NEW worthwhile bounded investigative lot may
+run after explicit goals/metrics/protocol registration. Selected3.11 question:
+does meaningful GC evidence survive a less intrusive category-filtered trace?
+Six150body windows, two each lean/light-GC/detailed-GC, fixed reversed order and
+exact360tick endpoint controls, are to be preregistered before execution. This
+supersedes the previous task's stop for this new lot only. No production optimization,
+Stage4 implementation, upstream submission or old-result replacement is authorized.
+Afterward publish verified3.11 conclusions in main as well; research PRs stay unmerged.
+
 > **Hernan's decision input, 2026-11-02; documentation only.** This is an overlay on the immutable [Stage 2 static source review](PERFORMANCE_AUDIT_STAGE_2.md) and the [approved four-stage audit plan](PERFORMANCE_AUDIT_PLAN.md), not an executed benchmark, permission to instrument, an optimization specification, an upstream decision or a performance guarantee. Keep the original S2-01–S2-12 IDs stable.
 >
 > **Reference:** `hernansgarro/vidAI:main` inspected at `bf75b5649c6d843c48586acca59c51830678e316`; Stage 2 integrated at fork/main `d926557ac6ea09895afa8895311734e68290c55e`. Source facts below refer to that pinned implementation. Current/future source heads must be rechecked before the Stage 3 Work run. **IDEA-023 remains overall contributor P0.** The ranking below is *within this audit only*.
