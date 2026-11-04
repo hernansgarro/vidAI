@@ -10,7 +10,7 @@
 | [Topic index](ideas/CONTRIBUTOR_IDEAS.md) | Compact pointers to unfinished ideas (not a chronological journal) |
 | [Scent/olfaction design](designs/SCENT_AND_OLFACTION_DESIGN.md) | Current IDEA-026 decisions, constraints and open parameters |
 | [Remote aquarium/portable state](designs/REMOTE_AQUARIUM_DESIGN.md) | Deferred IDEA-010/011 design; local tube stages 1–3 are already implemented |
-| [Cumulative measured findings](../PERFORMANCE_AUDIT_STAGE_3.md) | Verified Stage3 conclusions through3.11, including partial/failed lots and immutable evidence links; maintained on main |
+| [Cumulative measured findings](../PERFORMANCE_AUDIT_STAGE_3.md) | Verified Stage3 conclusions through3.12, including partial/failed lots and immutable evidence links; maintained on main |
 | [Performance audit](performance/PERFORMANCE_AUDIT_PLAN.md) | IDEA-023 P0 current measurement objective, protocol/stage gates |
 | [Worker research handoff](performance/WORKER_HOTPATH_RESEARCH_HANDOFF.md) | Current Stage3 checkpoint, verified evidence, safeguards and next bounded-lot requirements |
 | [Performance priorities](performance/PERFORMANCE_AUDIT_PRIORITIES.md) | Historical technical hypotheses and current owner priority overrides |
