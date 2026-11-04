@@ -2,7 +2,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
-const repo='hernansgarro/vidAI',branch='audit/performance-stage-3-9',dir='docs/experiments/performance-stage-3-v11';
+const repo='hernansgarro/vidAI',branch='audit/performance-stage-3-9',dir='docs/experiments/performance-stage-3-v11-execution';
 const token=process.env.GH_TOKEN;if(!token)throw Error('Missing scoped Actions token');
 const api=async(p,method='GET',body)=>{const response=await fetch('https://api.github.com/repos/'+repo+p,{method,headers:{Authorization:'Bearer '+token,Accept:'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28',...(body?{'Content-Type':'application/json'}:{})},body:body?JSON.stringify(body):undefined,signal:AbortSignal.timeout(30000)});if(!response.ok)throw Error('Evidence API '+method+' '+p+' status '+response.status);return await response.json();};
 const walk=p=>fs.readdirSync(p,{withFileTypes:true}).flatMap(x=>x.isDirectory()?walk(path.join(p,x.name)):[path.join(p,x.name)]);

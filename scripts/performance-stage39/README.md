@@ -45,3 +45,23 @@ node scripts/performance-stage39/test-archive.mjs
 Linux CPU brackets and mark-based trace GC/allocation are separate from elapsed
 phase timers. Union GC intervals; do not assign recreated Worker TIDs to other
 windows, identify leaks from main heap, add nested costs, or claim desktop gains.
+
+## Preflight-only incident and repair before any timed trial
+
+Run41777188131 stopped before P01: conservative projection223,811,966bytes exceeded
+192MiB. All18timedslots remain unstarted; original preflight evidence is immutable
+at0445603d2d0c348ec602be52284385af8b416452 in the v11 directory. Its5pilots and2counter
+checks are reused exactly, never re-simulated. New execution output is
+performance-stage-3-v11-execution; see upstream amendment comment6623177419.
+
+Codec v2 additionally stores homogeneous record arrays as ordered columns, finite
+numeric arrays as exact IEEE754LE/base64, and repeated edge identifiers by ordered
+content-addressed label dictionaries. Original expanded JSON/order/hash still round
+trips exactly; this changes no product save or simulation state. Decoder retains
+v1 support. Static re-encoding/projection passed below the original cap; existing
+normal/lean/research Worker binary SHA256 values also match exactly.
+
+The execution runner charges original19.859sactive/138.403srunner and retained raw
+bytes against the SAME total limits. No cap expansion or guard weakening. Reuse
+unchanged Worker/runtime source and compiled binaries, archive old pilots in the
+new representation, then execute the18still-unstarted scientific slots once.

@@ -6,7 +6,7 @@ import path from 'node:path';
 import {Archive,decodeFile} from './archive.mjs';
 const root=mkdtempSync(path.join(os.tmpdir(),'stage39-codec-'));
 try{
- const a=new Archive(root),genome={id:'g',brain:[.1,-0,1e-12],nested:{enabled:true}},value={state:{organisms:[{genome,energy:10},{genome:structuredClone(genome),energy:20}],lineage:[['id',{genome}]]},settings:{x:0},nested:[null,false,'exact']};
+ const a=new Archive(root),genome={id:'g',brain:[.1,-0,1e-12],nested:{enabled:true}},value={state:{organisms:[{genome,energy:10},{genome:structuredClone(genome),energy:20}],lineage:[['id',{genome}]]},settings:{x:0},nested:[null,false,'exact'],learned:Array.from({length:96},(_,i)=>({edge:'IH:long-repeated-edge-identifier-'+i,delta:Math.sin(i),eligibility:Math.cos(i),consolidation:i/100})),floats:Array.from({length:40},(_,i)=>Math.tanh(i/7))};
  const r=a.archive('roundtrip',value);assert.deepEqual(decodeFile(root,'roundtrip'),JSON.parse(JSON.stringify(value)));assert.equal(a.genomes.size,1);assert.equal(a.receipts.filter(x=>x.name.startsWith('genomes/')).length,1);assert.equal(r.expandedBytes,Buffer.byteLength(JSON.stringify(value)));
  assert.throws(()=>a.archive('roundtrip',value),/EEXIST/);
  const smallRoot=path.join(root,'small'),small=new Archive(smallRoot,{normalLimit:64,emergencyLimit:4096});let budget;
