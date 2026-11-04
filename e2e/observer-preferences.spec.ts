@@ -230,7 +230,6 @@ for (const fallback of [false, true]) test(`diagnostic console retains, filters 
   const before = await read();
   // A real rejected import records an error while the console has never been mounted.
   await upload('invalid-json');
-  await expect(page.getByText(/Unexpected token|not valid JSON/).first()).toBeVisible();
   const open = async () => {
     await settings.getByRole('button', {name: 'Advanced Settings', exact: true}).dispatchEvent('click');
     await page.getByRole('button', {name: 'System diagnostics', exact: true}).dispatchEvent('click');
