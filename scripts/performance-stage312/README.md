@@ -33,3 +33,24 @@ Inspector behavior: https://github.com/v8/v8/blob/main/src/inspector/v8-heap-pro
 Research draft/probes/raw stay isolated. Remove active launch workflow after the
 single lot. Verified conclusions return to fork main in a DOCS-ONLY PR under the
 standing instruction; no Stage4/production optimization/upstream submission/VIDA3D.
+
+## Completed registered lot
+
+Scientific run41837660795/job126600657300 succeeded, sourcea26569b0d039404cdb5bb8ceeeac46be7916e5d0,
+immutable original28fb12bb67e8666b38d3e12e355dacaae5931993.6/6retained, all full endpoints
+match3.9–3.11; budget/integrity pass. Active launch workflow removed. STOP after
+this lot and authorized docs-only integration; no extra scientific execution.
+
+Analysis-only reproduction with existing npm dependencies (source mapping uses
+the already locked trace-mapping package):
+
+```sh
+node scripts/performance-stage312/analyze.mjs
+node scripts/performance-stage312/attribute-allocations.mjs
+python scripts/performance-stage312/verify-source.py
+```
+
+Full original-evidence commit is pinned. Functions/closest original caller stack
+locations are ownership context, not exact allocating expressions. Exclusive groups
+close to sample weights; inclusive source groups overlap. Tree/sample aggregates
+differ slightly; reports use one consistent weighted-sample denominator.
