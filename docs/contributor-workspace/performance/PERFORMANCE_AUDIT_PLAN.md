@@ -1,5 +1,36 @@
 # VIDA 2D — Performance Efficiency Audit: Four-Stage Plan
 
+## Current evidence checkpoint — Stage 3.8–3.10 (2026-11-04)
+
+Hernan explicitly requires verified conclusions in fork **main**, while raw evidence,
+profilers and temporary launch workflows remain on isolated research branches.
+The [cumulative Stage 3 ledger](../../PERFORMANCE_AUDIT_STAGE_3.md) is the current
+scientific entry point. Older dated checkpoints below are historical, including
+their then-current STOP/next-study wording; they are not permission to replay trials.
+
+| Lot | Verified outcome | Primary finding / limitation |
+| --- | --- | --- |
+|3.8 / draft98 |PARTIAL:6retained, P07 raw lost,11unstarted |25–150 scaling; compact100 initially overlaps68pairs and triggers8guards; +62.2% cost is confounded. Storage guard stopped the lot. |
+|3.9 / draft99 |PARTIAL:10retained,8unstarted; runner739.927s>720s |Initially separated dense100 costs20.60% more;2.13x visual candidates/4.54x edge tests.150spread51.61–56.57TPS. GC/finite pacing not reached. |
+|3.10 / draft100 |COMPLETE:8/8, all budgets pass |150spread lean53.46–54.15TPS; requested1x53.16TPS,2x55.13TPS. HooksOFF/counter/phase/trace elapsed contrasts+3.34/+10.08/+11.62/+59.92%, n1diagnostics. |
+
+Stage3.10's traced Worker GC-related union35.50% and allocation proxy281.58MB/s
+are **trace-only**. The trace perturbs throughput substantially; neither is an
+untraced GC cost, retained-heap/leak result or recoverable speedup. Instrumented
+150body vision+sight32.60%,physics28.29%,inference23.58% are separate elapsed phases,
+not additive with GC and not independently removable CPU. All8complete endpoints
+match3.9 exactly. Representative desktop, evolved populations, egg bursts and
+per-allocation ownership remain gaps. Earlier3.1–3.7b data/failures are preserved.
+
+**Current owner authorization:** a NEW worthwhile bounded investigative lot may
+run after explicit goals/metrics/protocol registration. Selected3.11 question:
+does meaningful GC evidence survive a less intrusive category-filtered trace?
+Six150body windows, two each lean/light-GC/detailed-GC, fixed reversed order and
+exact360tick endpoint controls, are to be preregistered before execution. This
+supersedes the previous task's stop for this new lot only. No production optimization,
+Stage4 implementation, upstream submission or old-result replacement is authorized.
+Afterward publish verified3.11 conclusions in main as well; research PRs stay unmerged.
+
 ## Current checkpoint — Stage 3.7b recovery COMPLETE (2026-11-03)
 
 Hernan explicitly authorized a recovery after the previous stopped lot. All 12 registered windows completed once; source57a7d45, original evidence66a89ed, [research DRAFT #92](https://github.com/hernansgarro/vidAI/pull/92), [report](https://github.com/hernansgarro/vidAI/blob/8481613ce08be6137d347cf0d8b9eabb0aed8130/docs/experiments/performance-stage-3-v9/report.md). [Cumulative findings](../../PERFORMANCE_AUDIT_STAGE_3.md) contain verified phase costs, actual counterfactual TPS, controls, independent GC/CPU, divergence and conservation. Vision +53.11%, brain-output +19.53%, learning OFF +6.88%, synthetic feeding +1.79% versus nearby real controls; one window each, real-control spread6.78%, no additive/removable CPU interpretation or production-safe benefit established. Physics/contacts dominate the separate phase ledger, then vision and inference. Counter/frame draining and early raw preservation now verify correctly.

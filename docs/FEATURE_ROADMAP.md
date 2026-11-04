@@ -49,6 +49,13 @@ separation and the spatial/neural/contact/lineage optimizations are deployed.
 These capabilities do not establish sustainable ecology or the original
 roughly 100-creature/1,000-part performance ambition.
 
+Current contributor performance knowledge through3.10 is in the
+[fork-main Stage3 ledger](PERFORMANCE_AUDIT_STAGE_3.md), not a shipped optimization.
+Large-population saturation, initially separated optical crowding and substantial
+trace perturbation refine the next measurement questions. Raw/probes stay isolated;
+new3.11 GC observer-cost research is authorized with preregistered limits. Stage3
+remains ongoing; Stage4 implementation and upstream promotion are not approved.
+
 ## Foundation status and swimming recovery
 
 v0.34.1 restores established drag, muscle strength and simultaneous actuation

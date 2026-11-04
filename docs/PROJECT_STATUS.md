@@ -1,3 +1,19 @@
+# Contributor performance investigation checkpoint — 2026-11-04
+
+Verified3.8–3.10 conclusions are consolidated in the fork-main
+[Stage3 evidence ledger](PERFORMANCE_AUDIT_STAGE_3.md).3.8/3.9 remain PARTIAL with
+original storage/missing-result and runner-budget failures;3.10 completed8/8 with
+exact-state and budget verification.150body lean53.46–54.15TPS; requested1x/2x
+53.16/55.13TPS onCI. GC/allocation is material diagnostic evidence but detailed
+tracing adds~60%elapsed cost. No performance optimization has shipped from this
+research; raw/probes remain unmerged. New3.11 observer-cost investigation authorized
+subject to preregistered limits; conclusions must return to main. See the current
+[plan](contributor-workspace/performance/PERFORMANCE_AUDIT_PLAN.md) and
+[handoff](contributor-workspace/performance/WORKER_HOTPATH_RESEARCH_HANDOFF.md).
+Upstream acceptance, gameplay runtime, historical releases and testing remain separate.
+
+---
+
 # Pipe World Stage 2 — contributor fork (2026-11-02)
 
 Tracking upstream #135 / #57. Authorized branch `feature/pipe-world-stage-2`
