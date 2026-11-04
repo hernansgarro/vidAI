@@ -1,0 +1,98 @@
+[
+  {
+    "id": "L01",
+    "count": 150,
+    "dense": false,
+    "research": false,
+    "level": "off",
+    "traced": false,
+    "speed": "max",
+    "ticks": 360,
+    "status": "retained",
+    "admittedElapsedMs": 153649
+  },
+  {
+    "id": "O01",
+    "count": 150,
+    "dense": false,
+    "research": true,
+    "level": "off",
+    "traced": false,
+    "speed": "max",
+    "ticks": 360,
+    "status": "retained",
+    "admittedElapsedMs": 213354
+  },
+  {
+    "id": "S01",
+    "count": 150,
+    "dense": false,
+    "research": false,
+    "level": "off",
+    "traced": false,
+    "speed": 1,
+    "ticks": 360,
+    "status": "retained",
+    "admittedElapsedMs": 267889
+  },
+  {
+    "id": "L02",
+    "count": 150,
+    "dense": false,
+    "research": false,
+    "level": "off",
+    "traced": false,
+    "speed": "max",
+    "ticks": 360,
+    "status": "retained",
+    "admittedElapsedMs": 325364
+  },
+  {
+    "id": "C01",
+    "count": 150,
+    "dense": false,
+    "research": true,
+    "level": "counter",
+    "traced": false,
+    "speed": "max",
+    "ticks": 360,
+    "status": "retained",
+    "admittedElapsedMs": 384230
+  },
+  {
+    "id": "T01",
+    "count": 150,
+    "dense": false,
+    "research": false,
+    "level": "off",
+    "traced": true,
+    "speed": "max",
+    "ticks": 360,
+    "status": "retained",
+    "admittedElapsedMs": 440574
+  },
+  {
+    "id": "D01",
+    "count": 150,
+    "dense": false,
+    "research": true,
+    "level": "phase",
+    "traced": false,
+    "speed": "max",
+    "ticks": 360,
+    "status": "retained",
+    "admittedElapsedMs": 503872
+  },
+  {
+    "id": "S02",
+    "count": 150,
+    "dense": false,
+    "research": false,
+    "level": "off",
+    "traced": false,
+    "speed": 2,
+    "ticks": 360,
+    "status": "retained",
+    "admittedElapsedMs": 565657
+  }
+]

@@ -1,0 +1,3593 @@
+{
+  "stage": "3.10",
+  "status": "COMPLETE",
+  "sourceSHA": "6835f03ee42134bd00dd09c8321334bfab201aa0",
+  "environment": {
+    "stage": "3.10",
+    "sourceSHA": "6835f03ee42134bd00dd09c8321334bfab201aa0",
+    "baseSHA": "dd7925b9d02a67459bb68985cf2d5647b737247e",
+    "sourceDigests": {
+      "simulation.ts": "0846437a3f54be8abdf7aaf52f5368eb398a65762f2d889df7a671a8ef66b63e",
+      "simulation.worker.ts": "50dcc968cf1b0a8a8ea496a5993c0d87992340e60e9c11c7f83fdae4db6bd6d0",
+      "simulationHost.ts": "801bda0009738bef014066b9650fedfd97e4b856e0af70e0426119178a971e86",
+      "contacts.ts": "ea9be05c5913006c6d6c6b1d2f4a22bc6a7c889d1a4df1cc956c8d3831c16cce",
+      "neuralRuntime.ts": "12f5f52f328613bc2af4c4c2c793e78c4b22abb1c585cec8aba29aca99cac84b",
+      "spatialIndex.ts": "d324b911f764afeced35df0141363c293ce97564a44a23f5facb98ac08992b40",
+      "energyActivity.ts": "c7ba6bba7080dedf091e039ddc447b05b006b3c2d8b57274ca984f5f47653913",
+      "energyEconomy.ts": "d7285aa7b351ded7a7147fccf1415549a00ccfea0c98b1a9069594daf6017f9c",
+      "persistence.ts": "3e759aadb7e2ccee8bb01da428708dd021320748f546670d67454317a63656c3",
+      "world.ts": "6cbf7da62d1ab3af7ef2c83a9ea565e5d11eb4c55cbf3f20b3c74ac511ceb387",
+      "App.tsx": "04af74c5fbbc19e44af47a8b38d6325ec433cc46148f6138f34d894b8e1e281a",
+      "package.json": "745f1c06fcfdd6a9049efa5a9dcea2f24d6841c414dd43dc9e5caa09334df59f",
+      "package-lock.json": "12450a0271695e3542f0fdf21e5bf0cb5a19c48700f976b5dca8b5678cd66994",
+      "scripts/performance-stage39/build.mjs": "03730add242d20291f349eb0d4df712a9047bcbef0c6a2de2bc1a5ed590eff25",
+      "scripts/performance-stage39/runtime.mjs": "046a037f02542e5ac37ffd46c24f2cac9c2564ac3eee1f8675b4d2f5457ccebb",
+      "scripts/performance-stage39/measurement.mjs": "ade15c925079817a3f39651015bf1c778fb102fdb0394d245266c22808cc971e",
+      "scripts/performance-stage39/fixture.ts": "638e46e74f6d552119a442a02cd386eb6db52c438146ff9e999e180fd47b45f2",
+      "scripts/performance-stage39/browser-init.mjs": "40e8ab74fcf818447d76883dceb68404568b305102b530ff196930cc60df0534",
+      "scripts/performance-stage39/accounting.mjs": "6350130c579587753f68dc10db4465b50afd809e6307cca300d0343ba43f1140",
+      "scripts/performance-stage39/archive.mjs": "bdec9215a58800b2ea563a78513d19573f788b60296241f9a7e70dcb480578d1",
+      "scripts/performance-stage39/test-archive.mjs": "511ee39217c69026ae1219ce4ceb0ace76932be6948e2f40071947abd828539b",
+      "scripts/performance-stage39/preserve.mjs": "396466381c567b2a1406a5e6c91e45a35fb4ddb2de818621dafd05879a95be1d",
+      "scripts/performance-stage310/measurement.mjs": "407162db8c8740b82881c13baf8aa648dd72c1ee823b3c808f04bcad84f33156",
+      "scripts/performance-stage310/accounting.mjs": "07c98da92c19000ace2dbc14a30f0c80a4a0c077050773db9354d3cbf3962eed",
+      "scripts/performance-stage310/measurement.config.mjs": "ccd249020b718650316e9e94e21b4108b1d407fb552f88d37fea0183a177297a",
+      "scripts/performance-stage310/preserve.mjs": "130b80658678cbecf1a0844836cfef36fab069b1e46b80acf2607a614faab4f7"
+    },
+    "started": "2026-11-04T11:33:54.037Z",
+    "node": "v24.22.1",
+    "browser": "145.0.7632.6",
+    "os": {
+      "type": "Linux",
+      "release": "7.0.0-1017-azure",
+      "arch": "x64"
+    },
+    "cpu": {
+      "model": "AMD EPYC 7763 64-Core Processor",
+      "speed": 0,
+      "times": {
+        "user": 39010,
+        "nice": 0,
+        "sys": 10790,
+        "idle": 73700,
+        "irq": 0
+      }
+    },
+    "cpuCount": 4,
+    "memory": 16760344576,
+    "clockTicks": 100,
+    "cgroup": {
+      "/sys/fs/cgroup/memory.max": "max",
+      "/sys/fs/cgroup/cpu.max": "max 100000"
+    },
+    "referenceFiles": [
+      {
+        "path": "docs/experiments/performance-stage-3-v12/references/preflight/fixture-150.json.gz",
+        "originalPath": "docs/experiments/performance-stage-3-v11/fixture-150.json.gz",
+        "commit": "0445603d2d0c348ec602be52284385af8b416452",
+        "gitBlob": "03e361fca1eb58eeb4844b661797e3dedd11198b",
+        "sha256": "fc8b2f0c6d30664f3e2f35a728f7315b8d248b4a8e4d25325a414d30f30321f2",
+        "bytes": 51651
+      },
+      {
+        "path": "docs/experiments/performance-stage-3-v12/references/preflight/pilot-150-lean.json.gz",
+        "originalPath": "docs/experiments/performance-stage-3-v11/pilot-150-lean.json.gz",
+        "commit": "0445603d2d0c348ec602be52284385af8b416452",
+        "gitBlob": "1d9fd4b5aea191c29f38e6391944882db5ae0bda",
+        "sha256": "ba596e396db60b7fc9883d55639763182134a8983901af600e715b6718a45d59",
+        "bytes": 612548
+      },
+      {
+        "path": "docs/experiments/performance-stage-3-v12/references/preflight/genomes/25fc22747a68d6502ac5af9e317b5ecf3fde8756667c7f6885f1c8f706cf9584.json.gz",
+        "originalPath": "docs/experiments/performance-stage-3-v11/genomes/25fc22747a68d6502ac5af9e317b5ecf3fde8756667c7f6885f1c8f706cf9584.json.gz",
+        "commit": "0445603d2d0c348ec602be52284385af8b416452",
+        "gitBlob": "72d09ee5134c74c27bb6f9203468a195a928ee29",
+        "sha256": "4676a16ba2aa4307488d6a7b918de3a6f92506336297c18a0a6be0bc4de2333c",
+        "bytes": 22547
+      },
+      {
+        "path": "docs/experiments/performance-stage-3-v12/references/preflight/genomes/e0f7f751941d3225360cfade09945a6ed41ca24616b9b4e6535163e8a6bfd8d3.json.gz",
+        "originalPath": "docs/experiments/performance-stage-3-v11/genomes/e0f7f751941d3225360cfade09945a6ed41ca24616b9b4e6535163e8a6bfd8d3.json.gz",
+        "commit": "0445603d2d0c348ec602be52284385af8b416452",
+        "gitBlob": "b849743538cfb4fd81661989aaaf268ee428b20f",
+        "sha256": "dcf280ea198ba7634bfec50fbe1b1b858e68377aab2714f41f1557f32cd93501",
+        "bytes": 24044
+      },
+      {
+        "path": "docs/experiments/performance-stage-3-v12/references/preflight/genomes/d01156627a5a71d1057d724543ae07f73f9be9d2b6c6af3e89ea4c6ffdf26e37.json.gz",
+        "originalPath": "docs/experiments/performance-stage-3-v11/genomes/d01156627a5a71d1057d724543ae07f73f9be9d2b6c6af3e89ea4c6ffdf26e37.json.gz",
+        "commit": "0445603d2d0c348ec602be52284385af8b416452",
+        "gitBlob": "e8cdb3a00999aa9650fde6c3d70983c7788dc5af",
+        "sha256": "6a608e3a2e2d21544fe8c9256dc8ba6f649151fd5a757b15bdaca92f9e5e04d4",
+        "bytes": 21128
+      },
+      {
+        "path": "docs/experiments/performance-stage-3-v12/references/preflight/genomes/d71e403421778925db4687b8dad7f6d6f53322271b6f39499fd6ae0132378a18.json.gz",
+        "originalPath": "docs/experiments/performance-stage-3-v11/genomes/d71e403421778925db4687b8dad7f6d6f53322271b6f39499fd6ae0132378a18.json.gz",
+        "commit": "0445603d2d0c348ec602be52284385af8b416452",
+        "gitBlob": "b5fc7c08b459474e13b1ec2ae143c499aa135f98",
+        "sha256": "b1e07491c1d81bf5a468de26465bd8a19575a050eb3788c80e5679f74f850b3e",
+        "bytes": 24080
+      },
+      {
+        "path": "docs/experiments/performance-stage-3-v12/references/preflight/genomes/b7ea20fc053542ea9920cee6a67b1b09a460b21ce178ec97e4138b9e9cea3545.json.gz",
+        "originalPath": "docs/experiments/performance-stage-3-v11/genomes/b7ea20fc053542ea9920cee6a67b1b09a460b21ce178ec97e4138b9e9cea3545.json.gz",
+        "commit": "0445603d2d0c348ec602be52284385af8b416452",
+        "gitBlob": "7a74ec94398b088138826f663e510ee64ccfa0c4",
+        "sha256": "b1e69a3d5e977b71caaaae8706a86b835478c1083e2cf3d37d522d755ea9411a",
+        "bytes": 30095
+      },
+      {
+        "path": "docs/experiments/performance-stage-3-v12/references/matrix/P03-original.json.gz",
+        "originalPath": "docs/experiments/performance-stage-3-v11-execution/P03-original.json.gz",
+        "commit": "f76bb95a764eaf872cbdb63ecef1f889198ccdb2",
+        "gitBlob": "4834c26ece7e0d367b9d280db009529439350672",
+        "sha256": "a534b985b7684263a502f2af18eb11217df0a75eff2aa83a65c4c64049446756",
+        "bytes": 650298
+      },
+      {
+        "path": "docs/experiments/performance-stage-3-v12/references/matrix/genomes/25fc22747a68d6502ac5af9e317b5ecf3fde8756667c7f6885f1c8f706cf9584.json.gz",
+        "originalPath": "docs/experiments/performance-stage-3-v11-execution/genomes/25fc22747a68d6502ac5af9e317b5ecf3fde8756667c7f6885f1c8f706cf9584.json.gz",
+        "commit": "f76bb95a764eaf872cbdb63ecef1f889198ccdb2",
+        "gitBlob": "72d09ee5134c74c27bb6f9203468a195a928ee29",
+        "sha256": "4676a16ba2aa4307488d6a7b918de3a6f92506336297c18a0a6be0bc4de2333c",
+        "bytes": 22547
+      },
+      {
+        "path": "docs/experiments/performance-stage-3-v12/references/matrix/genomes/e0f7f751941d3225360cfade09945a6ed41ca24616b9b4e6535163e8a6bfd8d3.json.gz",
+        "originalPath": "docs/experiments/performance-stage-3-v11-execution/genomes/e0f7f751941d3225360cfade09945a6ed41ca24616b9b4e6535163e8a6bfd8d3.json.gz",
+        "commit": "f76bb95a764eaf872cbdb63ecef1f889198ccdb2",
+        "gitBlob": "b849743538cfb4fd81661989aaaf268ee428b20f",
+        "sha256": "dcf280ea198ba7634bfec50fbe1b1b858e68377aab2714f41f1557f32cd93501",
+        "bytes": 24044
+      },
+      {
+        "path": "docs/experiments/performance-stage-3-v12/references/matrix/genomes/d01156627a5a71d1057d724543ae07f73f9be9d2b6c6af3e89ea4c6ffdf26e37.json.gz",
+        "originalPath": "docs/experiments/performance-stage-3-v11-execution/genomes/d01156627a5a71d1057d724543ae07f73f9be9d2b6c6af3e89ea4c6ffdf26e37.json.gz",
+        "commit": "f76bb95a764eaf872cbdb63ecef1f889198ccdb2",
+        "gitBlob": "e8cdb3a00999aa9650fde6c3d70983c7788dc5af",
+        "sha256": "6a608e3a2e2d21544fe8c9256dc8ba6f649151fd5a757b15bdaca92f9e5e04d4",
+        "bytes": 21128
+      },
+      {
+        "path": "docs/experiments/performance-stage-3-v12/references/matrix/genomes/d71e403421778925db4687b8dad7f6d6f53322271b6f39499fd6ae0132378a18.json.gz",
+        "originalPath": "docs/experiments/performance-stage-3-v11-execution/genomes/d71e403421778925db4687b8dad7f6d6f53322271b6f39499fd6ae0132378a18.json.gz",
+        "commit": "f76bb95a764eaf872cbdb63ecef1f889198ccdb2",
+        "gitBlob": "b5fc7c08b459474e13b1ec2ae143c499aa135f98",
+        "sha256": "b1e07491c1d81bf5a468de26465bd8a19575a050eb3788c80e5679f74f850b3e",
+        "bytes": 24080
+      },
+      {
+        "path": "docs/experiments/performance-stage-3-v12/references/matrix/genomes/b7ea20fc053542ea9920cee6a67b1b09a460b21ce178ec97e4138b9e9cea3545.json.gz",
+        "originalPath": "docs/experiments/performance-stage-3-v11-execution/genomes/b7ea20fc053542ea9920cee6a67b1b09a460b21ce178ec97e4138b9e9cea3545.json.gz",
+        "commit": "f76bb95a764eaf872cbdb63ecef1f889198ccdb2",
+        "gitBlob": "7a74ec94398b088138826f663e510ee64ccfa0c4",
+        "sha256": "b1e69a3d5e977b71caaaae8706a86b835478c1083e2cf3d37d522d755ea9411a",
+        "bytes": 30095
+      },
+      {
+        "path": "docs/experiments/performance-stage-3-v12/references/matrix/labels/44f94dc9e6d7c1f49584855b2491effb6c04ccae0cade06dd5f9c10223d10085.json.gz",
+        "originalPath": "docs/experiments/performance-stage-3-v11-execution/labels/44f94dc9e6d7c1f49584855b2491effb6c04ccae0cade06dd5f9c10223d10085.json.gz",
+        "commit": "f76bb95a764eaf872cbdb63ecef1f889198ccdb2",
+        "gitBlob": "1751a38be7fd169c2df8a56347cc2b1e043eb9cc",
+        "sha256": "a51ca7e8e58ced3665dfdad48aab9e77f5da9808ed203d874de7dafc11c0a6b2",
+        "bytes": 1565
+      }
+    ],
+    "productionUnchanged": true,
+    "initialProcesses": {
+      "processInfo": [
+        {
+          "type": "browser",
+          "id": 1281,
+          "cpuTime": 0.16
+        },
+        {
+          "type": "GPU",
+          "id": 1300,
+          "cpuTime": 0.01
+        },
+        {
+          "type": "network.mojom.NetworkService",
+          "id": 1313,
+          "cpuTime": 0.02
+        }
+      ]
+    },
+    "browserPID": 1281,
+    "Browser.getVersion": {
+      "protocolVersion": "1.3",
+      "product": "HeadlessChrome/145.0.7632.6",
+      "revision": "@47e20adcc15fc15f01825aa17e570c8f5492ac0f",
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+      "jsVersion": "14.5.201.2"
+    },
+    "SystemInfo.getInfo": {
+      "gpu": {
+        "devices": [
+          {
+            "vendorId": 65535,
+            "deviceId": 65535,
+            "vendorString": "Google Inc. (Google)",
+            "deviceString": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver-5.0.0)",
+            "driverVendor": "SwANGLE",
+            "driverVersion": "5.0.0"
+          }
+        ],
+        "auxAttributes": {
+          "amdSwitchable": false,
+          "canSupportThreadedTextureMailbox": false,
+          "directRenderingVersion": "",
+          "displayType": "ANGLE_SWIFTSHADER",
+          "glExtensions": "GL_AMD_performance_monitor GL_ANGLE_base_vertex_base_instance_shader_builtin GL_ANGLE_blob_cache GL_ANGLE_client_arrays GL_ANGLE_clip_cull_distance GL_ANGLE_compressed_texture_etc GL_ANGLE_copy_texture_3d GL_ANGLE_depth_texture GL_ANGLE_framebuffer_blit GL_ANGLE_framebuffer_multisample GL_ANGLE_get_image GL_ANGLE_get_serialized_context_string GL_ANGLE_get_tex_level_parameter GL_ANGLE_instanced_arrays GL_ANGLE_memory_object_flags GL_ANGLE_memory_size GL_ANGLE_multi_draw GL_ANGLE_pack_reverse_row_order GL_ANGLE_polygon_mode GL_ANGLE_program_binary_readiness_query GL_ANGLE_program_cache_control GL_ANGLE_read_only_depth_stencil_feedback_loops GL_ANGLE_relaxed_vertex_attribute_type GL_ANGLE_renderability_validation GL_ANGLE_request_extension GL_ANGLE_rgbx_internal_format GL_ANGLE_robust_client_memory GL_ANGLE_robust_fragment_shader_output GL_ANGLE_robust_resource_initialization GL_ANGLE_shader_pixel_local_storage GL_ANGLE_shader_pixel_local_storage_coherent GL_ANGLE_stencil_texturing GL_ANGLE_texture_compression_dxt3 GL_ANGLE_texture_compression_dxt5 GL_ANGLE_texture_multisample GL_ANGLE_texture_usage GL_ANGLE_translated_shader_source GL_ANGLE_vulkan_image GL_ANGLE_yuv_internal_format GL_APPLE_clip_distance GL_ARM_rgba8 GL_ARM_shader_framebuffer_fetch GL_ARM_shader_framebuffer_fetch_depth_stencil GL_CHROMIUM_bind_generates_resource GL_CHROMIUM_bind_uniform_location GL_CHROMIUM_copy_compressed_texture GL_CHROMIUM_copy_texture GL_CHROMIUM_lose_context GL_EXT_EGL_image_array GL_EXT_EGL_image_external_wrap_modes GL_EXT_EGL_image_storage GL_EXT_base_instance GL_EXT_blend_minmax GL_EXT_buffer_storage GL_EXT_clear_texture GL_EXT_clip_control GL_EXT_clip_cull_distance GL_EXT_color_buffer_float GL_EXT_color_buffer_half_float GL_EXT_compressed_ETC1_RGB8_sub_texture GL_EXT_conservative_depth GL_EXT_copy_image GL_EXT_debug_label GL_EXT_debug_marker GL_EXT_depth_clamp GL_EXT_discard_framebuffer GL_EXT_disjoint_timer_query GL_EXT_draw_buffers GL_EXT_draw_buffers_indexed GL_EXT_draw_elements_base_vertex GL_EXT_float_blend GL_EXT_frag_depth GL_EXT_instanced_arrays GL_EXT_map_buffer_range GL_EXT_memory_object GL_EXT_memory_object_fd GL_EXT_occlusion_query_boolean GL_EXT_polygon_offset_clamp GL_EXT_read_format_bgra GL_EXT_robustness GL_EXT_sRGB GL_EXT_sRGB_write_control GL_EXT_semaphore GL_EXT_semaphore_fd GL_EXT_separate_shader_objects GL_EXT_shader_framebuffer_fetch GL_EXT_shader_framebuffer_fetch_non_coherent GL_EXT_shader_non_constant_global_initializers GL_EXT_shader_texture_lod GL_EXT_shadow_samplers GL_EXT_texture_border_clamp GL_EXT_texture_compression_bptc GL_EXT_texture_compression_dxt1 GL_EXT_texture_compression_rgtc GL_EXT_texture_compression_s3tc_srgb GL_EXT_texture_cube_map_array GL_EXT_texture_filter_anisotropic GL_EXT_texture_format_BGRA8888 GL_EXT_texture_mirror_clamp_to_edge GL_EXT_texture_rg GL_EXT_texture_sRGB_R8 GL_EXT_texture_sRGB_RG8 GL_EXT_texture_sRGB_decode GL_EXT_texture_shadow_lod GL_EXT_texture_storage GL_EXT_texture_type_2_10_10_10_REV GL_EXT_unpack_subimage GL_KHR_blend_equation_advanced GL_KHR_debug GL_KHR_robust_buffer_access_behavior GL_KHR_robustness GL_KHR_texture_compression_astc_ldr GL_NV_depth_buffer_float2 GL_NV_fence GL_NV_framebuffer_blit GL_NV_pack_subimage GL_NV_pixel_buffer_object GL_NV_polygon_mode GL_NV_read_depth GL_NV_read_depth_stencil GL_NV_read_stencil GL_NV_shader_noperspective_interpolation GL_OES_EGL_image GL_OES_EGL_image_external GL_OES_EGL_image_external_essl3 GL_OES_EGL_sync GL_OES_compressed_EAC_R11_signed_texture GL_OES_compressed_EAC_R11_unsigned_texture GL_OES_compressed_EAC_RG11_signed_texture GL_OES_compressed_EAC_RG11_unsigned_texture GL_OES_compressed_ETC1_RGB8_texture GL_OES_compressed_ETC2_RGB8_texture GL_OES_compressed_ETC2_RGBA8_texture GL_OES_compressed_ETC2_punchthroughA_RGBA8_texture GL_OES_compressed_ETC2_punchthroughA_sRGB8_alpha_texture GL_OES_compressed_ETC2_sRGB8_alpha8_texture GL_OES_compressed_ETC2_sRGB8_texture GL_OES_compressed_paletted_texture GL_OES_copy_image GL_OES_depth24 GL_OES_depth32 GL_OES_depth_texture GL_OES_depth_texture_cube_map GL_OES_draw_buffers_indexed GL_OES_draw_elements_base_vertex GL_OES_element_index_uint GL_OES_fbo_render_mipmap GL_OES_get_program_binary GL_OES_mapbuffer GL_OES_packed_depth_stencil GL_OES_required_internalformat GL_OES_rgb8_rgba8 GL_OES_sample_shading GL_OES_sample_variables GL_OES_shader_multisample_interpolation GL_OES_standard_derivatives GL_OES_surfaceless_context GL_OES_texture_3D GL_OES_texture_border_clamp GL_OES_texture_cube_map_array GL_OES_texture_float GL_OES_texture_float_linear GL_OES_texture_half_float GL_OES_texture_half_float_linear GL_OES_texture_npot GL_OES_texture_stencil8 GL_OES_texture_storage_multisample_2d_array GL_OES_vertex_array_object GL_OES_vertex_half_float GL_OES_vertex_type_10_10_10_2 GL_OVR_multiview GL_OVR_multiview2 ",
+          "glImplementationParts": "(gl=egl-angle,angle=swiftshader)",
+          "glRenderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver-5.0.0)",
+          "glResetNotificationStrategy": 33362,
+          "glVendor": "Google Inc. (Google)",
+          "glVersion": "OpenGL ES 3.0 (ANGLE 2.1.26821 git hash: 4c0ae3917d4f)",
+          "glWsExtensions": "EGL_EXT_create_context_robustness EGL_ANGLE_surface_orientation EGL_KHR_create_context EGL_KHR_image EGL_KHR_image_base EGL_EXT_image_gl_colorspace EGL_KHR_gl_colorspace EGL_KHR_gl_texture_2D_image EGL_KHR_gl_texture_cubemap_image EGL_KHR_gl_renderbuffer_image EGL_KHR_get_all_proc_addresses EGL_KHR_fence_sync EGL_KHR_wait_sync EGL_ANGLE_create_context_webgl_compatibility EGL_CHROMIUM_create_context_bind_generates_resource EGL_KHR_swap_buffers_with_damage EGL_EXT_pixel_format_float EGL_KHR_surfaceless_context EGL_ANGLE_display_texture_share_group EGL_ANGLE_display_semaphore_share_group EGL_ANGLE_create_context_client_arrays EGL_ANGLE_program_cache_control EGL_ANGLE_robust_resource_initialization EGL_ANGLE_create_context_extensions_enabled EGL_ANDROID_blob_cache EGL_ANDROID_recordable EGL_ANGLE_create_context_backwards_compatible EGL_KHR_no_config_context EGL_IMG_context_priority EGL_KHR_create_context_no_error EGL_KHR_reusable_sync EGL_EXT_buffer_age EGL_ANGLE_create_surface_swap_interval EGL_ANGLE_vulkan_image EGL_KHR_partial_update EGL_ANGLE_global_fence_sync EGL_ANGLE_memory_usage_report ",
+          "glWsVendor": "Google Inc. (Google)",
+          "glWsVersion": "1.5 (ANGLE 2.1.26821 git hash: 4c0ae3917d4f)",
+          "hardwareSupportsVulkan": false,
+          "inProcessGpu": false,
+          "initializationTime": 0.021255,
+          "isAsan": false,
+          "isClangCoverage": false,
+          "jpegDecodeAcceleratorSupported": false,
+          "maxMsaaSamples": "4",
+          "optimus": false,
+          "passthroughCmdDecoder": true,
+          "pixelShaderVersion": "3.00",
+          "processCrashCount": 0,
+          "sandboxed": false,
+          "skiaBackendType": "GaneshGL",
+          "subpixelFontRendering": true,
+          "targetCpuBits": 64,
+          "vertexShaderVersion": "3.00",
+          "visibilityCallbackCallCount": 0
+        },
+        "featureStatus": {
+          "2d_canvas": "unavailable_software",
+          "direct_rendering_display_compositor": "disabled_off_ok",
+          "gpu_compositing": "disabled_software",
+          "multiple_raster_threads": "enabled_on",
+          "opengl": "disabled_off",
+          "rasterization": "disabled_software",
+          "raw_draw": "disabled_off_ok",
+          "skia_graphite": "disabled_off",
+          "trees_in_viz": "disabled_off",
+          "video_decode": "disabled_software",
+          "video_encode": "disabled_software",
+          "vulkan": "disabled_off",
+          "webgl": "unavailable_software",
+          "webgpu": "unavailable_software",
+          "webnn": "unavailable_software"
+        },
+        "driverBugWorkarounds": [],
+        "videoDecoding": [],
+        "videoEncoding": []
+      },
+      "modelName": "",
+      "modelVersion": "",
+      "commandLine": "/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-CADEqQ --remote-debugging-pipe --no-startup-window --use-gl=angle --use-angle=swiftshader-webgl --ozone-platform=headless --allow-pre-commit-input"
+    },
+    "Browser.getBrowserCommandLine": {
+      "arguments": [
+        "/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell",
+        "--disable-field-trial-config",
+        "--disable-background-networking",
+        "--disable-background-timer-throttling",
+        "--disable-backgrounding-occluded-windows",
+        "--disable-back-forward-cache",
+        "--disable-breakpad",
+        "--disable-client-side-phishing-detection",
+        "--disable-component-extensions-with-background-pages",
+        "--disable-component-update",
+        "--no-default-browser-check",
+        "--disable-default-apps",
+        "--disable-dev-shm-usage",
+        "--disable-extensions",
+        "--disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints",
+        "--enable-features=CDPScreenshotNewSurface",
+        "--allow-pre-commit-input",
+        "--disable-hang-monitor",
+        "--disable-ipc-flooding-protection",
+        "--disable-popup-blocking",
+        "--disable-prompt-on-repost",
+        "--disable-renderer-backgrounding",
+        "--force-color-profile=srgb",
+        "--metrics-recording-only",
+        "--no-first-run",
+        "--password-store=basic",
+        "--use-mock-keychain",
+        "--no-service-autorun",
+        "--export-tagged-pdf",
+        "--disable-search-engine-choice-screen",
+        "--unsafely-disable-devtools-self-xss-warnings",
+        "--edge-skip-compat-layer-relaunch",
+        "--enable-automation",
+        "--disable-infobars",
+        "--disable-search-engine-choice-screen",
+        "--disable-sync",
+        "--enable-unsafe-swiftshader",
+        "--headless",
+        "--hide-scrollbars",
+        "--mute-audio",
+        "--blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4",
+        "--no-sandbox",
+        "--user-data-dir=/tmp/playwright_chromiumdev_profile-CADEqQ",
+        "--remote-debugging-pipe",
+        "--no-startup-window",
+        "--use-gl=angle",
+        "--use-angle=swiftshader-webgl",
+        "--ozone-platform=headless",
+        "--allow-pre-commit-input"
+      ]
+    },
+    "assets": {
+      "dist": {
+        "index-Cixh8lQ-.js": "07a72622f13bf0a8b7f272aece0149fecd9eeaaad1b9ccf90a9ab45aa0b0977d",
+        "simulation.worker-BOfAki5g.js": "60bf629cca922cfdc2505aa3ffc6ab507bfca538b72180adb0327bf7295b7205"
+      },
+      "s39-lean-dist": {
+        "index-U80jKwhR.js": "4d0550f13d0577d9701b6b13ba180aa37a998289d26d7c14e8ddb27556bfc122",
+        "index-U80jKwhR.js.map": "dd88d8ae63ca939da5266898d84ed7cde91b960c91805b897fb7ed9a9a161497",
+        "simulation.worker-ukZJOuZz.js": "8e8555fdfbb12d3f886feb88f8084f1a49af0684038b7d1d222292ad5f5084ef",
+        "simulation.worker-ukZJOuZz.js.map": "83b13d63181b18d931f20c7e44a664234c4c01d55c0e7fb541569db8cf5deb1f"
+      },
+      "s39-research-dist": {
+        "index-CcIsdkWj.js": "8c5101634fc17ee8293c1d946746127d066ea2da862c68a5cd990b575c246792",
+        "index-CcIsdkWj.js.map": "377ebfe46000582ce4d5a1b00705d37ffd39adae7c6c2d2ca4250e2e27c6fc38",
+        "simulation.worker-DTkLSW78.js": "5952f87bfae377b95c8150617dc859688c7ef30e3a760fb6d2443aa0d5023566",
+        "simulation.worker-DTkLSW78.js.map": "32ebe0a0ba928194d0b56c459f15ae100acbb61b76650bdcde34e0251a15fa69"
+      }
+    },
+    "expectedEndpointSHA256": "c9189ebe919fc196e899b15780803ae85387602f54f56ea551a395b49a31bf7b",
+    "preflight": {
+      "largestStoredPilotBytes": 1707585,
+      "normalBytes": 16745326,
+      "projectedNormalBytes": 82893190,
+      "normalLimit": 201326592,
+      "emergencyLimit": 2097152,
+      "elapsedMs": 153627,
+      "codecTest": "Existing codec checks passed; every archive exact JSON roundtrip verified"
+    },
+    "finished": "2026-11-04T11:44:17.240Z",
+    "activeMs": 148961,
+    "failure": null,
+    "ledger": [
+      {
+        "id": "L01",
+        "count": 150,
+        "dense": false,
+        "research": false,
+        "level": "off",
+        "traced": false,
+        "speed": "max",
+        "ticks": 360,
+        "status": "retained",
+        "admittedElapsedMs": 153649
+      },
+      {
+        "id": "O01",
+        "count": 150,
+        "dense": false,
+        "research": true,
+        "level": "off",
+        "traced": false,
+        "speed": "max",
+        "ticks": 360,
+        "status": "retained",
+        "admittedElapsedMs": 213354
+      },
+      {
+        "id": "S01",
+        "count": 150,
+        "dense": false,
+        "research": false,
+        "level": "off",
+        "traced": false,
+        "speed": 1,
+        "ticks": 360,
+        "status": "retained",
+        "admittedElapsedMs": 267889
+      },
+      {
+        "id": "L02",
+        "count": 150,
+        "dense": false,
+        "research": false,
+        "level": "off",
+        "traced": false,
+        "speed": "max",
+        "ticks": 360,
+        "status": "retained",
+        "admittedElapsedMs": 325364
+      },
+      {
+        "id": "C01",
+        "count": 150,
+        "dense": false,
+        "research": true,
+        "level": "counter",
+        "traced": false,
+        "speed": "max",
+        "ticks": 360,
+        "status": "retained",
+        "admittedElapsedMs": 384230
+      },
+      {
+        "id": "T01",
+        "count": 150,
+        "dense": false,
+        "research": false,
+        "level": "off",
+        "traced": true,
+        "speed": "max",
+        "ticks": 360,
+        "status": "retained",
+        "admittedElapsedMs": 440574
+      },
+      {
+        "id": "D01",
+        "count": 150,
+        "dense": false,
+        "research": true,
+        "level": "phase",
+        "traced": false,
+        "speed": "max",
+        "ticks": 360,
+        "status": "retained",
+        "admittedElapsedMs": 503872
+      },
+      {
+        "id": "S02",
+        "count": 150,
+        "dense": false,
+        "research": false,
+        "level": "off",
+        "traced": false,
+        "speed": 2,
+        "ticks": 360,
+        "status": "retained",
+        "admittedElapsedMs": 565657
+      }
+    ],
+    "normalBytes": 43804032,
+    "logicalBytes": 291975698,
+    "uniqueGenomes": 5,
+    "receipts": [
+      {
+        "name": "dist-assets",
+        "sha256": "a803f6c13b4c33d901cbc8ff229651d7d118c0c3b210c47c836b829440b19092",
+        "bytes": 192428,
+        "storedRawBytes": 804593,
+        "emergency": false,
+        "expandedBytes": 804417,
+        "expandedSHA256": "ab21dea0c53affe989b208e31e44b05824cd9d648258aacfb99dd2a1a973a079"
+      },
+      {
+        "name": "s39-lean-dist-assets",
+        "sha256": "c7df7f9b9bba923a05d0474401b6944f9f13187ea0f09717891595a9e853970d",
+        "bytes": 735549,
+        "storedRawBytes": 3269101,
+        "emergency": false,
+        "expandedBytes": 3268924,
+        "expandedSHA256": "f4bfe430aa8b4f2688e169fe83aaa831e630dc68052c73ff8378aa66a5d0b85c"
+      },
+      {
+        "name": "s39-research-dist-assets",
+        "sha256": "04135b0c16e522fafeb73866a25d50fe0991ddee41a4555dd08df1808666ec03",
+        "bytes": 741877,
+        "storedRawBytes": 3285424,
+        "emergency": false,
+        "expandedBytes": 3285247,
+        "expandedSHA256": "904680854f8640c56cf88d388d68eff57b344f4173db98bffa98c5b91bb13466"
+      },
+      {
+        "name": "genomes/d01156627a5a71d1057d724543ae07f73f9be9d2b6c6af3e89ea4c6ffdf26e37",
+        "sha256": "6a608e3a2e2d21544fe8c9256dc8ba6f649151fd5a757b15bdaca92f9e5e04d4",
+        "bytes": 21128,
+        "storedRawBytes": 47020,
+        "emergency": false
+      },
+      {
+        "name": "genomes/25fc22747a68d6502ac5af9e317b5ecf3fde8756667c7f6885f1c8f706cf9584",
+        "sha256": "4676a16ba2aa4307488d6a7b918de3a6f92506336297c18a0a6be0bc4de2333c",
+        "bytes": 22547,
+        "storedRawBytes": 50632,
+        "emergency": false
+      },
+      {
+        "name": "genomes/e0f7f751941d3225360cfade09945a6ed41ca24616b9b4e6535163e8a6bfd8d3",
+        "sha256": "dcf280ea198ba7634bfec50fbe1b1b858e68377aab2714f41f1557f32cd93501",
+        "bytes": 24044,
+        "storedRawBytes": 54356,
+        "emergency": false
+      },
+      {
+        "name": "genomes/d71e403421778925db4687b8dad7f6d6f53322271b6f39499fd6ae0132378a18",
+        "sha256": "b1e07491c1d81bf5a468de26465bd8a19575a050eb3788c80e5679f74f850b3e",
+        "bytes": 24080,
+        "storedRawBytes": 54623,
+        "emergency": false
+      },
+      {
+        "name": "genomes/b7ea20fc053542ea9920cee6a67b1b09a460b21ce178ec97e4138b9e9cea3545",
+        "sha256": "b1e69a3d5e977b71caaaae8706a86b835478c1083e2cf3d37d522d755ea9411a",
+        "bytes": 30095,
+        "storedRawBytes": 69061,
+        "emergency": false
+      },
+      {
+        "name": "fixture-150",
+        "sha256": "d07e8c2dfb209f3402cfc547e0716257a23a432120bb09d0e68785eff93eb3c3",
+        "bytes": 40178,
+        "storedRawBytes": 485780,
+        "emergency": false,
+        "expandedBytes": 16948243,
+        "expandedSHA256": "35a370cbcdab79220e277265b17a39329d6b64baff33af05dadfd3060779c36c"
+      },
+      {
+        "name": "labels/44f94dc9e6d7c1f49584855b2491effb6c04ccae0cade06dd5f9c10223d10085",
+        "sha256": "a51ca7e8e58ced3665dfdad48aab9e77f5da9808ed203d874de7dafc11c0a6b2",
+        "bytes": 1565,
+        "storedRawBytes": 28248,
+        "emergency": false
+      },
+      {
+        "name": "golden-endpoint",
+        "sha256": "7233ea327ec34a678ef19850232489a20787c0aab3bb365a602b92ab68aa93ae",
+        "bytes": 640945,
+        "storedRawBytes": 1782354,
+        "emergency": false,
+        "expandedBytes": 19637425,
+        "expandedSHA256": "6c31993608c6ba6ebbc7f1e4af472c0c4f6a8f10225f4835e7abc4945e16ef9a"
+      },
+      {
+        "name": "counter-lean",
+        "sha256": "e0933d21922af672865c86c51070f23b951ea4e799a0bd413bbcd09201c10e16",
+        "bytes": 198,
+        "storedRawBytes": 241,
+        "emergency": false,
+        "expandedBytes": 69,
+        "expandedSHA256": "0bf022dda7c96ce4335a77932543bb3841dfa3e5e305976a535fe4b87eb2baef"
+      },
+      {
+        "name": "counter-research",
+        "sha256": "e0933d21922af672865c86c51070f23b951ea4e799a0bd413bbcd09201c10e16",
+        "bytes": 198,
+        "storedRawBytes": 241,
+        "emergency": false,
+        "expandedBytes": 69,
+        "expandedSHA256": "0bf022dda7c96ce4335a77932543bb3841dfa3e5e305976a535fe4b87eb2baef"
+      },
+      {
+        "name": "pilot-150-lean",
+        "sha256": "af523faa538060c5437dde0effe69b2c3ba1a5bf10e7699f25e1d7d57a640bb0",
+        "bytes": 558726,
+        "storedRawBytes": 1701883,
+        "emergency": false,
+        "expandedBytes": 19426948,
+        "expandedSHA256": "d99bef1722cfdacaea136205424a4e08143394ddae3a8bb15d37d4f0e86a14b0"
+      },
+      {
+        "name": "pilot-150-off",
+        "sha256": "25989c67f68ad8c864302b4590377619a9e61ff9507ecbee3bb64d7eef746771",
+        "bytes": 558781,
+        "storedRawBytes": 1701957,
+        "emergency": false,
+        "expandedBytes": 19427022,
+        "expandedSHA256": "5d2d731fe6567bf1c6893b8d4b798c57daf385e8bfb92e273e8f4b06f49e86e5"
+      },
+      {
+        "name": "pilot-150-counter",
+        "sha256": "1966dc67bcfed50052cef7ba5f80053b406f45f15945bcd35ac549cc2138ca22",
+        "bytes": 558948,
+        "storedRawBytes": 1702227,
+        "emergency": false,
+        "expandedBytes": 19427292,
+        "expandedSHA256": "930d09ede0ce2ab1103b8508660b362796fb87d6a1e962176f8e4b5a9c6e0515"
+      },
+      {
+        "name": "pilot-150-phase",
+        "sha256": "f68c466892cf8c3fb344c53d45ddc704bebc6b512c5d86ebcd31b2ace9fc12b6",
+        "bytes": 560532,
+        "storedRawBytes": 1707585,
+        "emergency": false,
+        "expandedBytes": 19439529,
+        "expandedSHA256": "095da243b0fc730d0f63869cb63265ddf20911686db6202234f5b0556548c6b7"
+      },
+      {
+        "name": "readiness",
+        "sha256": "d4804fad2ced532bf4a8f5781e686c87d7843be3823138cd4f99f94d1a5cb148",
+        "bytes": 7889,
+        "storedRawBytes": 23129,
+        "emergency": false,
+        "expandedBytes": 24156,
+        "expandedSHA256": "d32c2c1286b3d30f259168e12b68b8ec11ecb282625519c7fe36b59931a3664f"
+      },
+      {
+        "name": "L01-warmup",
+        "sha256": "f8959e58047e00fae14f02923c64992aefc78834475a1ce92920f338d5f8ebf7",
+        "bytes": 229,
+        "storedRawBytes": 295,
+        "emergency": false,
+        "expandedBytes": 122,
+        "expandedSHA256": "c9a382361b6e8c0c46c1b4062c356fcad6d81c98f7a6e336c371514584eb5dbe"
+      },
+      {
+        "name": "L01-original",
+        "sha256": "a92e16b6a650c022cd6088c7e81dc244f4cf9e370645a864a51bf6fed96c6d3a",
+        "bytes": 650484,
+        "storedRawBytes": 1831686,
+        "emergency": false,
+        "expandedBytes": 19708538,
+        "expandedSHA256": "bf335722a086ad26c13e1fbcac992cea71e44c2247bdfc8cda0b92cd32d7f9c8"
+      },
+      {
+        "name": "L01-validated",
+        "sha256": "1b0b63b69f3eaadfd509f8125ca27524e6cd938a51c02c64ef1333546e456dad",
+        "bytes": 901,
+        "storedRawBytes": 1484,
+        "emergency": false,
+        "expandedBytes": 1310,
+        "expandedSHA256": "cb7178140e0edf09c6e8225dff6739b0129f0aaa94353630233305e3770283e3"
+      },
+      {
+        "name": "O01-warmup",
+        "sha256": "e38031a6f3e44904997db1b74c5b54da55e335cb4b36ab3b44918b1765d64de1",
+        "bytes": 222,
+        "storedRawBytes": 283,
+        "emergency": false,
+        "expandedBytes": 110,
+        "expandedSHA256": "a523af4122b7dffcfdff999e44f528ebaab5c95fcff0b018493fddb7feff74aa"
+      },
+      {
+        "name": "O01-original",
+        "sha256": "fe3974505af5d09ca0621269199f819640cb9248a2c8ec1b39001cafce09406a",
+        "bytes": 650594,
+        "storedRawBytes": 1832288,
+        "emergency": false,
+        "expandedBytes": 19709642,
+        "expandedSHA256": "decb0185068b8fcf7661b023de427939fc5fb121b173a3c512b681ab4289e06f"
+      },
+      {
+        "name": "O01-validated",
+        "sha256": "df6be9331cfdcc0d3331c81eb1219e00dad7650e2ac59478291f8bedad3e95f0",
+        "bytes": 942,
+        "storedRawBytes": 1559,
+        "emergency": false,
+        "expandedBytes": 1385,
+        "expandedSHA256": "30505bc3a4bce29eb697f893007589ae0da7ae0ff5d72fd0a16bd64fe1fd4200"
+      },
+      {
+        "name": "S01-warmup",
+        "sha256": "99423fe5890708b4b3cb5ebcd82603a176e19de311aaea433ab2c884da254400",
+        "bytes": 229,
+        "storedRawBytes": 295,
+        "emergency": false,
+        "expandedBytes": 122,
+        "expandedSHA256": "c95185b4c62425ffec257a27ed1d0861830be946dbccb9138fc4ab15d616221f"
+      },
+      {
+        "name": "S01-original",
+        "sha256": "2ca7da7ef997dacfdc07599bd9243e7dd3aba13d301a0646a8e6a3d12ec95f81",
+        "bytes": 650584,
+        "storedRawBytes": 1832431,
+        "emergency": false,
+        "expandedBytes": 19709826,
+        "expandedSHA256": "070ed1b85bc7ca9db8e4b8df985247be17f1432ed545a36c216357ee3de161c3"
+      },
+      {
+        "name": "S01-validated",
+        "sha256": "b66597ec64501b4f4579d07eefad0eea917625c21346c06df6503f4f678862b3",
+        "bytes": 892,
+        "storedRawBytes": 1457,
+        "emergency": false,
+        "expandedBytes": 1283,
+        "expandedSHA256": "261f1468353e2c010650299e4d0d45a0bf68be0a46bd42c7dbb4a2c786613397"
+      },
+      {
+        "name": "L02-warmup",
+        "sha256": "bf365bf9d21df96c7aedc1c88c334ff4ac84d0514684025548882192c15d7fdf",
+        "bytes": 223,
+        "storedRawBytes": 283,
+        "emergency": false,
+        "expandedBytes": 110,
+        "expandedSHA256": "91bb19e18ac81fa314aefdd255049bcc5109dad3066a9c802f6c470d8f06c013"
+      },
+      {
+        "name": "L02-original",
+        "sha256": "160da2f209f395fb3a44a97b17a2fb8a0aa20094c1826ae173c9d7348d0b77f8",
+        "bytes": 650594,
+        "storedRawBytes": 1832123,
+        "emergency": false,
+        "expandedBytes": 19709295,
+        "expandedSHA256": "79e1e2a7cccf383c030998104c9b9fda08c16a482686278660f10cf1c28c0981"
+      },
+      {
+        "name": "L02-validated",
+        "sha256": "b4036757a09de3e4dcba35d7456c6d2047fdae9b173f59a35193fa98ab2b8455",
+        "bytes": 899,
+        "storedRawBytes": 1481,
+        "emergency": false,
+        "expandedBytes": 1307,
+        "expandedSHA256": "efad7951315676c2ad9444270550475d2572b283adc53b3b37440b3304db05e7"
+      },
+      {
+        "name": "C01-warmup",
+        "sha256": "f71113d44363417d646c1c3c4d4f618de9879aaa6bf58829f106f96c2d0f88fa",
+        "bytes": 229,
+        "storedRawBytes": 295,
+        "emergency": false,
+        "expandedBytes": 122,
+        "expandedSHA256": "870f5f9898944cf3fa7e0a78e26c0dd59fb151df064c603c581e24d88981577c"
+      },
+      {
+        "name": "C01-original",
+        "sha256": "3f769224cd73c360a706d1dae287ac750b7696280a880f16247617a25f20a78b",
+        "bytes": 651204,
+        "storedRawBytes": 1834291,
+        "emergency": false,
+        "expandedBytes": 19713396,
+        "expandedSHA256": "8ffcc0844bced1e8ddb74e620f5dbfb7c77a4b2d3f4ec15cf3b6b69a16ac7d12"
+      },
+      {
+        "name": "C01-validated",
+        "sha256": "3896f0216976d836d40c538c5c3df548a9022e9bb22ad3972e5af5d0b0d007bb",
+        "bytes": 1102,
+        "storedRawBytes": 1905,
+        "emergency": false,
+        "expandedBytes": 1731,
+        "expandedSHA256": "d184fa77bacd78f14a8567f3e83d34b35b95fe33296d9699591cdfceb5738dee"
+      },
+      {
+        "name": "T01-warmup",
+        "sha256": "e79b939ddf3b7b48aafb22f4b97eeeb605edf1651af5ce281f2d06ead3f5e5ca",
+        "bytes": 222,
+        "storedRawBytes": 283,
+        "emergency": false,
+        "expandedBytes": 110,
+        "expandedSHA256": "aad41a99c118ee2bdd5426377cf30941db7ab9964dba6fd295d32763b74ce68b"
+      },
+      {
+        "name": "T01-trace",
+        "sha256": "837f987daf2f4646361c96fae8b76aa99e78afc5aa1c301344fa56bd10210493",
+        "bytes": 1106713,
+        "storedRawBytes": 12200835,
+        "emergency": false,
+        "expandedBytes": 12200657,
+        "expandedSHA256": "d3aa1a720dbfeace2fcede856bf54d8b88af0df936d510ccc7b90d1c3e65aff7"
+      },
+      {
+        "name": "T01-original",
+        "sha256": "14ce41de8ffd9c89ede671760c07e5a7ecfbf1ce2e3867b446afd0d742cb66dc",
+        "bytes": 651623,
+        "storedRawBytes": 1837139,
+        "emergency": false,
+        "expandedBytes": 19717851,
+        "expandedSHA256": "1e921f99c42767a9d424c1d3d536b78445837c107259f02aa5485663e2435efb"
+      },
+      {
+        "name": "T01-validated",
+        "sha256": "55706fefe0690b32f0d578136abbecffa86ae5d88cc8e3d432fa00382bd074d2",
+        "bytes": 905,
+        "storedRawBytes": 1481,
+        "emergency": false,
+        "expandedBytes": 1307,
+        "expandedSHA256": "1b0e1c05cedaeefad7a6eecc1acbab47c0d417eb36c812d94f6dd501176c15ff"
+      },
+      {
+        "name": "D01-warmup",
+        "sha256": "e551ea2c7ea9c66b7e97ee7999b31f2db980e5447ed80260fdfae79bdec765e2",
+        "bytes": 230,
+        "storedRawBytes": 295,
+        "emergency": false,
+        "expandedBytes": 122,
+        "expandedSHA256": "71fb2d27484332631a5e9051c49a3f3ff363164adb0f828a26578a77109a8d89"
+      },
+      {
+        "name": "D01-original",
+        "sha256": "410d392ef9a3cd823582c7faf5c24c9fd2babc7f2fa0d6b43e9f22a5af63d4df",
+        "bytes": 664124,
+        "storedRawBytes": 1911059,
+        "emergency": false,
+        "expandedBytes": 19904561,
+        "expandedSHA256": "fcc9dc7ab140b6a889f82abc81a893025169f3876e5b2ed3cdaf5488ee0b6d5d"
+      },
+      {
+        "name": "D01-validated",
+        "sha256": "273e60ad2effae08581441e51eea02bee790706497b45eaf563cf8fd3590813f",
+        "bytes": 13138,
+        "storedRawBytes": 75380,
+        "emergency": false,
+        "expandedBytes": 188815,
+        "expandedSHA256": "2a87a541495188903ab8e0db428341c25f82730cbb8754fb7eaa5f933727223e"
+      },
+      {
+        "name": "S02-warmup",
+        "sha256": "8810dfb2368ac20a55e36a4fe0f2d1bcb9a68bf273743fb086f5590d69e49a36",
+        "bytes": 229,
+        "storedRawBytes": 295,
+        "emergency": false,
+        "expandedBytes": 122,
+        "expandedSHA256": "f307dbfd15145f2112c7887313de5aa9e9c25c4f366ec1ac07d427cc00177c66"
+      },
+      {
+        "name": "S02-original",
+        "sha256": "55af456e27727e276937c22f77cf8dfb27eaeab63b59aa2729ce702314e1494b",
+        "bytes": 650955,
+        "storedRawBytes": 1835175,
+        "emergency": false,
+        "expandedBytes": 19713208,
+        "expandedSHA256": "f5864870204567eb1f430cfac3731cd7c2eba10ed7bdf49f6e6e35b6ca8f1877"
+      },
+      {
+        "name": "S02-validated",
+        "sha256": "29091fa4690500c0d0191138cc9be3aed78aa3eb53c763aa165b1e473dcac564",
+        "bytes": 902,
+        "storedRawBytes": 1479,
+        "emergency": false,
+        "expandedBytes": 1305,
+        "expandedSHA256": "9b519f58268e3b0d079577b5b06247f48b796a80fd34949fcb2f27abf7676358"
+      }
+    ],
+    "finalSourceDigests": {
+      "simulation.ts": "0846437a3f54be8abdf7aaf52f5368eb398a65762f2d889df7a671a8ef66b63e",
+      "simulation.worker.ts": "50dcc968cf1b0a8a8ea496a5993c0d87992340e60e9c11c7f83fdae4db6bd6d0",
+      "simulationHost.ts": "801bda0009738bef014066b9650fedfd97e4b856e0af70e0426119178a971e86",
+      "contacts.ts": "ea9be05c5913006c6d6c6b1d2f4a22bc6a7c889d1a4df1cc956c8d3831c16cce",
+      "neuralRuntime.ts": "12f5f52f328613bc2af4c4c2c793e78c4b22abb1c585cec8aba29aca99cac84b",
+      "spatialIndex.ts": "d324b911f764afeced35df0141363c293ce97564a44a23f5facb98ac08992b40",
+      "energyActivity.ts": "c7ba6bba7080dedf091e039ddc447b05b006b3c2d8b57274ca984f5f47653913",
+      "energyEconomy.ts": "d7285aa7b351ded7a7147fccf1415549a00ccfea0c98b1a9069594daf6017f9c",
+      "persistence.ts": "3e759aadb7e2ccee8bb01da428708dd021320748f546670d67454317a63656c3",
+      "world.ts": "6cbf7da62d1ab3af7ef2c83a9ea565e5d11eb4c55cbf3f20b3c74ac511ceb387",
+      "App.tsx": "04af74c5fbbc19e44af47a8b38d6325ec433cc46148f6138f34d894b8e1e281a",
+      "package.json": "745f1c06fcfdd6a9049efa5a9dcea2f24d6841c414dd43dc9e5caa09334df59f",
+      "package-lock.json": "12450a0271695e3542f0fdf21e5bf0cb5a19c48700f976b5dca8b5678cd66994",
+      "scripts/performance-stage39/build.mjs": "03730add242d20291f349eb0d4df712a9047bcbef0c6a2de2bc1a5ed590eff25",
+      "scripts/performance-stage39/runtime.mjs": "046a037f02542e5ac37ffd46c24f2cac9c2564ac3eee1f8675b4d2f5457ccebb",
+      "scripts/performance-stage39/measurement.mjs": "ade15c925079817a3f39651015bf1c778fb102fdb0394d245266c22808cc971e",
+      "scripts/performance-stage39/fixture.ts": "638e46e74f6d552119a442a02cd386eb6db52c438146ff9e999e180fd47b45f2",
+      "scripts/performance-stage39/browser-init.mjs": "40e8ab74fcf818447d76883dceb68404568b305102b530ff196930cc60df0534",
+      "scripts/performance-stage39/accounting.mjs": "6350130c579587753f68dc10db4465b50afd809e6307cca300d0343ba43f1140",
+      "scripts/performance-stage39/archive.mjs": "bdec9215a58800b2ea563a78513d19573f788b60296241f9a7e70dcb480578d1",
+      "scripts/performance-stage39/test-archive.mjs": "511ee39217c69026ae1219ce4ceb0ace76932be6948e2f40071947abd828539b",
+      "scripts/performance-stage39/preserve.mjs": "396466381c567b2a1406a5e6c91e45a35fb4ddb2de818621dafd05879a95be1d",
+      "scripts/performance-stage310/measurement.mjs": "407162db8c8740b82881c13baf8aa648dd72c1ee823b3c808f04bcad84f33156",
+      "scripts/performance-stage310/accounting.mjs": "07c98da92c19000ace2dbc14a30f0c80a4a0c077050773db9354d3cbf3962eed",
+      "scripts/performance-stage310/measurement.config.mjs": "ccd249020b718650316e9e94e21b4108b1d407fb552f88d37fea0183a177297a",
+      "scripts/performance-stage310/preserve.mjs": "130b80658678cbecf1a0844836cfef36fab069b1e46b80acf2607a614faab4f7"
+    },
+    "thisRunnerWallMs": 623215,
+    "runnerWallMs": 623215
+  },
+  "rows": [
+    {
+      "id": "L01",
+      "count": 150,
+      "dense": false,
+      "research": false,
+      "level": "off",
+      "traced": false,
+      "speed": "max",
+      "ticks": 360,
+      "wallMs": 6733.400000000023,
+      "msPerTick": 18.703888888888955,
+      "tps": 53.46481718002774,
+      "multiplier": 0.8910802863337957,
+      "browserCPUmsPerTick": 53.97222222222222,
+      "browserCPUOneCorePercent": 281.29188257247665,
+      "cpuBoundarySkewMs": 174.01582099997904,
+      "cpuBoundarySkewPercent": 2.584367793387865,
+      "processStarts": [],
+      "processExits": [],
+      "exportMs": 6182.3041410000005,
+      "inventory": {
+        "organisms": 150,
+        "living": 150,
+        "parts": 690,
+        "joints": 540,
+        "eyes": 330,
+        "rays": 1650,
+        "mouths": 150,
+        "hiddenNeurons": 3600,
+        "inputs": 9030,
+        "outputs": 3240,
+        "nutrients": 569,
+        "eggs": 0,
+        "births": 150,
+        "deaths": 0,
+        "caustics": 28,
+        "bubbles": 0,
+        "reserveJ": 1612432.127608911,
+        "worldReserveJ": 64201.87239150675,
+        "basalRate": 1787.999999999997,
+        "plasticityRate": 31.974408643792618,
+        "motorRate": 182.73514066241606,
+        "motorLearnedL1": 0.8727658733010183,
+        "sensoryLearnedL1": 1.4030241891916244,
+        "motorOutputL1": 100.93423845308455,
+        "distance": 13693.74006905773,
+        "guards": 0,
+        "ledger": {
+          "externalInflow": 4157700,
+          "metabolicDissipation": 59550.46758985149,
+          "mechanicalWorkHeat": 1157.4381345751217,
+          "recordedLosses": 3493.966666683544
+        }
+      },
+      "energyErrorJ": 3.8510188460350037e-7,
+      "fps": 38.16793893129758,
+      "reportsPerSecond": 15.742418391897056,
+      "mainHeap": {
+        "used": 167000000,
+        "total": 199000000
+      },
+      "approximateLatestFrameJSONBytes": 947679,
+      "endSHA256": "d90ec09ea4848648bd57d1e3e3719b161147310feeb2feb109865f00f4ffd0e4"
+    },
+    {
+      "id": "O01",
+      "count": 150,
+      "dense": false,
+      "research": true,
+      "level": "off",
+      "traced": false,
+      "speed": "max",
+      "ticks": 360,
+      "wallMs": 6913.799999999988,
+      "msPerTick": 19.204999999999966,
+      "tps": 52.069773496485375,
+      "multiplier": 0.8678295582747563,
+      "browserCPUmsPerTick": 57.02777777777778,
+      "browserCPUOneCorePercent": 290.13760349195957,
+      "cpuBoundarySkewMs": 162.15284200001042,
+      "cpuBoundarySkewPercent": 2.345350487431097,
+      "processStarts": [],
+      "processExits": [],
+      "exportMs": 6214.0132030000095,
+      "inventory": {
+        "organisms": 150,
+        "living": 150,
+        "parts": 690,
+        "joints": 540,
+        "eyes": 330,
+        "rays": 1650,
+        "mouths": 150,
+        "hiddenNeurons": 3600,
+        "inputs": 9030,
+        "outputs": 3240,
+        "nutrients": 569,
+        "eggs": 0,
+        "births": 150,
+        "deaths": 0,
+        "caustics": 28,
+        "bubbles": 0,
+        "reserveJ": 1612432.127608911,
+        "worldReserveJ": 64201.87239150675,
+        "basalRate": 1787.999999999997,
+        "plasticityRate": 31.974408643792618,
+        "motorRate": 182.73514066241606,
+        "motorLearnedL1": 0.8727658733010183,
+        "sensoryLearnedL1": 1.4030241891916244,
+        "motorOutputL1": 100.93423845308455,
+        "distance": 13693.74006905773,
+        "guards": 0,
+        "ledger": {
+          "externalInflow": 4157700,
+          "metabolicDissipation": 59550.46758985149,
+          "mechanicalWorkHeat": 1157.4381345751217,
+          "recordedLosses": 3493.966666683544
+        }
+      },
+      "energyErrorJ": 3.8510188460350037e-7,
+      "fps": 39.05233012236403,
+      "reportsPerSecond": 15.187017269808235,
+      "mainHeap": {
+        "used": 167000000,
+        "total": 199000000
+      },
+      "approximateLatestFrameJSONBytes": 947678,
+      "endSHA256": "d90ec09ea4848648bd57d1e3e3719b161147310feeb2feb109865f00f4ffd0e4"
+    },
+    {
+      "id": "S01",
+      "count": 150,
+      "dense": false,
+      "research": false,
+      "level": "off",
+      "traced": false,
+      "speed": 1,
+      "ticks": 360,
+      "wallMs": 6772.5,
+      "msPerTick": 18.8125,
+      "tps": 53.15614617940199,
+      "multiplier": 0.8859357696566998,
+      "browserCPUmsPerTick": 55.888888888888886,
+      "browserCPUOneCorePercent": 289.286471181973,
+      "cpuBoundarySkewMs": 182.543531000003,
+      "cpuBoundarySkewPercent": 2.695364060538985,
+      "processStarts": [],
+      "processExits": [],
+      "exportMs": 6691.501110000012,
+      "inventory": {
+        "organisms": 150,
+        "living": 150,
+        "parts": 690,
+        "joints": 540,
+        "eyes": 330,
+        "rays": 1650,
+        "mouths": 150,
+        "hiddenNeurons": 3600,
+        "inputs": 9030,
+        "outputs": 3240,
+        "nutrients": 569,
+        "eggs": 0,
+        "births": 150,
+        "deaths": 0,
+        "caustics": 28,
+        "bubbles": 0,
+        "reserveJ": 1612432.127608911,
+        "worldReserveJ": 64201.87239150675,
+        "basalRate": 1787.999999999997,
+        "plasticityRate": 31.974408643792618,
+        "motorRate": 182.73514066241606,
+        "motorLearnedL1": 0.8727658733010183,
+        "sensoryLearnedL1": 1.4030241891916244,
+        "motorOutputL1": 100.93423845308455,
+        "distance": 13693.74006905773,
+        "guards": 0,
+        "ledger": {
+          "externalInflow": 4157700,
+          "metabolicDissipation": 59550.46758985149,
+          "mechanicalWorkHeat": 1157.4381345751217,
+          "recordedLosses": 3493.966666683544
+        }
+      },
+      "energyErrorJ": 3.8510188460350037e-7,
+      "fps": 40.60538944259874,
+      "reportsPerSecond": 15.208564045773349,
+      "mainHeap": {
+        "used": 167000000,
+        "total": 199000000
+      },
+      "approximateLatestFrameJSONBytes": 947679,
+      "endSHA256": "d90ec09ea4848648bd57d1e3e3719b161147310feeb2feb109865f00f4ffd0e4"
+    },
+    {
+      "id": "L02",
+      "count": 150,
+      "dense": false,
+      "research": false,
+      "level": "off",
+      "traced": false,
+      "speed": "max",
+      "ticks": 360,
+      "wallMs": 6647.799999999988,
+      "msPerTick": 18.46611111111108,
+      "tps": 54.15325370799372,
+      "multiplier": 0.902554228466562,
+      "browserCPUmsPerTick": 54.47222222222222,
+      "browserCPUOneCorePercent": 288.1298502409879,
+      "cpuBoundarySkewMs": 158.15918250000686,
+      "cpuBoundarySkewPercent": 2.3791206489365946,
+      "processStarts": [],
+      "processExits": [],
+      "exportMs": 6381.524697999994,
+      "inventory": {
+        "organisms": 150,
+        "living": 150,
+        "parts": 690,
+        "joints": 540,
+        "eyes": 330,
+        "rays": 1650,
+        "mouths": 150,
+        "hiddenNeurons": 3600,
+        "inputs": 9030,
+        "outputs": 3240,
+        "nutrients": 569,
+        "eggs": 0,
+        "births": 150,
+        "deaths": 0,
+        "caustics": 28,
+        "bubbles": 0,
+        "reserveJ": 1612432.127608911,
+        "worldReserveJ": 64201.87239150675,
+        "basalRate": 1787.999999999997,
+        "plasticityRate": 31.974408643792618,
+        "motorRate": 182.73514066241606,
+        "motorLearnedL1": 0.8727658733010183,
+        "sensoryLearnedL1": 1.4030241891916244,
+        "motorOutputL1": 100.93423845308455,
+        "distance": 13693.74006905773,
+        "guards": 0,
+        "ledger": {
+          "externalInflow": 4157700,
+          "metabolicDissipation": 59550.46758985149,
+          "mechanicalWorkHeat": 1157.4381345751217,
+          "recordedLosses": 3493.966666683544
+        }
+      },
+      "energyErrorJ": 3.8510188460350037e-7,
+      "fps": 39.86281175727315,
+      "reportsPerSecond": 15.644273293420406,
+      "mainHeap": {
+        "used": 167000000,
+        "total": 199000000
+      },
+      "approximateLatestFrameJSONBytes": 947678,
+      "endSHA256": "d90ec09ea4848648bd57d1e3e3719b161147310feeb2feb109865f00f4ffd0e4"
+    },
+    {
+      "id": "C01",
+      "count": 150,
+      "dense": false,
+      "research": true,
+      "level": "counter",
+      "traced": false,
+      "speed": "max",
+      "ticks": 360,
+      "wallMs": 7365.20000000007,
+      "msPerTick": 20.45888888888908,
+      "tps": 48.87850974854676,
+      "multiplier": 0.814641829142446,
+      "browserCPUmsPerTick": 60.6111111111111,
+      "browserCPUOneCorePercent": 289.71726358408563,
+      "cpuBoundarySkewMs": 166.28077199994004,
+      "cpuBoundarySkewPercent": 2.2576545375541546,
+      "processStarts": [],
+      "processExits": [],
+      "exportMs": 6022.570686999999,
+      "inventory": {
+        "organisms": 150,
+        "living": 150,
+        "parts": 690,
+        "joints": 540,
+        "eyes": 330,
+        "rays": 1650,
+        "mouths": 150,
+        "hiddenNeurons": 3600,
+        "inputs": 9030,
+        "outputs": 3240,
+        "nutrients": 569,
+        "eggs": 0,
+        "births": 150,
+        "deaths": 0,
+        "caustics": 28,
+        "bubbles": 0,
+        "reserveJ": 1612432.127608911,
+        "worldReserveJ": 64201.87239150675,
+        "basalRate": 1787.999999999997,
+        "plasticityRate": 31.974408643792618,
+        "motorRate": 182.73514066241606,
+        "motorLearnedL1": 0.8727658733010183,
+        "sensoryLearnedL1": 1.4030241891916244,
+        "motorOutputL1": 100.93423845308455,
+        "distance": 13693.74006905773,
+        "guards": 0,
+        "ledger": {
+          "externalInflow": 4157700,
+          "metabolicDissipation": 59550.46758985149,
+          "mechanicalWorkHeat": 1157.4381345751217,
+          "recordedLosses": 3493.966666683544
+        }
+      },
+      "energyErrorJ": 3.8510188460350037e-7,
+      "fps": 41.95405420083597,
+      "reportsPerSecond": 14.663552924564028,
+      "mainHeap": {
+        "used": 167000000,
+        "total": 199000000
+      },
+      "approximateLatestFrameJSONBytes": 947677,
+      "endSHA256": "d90ec09ea4848648bd57d1e3e3719b161147310feeb2feb109865f00f4ffd0e4"
+    },
+    {
+      "id": "T01",
+      "count": 150,
+      "dense": false,
+      "research": false,
+      "level": "off",
+      "traced": true,
+      "speed": "max",
+      "ticks": 360,
+      "wallMs": 10699.400000000023,
+      "msPerTick": 29.72055555555562,
+      "tps": 33.64674654653525,
+      "multiplier": 0.5607791091089208,
+      "browserCPUmsPerTick": 85.30555555555556,
+      "browserCPUOneCorePercent": 282.8863922798589,
+      "cpuBoundarySkewMs": 156.54812550000497,
+      "cpuBoundarySkewPercent": 1.4631486391760706,
+      "processStarts": [],
+      "processExits": [],
+      "exportMs": 7463.774481999979,
+      "inventory": {
+        "organisms": 150,
+        "living": 150,
+        "parts": 690,
+        "joints": 540,
+        "eyes": 330,
+        "rays": 1650,
+        "mouths": 150,
+        "hiddenNeurons": 3600,
+        "inputs": 9030,
+        "outputs": 3240,
+        "nutrients": 569,
+        "eggs": 0,
+        "births": 150,
+        "deaths": 0,
+        "caustics": 28,
+        "bubbles": 0,
+        "reserveJ": 1612432.127608911,
+        "worldReserveJ": 64201.87239150675,
+        "basalRate": 1787.999999999997,
+        "plasticityRate": 31.974408643792618,
+        "motorRate": 182.73514066241606,
+        "motorLearnedL1": 0.8727658733010183,
+        "sensoryLearnedL1": 1.4030241891916244,
+        "motorOutputL1": 100.93423845308455,
+        "distance": 13693.74006905773,
+        "guards": 0,
+        "ledger": {
+          "externalInflow": 4157700,
+          "metabolicDissipation": 59550.46758985149,
+          "mechanicalWorkHeat": 1157.4381345751217,
+          "recordedLosses": 3493.966666683544
+        }
+      },
+      "energyErrorJ": 3.8510188460350037e-7,
+      "fps": 32.244798773762945,
+      "reportsPerSecond": 7.57051797297043,
+      "mainHeap": {
+        "used": 167000000,
+        "total": 199000000
+      },
+      "approximateLatestFrameJSONBytes": 947678,
+      "endSHA256": "d90ec09ea4848648bd57d1e3e3719b161147310feeb2feb109865f00f4ffd0e4"
+    },
+    {
+      "id": "D01",
+      "count": 150,
+      "dense": false,
+      "research": true,
+      "level": "phase",
+      "traced": false,
+      "speed": "max",
+      "ticks": 360,
+      "wallMs": 7467.900000000023,
+      "msPerTick": 20.744166666666732,
+      "tps": 48.20632306270824,
+      "multiplier": 0.8034387177118041,
+      "browserCPUmsPerTick": 63.027777777777764,
+      "browserCPUOneCorePercent": 294.52329806007737,
+      "cpuBoundarySkewMs": 236.0745750000351,
+      "cpuBoundarySkewPercent": 3.1611908970397895,
+      "processStarts": [],
+      "processExits": [],
+      "exportMs": 6245.9690249999985,
+      "inventory": {
+        "organisms": 150,
+        "living": 150,
+        "parts": 690,
+        "joints": 540,
+        "eyes": 330,
+        "rays": 1650,
+        "mouths": 150,
+        "hiddenNeurons": 3600,
+        "inputs": 9030,
+        "outputs": 3240,
+        "nutrients": 569,
+        "eggs": 0,
+        "births": 150,
+        "deaths": 0,
+        "caustics": 28,
+        "bubbles": 0,
+        "reserveJ": 1612432.127608911,
+        "worldReserveJ": 64201.87239150675,
+        "basalRate": 1787.999999999997,
+        "plasticityRate": 31.974408643792618,
+        "motorRate": 182.73514066241606,
+        "motorLearnedL1": 0.8727658733010183,
+        "sensoryLearnedL1": 1.4030241891916244,
+        "motorOutputL1": 100.93423845308455,
+        "distance": 13693.74006905773,
+        "guards": 0,
+        "ledger": {
+          "externalInflow": 4157700,
+          "metabolicDissipation": 59550.46758985149,
+          "mechanicalWorkHeat": 1157.4381345751217,
+          "recordedLosses": 3493.966666683544
+        }
+      },
+      "energyErrorJ": 3.8510188460350037e-7,
+      "fps": 41.10928105625397,
+      "reportsPerSecond": 14.461896918812473,
+      "mainHeap": {
+        "used": 167000000,
+        "total": 199000000
+      },
+      "approximateLatestFrameJSONBytes": 947677,
+      "endSHA256": "d90ec09ea4848648bd57d1e3e3719b161147310feeb2feb109865f00f4ffd0e4"
+    },
+    {
+      "id": "S02",
+      "count": 150,
+      "dense": false,
+      "research": false,
+      "level": "off",
+      "traced": false,
+      "speed": 2,
+      "ticks": 360,
+      "wallMs": 6529.800000000047,
+      "msPerTick": 18.138333333333463,
+      "tps": 55.13185702471706,
+      "multiplier": 0.9188642837452843,
+      "browserCPUmsPerTick": 54.388888888888886,
+      "browserCPUOneCorePercent": 293.218815857225,
+      "cpuBoundarySkewMs": 147.8069409999298,
+      "cpuBoundarySkewPercent": 2.263575316241373,
+      "processStarts": [],
+      "processExits": [],
+      "exportMs": 6254.256787999999,
+      "inventory": {
+        "organisms": 150,
+        "living": 150,
+        "parts": 690,
+        "joints": 540,
+        "eyes": 330,
+        "rays": 1650,
+        "mouths": 150,
+        "hiddenNeurons": 3600,
+        "inputs": 9030,
+        "outputs": 3240,
+        "nutrients": 569,
+        "eggs": 0,
+        "births": 150,
+        "deaths": 0,
+        "caustics": 28,
+        "bubbles": 0,
+        "reserveJ": 1612432.127608911,
+        "worldReserveJ": 64201.87239150675,
+        "basalRate": 1787.999999999997,
+        "plasticityRate": 31.974408643792618,
+        "motorRate": 182.73514066241606,
+        "motorLearnedL1": 0.8727658733010183,
+        "sensoryLearnedL1": 1.4030241891916244,
+        "motorOutputL1": 100.93423845308455,
+        "distance": 13693.74006905773,
+        "guards": 0,
+        "ledger": {
+          "externalInflow": 4157700,
+          "metabolicDissipation": 59550.46758985149,
+          "mechanicalWorkHeat": 1157.4381345751217,
+          "recordedLosses": 3493.966666683544
+        }
+      },
+      "energyErrorJ": 3.8510188460350037e-7,
+      "fps": 40.58317253208339,
+      "reportsPerSecond": 15.467548776378951,
+      "mainHeap": {
+        "used": 167000000,
+        "total": 199000000
+      },
+      "approximateLatestFrameJSONBytes": 947678,
+      "endSHA256": "d90ec09ea4848648bd57d1e3e3719b161147310feeb2feb109865f00f4ffd0e4"
+    }
+  ],
+  "scalability": [
+    {
+      "count": 150,
+      "dense": false,
+      "windows": [
+        "L01",
+        "L02"
+      ],
+      "msPerTick": {
+        "n": 2,
+        "mean": 18.585000000000015,
+        "median": 18.585000000000015,
+        "min": 18.46611111111108,
+        "max": 18.703888888888955,
+        "sd": 0.11888888888893767,
+        "p95": null,
+        "spanPercent": 1.2876440326128336
+      },
+      "tps": {
+        "n": 2,
+        "mean": 53.80903544401073,
+        "median": 53.80903544401073,
+        "min": 53.46481718002774,
+        "max": 54.15325370799372,
+        "sd": 0.3442182639829916,
+        "p95": null,
+        "spanPercent": 1.2876440326128336
+      },
+      "multiplier": {
+        "n": 2,
+        "mean": 0.8968172574001788,
+        "median": 0.8968172574001788,
+        "min": 0.8910802863337957,
+        "max": 0.902554228466562,
+        "sd": 0.005736971066383156,
+        "p95": null,
+        "spanPercent": 1.2876440326128114
+      },
+      "inventory": {
+        "organisms": 150,
+        "living": 150,
+        "parts": 690,
+        "joints": 540,
+        "eyes": 330,
+        "rays": 1650,
+        "mouths": 150,
+        "hiddenNeurons": 3600,
+        "inputs": 9030,
+        "outputs": 3240,
+        "nutrients": 569,
+        "eggs": 0,
+        "births": 150,
+        "deaths": 0,
+        "caustics": 28,
+        "bubbles": 0,
+        "reserveJ": 1612432.127608911,
+        "worldReserveJ": 64201.87239150675,
+        "basalRate": 1787.999999999997,
+        "plasticityRate": 31.974408643792618,
+        "motorRate": 182.73514066241606,
+        "motorLearnedL1": 0.8727658733010183,
+        "sensoryLearnedL1": 1.4030241891916244,
+        "motorOutputL1": 100.93423845308455,
+        "distance": 13693.74006905773,
+        "guards": 0,
+        "ledger": {
+          "externalInflow": 4157700,
+          "metabolicDissipation": 59550.46758985149,
+          "mechanicalWorkHeat": 1157.4381345751217,
+          "recordedLosses": 3493.966666683544
+        }
+      }
+    }
+  ],
+  "contrasts": {},
+  "phases": [
+    {
+      "id": "D01",
+      "count": 150,
+      "dense": false,
+      "ticks": 360,
+      "tickElapsed": {
+        "n": 360,
+        "mean": 19.137222222220995,
+        "median": 16.5,
+        "min": 12,
+        "max": 89.20000000006985,
+        "sd": 7.7861809962405255,
+        "p95": 28.504999999998837,
+        "spanPercent": 643.3333333339153
+      },
+      "sampledTicks": 23,
+      "closureMaxAbsMs": 0,
+      "phaseRows": [
+        {
+          "phase": "vision",
+          "msPerTick": 5.558055555552063,
+          "sharePercent": 29.04316776495589,
+          "distribution": {
+            "n": 360,
+            "mean": 5.558055555552063,
+            "median": 5.000000000174623,
+            "min": 2.800000000046566,
+            "max": 55.89999999990687,
+            "sd": 3.3617359267688656,
+            "p95": 8.209999999724097,
+            "spanPercent": 1896.4285713920433
+          }
+        },
+        {
+          "phase": "physics",
+          "msPerTick": 5.413055555558984,
+          "sharePercent": 28.285482044900267,
+          "distribution": {
+            "n": 360,
+            "mean": 5.413055555558984,
+            "median": 3.799999999930151,
+            "min": 2.300000000046566,
+            "max": 26,
+            "sd": 3.665684959068374,
+            "p95": 12.410000000020958,
+            "spanPercent": 1030.4347825858088
+          }
+        },
+        {
+          "phase": "inference",
+          "msPerTick": 4.5116666666649206,
+          "sharePercent": 23.575347635490402,
+          "distribution": {
+            "n": 360,
+            "mean": 4.5116666666649206,
+            "median": 4.199999999778811,
+            "min": 2.0999999998603016,
+            "max": 28.5999999998603,
+            "sd": 2.095942508779876,
+            "p95": 6.104999999981374,
+            "spanPercent": 1261.9047619887076
+          }
+        },
+        {
+          "phase": "sensory-learning",
+          "msPerTick": 0.702499999997801,
+          "sharePercent": 3.6708566783642205,
+          "distribution": {
+            "n": 360,
+            "mean": 0.702499999997801,
+            "median": 0.6500000000814907,
+            "min": 0.09999999997671694,
+            "max": 8.899999999906868,
+            "sd": 0.5246367791108871,
+            "p95": 1.2000000001862645,
+            "spanPercent": 8800.00000197906
+          }
+        },
+        {
+          "phase": "sight-build",
+          "msPerTick": 0.6797222222220929,
+          "sharePercent": 3.5518332510809234,
+          "distribution": {
+            "n": 360,
+            "mean": 0.6797222222220929,
+            "median": 0.6000000000931323,
+            "min": 0.2999999999301508,
+            "max": 4,
+            "sd": 0.29374011672091593,
+            "p95": 1,
+            "spanPercent": 1233.333333643774
+          }
+        },
+        {
+          "phase": "motor-learning",
+          "msPerTick": 0.6388888888998837,
+          "sharePercent": 3.3384619851361927,
+          "distribution": {
+            "n": 360,
+            "mean": 0.6388888888998837,
+            "median": 0.5999999999767169,
+            "min": 0.09999999997671694,
+            "max": 4.999999999650754,
+            "sd": 0.34966474242163453,
+            "p95": 1.099999999976717,
+            "spanPercent": 4900.000000814907
+          }
+        },
+        {
+          "phase": "feeding",
+          "msPerTick": 0.4380555555641574,
+          "sharePercent": 2.2890237176402413,
+          "distribution": {
+            "n": 360,
+            "mean": 0.4380555555641574,
+            "median": 0.40000000002328306,
+            "min": 0,
+            "max": 3.299999999930151,
+            "sd": 0.27094812382549666,
+            "p95": 0.7000000000698492,
+            "spanPercent": null
+          }
+        },
+        {
+          "phase": "reproduction-death",
+          "msPerTick": 0.3586111111071659,
+          "sharePercent": 1.873893227256191,
+          "distribution": {
+            "n": 360,
+            "mean": 0.3586111111071659,
+            "median": 0.30000000004656613,
+            "min": 0,
+            "max": 1.400000000023283,
+            "sd": 0.22933058110108911,
+            "p95": 0.8000000000523869,
+            "spanPercent": null
+          }
+        },
+        {
+          "phase": "neural-inputs",
+          "msPerTick": 0.22527777777318583,
+          "sharePercent": 1.1771707260189872,
+          "distribution": {
+            "n": 360,
+            "mean": 0.22527777777318583,
+            "median": 0.19999999995343387,
+            "min": 0,
+            "max": 3,
+            "sd": 0.22447452356270828,
+            "p95": 0.5000000001164153,
+            "spanPercent": null
+          }
+        },
+        {
+          "phase": "metabolism",
+          "msPerTick": 0.19111111111027032,
+          "sharePercent": 0.9986355850974212,
+          "distribution": {
+            "n": 360,
+            "mean": 0.19111111111027032,
+            "median": 0.19999999995343387,
+            "min": 0,
+            "max": 1,
+            "sd": 0.10892856419584089,
+            "p95": 0.30000000004656613,
+            "spanPercent": null
+          }
+        },
+        {
+          "phase": "feeding-index",
+          "msPerTick": 0.1394444444417281,
+          "sharePercent": 0.7286556158595137,
+          "distribution": {
+            "n": 360,
+            "mean": 0.1394444444417281,
+            "median": 0.10000000009313226,
+            "min": 0,
+            "max": 1.6000000000931323,
+            "sd": 0.10697726769063647,
+            "p95": 0.2000000000698492,
+            "spanPercent": null
+          }
+        },
+        {
+          "phase": "organism-overhead",
+          "msPerTick": 0.1216666666671194,
+          "sharePercent": 0.6357592823782302,
+          "distribution": {
+            "n": 360,
+            "mean": 0.1216666666671194,
+            "median": 0.09999999997671694,
+            "min": 0,
+            "max": 0.9999999998835847,
+            "sd": 0.12792141685266628,
+            "p95": 0.30000000016298145,
+            "spanPercent": null
+          }
+        },
+        {
+          "phase": "environment",
+          "msPerTick": 0.10111111110988229,
+          "sharePercent": 0.5283478967625621,
+          "distribution": {
+            "n": 360,
+            "mean": 0.10111111110988229,
+            "median": 0.09999999997671694,
+            "min": 0,
+            "max": 0.9000000000232831,
+            "sd": 0.10566660824642068,
+            "p95": 0.2000000000698492,
+            "spanPercent": null
+          }
+        },
+        {
+          "phase": "observer",
+          "msPerTick": 0.054722222219182486,
+          "sharePercent": 0.2859465265321648,
+          "distribution": {
+            "n": 360,
+            "mean": 0.054722222219182486,
+            "median": 0,
+            "min": 0,
+            "max": 0.6000000000931323,
+            "sd": 0.06523402789134479,
+            "p95": 0.10000000009313226,
+            "spanPercent": null
+          }
+        },
+        {
+          "phase": "unattributed",
+          "msPerTick": 0.0030555555548441287,
+          "sharePercent": 0.0159665573162243,
+          "distribution": {
+            "n": 360,
+            "mean": 0.0030555555548441287,
+            "median": 0,
+            "min": 0,
+            "max": 0.09999999997671694,
+            "sd": 0.01721101785672571,
+            "p95": 0,
+            "spanPercent": null
+          }
+        },
+        {
+          "phase": "finalize",
+          "msPerTick": 0.0002777777777131026,
+          "sharePercent": 0.0014515052105658454,
+          "distribution": {
+            "n": 360,
+            "mean": 0.0002777777777131026,
+            "median": 0,
+            "min": 0,
+            "max": 0.09999999997671694,
+            "sd": 0.00526313758807914,
+            "p95": 0,
+            "spanPercent": null
+          }
+        }
+      ],
+      "callsPerSampledTick": {
+        "indexEntries": 2030.8695652173913,
+        "rays": 1650,
+        "visionCandidates": 22604.782608695652,
+        "circleTestsFood": 7400.478260869565,
+        "bodyEdgeTests": 16416.695652173912,
+        "brainEvaluations": 150,
+        "bodyAdvances": 600,
+        "partAdvances": 2760,
+        "jointAdvances": 2160,
+        "contactPasses": 13.434782608695652,
+        "selfContactCandidates": 1311.1739130434783,
+        "mouths": 150,
+        "activityEntries": 20.956521739130434,
+        "selfResolvedContacts": 477.2608695652174,
+        "externalContactCandidates": 4.869565217391305
+      },
+      "frameBuildMs": {
+        "n": 108,
+        "mean": 0.44351851852735746,
+        "median": 0.40000000002328306,
+        "min": 0.19999999995343387,
+        "max": 3.599999999976717,
+        "sd": 0.33919107150343025,
+        "p95": 0.6000000000931323,
+        "spanPercent": 1700.0000004074536
+      },
+      "framePostMs": {
+        "n": 108,
+        "mean": 3.187037037033372,
+        "median": 3.099999999976717,
+        "min": 2,
+        "max": 6.5,
+        "sd": 0.8797192936757323,
+        "p95": 4.82999999996391,
+        "spanPercent": 225
+      },
+      "frameCalls": 108
+    }
+  ],
+  "phaseGroups": [
+    {
+      "count": 150,
+      "dense": false,
+      "windows": [
+        "D01"
+      ],
+      "tickElapsedMeans": {
+        "n": 1,
+        "mean": 19.137222222220995,
+        "median": 19.137222222220995,
+        "min": 19.137222222220995,
+        "max": 19.137222222220995,
+        "sd": null,
+        "p95": null,
+        "spanPercent": null
+      },
+      "phases": [
+        {
+          "phase": "vision",
+          "msPerTick": {
+            "n": 1,
+            "mean": 5.558055555552063,
+            "median": 5.558055555552063,
+            "min": 5.558055555552063,
+            "max": 5.558055555552063,
+            "sd": null,
+            "p95": null,
+            "spanPercent": null
+          },
+          "sharePercent": {
+            "n": 1,
+            "mean": 29.04316776495589,
+            "median": 29.04316776495589,
+            "min": 29.04316776495589,
+            "max": 29.04316776495589,
+            "sd": null,
+            "p95": null,
+            "spanPercent": null
+          }
+        },
+        {
+          "phase": "physics",
+          "msPerTick": {
+            "n": 1,
+            "mean": 5.413055555558984,
+            "median": 5.413055555558984,
+            "min": 5.413055555558984,
+            "max": 5.413055555558984,
+            "sd": null,
+            "p95": null,
+            "spanPercent": null
+          },
+          "sharePercent": {
+            "n": 1,
+            "mean": 28.285482044900267,
+            "median": 28.285482044900267,
+            "min": 28.285482044900267,
+            "max": 28.285482044900267,
+            "sd": null,
+            "p95": null,
+            "spanPercent": null
+          }
+        },
+        {
+          "phase": "inference",
+          "msPerTick": {
+            "n": 1,
+            "mean": 4.5116666666649206,
+            "median": 4.5116666666649206,
+            "min": 4.5116666666649206,
+            "max": 4.5116666666649206,
+            "sd": null,
+            "p95": null,
+            "spanPercent": null
+          },
+          "sharePercent": {
+            "n": 1,
+            "mean": 23.575347635490402,
+            "median": 23.575347635490402,
+            "min": 23.575347635490402,
+            "max": 23.575347635490402,
+            "sd": null,
+            "p95": null,
+            "spanPercent": null
+          }
+        },
+        {
+          "phase": "sensory-learning",
+          "msPerTick": {
+            "n": 1,
+            "mean": 0.702499999997801,
+            "median": 0.702499999997801,
+            "min": 0.702499999997801,
+            "max": 0.702499999997801,
+            "sd": null,
+            "p95": null,
+            "spanPercent": null
+          },
+          "sharePercent": {
+            "n": 1,
+            "mean": 3.6708566783642205,
+            "median": 3.6708566783642205,
+            "min": 3.6708566783642205,
+            "max": 3.6708566783642205,
+            "sd": null,
+            "p95": null,
+            "spanPercent": null
+          }
+        },
+        {
+          "phase": "sight-build",
+          "msPerTick": {
+            "n": 1,
+            "mean": 0.6797222222220929,
+            "median": 0.6797222222220929,
+            "min": 0.6797222222220929,
+            "max": 0.6797222222220929,
+            "sd": null,
+            "p95": null,
+            "spanPercent": null
+          },
+          "sharePercent": {
+            "n": 1,
+            "mean": 3.5518332510809234,
+            "median": 3.5518332510809234,
+            "min": 3.5518332510809234,
+            "max": 3.5518332510809234,
+            "sd": null,
+            "p95": null,
+            "spanPercent": null
+          }
+        },
+        {
+          "phase": "motor-learning",
+          "msPerTick": {
+            "n": 1,
+            "mean": 0.6388888888998837,
+            "median": 0.6388888888998837,
+            "min": 0.6388888888998837,
+            "max": 0.6388888888998837,
+            "sd": null,
+            "p95": null,
+            "spanPercent": null
+          },
+          "sharePercent": {
+            "n": 1,
+            "mean": 3.3384619851361927,
+            "median": 3.3384619851361927,
+            "min": 3.3384619851361927,
+            "max": 3.3384619851361927,
+            "sd": null,
+            "p95": null,
+            "spanPercent": null
+          }
+        },
+        {
+          "phase": "feeding",
+          "msPerTick": {
+            "n": 1,
+            "mean": 0.4380555555641574,
+            "median": 0.4380555555641574,
+            "min": 0.4380555555641574,
+            "max": 0.4380555555641574,
+            "sd": null,
+            "p95": null,
+            "spanPercent": null
+          },
+          "sharePercent": {
+            "n": 1,
+            "mean": 2.2890237176402413,
+            "median": 2.2890237176402413,
+            "min": 2.2890237176402413,
+            "max": 2.2890237176402413,
+            "sd": null,
+            "p95": null,
+            "spanPercent": null
+          }
+        },
+        {
+          "phase": "reproduction-death",
+          "msPerTick": {
+            "n": 1,
+            "mean": 0.3586111111071659,
+            "median": 0.3586111111071659,
+            "min": 0.3586111111071659,
+            "max": 0.3586111111071659,
+            "sd": null,
+            "p95": null,
+            "spanPercent": null
+          },
+          "sharePercent": {
+            "n": 1,
+            "mean": 1.873893227256191,
+            "median": 1.873893227256191,
+            "min": 1.873893227256191,
+            "max": 1.873893227256191,
+            "sd": null,
+            "p95": null,
+            "spanPercent": null
+          }
+        },
+        {
+          "phase": "neural-inputs",
+          "msPerTick": {
+            "n": 1,
+            "mean": 0.22527777777318583,
+            "median": 0.22527777777318583,
+            "min": 0.22527777777318583,
+            "max": 0.22527777777318583,
+            "sd": null,
+            "p95": null,
+            "spanPercent": null
+          },
+          "sharePercent": {
+            "n": 1,
+            "mean": 1.1771707260189872,
+            "median": 1.1771707260189872,
+            "min": 1.1771707260189872,
+            "max": 1.1771707260189872,
+            "sd": null,
+            "p95": null,
+            "spanPercent": null
+          }
+        },
+        {
+          "phase": "metabolism",
+          "msPerTick": {
+            "n": 1,
+            "mean": 0.19111111111027032,
+            "median": 0.19111111111027032,
+            "min": 0.19111111111027032,
+            "max": 0.19111111111027032,
+            "sd": null,
+            "p95": null,
+            "spanPercent": null
+          },
+          "sharePercent": {
+            "n": 1,
+            "mean": 0.9986355850974212,
+            "median": 0.9986355850974212,
+            "min": 0.9986355850974212,
+            "max": 0.9986355850974212,
+            "sd": null,
+            "p95": null,
+            "spanPercent": null
+          }
+        },
+        {
+          "phase": "feeding-index",
+          "msPerTick": {
+            "n": 1,
+            "mean": 0.1394444444417281,
+            "median": 0.1394444444417281,
+            "min": 0.1394444444417281,
+            "max": 0.1394444444417281,
+            "sd": null,
+            "p95": null,
+            "spanPercent": null
+          },
+          "sharePercent": {
+            "n": 1,
+            "mean": 0.7286556158595137,
+            "median": 0.7286556158595137,
+            "min": 0.7286556158595137,
+            "max": 0.7286556158595137,
+            "sd": null,
+            "p95": null,
+            "spanPercent": null
+          }
+        },
+        {
+          "phase": "organism-overhead",
+          "msPerTick": {
+            "n": 1,
+            "mean": 0.1216666666671194,
+            "median": 0.1216666666671194,
+            "min": 0.1216666666671194,
+            "max": 0.1216666666671194,
+            "sd": null,
+            "p95": null,
+            "spanPercent": null
+          },
+          "sharePercent": {
+            "n": 1,
+            "mean": 0.6357592823782302,
+            "median": 0.6357592823782302,
+            "min": 0.6357592823782302,
+            "max": 0.6357592823782302,
+            "sd": null,
+            "p95": null,
+            "spanPercent": null
+          }
+        },
+        {
+          "phase": "environment",
+          "msPerTick": {
+            "n": 1,
+            "mean": 0.10111111110988229,
+            "median": 0.10111111110988229,
+            "min": 0.10111111110988229,
+            "max": 0.10111111110988229,
+            "sd": null,
+            "p95": null,
+            "spanPercent": null
+          },
+          "sharePercent": {
+            "n": 1,
+            "mean": 0.5283478967625621,
+            "median": 0.5283478967625621,
+            "min": 0.5283478967625621,
+            "max": 0.5283478967625621,
+            "sd": null,
+            "p95": null,
+            "spanPercent": null
+          }
+        },
+        {
+          "phase": "observer",
+          "msPerTick": {
+            "n": 1,
+            "mean": 0.054722222219182486,
+            "median": 0.054722222219182486,
+            "min": 0.054722222219182486,
+            "max": 0.054722222219182486,
+            "sd": null,
+            "p95": null,
+            "spanPercent": null
+          },
+          "sharePercent": {
+            "n": 1,
+            "mean": 0.2859465265321648,
+            "median": 0.2859465265321648,
+            "min": 0.2859465265321648,
+            "max": 0.2859465265321648,
+            "sd": null,
+            "p95": null,
+            "spanPercent": null
+          }
+        },
+        {
+          "phase": "unattributed",
+          "msPerTick": {
+            "n": 1,
+            "mean": 0.0030555555548441287,
+            "median": 0.0030555555548441287,
+            "min": 0.0030555555548441287,
+            "max": 0.0030555555548441287,
+            "sd": null,
+            "p95": null,
+            "spanPercent": null
+          },
+          "sharePercent": {
+            "n": 1,
+            "mean": 0.0159665573162243,
+            "median": 0.0159665573162243,
+            "min": 0.0159665573162243,
+            "max": 0.0159665573162243,
+            "sd": null,
+            "p95": null,
+            "spanPercent": null
+          }
+        },
+        {
+          "phase": "finalize",
+          "msPerTick": {
+            "n": 1,
+            "mean": 0.0002777777777131026,
+            "median": 0.0002777777777131026,
+            "min": 0.0002777777777131026,
+            "max": 0.0002777777777131026,
+            "sd": null,
+            "p95": null,
+            "spanPercent": null
+          },
+          "sharePercent": {
+            "n": 1,
+            "mean": 0.0014515052105658454,
+            "median": 0.0014515052105658454,
+            "min": 0.0014515052105658454,
+            "max": 0.0014515052105658454,
+            "sd": null,
+            "p95": null,
+            "spanPercent": null
+          }
+        }
+      ],
+      "counters": {
+        "indexEntries": {
+          "n": 1,
+          "mean": 2030.8695652173913,
+          "median": 2030.8695652173913,
+          "min": 2030.8695652173913,
+          "max": 2030.8695652173913,
+          "sd": null,
+          "p95": null,
+          "spanPercent": null
+        },
+        "rays": {
+          "n": 1,
+          "mean": 1650,
+          "median": 1650,
+          "min": 1650,
+          "max": 1650,
+          "sd": null,
+          "p95": null,
+          "spanPercent": null
+        },
+        "visionCandidates": {
+          "n": 1,
+          "mean": 22604.782608695652,
+          "median": 22604.782608695652,
+          "min": 22604.782608695652,
+          "max": 22604.782608695652,
+          "sd": null,
+          "p95": null,
+          "spanPercent": null
+        },
+        "circleTestsFood": {
+          "n": 1,
+          "mean": 7400.478260869565,
+          "median": 7400.478260869565,
+          "min": 7400.478260869565,
+          "max": 7400.478260869565,
+          "sd": null,
+          "p95": null,
+          "spanPercent": null
+        },
+        "bodyEdgeTests": {
+          "n": 1,
+          "mean": 16416.695652173912,
+          "median": 16416.695652173912,
+          "min": 16416.695652173912,
+          "max": 16416.695652173912,
+          "sd": null,
+          "p95": null,
+          "spanPercent": null
+        },
+        "brainEvaluations": {
+          "n": 1,
+          "mean": 150,
+          "median": 150,
+          "min": 150,
+          "max": 150,
+          "sd": null,
+          "p95": null,
+          "spanPercent": null
+        },
+        "bodyAdvances": {
+          "n": 1,
+          "mean": 600,
+          "median": 600,
+          "min": 600,
+          "max": 600,
+          "sd": null,
+          "p95": null,
+          "spanPercent": null
+        },
+        "partAdvances": {
+          "n": 1,
+          "mean": 2760,
+          "median": 2760,
+          "min": 2760,
+          "max": 2760,
+          "sd": null,
+          "p95": null,
+          "spanPercent": null
+        },
+        "jointAdvances": {
+          "n": 1,
+          "mean": 2160,
+          "median": 2160,
+          "min": 2160,
+          "max": 2160,
+          "sd": null,
+          "p95": null,
+          "spanPercent": null
+        },
+        "contactPasses": {
+          "n": 1,
+          "mean": 13.434782608695652,
+          "median": 13.434782608695652,
+          "min": 13.434782608695652,
+          "max": 13.434782608695652,
+          "sd": null,
+          "p95": null,
+          "spanPercent": null
+        },
+        "selfContactCandidates": {
+          "n": 1,
+          "mean": 1311.1739130434783,
+          "median": 1311.1739130434783,
+          "min": 1311.1739130434783,
+          "max": 1311.1739130434783,
+          "sd": null,
+          "p95": null,
+          "spanPercent": null
+        },
+        "mouths": {
+          "n": 1,
+          "mean": 150,
+          "median": 150,
+          "min": 150,
+          "max": 150,
+          "sd": null,
+          "p95": null,
+          "spanPercent": null
+        },
+        "activityEntries": {
+          "n": 1,
+          "mean": 20.956521739130434,
+          "median": 20.956521739130434,
+          "min": 20.956521739130434,
+          "max": 20.956521739130434,
+          "sd": null,
+          "p95": null,
+          "spanPercent": null
+        },
+        "selfResolvedContacts": {
+          "n": 1,
+          "mean": 477.2608695652174,
+          "median": 477.2608695652174,
+          "min": 477.2608695652174,
+          "max": 477.2608695652174,
+          "sd": null,
+          "p95": null,
+          "spanPercent": null
+        },
+        "externalContactCandidates": {
+          "n": 1,
+          "mean": 4.869565217391305,
+          "median": 4.869565217391305,
+          "min": 4.869565217391305,
+          "max": 4.869565217391305,
+          "sd": null,
+          "p95": null,
+          "spanPercent": null
+        }
+      }
+    }
+  ],
+  "overhead": [
+    {
+      "id": "O01",
+      "level": "off",
+      "traced": false,
+      "msPerTick": 19.204999999999966,
+      "tps": 52.069773496485375,
+      "referenceWindows": [
+        "L01",
+        "L02"
+      ],
+      "referenceMsPerTick": 18.585000000000015,
+      "elapsedPercent": 3.33602367500645
+    },
+    {
+      "id": "C01",
+      "level": "counter",
+      "traced": false,
+      "msPerTick": 20.45888888888908,
+      "tps": 48.87850974854676,
+      "referenceWindows": [
+        "L01",
+        "L02"
+      ],
+      "referenceMsPerTick": 18.585000000000015,
+      "elapsedPercent": 10.082802738170926
+    },
+    {
+      "id": "T01",
+      "level": "off",
+      "traced": true,
+      "msPerTick": 29.72055555555562,
+      "tps": 33.64674654653525,
+      "referenceWindows": [
+        "L01",
+        "L02"
+      ],
+      "referenceMsPerTick": 18.585000000000015,
+      "elapsedPercent": 59.916898334977645
+    },
+    {
+      "id": "D01",
+      "level": "phase",
+      "traced": false,
+      "msPerTick": 20.744166666666732,
+      "tps": 48.20632306270824,
+      "referenceWindows": [
+        "L01",
+        "L02"
+      ],
+      "referenceMsPerTick": 18.585000000000015,
+      "elapsedPercent": 11.617792126266968
+    }
+  ],
+  "pacing": [
+    {
+      "id": "S01",
+      "count": 150,
+      "requestedSpeed": 1,
+      "requestedTPS": 60,
+      "actualTPS": 53.15614617940199,
+      "effectiveSpeed": 0.8859357696566998,
+      "achievedFraction": 0.8859357696566998,
+      "wallMs": 6772.5,
+      "targetWallMs": 6000,
+      "ticks": 360
+    },
+    {
+      "id": "S02",
+      "count": 150,
+      "requestedSpeed": 2,
+      "requestedTPS": 120,
+      "actualTPS": 55.13185702471706,
+      "effectiveSpeed": 0.9188642837452843,
+      "achievedFraction": 0.45943214187264214,
+      "wallMs": 6529.800000000047,
+      "targetWallMs": 3000,
+      "ticks": 360
+    }
+  ],
+  "diagnostics": [
+    {
+      "id": "T01",
+      "metadata": {
+        "dataLossOccurred": false,
+        "traceFormat": "json",
+        "streamCompression": "none"
+      },
+      "dataLoss": false,
+      "events": 46756,
+      "bounds": [
+        603133694.9999999,
+        613833094.9999999
+      ],
+      "marks": {
+        "worker": {
+          "args": {
+            "data": {
+              "callTime": 603002299,
+              "sampleTraceId": 2591064509246035,
+              "startTime": 31211.600000000093
+            }
+          },
+          "cat": "blink.user_timing",
+          "name": "S39_WORKER_T01",
+          "ph": "I",
+          "pid": 1335,
+          "s": "t",
+          "tid": 1398,
+          "ts": 603002295,
+          "tts": 5182797
+        },
+        "main": {
+          "args": {
+            "data": {
+              "callTime": 603035989,
+              "navigationId": "587AF98109B43DDACBB92605073FD8E6",
+              "sampleTraceId": 2591064509246019,
+              "startTime": 31983.70000000007
+            }
+          },
+          "cat": "blink.user_timing",
+          "name": "S39_MAIN_T01",
+          "ph": "I",
+          "pid": 1335,
+          "s": "t",
+          "tid": 1335,
+          "ts": 603035962,
+          "tts": 442419487
+        }
+      },
+      "roles": [
+        {
+          "role": "worker",
+          "pid": 1335,
+          "tid": 1398,
+          "identityVerified": true,
+          "cpuSeconds": 10.52,
+          "cpuMsPerTick": 29.22222222222222,
+          "gcUnionWallMs": 3798.007,
+          "gcWallPercent": 35.49738303082408,
+          "gcUnionThreadMs": 3721.544,
+          "minorPauses": 95,
+          "majorPauses": 3,
+          "outerGCUnionMs": 3758.427,
+          "gcEventNames": [
+            "V8.GC_HEAP_EXTERNAL_PROLOGUE",
+            "MinorGC",
+            "V8.GC_HEAP_PROLOGUE",
+            "V8.GCScavenger",
+            "V8.GC_HEAP_ENSURE_SWEEPING_COMPLETED",
+            "V8.GC_MC_COMPLETE_SWEEPING",
+            "V8.GC_MC_SWEEP",
+            "V8.GC_TIME_TO_SAFEPOINT",
+            "V8.GC_SCAVENGER",
+            "V8.GC_HEAP_PROLOGUE_SAFEPOINT",
+            "V8.GC_SCAVENGER_SCAVENGE",
+            "V8.GC_SCAVENGER_SCAVENGE_WEAK_GLOBAL_HANDLES_IDENTIFY",
+            "V8.GC_SCAVENGER_TRACED_HANDLES_COMPUTE_WEAKNESS_PARALLEL",
+            "V8.GC_SCAVENGER_SCAVENGE_ROOTS",
+            "V8.GC_SCAVENGER_SCAVENGE_PARALLEL_PHASE",
+            "Parallel scavenge started",
+            "V8.GC_SCAVENGER_SCAVENGE_PARALLEL",
+            "V8.GC_SCAVENGER_SCAVENGE_WEAK_GLOBAL_HANDLES_PROCESS",
+            "V8.GC_SCAVENGER_TRACED_HANDLES_RESET_PARALLEL",
+            "V8.GC_SCAVENGER_SCAVENGE_FINALIZE",
+            "V8.GC_SCAVENGER_SCAVENGE_RESTORE_AND_QUARANTINE_PINNED",
+            "V8.GC_SCAVENGER_FREE_REMEMBERED_SET",
+            "V8.GC_SCAVENGER_SWEEP_ARRAY_BUFFERS",
+            "V8.GC_SCAVENGER_RESIZE_NEW_SPACE",
+            "V8.GC_HEAP_EPILOGUE_SAFEPOINT",
+            "V8.GC_HEAP_EPILOGUE",
+            "V8.GC_HEAP_DUMP_STATISTICS",
+            "V8.GC_HEAP_EXTERNAL_EPILOGUE",
+            "V8.GCDeoptMarkedAllocationSites",
+            "V8.GCIncrementalMarkingStart",
+            "V8.GC_MC_INCREMENTAL_START",
+            "V8.GC_MC_INCREMENTAL_EXTERNAL_PROLOGUE",
+            "V8.GC_MC_MARK_EMBEDDER_PROLOGUE",
+            "V8.GC_MC_MARK_ROOTS",
+            "V8.GC_MC_INCREMENTAL_EXTERNAL_EPILOGUE",
+            "V8.GCIncrementalMarking",
+            "V8.GC_MC_INCREMENTAL",
+            "V8.GC_MC_INCREMENTAL_EMBEDDER_TRACING",
+            "V8.GCHandleGCRequest",
+            "MajorGC",
+            "V8.GCFinalizeMC",
+            "V8.GC_MARK_COMPACTOR",
+            "V8.GC_MC_PROLOGUE",
+            "V8.GC_MC_MARK",
+            "V8.GC_MC_MARK_FINISH_INCREMENTAL",
+            "V8.GC_MC_MARK_CLIENT_HEAPS",
+            "V8.GC_MC_MARK_RETAIN_MAPS",
+            "V8.GC_MC_MARK_FULL_CLOSURE_PARALLEL",
+            "V8.GC_MC_MARK_EMBEDDER_TRACING",
+            "V8.GC_MC_MARK_WEAK_CLOSURE_EPHEMERON_MARKING",
+            "V8.GC_MC_MARK_FULL_CLOSURE_PARALLEL_JOIN",
+            "V8.GC_CONSERVATIVE_STACK_SCANNING",
+            "V8.GC_MC_MARK_FULL_CLOSURE_SERIAL",
+            "V8.GC_MC_MARK_WEAK_CLOSURE_EPHEMERON_LINEAR",
+            "V8.GC_OBJECT_DUMP_STATISTICS",
+            "V8.GC_MC_CLEAR",
+            "V8.GC_MC_CLEAR_STRING_FORWARDING_TABLE",
+            "V8.GC_MC_CLEAR_EXTERNAL_STRING_TABLE",
+            "V8.GC_MC_CLEAR_WEAK_GLOBAL_HANDLES",
+            "V8.GC_MC_CLEAR_FLUSHABLE_BYTECODE",
+            "V8.GC_MC_SWEEP_JS_DISPATCH_TABLE",
+            "V8.GC_MC_CLEAR_FLUSHED_JS_FUNCTIONS",
+            "V8.GC_MC_CLEAR_WEAK_LISTS",
+            "V8.GC_MC_CLEAR_MAPS",
+            "V8.GC_MC_SWEEP_EXTERNAL_POINTER_TABLE",
+            "V8.GC_MC_SWEEP_TRUSTED_POINTER_TABLE",
+            "V8.GC_MC_SWEEP_CODE_POINTER_TABLE",
+            "V8.GC_MC_SWEEP_WASM_CODE_POINTER_TABLE",
+            "V8.GC_MC_CLEAR_WEAK_REFERENCES_JOIN_FILTER_JOB",
+            "V8.GC_MC_CLEAR_WEAK_REFERENCES_FILTER_NON_TRIVIAL",
+            "V8.GC_MC_WEAKNESS_HANDLING",
+            "V8.GC_MC_CLEAR_WEAK_REFERENCES_NON_TRIVIAL",
+            "V8.GC_MC_CLEAR_WEAK_COLLECTIONS",
+            "V8.GC_MC_CLEAR_JS_WEAK_REFERENCES",
+            "V8.GC_MC_CLEAR_JOIN_JOB",
+            "V8.GC_MC_EVACUATE",
+            "V8.GC_MC_EVACUATE_PROLOGUE",
+            "V8.GC_MC_EVACUATE_COPY",
+            "V8.GC_MC_EVACUATE_COPY_PARALLEL",
+            "V8.GC_MC_EVACUATE_UPDATE_POINTERS",
+            "V8.GC_MC_EVACUATE_UPDATE_POINTERS_TO_NEW_ROOTS",
+            "V8.GC_MC_EVACUATE_UPDATE_POINTERS_CLIENT_HEAPS",
+            "V8.GC_MC_EVACUATE_UPDATE_POINTERS_SLOTS_MAIN",
+            "V8.GC_MC_EVACUATE_UPDATE_POINTERS_PARALLEL",
+            "V8.GC_MC_EVACUATE_UPDATE_POINTERS_WEAK",
+            "V8.GC_MC_EVACUATE_UPDATE_POINTERS_POINTER_TABLES",
+            "V8.GC_MC_EVACUATE_CLEAN_UP",
+            "V8.GC_MC_EVACUATE_EPILOGUE",
+            "V8.GC_MC_SWEEP_NEW_LO",
+            "V8.GC_MC_EVACUATE_REBALANCE",
+            "V8.GC_MC_FINISH",
+            "V8.GC_MC_FINISH_SWEEP_ARRAY_BUFFERS",
+            "V8.GC_MC_SWEEP_START_JOBS",
+            "V8.GC_MC_EPILOGUE",
+            "V8.GC_HEAP_EMBEDDER_TRACING_EPILOGUE"
+          ],
+          "reportedPauseMs": 3742.943,
+          "allocationSamples": 98,
+          "allocationSpanSeconds": 10.502755,
+          "reportedAllocatedBytes": 2957338728,
+          "allocationBytesPerSecond": 281577426.87513894,
+          "allocationBytesPerTick": 8368637.558632967
+        },
+        {
+          "role": "main",
+          "pid": 1335,
+          "tid": 1335,
+          "identityVerified": true,
+          "cpuSeconds": 10.69,
+          "cpuMsPerTick": 29.694444444444443,
+          "gcUnionWallMs": 2728.935,
+          "gcWallPercent": 25.505495635269213,
+          "gcUnionThreadMs": 2688.211,
+          "minorPauses": 14,
+          "majorPauses": 3,
+          "outerGCUnionMs": 2692.415,
+          "gcEventNames": [
+            "V8.GC_HEAP_EXTERNAL_PROLOGUE",
+            "MinorGC",
+            "V8.GC_HEAP_PROLOGUE",
+            "V8.GCScavenger",
+            "V8.GC_TIME_TO_SAFEPOINT",
+            "V8.GC_SCAVENGER",
+            "V8.GC_HEAP_PROLOGUE_SAFEPOINT",
+            "V8.GC_SCAVENGER_SCAVENGE",
+            "V8.GC_SCAVENGER_SCAVENGE_WEAK_GLOBAL_HANDLES_IDENTIFY",
+            "V8.GC_SCAVENGER_TRACED_HANDLES_COMPUTE_WEAKNESS_PARALLEL",
+            "V8.GC_SCAVENGER_SCAVENGE_ROOTS",
+            "V8.GC_SCAVENGER_SCAVENGE_PARALLEL_PHASE",
+            "Parallel scavenge started",
+            "V8.GC_SCAVENGER_SCAVENGE_PARALLEL",
+            "V8.GC_SCAVENGER_SCAVENGE_WEAK_GLOBAL_HANDLES_PROCESS",
+            "V8.GC_SCAVENGER_TRACED_HANDLES_RESET_PARALLEL",
+            "V8.GC_SCAVENGER_SCAVENGE_FINALIZE",
+            "V8.GC_SCAVENGER_SCAVENGE_RESTORE_AND_QUARANTINE_PINNED",
+            "V8.GC_SCAVENGER_FREE_REMEMBERED_SET",
+            "V8.GC_SCAVENGER_RESIZE_NEW_SPACE",
+            "V8.GC_HEAP_EPILOGUE_SAFEPOINT",
+            "V8.GC_HEAP_EPILOGUE",
+            "V8.GC_HEAP_DUMP_STATISTICS",
+            "V8.GC_HEAP_EXTERNAL_EPILOGUE",
+            "V8.GCIncrementalMarkingStart",
+            "V8.GC_HEAP_ENSURE_SWEEPING_COMPLETED",
+            "V8.GC_MC_INCREMENTAL_START",
+            "V8.GC_MC_INCREMENTAL_EXTERNAL_PROLOGUE",
+            "V8.GC_MC_MARK_EMBEDDER_PROLOGUE",
+            "V8.GC_MC_MARK_ROOTS",
+            "V8.GC_MC_INCREMENTAL_EXTERNAL_EPILOGUE",
+            "V8.GCIncrementalMarking",
+            "V8.GC_MC_INCREMENTAL",
+            "V8.GC_MC_INCREMENTAL_EMBEDDER_TRACING",
+            "V8.GCHandleGCRequest",
+            "MajorGC",
+            "V8.GCFinalizeMC",
+            "V8.GC_MARK_COMPACTOR",
+            "V8.GC_MC_PROLOGUE",
+            "V8.GC_MC_MARK",
+            "V8.GC_MC_MARK_FINISH_INCREMENTAL",
+            "V8.GC_MC_MARK_CLIENT_HEAPS",
+            "V8.GC_MC_MARK_RETAIN_MAPS",
+            "V8.GC_MC_MARK_FULL_CLOSURE_PARALLEL",
+            "V8.GC_MC_MARK_EMBEDDER_TRACING",
+            "V8.GC_MC_MARK_WEAK_CLOSURE_EPHEMERON_MARKING",
+            "V8.GC_MC_MARK_FULL_CLOSURE_PARALLEL_JOIN",
+            "V8.GC_CONSERVATIVE_STACK_SCANNING",
+            "V8.GC_MC_MARK_FULL_CLOSURE_SERIAL",
+            "V8.GC_OBJECT_DUMP_STATISTICS",
+            "V8.GC_MC_CLEAR",
+            "V8.GC_MC_CLEAR_STRING_FORWARDING_TABLE",
+            "V8.GC_MC_CLEAR_EXTERNAL_STRING_TABLE",
+            "V8.GC_MC_CLEAR_WEAK_GLOBAL_HANDLES",
+            "V8.GC_MC_CLEAR_FLUSHABLE_BYTECODE",
+            "V8.GC_MC_SWEEP_JS_DISPATCH_TABLE",
+            "V8.GC_MC_CLEAR_FLUSHED_JS_FUNCTIONS",
+            "V8.GC_MC_CLEAR_WEAK_LISTS",
+            "V8.GC_MC_CLEAR_MAPS",
+            "V8.GC_MC_SWEEP_EXTERNAL_POINTER_TABLE",
+            "V8.GC_MC_SWEEP_TRUSTED_POINTER_TABLE",
+            "V8.GC_MC_SWEEP_CODE_POINTER_TABLE",
+            "V8.GC_MC_SWEEP_WASM_CODE_POINTER_TABLE",
+            "V8.GC_MC_CLEAR_WEAK_REFERENCES_JOIN_FILTER_JOB",
+            "V8.GC_MC_WEAKNESS_HANDLING",
+            "V8.GC_MC_CLEAR_WEAK_REFERENCES_NON_TRIVIAL",
+            "V8.GC_MC_CLEAR_WEAK_COLLECTIONS",
+            "V8.GC_MC_CLEAR_JS_WEAK_REFERENCES",
+            "V8.GC_MC_CLEAR_JOIN_JOB",
+            "V8.GC_MC_SWEEP",
+            "V8.GC_MC_EVACUATE",
+            "V8.GC_MC_EVACUATE_PROLOGUE",
+            "V8.GC_MC_EVACUATE_COPY",
+            "V8.GC_MC_EVACUATE_COPY_PARALLEL",
+            "V8.GC_MC_EVACUATE_UPDATE_POINTERS",
+            "V8.GC_MC_EVACUATE_UPDATE_POINTERS_TO_NEW_ROOTS",
+            "V8.GC_MC_EVACUATE_UPDATE_POINTERS_CLIENT_HEAPS",
+            "V8.GC_MC_EVACUATE_UPDATE_POINTERS_SLOTS_MAIN",
+            "V8.GC_MC_EVACUATE_UPDATE_POINTERS_PARALLEL",
+            "V8.GC_MC_EVACUATE_UPDATE_POINTERS_WEAK",
+            "V8.GC_MC_EVACUATE_UPDATE_POINTERS_POINTER_TABLES",
+            "V8.GC_MC_EVACUATE_CLEAN_UP",
+            "V8.GC_MC_EVACUATE_EPILOGUE",
+            "V8.GC_MC_SWEEP_NEW_LO",
+            "V8.GC_MC_EVACUATE_REBALANCE",
+            "V8.GC_MC_FINISH",
+            "V8.GC_MC_FINISH_SWEEP_ARRAY_BUFFERS",
+            "V8.GC_MC_SWEEP_START_JOBS",
+            "V8.GC_MC_EPILOGUE",
+            "V8.GC_HEAP_EXTERNAL_WEAK_GLOBAL_HANDLES",
+            "V8.GC_HEAP_EMBEDDER_TRACING_EPILOGUE",
+            "V8.GCPhantomHandleProcessingCallback",
+            "V8.GC_HEAP_EXTERNAL_SECOND_PASS_CALLBACKS",
+            "V8.GC_MC_COMPLETE_SWEEP_ARRAY_BUFFERS",
+            "V8.GC_MC_COMPLETE_SWEEPING",
+            "V8.GCDeoptMarkedAllocationSites",
+            "V8.GC_MC_CLEAR_WEAK_REFERENCES_FILTER_NON_TRIVIAL"
+          ],
+          "reportedPauseMs": 2690.3300000000004,
+          "allocationSamples": 17,
+          "allocationSpanSeconds": 10.126451,
+          "reportedAllocatedBytes": 417178484,
+          "allocationBytesPerSecond": 41196909.36143374,
+          "allocationBytesPerTick": 1224395.0333936808
+        }
+      ],
+      "note": "Marked Worker lifetime only; GC intervals unioned and clipped to useful tick span. Allocation is an inter-GC proxy; no retained-heap/leak/source-stack conclusion."
+    }
+  ],
+  "geometry": {
+    "150": {
+      "interorganismIntersectingPartPairs": 0,
+      "nonhingedSelfIntersectingPartPairs": 18,
+      "minBodyAABBGap": 47.69334024330146,
+      "boxes": [
+        {
+          "left": 105.5,
+          "right": 217.5,
+          "top": 89.5,
+          "bottom": 110.5
+        },
+        {
+          "left": 558.3109434607919,
+          "right": 619.1828315380159,
+          "top": 64.83723488003405,
+          "bottom": 135.16276511996594
+        },
+        {
+          "left": 966.8489451075138,
+          "right": 1038.3203348035931,
+          "top": 66.84894510751384,
+          "bottom": 135.84937989018772
+        },
+        {
+          "left": 1371.874750531831,
+          "right": 1418.787357616593,
+          "top": 67.1388602579788,
+          "bottom": 114.0514673427402
+        },
+        {
+          "left": 1758.4850806290501,
+          "right": 1857.3508061362393,
+          "top": 36.624805422878524,
+          "bottom": 114.89438388040222
+        },
+        {
+          "left": 185.08378104933038,
+          "right": 229.40774153533008,
+          "top": 208.1949274549483,
+          "bottom": 319.71601364372515
+        },
+        {
+          "left": 567.8883425743315,
+          "right": 632.1116574256685,
+          "top": 262.3123842686788,
+          "bottom": 326.73528779268014
+        },
+        {
+          "left": 957.5797499505503,
+          "right": 1036.4584131790436,
+          "top": 263.5415868209563,
+          "bottom": 336.4584131790437
+        },
+        {
+          "left": 1389.954664120613,
+          "right": 1430.7000394531012,
+          "top": 277.7310515208663,
+          "bottom": 318.4764268533548
+        },
+        {
+          "left": 1784.2811531640643,
+          "right": 1863.196200554109,
+          "top": 266.1144925453791,
+          "bottom": 365.0023879161264
+        },
+        {
+          "left": 179.5949699655287,
+          "right": 281.9998794898132,
+          "top": 481.8228172011421,
+          "bottom": 553.037865426839
+        },
+        {
+          "left": 567.7828931389926,
+          "right": 632.2171068610074,
+          "top": 473.4264851005003,
+          "bottom": 537.8217743362381
+        },
+        {
+          "left": 961.0362274511054,
+          "right": 1038.9637725488944,
+          "top": 454.29431093709223,
+          "bottom": 538.9637725488946
+        },
+        {
+          "left": 1379.854532568562,
+          "right": 1418.0988895710796,
+          "top": 491.32783966931737,
+          "bottom": 529.5721966718351
+        },
+        {
+          "left": 1731.1110361178312,
+          "right": 1824.9010794842739,
+          "top": 482.7700044011482,
+          "bottom": 559.3920891952165
+        },
+        {
+          "left": 127.43977182820733,
+          "right": 220.03033121831294,
+          "top": 680.4863148675181,
+          "bottom": 765.8438290559891
+        },
+        {
+          "left": 558.2528860861792,
+          "right": 618.9772644318989,
+          "top": 664.7962759184966,
+          "bottom": 735.2037240815034
+        },
+        {
+          "left": 961.453191486753,
+          "right": 1045.5466459737422,
+          "top": 661.453191486753,
+          "bottom": 738.546808513247
+        },
+        {
+          "left": 1367.5251313605156,
+          "right": 1412.9481988611337,
+          "top": 673.4248808886811,
+          "bottom": 718.8479483892988
+        },
+        {
+          "left": 1748.1617975183162,
+          "right": 1825.0076427781512,
+          "top": 632.5598824389473,
+          "bottom": 717.2157571422599
+        },
+        {
+          "left": 155.41179920887944,
+          "right": 217.11101323857392,
+          "top": 813.5371692992908,
+          "bottom": 920.3321386162346
+        },
+        {
+          "left": 564.5361728371399,
+          "right": 635.4638271628601,
+          "top": 857.5608435339558,
+          "bottom": 915.1250199002466
+        },
+        {
+          "left": 961.0891267500078,
+          "right": 1038.9108732499922,
+          "top": 861.0891267500078,
+          "bottom": 945.6264970872421
+        },
+        {
+          "left": 1381.862758743897,
+          "right": 1430.946538604214,
+          "top": 867.1376247858019,
+          "bottom": 916.2214046461189
+        },
+        {
+          "left": 1782.5852105338731,
+          "right": 1860.7680615121897,
+          "top": 848.9351812068851,
+          "bottom": 940.0041292174753
+        },
+        {
+          "left": 2105.5,
+          "right": 2217.5,
+          "top": 89.5,
+          "bottom": 110.5
+        },
+        {
+          "left": 2558.3109434607923,
+          "right": 2619.1828315380158,
+          "top": 64.83723488003405,
+          "bottom": 135.16276511996594
+        },
+        {
+          "left": 2966.848945107514,
+          "right": 3038.320334803593,
+          "top": 66.84894510751384,
+          "bottom": 135.84937989018772
+        },
+        {
+          "left": 3371.8747505318315,
+          "right": 3418.787357616593,
+          "top": 67.1388602579788,
+          "bottom": 114.0514673427402
+        },
+        {
+          "left": 3758.4850806290497,
+          "right": 3857.3508061362395,
+          "top": 36.624805422878524,
+          "bottom": 114.89438388040222
+        },
+        {
+          "left": 2185.0837810493304,
+          "right": 2229.4077415353295,
+          "top": 208.1949274549483,
+          "bottom": 319.71601364372515
+        },
+        {
+          "left": 2567.888342574331,
+          "right": 2632.111657425669,
+          "top": 262.3123842686788,
+          "bottom": 326.73528779268014
+        },
+        {
+          "left": 2957.5797499505506,
+          "right": 3036.4584131790434,
+          "top": 263.5415868209563,
+          "bottom": 336.4584131790437
+        },
+        {
+          "left": 3389.9546641206125,
+          "right": 3430.7000394531015,
+          "top": 277.7310515208663,
+          "bottom": 318.4764268533548
+        },
+        {
+          "left": 3784.281153164064,
+          "right": 3863.1962005541095,
+          "top": 266.1144925453791,
+          "bottom": 365.0023879161264
+        },
+        {
+          "left": 2179.594969965529,
+          "right": 2281.999879489814,
+          "top": 481.8228172011421,
+          "bottom": 553.037865426839
+        },
+        {
+          "left": 2567.7828931389927,
+          "right": 2632.2171068610073,
+          "top": 473.4264851005003,
+          "bottom": 537.8217743362381
+        },
+        {
+          "left": 2961.0362274511053,
+          "right": 3038.9637725488947,
+          "top": 454.29431093709223,
+          "bottom": 538.9637725488946
+        },
+        {
+          "left": 3379.854532568562,
+          "right": 3418.09888957108,
+          "top": 491.32783966931737,
+          "bottom": 529.5721966718351
+        },
+        {
+          "left": 3731.1110361178316,
+          "right": 3824.9010794842743,
+          "top": 482.7700044011482,
+          "bottom": 559.3920891952165
+        },
+        {
+          "left": 2127.439771828207,
+          "right": 2220.0303312183128,
+          "top": 680.4863148675181,
+          "bottom": 765.8438290559891
+        },
+        {
+          "left": 2558.252886086179,
+          "right": 2618.977264431899,
+          "top": 664.7962759184966,
+          "bottom": 735.2037240815034
+        },
+        {
+          "left": 2961.453191486753,
+          "right": 3045.5466459737427,
+          "top": 661.453191486753,
+          "bottom": 738.546808513247
+        },
+        {
+          "left": 3367.525131360516,
+          "right": 3412.9481988611333,
+          "top": 673.4248808886811,
+          "bottom": 718.8479483892988
+        },
+        {
+          "left": 3748.1617975183162,
+          "right": 3825.0076427781523,
+          "top": 632.5598824389473,
+          "bottom": 717.2157571422599
+        },
+        {
+          "left": 2155.4117992088786,
+          "right": 2217.111013238574,
+          "top": 813.5371692992908,
+          "bottom": 920.3321386162346
+        },
+        {
+          "left": 2564.53617283714,
+          "right": 2635.46382716286,
+          "top": 857.5608435339558,
+          "bottom": 915.1250199002466
+        },
+        {
+          "left": 2961.0891267500083,
+          "right": 3038.9108732499917,
+          "top": 861.0891267500078,
+          "bottom": 945.6264970872421
+        },
+        {
+          "left": 3381.8627587438973,
+          "right": 3430.946538604214,
+          "top": 867.1376247858019,
+          "bottom": 916.2214046461189
+        },
+        {
+          "left": 3782.585210533873,
+          "right": 3860.7680615121894,
+          "top": 848.9351812068851,
+          "bottom": 940.0041292174753
+        },
+        {
+          "left": 105.5,
+          "right": 217.5,
+          "top": 1089.5,
+          "bottom": 1110.5
+        },
+        {
+          "left": 558.3109434607919,
+          "right": 619.1828315380159,
+          "top": 1064.837234880034,
+          "bottom": 1135.162765119966
+        },
+        {
+          "left": 966.8489451075138,
+          "right": 1038.3203348035931,
+          "top": 1066.8489451075138,
+          "bottom": 1135.849379890188
+        },
+        {
+          "left": 1371.874750531831,
+          "right": 1418.787357616593,
+          "top": 1067.1388602579786,
+          "bottom": 1114.0514673427401
+        },
+        {
+          "left": 1758.4850806290501,
+          "right": 1857.3508061362393,
+          "top": 1036.6248054228786,
+          "bottom": 1114.8943838804023
+        },
+        {
+          "left": 185.08378104933038,
+          "right": 229.40774153533008,
+          "top": 1208.1949274549488,
+          "bottom": 1319.716013643725
+        },
+        {
+          "left": 567.8883425743315,
+          "right": 632.1116574256685,
+          "top": 1262.3123842686787,
+          "bottom": 1326.73528779268
+        },
+        {
+          "left": 957.5797499505503,
+          "right": 1036.4584131790436,
+          "top": 1263.5415868209564,
+          "bottom": 1336.4584131790436
+        },
+        {
+          "left": 1389.954664120613,
+          "right": 1430.7000394531012,
+          "top": 1277.7310515208665,
+          "bottom": 1318.4764268533547
+        },
+        {
+          "left": 1784.2811531640643,
+          "right": 1863.196200554109,
+          "top": 1266.114492545379,
+          "bottom": 1365.0023879161267
+        },
+        {
+          "left": 179.5949699655287,
+          "right": 281.9998794898132,
+          "top": 1481.822817201142,
+          "bottom": 1553.0378654268395
+        },
+        {
+          "left": 567.7828931389926,
+          "right": 632.2171068610074,
+          "top": 1473.4264851005005,
+          "bottom": 1537.8217743362381
+        },
+        {
+          "left": 961.0362274511054,
+          "right": 1038.9637725488944,
+          "top": 1454.2943109370924,
+          "bottom": 1538.9637725488944
+        },
+        {
+          "left": 1379.854532568562,
+          "right": 1418.0988895710796,
+          "top": 1491.3278396693172,
+          "bottom": 1529.5721966718354
+        },
+        {
+          "left": 1731.1110361178312,
+          "right": 1824.9010794842739,
+          "top": 1482.770004401148,
+          "bottom": 1559.3920891952166
+        },
+        {
+          "left": 127.43977182820733,
+          "right": 220.03033121831294,
+          "top": 1680.486314867518,
+          "bottom": 1765.8438290559893
+        },
+        {
+          "left": 558.2528860861792,
+          "right": 618.9772644318989,
+          "top": 1664.7962759184966,
+          "bottom": 1735.2037240815034
+        },
+        {
+          "left": 961.453191486753,
+          "right": 1045.5466459737422,
+          "top": 1661.453191486753,
+          "bottom": 1738.546808513247
+        },
+        {
+          "left": 1367.5251313605156,
+          "right": 1412.9481988611337,
+          "top": 1673.424880888681,
+          "bottom": 1718.847948389299
+        },
+        {
+          "left": 1748.1617975183162,
+          "right": 1825.0076427781512,
+          "top": 1632.5598824389472,
+          "bottom": 1717.21575714226
+        },
+        {
+          "left": 155.41179920887944,
+          "right": 217.11101323857392,
+          "top": 1813.5371692992908,
+          "bottom": 1920.3321386162345
+        },
+        {
+          "left": 564.5361728371399,
+          "right": 635.4638271628601,
+          "top": 1857.5608435339554,
+          "bottom": 1915.1250199002466
+        },
+        {
+          "left": 961.0891267500078,
+          "right": 1038.9108732499922,
+          "top": 1861.0891267500078,
+          "bottom": 1945.6264970872423
+        },
+        {
+          "left": 1381.862758743897,
+          "right": 1430.946538604214,
+          "top": 1867.1376247858018,
+          "bottom": 1916.221404646119
+        },
+        {
+          "left": 1782.5852105338731,
+          "right": 1860.7680615121897,
+          "top": 1848.935181206885,
+          "bottom": 1940.004129217475
+        },
+        {
+          "left": 2105.5,
+          "right": 2217.5,
+          "top": 1089.5,
+          "bottom": 1110.5
+        },
+        {
+          "left": 2558.3109434607923,
+          "right": 2619.1828315380158,
+          "top": 1064.837234880034,
+          "bottom": 1135.162765119966
+        },
+        {
+          "left": 2966.848945107514,
+          "right": 3038.320334803593,
+          "top": 1066.8489451075138,
+          "bottom": 1135.849379890188
+        },
+        {
+          "left": 3371.8747505318315,
+          "right": 3418.787357616593,
+          "top": 1067.1388602579786,
+          "bottom": 1114.0514673427401
+        },
+        {
+          "left": 3758.4850806290497,
+          "right": 3857.3508061362395,
+          "top": 1036.6248054228786,
+          "bottom": 1114.8943838804023
+        },
+        {
+          "left": 2185.0837810493304,
+          "right": 2229.4077415353295,
+          "top": 1208.1949274549488,
+          "bottom": 1319.716013643725
+        },
+        {
+          "left": 2567.888342574331,
+          "right": 2632.111657425669,
+          "top": 1262.3123842686787,
+          "bottom": 1326.73528779268
+        },
+        {
+          "left": 2957.5797499505506,
+          "right": 3036.4584131790434,
+          "top": 1263.5415868209564,
+          "bottom": 1336.4584131790436
+        },
+        {
+          "left": 3389.9546641206125,
+          "right": 3430.7000394531015,
+          "top": 1277.7310515208665,
+          "bottom": 1318.4764268533547
+        },
+        {
+          "left": 3784.281153164064,
+          "right": 3863.1962005541095,
+          "top": 1266.114492545379,
+          "bottom": 1365.0023879161267
+        },
+        {
+          "left": 2179.594969965529,
+          "right": 2281.999879489814,
+          "top": 1481.822817201142,
+          "bottom": 1553.0378654268395
+        },
+        {
+          "left": 2567.7828931389927,
+          "right": 2632.2171068610073,
+          "top": 1473.4264851005005,
+          "bottom": 1537.8217743362381
+        },
+        {
+          "left": 2961.0362274511053,
+          "right": 3038.9637725488947,
+          "top": 1454.2943109370924,
+          "bottom": 1538.9637725488944
+        },
+        {
+          "left": 3379.854532568562,
+          "right": 3418.09888957108,
+          "top": 1491.3278396693172,
+          "bottom": 1529.5721966718354
+        },
+        {
+          "left": 3731.1110361178316,
+          "right": 3824.9010794842743,
+          "top": 1482.770004401148,
+          "bottom": 1559.3920891952166
+        },
+        {
+          "left": 2127.439771828207,
+          "right": 2220.0303312183128,
+          "top": 1680.486314867518,
+          "bottom": 1765.8438290559893
+        },
+        {
+          "left": 2558.252886086179,
+          "right": 2618.977264431899,
+          "top": 1664.7962759184966,
+          "bottom": 1735.2037240815034
+        },
+        {
+          "left": 2961.453191486753,
+          "right": 3045.5466459737427,
+          "top": 1661.453191486753,
+          "bottom": 1738.546808513247
+        },
+        {
+          "left": 3367.525131360516,
+          "right": 3412.9481988611333,
+          "top": 1673.424880888681,
+          "bottom": 1718.847948389299
+        },
+        {
+          "left": 3748.1617975183162,
+          "right": 3825.0076427781523,
+          "top": 1632.5598824389472,
+          "bottom": 1717.21575714226
+        },
+        {
+          "left": 2155.4117992088786,
+          "right": 2217.111013238574,
+          "top": 1813.5371692992908,
+          "bottom": 1920.3321386162345
+        },
+        {
+          "left": 2564.53617283714,
+          "right": 2635.46382716286,
+          "top": 1857.5608435339554,
+          "bottom": 1915.1250199002466
+        },
+        {
+          "left": 2961.0891267500083,
+          "right": 3038.9108732499917,
+          "top": 1861.0891267500078,
+          "bottom": 1945.6264970872423
+        },
+        {
+          "left": 3381.8627587438973,
+          "right": 3430.946538604214,
+          "top": 1867.1376247858018,
+          "bottom": 1916.221404646119
+        },
+        {
+          "left": 3782.585210533873,
+          "right": 3860.7680615121894,
+          "top": 1848.935181206885,
+          "bottom": 1940.004129217475
+        },
+        {
+          "left": 105.5,
+          "right": 217.5,
+          "top": 2089.5,
+          "bottom": 2110.5
+        },
+        {
+          "left": 558.3109434607919,
+          "right": 619.1828315380159,
+          "top": 2064.837234880034,
+          "bottom": 2135.162765119966
+        },
+        {
+          "left": 966.8489451075138,
+          "right": 1038.3203348035931,
+          "top": 2066.848945107514,
+          "bottom": 2135.8493798901877
+        },
+        {
+          "left": 1371.874750531831,
+          "right": 1418.787357616593,
+          "top": 2067.1388602579786,
+          "bottom": 2114.05146734274
+        },
+        {
+          "left": 1758.4850806290501,
+          "right": 1857.3508061362393,
+          "top": 2036.624805422878,
+          "bottom": 2114.894383880402
+        },
+        {
+          "left": 185.08378104933038,
+          "right": 229.40774153533008,
+          "top": 2208.194927454948,
+          "bottom": 2319.716013643725
+        },
+        {
+          "left": 567.8883425743315,
+          "right": 632.1116574256685,
+          "top": 2262.3123842686787,
+          "bottom": 2326.73528779268
+        },
+        {
+          "left": 957.5797499505503,
+          "right": 1036.4584131790436,
+          "top": 2263.5415868209566,
+          "bottom": 2336.4584131790434
+        },
+        {
+          "left": 1389.954664120613,
+          "right": 1430.7000394531012,
+          "top": 2277.7310515208665,
+          "bottom": 2318.4764268533545
+        },
+        {
+          "left": 1784.2811531640643,
+          "right": 1863.196200554109,
+          "top": 2266.114492545379,
+          "bottom": 2365.0023879161267
+        },
+        {
+          "left": 179.5949699655287,
+          "right": 281.9998794898132,
+          "top": 2481.8228172011422,
+          "bottom": 2553.0378654268393
+        },
+        {
+          "left": 567.7828931389926,
+          "right": 632.2171068610074,
+          "top": 2473.4264851005,
+          "bottom": 2537.8217743362384
+        },
+        {
+          "left": 961.0362274511054,
+          "right": 1038.9637725488944,
+          "top": 2454.294310937092,
+          "bottom": 2538.9637725488947
+        },
+        {
+          "left": 1379.854532568562,
+          "right": 1418.0988895710796,
+          "top": 2491.327839669317,
+          "bottom": 2529.5721966718347
+        },
+        {
+          "left": 1731.1110361178312,
+          "right": 1824.9010794842739,
+          "top": 2482.770004401148,
+          "bottom": 2559.3920891952166
+        },
+        {
+          "left": 127.43977182820733,
+          "right": 220.03033121831294,
+          "top": 2680.486314867518,
+          "bottom": 2765.8438290559893
+        },
+        {
+          "left": 558.2528860861792,
+          "right": 618.9772644318989,
+          "top": 2664.7962759184966,
+          "bottom": 2735.2037240815034
+        },
+        {
+          "left": 961.453191486753,
+          "right": 1045.5466459737422,
+          "top": 2661.453191486753,
+          "bottom": 2738.546808513247
+        },
+        {
+          "left": 1367.5251313605156,
+          "right": 1412.9481988611337,
+          "top": 2673.424880888681,
+          "bottom": 2718.8479483892993
+        },
+        {
+          "left": 1748.1617975183162,
+          "right": 1825.0076427781512,
+          "top": 2632.5598824389476,
+          "bottom": 2717.21575714226
+        },
+        {
+          "left": 155.41179920887944,
+          "right": 217.11101323857392,
+          "top": 2813.537169299291,
+          "bottom": 2920.3321386162347
+        },
+        {
+          "left": 564.5361728371399,
+          "right": 635.4638271628601,
+          "top": 2857.5608435339554,
+          "bottom": 2915.1250199002466
+        },
+        {
+          "left": 961.0891267500078,
+          "right": 1038.9108732499922,
+          "top": 2861.0891267500083,
+          "bottom": 2945.626497087242
+        },
+        {
+          "left": 1381.862758743897,
+          "right": 1430.946538604214,
+          "top": 2867.137624785802,
+          "bottom": 2916.221404646119
+        },
+        {
+          "left": 1782.5852105338731,
+          "right": 1860.7680615121897,
+          "top": 2848.9351812068853,
+          "bottom": 2940.0041292174747
+        },
+        {
+          "left": 2105.5,
+          "right": 2217.5,
+          "top": 2089.5,
+          "bottom": 2110.5
+        },
+        {
+          "left": 2558.3109434607923,
+          "right": 2619.1828315380158,
+          "top": 2064.837234880034,
+          "bottom": 2135.162765119966
+        },
+        {
+          "left": 2966.848945107514,
+          "right": 3038.320334803593,
+          "top": 2066.848945107514,
+          "bottom": 2135.8493798901877
+        },
+        {
+          "left": 3371.8747505318315,
+          "right": 3418.787357616593,
+          "top": 2067.1388602579786,
+          "bottom": 2114.05146734274
+        },
+        {
+          "left": 3758.4850806290497,
+          "right": 3857.3508061362395,
+          "top": 2036.624805422878,
+          "bottom": 2114.894383880402
+        },
+        {
+          "left": 2185.0837810493304,
+          "right": 2229.4077415353295,
+          "top": 2208.194927454948,
+          "bottom": 2319.716013643725
+        },
+        {
+          "left": 2567.888342574331,
+          "right": 2632.111657425669,
+          "top": 2262.3123842686787,
+          "bottom": 2326.73528779268
+        },
+        {
+          "left": 2957.5797499505506,
+          "right": 3036.4584131790434,
+          "top": 2263.5415868209566,
+          "bottom": 2336.4584131790434
+        },
+        {
+          "left": 3389.9546641206125,
+          "right": 3430.7000394531015,
+          "top": 2277.7310515208665,
+          "bottom": 2318.4764268533545
+        },
+        {
+          "left": 3784.281153164064,
+          "right": 3863.1962005541095,
+          "top": 2266.114492545379,
+          "bottom": 2365.0023879161267
+        },
+        {
+          "left": 2179.594969965529,
+          "right": 2281.999879489814,
+          "top": 2481.8228172011422,
+          "bottom": 2553.0378654268393
+        },
+        {
+          "left": 2567.7828931389927,
+          "right": 2632.2171068610073,
+          "top": 2473.4264851005,
+          "bottom": 2537.8217743362384
+        },
+        {
+          "left": 2961.0362274511053,
+          "right": 3038.9637725488947,
+          "top": 2454.294310937092,
+          "bottom": 2538.9637725488947
+        },
+        {
+          "left": 3379.854532568562,
+          "right": 3418.09888957108,
+          "top": 2491.327839669317,
+          "bottom": 2529.5721966718347
+        },
+        {
+          "left": 3731.1110361178316,
+          "right": 3824.9010794842743,
+          "top": 2482.770004401148,
+          "bottom": 2559.3920891952166
+        },
+        {
+          "left": 2127.439771828207,
+          "right": 2220.0303312183128,
+          "top": 2680.486314867518,
+          "bottom": 2765.8438290559893
+        },
+        {
+          "left": 2558.252886086179,
+          "right": 2618.977264431899,
+          "top": 2664.7962759184966,
+          "bottom": 2735.2037240815034
+        },
+        {
+          "left": 2961.453191486753,
+          "right": 3045.5466459737427,
+          "top": 2661.453191486753,
+          "bottom": 2738.546808513247
+        },
+        {
+          "left": 3367.525131360516,
+          "right": 3412.9481988611333,
+          "top": 2673.424880888681,
+          "bottom": 2718.8479483892993
+        },
+        {
+          "left": 3748.1617975183162,
+          "right": 3825.0076427781523,
+          "top": 2632.5598824389476,
+          "bottom": 2717.21575714226
+        },
+        {
+          "left": 2155.4117992088786,
+          "right": 2217.111013238574,
+          "top": 2813.537169299291,
+          "bottom": 2920.3321386162347
+        },
+        {
+          "left": 2564.53617283714,
+          "right": 2635.46382716286,
+          "top": 2857.5608435339554,
+          "bottom": 2915.1250199002466
+        },
+        {
+          "left": 2961.0891267500083,
+          "right": 3038.9108732499917,
+          "top": 2861.0891267500083,
+          "bottom": 2945.626497087242
+        },
+        {
+          "left": 3381.8627587438973,
+          "right": 3430.946538604214,
+          "top": 2867.137624785802,
+          "bottom": 2916.221404646119
+        },
+        {
+          "left": 3782.585210533873,
+          "right": 3860.7680615121894,
+          "top": 2848.9351812068853,
+          "bottom": 2940.0041292174747
+        }
+      ],
+      "insideWalls": true,
+      "occupiedBounds": {
+        "left": 105.5,
+        "right": 3863.1962005541095,
+        "top": 36.624805422878524,
+        "bottom": 2945.626497087242
+      }
+    }
+  },
+  "limitations": [
+    "Two interleaved lean controls on one150spread fixture; hooks-off/counter/phase/trace/pacing n1 each. No inferential confidence or causal overhead correction.",
+    "No new dense or100body condition: prior optical-crowding evidence is context only.",
+    "The fixed150body/600food scenario and six-second horizon do not cover mature evolution, egg bursts or other hardware.",
+    "CPU brackets have residual boundary skew. Frame postMessage timers are synchronous call durations, not full receiver latency.",
+    "Phase/sample probes and trace perturb performance. GC is not retained heap, leak proof or allocation-stack ownership.",
+    "Finite-speed probes cover360ticks once each, not sustained desktop capability. No evolved-population/egg-burst/cadence-ablation or Stage4 optimization."
+  ]
+}
