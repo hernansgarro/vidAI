@@ -1,0 +1,91 @@
+{
+  "method": "Align browser timeOrigin/performance timestamps with recorded runner-start Date and carried preflight duration. Millisecond wall-origin alignment uncertainty is immaterial to the last4second margin. Full runner budget remains failed.",
+  "rows": [
+    {
+      "id": "P01",
+      "chargedBeginMs": 230329.19995117188,
+      "chargedEndMs": 234538.19995117188,
+      "measurementEndBefore720s": true,
+      "wallMs": 4209,
+      "exportMs": 4382.432992000002
+    },
+    {
+      "id": "P02",
+      "chargedBeginMs": 273588.0998535156,
+      "chargedEndMs": 278779.0998535156,
+      "measurementEndBefore720s": true,
+      "wallMs": 5191,
+      "exportMs": 5066.737977000012
+    },
+    {
+      "id": "D01",
+      "chargedBeginMs": 318122.39990234375,
+      "chargedEndMs": 322760.1999511719,
+      "measurementEndBefore720s": true,
+      "wallMs": 4637.799999999988,
+      "exportMs": 4087.599912000005
+    },
+    {
+      "id": "D02",
+      "chargedBeginMs": 362136.5998535156,
+      "chargedEndMs": 368315.2998046875,
+      "measurementEndBefore720s": true,
+      "wallMs": 6178.699999999953,
+      "exportMs": 4045.4120330000005
+    },
+    {
+      "id": "P03",
+      "chargedBeginMs": 416288.89990234375,
+      "chargedEndMs": 422652.8000488281,
+      "measurementEndBefore720s": true,
+      "wallMs": 6363.900000000023,
+      "exportMs": 6661.312488999974
+    },
+    {
+      "id": "D03",
+      "chargedBeginMs": 479140.6999511719,
+      "chargedEndMs": 485946.3000488281,
+      "measurementEndBefore720s": true,
+      "wallMs": 6805.599999999977,
+      "exportMs": 6392.6519260000205
+    },
+    {
+      "id": "P04",
+      "chargedBeginMs": 535149,
+      "chargedEndMs": 540188.7001953125,
+      "measurementEndBefore720s": true,
+      "wallMs": 5039.699999999953,
+      "exportMs": 5058.841038000013
+    },
+    {
+      "id": "P05",
+      "chargedBeginMs": 579683,
+      "chargedEndMs": 583957,
+      "measurementEndBefore720s": true,
+      "wallMs": 4274,
+      "exportMs": 4410.42349299998
+    },
+    {
+      "id": "D04",
+      "chargedBeginMs": 637506.6999511719,
+      "chargedEndMs": 644582.8999023438,
+      "measurementEndBefore720s": true,
+      "wallMs": 7076.20000000007,
+      "exportMs": 7138.3009450000245
+    },
+    {
+      "id": "P06",
+      "chargedBeginMs": 708967.5,
+      "chargedEndMs": 715942.6999511719,
+      "measurementEndBefore720s": true,
+      "wallMs": 6975.199999999953,
+      "exportMs": 6710.242657999974
+    }
+  ],
+  "allUsefulWindowsEndedBefore720s": true,
+  "lastUsefulWindowEndMs": 715942.6999511719,
+  "sumUsefulWindowMs": 56751.09999999992,
+  "chargedRunnerMs": 739927,
+  "runnerLimitMs": 720000,
+  "overrunMs": 19927
+}

@@ -1,0 +1,335 @@
+{
+  "evidenceCommit": "f76bb95a764eaf872cbdb63ecef1f889198ccdb2",
+  "baseSHA": "dd7925b9d02a67459bb68985cf2d5647b737247e",
+  "preflightEvidenceCommit": "0445603d2d0c348ec602be52284385af8b416452",
+  "allInheritedBaseFilesUnchanged": true,
+  "inheritedFiles": 276,
+  "preflightOriginalFiles": 23,
+  "preflightEvidenceUnchanged": true,
+  "files": [
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/D01-original.json.gz",
+      "gitBlob": "a526d7368fb610dac586e38ce0e67f71d4713321",
+      "bytes": 442749,
+      "sha256": "8dc40f9856fde822166d0f4bafea758da356b8bcadcd62daadeb1328ae5a98d6"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/D01-validated.json.gz",
+      "gitBlob": "bf7f5299a11b432922253a7ec809d0252dfbbd66",
+      "bytes": 12266,
+      "sha256": "0aac1258a261097187e4842aff2caeeaeaf8d5e87b018350acc2214c9621f080"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/D01-warmup.json.gz",
+      "gitBlob": "549d75f5d40c4dc742684b8ecff3eeccab02ad0c",
+      "bytes": 223,
+      "sha256": "27bf4c6549b889e86d0b62595384e3690a4e11e8692e75bf2f3b47c611aa87d4"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/D02-original.json.gz",
+      "gitBlob": "62a0252a7c72900c7a35d97e6838cc99212c2d8a",
+      "bytes": 482337,
+      "sha256": "d2c96d82a2af190b2d7ced7d20dd7a1d67bf972cf871fd99862a753bbde8841c"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/D02-validated.json.gz",
+      "gitBlob": "ee31d45442ee493fe6a504310744a183a9bd6a64",
+      "bytes": 12611,
+      "sha256": "957c943ede5f907c67620f9bcc386552623428013822740faf009164d7bb6a90"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/D02-warmup.json.gz",
+      "gitBlob": "b30667a007ef4c14a33f31ddadf2f68e944ad98c",
+      "bytes": 227,
+      "sha256": "dedb22ffc26827ac452cf00ff7d6e1e72a1b440f5a94de5ee7b5047a508aa867"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/D03-original.json.gz",
+      "gitBlob": "e79cb9690de30742df7453fa09327982e78cf8e8",
+      "bytes": 663469,
+      "sha256": "8fd530e4d15202d3acfca137cbfd004a864ddf45aa0d75a6d4b5753aeb24a42f"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/D03-validated.json.gz",
+      "gitBlob": "c7271c7bfa261f4ca6a9d2d849988a8e72a47479",
+      "bytes": 12853,
+      "sha256": "442c5e402f02b435497349bc8a7636538b978cd383186ccfa1c608d9cb2135c9"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/D03-warmup.json.gz",
+      "gitBlob": "6c8646d0c188039a09d4c941e72aa9c5beccb55e",
+      "bytes": 229,
+      "sha256": "f1fc8220300a9013f73c837417dcf9dbc4aaf57df9b9ae7736338db25fdc6b92"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/D04-original.json.gz",
+      "gitBlob": "2e695745933f20d893b91c937d8800af18fb585e",
+      "bytes": 663606,
+      "sha256": "c01d55f2231bf444a8c4b6d48451e730bd191cd646a3d9932e66f5eac3baca2a"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/D04-validated.json.gz",
+      "gitBlob": "e703a0b0632a525be106b28e7bac00a5d3e4a435",
+      "bytes": 13098,
+      "sha256": "bd12124a8ca0f8b39ad106fdf18ed03da2a401f776d8cf516397e32f013b97ff"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/D04-warmup.json.gz",
+      "gitBlob": "2ebd4aa1a4798e2bf184920bb7191c0fecad9968",
+      "bytes": 229,
+      "sha256": "250a05682adb14c7a7615fd3d687db06d7a6726acff1962cafcc33e08630921f"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/P01-original.json.gz",
+      "gitBlob": "8f0958c3b79c0a98ca0e9661036f0ff220bc2151",
+      "bytes": 430944,
+      "sha256": "e6f4b6506a5467a5f3ad525ad071956127abb9508c2a5834fd5e4d183a913df9"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/P01-validated.json.gz",
+      "gitBlob": "79870d9f19dd7df4d21698ac9be442c84384aca3",
+      "bytes": 871,
+      "sha256": "279c1bf16c8732ccbf3a0a001db27a2e9384ac12d998c46f5da3c1a8f5145f59"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/P01-warmup.json.gz",
+      "gitBlob": "88d78bbb7a0d3768dd4460a9c044586c204c4cc6",
+      "bytes": 222,
+      "sha256": "88400697318868b9fb75bf1ea85799ca7e16675ee049170c1e3a65857d2710f8"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/P02-original.json.gz",
+      "gitBlob": "e67ba11c1bd04a9201026e7a41c11031c8acb61f",
+      "bytes": 469122,
+      "sha256": "cd654b352dbbade98b5f88826d8ace867d9846257e2ee92c3273fedf1b8594a7"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/P02-validated.json.gz",
+      "gitBlob": "89c1545517bf2e92142e35da4dcfa638d98949ab",
+      "bytes": 878,
+      "sha256": "f49987aa8f0a4dfda5b6d752f6e62fe94e267c3943a4d3174a1623f221e71575"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/P02-warmup.json.gz",
+      "gitBlob": "248ecb75f223e8e0b24ff27629d0003900b08b9c",
+      "bytes": 227,
+      "sha256": "57303dbd82bc46a2c270772a05f1b8ea18a18f433677b5909ad7f1b157390f86"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/P03-original.json.gz",
+      "gitBlob": "4834c26ece7e0d367b9d280db009529439350672",
+      "bytes": 650298,
+      "sha256": "a534b985b7684263a502f2af18eb11217df0a75eff2aa83a65c4c64049446756"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/P03-validated.json.gz",
+      "gitBlob": "b36b5ea2dd1b74c0cfdca300a4fb3e66b17c879d",
+      "bytes": 887,
+      "sha256": "5dca33378f55a746de7eb1fc41e3927b67e63aeb83ac4b77314ecfd5b80eb26f"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/P03-warmup.json.gz",
+      "gitBlob": "f153269417a606b0ec7980a164c92c5d67583299",
+      "bytes": 221,
+      "sha256": "46e3d26f2c076ab2149b5e81a377c0f7f9cb4a633af04c77f31a613bd564704c"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/P04-original.json.gz",
+      "gitBlob": "78a4458fbca6b2699a9d951fb70a9d8afce35bb1",
+      "bytes": 468839,
+      "sha256": "583e51045759b13643c2d1e511546b71f322ba3c78de3e8d345b1f1714399584"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/P04-validated.json.gz",
+      "gitBlob": "d0f76e47b9c69e8f30a77566c93a6f49a1a94590",
+      "bytes": 884,
+      "sha256": "bb0d01c3e2fd33391b524130cd944800400298e3190e65339e0d49874113b0e7"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/P04-warmup.json.gz",
+      "gitBlob": "c22bc02760afcb413cfd522042c36038d2a9cdbe",
+      "bytes": 227,
+      "sha256": "bbab8e644855120c047cdf9f3096193b258832420762e5f681780e6419418fca"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/P05-original.json.gz",
+      "gitBlob": "db5c1f43be443674a89e6fe865882a1537d10b11",
+      "bytes": 430839,
+      "sha256": "8da31e8d9063fc7c77de97ac90ed155b904d4b66d7bdba01ed45547e30edf8ac"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/P05-validated.json.gz",
+      "gitBlob": "c78cab8a47de8b7057eda3584d2395a47e0f6788",
+      "bytes": 875,
+      "sha256": "4e62043886b37c9b22aeac8529bf422964b086247c7005c71493b7bb605dd8d7"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/P05-warmup.json.gz",
+      "gitBlob": "8d5d952db6ad8983bd5050fe501c216fab7ffdc5",
+      "bytes": 223,
+      "sha256": "467bc8b9433638160fdfd98cb209f9b41600f6bf81a4f75394fb87e99de22ae0"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/P06-original.json.gz",
+      "gitBlob": "52b1559340e242aa14309c587969d7025a6a9d5b",
+      "bytes": 650863,
+      "sha256": "34be48825d56e2ab78c66f756b0216bfb6494fd97783ba10ea07a680d5f1f02c"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/P06-validated.json.gz",
+      "gitBlob": "883d7145577679cdf17f851086429fccee4e6ca3",
+      "bytes": 885,
+      "sha256": "0ad847370b16fda1da35863471462df82a413c1166e7ffb0d581e37a40a5b88f"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/P06-warmup.json.gz",
+      "gitBlob": "de17409fd517e68b6a44400a4e22a1826c6ca32d",
+      "bytes": 228,
+      "sha256": "18e495fab09db6a689e17a7c743917c149e6fe4c9ef8c52ab81cc17787ed8dce"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/counter-lean.json.gz",
+      "gitBlob": "de036dfcf281c0b600ddfc5431217d9aebff7467",
+      "bytes": 198,
+      "sha256": "e0933d21922af672865c86c51070f23b951ea4e799a0bd413bbcd09201c10e16"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/counter-research.json.gz",
+      "gitBlob": "de036dfcf281c0b600ddfc5431217d9aebff7467",
+      "bytes": 198,
+      "sha256": "e0933d21922af672865c86c51070f23b951ea4e799a0bd413bbcd09201c10e16"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/dist-assets.json.gz",
+      "gitBlob": "4d0b9779883aee154c7a53b1118b698c27c4d00e",
+      "bytes": 192428,
+      "sha256": "a803f6c13b4c33d901cbc8ff229651d7d118c0c3b210c47c836b829440b19092"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/failure.json.gz",
+      "gitBlob": "414e883003e2a160329e1dfb09e7dd3214df70be",
+      "bytes": 457,
+      "sha256": "321adbf13f75a0acbddbbc9e71cb2c908c3ea48b675a49102abe68165da7e1e5"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/fixture-100.json.gz",
+      "gitBlob": "5b4a95c8e64404930657df9b0892f9a7574608e3",
+      "bytes": 28997,
+      "sha256": "524c7f5e43210817477545c775814147ffcb848affab9f23aa2c5b851dadf562"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/fixture-150.json.gz",
+      "gitBlob": "549540444a1f544c395f3093884dd48dab21cfa5",
+      "bytes": 40178,
+      "sha256": "d07e8c2dfb209f3402cfc547e0716257a23a432120bb09d0e68785eff93eb3c3"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/fixture-dense.json.gz",
+      "gitBlob": "f0999f0b20a5a70ad507a40d81406a066f7f2a52",
+      "bytes": 30262,
+      "sha256": "26fa69a15e35e2413105a5ccfee78e4c5c481ec210ce6976f75c0d6fc6debda2"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/genomes/25fc22747a68d6502ac5af9e317b5ecf3fde8756667c7f6885f1c8f706cf9584.json.gz",
+      "gitBlob": "72d09ee5134c74c27bb6f9203468a195a928ee29",
+      "bytes": 22547,
+      "sha256": "4676a16ba2aa4307488d6a7b918de3a6f92506336297c18a0a6be0bc4de2333c"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/genomes/b7ea20fc053542ea9920cee6a67b1b09a460b21ce178ec97e4138b9e9cea3545.json.gz",
+      "gitBlob": "7a74ec94398b088138826f663e510ee64ccfa0c4",
+      "bytes": 30095,
+      "sha256": "b1e69a3d5e977b71caaaae8706a86b835478c1083e2cf3d37d522d755ea9411a"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/genomes/d01156627a5a71d1057d724543ae07f73f9be9d2b6c6af3e89ea4c6ffdf26e37.json.gz",
+      "gitBlob": "e8cdb3a00999aa9650fde6c3d70983c7788dc5af",
+      "bytes": 21128,
+      "sha256": "6a608e3a2e2d21544fe8c9256dc8ba6f649151fd5a757b15bdaca92f9e5e04d4"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/genomes/d71e403421778925db4687b8dad7f6d6f53322271b6f39499fd6ae0132378a18.json.gz",
+      "gitBlob": "b5fc7c08b459474e13b1ec2ae143c499aa135f98",
+      "bytes": 24080,
+      "sha256": "b1e07491c1d81bf5a468de26465bd8a19575a050eb3788c80e5679f74f850b3e"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/genomes/e0f7f751941d3225360cfade09945a6ed41ca24616b9b4e6535163e8a6bfd8d3.json.gz",
+      "gitBlob": "b849743538cfb4fd81661989aaaf268ee428b20f",
+      "bytes": 24044,
+      "sha256": "dcf280ea198ba7634bfec50fbe1b1b858e68377aab2714f41f1557f32cd93501"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/labels/44f94dc9e6d7c1f49584855b2491effb6c04ccae0cade06dd5f9c10223d10085.json.gz",
+      "gitBlob": "1751a38be7fd169c2df8a56347cc2b1e043eb9cc",
+      "bytes": 1565,
+      "sha256": "a51ca7e8e58ced3665dfdad48aab9e77f5da9808ed203d874de7dafc11c0a6b2"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/ledger.json",
+      "gitBlob": "bcdfa5868df84f0e563a5c75c172c6b970fdc5e3",
+      "bytes": 3457,
+      "sha256": "373fc79073d412101f4e4ca79625f8ffe96f54aa1df8c9d666a61b56491711f2"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/manifest.json.gz",
+      "gitBlob": "8d065c315de695c4db0e3851acf403d870ff41aa",
+      "bytes": 11626,
+      "sha256": "641fbb501e3ee1ab78b4969f95b579fb70677373efde83117e3374af052480e8"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/pilot-100-counter.json.gz",
+      "gitBlob": "014e99d7f811b7e45b7d94b486ce1ef1e9944504",
+      "bytes": 367740,
+      "sha256": "54746844c61a23d51d3df9fc8487bd628f813d6edbb271a963901df31aff218d"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/pilot-100-lean.json.gz",
+      "gitBlob": "1adea05899586289325375f61416c4de653215b3",
+      "bytes": 367524,
+      "sha256": "c1d8df1918543065c63d0363565001c0d96f4bbb9faaa501489c248ad9528aa9"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/pilot-100-off.json.gz",
+      "gitBlob": "5398068c2f4f583d49c6dd120a8a5b055444b62c",
+      "bytes": 367570,
+      "sha256": "d082d04dbe5e7ca49e1cfb4078b94fb74cf254fb20c19e84f08d30f5a2fd4d93"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/pilot-100-phase.json.gz",
+      "gitBlob": "d4a89f3726571a28e7e5965d8068820340d0e89b",
+      "bytes": 369018,
+      "sha256": "379b122a5e47a25ce068b8593196b84103b779e735e75f4f29c297f5e591850d"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/pilot-150-lean.json.gz",
+      "gitBlob": "d5fbc547875593bd52102cd63b32f68155829047",
+      "bytes": 558732,
+      "sha256": "19ad23ba065a9d54eaf7c03b2c9a638841f7c97cabd8aa0a116eada2b5aa78ae"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/readiness.json.gz",
+      "gitBlob": "688fe6fddb09ec87d6f78dce19bcd5c8bd34b8c7",
+      "bytes": 6338,
+      "sha256": "f432f3a5ce86ab3de78ff93335206c36e0a23407f7a461278c49ccb19aa5a92a"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/s39-lean-dist-assets.json.gz",
+      "gitBlob": "b485e3481eb0799d6b656a7fb59019147b2935e7",
+      "bytes": 735548,
+      "sha256": "6743f58352caa4a4d2831a0cc5ac9a33505083474a3203eba541c4f878d8aab2"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/s39-research-dist-assets.json.gz",
+      "gitBlob": "7a4c6e8660706ccedcea68198c78c078b173f2cd",
+      "bytes": 741874,
+      "sha256": "0b1ae52caa879309d8d5d72faa75a87f7700741c31b6310e35318a53d685362e"
+    },
+    {
+      "path": "docs/experiments/performance-stage-3-v11-execution/summary.json",
+      "gitBlob": "430285dd1a7d5ec829f6b0a298fc280d918d23f5",
+      "bytes": 61642,
+      "sha256": "95b236aca1db52d6cdd228e3b7501d9794601e0e8b164afcc1717aeeed7f8419"
+    }
+  ]
+}
