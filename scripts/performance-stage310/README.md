@@ -35,3 +35,21 @@ https://chromedevtools.github.io/devtools-protocol/tot/Tracing/ .
 Temporary launch YAML is removed after the one registered lot. Its reference
 copy stays outside.github. DRAFT fork PR stays unmerged, no upstream PR, product
 optimization, main/testing merge, Pages/Wiki publication, Stage4 or VIDA3D.
+
+## Completed single execution
+
+Run41821659990/job126546033488 succeeded, source6835f03ee42134bd00dd09c8321334bfab201aa0;
+original evidencea21a042c9b259f708f59fcde38f154e0d09489a3. All8windows retained once.
+Temporary launch workflow removed. Reference YAML above is historical, not permission
+to execute. STOP after this lot; prior3.8/3.9 failures remain unchanged.
+
+Analysis-only reproduction from a full Git checkout (no browser or simulation):
+
+```sh
+node scripts/performance-stage310/analyze.mjs
+python scripts/performance-stage310/verify-source.py
+```
+
+The source audit pins immutable originals, not the current branch head. See
+`docs/experiments/performance-stage-3-v12-execution/report.md` for results, budget
+audit, trace overhead and inference limits.
