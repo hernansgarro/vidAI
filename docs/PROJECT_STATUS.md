@@ -1,15 +1,17 @@
 # Contributor performance investigation checkpoint — 2026-11-04
 
-Verified3.8–3.10 conclusions are consolidated in the fork-main
+Verified3.8–3.11 conclusions are consolidated in the fork-main
 [Stage3 evidence ledger](PERFORMANCE_AUDIT_STAGE_3.md).3.8/3.9 remain PARTIAL with
-original storage/missing-result and runner-budget failures;3.10 completed8/8 with
-exact-state and budget verification.150body lean53.46–54.15TPS; requested1x/2x
-53.16/55.13TPS onCI. GC/allocation is material diagnostic evidence but detailed
-tracing adds~60%elapsed cost. No performance optimization has shipped from this
-research; raw/probes remain unmerged. New3.11 observer-cost investigation authorized
-subject to preregistered limits; conclusions must return to main. See the current
-[plan](contributor-workspace/performance/PERFORMANCE_AUDIT_PLAN.md) and
-[handoff](contributor-workspace/performance/WORKER_HOTPATH_RESEARCH_HANDOFF.md).
+original storage/missing-result and runner-budget failures;3.10completed8/8 and
+3.11completed6/6with exact-state/budget verification.3.11light outer-GC2.37–2.53%
+contrasts with detailed42.36%/+65.11%elapsed cost, dominated by observer statistics.
+The older35.50%traced GC result is preserved with a corrected interpretation;
+ordinary GC pauses are not established as the dominant bottleneck in this fixture.
+New higher leanTPS uses a differentCPU and is not a code improvement. Allocation
+creation/transfer cost remains unisolated. No optimization shipped; probes/raw stay
+unmerged. STOP after3.11 and authorized docs integration; Stage3ongoing/Stage4not
+implemented. See the current [plan](contributor-workspace/performance/PERFORMANCE_AUDIT_PLAN.md)
+and [handoff](contributor-workspace/performance/WORKER_HOTPATH_RESEARCH_HANDOFF.md).
 Upstream acceptance, gameplay runtime, historical releases and testing remain separate.
 
 ---

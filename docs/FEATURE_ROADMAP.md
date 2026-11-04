@@ -49,11 +49,13 @@ separation and the spatial/neural/contact/lineage optimizations are deployed.
 These capabilities do not establish sustainable ecology or the original
 roughly 100-creature/1,000-part performance ambition.
 
-Current contributor performance knowledge through3.10 is in the
+Current contributor performance knowledge through3.11 is in the
 [fork-main Stage3 ledger](PERFORMANCE_AUDIT_STAGE_3.md), not a shipped optimization.
 Large-population saturation, initially separated optical crowding and substantial
 trace perturbation refine the next measurement questions. Raw/probes stay isolated;
-new3.11 GC observer-cost research is authorized with preregistered limits. Stage3
+completed3.11 GC observer calibration finds2.37–2.53%light outer-GC versus42.36%detailed
+with major observer-statistics overhead. Do not rank ordinary GC from the detailed
+percentage; allocation creation remains an independent question. STOP after this lot. Stage3
 remains ongoing; Stage4 implementation and upstream promotion are not approved.
 
 ## Foundation status and swimming recovery

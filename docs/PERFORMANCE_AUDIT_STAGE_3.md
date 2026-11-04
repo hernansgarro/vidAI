@@ -1,6 +1,32 @@
 # VIDA 2D — Cumulative Stage 3 performance evidence (fork main)
 
-> **Fork-main research knowledge ledger — consolidated 2026-11-04 through Stage 3.10.** Current conclusions belong here; executable probes/raw traces remain on immutable research branches. Stage3 is ONGOING. No optimization or Stage4 implementation is approved. The historical dated sections below retain their original decisions/failures.
+> **Fork-main research knowledge ledger — consolidated 2026-11-04 through Stage 3.11.** Current conclusions belong here; executable probes/raw traces remain on immutable research branches. Stage3 is ONGOING. No optimization or Stage4 implementation is approved. The historical dated sections below retain their original decisions/failures.
+
+## Stage 3.11 — COMPLETE: calibrated GC interpretation (2026-11-04)
+
+**All6registered windows retained once, all budgets and exact-state checks passed. Lightweight observation finds Worker outer-GC time2.37–2.53%, while detailed tracing reports42.36% and adds65.11%elapsed cost. The large detailed GC fraction must not drive the ordinary-runtime bottleneck ranking.** Stage3 remains ONGOING; no Stage4 implementation or optimization is approved.
+
+[Detailed report](https://github.com/hernansgarro/vidAI/blob/ea96cfb1433df5a995d6e5d4d4ad834f06e6f404/docs/experiments/performance-stage-3-v13-execution/report.md), [immutable originals](https://github.com/hernansgarro/vidAI/tree/a93f9d1e54505b3c62e96ee7be3a66e01175873a/docs/experiments/performance-stage-3-v13-execution), [research draft102](https://github.com/hernansgarro/vidAI/pull/102), [preregistration](https://github.com/smeagol44/vidAI/issues/57#issuecomment-6630109681). Base fork/main3e1cfeec8f71f8c76056848b344596db5148e329 after docsPR101; source61d040bc35b6dc057cc01e524499632907a39082; originalsa93f9d1e54505b3c62e96ee7be3a66e01175873a; verified reportea96cfb1433df5a995d6e5d4d4ad834f06e6f404. Probe/code/raw stay unmerged; only conclusions are integrated here under Hernan's explicit instruction.
+
+| Condition, n2each |Actual TPS range |Median ms/tick |Observed elapsed contrast vs lean |
+| --- | ---: | ---: | ---: |
+|Lean/no trace |66.136–66.678 |15.0589 |Reference;0.819%span |
+|Light outer-GC trace |67.103–68.845 |14.7139 |−2.291%; order/noise, NOT a speedup |
+|Detailed GC trace |39.710–40.742 |24.8636 |+65.109% |
+
+Fixed order L01/G01/T01/T02/G02/L02,360fixedticks each,60lean warmup then exact initial reset. Same150living/690parts/540joints/330eyes/1650rays/3600hidden/600initialfood,4000x3000/seed73; normal real funded ecology/learning. ALL6use the exact prior3.10 compiled lean Worker. CausticsOFF, no selection/tracking/inspector,1280x850/DPR1, original30/s+ACK reporting and off-camera work. Complete endpoints match3.9/3.10 including physical/neural/acquired/PRNG/settings/energy state, full hashc9189ebe919fc196e899b15780803ae85387602f54f56ea551a395b49a31bf7b. Finalfood569, no death/newoffspring/eggs/guards; energyerror<3.86e-7J. One24tick pilot and4+3counter check pass.
+
+Both light costs satisfy the preregistered descriptive lean-envelope±5%criterion. This is **not** significance, a universal observer coefficient or a correction to subtract. Lightweight categories onlyv8/blink.user_timing; detailed adds the3.10 toplevel/v8.gc/v8.gc_stats categories, no JS stack sampling or forcedGC. Worker light GC union127.356/132.152ms (2.374/2.527%),94/98Minor and4Major each; Major durations2.277–6.022ms. Detailed GC union3743.118/3840.238ms (42.362/42.360%);4Major each with271–1225ms spans. Main light1.91–2.05% versus28.67–32.16%detailed; concurrent thread shares cannot be summed. All4traces have verified Linux task identities/noDataLoss,16MiB caps pass.
+
+**Post-hoc observer mechanism, no extra trial:** detailed `V8.GC_OBJECT_DUMP_STATISTICS` spans account for95.57/96.08% of its Worker outer-GC union. The V8 source and matching raw scopes corroborate extra object-statistics collection/dumping; category differences remain bundled, not a separate category-only ablation. Re-reading immutable3.10 trace without simulation finds the same scope took3584.399ms of3798.007ms Worker GC-related time (94.376%); main94.264%. Thus old35.50% remains a valid *detailed-observer measurement*, not evidence that normal GC pauses dominate. Original data/failures are unchanged; interpretation is refined.
+
+Light records3.026/3.070GB positive heap reductions, NOT concurrent heap usage or allocated/retained bytes. Light NVP/allocation rate is unavailable. Detailed NVP Worker proxies342.46/328.39MB/s remain perturbed diagnostics, not untraced allocation rates or leak/source-stack ownership. **Small GC-pause share does not make object creation/transfers free**; that separate cost remains unisolated. Continue judging optics, articulated/contact work and inference from their own evidence; do not rank GC first from the detailed35–42%number or promise savings by subtracting it.
+
+New hostEPYC9V74 differs from3.10EPYC7763. New66.14–66.68TPS does NOT represent a code improvement: runtime bytes and states are identical. Prior1x/2x results remain valid for their host;150bodies is not a universal capacity threshold. n2/fixedorder/sixseconds/oneCIscenario, reset-is-not-heap-reset/import/warmup context, no evolved/egg-rich/desktop workload are explicit limits. New finite pacing or phase attribution was not performed.
+
+ScientificCI41826625738/job126562880347 succeeded;385fast/build/actualWorker/codec checks and6focusedChromium windows pass.39originals/14references/all276inheritedfiles match Git; full exact JSON archive reconstruction and clean fetched-checkout analysis pass. Active78.943/120s; inclusive runner315.371/720s, full invocation319s; last admission271.938<600s; normal output+controls+inputs50,912,640<192MiB, emergency35,919<2MiB, largesttrace13,108,165<16MiB.6/6retained, no retries/failures/lost results. Temporary scientific workflow removed.
+
+**Next action: STOP after this lot and the authorized docs-only integration.** Conclusions from3.8–3.11 now belong in main; executable research and raw evidence remain on their immutable branches. Research drafts stay unmerged, shared#67 In progress. No automatic new lot, Stage4/product optimization, upstream submission, testing merge orVIDA3D.
 
 ## Current synthesis and delivery boundary — 2026-11-04
 
@@ -12,7 +38,7 @@ This update incorporates the previously missing3.8/3.9/3.10 conclusions into mai
 |Initially separated optical crowding |At100bodies, dense cost+20.60%; visual candidates2.13x, body-edge tests4.54x. |One phase pair; render contention and real trajectories differ. Earlier overlapping+62.20% is a separate stress case, not the same density effect. |
 |150body capacity and finite pacing |3.10 MAX53.46–54.15TPS; requested1x53.16,2x55.13TPS. |Six simulated seconds, n2MAX/n1pacing, CI hardware. No claim of sustained desktop performance or that higher requested speed inherently slows simulation. |
 |Essential Worker work |3.10 instrumented vision+sight6.238ms/32.60%,physics5.413/28.29%,inference4.512/23.58%. |Elapsed exclusive kernel phases, including probe/JIT/preemption/GC effects, not removable per-phase CPU. |
-|GC/transient allocation |3.10 marked Worker GC-related union35.50% and inter-GC allocation proxy281.58MB/s under detailed trace. |Trace adds59.92% elapsed cost. Ordinary untraced GC cost/allocation ownership/leaks are unresolved; calibrate observer cost before ranking savings. |
+|GC/transient allocation |3.11 light outer-GC2.37–2.53%; detailed42.36% dominated by object-statistics observer work. Old3.10 traced35.50% is preserved with refined interpretation. |Light satisfies modest-cost tolerance, not unobserved gameplay. Allocation/transfer work remains separate; no leak or recoverable-savings claim. |
 |Probe and evidence overhead |HooksOFF+3.34%,counter+10.08%,phase+11.62%,trace+59.92% elapsed contrasts in3.10. Large exact exports take6–7.5s outside useful intervals. |n1diagnostics/fixedorder; no exact causal subtraction. Evidence volume/processing time is not live simulator memory or tick cost. |
 
 These observations refine stable S2-01/02/03/05/09/10/12 questions; they do not erase historical feeding/ecology/tube/egg gaps or turn hypothetical exact caches/scratch buffers into tested optimizations. Per-eye sampling/energy/genetic proposals remain separate [exploratory designs](VISION_PERFORMANCE_DESIGN_NOTES.md).
@@ -61,7 +87,7 @@ P07 ran but full original hit192MiB archive guard; emergency full-payload retry 
 
 ### Current authorized next action and documentation maintenance
 
-Hernan's2026-11-04 follow-up authorizes a worthwhile NEW bounded lot after goals/metrics/preregistration. Selected3.11 question: does GC remain material under lightweight outer-GC tracing, with quantified overhead versus both no trace and detailed trace? Six150body360tick windows/two per condition are to be registered before execution. No Stage4/product change or old-trial rerun. Findings from that lot must also be integrated into this main ledger and the current plan/priorities/handoff; raw evidence and launch tools stay on research branches. Documentation integration is not upstream acceptance; shared#67 remains In progress.
+Hernan's2026-11-04 follow-up authorized the NEW bounded3.11 lot and publication of current/previous conclusions on main. The6windows completed as registered; its verified findings and calibrated GC interpretation are above and in the updated plan/priorities/handoff. The old3.8/3.9 failures and all historical raw data remain immutable. STOP after3.11 and docs-only integration; no automatic further lot or Stage4/product change. Documentation integration is not upstream acceptance; shared#67 remains In progress.
 
 ---
 
