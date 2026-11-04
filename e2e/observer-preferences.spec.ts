@@ -63,12 +63,12 @@ for (const fallback of [false, true]) test(`independent observer preferences, bo
   for (const selectAddedCreature of [false, true]) for (const trackSelectedCreature of [false, true]) {
     await upload(source); await expect(badge).toHaveCount(0);
     const advanced = await openAdvanced();
-    await expect(advanced.getByRole('checkbox')).toHaveCount(2);
+    await expect(advanced.getByRole('checkbox')).toHaveCount(3);
     await setChecked(advanced.getByLabel('Automatically select added creatures', {exact: true}), selectAddedCreature);
     await setChecked(advanced.getByLabel('Automatically track selected creatures', {exact: true}), trackSelectedCreature);
     const configured = await read();
     expect(configured.state).toEqual(source.state); expect(configured.settings).toEqual(source.settings);
-    expect(configured.metadata.observerPreferences).toEqual({selectAddedCreature, trackSelectedCreature});
+    expect(configured.metadata.observerPreferences).toEqual({selectAddedCreature, trackSelectedCreature, showCaustics: true});
     await advanced.getByTitle('Close advanced settings').dispatchEvent('click');
     await page.getByTitle('Close settings (✕)').dispatchEvent('click');
     await page.getByRole('button', {name: 'Add Life', exact: true}).dispatchEvent('click');
@@ -108,12 +108,13 @@ for (const fallback of [false, true]) test(`independent observer preferences, bo
   const override = await openAdvanced();
   await setChecked(override.getByLabel('Automatically select added creatures'), false);
   await setChecked(override.getByLabel('Automatically track selected creatures'), false);
+  await setChecked(override.getByLabel('Show water caustics'), false);
   await override.getByTitle('Close advanced settings').dispatchEvent('click');
   const beforeFork = await read(), epoch = Number(await canvas.getAttribute('data-world-epoch'));
   await settings.getByRole('button', {name: 'Fork', exact: true}).dispatchEvent('click');
   await expect(canvas).toHaveAttribute('data-world-epoch', String(epoch + 1));
   const forked = await read(); expect(forked.state).toEqual(beforeFork.state);
-  expect(forked.metadata.observerPreferences).toEqual({selectAddedCreature: false, trackSelectedCreature: false});
+  expect(forked.metadata.observerPreferences).toEqual({selectAddedCreature: false, trackSelectedCreature: false, showCaustics: false});
   await page.setViewportSize({width: 375, height: 812});
   const advanced = await openAdvanced();
   await page.clock.runFor(32);
@@ -123,3 +124,78 @@ for (const fallback of [false, true]) test(`independent observer preferences, bo
   await page.screenshot({path: info.outputPath('observer-preferences-mobile.png')});
   expect(errors).toEqual([]);
 });
+
+for (const fallback of [false, true]) {
+  test(`caustic paint can be disabled without changing authoritative world state (${fallback ? 'fallback' : 'Worker'})`,
+    async ({page}) => {
+      await page.setViewportSize({width: 1280, height: 850});
+      await page.clock.install({time: new Date('2026-01-01T00:00:00Z')});
+      await page.clock.pauseAt(new Date('2026-01-02T00:00:00Z'));
+      const pageErrors: string[] = [];
+      page.on('pageerror', error => pageErrors.push(error.message));
+
+      // Count precisely the expensive native caustic filter submissions, not display FPS.
+      await page.addInitScript(() => {
+        (window as any).causticBlurFills = 0;
+        const original = CanvasRenderingContext2D.prototype.fill;
+        CanvasRenderingContext2D.prototype.fill = function(...args: any[]) {
+          if (this.filter === 'blur(16px)') (window as any).causticBlurFills++;
+          return (original as any).apply(this, args);
+        };
+      });
+      await page.goto(`./?autoplay${fallback ? '&mainthread' : ''}`);
+
+      const cfg = {...DEFAULT_SETTINGS, targetNutrients: 0, inflowRate: 0, nutrientLimit: null};
+      const state = createInitialWorld(cfg, 71, 'balanced', 'standard', 1);
+      state.caustics = [{x: cfg.worldWidth / 2, y: cfg.worldHeight / 2, radius: 180,
+        speed: .3, alpha: .09, angle: 0}];
+      const source = createSnapshot(state, cfg);
+      const upload = async (value: unknown) => {
+        await page.getByTestId('settings-window').locator('input[type=file]').setInputFiles({name: 'caustic-visibility.json',
+          mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(value))});
+        await expect(page.getByRole('button', {name: 'Resume', exact: true})).toBeVisible();
+      };
+      const paintCount = async () => {
+        await page.evaluate(() => { (window as any).causticBlurFills = 0; });
+        await page.clock.runFor(64);
+        return page.evaluate(() => (window as any).causticBlurFills as number);
+      };
+
+      await page.getByTitle('Ecology & Physical Settings').dispatchEvent('click');
+      const settings = page.getByTestId('settings-window');
+      await expect(settings).toBeVisible();
+      await upload(source);
+      await settings.getByRole('button', {name: 'Advanced Settings', exact: true}).dispatchEvent('click');
+      const toggle = page.getByRole('dialog', {name: 'Advanced Settings'}).getByLabel('Show water caustics');
+      await expect(toggle).toBeChecked();
+      expect(await paintCount()).toBeGreaterThan(0);
+
+      const read = async () => {
+        const download = page.waitForEvent('download');
+        await page.getByRole('button', {name: 'Export Snapshot', exact: true}).dispatchEvent('click');
+        return JSON.parse(await readFile((await (await download).path())!, 'utf8'));
+      };
+      await toggle.dispatchEvent('click');
+      await expect(toggle).not.toBeChecked();
+      expect(await paintCount()).toBe(0);
+      const hidden = await read();
+      expect(hidden.metadata.observerPreferences.showCaustics).toBe(false);
+      expect(hidden.state).toEqual(source.state);
+      expect(hidden.settings).toEqual(source.settings);
+
+      await toggle.dispatchEvent('click');
+      await expect(toggle).toBeChecked();
+      expect(await paintCount()).toBeGreaterThan(0);
+      await toggle.dispatchEvent('click');
+      expect(await paintCount()).toBe(0);
+
+      // Explicit observer metadata restores the override; historical snapshots remain visible.
+      await upload(hidden);
+      await expect(toggle).not.toBeChecked();
+      expect(await paintCount()).toBe(0);
+      await upload(source);
+      await expect(toggle).toBeChecked();
+      expect(await paintCount()).toBeGreaterThan(0);
+      expect(pageErrors).toEqual([]);
+    });
+}

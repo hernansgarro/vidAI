@@ -1,8 +1,81 @@
 # VIDA 2D — Contributor performance audit: investigation priorities and Stage 3/4 decision questions
 
+## Current evidence checkpoint — Stage 3.8–3.12 (2026-11-04)
+
+Hernan explicitly requires verified conclusions in fork **main**, while raw evidence,
+profilers and temporary launch workflows remain on isolated research branches.
+The [cumulative Stage 3 ledger](../../PERFORMANCE_AUDIT_STAGE_3.md) is the current
+scientific entry point. Older dated checkpoints below are historical, including
+their then-current STOP/next-study wording; they are not permission to replay trials.
+
+| Lot | Verified outcome | Primary finding / limitation |
+| --- | --- | --- |
+|3.8 / draft98 |PARTIAL:6retained, P07 raw lost,11unstarted |25–150 scaling; compact100 initially overlaps68pairs and triggers8guards; +62.2% cost is confounded. Storage guard stopped the lot. |
+|3.9 / draft99 |PARTIAL:10retained,8unstarted; runner739.927s>720s |Initially separated dense100 costs20.60% more;2.13x visual candidates/4.54x edge tests.150spread51.61–56.57TPS. GC/finite pacing not reached. |
+|3.10 / draft100 |COMPLETE:8/8, all budgets pass |150spread lean53.46–54.15TPS; requested1x53.16TPS,2x55.13TPS. HooksOFF/counter/phase/trace elapsed contrasts+3.34/+10.08/+11.62/+59.92%, n1diagnostics. |
+|3.11 / draft102 |COMPLETE:6/6, all budgets pass |Lean66.14–66.68TPS on differentCPU; light GC2.37–2.53%with modest-cost flag passed, detailed42.36%with+65.11%elapsed cost. |
+|3.12 / draft104 |COMPLETE:6/6, all budgets pass |Allocation ownership: broadkernel35%,physics advance19%,query11.4–11.6%,bodySight7.4–8.2%,pairs3.7–4.0%weighted samples; not CPU/savings. |
+
+**New3.12 ownership evidence:** two Worker profiles identify repeatable closest
+original-stack callers with99.92–99.94%weighted coverage and9/10top sites shared.
+The broad stepSimulation35%bucket remains internally unresolved; physics advance
+19%,spatial query11.4–11.6%,bodySight7.4–8.2%,contact pairs3.7–4.0%are allocation
+weights, NOT CPU costs or removable savings. Source confirms temporary result/
+sight/pair collections while existing scratch/caches/contact pools remain present.
+Preserve exact ordering, geometry, reentrancy and physics/learning semantics.
+
+Sampler/light elapsed contrast+1.054%is within control variation; both observations
+meet the preregistered5%light-envelope criterion. n2/sixseconds/oneCIscenario,
+sampling pre/post-roll and different host limit inference. stopSampling potential
+forcedGC is AFTER useful/CPU/trace closure, before full export. Ordinary GC still
+occupies~2–3%under light observation. Source ownership is now evidenced; allocation
+creation/transfer CPU cost, live retention/leaks and a safe optimization gain remain
+unisolated. See [main cumulative conclusions](../../PERFORMANCE_AUDIT_STAGE_3.md).
+
+**Calibrated interpretation:**3.11 light outer-GC occupies2.37–2.53%Worker wall,
+while detailed tracing adds65.11%elapsed cost and reports42.36%GC. Post-hoc raw
+scope analysis locates95.57–96.08%of detailed outer-GC in object-statistics dumping;
+immutable3.10's old35.50%GC-related measurement similarly contains94.38%observer
+object-statistics work. Preserve old measurements, but **do not prioritize ordinary
+GC pauses from that detailed percentage**. Allocation/transfer creation costs are
+separate and unisolated; positive heap reductions are not retained/allocated bytes.
+No leak or removable speedup established. Optics/physics/inference phases retain
+their own perturbed-evidence boundaries; nothing is added or subtracted across probes.
+
+New3.11 hostEPYC9V74 differs from3.10EPYC7763, so higher leanTPS is NOT a code
+improvement or rebuttal of the previous host's1x/2x result. Both light observations
+meet the preregistered lean-envelope±5%descriptive criterion; n2/fixedorder/sixseconds
+and import/warmup heap context limit interpretation. See the current
+[cumulative ledger](../../PERFORMANCE_AUDIT_STAGE_3.md) and its immutable3.11report.
+
+**Current next action:** STOP after completed3.12 and authorized docs integration.
+Hernan's instruction places verified3.8–3.12 conclusions on main, while research
+code/raw/workflows stay isolated and drafts98/99/100/102/104 remain unmerged. No automatic
+new lot, Stage4/product optimization, upstream submission or historical-trial replay.
+Review accumulated evidence before any new separately authorized work. Historical
+dated checkpoints below retain their original status and are not executable orders.
+
 > **Hernan's decision input, 2026-11-02; documentation only.** This is an overlay on the immutable [Stage 2 static source review](PERFORMANCE_AUDIT_STAGE_2.md) and the [approved four-stage audit plan](PERFORMANCE_AUDIT_PLAN.md), not an executed benchmark, permission to instrument, an optimization specification, an upstream decision or a performance guarantee. Keep the original S2-01–S2-12 IDs stable.
 >
 > **Reference:** `hernansgarro/vidAI:main` inspected at `bf75b5649c6d843c48586acca59c51830678e316`; Stage 2 integrated at fork/main `d926557ac6ea09895afa8895311734e68290c55e`. Source facts below refer to that pinned implementation. Current/future source heads must be rechecked before the Stage 3 Work run. **IDEA-023 remains overall contributor P0.** The ranking below is *within this audit only*.
+
+## Current priority override — 2026-11-03
+
+**Hernan has changed the operational objective after completed Stage 3.4.** This is a forward-looking audit priority decision, not a rejection or rewrite of historical Stage 1/2/3.4 evidence. Follow the [current benchmark profile](PERFORMANCE_AUDIT_PLAN.md#current-measurement-target--owner-decision-2026-11-03) and [shared decision receipt](https://github.com/smeagol44/vidAI/issues/57#issuecomment-6607358209). The owner-selected 2026-11-02 order **below remains a historical snapshot**; it is superseded for planning future experiments and Stage 4 optimization ranking.
+
+**Target:** speed of the **running** simulation with multiple organisms and only indispensable observer detail. Every new primary measurement uses shipped `showCaustics=false`, no creature selected/tracked and no brain/inspector or optional sensory overlay; if other validated low-cost observer settings become available, consistently enable their cost-saving modes. Keep physical organism, ecology, energy and all authoritative off-camera computation intact. Tube-connected **and** disconnected worlds must remain eligible, including crossings when relevant. Do not profile paused/0x display or decoration-enabled scenes as target workloads. Limited correctness/causal controls require their own bounded, preregistered justification.
+
+**Measure and rank in this order of decision criteria (not a premature component speed ranking):**
+
+1. **Actual active simulation capacity:** Worker completed ticks/s and multiplier under MAX for populated, representative, **caustics-OFF** checkpoints; optionally a finite nonzero speed for an explicit pacing guardrail. Always report entity/part/eye/neuron/food/egg loads, evolution and exact topology. Preserve a minimum usable view and report its responsiveness separately.
+2. **Essential compute hotspots:** S2-01/02/03/04/05/06/07 — articulated physics/contacts, invariant derivations, sensing, feeding, recurrent brains and learning, ecology/eggs/lineage — with allocations/GC as cross-cutting causes. Rank by measured active throughput effect, *not* historical paused FPS or an unvalidated `O(N)` prediction.
+3. **Worker/observer interaction in the minimal mode:** S2-09/10/12 — frame construction/serialization, send cadence and ACK, main replica/RAF, energy-activity bookkeeping and necessary drawing. A bottleneck must be measured as relevant to Worker progress or a meaningful display guardrail. Existing one-frame backpressure and cap30 are part of the baseline; do not assume they are absent.
+4. **Real gameplay variation:** S2-08, connected versus disconnected local tubes, crossings and off-camera residents; varied populations/density and world presets. Tube authority/physics must remain enabled in relevant scenarios.
+5. **Not current optimization targets:** S2-11 expensive water caustics **when ON**, paused redraw, selected-organism/brain-panel diagnostics, and optional decoration quality. Their existing evidence remains scientifically valid and explains why we choose the minimal view; it does not justify more routine time spent benchmarking them.
+
+**Reassessment of completed stages:** Stage 1 tools, provenance and correctness baseline remain useful but legacy/empty-world results are not a realistic active minimal-view benchmark. Stage 2 static hypotheses still apply; only their future applicability/priority changes. **Neither stage needs a wholesale rerun.** A new targeted active Worker baseline or tube comparison, if needed, is a **new approved Stage 3 experiment**, not a repaired/repeated historical trial.
+
+**Open Stage 3 decision:** the proposed `30/s` versus `10/s` Worker report-cap experiment at fixed caustics OFF and active 15/30 MAX remains relevant, but is **only a proposal**; Hernan has not approved a new experiment or production scheduling change with this directive. Similar future tests must use matched authoritative checkpoints, an explicit budget and exact-state validation. Stage 4 remains a later synthesis/approval gate.
 
 ## 1. Combined investigation order (owner preferences × technical triage)
 
@@ -33,7 +106,7 @@ Hernan explicitly elevated **S2-02, S2-03, S2-04, S2-06, S2-08, S2-09, S2-10, S2
 
 Today the eye has a **fixed `RAYS_PER_EYE=5`** and `getBrainLayout` allocates four neural channels (RGB + distance) for each ray. The hypothetical new allele would let each eye specify **which of the five existing angular ray slots** it projects; the actual selectable mask, allowed minimum, mutation mechanisms, upkeep and evolutionary costs are undecided. Keeping the canonical five slot directions and stable input keys is a promising compatibility question, **not an approved implementation**.
 
-Any implementation needs a coupled brain layout/topology remap, consistent input/output ordering and masks, inherited mutation, somatic learning compatibility, physical energy upkeep attributable to actual sensing, import/export and historical saves (omitted allele = legacy five rays), deterministic continuation and natural selection without an artificial fitness reward. Fewer rays could lower computational and biological sensing costs but could also reduce navigation/feeding ability; neither system-wide gain nor evolutionary success is established. Track this separately as [IDEA-025](IDEA_LAB.md#idea-025-heritable-per-eye-ray-subsets), **not** a Stage 3 source change or an optimization to deploy during profiling.
+Any implementation needs a coupled brain layout/topology remap, consistent input/output ordering and masks, inherited mutation, somatic learning compatibility, physical energy upkeep attributable to actual sensing, import/export and historical saves (omitted allele = legacy five rays), deterministic continuation and natural selection without an artificial fitness reward. Fewer rays could lower computational and biological sensing costs but could also reduce navigation/feeding ability; neither system-wide gain nor evolutionary success is established. Track this separately as [IDEA-025](../ideas/IDEA_LAB.md#idea-025-heritable-per-eye-ray-subsets), **not** a Stage 3 source change or an optimization to deploy during profiling.
 
 ## 2. Stage 3 — proposed measurements to make Stage 4 decisions possible
 
@@ -92,4 +165,4 @@ Stage 4 must explicitly address every owner-selected S2 ID **in the rank order a
 | **What is the exact next unit of implementation?** | Bounded fork branch/PR, metric acceptance and non-regression thresholds, rollback, tests, user visual check, and separate explicit approval before modifying production behavior. |
 | **What remains future research?** | IDEA-025 inherited rays, IDEA-021/022 particle interactions, remote networking, device presets and moving fluids are **not existing speed improvements**. Retain separate genetic/physics/compatibility decisions. |
 
-**Completion and handoff:** The current request is satisfied when this priority record and the standalone IDEA-025 card are saved and linked from contributor planning, with no Stage 3 trial, code changes, upstream PR or claim of performance gain. When Work later executes Stage 3, it must check the latest authoritative source and independently request/obtain a bounded experimental approval; this file is not that approval.
+**Future use:** This historical measurement-question register is supporting design evidence, **not an active experimental approval**. For subsequent Stage 3 work, follow the current benchmark target and obtain a separate scoped protocol, reproducible checkpoint and budget. Stage 4 prioritization must use representative active throughput measurements rather than the superseded 2026-11-02 question order.

@@ -1,19 +1,14 @@
 # VIDA 2D — Hernan's Idea Lab
 
-> **Contributor-only planning board — 2026-10-29.** This board belongs to the `hernansgarro/vidAI` fork. These cards are exploratory, **not upstream issues, accepted upstream scope, or authorizations to implement**. It is intentionally separate from [Fede's canonical VIDA project](https://github.com/users/smeagol44/projects/1/views/1) and the [shared issue / decision index #57](https://github.com/smeagol44/vidAI/issues/57). The original [design journal](CONTRIBUTOR_IDEAS.md) remains the detailed source for previously recorded ideas. Neither document should be included in an upstream submission branch without separate approval.
+> **Contributor-only planning board — 2026-10-29.** This board belongs to the `hernansgarro/vidAI` fork. These cards are exploratory, **not upstream issues, accepted upstream scope, or authorizations to implement**. It is intentionally separate from [Fede's canonical VIDA project](https://github.com/users/smeagol44/projects/1/views/1) and the [shared issue / decision index #57](https://github.com/smeagol44/vidAI/issues/57). The [earlier contributor journal](CONTRIBUTOR_IDEAS.md) is now a compact index; live detail belongs in each card or its linked design document. Neither document should be included in an upstream submission branch without separate approval.
 >
 > **Board implementation:** Repository-hosted Markdown with linked cards. This is a navigable **static Kanban view**, not a GitHub Projects v2 board; moving cards means editing this document. No fork issues were created to duplicate the upstream backlog.
 
-## Highest-priority next investigation
+## Current top priority
 
-**IDEA-023 — VIDA 2D performance and CPU-load audit** is the contributor's
-**P0 / top priority**, explicitly **above every other outstanding personal idea
-or task**. Requested on 2026-11-02 for a future **joint analysis with Hernan**.
-Its [four-stage audit plan](PERFORMANCE_AUDIT_PLAN.md), [completed Stage 2 review](PERFORMANCE_AUDIT_STAGE_2.md), and [Hernan's within-audit priorities / Stage 3 measurement questions](PERFORMANCE_AUDIT_PRIORITIES.md) are recorded. **Stage 1 measurement receipts from any other session must be verified; Stage 3 has not been authorized and no diagnosis or optimization is claimed.** Its purpose is to identify,
-measure and rank the factors driving unacceptable processor load, slowdowns and
-reduced responsiveness. The observed slowdown when organism glow appears is a
-leading **hypothesis to test**, not a proven diagnosis or a license to weaken
-simulation semantics. See the [full IDEA-023 card](#idea-023-vida-2d-performance-and-cpu-load-audit).
+**IDEA-023 — Active simulation performance audit (P0)**. Its current objective is **maximal actual Worker progress under representative populated, running, minimal-observer-load conditions**, not paused/decoration FPS. See the [current measurement target and stage gates](../performance/PERFORMANCE_AUDIT_PLAN.md), [Stage 2 source review](../performance/PERFORMANCE_AUDIT_STAGE_2.md) and [measurement/decision priorities](../performance/PERFORMANCE_AUDIT_PRIORITIES.md). Preserve completed experimental evidence and uncertainties. No finding, optimization or new experiment is authorized by this board alone.
+
+**Next research handoff (deferred, documentation only):** [Worker hot-path diagnosis and future Work-prompt context](../performance/WORKER_HOTPATH_RESEARCH_HANDOFF.md). After Stage 3.5, candidate priority shifted toward Worker internal tick/phase costs, scaling and redundant computation, without claiming a proven root cause or authorizing a new run. Hernan is reserving Work credits for a separate upstream submission.
 
 ## Board
 
@@ -35,8 +30,9 @@ simulation semantics. See the [full IDEA-023 card](#idea-023-vida-2d-performance
 | — | [IDEA-023 · Performance & CPU audit (P0)](#idea-023-vida-2d-performance-and-cpu-load-audit) | — | — | — | — |
 | — | [IDEA-024 · Preset initial zoom](#idea-024-world-preset-initial-zoom-and-framing) | — | — | — | — |
 | — | [IDEA-025 · Heritable per-eye ray subsets](#idea-025-heritable-per-eye-ray-subsets) | — | — | — | — |
+| — | [IDEA-026 · Chemical scents and olfaction](#idea-026-chemical-scents-olfaction-and-pheromone-traces) | — | — | — | — |
 
-**Completed work is not an active column.** [IDEA-001 — Pipe World](CONTRIBUTOR_COMPLETED.md) was delivered to fork main via [PR #53](https://github.com/hernansgarro/vidAI/pull/53). [IDEA-012 — Retained window agreements during resizing](CONTRIBUTOR_COMPLETED.md) was already implemented with local side-window/tube stages 1–3, as verified against code and automated tests on 2026-11-02. Both are recorded in the [completed-work register](CONTRIBUTOR_COMPLETED.md). Their implementation in the fork does not authorize an upstream PR.
+**Completed work is not an active column.** [IDEA-001 — Pipe World](../tracking/CONTRIBUTOR_COMPLETED.md) was delivered to fork main via [PR #53](https://github.com/hernansgarro/vidAI/pull/53). [IDEA-012 — Retained window agreements during resizing](../tracking/CONTRIBUTOR_COMPLETED.md) was already implemented with local side-window/tube stages 1–3, as verified against code and automated tests on 2026-11-02. Both are recorded in the [completed-work register](../tracking/CONTRIBUTOR_COMPLETED.md). Their implementation in the fork does not authorize an upstream PR.
 
 **State rules:** *Ideas* = captured but not fully specified; *Exploring* = questions or design trade-offs remain; *Ready for Work* = sufficiently defined for an implementation request, but **not authorization to start**; *Testing in fork* = implemented only in the contributor fork and pending validation; *Ready to share* = contributor-approved for a possible, separately authorized upstream proposal; *Deferred* = intentionally postponed. These are **personal idea-maturity states**, not the official VIDA Project statuses.
 
@@ -71,9 +67,9 @@ IDEA-004, IDEA-005, and IDEA-007, plus relevant energy decisions in IDEA-002
 and IDEA-006. Current behavior is not presumed defective. No implementation
 or upstream contact is authorized by this note.
 
-**IDEA-012 has been moved out of this active priority table:** Hernan rated it High on 2026-11-02, and a code/test review confirmed its *local* behavior was already delivered in Stage 3. See [completed work](CONTRIBUTOR_COMPLETED.md). Remote multi-aquarium agreement semantics belong to deferred IDEA-010, not a reopened duplicate.
+**IDEA-012 is completed** for local same-world windows; see [verified deliveries](../tracking/CONTRIBUTOR_COMPLETED.md). This does not resolve Stage 4 remote agreements in deferred IDEA-010.
 
-The priorities of IDEA-013–IDEA-020, IDEA-024 and the newly proposed IDEA-025 have not yet been assigned by Hernan. The within-audit ranking of S2-03 does **not** assign a separate implementation priority to IDEA-025. IDEA-021 and IDEA-022 have separately assigned **Medium-high** priority.
+**Unassigned priorities:** IDEA-013–020, IDEA-024–026 (except IDEA-021/022, each Medium-high). In-audit S2 hypothesis order does not assign IDEA-025 a feature priority. P0 IDEA-023 remains above all.
 
 ## Cards
 
@@ -145,7 +141,7 @@ The priorities of IDEA-013–IDEA-020, IDEA-024 and the newly proposed IDEA-025 
 - **Intent:** Eventually connect different users' aquariums with opt-in peer discovery, permissions and authentic transit, extending the local/self-connected windows already implemented in the fork.
 - **Open decisions:** Identity, communication, authority, synchronization, latency/disconnects, security, persistent agreements **between separate remote aquariums**, and cross-world conservation/ecology. The already working local resize/suspension/restoration behavior from IDEA-012 must not be reimplemented.
 - **Guardrails:** Do not conflate local stage-3 transfers with remote interoperability. No servers, accounts, peer directory or remote transport authorized.
-- **Source:** [Design journal — section 8](CONTRIBUTOR_IDEAS.md#8-selective-lateral-portals-and-multi-aquarium-travel); [local stage #121](https://github.com/smeagol44/vidAI/issues/121), [#122](https://github.com/smeagol44/vidAI/issues/122).
+- **Detail:** [Deferred remote design](../designs/REMOTE_AQUARIUM_DESIGN.md); [delivered local stages #121](https://github.com/smeagol44/vidAI/issues/121) and [#122](https://github.com/smeagol44/vidAI/issues/122).
 
 ### IDEA-011: Portable organism state
 
@@ -153,7 +149,7 @@ The priorities of IDEA-013–IDEA-020, IDEA-024 and the newly proposed IDEA-025 
 - **Intent:** Explore exporting and importing the complete authoritative state of *one living creature*, distinct from whole-world saves and the already implemented in-memory local tube transfer.
 - **Open decisions:** Identity collision policy, exact state/brain/learning/body serialization, format versioning, energy accounting and migration/security limits.
 - **Guardrails:** Do not silently implement file export/import or remote transport under local stage-3 scope.
-- **Source:** [Design journal — portable full-state files](CONTRIBUTOR_IDEAS.md#portable-full-state-organism-files-and-identity-decisions).
+- **Detail:** [Deferred remote/portable design](../designs/REMOTE_AQUARIUM_DESIGN.md#idea-011-portable-living-organism-files).
 
 ### IDEA-013: Egg overlays behind creatures
 
@@ -161,7 +157,7 @@ The priorities of IDEA-013–IDEA-020, IDEA-024 and the newly proposed IDEA-025 
 - **Intent:** Render the **egg incubation/progress ring and pink original-reserve-loss sector beneath creature bodies**, not in front of passing creatures. Their current ordering creates visually misleading overlays when creatures overlap eggs.
 - **Guardrails:** Change **observer rendering/layer order only**. Keep egg reserve calculations, incubation, energy, sensing, contact, picking, Worker authority and saves unchanged. Preserve legibility when unobscured.
 - **Acceptance to refine:** Inspect actual composite passes and test crossing/occlusion involving creatures, eggs and tubes. Do not bundle an unrelated mouth-layer decision into this correction.
-- **Related:** [Implemented egg display #116](https://github.com/smeagol44/vidAI/issues/116); [completed register](CONTRIBUTOR_COMPLETED.md).
+- **Related:** [Implemented egg display #116](https://github.com/smeagol44/vidAI/issues/116); [completed register](../tracking/CONTRIBUTOR_COMPLETED.md).
 
 ### IDEA-014: Mouth annotation layering
 
@@ -208,14 +204,14 @@ The priorities of IDEA-013–IDEA-020, IDEA-024 and the newly proposed IDEA-025 
 - **State:** Exploring; recorded 2026-11-02.
 - **Intent:** Add a fixed built-in startup preset tentatively called `Notebook size`, independent of other presets, with **the same general initial settings as current Harsh World** but notebook-oriented tank dimensions.
 - **Open decision:** **Exact world-unit width and height are not defined yet.** Determine them before an implementation-ready request. Do not confuse physical viewport CSS dimensions with simulation-world dimensions; preserve independent explicit preset values, existing funded initialization and zero automatic tube links.
-- **Related:** [Harsh selector #119](https://github.com/smeagol44/vidAI/issues/119), [completed Pipe World IDEA-001](CONTRIBUTOR_COMPLETED.md).
+- **Related:** [Harsh selector #119](https://github.com/smeagol44/vidAI/issues/119), [completed Pipe World IDEA-001](../tracking/CONTRIBUTOR_COMPLETED.md).
 
 ### IDEA-020: Celphone Size scenario
 
 - **State:** Exploring; recorded 2026-11-02.
 - **Intent:** Add a fixed built-in startup preset tentatively called `Celphone size` (final English UI spelling to confirm), independent of other presets, with **the same general initial settings as current Harsh World** but phone-oriented tank dimensions.
 - **Open decision:** **Exact world-unit width and height are not defined yet**; consider aspect ratio, usability and available small-screen world rendering before implementation. No guessed dimensions, automatic tube links, or changes to simulation rules.
-- **Related:** [Harsh selector #119](https://github.com/smeagol44/vidAI/issues/119), [completed Pipe World IDEA-001](CONTRIBUTOR_COMPLETED.md).
+- **Related:** [Harsh selector #119](https://github.com/smeagol44/vidAI/issues/119), [completed Pipe World IDEA-001](../tracking/CONTRIBUTOR_COMPLETED.md).
 
 ### IDEA-021: Nutrient contact and ledge geometry
 
@@ -225,7 +221,7 @@ The priorities of IDEA-013–IDEA-020, IDEA-024 and the newly proposed IDEA-025 
 - **Hypothesis to test:** The fixed center margins / rectangular water projections, rather than an existing square nutrient collider, explain the visual separation and some failure to roll/fall from tube ledges. Determine exact behavior at corners and tube mouths through focused deterministic trajectories before choosing geometry.
 - **User-proposed alternative:** An **octagonal contact frame** oriented with one vertex on the downward vertical axis (a nutrient would nominally rest on its bottom point). This is a candidate to compare, **not a decision** to replace the current circle. Clarify whether the polygon would rotate, whether optics/feeding retain circular bounds, and whether geometry or appearance should change.
 - **Review goals:** Contact relative to actual particle radius, stable resting distance, natural departure from tube roof/edges under gravity and water resistance, no sticking/teleportation, exact save continuity and no changes to organism physics or feeding. Use a separate versioned behavior if historical motion would otherwise change. Keep user-visible artwork separate from physical collision representation.
-- **Related:** [Tube geometry](../selfTubes.ts), [nutrient motion](../simulation.ts), [physical particle radius](wiki/Ecology-Baseline.md), IDEA-022 (separate collision proposal).
+- **Related:** [Tube geometry](../../../selfTubes.ts), [nutrient motion](../../../simulation.ts), [physical particle radius](../../wiki/Ecology-Baseline.md), IDEA-022 (separate collision proposal).
 
 ### IDEA-022: Nutrient-to-nutrient collisions
 
@@ -237,16 +233,11 @@ The priorities of IDEA-013–IDEA-020, IDEA-024 and the newly proposed IDEA-025 
 
 ### IDEA-023: VIDA 2D performance and CPU-load audit
 
-- **State:** Exploring / **four-stage audit planned, Stage 2 static review completed in the fork, and owner-selected Stage 3 measurement/Stage 4 questions documented**; **personal priority: P0 (absolute highest)**, explicitly above all other outstanding tasks as of 2026-11-02. **No Stage 3 run, causal profiling diagnosis, optimization implementation or upstream submission is claimed.** Stage 1 results, if executed in another session, need independent provenance review. See the [auditable four-stage plan](PERFORMANCE_AUDIT_PLAN.md), [Stage 2 report](PERFORMANCE_AUDIT_STAGE_2.md) and [combined owner+technical priority record](PERFORMANCE_AUDIT_PRIORITIES.md).
-- **User-reported problem:** VIDA currently feels too slow and processor-intensive; organism energy-activity glow appears to coincide with a substantial slowdown. The current CPU burden is **unacceptable to the user**. Do not minimize this as merely cosmetic.
-- **Purpose:** Establish evidence of what consumes CPU, rendering time and main-thread responsiveness; separate actual simulation/Worker cost from Canvas/visualization, event bookkeeping, UI state/render work and garbage collection. Rank costly subsystems and identify simpler approaches that preserve acceptable observable behavior.
-- **First hypothesis — glow:** Determine whether expensive **trigger detection / energy-receipt accounting or temporal/spatial resolution**, **drawing/compositing/blur/filters**, excessive repaint frequency, glow area/overdraw, or another correlated factor causes the measured degradation. The purpose of the glow is an **observer-only signal** that a creature is gaining energy or losing energy to another creature; human perception may not require maximal per-tick/per-part precision. Test before deciding whether event aggregation, temporal throttling, sampling, simplified geometry, lower-cost rendering or another technique is acceptable.
-- **Broad audit:** Review actual simulation tick throughput, organism count/body parts/joints, neural evaluation and learning, contact/feeding, sensing/indexing, nutrient/egg updates, tube operations, render/Canvas passes, overlays, state copies/Worker messages, snapshots, React work and memory/GC as measured—not merely as guesses.
-- **Suggested analysis protocol (to be scoped jointly before execution):** Agree on reproducible settings and reference hardware; establish baseline CPU load, FPS, effective simulation steps/s, main/Worker profiling, organism/nutrient counts and stability. Compare controlled scenes with glow present/absent and other overlays independently, keeping **simulation state, speed and seeds equivalent**. Collect per-subsystem timings or trace evidence, identify highest-impact candidates and estimate expected benefit versus loss of fidelity. Use existing approved performance tests/receipts, and register any additional experiments/budgets/controls **before** expensive runs.
-- **Decision criteria:** Prioritize optimizations by **measured impact**, simplicity, retained energy-signal meaning and visual adequacy. Preserve authoritative deterministic ticks, energy/accounting semantics, physical feeding/locomotion/genetics/learning, historical saves, Worker/render separation and off-camera simulation. Never suppress actual simulated events or substitute fake behavioral cues merely to make performance numbers look better.
-- **Non-goals:** No premature tuning of founders/brains/physics/diet, no artificial physics shortcuts without separate authorization, no skipped simulation ticks claimed as an optimization, no relaxed test gates or unexplained baseline resets. Do not choose an optimization solely from the observed glow correlation.
-- **Next action:** Reconcile any Stage 1 evidence with immutable provenance, then let Work prepare and execute a **separately authorized, bounded Stage 3 protocol** in the [owner-selected order](PERFORMANCE_AUDIT_PRIORITIES.md). Stage 2 is complete; Stage 4 optimization choices still require controlled evidence and Hernan's approval.
-- **Related:** [Contributor workflow status](CONTRIBUTOR_WORKFLOW_STATUS.md), [simulation performance reference](wiki/Simulation-Performance.md), [energy-activity overlays](wiki/Energy-Activity.md). No new upstream issue, test campaign or PR is requested at this capture stage.
+- **State:** Exploring/research underway; **personal priority P0, above all other ideas**. The four-stage audit has a completed source-model Stage 2 and separately recorded Stage 3 evidence/receipts; **do not infer a full Stage 3 completion, a proven root cause or approved optimization** from this card. Consult the [live audit plan](../performance/PERFORMANCE_AUDIT_PLAN.md) for the exact gates and latest target.
+- **Objective:** Increase achieved simulation ticks/s under MAX with **populated, running worlds**, caustics **OFF**, no organism selected/tracked and no optional sensory/brain overlay; preserve a minimally useful display. Test both disconnected and physically active local tubes. FPS remains a usability guardrail, not a simulation-speed proxy.
+- **Evidence questions:** Separate true Worker tick cost (physics, articulated bodies, feeding/contact, vision/neural, ecology, allocations/GC), Worker/report/ACK backpressure, React/Canvas observer work and energy-event bookkeeping from actual glow drawing. Glow correlation is **a hypothesis, not a causal diagnosis**.
+- **Required controls:** Pinned source and seed/checkpoint, exact organism/parts/rays/food/egg counts, tubes/topology, settings, viewport/DPR, machine/browser and CPU memory/GC; preregister any new test budget. Preserve physical energy transfers, deterministic state, old saves, off-camera authority and original baselines. Do not tune biology or delete essential simulation work to improve results.
+- **Evidence and next decisions:** [Current active plan](../performance/PERFORMANCE_AUDIT_PLAN.md) · [Static S2 hypotheses](../performance/PERFORMANCE_AUDIT_STAGE_2.md) · [priorities and Stage 4 questions](../performance/PERFORMANCE_AUDIT_PRIORITIES.md). Subsequent tests and implementation require separate bounded approval. No upstream submission follows from these personal notes.
 
 ### IDEA-024: World-preset initial zoom and framing
 
@@ -256,7 +247,7 @@ The priorities of IDEA-013–IDEA-020, IDEA-024 and the newly proposed IDEA-025 
 - **Open decisions:** Choose the exact zoom/framing for each scenario; whether the value is a numeric scale, a normalized level or a computed fit; how aspect ratio, safe UI areas, window resize and mobile displays affect whole-tank visibility; whether the camera center/position is also preset; when the initial zoom is applied (startup, world reset, scenario selection, or importing a save); and whether a later manual pan/zoom override persists.
 - **Expected UX safeguard:** A preset should establish an **initial observation preference**, not permanently lock camera controls or silently reset the user's chosen zoom during ordinary interactions. Evaluate save/restore and backward compatibility separately before specifying implementation.
 - **Architecture and audit boundary:** Camera framing is observer/UI state. Do not modify world-coordinate dimensions, physics, energy, genetics, Worker ticks, off-camera simulation or authoritative saved-world semantics simply to fit more of the aquarium on screen. Changes in framing can change visible object counts, paint area, viewport culling and observed FPS; keep zoom, pixel resolution/DPR and actual world density controlled during performance comparisons.
-- **Related:** IDEA-009 (named scenarios), IDEA-019/020 (future notebook/phone worlds), [Pipe World completion](CONTRIBUTOR_COMPLETED.md), [current performance audit plan](PERFORMANCE_AUDIT_PLAN.md). No code change, tests, upstream issue or PR is authorized by idea capture.
+- **Related:** IDEA-009 (named scenarios), IDEA-019/020 (future notebook/phone worlds), [Pipe World completion](../tracking/CONTRIBUTOR_COMPLETED.md), [current performance audit plan](../performance/PERFORMANCE_AUDIT_PLAN.md). No code change, tests, upstream issue or PR is authorized by idea capture.
 
 ### IDEA-025: Heritable per-eye ray subsets
 
@@ -265,25 +256,26 @@ The priorities of IDEA-013–IDEA-020, IDEA-024 and the newly proposed IDEA-025 
 - **Verified current baseline:** `simulation.ts` has fixed `RAYS_PER_EYE=5`; `getBrainLayout` gives each of those rays red/green/blue/distance channels; `eyeSensoryUpkeep` charges receptor-dependent upkeep for five rays. Existing spectral-sensitivity alleles are **not** a variable-ray implementation.
 - **Open decisions:** Identity-preserving five-position bitmask versus a count; admissible combinations and whether zero rays are allowed; inheritance/mutation operators and energetic upkeep of active rays; maintaining stable ray IDs, ordered inputs and exact occlusion; remapping weights/disabled connections/learned synapse records; introduction for new genomes versus old saves (omitted allele should retain all five rays); determinism, PRNG and schema migration; evolutionary trade-offs, test fixtures, UI/inspection display, and source-of-selection evidence.
 - **Study before implementation:** Measure current ray/index/brain/input cost in IDEA-023 Stage 3 **without changing the existing five rays**. Any actual variable-ray simulation requires a separately scoped design, canonical upstream issue/authorization, exact persistence/Worker regression and ecological validation. It may change sensory behavior, physical selection and historic continuation; it is *not* an exact-preserving Stage 3 optimization.
-- **Related:** [IDEA-023 Stage 2](PERFORMANCE_AUDIT_STAGE_2.md), [current priority/measurement register](PERFORMANCE_AUDIT_PRIORITIES.md), [upstream #57](https://github.com/smeagol44/vidAI/issues/57). No claim is made that fewer rays will automatically make organisms or whole-world processing more efficient.
+- **Related:** [IDEA-023 Stage 2](../performance/PERFORMANCE_AUDIT_STAGE_2.md), [current priority/measurement register](../performance/PERFORMANCE_AUDIT_PRIORITIES.md), [upstream #57](https://github.com/smeagol44/vidAI/issues/57). No claim is made that fewer rays will automatically make organisms or whole-world processing more efficient.
 
-## Notes on potential promotion
+### IDEA-026: Chemical scents, olfaction and pheromone traces
 
-- IDEA-013–IDEA-025 are personal future ideas. **IDEA-023 is now the explicitly identified P0 top priority for the next joint investigation**. IDEA-021/IDEA-022 remain medium-high, and all other user-assigned priorities remain unchanged. No entry authorizes implementation or sets an execution date. Their statuses concern maturity only.
-- A future upstream proposal may be considered alongside Pipe World, as suggested by Hernan, **but combining unrelated visual/phone/scenario changes into a single PR is not automatically approved**. After fork-main validation and separate explicit approval, prepare a clean scoped submission and evaluate reviewability, dependency order and owner preference.
-- The [completed-work register](CONTRIBUTOR_COMPLETED.md) is the place for completed work; keep it out of pending columns.
+- **State:** Exploring; priority unassigned; **not authorized for implementation**. [Canonical current design and open decisions](../designs/SCENT_AND_OLFACTION_DESIGN.md).
+- **Selected three-channel metaphor:** **Umami (R)** = pure-red organic nutrient odor, **Fresco (G)** = pure-green inorganic nutrient odor, **Almizclado (B)** = usually blue-dominant inherited creature scent with possible weaker R/G. Umami is deliberately a mnemonic *taste* term, not real odor chemistry.
+- **Selected emission model:** Nutrients, eggs and creature bodies emit independent expanding/fading circles. Creatures also leave weak finite-unit involuntary pheromone emitters; brain-controlled, energetically funded glands may emit more genetically diverse markers. Camouflage is **additive mixture only**, never neutralization. Circles decay faster than area dilution and are deleted at zero. Nose channels sum overlapping contributions independently, saturating high at FF; no scripted attraction or identity sensing.
+- **Selected egg concept:** each egg's signature resembles the **future offspring's inherited three-channel signature**, shifted toward white with a positive R/G/B floor and FF cap. The whitening parameter is **undecided**.
+- **Representation:** `RRGGBBTT` fixes each circle's chemical signature; one declining intensity equals the observer's alpha TT **one-to-one**. No changing fragrance ratios during a pulse, no optical sense of odor. Exact observer alpha-overlap fidelity is intentionally deferred.
+- **Unresolved and safeguarded:** Emission/decay laws, counts/intensities, egg genetics timing, nose/gland inheritance, energy costs and persistence, spatial transport and CPU budgets. Do not implement until the [P0 performance audit](../performance/PERFORMANCE_AUDIT_PLAN.md) and separate bounded user decisions support it. Original design iterations remain in Git/PR history, not in the current spec.
 
-## Previously addressed ideas — references, not duplicate cards
+## Promotion boundaries
 
-- [Completed-work register](CONTRIBUTOR_COMPLETED.md) records Pipe World, egg display, local tubes and other verified fork/upstream deliveries.
-- [Observer-only egg reserve indicator #116](https://github.com/smeagol44/vidAI/issues/116): tracked in the shared issue and its fork delivery history; do not reopen merely because the older journal contains a pending-design description.
-- [Local window/tube stages #121](https://github.com/smeagol44/vidAI/issues/121) and [#122](https://github.com/smeagol44/vidAI/issues/122): implementation and promotion evidence are tracked there. Only unimplemented, distinctly scoped follow-ups appear above.
-- Other upstream issues and PRs remain authoritative for their own implementation, testing, review and acceptance stages.
+This is a **personal idea-maturity board**, not the shared upstream backlog. Implemented work belongs in [the completed register](../tracking/CONTRIBUTOR_COMPLETED.md); approval to merge fork work **does not** approve an upstream submission. Upstream issues and PRs remain authoritative for implementation, review and acceptance. A clean upstream submission requires the separately approved fork-first workflow; avoid bundling unrelated features just because they share a fork.
+
 
 ## Working agreement
 
 1. Capture a personal idea here first, with a stable `IDEA-NNN` identifier and a link to expanded notes. Merge or split idea cards only when they represent different decisions; do not clone the upstream issue backlog.
 2. Advance maturity **only after the corresponding discussion/approval**. In particular, *Ready for Work* does not allow implementation without an explicit request, and *Ready to share* does not permit an upstream PR.
-3. For any actual implementation, use the [contributor workflow](CONTRIBUTOR_WORKFLOW.md) and the shared canonical upstream issue. Do not create duplicate fork implementation issues.
+3. For any actual implementation, use the [contributor workflow](../../CONTRIBUTOR_WORKFLOW.md) and the shared canonical upstream issue. Do not create duplicate fork implementation issues.
 4. When an idea becomes an upstream proposal or is implemented, link the canonical issue/PR and update its personal card; do not mark an upstream issue Done based solely on a fork merge.
-5. Keep this board and the original journal **fork-only** in clean upstream submissions. The source journal contains historical decisions and may need verification before it is treated as current runtime documentation.
+5. Keep this board and the original journal **fork-only** in clean upstream submissions. The compact contributor index is navigational only; use current cards, focused design documents and upstream evidence for authoritative status.
