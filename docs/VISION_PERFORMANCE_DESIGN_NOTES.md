@@ -17,21 +17,23 @@ This is a **subjective technical prioritization** of *potential* savings, **not 
 | 1. Per-eye consultation modulo and sample-and-hold | High | 5 |
 | 2. Inherited and mutable consultation slots for each ray, allowing synchronized bursts or staggering | High | 2 |
 | 3. UI-controlled experimental sample budget / modulo override (interaction with inherited eye parameters undecided) | Medium | 5 |
-| 4. Per-ray capture energy charge replacing current eye-maintenance debit; long-term genetic selection pressure | Medium | 4 |
-| 5. Inherited and mutable number of rays per eye; separate topology/save discussion | Low | 3 |
-| 6. Existing inherited/mutable per-eye vision range: evaluate whether shorter useful ranges reduce spatial queries | High (trait already shipped; savings unmeasured) | 3 |
-| 7. Reduce per-query allocations, arrays, and sorting; retain exact ordered semantics | Medium | 4 |
-| 8. Equivalent optimized ray/circle/rotated-body intersections | Medium | 4 |
-| 9. Within-tick reuse of corners, transforms, directions, and safe geometric invariants | Medium | 3 |
-| 10. Shared candidate set by anatomical facet / body-part face | Medium | 3 |
-| 11. Organism-wide enclosing rectangle for candidate acquisition | Low | 2 |
-| 12. Hierarchical coarse grid + narrower visual filter + exact intersections | Low | 3 |
-| 13. Experiment with spatial index grid cell size vs current 128 world units | Medium | 3 |
-| 14. Compare direct brute-force geometric scan for low-density workloads | Low | 2 |
-| 15. Incrementally maintain or safely reuse spatial index structures across ticks | Low | 3 |
-| 16. Integrate/fade prior sensory readings beyond the simple sample-and-hold cache | Low | 1 |
+| 4. Skip unnecessary vision-only scene preparation when no rays are scheduled to capture | Medium | 3 |
+| 5. Per-ray capture energy charge replacing current eye-maintenance debit; long-term genetic selection pressure | Medium | 4 |
+| 6. Inherited and mutable number of rays per eye; separate topology/save discussion | Low | 3 |
+| 7. Existing inherited/mutable per-eye vision range: evaluate whether shorter useful ranges reduce spatial queries | High (trait already shipped; savings unmeasured) | 3 |
+| 8. Reduce per-query allocations, arrays, and sorting; retain exact ordered semantics | Medium | 4 |
+| 9. Equivalent optimized ray/circle/rotated-body intersections | Medium | 4 |
+| 10. Within-tick reuse of corners, transforms, directions, and safe geometric invariants | Medium | 3 |
+| 11. Shared candidate set by anatomical facet / body-part face | Medium | 3 |
+| 12. Conservative per-eye visual region (rectangle or suitable triangular/sector filter), optionally combined with facet-shared candidates | Medium | 3 |
+| 13. Organism-wide enclosing rectangle for candidate acquisition | Low | 2 |
+| 14. Hierarchical coarse grid + narrower visual filter + exact intersections | Low | 3 |
+| 15. Experiment with spatial index grid cell size vs current 128 world units | Medium | 3 |
+| 16. Compare direct brute-force geometric scan for low-density workloads | Low | 2 |
+| 17. Incrementally maintain or safely reuse spatial index structures across ticks | Low | 3 |
+| 18. Integrate/fade prior sensory readings beyond the simple sample-and-hold cache | Low | 1 |
 
-**Scope nuance:** items 1–3 share the same sampling mechanism; they are not independent gains. Items 7–15 are exact-computation optimization alternatives; item 6 uses already-existing range genetics but its CPU effect is unmeasured and should be compared with and without temporal sampling. Item 4's primary benefit is potential ecological selection pressure; it is not an immediate CPU optimization. A concurrent structural-eye charge or increased energy supply/uptake is not an independently demonstrated performance optimization.
+**Scope nuance:** items 1–3 share the same sampling mechanism; they are not independent gains. Item 4 (skip unsampled preparation) depends on knowing which rays are scheduled; it is not a separate sampling-frequency reduction. Items 9–17 are exact-computation optimization alternatives and may interact; item 7 uses already-existing range genetics but its CPU effect is unmeasured and should be compared with and without temporal sampling. Item 5's primary benefit is potential ecological selection pressure; it is not an immediate CPU optimization. Per-eye region filtering (item 12) can be combined with facet-shared candidate reuse (item 11); neither supersedes the other. A concurrent structural-eye charge or increased energy supply/uptake is not an independently demonstrated performance optimization.
 
 **Clarified survival and accounting:** shipped `simulation.ts` checks `org.energy <= 0` for starvation death (predatory depletion has its own death cause); per-capture charging does **not** authorize changing that rule, adding credit/debt, free sensory work, or artificial food. The current `eyeSensoryUpkeep(g.eyes)` contributes to sensory metabolic rate and is the eye-maintenance component proposed for replacement, not an additional per-capture charge.
 
@@ -82,6 +84,17 @@ These are **consultation-count calculations**, not measured end-to-end CPU reduc
 
 Approximate mean ray acquisition work scales with the sum, over eyes, of **R_e / M_e**, where **R_e** is the number of rays of eye e. Spatial index construction, neural processing, retention, and other work would still exist.
 
+### Candidate: skip vision-only preparation when no capture is scheduled
+
+Once per-eye consultation slots are defined, determine **before expensive vision-only preparation** whether any ray will acquire a fresh sample in the current authoritative tick. Keep the existing sample-and-hold neural values and ray-hit metadata for unsampled rays; **do not clear them** as the current always-sampling flow does.
+
+- **Whole-tick opportunity:** if *no ray of any living organism* is scheduled to capture, avoid constructing the transient vision-only body corner/bounds inventory, egg sight entries, food sight index, and ray-specific queries for that tick. Skip only work proven exclusive to vision, not geometry or state needed for physics, feeding, environment, or rendering.
+- **Per-eye/per-organism opportunity:** if some other eye is capturing but this eye has no scheduled ray, avoid its origin transform, per-ray trigonometry, query and intersection work. Keep all neural and learning ticks running. A local saved computation can be skipped even when the global index remains necessary.
+- **Important limitation:** with many organisms and independent phases, completely empty *global* capture ticks may be rare or absent. Therefore the global-index skipping benefit could be small; the per-eye and per-ray savings are more plausible but require measurements. Do not attribute the ray-count reduction itself to this candidate.
+- **Order and consistency:** check the schedule deterministically against the authoritative global integer tick. Preserve the original optical candidate order and true current-world geometry on capture ticks, including dynamically added carrion, births/deaths and moving parts. Preserve diagnostic ray-hit continuity, neural input values, saving/loading, PRNG and closed energy.
+
+**Maturity: Medium; speculative independent potential: 3/5.** The gating condition is clear, but code motion, state compatibility, proportion of zero-capture ticks, and measurable end-to-end savings remain unproven. This is a *complement* to sampling, not authorization to omit off-camera simulation.
+
 ### Perceptual and evolutionary consequences to test
 
 - A ray holds its **last completed optical signal**, so the brain keeps updating while vision may be stale. One proposal is to persist fully filtered RGB and normalized distance plus matching diagnostic ray-hit metadata.
@@ -117,11 +130,12 @@ The current ordered broadphase already aggressively rejects irrelevant objects: 
 Discussed alternatives, separately benchmarked against the existing finite-ray corridor:
 
 1. **Organism-enclosing broad query:** query the coarse grid cells touched by an axis-aligned region centered around the organism. To conservatively include every ray, its half-extent must cover each actual eye's displacement from the body's center of mass **plus that eye's range**. Arbitrary eye positions and articulated parts mean eye offsets cannot be ignored. Object extents and boundary tangencies also matter.
-2. **Face/facet-shared candidates:** eyes mounted on a particular body-part face reuse a candidate set covering all their active ray footprints. Their FOV, origins, slot positions, and ranges may differ; the shared region must be conservative.
-3. **Coarse grid + tighter visual rectangle + exact intersection:** test a wider outer grid as a broad discard followed by a smaller region or ray-specific geometric filter, then existing exact ray–circle/body-edge calculations. Different cell sizes (128 baseline and alternatives) must be measured. A visual rectangle being four or five times smaller than a cell is an idea, **not** a geometric requirement or evidence that a wider grid is faster.
-4. **Exact query/geometry optimizations:** reduce transient arrays, sorting, indexing and intersection work without changing ordered candidates, closest-hit ties, attenuation, RGB, occlusion or neural/observer output. Examine safe within-tick computation reuse.
+2. **Per-eye visual-region filter (independent candidate):** use a conservative **axis-aligned rectangle** around that eye's actual origins/endpoints/ray footprint, with an optional tighter **triangle, wedge, or sector-like filter** only if it safely contains *all relevant finite rays* and accounts for object extents/tangencies. The currently scheduled subset can be smaller than the full eye FOV; compare both. A naive triangle joining the endpoints of the outer rays **can exclude middle-ray endpoints on the arc** and is not a safe replacement. Wide fields of view may not admit a practical single triangular enclosure. Compare cell and candidate counts against the existing thin corridor for each ray; the extra containment tests themselves cost CPU.
+3. **Face/facet-shared candidates:** eyes mounted on a particular body-part face reuse a candidate set covering all their active ray footprints. Their FOV, origins, slot positions, and ranges may differ; the shared region must be conservative. **Sharing by facet and filtering by per-eye rectangle/sector are compatible stages:** acquire a common facet superset, then apply an eye-specific rectangular or conservative sector prefilter before exact ray-object tests. Alternatively use a union of eye rectangles for a shared facet query. Neither concept displaces the other.
+4. **Coarse grid + tighter visual rectangle + exact intersection:** test a wider outer grid as a broad discard followed by a smaller region or ray-specific geometric filter, then existing exact ray–circle/body-edge calculations. Different cell sizes (128 baseline and alternatives) must be measured. A visual rectangle being four or five times smaller than a cell is an idea, **not** a geometric requirement or evidence that a wider grid is faster.
+5. **Exact query/geometry optimizations:** reduce transient arrays, sorting, indexing and intersection work without changing ordered candidates, closest-hit ties, attenuation, RGB, occlusion or neural/observer output. Examine safe within-tick computation reuse.
 
-Key trade-off: **one or a few scheduled rays per eye/tick may make a shared facet/organism list *less* economical** than a narrow direct corridor query, because shared lists include objects irrelevant to the currently active rays. A larger grid may also increase candidate density even if fewer cells are traversed. A coarse broadphase is not necessarily cheaper than the existing index. Benchmark all build/query/sort/exact-test costs and measure whole-Worker throughput.
+Key trade-off: **one or a few scheduled rays per eye/tick may make a shared facet/organism list *less* economical** than a narrow direct corridor query, because shared lists include objects irrelevant to the currently active rays. Per-eye rectangles and more geometrically selective sector/triangle filters likewise have CPU overhead and are not automatically cheaper. A larger grid may also increase candidate density even if fewer cells are traversed. A coarse broadphase is not necessarily cheaper than the existing index. Benchmark all build/query/sort/exact-test costs and measure whole-Worker throughput.
 
 Do not assume an index persists correctly across ticks: nutrients, eggs, and articulated bodies move, decay, appear, disappear, and change appearance. Exact occlusion and priority order require attention to these changes.
 
@@ -132,14 +146,14 @@ A separately approved Stage 4 research protocol could compare:
 - **Equivalent, exact:** baseline index vs candidate alternative indices/geometry. Require ray and neural-input equivalence, full-state/PRNG/energy persistence, and historical continuation.
 - **Approximate, sampled:** baseline all-ray-every-tick vs a controlled UI experiment with per-eye M = 2/4/5/8 and prescribed slot distributions. Record ray-age and perception errors, first detection of small moving objects, eye rotation, feeding and learned behavior, plus real end-to-end CPU/TPS and spike distribution.
 - **Genetic/energetic, later:** inherited M_e and S_(e,r), and explicit per-consultation energy costs after calibration and save/physiology decisions. No evolutionary search without a bounded preregistered budget and owner authorization.
-- **Combinations:** the per-eye sampling schedule may change which spatial candidate strategy is fastest. Study interaction rather than adding isolated alleged savings.
+- **Combinations:** the per-eye sampling schedule may change which spatial candidate strategy is fastest. Compare no-capture preparation skipping, per-eye conservative rectangles/sector filters, facet-shared candidates, their combination, and the current ray-corridor index. Record empty global-capture ticks and per-eye scheduled-capture counts; preserve exact intersections/occlusion on capture ticks. Study interaction rather than adding isolated alleged savings.
 
 Keep unchanged physics, real sensory responses when sampled, motor control, energy economy, Worker authority and off-camera simulation. Changes to vision are **behavioral and evolutionary** and cannot be declared safe from performance-only measurements.
 
 ## 6. Current decision boundary and next discussion
 
 - **Accepted as the user's corrected *idea*:** genetic per-eye consultation modulo, genetic per-ray slots within that eye, same-slot grouping/empty slots, module 1 equivalent in capture frequency to the current system, and an energetic per-ray consultation cost as the proposed evolutionary counterbalance.
-- **Still exploratory:** 1 J magnitude, UI/genetic interaction, mutation and historical-save design, debit ordering within existing death rules, optional genetic ray count, spatial region organization, potential ecological rebalance, and real cost/benefit. No implementation plan accepted.
+- **Still exploratory:** 1 J magnitude, UI/genetic interaction, mutation and historical-save design, debit ordering within existing death rules, optional genetic ray count, skipping no-capture visual preparation, per-eye rectangle/triangle/sector filters together with or separate from shared facet candidates, spatial region organization, potential ecological rebalance, and real cost/benefit. No implementation plan accepted.
 - **Stage classification:** this is **Stage 4 candidate refinement / pre-design brainstorming**, **not** the execution or authorization of Stage 4. Stage 3 research is still ongoing and the standing experimental STOP remains in effect.
 - **Scope of this change:** documentation-only in Hernan's fork; no simulation, settings, schemas, genes, energy, Worker, display, tests, Wiki, testing branch, upstream runtime or Pages modification. No experiment conducted and no quantitative performance improvement claimed.
 - **Next step:** continue discussion, clarify the undecided biological/computational semantics, and only then consider an independently approved bounded experiment/implementation protocol. The upstream owner retains authority over upstream decisions and release.
