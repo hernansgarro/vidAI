@@ -9,7 +9,7 @@
   retry allowance. Preserve durable English checkpoints in the existing fork PR
   when the chat is stalled or unavailable.
 - By default allow **one unchanged retry of failed jobs per bounded task** for
-  plausible transient failures and at most **two targeted harness correction
+  plausible transient failures and at most **three targeted harness correction
   cycles**, then stop for the owner's decision. Target the affected job when
   diagnosing; changed-head work still requires mandatory final-head checks.
 - Never erase failures, relax baselines, skip required assertions, increase
