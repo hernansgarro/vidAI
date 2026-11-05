@@ -1,10 +1,11 @@
 # P9 — Physical per-part contacts on maintained spatial membership
 
-> **Validation resumed with explicit owner authorization.** The owner authorized
-> up to TWO additional targeted correction cycles. Additional cycle1 (overall3)
-> corrected the two isolated fixtures;84/84 affected tests pass. One additional
-> correction cycle remains. Exact-final-head remote validation is required before
-> testing integration/publication; no runtime or historical-reference change.
+> **Final authorized candidate; remote validation required.** Both additional
+> correction cycles are now used (overall cycles3/4). The two isolated fixtures
+> pass84/84. The last correction scopes P7's feeding-query spy to feeding while
+> retaining P5 audits for contact queries; its targeted test passes. No runtime,
+> historical-reference, threshold, timeout or CI change. No further correction
+> cycle is authorized; stop on another unresolved mandatory failure.
 
 **Fork testing only, 2026-11-05.** Authorized base P8
 `5fdc1b78d7c16132554bfcfe83375cf1142f42de`, branch
@@ -205,3 +206,25 @@ been used. The exact-final-head required CI gates and publication readbacks will
 be recorded in the internal PR. Opening that PR is now appropriate because both
 known failures have been resolved. Do not promote until every mandatory gate is
 approved; do not repeat successful shards or launch performance experiments.
+
+## Final authorized harness cycle — overall4
+
+On head `9b4d4bc4a6474ea8fda39ddbd827e103e2ca5897`, the first remote fast gate
+passed576/577; the only failure was P7's generic queryBounds spy asserting
+`descending === true` on a new P9 body-part query (actual undefined). The stack
+reaches collectBodyContactPairs before any feeding-order assertion. This is a
+consumer-scoping error in the inherited test, not changed feeding order. Original
+[CI failure excerpt](evidence/p9/initial-ci-fast-failure.log), full job/run links
+and [registered correction](https://github.com/hernansgarro/vidAI/pull/117#issuecomment-6662995278)
+are preserved. Same-head npm ci/build/actual Worker and standing locomotion passed;
+browser results must be read separately and never borrowed for a different head.
+
+Additional cycle2 / overall4 delegates only the exact single-kind `body-part`
+requests to the real method AFTER the unchanged P5 audit. Every original feeding
+rank/candidate/overflow/shrink/removal assertion and counter remains; independent
+P9 tests still cover contact candidates and order. The
+[targeted feeding test passes](evidence/p9/cycle4-feeding.log). No runtime or
+reference changes. ZERO additional correction cycles remain; no unchanged CI
+retry has been used. Required exact-new-head CI must run once before integration;
+any further unresolved failure requires another owner decision. Final check,
+merge and actual publication receipts belong in internal PR117.

@@ -57,6 +57,8 @@ test('live feeding queries preserve descending ranks and fresh legacy candidate 
     };
     grid.queryBounds = (q, kinds, descending) => {
       assert.equal(auditWorldGrid(state).issueCount, 0, `${fixture.name}: before consumption, without repair`);
+      // P9 contact queries share the grid; this oracle checks feeding order only.
+      if (kinds?.length === 1 && kinds[0] === 'body-part') return query(q, kinds, descending);
       assert.equal(descending, true); queries++;
       const actual = query(q, kinds, descending), ranks = actual.map(e => e.value.sourceIndex);
       assert.deepEqual(ranks, [...new Set(ranks)].sort((a,b) => b-a));
