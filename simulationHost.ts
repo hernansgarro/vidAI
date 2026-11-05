@@ -25,6 +25,7 @@ type LiveEgg = Omit<Egg, 'genome'> & {genomeKey: string};
 export interface RenderFrame {
   epoch: number; steps: number; events: string[];
   diagnostics: GridAuditDiagnostic[];
+  gridPauseRequested?: boolean;
   spatialOverlay?: SpatialOverlayFrame;
   energyActivity: EnergyActivityFrame;
   genomes: Array<[string, Genome]>;
@@ -50,10 +51,11 @@ export class SimulationHost {
   spatialOverlayRevision = 0;
   private diagnostics: GridAuditDiagnostic[] = [];
   private droppedDiagnostics = 0;
+  private gridPauseRequested = false;
   readonly gridAudit = new GridIntegrityObserver(event => {
     if (this.diagnostics.length === 64) {this.diagnostics.shift(); this.droppedDiagnostics++;}
     this.diagnostics.push(event);
-  });
+  }, () => {this.speed = 0; this.gridPauseRequested = true;});
 
   reset(snapshot: WorldSnapshot, epoch: number): void {
     const restored = restoreSnapshot(snapshot);
@@ -62,10 +64,12 @@ export class SimulationHost {
     this.state = restored.state; this.settings = restored.settings; this.epoch = epoch;
     this.energyActivity.clear();
     this.gridAudit.schedule.reset(this.state.simTime);
+    this.gridPauseRequested = false;
     this.speed = 0; this.steps = 0; this.events.clear();
     this.genomeIds = new WeakMap(); this.nextGenome = 0;
     this.lineageChanges = watchLineage(this.state.lineage);
   }
+  isPaused(): boolean {return this.speed === 0;}
   tick(): void {
     stepSimulation(this.state, this.settings, 1 / 60, event => this.events.add(event), undefined, this.energyActivity.record);
     this.energyActivity.advance(this.state);
@@ -139,7 +143,8 @@ export class SimulationHost {
       message: `${this.droppedDiagnostics} older grid diagnostic events dropped while awaiting a frame.`});
     this.diagnostics = []; this.droppedDiagnostics = 0;
     const spatialOverlay = collectSpatialOverlay(this.state, this.spatialOverlays, this.spatialOverlayRevision);
-    const result = {...(spatialOverlay ? {spatialOverlay} : {}), diagnostics, epoch: this.epoch, steps: this.steps, events: [...this.events], genomes, lineage,
+    const gridPauseRequested = this.gridPauseRequested; this.gridPauseRequested = false;
+    const result = {...(gridPauseRequested ? {gridPauseRequested: true} : {}), ...(spatialOverlay ? {spatialOverlay} : {}), diagnostics, epoch: this.epoch, steps: this.steps, events: [...this.events], genomes, lineage,
       energyActivity: this.energyActivity.frame(),
       state: {...rest, organisms: live, eggs: liveEggs}};
     this.steps = 0; this.events.clear();

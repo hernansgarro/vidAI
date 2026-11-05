@@ -1,0 +1,6 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> vidai@0.39.0 build
+> tsc --noEmit && vite build
+
+simulation.worker.ts(88,13): error TS2367: This comparison appears to be unintentional because the types '"max" | 1 | 2 | 5 | 10 | 20' and '0' have no overlap.

@@ -1,0 +1,125 @@
+✔ audited targeted repair: wrong-cell, original evidence first, independent verification and no physical writes (6.974784ms)
+✔ audited targeted repair: missing, original evidence first, independent verification and no physical writes (0.773439ms)
+✖ audited targeted repair: extra, original evidence first, independent verification and no physical writes (5.118695ms)
+✔ audited targeted repair: size, original evidence first, independent verification and no physical writes (1.183618ms)
+✔ audited targeted repair: category, original evidence first, independent verification and no physical writes (0.850984ms)
+✔ audited targeted repair: range, original evidence first, independent verification and no physical writes (0.66629ms)
+✔ audited targeted repair: local, original evidence first, independent verification and no physical writes (0.792938ms)
+✔ audited targeted repair: duplicate, original evidence first, independent verification and no physical writes (0.708913ms)
+✔ audited targeted repair: foreign, original evidence first, independent verification and no physical writes (0.717696ms)
+✔ audited targeted repair: overflow, original evidence first, independent verification and no physical writes (0.741952ms)
+✔ audited targeted repair: stale-overflow, original evidence first, independent verification and no physical writes (1.14413ms)
+✔ repair failures, unsafe ambiguous identities and incomplete inspection remain visible (3.028069ms)
+✔ severe pause is independent, based on original defect and occurs only after verification at a host boundary (5.817184ms)
+✔ periodic severe pause completes the tick, failed repair still pauses, disabled audit never scans (3.723272ms)
+✔ normal initialized ticks, inflow, clear, resize and topology edits never invoke global reconciliation (48.633122ms)
+✔ explicit external transactions and automatic roster replacement preserve headless continuation (1.460359ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: legacy-v0 (254.521743ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: surface-work-v1 (251.407932ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: paid-work-v2 (229.10688ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: passive-work-v3 (246.875973ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: dense-food-carrion (817.759864ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: branched-rotated-separated (251.03274ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: tube-L (33.333699ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: tube-R (32.905161ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: closed-mineralization (2.834983ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: closed-eggs (43.0527ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: feeding-learning (32.664986ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: historical-v5 (60.882003ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: overlap-legacy-historical-false (50.183025ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: overlap-legacy-historical-true (47.625044ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: overlap-legacy-decay-v1-false (48.783486ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: overlap-legacy-decay-v1-true (42.672034ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: overlap-legacy-decay-v2-false (46.42427ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: overlap-legacy-decay-v2-true (50.680313ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: overlap-capsule-v1-historical-false (41.502557ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: overlap-capsule-v1-historical-true (42.027277ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: overlap-capsule-v1-decay-v1-false (44.980895ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: overlap-capsule-v1-decay-v1-true (41.36967ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: overlap-capsule-v1-decay-v2-false (41.000282ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: overlap-capsule-v1-decay-v2-true (41.071236ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: same-tick-laying (12.773629ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: imported-radius-growth-open (4.465294ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: imported-radius-growth-closed (1.883178ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: same-tick-shrink-cell-crossing (2.081033ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: food-egg-body-tie (13.854026ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: reverse-food-tie (12.613982ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: egg-body-tie (14.407429ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: body-order-tie (17.903541ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: reverse-body-tie (17.666069ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: part-order-tie (15.114378ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: dynamic-pigment (15.623614ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: dark-occlusion (13.254163ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: spectral-occlusion (11.734566ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: nearest-body (11.133633ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: same-tick-carrion (9.479314ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: cap-merge-same-cell (19.509809ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: cap-merge-cross-cell (21.742766ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: boundary-tangent (7.289971ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: branched (140.042013ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: long-folded (45.313749ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: dense-boundary (186.995168ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: reverse-dense (194.159864ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: cell-corners (55.500636ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: fast-substeps (73.92319ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: food-cell-false-positives (12.136322ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: food-cell-reversed (12.704958ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: food-contact-tangency (11.799953ms)
+✔ all consumer/lifecycle hooks current without repeated reconciliation: food-budget-contact (12.546383ms)
+ℹ tests 68
+ℹ suites 0
+ℹ pass 67
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4416.799833
+
+✖ failing tests:
+
+test at tests/incremental-grid.test.ts:1:1287
+✖ audited targeted repair: extra, original evidence first, independent verification and no physical writes (5.118695ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be reference-equal to "expected":
+  + actual - expected
+  ... Skipped lines
+  
+    GridEntry {
+      Symbol(grid membership): {
+        kind: 'nutrient',
+        owner: {},
+  +     range: {
+  +       bottom: 6,
+  +       left: 8,
+  +       right: 9,
+  +       top: 5
+  +     },
+  -     range: undefined,
+        seen: 0
+      },
+      value: {
+        bounds: {
+          bottom: 770.6150905899704,
+  ...
+        partIndex: -1,
+  +     sourceIndex: 0,
+  -     sourceIndex: 1,
+        view: 'food'
+      }
+    }
+  
+      at <anonymous> (/workspace/scratch/0833ce21abf8/vidAI/tests/incremental-grid.test.ts:60:67)
+      at MaintainedWorldGrid.inspectRecords (/workspace/scratch/0833ce21abf8/vidAI/maintainedGrid.ts:73:40)
+      at TestContext.<anonymous> (/workspace/scratch/0833ce21abf8/vidAI/tests/incremental-grid.test.ts:60:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { value: { entity: [Object], view: 'food', sourceIndex: 0, partIndex: -1, organism: undefined, bounds: [Object] } },
+    expected: { value: { entity: [Object], view: 'food', sourceIndex: 1, partIndex: -1, organism: undefined, bounds: [Object] } },
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

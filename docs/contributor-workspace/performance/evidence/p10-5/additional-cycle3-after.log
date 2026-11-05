@@ -1,0 +1,11 @@
+✔ normal initialized ticks, inflow, clear, resize and topology edits never invoke global reconciliation (57.359609ms)
+✔ body-part/coarse anatomy repairs and counter-only recovery preserve untouched entries and physical state (53.312419ms)
+✔ explicit post-initialization anatomy edits refresh the coarse certificate even with the same parts array (4.699629ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 812.757087

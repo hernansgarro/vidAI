@@ -1,4 +1,4 @@
-import {ensureMaintainedGrid, synchronizeMaintainedGrid} from './maintainedGrid';
+import {ensureMaintainedGrid, getMaintainedGrid, syncTrackedOrganism, syncTrackedParticle} from './maintainedGrid';
 import {validateSelfTubes} from './selfTubes';
 import {embodiedEnergy, FOOD_SAFETY_LIMIT} from './energyEconomy';
 import {eggReserveReference} from './eggReserve';
@@ -31,9 +31,13 @@ export function clearFreeNutrients(s: SimulationState): number {
   const removed = s.nutrients.filter(n => n.kind !== 'carrion').reduce((sum, n) => sum + n.energyValue, 0);
   s.ledger.recordedLosses += removed;
   if (s.energyPool) s.energyPool.reserve += removed;
+  const grid = getMaintainedGrid(s);
+  for (const food of s.nutrients) if (food.kind !== 'carrion') grid?.remove(food);
   s.nutrients = s.nutrients.filter(n => n.kind === 'carrion');
+  grid?.refreshRanks('food');
+  grid?.acceptRosterChanges();
   s.nutrientAccumulator = 0;
-  synchronizeMaintainedGrid(s);
+
   return removed;
 }
 
@@ -50,16 +54,18 @@ export function resizeWorld(s: SimulationState, old: SimulationSettings, width: 
     const ty = dy + (top < 5 ? 5 - top : bottom > height - 5 ? height - 5 - bottom : 0);
     for (const p of org.segments) { p.x += tx; p.y += ty; }
     for (const p of org.traceHistory ?? []) { p.x += tx; p.y += ty; }
+    syncTrackedOrganism(org);
   }
   for (const p of [...s.eggs, ...s.nutrients]) {
     p.x = clampVal(p.x + dx, 35, width - 35);
     p.y = clampVal(p.y + dy, 35, height - 35);
+    syncTrackedParticle(p);
   }
   for (const p of [...s.caustics, ...s.bubbles]) {
     p.x = clampVal(p.x + dx, 0, width);
     p.y = clampVal(p.y + dy, 0, height);
   }
-  synchronizeMaintainedGrid(s);
+
 }
 
 export function createSnapshot(s: SimulationState, settings: SimulationSettings, metadata: Record<string, unknown> = {}) {

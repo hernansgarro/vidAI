@@ -1,0 +1,536 @@
+{
+  "protocol": "P10.5 fixed 3600 ticks, 275 food, seed73, audit60s; dedicated compiled SimulationHost Worker, no browser pacing/UI",
+  "node": "v24.22.1",
+  "baseRoot": "/workspace/scratch/0833ce21abf8/p10-reference",
+  "elapsedMs": 29694.438545999998,
+  "results": [
+    {
+      "label": "P10",
+      "round": -1,
+      "creatures": 0,
+      "audit": false,
+      "counts": true,
+      "completed": 120,
+      "requested": 120,
+      "elapsedMs": 40.5769499999999,
+      "tps": 2957.3440093452145,
+      "simulatedSpeed": 49.289066822420246,
+      "hash": "e7894dec15670fdc185f488e37ee1f74d69391a2035efde5e90d8f65d80e737a",
+      "operations": {
+        "synchronize": 480,
+        "rosterVisits": 132000,
+        "syncFood": 165000,
+        "syncEgg": 0,
+        "syncOrganism": 0,
+        "queryBounds": 0,
+        "queryRay": 0
+      },
+      "audits": 0,
+      "diagnostics": []
+    },
+    {
+      "label": "P10",
+      "round": -1,
+      "creatures": 2,
+      "audit": false,
+      "counts": true,
+      "completed": 120,
+      "requested": 120,
+      "elapsedMs": 209.36480400000005,
+      "tps": 573.1622398194492,
+      "simulatedSpeed": 9.55270399699082,
+      "hash": "5a95cf72b009ef0452b95181e2d632e0d1a5e5ceb4fd76a78db81b81dc482779",
+      "operations": {
+        "synchronize": 480,
+        "rosterVisits": 138240,
+        "syncFood": 165003,
+        "syncEgg": 0,
+        "syncOrganism": 6833,
+        "queryBounds": 15847,
+        "queryRay": 3000
+      },
+      "audits": 0,
+      "diagnostics": []
+    },
+    {
+      "label": "P105",
+      "round": -1,
+      "creatures": 0,
+      "audit": false,
+      "counts": true,
+      "completed": 120,
+      "requested": 120,
+      "elapsedMs": 24.284327000000076,
+      "tps": 4941.458744152129,
+      "simulatedSpeed": 82.35764573586881,
+      "hash": "e7894dec15670fdc185f488e37ee1f74d69391a2035efde5e90d8f65d80e737a",
+      "operations": {
+        "synchronize": 0,
+        "rosterVisits": 0,
+        "syncFood": 66000,
+        "syncEgg": 0,
+        "syncOrganism": 0,
+        "queryBounds": 0,
+        "queryRay": 0
+      },
+      "audits": 0,
+      "diagnostics": []
+    },
+    {
+      "label": "P105",
+      "round": -1,
+      "creatures": 2,
+      "audit": false,
+      "counts": true,
+      "completed": 120,
+      "requested": 120,
+      "elapsedMs": 186.6066679999999,
+      "tps": 643.0638373544083,
+      "simulatedSpeed": 10.717730622573471,
+      "hash": "5a95cf72b009ef0452b95181e2d632e0d1a5e5ceb4fd76a78db81b81dc482779",
+      "operations": {
+        "synchronize": 0,
+        "rosterVisits": 0,
+        "syncFood": 66003,
+        "syncEgg": 0,
+        "syncOrganism": 5873,
+        "queryBounds": 15847,
+        "queryRay": 3000
+      },
+      "audits": 0,
+      "diagnostics": []
+    },
+    {
+      "label": "P10",
+      "round": 0,
+      "creatures": 0,
+      "audit": false,
+      "counts": false,
+      "completed": 3600,
+      "requested": 3600,
+      "elapsedMs": 571.8227729999999,
+      "tps": 6295.656923758091,
+      "simulatedSpeed": 104.92761539596817,
+      "hash": "be61072111dbb7f7e312bc0199bb786aa04e4f2d4f67fb0465bad80995d67e22",
+      "operations": {
+        "synchronize": 0,
+        "rosterVisits": 0,
+        "syncFood": 0,
+        "syncEgg": 0,
+        "syncOrganism": 0,
+        "queryBounds": 0,
+        "queryRay": 0
+      },
+      "audits": 0,
+      "diagnostics": []
+    },
+    {
+      "label": "P105",
+      "round": 0,
+      "creatures": 0,
+      "audit": false,
+      "counts": false,
+      "completed": 3600,
+      "requested": 3600,
+      "elapsedMs": 279.48561900000004,
+      "tps": 12880.805863574682,
+      "simulatedSpeed": 214.6800977262447,
+      "hash": "be61072111dbb7f7e312bc0199bb786aa04e4f2d4f67fb0465bad80995d67e22",
+      "operations": {
+        "synchronize": 0,
+        "rosterVisits": 0,
+        "syncFood": 0,
+        "syncEgg": 0,
+        "syncOrganism": 0,
+        "queryBounds": 0,
+        "queryRay": 0
+      },
+      "audits": 0,
+      "diagnostics": []
+    },
+    {
+      "label": "P10",
+      "round": 0,
+      "creatures": 0,
+      "audit": true,
+      "counts": false,
+      "completed": 3600,
+      "requested": 3600,
+      "elapsedMs": 549.6917829999998,
+      "tps": 6549.124639179847,
+      "simulatedSpeed": 109.15207731966412,
+      "hash": "be61072111dbb7f7e312bc0199bb786aa04e4f2d4f67fb0465bad80995d67e22",
+      "operations": {
+        "synchronize": 0,
+        "rosterVisits": 0,
+        "syncFood": 0,
+        "syncEgg": 0,
+        "syncOrganism": 0,
+        "queryBounds": 0,
+        "queryRay": 0
+      },
+      "audits": 1,
+      "diagnostics": [
+        {
+          "severity": "info",
+          "subsystem": "grid-integrity",
+          "message": "periodic grid audit at t=60.000s: passed; 275 expected entries, 0 unconditional candidates."
+        }
+      ]
+    },
+    {
+      "label": "P105",
+      "round": 0,
+      "creatures": 0,
+      "audit": true,
+      "counts": false,
+      "completed": 3600,
+      "requested": 3600,
+      "elapsedMs": 333.2409239999997,
+      "tps": 10802.994892668114,
+      "simulatedSpeed": 180.04991487780188,
+      "hash": "be61072111dbb7f7e312bc0199bb786aa04e4f2d4f67fb0465bad80995d67e22",
+      "operations": {
+        "synchronize": 0,
+        "rosterVisits": 0,
+        "syncFood": 0,
+        "syncEgg": 0,
+        "syncOrganism": 0,
+        "queryBounds": 0,
+        "queryRay": 0
+      },
+      "audits": 1,
+      "diagnostics": [
+        {
+          "severity": "info",
+          "subsystem": "grid-integrity",
+          "message": "periodic grid audit at t=60.000s: passed; 275 expected entries, 0 unconditional candidates."
+        }
+      ]
+    },
+    {
+      "label": "P10",
+      "round": 0,
+      "creatures": 2,
+      "audit": false,
+      "counts": false,
+      "completed": 3600,
+      "requested": 3600,
+      "elapsedMs": 3238.2475779999995,
+      "tps": 1111.7124040971028,
+      "simulatedSpeed": 18.528540068285047,
+      "hash": "29261379ae35739fc3fc671cef8a7d207de9fc9b9ad4c12f1b459cd25ce4f642",
+      "operations": {
+        "synchronize": 0,
+        "rosterVisits": 0,
+        "syncFood": 0,
+        "syncEgg": 0,
+        "syncOrganism": 0,
+        "queryBounds": 0,
+        "queryRay": 0
+      },
+      "audits": 0,
+      "diagnostics": []
+    },
+    {
+      "label": "P105",
+      "round": 0,
+      "creatures": 2,
+      "audit": false,
+      "counts": false,
+      "completed": 3600,
+      "requested": 3600,
+      "elapsedMs": 2707.164334,
+      "tps": 1329.804753552135,
+      "simulatedSpeed": 22.16341255920225,
+      "hash": "29261379ae35739fc3fc671cef8a7d207de9fc9b9ad4c12f1b459cd25ce4f642",
+      "operations": {
+        "synchronize": 0,
+        "rosterVisits": 0,
+        "syncFood": 0,
+        "syncEgg": 0,
+        "syncOrganism": 0,
+        "queryBounds": 0,
+        "queryRay": 0
+      },
+      "audits": 0,
+      "diagnostics": []
+    },
+    {
+      "label": "P10",
+      "round": 0,
+      "creatures": 2,
+      "audit": true,
+      "counts": false,
+      "completed": 3600,
+      "requested": 3600,
+      "elapsedMs": 3030.088699,
+      "tps": 1188.0840323875946,
+      "simulatedSpeed": 19.801400539793242,
+      "hash": "29261379ae35739fc3fc671cef8a7d207de9fc9b9ad4c12f1b459cd25ce4f642",
+      "operations": {
+        "synchronize": 0,
+        "rosterVisits": 0,
+        "syncFood": 0,
+        "syncEgg": 0,
+        "syncOrganism": 0,
+        "queryBounds": 0,
+        "queryRay": 0
+      },
+      "audits": 1,
+      "diagnostics": [
+        {
+          "severity": "info",
+          "subsystem": "grid-integrity",
+          "message": "periodic grid audit at t=60.000s: passed; 287 expected entries, 0 unconditional candidates."
+        }
+      ]
+    },
+    {
+      "label": "P105",
+      "round": 0,
+      "creatures": 2,
+      "audit": true,
+      "counts": false,
+      "completed": 3600,
+      "requested": 3600,
+      "elapsedMs": 2424.3572780000013,
+      "tps": 1484.9296482281925,
+      "simulatedSpeed": 24.748827470469873,
+      "hash": "29261379ae35739fc3fc671cef8a7d207de9fc9b9ad4c12f1b459cd25ce4f642",
+      "operations": {
+        "synchronize": 0,
+        "rosterVisits": 0,
+        "syncFood": 0,
+        "syncEgg": 0,
+        "syncOrganism": 0,
+        "queryBounds": 0,
+        "queryRay": 0
+      },
+      "audits": 1,
+      "diagnostics": [
+        {
+          "severity": "info",
+          "subsystem": "grid-integrity",
+          "message": "periodic grid audit at t=60.000s: passed; 287 expected entries, 0 unconditional candidates."
+        }
+      ]
+    },
+    {
+      "label": "P105",
+      "round": 1,
+      "creatures": 2,
+      "audit": true,
+      "counts": false,
+      "completed": 3600,
+      "requested": 3600,
+      "elapsedMs": 2528.703322999998,
+      "tps": 1423.6545534052761,
+      "simulatedSpeed": 23.727575890087937,
+      "hash": "29261379ae35739fc3fc671cef8a7d207de9fc9b9ad4c12f1b459cd25ce4f642",
+      "operations": {
+        "synchronize": 0,
+        "rosterVisits": 0,
+        "syncFood": 0,
+        "syncEgg": 0,
+        "syncOrganism": 0,
+        "queryBounds": 0,
+        "queryRay": 0
+      },
+      "audits": 1,
+      "diagnostics": [
+        {
+          "severity": "info",
+          "subsystem": "grid-integrity",
+          "message": "periodic grid audit at t=60.000s: passed; 287 expected entries, 0 unconditional candidates."
+        }
+      ]
+    },
+    {
+      "label": "P10",
+      "round": 1,
+      "creatures": 2,
+      "audit": true,
+      "counts": false,
+      "completed": 3600,
+      "requested": 3600,
+      "elapsedMs": 3123.296427999998,
+      "tps": 1152.6283473212497,
+      "simulatedSpeed": 19.21047245535416,
+      "hash": "29261379ae35739fc3fc671cef8a7d207de9fc9b9ad4c12f1b459cd25ce4f642",
+      "operations": {
+        "synchronize": 0,
+        "rosterVisits": 0,
+        "syncFood": 0,
+        "syncEgg": 0,
+        "syncOrganism": 0,
+        "queryBounds": 0,
+        "queryRay": 0
+      },
+      "audits": 1,
+      "diagnostics": [
+        {
+          "severity": "info",
+          "subsystem": "grid-integrity",
+          "message": "periodic grid audit at t=60.000s: passed; 287 expected entries, 0 unconditional candidates."
+        }
+      ]
+    },
+    {
+      "label": "P105",
+      "round": 1,
+      "creatures": 2,
+      "audit": false,
+      "counts": false,
+      "completed": 3600,
+      "requested": 3600,
+      "elapsedMs": 2515.932094,
+      "tps": 1430.8812263197754,
+      "simulatedSpeed": 23.84802043866292,
+      "hash": "29261379ae35739fc3fc671cef8a7d207de9fc9b9ad4c12f1b459cd25ce4f642",
+      "operations": {
+        "synchronize": 0,
+        "rosterVisits": 0,
+        "syncFood": 0,
+        "syncEgg": 0,
+        "syncOrganism": 0,
+        "queryBounds": 0,
+        "queryRay": 0
+      },
+      "audits": 0,
+      "diagnostics": []
+    },
+    {
+      "label": "P10",
+      "round": 1,
+      "creatures": 2,
+      "audit": false,
+      "counts": false,
+      "completed": 3600,
+      "requested": 3600,
+      "elapsedMs": 3044.799755,
+      "tps": 1182.3437630301569,
+      "simulatedSpeed": 19.705729383835948,
+      "hash": "29261379ae35739fc3fc671cef8a7d207de9fc9b9ad4c12f1b459cd25ce4f642",
+      "operations": {
+        "synchronize": 0,
+        "rosterVisits": 0,
+        "syncFood": 0,
+        "syncEgg": 0,
+        "syncOrganism": 0,
+        "queryBounds": 0,
+        "queryRay": 0
+      },
+      "audits": 0,
+      "diagnostics": []
+    },
+    {
+      "label": "P105",
+      "round": 1,
+      "creatures": 0,
+      "audit": true,
+      "counts": false,
+      "completed": 3600,
+      "requested": 3600,
+      "elapsedMs": 254.8178220000009,
+      "tps": 14127.740248874694,
+      "simulatedSpeed": 235.4623374812449,
+      "hash": "be61072111dbb7f7e312bc0199bb786aa04e4f2d4f67fb0465bad80995d67e22",
+      "operations": {
+        "synchronize": 0,
+        "rosterVisits": 0,
+        "syncFood": 0,
+        "syncEgg": 0,
+        "syncOrganism": 0,
+        "queryBounds": 0,
+        "queryRay": 0
+      },
+      "audits": 1,
+      "diagnostics": [
+        {
+          "severity": "info",
+          "subsystem": "grid-integrity",
+          "message": "periodic grid audit at t=60.000s: passed; 275 expected entries, 0 unconditional candidates."
+        }
+      ]
+    },
+    {
+      "label": "P10",
+      "round": 1,
+      "creatures": 0,
+      "audit": true,
+      "counts": false,
+      "completed": 3600,
+      "requested": 3600,
+      "elapsedMs": 517.359502000003,
+      "tps": 6958.410903990663,
+      "simulatedSpeed": 115.97351506651106,
+      "hash": "be61072111dbb7f7e312bc0199bb786aa04e4f2d4f67fb0465bad80995d67e22",
+      "operations": {
+        "synchronize": 0,
+        "rosterVisits": 0,
+        "syncFood": 0,
+        "syncEgg": 0,
+        "syncOrganism": 0,
+        "queryBounds": 0,
+        "queryRay": 0
+      },
+      "audits": 1,
+      "diagnostics": [
+        {
+          "severity": "info",
+          "subsystem": "grid-integrity",
+          "message": "periodic grid audit at t=60.000s: passed; 275 expected entries, 0 unconditional candidates."
+        }
+      ]
+    },
+    {
+      "label": "P105",
+      "round": 1,
+      "creatures": 0,
+      "audit": false,
+      "counts": false,
+      "completed": 3600,
+      "requested": 3600,
+      "elapsedMs": 252.01835799999753,
+      "tps": 14284.67365857544,
+      "simulatedSpeed": 238.07789430959068,
+      "hash": "be61072111dbb7f7e312bc0199bb786aa04e4f2d4f67fb0465bad80995d67e22",
+      "operations": {
+        "synchronize": 0,
+        "rosterVisits": 0,
+        "syncFood": 0,
+        "syncEgg": 0,
+        "syncOrganism": 0,
+        "queryBounds": 0,
+        "queryRay": 0
+      },
+      "audits": 0,
+      "diagnostics": []
+    },
+    {
+      "label": "P10",
+      "round": 1,
+      "creatures": 0,
+      "audit": false,
+      "counts": false,
+      "completed": 3600,
+      "requested": 3600,
+      "elapsedMs": 472.8489389999995,
+      "tps": 7613.425140835525,
+      "simulatedSpeed": 126.89041901392542,
+      "hash": "be61072111dbb7f7e312bc0199bb786aa04e4f2d4f67fb0465bad80995d67e22",
+      "operations": {
+        "synchronize": 0,
+        "rosterVisits": 0,
+        "syncFood": 0,
+        "syncEgg": 0,
+        "syncOrganism": 0,
+        "queryBounds": 0,
+        "queryRay": 0
+      },
+      "audits": 0,
+      "diagnostics": []
+    }
+  ]
+}

@@ -28,9 +28,25 @@ const asset = (await readdir(new URL('../dist/assets/', import.meta.url)))
 assert.ok(asset, 'Run npm run build first');
 const bundle = new URL(`../dist/assets/${asset}`, import.meta.url).href;
 const boot = `import {parentPort} from 'node:worker_threads';
+// Test-only corruption injector surrounds the unchanged production bundle.
+const NativeSet=globalThis.Set, gridEntries=new NativeSet();
+globalThis.Set=class extends NativeSet {add(value) {
+  if(value?.value?.view==='food') gridEntries.add(value);
+  return super.add(value);
+}};
 globalThis.self = {postMessage: value => parentPort.postMessage(value)};
 parentPort.on('message', data => self.onmessage({data}));
-await import(${JSON.stringify(bundle)}); parentPort.postMessage({type:'ready'});`;
+await import(${JSON.stringify(bundle)});
+const productionHandler=self.onmessage;
+self.onmessage=event=>{
+  if(event.data.type==='test-grid-corruption') {
+    const entry=[...gridEntries].reverse().find(e=>e.registered && e.value.view==='food');
+    if(!entry) throw new Error('Missing test corruption target');
+    entry.value.view='egg';
+    parentPort.postMessage({type:'test-grid-corrupted'});
+  } else productionHandler(event);
+};
+parentPort.postMessage({type:'ready'});`;
 const worker = new Worker(new URL(`data:text/javascript,${encodeURIComponent(boot)}`));
 let requests = 0;
 const queued = [], waiting = [];
@@ -448,6 +464,44 @@ try {
   send({type: 'grid-audit-config', epoch: auditEpoch+1, enabled: false});
   assert.equal(await request('grid-audit', {}, auditEpoch+1), 0);
   assert.deepEqual(await request('snapshot', {}, auditEpoch+1), auditSource);
+  // P10.5: real compiled Worker repair + authoritative pause, no test command
+  // exists in production. The boot injector changes derived view metadata only.
+  const repairEpoch=399, repairSettings={...DEFAULT_SETTINGS,targetNutrients:1,inflowRate:0};
+  const repairSource=createSnapshot(createInitialWorld(repairSettings,105,'balanced','standard',0),repairSettings);
+  for(const pauseOnSevere of [false,true]) {
+    send({type:'reset',snapshot:repairSource,epoch:repairEpoch});
+    await receive(v=>v.type==='frame' && v.frame.epoch===repairEpoch);
+    send({type:'grid-audit-pause-config',epoch:repairEpoch,enabled:pauseOnSevere});
+    send({type:'grid-audit-config',epoch:repairEpoch,enabled:false});
+    send({type:'test-grid-corruption'});await receive(v=>v.type==='test-grid-corrupted');
+    assert.ok(await request('grid-audit',{},repairEpoch)>0);
+    assert.deepEqual(await request('snapshot',{},repairEpoch),repairSource,'manual repair never changes physics/PRNG');
+    send({type:'ack',epoch:repairEpoch});
+    const repaired=await receive(v=>v.type==='frame' && v.frame.epoch===repairEpoch);
+    assert.equal(repaired.frame.gridPauseRequested,pauseOnSevere?true:undefined);
+    assert.match(repaired.frame.diagnostics.map(e=>e.message).join('\n'),/succeeded 1, failed 0.*independent verification 0/);
+    assert.equal(await request('grid-audit',{},repairEpoch),0);
+  }
+  send({type:'reset',snapshot:repairSource,epoch:repairEpoch+1});
+  await receive(v=>v.type==='frame' && v.frame.epoch===repairEpoch+1);
+  send({type:'grid-audit-config',epoch:repairEpoch+1,enabled:true});
+  send({type:'grid-audit-pause-config',epoch:repairEpoch+1,enabled:true});
+  send({type:'test-grid-corruption'});await receive(v=>v.type==='test-grid-corrupted');
+  send({type:'control',epoch:repairEpoch+1,settings:repairSettings,speed:'max',selected:null});
+  send({type:'ack',epoch:repairEpoch+1});
+  let severePauseFrame;
+  while(!severePauseFrame) {
+    const next=await receive(v=>v.type==='frame' && v.frame.epoch===repairEpoch+1);
+    if(next.frame.gridPauseRequested) severePauseFrame=next.frame;
+    else send({type:'ack',epoch:repairEpoch+1});
+  }
+  const severePaused=await request('snapshot',{},repairEpoch+1);
+  assert.ok(Math.abs(severePaused.state.simTime-60)<1e-8,'pause at complete normal audit tick, no extra MAX batch ticks');
+  assert.deepEqual(await request('snapshot',{},repairEpoch+1),severePaused,'Worker remains at authoritative 0x');
+  const repairDirect=restoreSnapshot(repairSource);
+  for(let i=0;i<3600;i++) stepSimulation(repairDirect.state,repairDirect.settings,1/60);
+  assert.deepEqual(severePaused,createSnapshot(repairDirect.state,repairDirect.settings));
+  assert.match(severePauseFrame.diagnostics.map(e=>e.message).join('\n'),/periodic.*inconsistencies/);
   // P6: optional real membership readback and independent configuration.
   const overlayEpoch = 401;
   const overlaySettings = {...DEFAULT_SETTINGS, targetNutrients: 12, inflowRate: 0};

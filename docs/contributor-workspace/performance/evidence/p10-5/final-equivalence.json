@@ -1,0 +1,8 @@
+{
+  "base": "de658fd90e48154cc83d6d4ea6c22a4f82f0afa1",
+  "scope": "Final explicit-anatomy invalidation correction; inherited P10 comparison",
+  "deepEqual": true,
+  "byteEqual": true,
+  "bytes": 110386797,
+  "sha256": "575243d8a90bf4e2c738a31171e7eb66689f7ba797bd3fe66a45ab9771bbaaec"
+}

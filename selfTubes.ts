@@ -1,4 +1,4 @@
-import {syncTrackedOrganism, syncTrackedParticle, synchronizeMaintainedGrid} from './maintainedGrid';
+import {syncTrackedOrganism, syncTrackedParticle, getMaintainedGrid} from './maintainedGrid';
 import type {Organism, SimulationSettings, SimulationState} from './simulation';
 
 /** Physical topology is world state; display names and pending invitations are not. */
@@ -109,9 +109,12 @@ export function transferSelfOrganisms(state: SimulationState, settings: Simulati
     if (!left && !right) continue;
     const record = structuredClone(source); record.genome = source.genome;
     translateLiveOrganism(record, (left ? g.width + TUBE_ARRIVAL : -TUBE_ARRIVAL) - root.x);
+    const grid = getMaintainedGrid(state);
+    grid?.removeOrganism(source);
     state.organisms[i] = record; moved++;
+    grid?.syncOrganism(record, i);
   }
-  if (moved) synchronizeMaintainedGrid(state);
+  if (moved) getMaintainedGrid(state)?.acceptRosterChanges();
   return moved;
 }
 export function moveTubeParticle(p: {x: number; y: number; vx: number; vy: number}, g: TubeGeometry): void {
@@ -139,8 +142,10 @@ export function setSelfTubes(state: SimulationState, settings: SimulationSetting
     translateLiveOrganism(org, left < 5 ? 5 - left : right > settings.worldWidth - 5 ? settings.worldWidth - 5 - right : 0);
   }
   for (const p of [...state.eggs, ...state.nutrients]) {
-    if (!g || !inTubeWater(g, p.x, p.y)) p.x = clamp(p.x, 35, settings.worldWidth - 35);
+    if (!g || !inTubeWater(g, p.x, p.y)) {
+      p.x = clamp(p.x, 35, settings.worldWidth - 35); syncTrackedParticle(p);
+    }
   }
   state.selfTubes = topology;
-  synchronizeMaintainedGrid(state);
+
 }

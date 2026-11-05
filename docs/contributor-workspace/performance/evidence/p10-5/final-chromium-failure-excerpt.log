@@ -1,0 +1,28 @@
+Normalized excerpt (ANSI removed); original run42094772087/job127481815976, head b618c5577fd25ffd8535fab17c0905ad4cf7c88b.
+2026-11-05T19:44:35.1353421Z   1) e2e/energy-activity.spec.ts:8:39 › energy contour glows follow real body paths and freeze at x0 (Worker) 
+2026-11-05T19:44:35.1354498Z 
+2026-11-05T19:44:35.1355749Z     Error: expect(received).toBe(expected) // Object.is equality
+2026-11-05T19:44:35.1356284Z 
+2026-11-05T19:44:35.1356537Z     Expected: true
+2026-11-05T19:44:35.1356982Z     Received: false
+2026-11-05T19:44:35.1357265Z 
+2026-11-05T19:44:35.1361141Z     Call Log:
+2026-11-05T19:44:35.1361750Z     - Timeout 5000ms exceeded while waiting on the predicate
+2026-11-05T19:44:35.1362142Z 
+2026-11-05T19:44:35.1362616Z       83 |   await expect.poll(async () => (await sample()).frames).toBeGreaterThan(stopping.frames + 1);
+2026-11-05T19:44:35.1363442Z       84 |   const paused = await sample();
+2026-11-05T19:44:35.1363979Z     > 85 |   await expect.poll(async () => {
+2026-11-05T19:44:35.1364431Z          |   ^
+2026-11-05T19:44:35.1364834Z       86 |     const latest = await sample();
+2026-11-05T19:44:35.1365626Z       87 |     return latest.counts[0] > paused.counts[0] && latest.counts[1] > paused.counts[1];
+2026-11-05T19:44:35.1366391Z       88 |   }).toBe(true);
+2026-11-05T19:44:35.1366953Z         at /__w/vidAI/vidAI/e2e/energy-activity.spec.ts:85:3
+2026-11-05T19:44:35.1367323Z 
+2026-11-05T19:44:35.1368013Z     Error Context: test-results/energy-activity-energy-con-d22a1-hs-and-freeze-at-x0-Worker-/error-context.md
+2026-11-05T19:44:35.1368773Z 
+2026-11-05T19:44:35.1369092Z   Slow test file: e2e/performance-worker.spec.ts (8.6m)
+2026-11-05T19:44:35.1370081Z   Consider running tests from slow files in parallel. See: https://playwright.dev/docs/test-parallel
+2026-11-05T19:44:35.1370570Z   1 failed
+2026-11-05T19:44:35.1371219Z     e2e/energy-activity.spec.ts:8:39 › energy contour glows follow real body paths and freeze at x0 (Worker) 
+2026-11-05T19:44:35.1371702Z   54 passed (12.0m)
+2026-11-05T19:44:35.1673518Z ##[error]Process completed with exit code 1.

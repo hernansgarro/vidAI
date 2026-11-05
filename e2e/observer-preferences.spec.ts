@@ -76,7 +76,8 @@ for (const fallback of [false, true]) test(`independent observer preferences, bo
   for (const selectAddedCreature of [false, true]) for (const trackSelectedCreature of [false, true]) {
     await upload(source); await expect(badge).toHaveCount(0);
     const advanced = await openAdvanced();
-    await expect(advanced.getByRole('checkbox')).toHaveCount(6);
+    await expect(advanced.getByRole('checkbox')).toHaveCount(7);
+    await expect(advanced.getByLabel('Pause on severe grid inconsistency', {exact: true})).not.toBeChecked();
     await setChecked(advanced.getByLabel('Automatically select added creatures', {exact: true}), selectAddedCreature);
     await setChecked(advanced.getByLabel('Automatically track selected creatures', {exact: true}), trackSelectedCreature);
     const configured = await read();
@@ -364,6 +365,9 @@ for (const fallback of [false, true]) test(`grid audit uses authoritative paused
   await settings.getByRole('button', {name: 'Advanced Settings', exact: true}).dispatchEvent('click');
   const advanced = page.getByRole('dialog', {name: 'Advanced Settings', exact: true});
   const toggle = advanced.getByLabel('Periodic grid integrity audit (60 simulated seconds)', {exact: true});
+  const severePause = advanced.getByLabel('Pause on severe grid inconsistency', {exact: true});
+  await expect(severePause).not.toBeChecked();
+  await severePause.dispatchEvent('click'); await expect(severePause).toBeChecked();
   await expect(toggle).not.toBeChecked();
   await toggle.focus(); await page.keyboard.press('Space'); await expect(toggle).toBeChecked();
   await expect(page.getByRole('button', {name: 'Resume', exact: true})).toBeVisible();
@@ -384,8 +388,10 @@ for (const fallback of [false, true]) test(`grid audit uses authoritative paused
   await console.getByRole('button', {name: 'Back to advanced settings'}).dispatchEvent('click');
   await expect(toggle).toBeChecked();
   await upload(); await expect.poll(async () => (await read()).state).toEqual(source.state);
+  await expect(severePause).toBeChecked();
   await expect(toggle).toBeChecked();
   await toggle.dispatchEvent('click'); await expect(toggle).not.toBeChecked();
+  await expect(severePause).toBeChecked();
   await advanced.getByRole('button', {name: 'Audit grid now', exact: true}).dispatchEvent('click');
   await expect(console).toBeVisible(); await console.getByLabel('Diagnostic subsystem').selectOption('grid-integrity');
   await expect(rows).toHaveCount(2);
@@ -510,4 +516,67 @@ for (const fallback of [false, true]) test(`spatial overlays: independent option
   expect(await read()).toEqual(before); expect(errors).toEqual([]);
 });
 
+});
+
+test('severe manual grid repair pauses the real Worker and updates the toolbar at 0x',async({page})=>{
+  await page.setViewportSize({width:1280,height:850});
+  await page.clock.install();await page.clock.pauseAt(new Date(Date.now()+1000));
+  await page.addInitScript(()=>{
+    const NativeWorker=window.Worker;
+    window.Worker=class extends NativeWorker {
+      constructor(url: string|URL,options?:WorkerOptions) {
+        const absolute=new URL(String(url),location.href).href;
+        // Test-only wrapper: import the unchanged production Worker and corrupt
+        // one derived entry. No injection protocol exists in the application.
+        const boot=`const NativeSet=Set,entries=new NativeSet();
+          globalThis.Set=class extends NativeSet {add(e){if(e?.value?.view==='food')entries.add(e);return super.add(e);}};
+          await import(${JSON.stringify(absolute)});
+          const handler=self.onmessage;self.onmessage=event=>{
+            if(event.data.type==='test-grid-corruption'){
+              const entry=[...entries].reverse().find(e=>e.registered&&e.value.view==='food');
+              if(!entry)throw new Error('Missing corruption fixture');
+              entry.value.view='egg';self.postMessage({type:'test-grid-corrupted'});
+            }else handler(event);
+          };`;
+        super(URL.createObjectURL(new Blob([boot],{type:'text/javascript'})),{...options,type:'module'});
+        (window as any).p105Worker=this;
+      }
+    };
+  });
+  await page.goto('./?autoplay');
+  await page.getByTitle('Ecology & Physical Settings').dispatchEvent('click');
+  const settingsWindow=page.getByTestId('settings-window');
+  const config={...DEFAULT_SETTINGS,targetNutrients:1,inflowRate:0};
+  const source=createSnapshot(createInitialWorld(config,105,'balanced','standard',0),config);
+  const canvas=page.getByLabel('Aquatic simulation'),epoch=Number(await canvas.getAttribute('data-world-epoch'));
+  await settingsWindow.locator('input[type=file]').setInputFiles({name:'p105-repair.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(source))});
+  await expect(canvas).toHaveAttribute('data-world-epoch',String(epoch+1));
+  await expect(page.getByRole('button',{name:'Resume',exact:true})).toBeVisible();
+  await settingsWindow.getByRole('button',{name:'Advanced Settings',exact:true}).dispatchEvent('click');
+  const advanced=page.getByRole('dialog',{name:'Advanced Settings',exact:true});
+  await expect(advanced.getByLabel('Periodic grid integrity audit (60 simulated seconds)',{exact:true})).not.toBeChecked();
+  await advanced.getByLabel('Pause on severe grid inconsistency',{exact:true}).dispatchEvent('click');
+  await page.getByRole('button',{name:'1x',exact:true}).dispatchEvent('click');
+  await expect(page.getByRole('button',{name:'Pause',exact:true})).toBeVisible();
+  await page.evaluate(()=>new Promise<void>(resolve=>{
+    const worker=(window as any).p105Worker as Worker;
+    const listener=(event:MessageEvent)=>{if(event.data.type==='test-grid-corrupted'){worker.removeEventListener('message',listener);resolve();}};
+    worker.addEventListener('message',listener);worker.postMessage({type:'test-grid-corruption'});
+  }));
+  await advanced.getByRole('button',{name:'Audit grid now',exact:true}).dispatchEvent('click');
+  await expect(page.getByRole('button',{name:'Resume',exact:true})).toBeVisible();
+  const diagnostics=page.getByRole('region',{name:'System diagnostics',exact:true});
+  await diagnostics.getByLabel('Diagnostic subsystem').selectOption('grid-integrity');
+  await expect(diagnostics).toContainText('succeeded 1, failed 0');
+  await expect(diagnostics).toContainText('requesting authoritative 0x pause');
+  const read=async()=>{
+    const download=page.waitForEvent('download');
+    await settingsWindow.getByRole('button',{name:'Export Snapshot',exact:true}).dispatchEvent('click');
+    return JSON.parse(await readFile((await(await download).path())!,'utf8'));
+  };
+  const paused=await read();await page.clock.fastForward(61000);expect((await read()).state).toEqual(paused.state);
+  const {restoreSnapshot}=await import('../persistence');const {stepSimulation}=await import('../simulation');
+  const direct=restoreSnapshot(source),ticks=Math.round(paused.state.simTime*60);
+  for(let i=0;i<ticks;i++)stepSimulation(direct.state,direct.settings,1/60);
+  expect(paused.state).toEqual(createSnapshot(direct.state,direct.settings).state);
 });
