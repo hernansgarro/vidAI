@@ -1,0 +1,45 @@
+Original final-head CI failure (preserved; not replaced by later results)
+Head: 9b4d4bc4a6474ea8fda39ddbd827e103e2ca5897
+Run: https://github.com/hernansgarro/vidAI/actions/runs/42062006993
+Job: https://github.com/hernansgarro/vidAI/actions/runs/42062006993/job/127365958816
+Full original log remains attached to that completed job.
+
+
+2026-11-05T16:12:51.4307463Z ℹ tests 577
+2026-11-05T16:12:51.4307753Z ℹ suites 0
+2026-11-05T16:12:51.4308023Z ℹ pass 576
+2026-11-05T16:12:51.4308279Z ℹ fail 1
+2026-11-05T16:12:51.4308534Z ℹ cancelled 0
+2026-11-05T16:12:51.4308758Z ℹ skipped 0
+2026-11-05T16:12:51.4308937Z ℹ todo 0
+2026-11-05T16:12:51.4309144Z ℹ duration_ms 41844.208015
+2026-11-05T16:12:51.4309283Z 
+2026-11-05T16:12:51.4309459Z ✖ failing tests:
+2026-11-05T16:12:51.4317710Z 
+2026-11-05T16:12:51.4318088Z test at tests/feeding-grid.test.ts:1:2273
+2026-11-05T16:12:51.4318785Z ✖ live feeding queries preserve descending ranks and fresh legacy candidate coverage; P5 is clean before every query (162.152714ms)
+2026-11-05T16:12:51.4319730Z   AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+2026-11-05T16:12:51.4320210Z   + actual - expected
+2026-11-05T16:12:51.4320479Z   
+2026-11-05T16:12:51.4320703Z   + undefined
+2026-11-05T16:12:51.4320947Z   - true
+2026-11-05T16:12:51.4321179Z   
+2026-11-05T16:12:51.4321782Z       at MaintainedWorldGrid.grid.queryBounds (/home/runner/work/vidAI/vidAI/tests/feeding-grid.test.ts:60:14)
+2026-11-05T16:12:51.4322644Z       at collectBodyContactPairs (/home/runner/work/vidAI/vidAI/contacts.ts:122:30)
+2026-11-05T16:12:51.4323377Z       at resolveBodyContacts (/home/runner/work/vidAI/vidAI/contacts.ts:150:26)
+2026-11-05T16:12:51.4324068Z       at stepSimulation (/home/runner/work/vidAI/vidAI/simulation.ts:4045:5)
+2026-11-05T16:12:51.4324887Z       at TestContext.<anonymous> (/home/runner/work/vidAI/vidAI/tests/feeding-grid.test.ts:83:40)
+2026-11-05T16:12:51.4325585Z       at Test.runInAsyncScope (node:async_hooks:227:14)
+2026-11-05T16:12:51.4326058Z       at Test.run (node:internal/test_runner/test:1402:25)
+2026-11-05T16:12:51.4326806Z       at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+2026-11-05T16:12:51.4327440Z       at Test.postRun (node:internal/test_runner/test:1542:19)
+2026-11-05T16:12:51.4327939Z       at Test.run (node:internal/test_runner/test:1467:12) {
+2026-11-05T16:12:51.4328343Z     generatedMessage: true,
+2026-11-05T16:12:51.4328669Z     code: 'ERR_ASSERTION',
+2026-11-05T16:12:51.4328970Z     actual: undefined,
+2026-11-05T16:12:51.4329254Z     expected: true,
+2026-11-05T16:12:51.4329683Z     operator: 'strictEqual',
+2026-11-05T16:12:51.4329992Z     diff: 'simple'
+2026-11-05T16:12:51.4330237Z   }
+2026-11-05T16:12:51.4519153Z ##[error]Process completed with exit code 1.
+2026-11-05T16:12:51.4662057Z Post j

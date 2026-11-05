@@ -1,10 +1,10 @@
-import {syncTrackedOrganism} from './maintainedGrid';
+import {syncTrackedOrganism, type MaintainedWorldGrid} from './maintainedGrid';
 import {partKineticEnergy, organismKineticEnergy, type MechanicalObserver} from './mechanicalObservation';
 import type {Organism, PartDef, PartPhys} from './simulation';
 
 interface Body {
   org: Organism; index: number; p: PartPhys; def: PartDef;
-  im: number; ii: number; c: number; s: number;
+  im: number; ii: number; c: number; s: number; rank: number;
   left: number; right: number; top: number; bottom: number;
   cellLeft: number; cellRight: number; cellTop: number; cellBottom: number;
 }
@@ -96,11 +96,11 @@ function bodies(organisms: Organism[], density: number): Body[] {
     const cellTop = Math.floor(top / 128), cellBottom = Math.floor(bottom / 128);
     let body = bodyPool[list.length];
     if (!body) {
-      body = {org, index, p, def, im, ii, c, s, left, right, top, bottom, cellLeft, cellRight, cellTop, cellBottom};
+      body = {org, index, p, def, im, ii, c, s, rank: list.length, left, right, top, bottom, cellLeft, cellRight, cellTop, cellBottom};
       bodyPool.push(body);
     } else {
       body.org = org; body.index = index; body.p = p; body.def = def;
-      body.im = im; body.ii = ii; body.c = c; body.s = s;
+      body.im = im; body.ii = ii; body.c = c; body.s = s; body.rank = list.length;
       body.left = left; body.right = right; body.top = top; body.bottom = bottom;
       body.cellLeft = cellLeft; body.cellRight = cellRight; body.cellTop = cellTop; body.cellBottom = cellBottom;
     }
@@ -110,45 +110,35 @@ function bodies(organisms: Organism[], density: number): Body[] {
   return list;
 }
 
-type ContactCell = {stamp: number; indices: number[]};
-const contactColumns = new Map<number, Map<number, ContactCell>>();
-let contactStamp = 0, contactCells = 0;
-
-/** Stable first-common-cell ownership removes the per-pass pair Set without
- * changing pair order. Buckets reuse storage; every body bound is still rebuilt.
- * Bound retained cell storage across world changes and very long runs. */
-function pairs(list: Body[]): [Body, Body][] {
-  contactStamp = (contactStamp + 1) >>> 0;
-  if (!contactStamp || contactCells > 4096) {
-    contactColumns.clear(); contactCells = 0; contactStamp = 1;
-  }
+/** Freeze one complete pass before any impulse/correction. The maintained grid
+ * supplies individual parts (including unconditional overflow), not P2 bounds.
+ * Physical wrappers/rotations/AABBs still belong to this pass. */
+export function collectBodyContactPairs(organisms: Organism[], density: number,
+  grid: MaintainedWorldGrid): [Body, Body][] {
+  const list = bodies(organisms, density), byPart = new Map(list.map(body => [body.p, body]));
   const result: [Body, Body][] = [];
-  for (let i = 0; i < list.length; i++) {
-    const a = list[i];
-    for (let x = a.cellLeft; x <= a.cellRight; x++) {
-      let column = contactColumns.get(x);
-      if (!column) {column = new Map(); contactColumns.set(x, column);}
-      for (let y = a.cellTop; y <= a.cellBottom; y++) {
-        let cell = column.get(y);
-        if (!cell) {cell = {stamp: contactStamp, indices: []}; column.set(y, cell); contactCells++;}
-        if (cell.stamp !== contactStamp) {cell.stamp = contactStamp; cell.indices.length = 0;}
-        for (const j of cell.indices) {
-          const b = list[j];
-          if (x !== Math.max(a.cellLeft, b.cellLeft) || y !== Math.max(a.cellTop, b.cellTop)) continue;
-          if (a.org === b.org && (a.def.parentIndex === b.index || b.def.parentIndex === a.index)) continue;
-          if (a.right <= b.left || a.left >= b.right || a.bottom <= b.top || a.top >= b.bottom) continue;
-          result.push([b, a]);
-        }
-        cell.indices.push(i);
-      }
+  for (const a of list) {
+    const earlier: Body[] = [];
+    for (const entry of grid.queryBounds(a, ['body-part'])) {
+      const b = byPart.get(entry.value.entity as PartPhys);
+      if (!b || b.rank >= a.rank) continue;
+      if (a.org === b.org && (a.def.parentIndex === b.index || b.def.parentIndex === a.index)) continue;
+      if (a.right <= b.left || a.left >= b.right || a.bottom <= b.top || a.top >= b.bottom) continue;
+      earlier.push(b);
     }
+    // Original insertion enumerated later body, first shared cell X then Y,
+    // then earlier flattened body rank. Matrix insertion order is irrelevant.
+    earlier.sort((b, c) => Math.max(a.cellLeft, b.cellLeft) - Math.max(a.cellLeft, c.cellLeft)
+      || Math.max(a.cellTop, b.cellTop) - Math.max(a.cellTop, c.cellTop) || b.rank - c.rank);
+    for (const b of earlier) result.push([b, a]);
   }
   return result;
 }
 
 /** Contacts alternate with hinge projection; position repair never creates separation velocity. */
 export function resolveBodyContacts(organisms: Organism[], density: number,
-  projectJoints: (org: Organism, iterations: number) => void, observe?: MechanicalObserver): Set<Organism> {
+  projectJoints: (org: Organism, iterations: number) => void, observe: MechanicalObserver | undefined,
+  grid: MaintainedWorldGrid): Set<Organism> {
   const touched = new Set<Organism>();
   const project = (org: Organism, iterations: number) => {
     const before = observe ? organismKineticEnergy(org, density) : 0;
@@ -157,7 +147,7 @@ export function resolveBodyContacts(organisms: Organism[], density: number,
   };
   for (let iteration = 0; iteration < 8; iteration++) {
     let contactCount = 0;
-    for (const [a, b] of pairs(bodies(organisms, density))) {
+    for (const [a, b] of collectBodyContactPairs(organisms, density, grid)) {
       // Position repair changes centers, not angles; projections refresh rotations next pass.
       const contact = rotatedContact(a.p, a.def, b.p, b.def, a.c, a.s, b.c, b.s); if (!contact) continue;
       contactCount++; touched.add(a.org); touched.add(b.org);

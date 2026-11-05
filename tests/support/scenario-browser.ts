@@ -7,3 +7,4 @@ export {opticalScene} from './optical-scene';
 export {restoreSnapshot} from '../../persistence';
 export {stepSimulation} from '../../simulation';
 export {auditWorldGrid} from '../../gridIntegrityAudit';
+export {contactScene} from './contact-scene';

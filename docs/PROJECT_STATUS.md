@@ -1,3 +1,17 @@
+# Physical contact grid P9 — contributor testing only (2026-11-05)
+
+Authorized P8 base `5fdc1b78d7c16132554bfcfe83375cf1142f42de`, branch
+`feature/maintained-grid-p9-contacts`. [Preregistered scope and budget](https://github.com/hernansgarro/vidAI/pull/114#issuecomment-6662434242).
+Contacts now query maintained individual segments, freeze complete pairs before
+corrections, and reproduce later-rank/first-common-cell X/Y/earlier-rank order.
+Physical wrappers/AABBs/SAT/impulses/projection rules remain; transient contact
+bucket maps/stamps are removed. [Contract and reproduction](contributor-workspace/performance/CONTACT_GRID_P9.md).
+Detached P8 full-state/receipt and mechanical-trace comparisons, P5/P6, oracle
+pair/impulse tests, split continuation and actual Worker/browser checks provide
+the verification scope; final results and merge/publication receipts belong in
+the internal PR. No measured speedup, P10, physics/energy/learning/genetic/baseline
+change, main/upstream mutation or upstream submission is implied.
+
 # Spatial overlays P6 — contributor testing only (2026-11-05)
 
 Authorized base P5 `ebccd7129142b580304cbfcea2440682671b68a1`, branch

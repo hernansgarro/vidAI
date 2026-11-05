@@ -137,7 +137,7 @@ test('physics, joint projection, passive contact repair and external translation
   const original = grid.syncOrganism.bind(grid);
   grid.syncOrganism = (o, i) => {updates++; original(o, i);};
   const initial = JSON.stringify(a.segments);
-  resolveBodyContacts(s.organisms, .4, () => {});
+  resolveBodyContacts(s.organisms, .4, () => {}, undefined, grid);
   assert.notEqual(JSON.stringify(a.segments), initial); assert.ok(updates >= 2); assertIntegrity(s, true);
   translateLiveOrganism(a, -700, -400); assertIntegrity(s, true);
   const phases = new Set<string>();

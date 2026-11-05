@@ -347,7 +347,7 @@ anatomy radius is not an unconditional lifetime guarantee. Finite overflow
 squares remain drawable; unbounded ones are counted. No forward mouth, glow or
 sight range is included. Disabled overlays skip collection and payloads; enabled
 data travels only in acknowledged render frames, outside physical snapshots and
-senses/brains/energy. P7/P8 now consume maintained feeding/vision views; the contact broadphase is unchanged.
+senses/brains/energy. P7/P8/P9 now consume maintained feeding, vision and individual contact views.
 See the [P6 contract](https://github.com/hernansgarro/vidAI/blob/testing/docs/contributor-workspace/performance/SPATIAL_OVERLAYS_P6.md).
 
 
@@ -360,7 +360,7 @@ priority and descending current collection order. The old feeding indexes are
 no longer rebuilt. Exact contact, budget, assimilation and removal rules remain
 unchanged. Radius changes and collection edits are visible to subsequent mouths;
 overflow entries remain unconditional candidates. Optical and physical contact
-broadphases still use their existing implementations. No speedup is claimed.
+broadphases now use the maintained views documented below. No speedup is claimed.
 
 One explicit owner-approved correction affects imported food whose stored radius
 is smaller than the radius recomputed after a bite: a later mouth now finds its
@@ -375,7 +375,7 @@ See [P7 ordering, safety and compatibility](https://github.com/hernansgarro/vidA
 individual food/carrion, egg and body-part views before body movement, in original
 food → egg → organism/segment source order. Strict nearest-hit/edge ties, live
 pigment, occlusion, attenuation, spectral response and neural arithmetic remain.
-No sorting optimization, query cache or physical contact migration is enabled.
+No optical sorting optimization or query cache is enabled.
 Corpse carrion additions/merges are reflected immediately, and overflow remains
 unconditional. P5/P6 still inspect actual membership.
 
@@ -385,3 +385,18 @@ its new cells. P8 sees the current surface, so this corner case can change RGB,
 neural inputs and subsequent continuation; universal P7 equivalence is not
 claimed. P7's accepted imported-nutrient feeding correction remains intact.
 No performance improvement is claimed. See the [P8 contract and evidence](https://github.com/hernansgarro/vidAI/blob/testing/docs/contributor-workspace/performance/OPTICAL_GRID_P8.md).
+
+
+## Maintained physical contacts — contributor testing only
+
+**Fork testing only; not an upstream release.** Physical contacts now query
+maintained individual body segments, preserving exact pair order: later body,
+first common cell X/Y, earlier body. The complete candidate-pair list is fixed
+before each pass. Corrections update membership for the next pass; substep
+integration and joint/tube projection retain their existing synchronization.
+SAT, impulses, connected-neighbor exclusions and solver coefficients are unchanged.
+P2 ideal articulation never excludes a current part; overflow stays unconditional.
+P5 audits and P6 overlays still inspect actual assignments. Detached P8 comparisons
+protect complete state, ordered receipts, mechanical traces and snapshot continuity,
+including P7/P8 corrections. No performance gain is claimed. See the
+[P9 contract](https://github.com/hernansgarro/vidAI/blob/testing/docs/contributor-workspace/performance/CONTACT_GRID_P9.md).

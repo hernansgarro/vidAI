@@ -1,0 +1,129 @@
+✔ P9 complete untouched-P8 state/energy/events: legacy-v0 (416.28402ms)
+✔ P9 complete untouched-P8 state/energy/events: surface-work-v1 (340.15164ms)
+✔ P9 complete untouched-P8 state/energy/events: paid-work-v2 (379.46412ms)
+✔ P9 complete untouched-P8 state/energy/events: passive-work-v3 (283.332235ms)
+✔ P9 complete untouched-P8 state/energy/events: dense-food-carrion (2808.200454ms)
+✔ P9 complete untouched-P8 state/energy/events: branched-rotated-separated (373.216884ms)
+✔ P9 complete untouched-P8 state/energy/events: tube-L (29.224887ms)
+✔ P9 complete untouched-P8 state/energy/events: tube-R (26.285468ms)
+✔ P9 complete untouched-P8 state/energy/events: closed-mineralization (2.98033ms)
+✔ P9 complete untouched-P8 state/energy/events: closed-eggs (45.919168ms)
+✔ P9 complete untouched-P8 state/energy/events: feeding-learning (32.731375ms)
+✔ P9 complete untouched-P8 state/energy/events: historical-v5 (79.288538ms)
+✔ P9 complete untouched-P8 state/energy/events: overlap-legacy-historical-false (45.402225ms)
+✔ P9 complete untouched-P8 state/energy/events: overlap-legacy-historical-true (45.053236ms)
+✔ P9 complete untouched-P8 state/energy/events: overlap-legacy-decay-v1-false (45.337397ms)
+✔ P9 complete untouched-P8 state/energy/events: overlap-legacy-decay-v1-true (44.074436ms)
+✔ P9 complete untouched-P8 state/energy/events: overlap-legacy-decay-v2-false (44.620531ms)
+✔ P9 complete untouched-P8 state/energy/events: overlap-legacy-decay-v2-true (44.447299ms)
+✔ P9 complete untouched-P8 state/energy/events: overlap-capsule-v1-historical-false (46.761302ms)
+✔ P9 complete untouched-P8 state/energy/events: overlap-capsule-v1-historical-true (42.982592ms)
+✔ P9 complete untouched-P8 state/energy/events: overlap-capsule-v1-decay-v1-false (45.605452ms)
+✔ P9 complete untouched-P8 state/energy/events: overlap-capsule-v1-decay-v1-true (42.391618ms)
+✔ P9 complete untouched-P8 state/energy/events: overlap-capsule-v1-decay-v2-false (43.933772ms)
+✔ P9 complete untouched-P8 state/energy/events: overlap-capsule-v1-decay-v2-true (45.489008ms)
+✔ P9 complete untouched-P8 state/energy/events: same-tick-laying (15.750626ms)
+✔ P9 complete untouched-P8 state/energy/events: imported-radius-growth-open (2.671204ms)
+✔ P9 complete untouched-P8 state/energy/events: imported-radius-growth-closed (2.485744ms)
+✔ P9 complete untouched-P8 state/energy/events: same-tick-shrink-cell-crossing (2.341466ms)
+✔ P9 complete untouched-P8 state/energy/events: food-egg-body-tie (14.979411ms)
+✔ P9 complete untouched-P8 state/energy/events: reverse-food-tie (14.711858ms)
+✔ P9 complete untouched-P8 state/energy/events: egg-body-tie (15.914294ms)
+✔ P9 complete untouched-P8 state/energy/events: body-order-tie (20.438856ms)
+✔ P9 complete untouched-P8 state/energy/events: reverse-body-tie (19.431926ms)
+✔ P9 complete untouched-P8 state/energy/events: part-order-tie (15.164071ms)
+✔ P9 complete untouched-P8 state/energy/events: dynamic-pigment (15.847142ms)
+✔ P9 complete untouched-P8 state/energy/events: dark-occlusion (12.703024ms)
+✔ P9 complete untouched-P8 state/energy/events: spectral-occlusion (13.229659ms)
+✔ P9 complete untouched-P8 state/energy/events: nearest-body (12.681531ms)
+✔ P9 complete untouched-P8 state/energy/events: same-tick-carrion (10.454398ms)
+✔ P9 complete untouched-P8 state/energy/events: cap-merge-same-cell (29.372968ms)
+✔ P9 complete untouched-P8 state/energy/events: cap-merge-cross-cell (31.306398ms)
+✔ P9 complete untouched-P8 state/energy/events: boundary-tangent (8.289209ms)
+✔ P9 complete untouched-P8 state/energy/events: branched (191.580963ms)
+✔ P9 complete untouched-P8 state/energy/events: long-folded (61.998359ms)
+✔ P9 complete untouched-P8 state/energy/events: dense-boundary (363.679233ms)
+✔ P9 complete untouched-P8 state/energy/events: reverse-dense (362.310166ms)
+✔ P9 complete untouched-P8 state/energy/events: cell-corners (67.296341ms)
+✔ P9 complete untouched-P8 state/energy/events: fast-substeps (95.611963ms)
+✔ every live part query has current P5 membership and legacy candidate coverage; P6 still reads actual cells (583.379952ms)
+✔ ordered pass pairs exactly match P8 across dense/branched/long/tube/edge scenes and unconditional budget/capacity overflow (248.661841ms)
+✖ first-common-cell X/Y takes priority over earlier source rank, including long rectangles (3.971057ms)
+✔ each actual impulse/projection and complete pose/velocity trace matches P8; correction cannot change an already frozen pass (407.941771ms)
+✔ split authoritative snapshot continuation through every new contact scene and both tubes (1087.437621ms)
+✔ P8 oracle differs only in imports/test exports; transient contact buckets are absent from runtime (0.645715ms)
+✔ empty space and tank walls are black; display caustics and bubbles add no optical signal (14.512197ms)
+✔ eggs are optically white, fade toward black with distance, and occlude farther food (4.225281ms)
+✔ nutrient pulse phase, glow and super-food decoration never change retinal RGB or hit geometry (3.507793ms)
+✔ herbivore absorbs 80% of nutrient removal; the rest becomes heat (1.882754ms)
+✔ omnivore absorbs 80% of nutrient removal; the rest becomes heat (1.40358ms)
+✔ carnivore absorbs 68% of carrion removal; the rest becomes heat (0.912629ms)
+✔ omnivore absorbs 68% of carrion removal; the rest becomes heat (0.933149ms)
+✔ plant-food limit covers manual bursts, startup, inflow, lowering the target and zero target (10.166915ms)
+✔ mineralization waits at the nutrient cap without destroying carrion energy (1.465784ms)
+✔ sibling prey permission with kin protection true (2.66147ms)
+✔ sibling prey permission with kin protection false (2.553206ms)
+✔ clutch prey permission with kin protection true (1.46979ms)
+✔ clutch prey permission with kin protection false (1.699336ms)
+✔ parent prey permission with kin protection true (1.534217ms)
+✔ parent prey permission with kin protection false (1.441527ms)
+✔ unrelated prey permission with kin protection true (1.459425ms)
+✔ unrelated prey permission with kin protection false (1.072ms)
+✔ reciprocal carnivore/omnivore feeding loses chemical energy instead of amplifying it (12.253046ms)
+✔ carnivore egg feeding respects own kinship and 80% assimilation (0.786117ms)
+✔ carnivore egg feeding respects sibling kinship and 80% assimilation (1.441196ms)
+✔ carnivore egg feeding respects foreign kinship and 80% assimilation (0.603001ms)
+✔ rotated rectangle SAT rejects separated rectangles despite overlapping world bounding boxes (0.514246ms)
+✔ off-center inelastic contact conserves linear/angular momentum and cannot increase kinetic energy (0.207454ms)
+✔ fast physical bodies cannot pass through one another at dt=0.03333333333333333 (28.381675ms)
+✔ fast physical bodies cannot pass through one another at dt=0.016666666666666666 (24.494814ms)
+✔ fast physical bodies cannot pass through one another at dt=0.008333333333333333 (39.350868ms)
+✖ self-contact excludes directly hinged neighbors and separates nonadjacent parts (7.676114ms)
+✔ current snapshots continue exactly through a physical collision and lossy feeding (130.605597ms)
+✔ a folded passive chain resolves real self-contact without breaking hinges or creating COM propulsion (98.510258ms)
+✔ an active articulated swimmer survives a collision with finite poses and intact hinges (41.509252ms)
+ℹ tests 84
+ℹ suites 0
+ℹ pass 82
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9638.68302
+
+✖ failing tests:
+
+test at tests/contact-grid.test.ts:1:4043
+✖ first-common-cell X/Y takes priority over earlier source rank, including long rectangles (3.971057ms)
+  RangeError [Error]: Invalid envelope part geometry
+      at calculateCreatureEnvelope (/workspace/scratch/9fe57e0b23e0/vidAI/creatureEnvelope.ts:54:13)
+      at MaintainedWorldGrid.syncOrganism (/workspace/scratch/9fe57e0b23e0/vidAI/maintainedGrid.ts:130:25)
+      at <anonymous> (/workspace/scratch/9fe57e0b23e0/vidAI/maintainedGrid.ts:168:51)
+      at Array.forEach (<anonymous>)
+      at MaintainedWorldGrid.synchronize (/workspace/scratch/9fe57e0b23e0/vidAI/maintainedGrid.ts:168:26)
+      at TestContext.<anonymous> (/workspace/scratch/9fe57e0b23e0/vidAI/tests/contact-grid.test.ts:81:49)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+
+test at tests/senses-contact.test.ts:1:9941
+✖ self-contact excludes directly hinged neighbors and separates nonadjacent parts (7.676114ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(!after || after.depth < before * .01)
+  
+      at TestContext.<anonymous> (/workspace/scratch/9fe57e0b23e0/vidAI/tests/senses-contact.test.ts:191:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

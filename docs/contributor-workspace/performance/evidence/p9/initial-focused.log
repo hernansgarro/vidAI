@@ -1,0 +1,86 @@
+✔ P9 complete untouched-P8 state/energy/events: legacy-v0 (245.227707ms)
+✔ P9 complete untouched-P8 state/energy/events: surface-work-v1 (203.456431ms)
+✔ P9 complete untouched-P8 state/energy/events: paid-work-v2 (232.023159ms)
+✔ P9 complete untouched-P8 state/energy/events: passive-work-v3 (226.603681ms)
+✔ P9 complete untouched-P8 state/energy/events: dense-food-carrion (718.555972ms)
+✔ P9 complete untouched-P8 state/energy/events: branched-rotated-separated (268.434317ms)
+✔ P9 complete untouched-P8 state/energy/events: tube-L (30.01868ms)
+✔ P9 complete untouched-P8 state/energy/events: tube-R (30.165503ms)
+✔ P9 complete untouched-P8 state/energy/events: closed-mineralization (3.447899ms)
+✔ P9 complete untouched-P8 state/energy/events: closed-eggs (57.645758ms)
+✔ P9 complete untouched-P8 state/energy/events: feeding-learning (34.286508ms)
+✔ P9 complete untouched-P8 state/energy/events: historical-v5 (59.88433ms)
+✔ P9 complete untouched-P8 state/energy/events: overlap-legacy-historical-false (50.437418ms)
+✔ P9 complete untouched-P8 state/energy/events: overlap-legacy-historical-true (49.311728ms)
+✔ P9 complete untouched-P8 state/energy/events: overlap-legacy-decay-v1-false (52.419042ms)
+✔ P9 complete untouched-P8 state/energy/events: overlap-legacy-decay-v1-true (49.177005ms)
+✔ P9 complete untouched-P8 state/energy/events: overlap-legacy-decay-v2-false (53.117217ms)
+✔ P9 complete untouched-P8 state/energy/events: overlap-legacy-decay-v2-true (53.597672ms)
+✔ P9 complete untouched-P8 state/energy/events: overlap-capsule-v1-historical-false (55.093252ms)
+✔ P9 complete untouched-P8 state/energy/events: overlap-capsule-v1-historical-true (53.850985ms)
+✔ P9 complete untouched-P8 state/energy/events: overlap-capsule-v1-decay-v1-false (48.51208ms)
+✔ P9 complete untouched-P8 state/energy/events: overlap-capsule-v1-decay-v1-true (46.974066ms)
+✔ P9 complete untouched-P8 state/energy/events: overlap-capsule-v1-decay-v2-false (53.642625ms)
+✔ P9 complete untouched-P8 state/energy/events: overlap-capsule-v1-decay-v2-true (48.71826ms)
+✔ P9 complete untouched-P8 state/energy/events: same-tick-laying (18.371805ms)
+✔ P9 complete untouched-P8 state/energy/events: imported-radius-growth-open (2.975986ms)
+✔ P9 complete untouched-P8 state/energy/events: imported-radius-growth-closed (2.908213ms)
+✔ P9 complete untouched-P8 state/energy/events: same-tick-shrink-cell-crossing (2.938079ms)
+✔ P9 complete untouched-P8 state/energy/events: food-egg-body-tie (15.628942ms)
+✔ P9 complete untouched-P8 state/energy/events: reverse-food-tie (15.286875ms)
+✔ P9 complete untouched-P8 state/energy/events: egg-body-tie (13.599164ms)
+✔ P9 complete untouched-P8 state/energy/events: body-order-tie (21.263184ms)
+✔ P9 complete untouched-P8 state/energy/events: reverse-body-tie (20.094498ms)
+✔ P9 complete untouched-P8 state/energy/events: part-order-tie (16.350531ms)
+✔ P9 complete untouched-P8 state/energy/events: dynamic-pigment (19.396382ms)
+✔ P9 complete untouched-P8 state/energy/events: dark-occlusion (25.388976ms)
+✔ P9 complete untouched-P8 state/energy/events: spectral-occlusion (16.401038ms)
+✔ P9 complete untouched-P8 state/energy/events: nearest-body (14.355688ms)
+✔ P9 complete untouched-P8 state/energy/events: same-tick-carrion (11.643811ms)
+✔ P9 complete untouched-P8 state/energy/events: cap-merge-same-cell (34.239056ms)
+✔ P9 complete untouched-P8 state/energy/events: cap-merge-cross-cell (36.317247ms)
+✔ P9 complete untouched-P8 state/energy/events: boundary-tangent (9.48548ms)
+✔ P9 complete untouched-P8 state/energy/events: branched (107.285169ms)
+✔ P9 complete untouched-P8 state/energy/events: long-folded (44.041031ms)
+✔ P9 complete untouched-P8 state/energy/events: dense-boundary (151.739625ms)
+✔ P9 complete untouched-P8 state/energy/events: reverse-dense (142.381221ms)
+✔ P9 complete untouched-P8 state/energy/events: cell-corners (43.39922ms)
+✔ P9 complete untouched-P8 state/energy/events: fast-substeps (61.165039ms)
+✔ every live part query has current P5 membership and legacy candidate coverage; P6 still reads actual cells (637.915804ms)
+✔ ordered pass pairs exactly match P8 across dense/branched/long/tube/edge scenes and unconditional budget/capacity overflow (266.905593ms)
+✖ each actual impulse/projection and complete pose/velocity trace matches P8; correction cannot change an already frozen pass (80.818966ms)
+✔ split authoritative snapshot continuation through every new contact scene and both tubes (1079.333334ms)
+✔ P8 oracle differs only in imports/test exports; transient contact buckets are absent from runtime (0.78735ms)
+ℹ tests 53
+ℹ suites 0
+ℹ pass 52
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6261.879315
+
+✖ failing tests:
+
+test at tests/contact-grid.test.ts:1:3724
+✖ each actual impulse/projection and complete pose/velocity trace matches P8; correction cannot change an already frozen pass (80.818966ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  60 !== 0
+  
+      at <anonymous> (/workspace/scratch/9fe57e0b23e0/vidAI/tests/contact-grid.test.ts:87:14)
+      at resolveBodyContacts (/workspace/scratch/9fe57e0b23e0/vidAI/contacts.ts:156:20)
+      at TestContext.<anonymous> (/workspace/scratch/9fe57e0b23e0/vidAI/tests/contact-grid.test.ts:86:20)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 60,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
