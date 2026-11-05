@@ -15,11 +15,13 @@ jobs:
       HOME: /root
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
       - run: npm ci
-      - run: git worktree add ../p11-main f74de36902d39597c48d95ee4a7fdf809094ae75
+      - run: git -c safe.directory="$GITHUB_WORKSPACE" worktree add --detach ../p11-main f74de36902d39597c48d95ee4a7fdf809094ae75
       - run: cd ../p11-main && npm ci && npm run build
       - run: npm run build
       - run: mkdir -p p11-browser && node --import tsx scripts/p11-scenes.ts p11-browser/scenes
