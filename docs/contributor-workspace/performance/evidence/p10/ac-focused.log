@@ -1,0 +1,32 @@
+✔ A rejection control: changing the clipped endpoint changes exact intersection coordinates (1.161645ms)
+✖ C prototype: exact keys, bounded results, result ownership, lifecycle/rank/geometry/category invalidation and world isolation (19.282621ms)
+✔ C independent prototype matches P9 complete states and ordered receipts across all52 fixed cases (18363.312521ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 2
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 18682.544975
+
+✖ failing tests:
+
+test at tests/p10-query-cache.test.ts:1:817
+✖ C prototype: exact keys, bounded results, result ownership, lifecycle/rank/geometry/category invalidation and world isolation (19.282621ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  4 !== 0
+  
+      at TestContext.<anonymous> (/workspace/scratch/c052d004ac15/vidAI/tests/p10-query-cache.test.ts:39:68)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 4,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

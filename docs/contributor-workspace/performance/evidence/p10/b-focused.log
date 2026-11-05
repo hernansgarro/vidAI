@@ -1,0 +1,160 @@
+✔ P7 full P6 state/ordered-receipt equivalence: legacy-v0 (241.228458ms)
+✔ P7 full P6 state/ordered-receipt equivalence: surface-work-v1 (229.012362ms)
+✔ P7 full P6 state/ordered-receipt equivalence: paid-work-v2 (226.9854ms)
+✔ P7 full P6 state/ordered-receipt equivalence: passive-work-v3 (239.50952ms)
+✔ P7 full P6 state/ordered-receipt equivalence: dense-food-carrion (711.128923ms)
+✔ P7 full P6 state/ordered-receipt equivalence: branched-rotated-separated (267.56211ms)
+✔ P7 full P6 state/ordered-receipt equivalence: tube-L (33.312887ms)
+✔ P7 full P6 state/ordered-receipt equivalence: tube-R (28.623196ms)
+✔ P7 full P6 state/ordered-receipt equivalence: closed-mineralization (3.129758ms)
+✔ P7 full P6 state/ordered-receipt equivalence: closed-eggs (46.186145ms)
+✔ P7 full P6 state/ordered-receipt equivalence: feeding-learning (36.65822ms)
+✔ P7 full P6 state/ordered-receipt equivalence: historical-v5 (55.764263ms)
+✔ P7 full P6 state/ordered-receipt equivalence: overlap-legacy-historical-false (54.443473ms)
+✔ P7 full P6 state/ordered-receipt equivalence: overlap-legacy-historical-true (53.086308ms)
+✔ P7 full P6 state/ordered-receipt equivalence: overlap-legacy-decay-v1-false (47.301975ms)
+✔ P7 full P6 state/ordered-receipt equivalence: overlap-legacy-decay-v1-true (44.666747ms)
+✔ P7 full P6 state/ordered-receipt equivalence: overlap-legacy-decay-v2-false (47.055071ms)
+✔ P7 full P6 state/ordered-receipt equivalence: overlap-legacy-decay-v2-true (45.318846ms)
+✔ P7 full P6 state/ordered-receipt equivalence: overlap-capsule-v1-historical-false (43.942837ms)
+✔ P7 full P6 state/ordered-receipt equivalence: overlap-capsule-v1-historical-true (48.044843ms)
+✔ P7 full P6 state/ordered-receipt equivalence: overlap-capsule-v1-decay-v1-false (47.077865ms)
+✔ P7 full P6 state/ordered-receipt equivalence: overlap-capsule-v1-decay-v1-true (61.830703ms)
+✔ P7 full P6 state/ordered-receipt equivalence: overlap-capsule-v1-decay-v2-false (47.408755ms)
+✔ P7 full P6 state/ordered-receipt equivalence: overlap-capsule-v1-decay-v2-true (56.632202ms)
+✔ P7 full P6 state/ordered-receipt equivalence: same-tick-laying (20.459458ms)
+✔ P7 full P6 state/ordered-receipt equivalence: imported-radius-growth-open (4.137589ms)
+✔ P7 full P6 state/ordered-receipt equivalence: imported-radius-growth-closed (5.418903ms)
+✔ P7 full P6 state/ordered-receipt equivalence: same-tick-shrink-cell-crossing (3.544278ms)
+✖ live feeding queries preserve descending ranks and fresh legacy candidate coverage; P5 is clean before every query (217.558415ms)
+✔ P7 accepted imported-radius growth survives validation, closed stock and exact split continuation (54.35115ms)
+✔ overlapping mouths exhaust prey, then eggs, then mixed food; newly laid eggs are visible in the same tick (332.541678ms)
+✔ dense feeding and same-tick laying retain exact complete snapshot continuation after import (895.662762ms)
+✔ unconditional overflow, extreme query coordinates and unbounded query arithmetic never cull or duplicate (2.342235ms)
+✔ feeding uses only maintained queries; physical contact migration remains separate (0.844722ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: legacy-v0 (386.394161ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: surface-work-v1 (339.275278ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: paid-work-v2 (344.472324ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: passive-work-v3 (243.338875ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: dense-food-carrion (2913.837603ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: branched-rotated-separated (378.134073ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: tube-L (27.164888ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: tube-R (25.105968ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: closed-mineralization (2.972642ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: closed-eggs (45.112659ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: feeding-learning (29.004077ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: historical-v5 (85.256074ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: overlap-legacy-historical-false (56.97198ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: overlap-legacy-historical-true (51.051658ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: overlap-legacy-decay-v1-false (55.716412ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: overlap-legacy-decay-v1-true (52.788888ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: overlap-legacy-decay-v2-false (51.354742ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: overlap-legacy-decay-v2-true (71.214891ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: overlap-capsule-v1-historical-false (66.644785ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: overlap-capsule-v1-historical-true (55.193172ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: overlap-capsule-v1-decay-v1-false (60.710338ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: overlap-capsule-v1-decay-v1-true (54.071106ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: overlap-capsule-v1-decay-v2-false (61.194581ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: overlap-capsule-v1-decay-v2-true (49.116534ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: same-tick-laying (17.527395ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: imported-radius-growth-open (2.855865ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: imported-radius-growth-closed (2.766511ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: same-tick-shrink-cell-crossing (2.62055ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: food-egg-body-tie (15.087929ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: reverse-food-tie (18.61249ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: egg-body-tie (21.072808ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: body-order-tie (20.487368ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: reverse-body-tie (18.87409ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: part-order-tie (15.925775ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: dynamic-pigment (20.043818ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: dark-occlusion (16.647566ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: spectral-occlusion (14.841667ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: nearest-body (12.097561ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: same-tick-carrion (13.852132ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: cap-merge-same-cell (32.139035ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: cap-merge-cross-cell (33.282823ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: boundary-tangent (10.722843ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: branched (208.054472ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: long-folded (71.654736ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: dense-boundary (440.112175ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: reverse-dense (407.162084ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: cell-corners (73.349377ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: fast-substeps (99.557479ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: food-cell-false-positives (15.647564ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: food-cell-reversed (19.251151ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: food-contact-tangency (11.738597ms)
+✔ P10-B exact P9 snapshots/optics/learning/receipts/mechanics: food-budget-contact (13.836178ms)
+✔ B filters only large combined food lists; every rejected edible target is outside the actual capsule (32.393819ms)
+✔ B keeps raw fail-open overflow and exact imported snapshot continuation without derived predicates (81.182434ms)
+ℹ tests 88
+ℹ suites 0
+ℹ pass 87
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7890.356174
+
+✖ failing tests:
+
+test at tests/feeding-grid.test.ts:1:2273
+✖ live feeding queries preserve descending ranks and fresh legacy candidate coverage; P5 is clean before every query (217.558415ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + [
+  +   GridEntry {
+  +     Symbol(grid membership): {
+  +       kind: 'nutrient',
+  +       owner: {},
+  +       range: {
+  +         bottom: 4,
+  +         left: 13,
+  +         right: 14,
+  +         top: 4
+  +       },
+  +       seen: 146
+  +     },
+  +     value: {
+  +       bounds: {
+  +         bottom: 628.5302151385695,
+  +         left: 1765.261272329837,
+  +         right: 1801.261272329837,
+  +         top: 592.5302151385695
+  +       },
+  +       entity: {
+  +         bottomTimer: 0,
+  +         energyValue: 3000,
+  +         id: 'NUT-x8axvq',
+  +         pulseTimer: 0.9071947298075017,
+  +         radius: 18,
+  +         vx: 0,
+  +         vy: 0,
+  +         x: 1783.261272329837,
+  +         y: 610.5302151385695
+  +       },
+  +       organism: undefined,
+  +       partIndex: -1,
+  +       sourceIndex: 2,
+  +       view: 'food'
+  +     }
+  +   }
+  + ]
+  - []
+  
+      at MaintainedWorldGrid.grid.queryBounds (/workspace/scratch/c052d004ac15/vidAI/tests/feeding-grid.test.ts:87:14)
+      at stepSimulation (/workspace/scratch/c052d004ac15/vidAI/simulation.ts:4202:39)
+      at TestContext.<anonymous> (/workspace/scratch/c052d004ac15/vidAI/tests/feeding-grid.test.ts:90:40)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ { value: [Object] } ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

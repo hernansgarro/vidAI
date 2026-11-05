@@ -400,3 +400,17 @@ P5 audits and P6 overlays still inspect actual assignments. Detached P8 comparis
 protect complete state, ordered receipts, mechanical traces and snapshot continuity,
 including P7/P8 corrections. No performance gain is claimed. See the
 [P9 contract](https://github.com/hernansgarro/vidAI/blob/testing/docs/contributor-workspace/performance/CONTACT_GRID_P9.md).
+
+
+## Selective feeding candidate filtering — contributor testing only
+
+**Partial P10, fork testing only; not an upstream release.** Combined food queries
+with at least128 candidates may reject incompatible diets and objects outside
+the existing mouth-axis reach before descending source sorting. Smaller lists,
+prey/egg queries, optical candidate order and physical contact enumeration keep
+the P9 path. Exact live contact/feedback/multiple-transfer/energy/radius rules
+remain; later mouths use new queries after mutations. Grid overflow remains
+unconditional before this consumer's safe rejection. P5/P6 stay unchanged.
+No query-result cache or optical winner shortcut is enabled. This is a limited
+ordering-work optimization; no whole-game performance improvement is claimed.
+See the [P10 contract](https://github.com/hernansgarro/vidAI/blob/testing/docs/contributor-workspace/performance/QUERY_OPTIONS_P10.md).

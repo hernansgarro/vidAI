@@ -1,3 +1,18 @@
+# Query options P10 — partial contributor testing implementation (2026-11-05)
+
+Authorized P9 base `7dc593236da08b87ec978e4b887ce9536d5ddb26`; branch
+`feature/maintained-grid-p10-queries`. Only B's large-list combined-food diet/
+existing-axis filter changes runtime, before unchanged descending source sorting.
+A's unordered optical minimum is deferred due exact clipped-intersection arithmetic;
+C's conservative bounded cache is test-only and rejected (zero observed hits).
+Prey/egg filtering, small-list optimization, smarter caching and exact optical
+order optimization remain open; **P10 is not fully complete**. Original P9
+geometry, physical solver, all P7/P8 corrections and historical references remain.
+[Contracts,52-case P9 comparisons, limited local costs and retained failures](contributor-workspace/performance/QUERY_OPTIONS_P10.md).
+Final required exact-head gates/internal PR/testing merge/publication receipts
+belong in the internal PR. No whole-game speedup, main/upstream mutation,
+actual Wiki publication, P11/P12 or baseline change is claimed.
+
 # Physical contact grid P9 — contributor testing only (2026-11-05)
 
 Authorized P8 base `5fdc1b78d7c16132554bfcfe83375cf1142f42de`, branch
