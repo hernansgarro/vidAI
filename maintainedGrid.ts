@@ -20,6 +20,8 @@ type Local = {entry: GridEntry<WorldGridValue>;
 // Multiple independently owned worlds may deliberately share a fixture object.
 const MEMBERSHIPS = Symbol('transient maintained world grid');
 type Entity = WorldGridValue['entity'];
+/** Consumer-owned pure rejection only; never a stateful contact/transfer test. */
+export type GridCandidateFilter = (entry: GridEntry<WorldGridValue>) => boolean;
 type WithMemberships = Entity & {[MEMBERSHIPS]?: Map<MaintainedWorldGrid, Local>};
 const worlds = new WeakMap<SimulationState, MaintainedWorldGrid>();
 const priority = (v: GridView) => v === 'food' ? 0 : v === 'egg' ? 1 : v === 'body-part' ? 2 : 3;
@@ -168,22 +170,28 @@ export class MaintainedWorldGrid {
     this.state.organisms.forEach((org, i) => this.syncOrganism(org, i));
     for (const record of this.records) if (record.seen !== this.generation) this.forget(record);
   }
-  private ordered(entries: GridEntry<WorldGridValue>[], kinds: readonly GridKind[], descending: boolean): GridEntry<WorldGridValue>[] {
+  private ordered(entries: GridEntry<WorldGridValue>[], kinds: readonly GridKind[], descending: boolean, retain?: GridCandidateFilter): GridEntry<WorldGridValue>[] {
     for (const entry of this.overflow) if (kinds.includes(entry.kind)) entries.push(entry);
+    // Local P10 cost controls justify early filtering only for large lists.
+    if (retain && entries.length >= 128) {
+      let count = 0;
+      for (const entry of entries) if (retain(entry)) entries[count++] = entry;
+      entries.length = count;
+    }
     entries.sort((a, b) => (descending ? -1 : 1) * compareWorldGridValues(a.value, b.value));
     return entries;
   }
-  queryBounds(bounds: SpatialBounds, kinds: readonly GridKind[] = GRID_KINDS, descending = false): GridEntry<WorldGridValue>[] {
+  queryBounds(bounds: SpatialBounds, kinds: readonly GridKind[] = GRID_KINDS, descending = false, retain?: GridCandidateFilter): GridEntry<WorldGridValue>[] {
     // Imported finite poses can exceed safe cell coordinates. Clip the QUERY,
     // never entity membership; overflow entries remain unconditional below.
     // Unbounded mouth arithmetic cannot provide a safe exclusion region.
     if (!valid(bounds)) return this.ordered([...this.records].map(r => r.entry)
-      .filter(e => e.registered && kinds.includes(e.kind)), kinds, descending);
+      .filter(e => e.registered && kinds.includes(e.kind)), kinds, descending, retain);
     const c = this.matrix.capacity;
     const clipped = {left: Math.max(bounds.left, c.left), right: Math.min(bounds.right, c.right),
       top: Math.max(bounds.top, c.top), bottom: Math.min(bounds.bottom, c.bottom)};
     return this.ordered(clipped.left <= clipped.right && clipped.top <= clipped.bottom
-      ? this.matrix.queryBounds(clipped, kinds) : [], kinds, descending);
+      ? this.matrix.queryBounds(clipped, kinds) : [], kinds, descending, retain);
   }
   queryRay(x0: number, y0: number, x1: number, y1: number, kinds: readonly GridKind[] = GRID_KINDS): GridEntry<WorldGridValue>[] {
     // Overflow remains unconditional. Nonfinite endpoints/deltas cannot define
