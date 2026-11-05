@@ -198,15 +198,36 @@ for (const fallback of [false,true]) test(`maintained optics: exact browser stat
   const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
   await page.clock.install({time:new Date('2026-01-01T00:00:00Z')});
   await page.clock.pauseAt(new Date('2026-01-02T00:00:00Z'));
+  await page.addInitScript(()=>{
+    const w=window as any;w.opticalWorkerTrace=[];
+    const record=(value:unknown)=>{w.opticalWorkerTrace.push(value);if(w.opticalWorkerTrace.length>80)w.opticalWorkerTrace.shift();};
+    const OriginalWorker=window.Worker;
+    window.Worker=class extends OriginalWorker {
+      constructor(url:URL|string,options?:WorkerOptions){
+        super(url,options);this.addEventListener('message',({data})=>record({direction:'in',type:data.type,
+          epoch:data.frame?.epoch,id:data.id,message:data.message}));
+      }
+      postMessage(message:any,...rest:any[]){record({direction:'out',type:message.type,epoch:message.epoch,id:message.id});
+        return (OriginalWorker.prototype.postMessage as any).call(this,message,...rest);}
+    } as typeof Worker;
+  });
   await page.goto(`./?autoplay${fallback?'&mainthread':''}`);
   await page.addScriptTag({content:scenarioBrowserCode});
   await page.getByTitle('Ecology & Physical Settings').dispatchEvent('click');
+  let scene='initial';
   const read=async()=>{
-    const d=page.waitForEvent('download');
-    await page.getByRole('button',{name:'Export Snapshot',exact:true}).dispatchEvent('click');
-    return JSON.parse(await readFile((await(await d).path())!,'utf8'));
+    try {
+      const d=page.waitForEvent('download',{timeout:10000});
+      await page.getByRole('button',{name:'Export Snapshot',exact:true}).dispatchEvent('click');
+      return JSON.parse(await readFile((await(await d).path())!,'utf8'));
+    } catch(error) {
+      console.log('Optical export failure',scene,await page.locator('body').innerText(),
+        await page.evaluate(()=>(window as any).opticalWorkerTrace));
+      throw error;
+    }
   };
   for(const name of ['food-egg-body-tie','dynamic-pigment','dark-occlusion','cap-merge-cross-cell']) {
+    scene=name;
     const source=await page.evaluate(name=>{
       const r=(window as any).scenarioReference,f=r.opticalScene(name);
       return r.createSnapshot(f.state,f.settings);
@@ -215,6 +236,9 @@ for (const fallback of [false,true]) test(`maintained optics: exact browser stat
     await page.locator('input[type=file]').setInputFiles({name:`optical-${name}.json`,mimeType:'application/json',buffer:Buffer.from(JSON.stringify(source))});
     await expect(canvas).toHaveAttribute('data-world-epoch',String(epoch+1));
     await expect(page.getByRole('button',{name:'Resume',exact:true})).toBeVisible();
+    // Also acknowledge the actual reset frame, rather than only React's epoch.
+    if(!fallback) await expect.poll(()=>page.evaluate(epoch=>(window as any).opticalWorkerTrace
+      .some((e:any)=>e.direction==='in'&&e.type==='frame'&&e.epoch===epoch),epoch+1)).toBe(true);
     expect((await read()).state).toEqual(source.state);
     await page.getByRole('button',{name:'1x',exact:true}).dispatchEvent('click');
     if(fallback) await page.clock.runFor(50);
