@@ -1,3 +1,4 @@
+import {collectSpatialOverlay, SPATIAL_OVERLAYS_OFF, type SpatialOverlayOptions, type SpatialOverlayFrame} from './spatialDiagnostics';
 import {GridIntegrityObserver, type GridAuditDiagnostic} from './gridIntegrityAudit';
 import {disposeMaintainedGrid} from './maintainedGrid';
 import {setSelfTubes, type SelfTubes} from './selfTubes';
@@ -24,6 +25,7 @@ type LiveEgg = Omit<Egg, 'genome'> & {genomeKey: string};
 export interface RenderFrame {
   epoch: number; steps: number; events: string[];
   diagnostics: GridAuditDiagnostic[];
+  spatialOverlay?: SpatialOverlayFrame;
   energyActivity: EnergyActivityFrame;
   genomes: Array<[string, Genome]>;
   lineage: Array<[string, Omit<LineageRecord, 'genome'> & {genomeKey: string}]>;
@@ -44,6 +46,8 @@ export class SimulationHost {
   private steps = 0;
   private events = new Set<string>();
 
+  spatialOverlays: SpatialOverlayOptions = {...SPATIAL_OVERLAYS_OFF};
+  spatialOverlayRevision = 0;
   private diagnostics: GridAuditDiagnostic[] = [];
   private droppedDiagnostics = 0;
   readonly gridAudit = new GridIntegrityObserver(event => {
@@ -134,7 +138,8 @@ export class SimulationHost {
     if (this.droppedDiagnostics) diagnostics.push({severity: 'warning', subsystem: 'grid-integrity',
       message: `${this.droppedDiagnostics} older grid diagnostic events dropped while awaiting a frame.`});
     this.diagnostics = []; this.droppedDiagnostics = 0;
-    const result = {diagnostics, epoch: this.epoch, steps: this.steps, events: [...this.events], genomes, lineage,
+    const spatialOverlay = collectSpatialOverlay(this.state, this.spatialOverlays, this.spatialOverlayRevision);
+    const result = {...(spatialOverlay ? {spatialOverlay} : {}), diagnostics, epoch: this.epoch, steps: this.steps, events: [...this.events], genomes, lineage,
       energyActivity: this.energyActivity.frame(),
       state: {...rest, organisms: live, eggs: liveEggs}};
     this.steps = 0; this.events.clear();

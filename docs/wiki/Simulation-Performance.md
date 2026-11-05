@@ -237,8 +237,7 @@ P1 adds `centralSpatialGrid.ts`, a typed, incrementally maintained matrix with
 fixed maximum-aquarium capacity, registration/relocation/removal, and unique
 conservative cell/bounds/ray candidates. P4 now maintains its membership in the
 authoritative simulation alongside the existing broadphases; their physical and
-sensory results remain unchanged. P5 adds optional integrity inspection; the grid has no renderer consumer or
-visual overlay yet. P4 retains explicit source-array/part ranks for later query
+sensory results remain unchanged. P5 adds optional integrity inspection; P6 adds optional observer overlays from its actual memberships. P4 retains explicit source-array/part ranks for later query
 migration. No speedup is claimed.
 See the [P1 API, bounds and memory contract](https://github.com/hernansgarro/vidAI/blob/testing/docs/contributor-workspace/performance/CENTRAL_GRID_P1.md).
 This section describes the fork's testing work, not upstream shipped behavior;
@@ -302,8 +301,8 @@ solver/import rules. Their conservative current-pose square is refreshed after
 movement. Entries outside fixed capacity or exceeding bounded membership storage
 remain explicit always-candidates, including arithmetic overflow; nothing is
 silently clipped or culled. Existing vision, feeding and contact queries still
-run unchanged. P5 now provides optional independent audits, without repair. No
-grid overlay, extra creature sense or measured speedup is introduced. See the [P4 contract](https://github.com/hernansgarro/vidAI/blob/testing/docs/contributor-workspace/performance/MAINTAINED_GRID_P4.md).
+run unchanged. P5 now provides optional independent audits, without repair. P6 adds observer overlays; no
+extra creature sense or measured speedup is introduced. See the [P4 contract](https://github.com/hernansgarro/vidAI/blob/testing/docs/contributor-workspace/performance/MAINTAINED_GRID_P4.md).
 
 
 ## Independent grid audit — contributor testing only
@@ -329,3 +328,26 @@ with total findings, and an explicit truncation warning. Pending Worker transpor
 is capped at64 events plus a dropped-count summary; P3 retains200 session rows.
 Disabled mode does no reference/cell work. Enabled audits incur diagnostic CPU
 and allocation cost; no performance gain is claimed. See the [P5 contract](https://github.com/hernansgarro/vidAI/blob/testing/docs/contributor-workspace/performance/GRID_INTEGRITY_P5.md).
+
+
+## Spatial diagnostics overlays — contributor testing only
+
+**Fork testing only; not accepted or shipped upstream.** In **Ecology & Physical
+Settings → Advanced Settings**, enable **Show spatial cell borders** and/or
+**Show creature enclosures**. Both start OFF on reload, are independent and stay
+selected across session imports/restarts. They never enter saved settings.
+
+Cells show actual maintained assignments: nutrients green, carrion/eggs red,
+creatures blue, combining saturated RGB channels. Repeated occupants do not
+brighten a channel. Empty cells have no outline. Subtle one-CSS-pixel inward
+outlines follow camera/zoom/DPR and the existing tank/tube fade, after decoration
+and below creatures. Overflow has no matrix cells and is explicitly counted.
+
+Enclosures show P4's actual conservative squares. Dashed blue is current-pose
+fallback; solid blue is a finite anatomy certificate. The articulated ideal
+anatomy radius is not an unconditional lifetime guarantee. Finite overflow
+squares remain drawable; unbounded ones are counted. No forward mouth, glow or
+sight range is included. Disabled overlays skip collection and payloads; enabled
+data travels only in acknowledged render frames, outside physical snapshots and
+senses/brains/energy. Existing feeding/vision/contact broadphases are unchanged.
+See the [P6 contract](https://github.com/hernansgarro/vidAI/blob/testing/docs/contributor-workspace/performance/SPATIAL_OVERLAYS_P6.md).

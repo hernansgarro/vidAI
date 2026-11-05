@@ -63,7 +63,7 @@ for (const fallback of [false, true]) test(`independent observer preferences, bo
   for (const selectAddedCreature of [false, true]) for (const trackSelectedCreature of [false, true]) {
     await upload(source); await expect(badge).toHaveCount(0);
     const advanced = await openAdvanced();
-    await expect(advanced.getByRole('checkbox')).toHaveCount(4);
+    await expect(advanced.getByRole('checkbox')).toHaveCount(6);
     await setChecked(advanced.getByLabel('Automatically select added creatures', {exact: true}), selectAddedCreature);
     await setChecked(advanced.getByLabel('Automatically track selected creatures', {exact: true}), trackSelectedCreature);
     const configured = await read();
@@ -254,7 +254,7 @@ for (const fallback of [false, true]) test(`diagnostic console retains, filters 
   await upload(JSON.stringify(source));
   await expect(rows).toHaveCount(3);
   await console.getByLabel('Diagnostic subsystem').selectOption('');
-  await expect(rows).toHaveCount(4);
+  await expect(rows).toHaveCount(6);
   const afterBrowsing = await read();
   expect(afterBrowsing.state).toEqual(before.state); expect(afterBrowsing.settings).toEqual(before.settings);
   expect(afterBrowsing.metadata).toEqual(before.metadata);
@@ -382,4 +382,112 @@ for (const fallback of [false, true]) test(`grid audit uses authoritative paused
   expect(box.x).toBeGreaterThanOrEqual(tank.x); expect(box.x+box.width).toBeLessThanOrEqual(tank.x+tank.width);
   expect(box.y+box.height).toBeLessThanOrEqual(tank.y+tank.height);
   expect(errors).toEqual([]);
+});
+
+test.describe('P6 diagnostics at DPR2',()=>{
+  test.use({deviceScaleFactor:2});
+for (const fallback of [false, true]) test(`spatial overlays: independent options, real canvas colors, scaling, imports and state isolation (${fallback ? 'fallback' : 'Worker'})`, async ({page}, info) => {
+  await page.setViewportSize({width: 1280,height: 850});
+  await page.clock.install({time:new Date('2026-01-01T00:00:00Z')});
+  await page.clock.pauseAt(new Date('2026-01-02T00:00:00Z'));
+  const errors:string[]=[]; page.on('pageerror',e=>errors.push(e.message));
+  await page.addInitScript(()=>{
+    const w=window as any; w.spatialPaint={cells:[],envelopes:[]}; w.overlayFrames=[];
+    const strokeRect=CanvasRenderingContext2D.prototype.strokeRect;
+    CanvasRenderingContext2D.prototype.strokeRect=function(x,y,width,height){
+      if(this.globalAlpha===.55){
+        const m=this.getTransform();
+        if(w.spatialPaint.cells.length<2000) w.spatialPaint.cells.push({color:this.strokeStyle,x,y,width,height,
+          cssWidth:this.lineWidth*Math.hypot(m.a,m.b)/devicePixelRatio});
+      }
+      return strokeRect.call(this,x,y,width,height);
+    };
+    const stroke=CanvasRenderingContext2D.prototype.stroke;
+    CanvasRenderingContext2D.prototype.stroke=function(...args:any[]){
+      if(this.globalAlpha===.55 && this.strokeStyle==='#0000ff' && w.spatialPaint.envelopes.length<2000)
+        w.spatialPaint.envelopes.push({dash:this.getLineDash(),lineWidth:this.lineWidth});
+      return (stroke as any).apply(this,args);
+    };
+    const OriginalWorker=window.Worker;
+    window.Worker=class extends OriginalWorker {
+      constructor(url:URL|string,options?:WorkerOptions){
+        super(url,options); this.addEventListener('message',({data})=>{
+          if(data.type==='frame') {w.overlayFrames.push({epoch:data.frame.epoch,overlay:data.frame.spatialOverlay});
+            if(w.overlayFrames.length>100) w.overlayFrames.shift();}
+        });
+      }
+    } as typeof Worker;
+  });
+  await page.goto(`./?autoplay${fallback?'&mainthread':''}`);
+  await page.getByTitle('Ecology & Physical Settings').dispatchEvent('click');
+  const cfg={...DEFAULT_SETTINGS,targetNutrients:0,inflowRate:0};
+  const state=createInitialWorld(cfg,712,'balanced','standard',0);
+  addExternalOrganism(state,createFounderGenome('CUR-009'),cfg,1200,750,0);
+  const {food}=await import('../tests/support/nutrient-cycle');
+  state.nutrients.push(food(3000,false,1200,750),{...food(3000,true,1200,750),id:'carrion-overlay'},
+    {...food(3000,false,800,750),id:'nutrient-overlay'});
+  const source=createSnapshot(state,cfg);
+  const canvas=page.getByLabel('Aquatic simulation');
+  const upload=async()=>{
+    const epoch=Number(await canvas.getAttribute('data-world-epoch'));
+    await page.locator('input[type=file]').setInputFiles({name:'spatial-overlays.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(source))});
+    await expect(canvas).toHaveAttribute('data-world-epoch',String(epoch+1));
+    await expect(page.getByRole('button',{name:'Resume',exact:true})).toBeVisible();
+  };
+  const read=async()=>{
+    const download=page.waitForEvent('download');
+    await page.getByRole('button',{name:'Export Snapshot',exact:true}).dispatchEvent('click');
+    return JSON.parse(await readFile((await (await download).path())!,'utf8'));
+  };
+  await upload();
+  await page.getByTestId('settings-window').getByRole('button',{name:'Advanced Settings',exact:true}).dispatchEvent('click');
+  const advanced=page.getByRole('dialog',{name:'Advanced Settings',exact:true});
+  const cells=advanced.getByLabel('Show spatial cell borders',{exact:true});
+  const envelopes=advanced.getByLabel('Show creature enclosures',{exact:true});
+  await expect(cells).not.toBeChecked(); await expect(envelopes).not.toBeChecked();
+  const before=await read();
+  const paint=async()=>{
+    await page.evaluate(()=>{(window as any).spatialPaint={cells:[],envelopes:[]};});
+    await page.clock.runFor(64);
+    return page.evaluate(()=>(window as any).spatialPaint);
+  };
+  expect(await paint()).toEqual({cells:[],envelopes:[]});
+  if(!fallback) expect(await page.evaluate(()=>(window as any).overlayFrames.every((f:any)=>!f.overlay))).toBe(true);
+  await cells.dispatchEvent('click');
+  if(!fallback) await expect.poll(()=>page.evaluate(()=>(window as any).overlayFrames.at(-1)?.overlay?.cells?.length??0)).toBeGreaterThan(0);
+  let painted=await paint(); expect(painted.cells.length).toBeGreaterThan(0); expect(painted.envelopes).toEqual([]);
+  expect(painted.cells.some((c:any)=>c.color==='#ffffff')).toBe(true);
+  expect(painted.cells.some((c:any)=>c.color==='#00ff00')).toBe(true);
+  expect(painted.cells.every((c:any)=>Math.abs(c.cssWidth-1)<1e-8)).toBe(true);
+  await cells.dispatchEvent('click'); await envelopes.dispatchEvent('click');
+  if(!fallback) await expect.poll(()=>page.evaluate(()=>(window as any).overlayFrames.at(-1)?.overlay?.envelopes?.length??0)).toBeGreaterThan(0);
+  painted=await paint(); expect(painted.cells).toEqual([]); expect(painted.envelopes.some((e:any)=>e.dash.length===2)).toBe(true);
+  await cells.dispatchEvent('click');
+  if(!fallback) await expect.poll(()=>page.evaluate(()=>(window as any).overlayFrames.at(-1)?.overlay?.cells?.length??0)).toBeGreaterThan(0);
+  painted=await paint(); expect(painted.cells.length).toBeGreaterThan(0); expect(painted.envelopes.length).toBeGreaterThan(0);
+  const observed=await read(); expect(observed).toEqual(before);
+  await upload(); await expect(cells).toBeChecked(); await expect(envelopes).toBeChecked();
+  expect(await read()).toEqual(before);
+  // Actual native paint and camera zoom remain CSS-pixel thin.
+  const box=(await canvas.boundingBox())!;
+  await page.mouse.move(box.x+box.width*.7,box.y+box.height*.7); await page.mouse.wheel(0,-300);
+  await page.clock.runFor(64); painted=await paint();
+  expect(painted.cells.length).toBeGreaterThan(0);
+  expect(painted.cells.every((c:any)=>Math.abs(c.cssWidth-1)<1e-8)).toBe(true);
+  await advanced.getByTitle('Close advanced settings').dispatchEvent('click');
+  await page.getByTitle('Close settings (✕)').dispatchEvent('click'); await page.clock.runFor(64);
+  await page.screenshot({path:info.outputPath('spatial-overlays-desktop.png')});
+  await page.getByTitle('Ecology & Physical Settings').dispatchEvent('click');
+  await page.getByTestId('settings-window').getByRole('button',{name:'Advanced Settings',exact:true}).dispatchEvent('click');
+  await page.setViewportSize({width:375,height:812}); await page.clock.runFor(64);
+  const panel=(await advanced.boundingBox())!,tank=(await canvas.boundingBox())!;
+  expect(panel.x).toBeGreaterThanOrEqual(tank.x); expect(panel.x+panel.width).toBeLessThanOrEqual(tank.x+tank.width);
+  expect(panel.y+panel.height).toBeLessThanOrEqual(tank.y+tank.height);
+  await page.screenshot({path:info.outputPath('spatial-overlays-mobile.png')});
+  await cells.dispatchEvent('click'); await envelopes.dispatchEvent('click');
+  expect(await paint()).toEqual({cells:[],envelopes:[]});
+  if(!fallback) await expect.poll(()=>page.evaluate(()=>!(window as any).overlayFrames.at(-1)?.overlay)).toBe(true);
+  expect(await read()).toEqual(before); expect(errors).toEqual([]);
+});
+
 });

@@ -1,3 +1,17 @@
+# Spatial overlays P6 — contributor testing only (2026-11-05)
+
+Authorized base P5 `ebccd7129142b580304cbfcea2440682671b68a1`, branch
+`feature/spatial-overlays-p6`, internal [PR112](https://github.com/hernansgarro/vidAI/pull/112).
+Scope/decisions/acceptance were committed remotely before implementation.
+Two OFF-by-default session toggles read actual P1/P4 memberships/bounds, with
+saturated RGB, CSS-pixel inset/width and existing observer camera/tube layers.
+Dashed current-pose enclosures are distinguished from finite anatomy certificates;
+overflow is explicit and never assigned invented cells. Disabled mode omits scans
+and payload; epochs/revisions reject stale paint. No saved state or consumer query
+changes. [Contract and verification](contributor-workspace/performance/SPATIAL_OVERLAYS_P6.md).
+Validation, visual inspection, exact commits and testing publication receipts are
+recorded in PR112. Main/upstream/P7+ and historical references remain excluded.
+
 # Independent grid audit P5 — contributor testing only (2026-11-04)
 
 Authorized branch `feature/grid-integrity-p5`, based on P4 testing

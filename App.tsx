@@ -1,3 +1,4 @@
+import {collectSpatialOverlay, drawSpatialOverlay, SPATIAL_OVERLAYS_OFF, type SpatialOverlayOptions, type SpatialOverlayFrame} from './spatialDiagnostics';
 import {GridIntegrityObserver} from './gridIntegrityAudit';
 import {DiagnosticEventStore} from './diagnosticEvents';
 import {DiagnosticsConsole} from './DiagnosticsConsole';
@@ -336,6 +337,10 @@ export default function App() {
   const [isAdvancedSettingsOpen, setIsAdvancedSettingsOpen] = useState(false);
   const [isDiagnosticsConsoleOpen, setIsDiagnosticsConsoleOpen] = useState(false);
   const [diagnosticEvents] = useState(() => new DiagnosticEventStore());
+  const [spatialOverlays, setSpatialOverlays] = useState<SpatialOverlayOptions>(() => ({...SPATIAL_OVERLAYS_OFF}));
+  const spatialOverlayRef = useRef<SpatialOverlayFrame>();
+  const spatialOverlayRevision = useRef(0);
+  const [spatialOverlayStatus, setSpatialOverlayStatus] = useState('');
   const [gridAuditEnabled, setGridAuditEnabled] = useState(false);
   const [gridAuditBusy, setGridAuditBusy] = useState(false);
   const fallbackGridAuditRef = useRef<GridIntegrityObserver | null>(null);
@@ -575,6 +580,7 @@ export default function App() {
     energyCollectorRef.current.clear();
     energyPresentationRef.current.clear();
     simStateRef.current = state;
+    spatialOverlayRef.current = undefined;
     fallbackGridAuditRef.current!.schedule.reset(state.simTime);
     workerStepsRef.current = 0;
     const config = settings ?? workerSettingsRef.current;
@@ -1298,6 +1304,12 @@ export default function App() {
       }
     }
 
+    // P6 observer diagnostics: after decoration, below all creature/glow layers.
+    const spatialOverlay = workerClientRef.current ? spatialOverlayRef.current
+      : collectSpatialOverlay(s, spatialOverlays);
+    drawSpatialOverlay(ctx, spatialOverlay, spatialOverlays, zoom,
+      {left: viewLeft, right: viewRight, top: viewTop, bottom: viewBottom});
+
     // Glow pass: every halo is behind every physical entity.
     for (const nut of s.nutrients) {
       const baseRadius = nutrientCycle ? nut.radius : Math.max(6, nut.radius);
@@ -1705,6 +1717,13 @@ export default function App() {
     let client: SimulationClient;
     try { client = new SimulationClient(() => simStateRef.current, (state, frame) => {
       simStateRef.current = state;
+      if (frame.spatialOverlay?.revision === spatialOverlayRevision.current) {
+        spatialOverlayRef.current = frame.spatialOverlay;
+        const overlay = frame.spatialOverlay;
+        setSpatialOverlayStatus(overlay.available
+          ? `Overflow entries: ${overlay.overflow}. Unbounded creature enclosures: ${overlay.unboundedCreatures}.`
+          : 'Maintained grid unavailable; no assignments reconstructed.');
+      }
       for (const event of frame.diagnostics) diagnosticEvents.record(event);
       energyPresentationRef.current.accept(frame.energyActivity);
       workerStepsRef.current += frame.steps;
@@ -1732,6 +1751,12 @@ export default function App() {
     client.reset(createSnapshot(simStateRef.current, workerSettingsRef.current!), worldEpochRef.current);
     return () => {client.dispose(); workerClientRef.current = null;};
   }, []);
+
+  useEffect(() => {
+    spatialOverlayRef.current = undefined;
+    setSpatialOverlayStatus('');
+    workerClientRef.current?.configureSpatialOverlays(spatialOverlays, ++spatialOverlayRevision.current);
+  }, [spatialOverlays]);
 
   useEffect(() => {
     fallbackGridAuditRef.current!.schedule.setEnabled(gridAuditEnabled, simStateRef.current.simTime);
@@ -2557,6 +2582,25 @@ export default function App() {
                 <span>Periodic grid integrity audit (60 simulated seconds)</span>
               </label>
               <p className="text-slate-400">Pauses stop the audit clock. Restart/import starts a fresh interval. Reports never repair the grid.</p>
+              <label className="flex items-start gap-2 text-xs text-slate-200">
+                <input type="checkbox" className="mt-0.5 accent-blue-400" checked={spatialOverlays.cells}
+                  onChange={e => setSpatialOverlays(p => ({...p, cells: e.target.checked}))}/>
+                <span>Show spatial cell borders</span>
+              </label>
+              <label className="flex items-start gap-2 text-xs text-slate-200">
+                <input type="checkbox" className="mt-0.5 accent-blue-400" checked={spatialOverlays.envelopes}
+                  onChange={e => setSpatialOverlays(p => ({...p, envelopes: e.target.checked}))}/>
+                <span>Show creature enclosures</span>
+              </label>
+              <p className="text-xs text-slate-400">Cells: nutrient green, carrion/eggs red, creatures blue; combined by RGB addition.
+                Enclosures: dashed = conservative current pose (no finite anatomy lifetime guarantee); solid = anatomy certified.
+                Overflow has no assigned matrix cells. Existing tube fade applies.</p>
+              {(spatialOverlays.cells || spatialOverlays.envelopes) && <p className="text-xs text-slate-400" role="status">
+                {workerClientRef.current ? spatialOverlayStatus : (() => {
+                  const overlay = collectSpatialOverlay(simStateRef.current, spatialOverlays);
+                  return overlay?.available ? `Overflow entries: ${overlay.overflow}. Unbounded creature enclosures: ${overlay.unboundedCreatures}.`
+                    : 'Maintained grid unavailable; no assignments reconstructed.';
+                })()}</p>}
               <button type="button" disabled={gridAuditBusy} onClick={runGridAudit}
                 className="w-full py-2 text-cyan-300 border border-cyan-500/40 rounded-xl font-bold disabled:opacity-50">
                 {gridAuditBusy ? 'Auditing grid…' : 'Audit grid now'}</button>
