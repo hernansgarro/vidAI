@@ -1,6 +1,6 @@
 # VIDA 2D — Maintained Spatial Grid, Ordered Queries, and Observer Diagnostics
 
-> **Implementation checkpoint (2026-11-05):** P0–P8 are now completed, merged and published **only in fork `testing`**, not in `main` or upstream. Verify actual PRs, exact heads, approved P7/P8 behavioral corrections and pending P9–P12 in the [maintained-grid implementation status](MAINTAINED_GRID_IMPLEMENTATION_STATUS.md). The dated original design discussion below is retained as historical proposal/acceptance scope, not a live progress report. No performance gain or production promotion is claimed.
+> **Implementation checkpoint (2026-11-05):** P0–P9 are completed, merged and published **only in fork `testing`**, not in `main` or upstream. See [verified implementation status](MAINTAINED_GRID_IMPLEMENTATION_STATUS.md) for all PRs, P7/P8 behavioral corrections, P9 equivalence, and remaining P10–P12. An owner's observation about empty-world MAX throughput prompted a [source-level residual-work review and proposed P10.5 checkpoint](SPATIAL_GRID_PRE_P11_REVIEW.md); this does **not** establish a slowdown or authorize experiments. The original dated design below remains historical proposal/acceptance scope, not a live progress report. No speedup, regression verdict or production promotion is claimed.
 >
 > **Status (2026-11-04): fork-only design discussion and implementation backlog; documentation, NOT implemented code, measured improvement, owner acceptance in upstream, or permission to change production.**
 >

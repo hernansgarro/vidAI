@@ -1,19 +1,29 @@
 # Maintained spatial grid — contributor testing checkpoint (2026-11-05)
 
-The [fork-only maintained-grid implementation status](contributor-workspace/performance/MAINTAINED_GRID_IMPLEMENTATION_STATUS.md)
-records the GitHub-verified P0–P8 fork `testing` merges, exact final head
-`5fdc1b78d7c16132554bfcfe83375cf1142f42de`, successful [P8 publication](https://github.com/hernansgarro/vidAI/actions/runs/42035935206),
-known P7/P8 narrowly approved behavioral corrections, retained CI evidence, and
-pending P9–P12. This document lives on fork `main` for continuity **only**;
-none of these maintained-grid runtime stages is integrated into fork `main`
-or upstream, and no new speedup measurement or production release is claimed.
+The fork-only [maintained-grid implementation status](contributor-workspace/performance/MAINTAINED_GRID_IMPLEMENTATION_STATUS.md)
+records all **P0–P9** verified fork `testing` merges, the final P9 testing head
+`7dc593236da08b87ec978e4b887ce9536d5ddb26`, and
+[successful P9 dual-Pages publication](https://github.com/hernansgarro/vidAI/actions/runs/42065536729).
+P7/P8 approved semantic corrections and P9's exact-state/mechanical
+equivalence are separately documented with immutable PR/CI evidence.
+No maintained-grid runtime stage is integrated into fork `main` or upstream.
+There is no measured speedup or regression verdict.
+
+A [source-only residual-grid preflight note](contributor-workspace/performance/SPATIAL_GRID_PRE_P11_REVIEW.md)
+documents the owner's no-creature MAX-indicator concern: P7/P8/P9 actively use
+the maintained spatial index, while repeated roster-wide `synchronize()`
+reconciliation and some old module files remain. The indicator's code/color
+scale is identical between main and P9 testing; its yellow-versus-white
+observation is not yet a controlled performance comparison. A proposed
+bounded **P10.5** checkpoint *after P10 and before P11* requires separate
+owner authorization. Do not infer old-grid rebuilding, a causal slowdown,
+or permission to remove required lifecycle checks merely from this note.
 
 A separate minimal [ChatGPT conversation continuity note](contributor-workspace/tracking/CHATGPT_WORK_CONTINUITY_2026-11-05.md)
-records the owner's temporary/unresolved cross-device Work/chat access symptoms,
-without private conversation URLs or screenshots. The cause is unknown; it may
-be transient and is not a simulation defect. Existing GitHub PRs and CI remain
-the durable technical handoff. See the [fork retry/stop policy](contributor-workspace/procedures/WORK_CI_RETRY_BUDGET.md)
-for bounded diagnostics and explicit owner checkpoints.
+records the owner's cross-device Work/chat access symptoms, without private
+conversation URLs or screenshots. The cause remains unconfirmed; GitHub PRs
+and CI are the durable technical handoff. Follow the
+[fork retry/stop policy](contributor-workspace/procedures/WORK_CI_RETRY_BUDGET.md).
 
 ---
 
