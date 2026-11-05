@@ -6,6 +6,15 @@ import {createFounderGenome} from '../founders';
 import {enableClosedEconomy, setWorldEnergy} from '../energyEconomy';
 
 test.setTimeout(120000);
+const preferenceFailureNotes = new WeakMap<object, string[]>();
+test.afterEach(async ({page}, info) => {
+  const notes = preferenceFailureNotes.get(page);
+  if (notes && info.status !== info.expectedStatus) {
+    console.log('Observer preference browser diagnostics:', notes);
+    console.log('Observer preference visible state:', await page.locator('body').innerText());
+    await page.screenshot({path: info.outputPath('spatial-overlays-preferences-failure.png')});
+  }
+});
 for (const fallback of [false, true]) test(`independent observer preferences, both spawn paths and exact imports (${fallback ? 'fallback' : 'Worker'})`, async ({page}, info) => {
   await page.setViewportSize({width: 1280, height: 850});
   // Paused-world policy checks need no continuous software-rendered tank.
@@ -16,7 +25,9 @@ for (const fallback of [false, true]) test(`independent observer preferences, bo
     if (await checkbox.isChecked() !== checked) await checkbox.dispatchEvent('click');
     await expect(checkbox).toBeChecked({checked});
   };
-  const errors: string[] = []; page.on('pageerror', e => errors.push(e.message));
+  const notes: string[] = []; preferenceFailureNotes.set(page, notes);
+  page.on('console', message => {if (message.type() === 'warning' || message.type() === 'error') notes.push(message.text());});
+  const errors: string[] = []; page.on('pageerror', e => {errors.push(e.message); notes.push(e.message);});
   await page.addInitScript(() => {
     const translate = CanvasRenderingContext2D.prototype.translate;
     CanvasRenderingContext2D.prototype.translate = function(x, y) {
@@ -30,7 +41,9 @@ for (const fallback of [false, true]) test(`independent observer preferences, bo
   await page.getByTitle('Ecology & Physical Settings').dispatchEvent('click');
   const read = async () => {
     const download = page.waitForEvent('download');
-    await page.getByRole('button', {name: 'Export Snapshot', exact: true}).dispatchEvent('click');
+    // Use a trusted click for repeated browser downloads. The clock is frozen,
+    // so force skips animation-frame stability waits; state assertions stay exact.
+    await page.getByRole('button', {name: 'Export Snapshot', exact: true}).click({force: true});
     return JSON.parse(await readFile((await (await download).path())!, 'utf8'));
   };
   const cfg = {...DEFAULT_SETTINGS, targetNutrients: 0, inflowRate: 0};
