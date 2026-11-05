@@ -145,6 +145,30 @@ export class CentralSpatialGrid<T> {
     for (let y = r.top; y <= r.bottom; y++) for (let x = r.left; x <= r.right; x++) this.erase(entry, s.kind, x, y);
     s.range = undefined; s.seen = 0; this.entries--;
   }
+  /** Audited recovery only: erase precisely the diagnosed handles, reading raw
+   * buckets instead of trusting their possibly corrupt kind/range metadata.
+   * Foreign handles are detached here but never mutated in their owning grid.
+   * Recount derived counters from observed buckets; never recreate memberships. */
+  discardForRepair(targets: ReadonlySet<GridEntry<T>>): void {
+    let memberships = 0, occupied = 0;
+    const live = new Set<GridEntry<T>>();
+    for (let slot = 0; slot < this.cells.length; slot++) {
+      const cell = this.cells[slot]; if (!cell) continue;
+      for (const [kind, bucket] of Object.entries(cell)) {
+        if (!bucket) continue;
+        const retained = [...bucket].filter(e => !targets.has(e));
+        if (retained.length) {
+          // Do not normalize unrelated corruption while repairing these entries.
+          if (retained.length !== [...bucket].length) (cell as Record<string, Iterable<GridEntry<T>>>)[kind] = new Set(retained);
+          memberships += retained.length;
+          for (const e of retained) live.add(e);
+        } else delete (cell as Record<string, unknown>)[kind];
+      }
+      if (Object.keys(cell).length) occupied++; else this.cells[slot] = undefined;
+    }
+    for (const e of targets) if (this.owns(e)) {e[STATE].range = undefined; e[STATE].seen = 0;}
+    this.memberships = memberships; this.occupied = occupied; this.entries = live.size;
+  }
   private begin(kinds: readonly GridKind[]): number {
     for (const kind of kinds) kindCheck(kind);
     // Extremely rare wraparound uses only live buckets, without a registry.

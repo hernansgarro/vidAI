@@ -37,16 +37,32 @@ function partBounds(org: Organism, index: number): SpatialBounds | null {
   return valid(b) ? b : null;
 }
 
-/** P4 maintained state. P7 feeding, P8 optics and P9 contacts consume phase-current typed views.
- * Roster reconciliation scans source arrays, never clears/rebuilds the matrix.
- * Motion hooks relocate only moved entities; P1 owns every bucket mutation.
- * No audit, timer, repair mode, observer transfer or saved schema is added. */
+/** P4 maintained views consumed by feeding, optics and contacts. P10.5 normal
+ * upkeep uses entity-local hooks; complete reconciliation is reserved for
+ * initialization and explicit external edits. P1 owns bucket mutations.
+ * Optional P5 recovery invokes repairEntity only after logging its evidence. */
 export class MaintainedWorldGrid {
   readonly matrix: CentralSpatialGrid<WorldGridValue>;
   private readonly records = new Set<Local>();
   private readonly overflow = new Set<GridEntry<WorldGridValue>>();
   private generation = 0;
   private disposed = false;
+  private firstTick = true;
+  private rosters?: {food: Nutrient[]; eggs: Egg[]; organisms: Organism[]; lengths: number[]};
+  /** Constant-time external roster-replacement guard, never a geometry scan.
+   * Raw pose/anatomy edits and same-length in-place reorders must use
+   * editSpatialState/synchronizeMaintainedGrid before any spatial consumer. */
+  acceptRosterChanges(): void {
+    this.rosters = {food: this.state.nutrients, eggs: this.state.eggs, organisms: this.state.organisms,
+      lengths: [this.state.nutrients.length, this.state.eggs.length, this.state.organisms.length]};
+  }
+  prepareTick(): void {
+    const r = this.rosters, s = this.state;
+    if (this.firstTick || !r || r.food !== s.nutrients || r.eggs !== s.eggs || r.organisms !== s.organisms
+      || r.lengths[0] !== s.nutrients.length || r.lengths[1] !== s.eggs.length || r.lengths[2] !== s.organisms.length)
+      this.synchronize();
+    this.firstTick = false;
+  }
   constructor(readonly state: SimulationState, matrix = new CentralSpatialGrid<WorldGridValue>()) {
     this.matrix = matrix;
   }
@@ -124,6 +140,10 @@ export class MaintainedWorldGrid {
     this.place(this.local(egg, 'egg', 'egg', index),
       {left: egg.x - 16, right: egg.x + 16, top: egg.y - 16, bottom: egg.y + 16}, 'egg');
   }
+  syncPart(org: Organism, partIndex: number, sourceIndex: number): void {
+    this.place(this.local(org.segments[partIndex], 'body-part', 'body-part', sourceIndex, partIndex, org),
+      partBounds(org, partIndex), 'body-part');
+  }
   syncOrganism(org: Organism, index: number): void {
     if (org.dissolving) {this.removeOrganism(org); return;}
     const coarse = this.local(org, 'organism', 'organism', index);
@@ -135,7 +155,7 @@ export class MaintainedWorldGrid {
       ? encloseCreaturePose(coarse.envelope!, org.segments).bounds : null;
     this.place(coarse, bounds, 'organism');
     for (let i = 0; i < org.segments.length; i++)
-      this.place(this.local(org.segments[i], 'body-part', 'body-part', index, i, org), partBounds(org, i), 'body-part');
+      this.syncPart(org, i, index);
   }
   remove(entity: Entity): void {
     const record = (entity as WithMemberships)[MEMBERSHIPS]?.get(this);
@@ -143,6 +163,31 @@ export class MaintainedWorldGrid {
   }
   removeOrganism(org: Organism): void {
     this.remove(org); for (const segment of org.segments) this.remove(segment);
+  }
+  /** P5 invokes only after recording original evidence. All handles for the
+   * diagnosed entity (including rogue bucket/overflow handles) are discarded;
+   * unaffected records retain identity and memberships. No physical writes. */
+  repairEntity(entity: Entity, observed: ReadonlySet<GridEntry<WorldGridValue>>,
+    expected?: {view: GridView; sourceIndex: number; partIndex: number; organism?: Organism}): void {
+    const targets = new Set(observed);
+    for (const record of this.records) if (record.entry.value.entity === entity) targets.add(record.entry);
+    this.matrix.discardForRepair(targets);
+    for (const entry of targets) this.overflow.delete(entry);
+    for (const record of this.records) if (targets.has(record.entry)) this.records.delete(record);
+    const e = entity as WithMemberships;
+    e[MEMBERSHIPS]?.delete(this);
+    if (e[MEMBERSHIPS] && !e[MEMBERSHIPS]!.size) delete e[MEMBERSHIPS];
+    if (!expected) return;
+    if (expected.view === 'food') this.syncFood(entity as Nutrient, expected.sourceIndex);
+    else if (expected.view === 'egg') this.syncEgg(entity as Egg, expected.sourceIndex);
+    else if (expected.view === 'body-part') this.syncPart(expected.organism!, expected.partIndex, expected.sourceIndex);
+    else {
+      const org = entity as Organism;
+      const coarse = this.local(org, 'organism', 'organism', expected.sourceIndex);
+      coarse.parts = org.genome.parts; coarse.envelope = calculateCreatureEnvelope(org.genome.parts);
+      this.place(coarse, org.segments.every(p => Number.isFinite(p.x) && Number.isFinite(p.y))
+        ? encloseCreaturePose(coarse.envelope, org.segments).bounds : null, 'organism');
+    }
   }
   /** Collection edits update ordering independently of spatial membership. */
   refreshRanks(view: 'food' | 'egg' | 'organism'): void {
@@ -156,8 +201,7 @@ export class MaintainedWorldGrid {
       update(org, i); for (const segment of org.segments) update(segment, i);
     });
   }
-  /** Normal lifecycle transaction boundary: diff roster and refresh exact array
-   * ranks after splices/replacements. No reference-grid rebuild or audit repair. */
+  /** Explicit external edit/initialization boundary. Never ordinary tick upkeep. */
   synchronize(): void {
     if (this.disposed) throw new Error('Disposed maintained world grid');
     if (this.generation === Number.MAX_SAFE_INTEGER) {
@@ -169,6 +213,7 @@ export class MaintainedWorldGrid {
     this.state.eggs.forEach((egg, i) => this.syncEgg(egg, i));
     this.state.organisms.forEach((org, i) => this.syncOrganism(org, i));
     for (const record of this.records) if (record.seen !== this.generation) this.forget(record);
+    this.acceptRosterChanges();
   }
   private ordered(entries: GridEntry<WorldGridValue>[], kinds: readonly GridKind[], descending: boolean, retain?: GridCandidateFilter): GridEntry<WorldGridValue>[] {
     for (const entry of this.overflow) if (kinds.includes(entry.kind)) entries.push(entry);
@@ -229,4 +274,11 @@ export function syncTrackedParticle(p: {x: number; y: number}): void {
     if (record.entry.value.view === 'egg') owner.syncEgg(p as Egg, record.entry.value.sourceIndex);
     else if (record.entry.value.view === 'food') owner.syncFood(p as Nutrient, record.entry.value.sourceIndex);
   }
+}
+
+/** Explicit compatibility transaction for arbitrary external/headless edits.
+ * Reconcile even on exceptions so a partially completed edit cannot silently
+ * retain stale membership. Callers can instead use the entity-local hooks. */
+export function editSpatialState<T>(state: SimulationState, edit: () => T): T {
+  try {return edit();} finally {synchronizeMaintainedGrid(state);}
 }

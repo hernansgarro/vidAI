@@ -278,7 +278,7 @@ scalar audit messages through the existing acknowledged Worker frames.
 Existing Worker errors still pause visibly through their original handler.
 
 The P3 store remains independent of P1/P2; P5 supplies its grid-integrity
-producer. The console does not repair errors, draw grid overlays or change
+producer. The console displays P5 repair reports; it does not draw grid overlays or change
 simulation state/PRNG/physics. Its ordinary observer
 cost is not a throughput claim. Source API details and limitations:
 [P3 contract](https://github.com/hernansgarro/vidAI/blob/testing/docs/contributor-workspace/performance/DIAGNOSTICS_CONSOLE_P3.md).
@@ -319,7 +319,29 @@ or synchronization. Missing, extra, duplicate, misclassified, stale and wrong-ce
 entries produce bounded severity/subsystem/timestamp reports, with simulated
 time and useful identity/cell context. Legitimate P4 out-of-capacity, arithmetic
 and budget overflow entries remain unconditional candidates and pass validation.
-No audit repairs the grid or changes physical state, PRNG or existing queries.
+**P10.5 candidate on a topic branch; NOT yet integrated in testing.**
+It logs original defects before attempting affected-record registration,
+relocation/removal and counter recovery. A fresh independent inspection verifies
+success, failure or unsafe repairs and logs counts. Repair never moves physical
+objects or changes energy, PRNG or snapshots. Unaffected handles stay intact.
+
+**Pause on severe grid inconsistency** is a separate session preference, OFF by
+default for every starting world. It never enables audits. Severe means original
+missing/extra/duplicate/category/view/owner/cell/registration/overflow/counter
+corruption, nonconservative stale bounds or incomplete inspection. Pure rank
+staleness and conservative bounds staleness alone are nonsevere. An actual manual
+or periodic severe finding requests authoritative0x only after repair and fresh
+verification, even if corrected. Worker and fallback stop between complete ticks.
+
+Normal ticks no longer reconcile complete rosters. Initialization/import and
+explicit external edit transactions can still do so. External/headless raw pose,
+anatomy or same-length reorder edits must use `editSpatialState(state, edit)` or
+call `synchronizeMaintainedGrid(state)` before a spatial consumer. Whole-array
+replacement/length changes between ticks have a constant-time compatibility
+guard; this does not detect arbitrary raw field writes. Application commands and
+physical hooks update affected entries directly. Auditing remains optional:
+missed hooks can affect consumers until the next audit; with auditing disabled
+there is no periodic discovery guarantee.
 
 Clean runs emit one info summary; errors retain at most20 investigation details
 with total findings, and an explicit truncation warning. Pending Worker transport

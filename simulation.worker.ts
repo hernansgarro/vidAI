@@ -48,6 +48,10 @@ port.onmessage = ({data}: MessageEvent) => {
       if (typeof data.enabled !== 'boolean') throw new Error('Expected boolean grid audit toggle');
       host.gridAudit.schedule.setEnabled(data.enabled, host.state.simTime); return;
     }
+    if (data.type === 'grid-audit-pause-config') {
+      if (typeof data.enabled !== 'boolean') throw new Error('Expected boolean severe grid pause toggle');
+      host.gridAudit.pauseOnSevere = data.enabled; return;
+    }
     if (data.type === 'grid-audit') {
       const result = host.gridAudit.audit(host.state);
       dirty = true; sendFrame();
@@ -81,6 +85,7 @@ function pump() {
       while ((unlimited || accumulator >= 1 / 60) && performance.now() < deadline && batchTicks < MAX_BATCH_TICKS) {
         host.tick(); dirty = true; batchTicks++;
         if (!unlimited) accumulator -= 1 / 60;
+        if (host.isPaused()) {accumulator = 0; previous = performance.now(); break;}
       }
     } catch (error) {
       host.speed = 0; accumulator = 0; previous = performance.now();

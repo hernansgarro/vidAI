@@ -1,4 +1,4 @@
-import {ensureMaintainedGrid, getMaintainedGrid, synchronizeMaintainedGrid, syncTrackedOrganism} from './maintainedGrid';
+import {ensureMaintainedGrid, getMaintainedGrid, syncTrackedOrganism} from './maintainedGrid';
 import {tubeGeometry, tubeWallContact, tubeContainsBox, sampleTubeWater, projectWaterPoint, waterRects, moveTubeParticle, transferSelfOrganisms, type SelfTubes, type TubeGeometry} from './selfTubes';
 import type {EnergyTransferObserver} from './energyActivity';
 import {mouthDimensions, capsuleContactsPart} from './mouthGeometry';
@@ -868,6 +868,7 @@ export function addNutrients(state: SimulationState, settings: SimulationSetting
   patch?: {x: number; y: number; spread: number}): number {
   const count = Math.min(Math.max(0, Math.floor(requested)), nutrientSpawnSlots(state, settings));
   const prng = state.prng;
+  const firstAdded = state.nutrients.length;
   const channels = tubeGeometry(settings, state.selfTubes);
   // In bloom mode, 65% of abiotic input is clustered around twelve stable
   // sites, while 35% remains dispersed. No sources track organism locations,
@@ -899,7 +900,9 @@ export function addNutrients(state: SimulationState, settings: SimulationSetting
     if (state.energyPool) state.energyPool.reserve -= NUTRIENT_ENERGY_VALUE;
     else state.ledger.externalInflow += NUTRIENT_ENERGY_VALUE;
   }
-  synchronizeMaintainedGrid(state);
+  const grid = getMaintainedGrid(state);
+  if (grid) for (let i = firstAdded; i < state.nutrients.length; i++) grid.syncFood(state.nutrients[i], i);
+  grid?.acceptRosterChanges();
   return count;
 }
 
@@ -3521,20 +3524,22 @@ function closedCarrion(state: SimulationState, settings: SimulationSettings, x: 
 function advanceNutrientCycle(state: SimulationState, settings: SimulationSettings, dt: number): void {
   const pool = state.energyPool!;
   const expired: Nutrient[] = [];
+  const spatial = getMaintainedGrid(state);
   let kept = 0, plants = 0;
   for (const food of state.nutrients) {
     const lost = Math.min(food.energyValue, (settings.nutrientCycle === 'decay-v1' ? 30 : NUTRIENT_DECAY_JOULES_PER_SECOND) * dt);
     food.energyValue -= lost;
     pool.reserve += lost;
     state.ledger.recordedLosses += lost;
-    if (food.energyValue <= 0) continue;
+    if (food.energyValue <= 0) {spatial?.remove(food); continue;}
     food.radius = getNutrientRadius(food.energyValue, settings.nutrientCycle);
     if (food.kind === 'carrion') {
       food.decayTimeRemaining = Math.max(0, (food.decayTimeRemaining ?? CARRION_DECAY_SECONDS) - dt);
       // Timer subtraction can retain a few ulps at exactly 60 seconds.
-      if (food.decayTimeRemaining < 1e-10) {expired.push(food); continue;}
+      if (food.decayTimeRemaining < 1e-10) {spatial?.remove(food); expired.push(food); continue;}
     } else plants++;
-    state.nutrients[kept++] = food;
+    state.nutrients[kept] = food;
+    spatial?.syncFood(food, kept++);
   }
   state.nutrients.length = kept;
   let slots = Math.max(0, Math.min(Math.floor(settings.targetNutrients), settings.nutrientLimit ?? Infinity) - plants);
@@ -3572,6 +3577,7 @@ function advanceNutrientCycle(state: SimulationState, settings: SimulationSettin
         vx: food.vx, vy: food.vy, energyValue: energy,
         radius: getNutrientRadius(energy, settings.nutrientCycle), bottomTimer: 0,
         kind: 'nutrient', pulseTimer: state.prng.range(0, Math.PI * 2)});
+      spatial?.syncFood(state.nutrients[state.nutrients.length - 1], state.nutrients.length - 1);
       remaining -= energy;
     }
     slots -= count;
@@ -3589,7 +3595,7 @@ export function stepSimulation(
   observeEnergy?: EnergyTransferObserver,
 ): void {
   const spatial = ensureMaintainedGrid(state);
-  spatial.synchronize();
+  spatial.prepareTick();
   const channels = tubeGeometry(settings, state.selfTubes);
   const transitBefore = channels ? new Map(state.organisms.map(o => [o.id, o.segments[0].x])) : undefined;
   const mu = settings.waterViscosity ?? 0.22;
@@ -3627,7 +3633,6 @@ export function stepSimulation(
   const cycling = !!state.energyPool && (settings.nutrientCycle === 'decay-v1' || settings.nutrientCycle === 'decay-v2');
   if (cycling) {
     advanceNutrientCycle(state, settings, dt);
-    spatial.synchronize();
   }
 
   // Historical mineralization waits for a plant-food slot; stored carrion energy is never deleted.
@@ -3787,8 +3792,6 @@ export function stepSimulation(
       }
     }
   }
-
-  spatial.synchronize();
 
   // P8: maintained optical views are current after food/egg processing and
   // before any body movement. Corpse carrion hooks update food immediately;
@@ -4352,6 +4355,6 @@ export function stepSimulation(
   }
   if (transitBefore) transferSelfOrganisms(state, settings, transitBefore);
   if (state.energyPool) state.energyPool.reserve += returnedEnergy;
-  spatial.synchronize();
+  spatial.acceptRosterChanges();
 }
 

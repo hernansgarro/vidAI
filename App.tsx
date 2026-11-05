@@ -342,9 +342,10 @@ export default function App() {
   const spatialOverlayRevision = useRef(0);
   const [spatialOverlayStatus, setSpatialOverlayStatus] = useState('');
   const [gridAuditEnabled, setGridAuditEnabled] = useState(false);
+  const [gridPauseOnSevere, setGridPauseOnSevere] = useState(false);
   const [gridAuditBusy, setGridAuditBusy] = useState(false);
   const fallbackGridAuditRef = useRef<GridIntegrityObserver | null>(null);
-  if (!fallbackGridAuditRef.current) fallbackGridAuditRef.current = new GridIntegrityObserver(event => diagnosticEvents.record(event));
+  if (!fallbackGridAuditRef.current) fallbackGridAuditRef.current = new GridIntegrityObserver(event => diagnosticEvents.record(event), () => selectSpeed(0));
   const runGridAudit = async () => {
     if (gridAuditBusy) return;
     setGridAuditBusy(true);
@@ -1138,10 +1139,12 @@ export default function App() {
         else if (evt === 'birth') gameAudio.playPowerupChime();
       }, undefined, energyCollectorRef.current.record);
       energyCollectorRef.current.advance(s);
+      const pauseRevision = fallbackGridAuditRef.current!.pauseRevision;
       fallbackGridAuditRef.current!.afterTick(s);
       realTimeTrackerRef.current.physicsStepsThisSec += 1;
       stepsRun++;
-      if (unlimited && performance.now() - frameStartTime >= 16) break;
+      if (fallbackGridAuditRef.current!.pauseRevision !== pauseRevision
+        || unlimited && performance.now() - frameStartTime >= 16) break;
     }
 
     if (!workerClientRef.current) energyPresentationRef.current.accept(energyCollectorRef.current.frame());
@@ -1728,6 +1731,7 @@ export default function App() {
       }
       for (const event of frame.diagnostics) diagnosticEvents.record(event);
       energyPresentationRef.current.accept(frame.energyActivity);
+      if (frame.gridPauseRequested) selectSpeed(0);
       workerStepsRef.current += frame.steps;
       throughputRef.current.observe(state.simTime, performance.now());
       if (workerPausedRef.current) {
@@ -1764,6 +1768,11 @@ export default function App() {
     fallbackGridAuditRef.current!.schedule.setEnabled(gridAuditEnabled, simStateRef.current.simTime);
     workerClientRef.current?.configureGridAudit(gridAuditEnabled);
   }, [gridAuditEnabled]);
+
+  useEffect(() => {
+    fallbackGridAuditRef.current!.pauseOnSevere = gridPauseOnSevere;
+    workerClientRef.current?.configureGridAuditPause(gridPauseOnSevere);
+  }, [gridPauseOnSevere]);
 
   useLayoutEffect(() => {
     energyPresentationRef.current.setPaused(workerPausedRef.current || worldEpoch !== worldEpochRef.current, performance.now());
@@ -2603,6 +2612,11 @@ export default function App() {
                   return overlay?.available ? `Overflow entries: ${overlay.overflow}.${overlay.unboundedCreatures === undefined ? '' : ` Unbounded creature enclosures: ${overlay.unboundedCreatures}.`}`
                     : 'Maintained grid unavailable; no assignments reconstructed.';
                 })()}</p>}
+              <label className="flex items-start gap-2 text-sm">
+                <input type="checkbox" className="mt-0.5 accent-amber-400" checked={gridPauseOnSevere}
+                  onChange={e => setGridPauseOnSevere(e.target.checked)} />
+                <span>Pause on severe grid inconsistency</span>
+              </label>
               <button type="button" disabled={gridAuditBusy} onClick={runGridAudit}
                 className="w-full py-2 text-cyan-300 border border-cyan-500/40 rounded-xl font-bold disabled:opacity-50">
                 {gridAuditBusy ? 'Auditing grid…' : 'Audit grid now'}</button>
