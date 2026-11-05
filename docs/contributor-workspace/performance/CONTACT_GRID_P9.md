@@ -1,10 +1,10 @@
 # P9 — Physical per-part contacts on maintained spatial membership
 
-> **STOP: unmerged draft implementation, mandatory validation incomplete.**
-> Two harness correction cycles are exhausted. The last affected-test run passes
-> 82/84; two isolated tests fail before/without registered contact consumption.
-> Do not merge, publish, start a third harness cycle or launch browser CI until
-> the owner authorizes a specific bounded continuation. See the handoff below.
+> **Validation resumed with explicit owner authorization.** The owner authorized
+> up to TWO additional targeted correction cycles. Additional cycle1 (overall3)
+> corrected the two isolated fixtures;84/84 affected tests pass. One additional
+> correction cycle remains. Exact-final-head remote validation is required before
+> testing integration/publication; no runtime or historical-reference change.
 
 **Fork testing only, 2026-11-05.** Authorized base P8
 `5fdc1b78d7c16132554bfcfe83375cf1142f42de`, branch
@@ -127,7 +127,7 @@ All original physical assertions remain. This exhausts the two harness correctio
 cycles; any further failing mandatory gate requires a stop/owner decision before
 additional harness edits or expensive troubleshooting.
 
-## Stop-gate handoff — 2026-11-05
+## Preserved historical stop-gate handoff — 2026-11-05
 
 **Current result:** implemented on a fork topic branch, NOT integrated into
 `testing`, NOT published. Testing remains P8 `5fdc1b78…`. Main and upstream remain
@@ -186,3 +186,22 @@ failure; do not invent consent from elapsed time or generic continuation. Runtim
 source should remain unchanged unless new evidence establishes a product defect.
 Preserve all existing logs and the P8 references. Only after all exact-head gates
 pass may an internal PR be merged into testing under the original authorization.
+
+## Authorized resumption — 2026-11-05
+
+[Explicit two-cycle extension and preregistration](https://github.com/hernansgarro/vidAI/pull/114#issuecomment-6662875660).
+The historical stop above remains evidence, not the current instruction.
+Additional cycle1 / overall cycle3 applies exactly the two proposed fixture
+corrections. The X/Y test uses supported70x14/14x14 geometry and matching unit
+counts, around128 with centers158/102/130 (transposed for Y). Both expected
+`[[1,2],[0,2]]` ownership assertions remain. The inherited standalone test
+synchronizes its replaced roster before contact consumption. No physical
+threshold, runtime source, fixture reference, baseline, timeout or assertion
+changed. [Affected-test log](evidence/p9/cycle3-focused.log):84/84 pass,0 failed,
+0 skipped. This includes all54 P9 cases and all30 inherited senses/contact cases.
+
+One newly authorized targeted correction cycle remains; no unchanged retry has
+been used. The exact-final-head required CI gates and publication readbacks will
+be recorded in the internal PR. Opening that PR is now appropriate because both
+known failures have been resolved. Do not promote until every mandatory gate is
+approved; do not repeat successful shards or launch performance experiments.

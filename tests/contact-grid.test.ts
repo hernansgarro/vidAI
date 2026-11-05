@@ -75,8 +75,8 @@ test('first-common-cell X/Y takes priority over earlier source rank, including l
   const f=contactScene('cell-corners');f.state.organisms.length=3;
   f.state.organisms.forEach((o,i)=>{
     o.segments.length=1;
-    o.genome.parts=[{...o.genome.parts[0],width:i===2?400:60,height:20,parentIndex:-1}];
-    Object.assign(o.segments[0],{x:[280,80,180][i],y:128,angle:0});
+    o.genome.parts=[{...o.genome.parts[0],dimN:i===2?10:2,dimM:2,width:i===2?70:14,height:14,parentIndex:-1}];
+    Object.assign(o.segments[0],{x:[158,102,130][i],y:128,angle:0});
   });
   const grid=ensureMaintainedGrid(f.state);grid.synchronize();
   const actual=collectBodyContactPairs(f.state.organisms,BASE_PART_DENSITY,grid);
@@ -84,8 +84,8 @@ test('first-common-cell X/Y takes priority over earlier source rank, including l
   assert.deepEqual(actual.map(([b,a])=>[b.rank,a.rank]),[[1,2],[0,2]]);
   // Relocate the earlier bodies in Y to exercise the second ownership key.
   f.state.organisms.forEach((o,i)=>{
-    o.genome.parts=[{...o.genome.parts[0],width:20,height:i===2?400:60}];
-    Object.assign(o.segments[0],{x:128,y:[280,80,180][i]});
+    o.genome.parts=[{...o.genome.parts[0],dimN:2,dimM:i===2?10:2,width:14,height:i===2?70:14}];
+    Object.assign(o.segments[0],{x:128,y:[158,102,130][i]});
   });
   grid.synchronize();const vertical=collectBodyContactPairs(f.state.organisms,BASE_PART_DENSITY,grid);
   assert.deepEqual(ids(vertical),ids(old.pairs(old.bodies(f.state.organisms,BASE_PART_DENSITY))));

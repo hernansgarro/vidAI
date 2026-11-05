@@ -185,7 +185,7 @@ test('self-contact excludes directly hinged neighbors and separates nonadjacent 
   o.segments[1].x = 1300; // Isolate the tested root/leaf pair from its adjacent connection.
   const before = rectangleContact(o.segments[0], g.parts[0], o.segments[2], g.parts[2])!.depth;
   const state = createInitialWorld(settings, 21, 'balanced', 'standard', 0); state.organisms = [o];
-  const grid = ensureMaintainedGrid(state);
+  const grid = ensureMaintainedGrid(state); grid.synchronize();
   resolveBodyContacts([o], sim.BASE_PART_DENSITY, () => {}, undefined, grid);
   const after = rectangleContact(o.segments[0], g.parts[0], o.segments[2], g.parts[2]);
   assert.ok(!after || after.depth < before * .01);
