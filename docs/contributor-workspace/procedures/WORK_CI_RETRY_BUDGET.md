@@ -4,6 +4,15 @@
 >
 > **Goal:** provide clear evidence, bounded retries and an owner decision before repeated CI/browser troubleshooting consumes substantial resources without progress. This policy is not permission to weaken quality gates or avoid fixing real regressions.
 
+## Owner amendment — 2026-11-05
+
+The owner raises the default targeted harness/environment correction allowance
+from two to **three cycles per bounded task**, effective for future work. Preserve
+historical incident accounting and independently authorized task-specific budgets.
+An explicit additional allowance extends that task's recorded total; it does not
+reset used cycles or also add the new default. The single unchanged failed-job
+retry, mandatory exact-head gates and all stop/evidence rules remain unchanged.
+
 ## 1. Work budget and early checkpoints
 
 At the start of a bounded feature, record the source/branch/expected head, exact required test gates, diagnostic scope, and any special registered experiment budget in its existing tracking issue/PR. Keep implementation, test-harness, and performance/experimental scopes separate.
@@ -14,8 +23,8 @@ When a check fails:
 2. Give the owner a concise progress checkpoint **when a repeated or material failure first appears**, with current evidence, affected gate, what remains green, and planned diagnostic next step. If the user cannot receive messages in the active interface, persist an English checkpoint in the existing fork PR/issue before performing another costly action.
 3. Read completed CI logs and the actual failure step. Prefer local source/log investigation and a narrow, reproducible diagnostic over another full browser matrix.
 4. **Default unchanged retry allowance: at most one** retry of the specifically failed job(s) for a plausibly transient environmental failure **in the bounded task**, not one retry per continually appearing test. Never rerun successful shards merely to replay one failed shard. A repeated failure at the same code/head triggers diagnosis rather than further unchanged retries.
-5. **Default correction budget: up to two distinct, targeted test-harness/CI-environment correction cycles per task**, each with a stated hypothesis, minimal change, validation of the affected test, and evidence. Count a correction cycle when the agent edits and tests its proposed resolution; changing a file does not reset the budget. Preserve CI and incident logs across all cycles.
-6. After a source or test change, do not borrow earlier green checks from a different head: run the required **exact-final-head** gates. Prefer narrow checks during diagnosis, then the required full validation once when the candidate is ready. If a further failure would exceed the correction budget, record the result and stop for owner guidance rather than automatically creating a third cycle.
+5. **Default correction budget: up to three distinct, targeted test-harness/CI-environment correction cycles per task**, each with a stated hypothesis, minimal change, validation of the affected test, and evidence. Count a correction cycle when the agent edits and tests its proposed resolution; changing a file does not reset the budget. Preserve CI and incident logs across all cycles.
+6. After a source or test change, do not borrow earlier green checks from a different head: run the required **exact-final-head** gates. Prefer narrow checks during diagnosis, then the required full validation once when the candidate is ready. If a further failure would exceed the correction budget, record the result and stop for owner guidance rather than automatically creating a fourth cycle.
 
 These defaults are intentionally conservative. An owner may authorize another *specific*, bounded diagnostic action with a reason, expected evidence, and a fresh stop condition. Generic "continue", retries automatically performed by CI, and an open browser spinner are **not** implied authorization for unlimited reruns. If an explicitly preregistered scientific experiment budget is stricter, obey that budget and do not rerun or substitute trials.
 
@@ -30,7 +39,7 @@ Distinguish and report:
 
 Stop and ask the owner for a decision **before** additional expensive retries when any applies:
 
-- The unchanged retry allowance or two targeted correction cycles is exhausted.
+- The unchanged retry allowance or three targeted correction cycles is exhausted.
 - The same check repeatedly fails with no new causal evidence, or a new test repeatedly moves the failure without isolating it.
 - The development environment/Work conversation becomes unavailable, state cannot be verified, or the intended next tool action would be repeated on guesswork.
 - A mandatory gate remains red/unknown, historical references diverge, a registered experiment stop is reached, or permissions/merge authority are unclear.
