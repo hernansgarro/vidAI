@@ -193,7 +193,9 @@ for (const fallback of [false, true]) test(`Pipe World startup, green icon and e
   expect(errors).toEqual([]);
 });
 
-for (const fallback of [false,true]) test(`maintained optics: exact browser state, same-tick carrion and opaque vision (${fallback?'fallback':'Worker'})`,async({page})=>{
+for (const fallback of [false,true])
+for (const name of ['food-egg-body-tie','dynamic-pigment','dark-occlusion','cap-merge-cross-cell'])
+test(`maintained optics: exact ${name} state (${fallback?'fallback':'Worker'})`,async({page})=>{
   test.setTimeout(120000);
   const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
   await page.clock.install({time:new Date('2026-01-01T00:00:00Z')});
@@ -214,11 +216,12 @@ for (const fallback of [false,true]) test(`maintained optics: exact browser stat
   await page.goto(`./?autoplay${fallback?'&mainthread':''}`);
   await page.addScriptTag({content:scenarioBrowserCode});
   await page.getByTitle('Ecology & Physical Settings').dispatchEvent('click');
-  let scene='initial';
+  const scene=name;
   const read=async()=>{
     try {
       const d=page.waitForEvent('download',{timeout:10000});
-      await page.getByRole('button',{name:'Export Snapshot',exact:true}).dispatchEvent('click');
+      // Use a trusted gesture, as a user does, for the browser's download policy.
+      await page.getByRole('button',{name:'Export Snapshot',exact:true}).click({force:true});
       return JSON.parse(await readFile((await(await d).path())!,'utf8'));
     } catch(error) {
       console.log('Optical export failure',scene,await page.locator('body').innerText(),
@@ -226,8 +229,8 @@ for (const fallback of [false,true]) test(`maintained optics: exact browser stat
       throw error;
     }
   };
-  for(const name of ['food-egg-body-tie','dynamic-pigment','dark-occlusion','cap-merge-cross-cell']) {
-    scene=name;
+  // Each mechanism has its own page/context: a burst of unrelated snapshot
+  // downloads must not couple otherwise independent optical controls.
     const source=await page.evaluate(name=>{
       const r=(window as any).scenarioReference,f=r.opticalScene(name);
       return r.createSnapshot(f.state,f.settings);
@@ -257,6 +260,5 @@ for (const fallback of [false,true]) test(`maintained optics: exact browser stat
       expect([hit.r,hit.g,hit.b]).toEqual([0,0,0]);
     }
     expect((await read()).state).toEqual(after.state);
-  }
   expect(errors).toEqual([]);
 });
