@@ -25,7 +25,8 @@ for (const fallback of [false, true]) test(`versioned nutrient radii, paused imp
   await page.getByTitle('Ecology & Physical Settings').click();
   const read = async () => {
     const download = page.waitForEvent('download');
-    await page.getByRole('button', {name: 'Export Snapshot', exact: true}).dispatchEvent('click');
+    // A real export gesture avoids coupling rapid snapshots through automatic-download policy.
+    await page.getByRole('button', {name: 'Export Snapshot', exact: true}).click({force: true});
     return JSON.parse(await readFile((await (await download).path())!, 'utf8'));
   };
   const upload = async (snapshot: unknown) => {
