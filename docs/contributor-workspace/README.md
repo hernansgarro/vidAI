@@ -18,6 +18,7 @@
 | [Stage 2 evidence](performance/PERFORMANCE_AUDIT_STAGE_2.md) | Pinned source-based performance cost model; not measured proof |
 | [Verified contributor deliveries](tracking/CONTRIBUTOR_COMPLETED.md) | Fork implementations and upstream acceptance boundaries |
 | [Contributor workflow status](tracking/CONTRIBUTOR_WORKFLOW_STATUS.md) | Current delivery and upstream-submission gates |
+| [Work/CI retry and stop policy](procedures/WORK_CI_RETRY_BUDGET.md) | Fork-only Work/check budgets, evidence-first troubleshooting, early owner checkpoints and release-gate safeguards |
 
 ## Implemented in the fork, not yet accepted upstream
 
