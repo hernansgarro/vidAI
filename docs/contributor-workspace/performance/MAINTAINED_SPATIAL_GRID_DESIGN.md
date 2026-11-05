@@ -1,5 +1,7 @@
 # VIDA 2D — Maintained Spatial Grid, Ordered Queries, and Observer Diagnostics
 
+> **Implementation checkpoint (2026-11-05):** P0–P8 are now completed, merged and published **only in fork `testing`**, not in `main` or upstream. Verify actual PRs, exact heads, approved P7/P8 behavioral corrections and pending P9–P12 in the [maintained-grid implementation status](MAINTAINED_GRID_IMPLEMENTATION_STATUS.md). The dated original design discussion below is retained as historical proposal/acceptance scope, not a live progress report. No performance gain or production promotion is claimed.
+>
 > **Status (2026-11-04): fork-only design discussion and implementation backlog; documentation, NOT implemented code, measured improvement, owner acceptance in upstream, or permission to change production.**
 >
 > **Owner intent:** keep this design in `hernansgarro/vidAI:main`; after design review, refresh the fork's `testing` branch from fork `main` while preserving its independent testing overlay and historical experiment identity, then implement and manually inspect there. No experimental performance batch is a prerequisite. Automated correctness/regression tests remain mandatory. Compare against untouched `main` after the implementation is usable. No upstream PR or upstream merge is authorized.
