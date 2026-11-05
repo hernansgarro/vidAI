@@ -1,3 +1,22 @@
+# Maintained spatial grid — contributor testing checkpoint (2026-11-05)
+
+The [fork-only maintained-grid implementation status](contributor-workspace/performance/MAINTAINED_GRID_IMPLEMENTATION_STATUS.md)
+records the GitHub-verified P0–P8 fork `testing` merges, exact final head
+`5fdc1b78d7c16132554bfcfe83375cf1142f42de`, successful [P8 publication](https://github.com/hernansgarro/vidAI/actions/runs/42035935206),
+known P7/P8 narrowly approved behavioral corrections, retained CI evidence, and
+pending P9–P12. This document lives on fork `main` for continuity **only**;
+none of these maintained-grid runtime stages is integrated into fork `main`
+or upstream, and no new speedup measurement or production release is claimed.
+
+A separate minimal [ChatGPT conversation continuity note](contributor-workspace/tracking/CHATGPT_WORK_CONTINUITY_2026-11-05.md)
+records the owner's temporary/unresolved cross-device Work/chat access symptoms,
+without private conversation URLs or screenshots. The cause is unknown; it may
+be transient and is not a simulation defect. Existing GitHub PRs and CI remain
+the durable technical handoff. See the [fork retry/stop policy](contributor-workspace/procedures/WORK_CI_RETRY_BUDGET.md)
+for bounded diagnostics and explicit owner checkpoints.
+
+---
+
 # Contributor performance investigation checkpoint — 2026-11-04
 
 Verified3.8–3.12 conclusions are in the fork-main
