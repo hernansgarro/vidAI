@@ -1,3 +1,4 @@
+import {GridIntegrityObserver} from './gridIntegrityAudit';
 import {DiagnosticEventStore} from './diagnosticEvents';
 import {DiagnosticsConsole} from './DiagnosticsConsole';
 import {scenarioObserverPreferences, restoreObserverPreferences, type ObserverPreferences} from './observerPreferences';
@@ -335,6 +336,21 @@ export default function App() {
   const [isAdvancedSettingsOpen, setIsAdvancedSettingsOpen] = useState(false);
   const [isDiagnosticsConsoleOpen, setIsDiagnosticsConsoleOpen] = useState(false);
   const [diagnosticEvents] = useState(() => new DiagnosticEventStore());
+  const [gridAuditEnabled, setGridAuditEnabled] = useState(false);
+  const [gridAuditBusy, setGridAuditBusy] = useState(false);
+  const fallbackGridAuditRef = useRef<GridIntegrityObserver | null>(null);
+  if (!fallbackGridAuditRef.current) fallbackGridAuditRef.current = new GridIntegrityObserver(event => diagnosticEvents.record(event));
+  const runGridAudit = async () => {
+    if (gridAuditBusy) return;
+    setGridAuditBusy(true);
+    try {
+      if (workerClientRef.current) await workerClientRef.current.auditGrid();
+      else fallbackGridAuditRef.current!.audit(simStateRef.current);
+      setIsDiagnosticsConsoleOpen(true);
+    } catch (error) {
+      diagnosticEvents.record({severity: 'error', subsystem: 'grid-integrity', message: `Manual grid audit unavailable: ${String(error)}`});
+    } finally {setGridAuditBusy(false);}
+  };
   const diagnosticsEntryRef = useRef<HTMLButtonElement>(null);
   useEffect(() => {
     if (isAdvancedSettingsOpen && !isDiagnosticsConsoleOpen) diagnosticsEntryRef.current?.focus();
@@ -559,6 +575,7 @@ export default function App() {
     energyCollectorRef.current.clear();
     energyPresentationRef.current.clear();
     simStateRef.current = state;
+    fallbackGridAuditRef.current!.schedule.reset(state.simTime);
     workerStepsRef.current = 0;
     const config = settings ?? workerSettingsRef.current;
     if (workerClientRef.current && config)
@@ -1115,6 +1132,7 @@ export default function App() {
         else if (evt === 'birth') gameAudio.playPowerupChime();
       }, undefined, energyCollectorRef.current.record);
       energyCollectorRef.current.advance(s);
+      fallbackGridAuditRef.current!.afterTick(s);
       realTimeTrackerRef.current.physicsStepsThisSec += 1;
       stepsRun++;
       if (unlimited && performance.now() - frameStartTime >= 16) break;
@@ -1687,6 +1705,7 @@ export default function App() {
     let client: SimulationClient;
     try { client = new SimulationClient(() => simStateRef.current, (state, frame) => {
       simStateRef.current = state;
+      for (const event of frame.diagnostics) diagnosticEvents.record(event);
       energyPresentationRef.current.accept(frame.energyActivity);
       workerStepsRef.current += frame.steps;
       throughputRef.current.observe(state.simTime, performance.now());
@@ -1713,6 +1732,11 @@ export default function App() {
     client.reset(createSnapshot(simStateRef.current, workerSettingsRef.current!), worldEpochRef.current);
     return () => {client.dispose(); workerClientRef.current = null;};
   }, []);
+
+  useEffect(() => {
+    fallbackGridAuditRef.current!.schedule.setEnabled(gridAuditEnabled, simStateRef.current.simTime);
+    workerClientRef.current?.configureGridAudit(gridAuditEnabled);
+  }, [gridAuditEnabled]);
 
   useLayoutEffect(() => {
     energyPresentationRef.current.setPaused(workerPausedRef.current || worldEpoch !== worldEpochRef.current, performance.now());
@@ -2500,7 +2524,7 @@ export default function App() {
         {isAdvancedSettingsOpen && (
           <div ref={advancedSettingsDraggable.panelRef} data-testid="advanced-settings-window" role="dialog" aria-label="Advanced Settings"
             onKeyDown={e => {
-              if (e.key !== 'Escape' && (isDiagnosticsConsoleOpen || e.target === diagnosticsEntryRef.current)) e.stopPropagation();
+              if (e.key !== 'Escape') e.stopPropagation();
             }}
             onPointerDown={e => e.stopPropagation()} onClick={e => e.stopPropagation()}
             style={{transform: `translate3d(${advancedSettingsDraggable.pos.x}px, ${advancedSettingsDraggable.pos.y}px, 0)`, pointerEvents: 'auto'}}
@@ -2527,6 +2551,15 @@ export default function App() {
                   onChange={e => setObserverPreferences(p => ({...p, showCaustics: e.target.checked}))}/>
                 <span>Show water caustics</span>
               </label>
+              <label className="flex items-start gap-3 cursor-pointer text-slate-200">
+                <input type="checkbox" className="mt-0.5 accent-amber-400" checked={gridAuditEnabled}
+                  onChange={e => setGridAuditEnabled(e.target.checked)}/>
+                <span>Periodic grid integrity audit (60 simulated seconds)</span>
+              </label>
+              <p className="text-slate-400">Pauses stop the audit clock. Restart/import starts a fresh interval. Reports never repair the grid.</p>
+              <button type="button" disabled={gridAuditBusy} onClick={runGridAudit}
+                className="w-full py-2 text-cyan-300 border border-cyan-500/40 rounded-xl font-bold disabled:opacity-50">
+                {gridAuditBusy ? 'Auditing grid…' : 'Audit grid now'}</button>
               <button ref={diagnosticsEntryRef} type="button" onClick={() => setIsDiagnosticsConsoleOpen(true)}
                 className="w-full py-2 text-cyan-300 border border-cyan-500/40 rounded-xl font-bold">System diagnostics</button>
             </div>}

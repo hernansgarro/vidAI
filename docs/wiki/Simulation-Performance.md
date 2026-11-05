@@ -237,7 +237,7 @@ P1 adds `centralSpatialGrid.ts`, a typed, incrementally maintained matrix with
 fixed maximum-aquarium capacity, registration/relocation/removal, and unique
 conservative cell/bounds/ray candidates. P4 now maintains its membership in the
 authoritative simulation alongside the existing broadphases; their physical and
-sensory results remain unchanged. The grid has no renderer consumer, setting or
+sensory results remain unchanged. P5 adds optional integrity inspection; the grid has no renderer consumer or
 visual overlay yet. P4 retains explicit source-array/part ranks for later query
 migration. No speedup is claimed.
 See the [P1 API, bounds and memory contract](https://github.com/hernansgarro/vidAI/blob/testing/docs/contributor-workspace/performance/CENTRAL_GRID_P1.md).
@@ -264,7 +264,7 @@ later query migration remain separate.
 
 **Fork testing only; not accepted or shipped upstream.** Open Settings → Advanced
 Settings → System diagnostics to read real Worker lifecycle/error and snapshot
-import events. Each row has a local wall-clock timestamp, severity, subsystem
+import events, plus optional P5 grid-integrity reports. Each row has a local wall-clock timestamp, severity, subsystem
 and description. Newest entries appear first. Severity and subsystem filters
 combine; Clear history removes all events. Back or Escape returns to the
 advanced options. Keyboard actions in the console do not trigger playback or
@@ -275,12 +275,13 @@ including while closed. Reload clears it; world imports do not. It is session
 observer data, not snapshot metadata, local storage or a creature sense. The
 central reusable store accepts scalar severity/subsystem/message events and
 isolates failed observers. Only the visible console subscribes to updates;
-there is no periodic polling, event generation per tick or new Worker traffic.
+there is no console polling or event generation per tick. P5 forwards bounded
+scalar audit messages through the existing acknowledged Worker frames.
 Existing Worker errors still pause visibly through their original handler.
 
-This infrastructure works independently of P1/P2. It does not maintain grid
-membership, run integrity audits, provide an Audit now action, repair errors,
-draw grid overlays or change simulation state/PRNG/physics. Its ordinary observer
+The P3 store remains independent of P1/P2; P5 supplies its grid-integrity
+producer. The console does not repair errors, draw grid overlays or change
+simulation state/PRNG/physics. Its ordinary observer
 cost is not a throughput claim. Source API details and limitations:
 [P3 contract](https://github.com/hernansgarro/vidAI/blob/testing/docs/contributor-workspace/performance/DIAGNOSTICS_CONSOLE_P3.md).
 
@@ -301,5 +302,30 @@ solver/import rules. Their conservative current-pose square is refreshed after
 movement. Entries outside fixed capacity or exceeding bounded membership storage
 remain explicit always-candidates, including arithmetic overflow; nothing is
 silently clipped or culled. Existing vision, feeding and contact queries still
-run unchanged. No grid overlay, audit/timer/manual-audit/repair, extra creature
-sense or measured speedup is introduced. See the [P4 contract](https://github.com/hernansgarro/vidAI/blob/testing/docs/contributor-workspace/performance/MAINTAINED_GRID_P4.md).
+run unchanged. P5 now provides optional independent audits, without repair. No
+grid overlay, extra creature sense or measured speedup is introduced. See the [P4 contract](https://github.com/hernansgarro/vidAI/blob/testing/docs/contributor-workspace/performance/MAINTAINED_GRID_P4.md).
+
+
+## Independent grid audit — contributor testing only
+
+**Fork testing only; not accepted or shipped upstream.** In Advanced Settings,
+**Audit grid now** inspects the authoritative world (also while paused), then
+opens System diagnostics. **Periodic grid integrity audit (60 simulated seconds)**
+is OFF by default. Enabling starts a fresh60s simulated interval. Pauses stop
+that clock; speed changes only its wall duration. Imports/restarts keep the
+session toggle and reset the deadline from restored time. Manual audits do not
+postpone it. Reload starts disabled; the option is never saved in snapshots.
+
+A fresh authoritative identity/geometry reference is compared to raw cells,
+roster/local handles, categories, ranks and counters without query deduplication
+or synchronization. Missing, extra, duplicate, misclassified, stale and wrong-cell
+entries produce bounded severity/subsystem/timestamp reports, with simulated
+time and useful identity/cell context. Legitimate P4 out-of-capacity, arithmetic
+and budget overflow entries remain unconditional candidates and pass validation.
+No audit repairs the grid or changes physical state, PRNG or existing queries.
+
+Clean runs emit one info summary; errors retain at most20 investigation details
+with total findings, and an explicit truncation warning. Pending Worker transport
+is capped at64 events plus a dropped-count summary; P3 retains200 session rows.
+Disabled mode does no reference/cell work. Enabled audits incur diagnostic CPU
+and allocation cost; no performance gain is claimed. See the [P5 contract](https://github.com/hernansgarro/vidAI/blob/testing/docs/contributor-workspace/performance/GRID_INTEGRITY_P5.md).

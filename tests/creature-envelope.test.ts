@@ -197,9 +197,9 @@ test('snapshot/PRNG are untouched and actual saved separated bodies use the expl
   contains(loaded.genome.parts, loaded.segments, enclosure.radius);
 });
 
-test('P2 runtime integration is confined to the P4 authority', () => {
+test('P2 runtime integration is confined to P4 authority and the P5 observer', () => {
   assert.match(readFileSync(new URL('../maintainedGrid.ts', import.meta.url), 'utf8'), /from\s*['"].*creatureEnvelope/);
-  for (const name of readdirSync(new URL('..', import.meta.url)).filter(n => /\.(ts|tsx)$/.test(n) && n !== 'creatureEnvelope.ts' && n !== 'maintainedGrid.ts'))
+  for (const name of readdirSync(new URL('..', import.meta.url)).filter(n => /\.(ts|tsx)$/.test(n) && n !== 'creatureEnvelope.ts' && n !== 'maintainedGrid.ts' && n !== 'gridIntegrityAudit.ts'))
     assert.doesNotMatch(readFileSync(new URL(`../${name}`, import.meta.url), 'utf8'), /from\s*['"].*creatureEnvelope/,
       `${name} must not integrate P2`);
   assert.equal(BASE_PART_DENSITY, .4); assert.equal(MAX_PARTS, 7);

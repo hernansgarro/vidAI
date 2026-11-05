@@ -1,3 +1,25 @@
+# Independent grid audit P5 — contributor testing only (2026-11-04)
+
+Authorized branch `feature/grid-integrity-p5`, based on P4 testing
+`c0dda9aaca99743addcb0fd58f75ca7b046cd908`. [Scope/decisions/acceptance](https://github.com/hernansgarro/vidAI/pull/110#issuecomment-6645849246)
+were recorded before implementation. Canonical upstream #67/#57 are read-only.
+
+P5 builds fresh identity/geometry references and inspects raw cells, roster/local
+handles, overflow, categories, source ranks and counters. Missing/extra/duplicate/
+misclassified/stale/wrong-cell entries report bounded scalar System diagnostics
+without repairs or query stamps. Legitimate P4 unconditional candidates are valid.
+Manual execution is available while paused. Periodic mode defaults OFF and runs
+every60 simulated seconds; pause stops its clock, speed changes wall duration,
+reset/import retains the session toggle and resets the deadline, manual audits
+do not postpone it. Observer settings are never saved. Worker delivery is bounded
+and preserves existing acknowledged frames. [Architecture and verification contract](contributor-workspace/performance/GRID_INTEGRITY_P5.md).
+
+Validation, exact heads, internal PR, testing merge and publication receipts are
+recorded in the internal PR. Inherited full-state hashes/golden data, workflows,
+release identity and baseline are preserved. No P6/P7+, physics/genetics/energy/
+save change, main/upstream mutation, upstream PR, actual Wiki publication,
+performance experiment or speedup claim. Source Wiki describes fork testing only.
+
 # Maintained grid P4 — authoritative contributor testing shadow (2026-11-04)
 
 Authorized branch `feature/maintained-grid-p4` starts at P3 testing
