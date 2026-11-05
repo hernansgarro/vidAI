@@ -1,3 +1,28 @@
+# Contributor fork Work/CI stop-and-retry policy (2026-11-05)
+
+- Protect the owner's time and available Work/CI resources. Never loop through
+  expensive browser validations without new evidence or an explicit bounded
+  decision. See the fork-only
+  [Work/CI retry budget and stop gates](docs/contributor-workspace/procedures/WORK_CI_RETRY_BUDGET.md).
+- On first material repeated failure, report the exact PR/head, failing check,
+  completed green gates, run/artifact evidence, current hypothesis and remaining
+  retry allowance. Preserve durable English checkpoints in the existing fork PR
+  when the chat is stalled or unavailable.
+- By default allow **one unchanged retry of failed jobs per bounded task** for
+  plausible transient failures and at most **two targeted harness correction
+  cycles**, then stop for the owner's decision. Target the affected job when
+  diagnosing; changed-head work still requires mandatory final-head checks.
+- Never erase failures, relax baselines, skip required assertions, increase
+  tolerances/timeouts merely to pass, or equate flaky/unknown CI with validation.
+  Do not merge or publish with failed required gates. Owner approval for a
+  bounded diagnostic continuation does not waive repository/release protections.
+- Prefer pinned remote browser CI over repeated installations in ephemeral Work
+  environments. Report evidence and available options before further costly
+  retries; never invent ChatGPT-credit usage numbers.
+- This operational addendum is **fork-only**; upstream instructions and
+  established experimental/release constraints retain authority. It authorizes
+  no P8 merge, upstream PR, experiment rerun or CI configuration change.
+
 # Contributor submission waves — clarified 2026-11-03
 
 - Federico/upstream maintainer policy governs how contributions are submitted.
