@@ -76,7 +76,8 @@ for (const fallback of [false, true]) test(`independent observer preferences, bo
   for (const selectAddedCreature of [false, true]) for (const trackSelectedCreature of [false, true]) {
     await upload(source); await expect(badge).toHaveCount(0);
     const advanced = await openAdvanced();
-    await expect(advanced.getByRole('checkbox')).toHaveCount(6);
+    await expect(advanced.getByRole('checkbox')).toHaveCount(7);
+    await expect(advanced.getByLabel('Pause on severe grid inconsistency', {exact: true})).not.toBeChecked();
     await setChecked(advanced.getByLabel('Automatically select added creatures', {exact: true}), selectAddedCreature);
     await setChecked(advanced.getByLabel('Automatically track selected creatures', {exact: true}), trackSelectedCreature);
     const configured = await read();

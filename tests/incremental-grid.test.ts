@@ -156,7 +156,9 @@ test('body-part/coarse anatomy repairs and counter-only recovery preserve untouc
     const org=state.organisms[0],part=entries.find(e=>e.value.entity===org.segments[0])!;
     if(mode==='part-pose')org.segments[0].angle+=.5;
     if(mode==='part-owner')part.value.organism=state.organisms[1];
-    if(mode==='coarse-anatomy')org.genome.parts[0].width+=500;
+    if(mode==='coarse-anatomy') {
+      const def=org.genome.parts[0];def.dimN=def.dimN===10?9:def.dimN+1;def.width=def.dimN*7;
+    }
     if(mode==='counters') {const raw=grid.matrix as any;raw.entries++;raw.memberships++;raw.occupied++;}
     const before=createSnapshot(state,settings),untouched=entries.filter(e=>e.value.entity===state.organisms[1]||state.organisms[1].segments.some(p=>p===e.value.entity));
     const result=new GridIntegrityObserver(()=>{}).audit(state);
@@ -165,4 +167,20 @@ test('body-part/coarse anatomy repairs and counter-only recovery preserve untouc
     const after=new Set<GridEntry<WorldGridValue>>();grid.inspectRecords(e=>after.add(e));
     for(const e of untouched)assert.ok(after.has(e));
   }
+});
+
+
+test('invalid authoritative anatomy remains unsafe, physically unchanged and eligible for severe pause',()=>{
+  const state=createInitialWorld(settings,73,'balanced','standard',2);
+  state.organisms[0].genome.parts[0].width+=500;
+  const before=createSnapshot(state,settings),events:GridAuditDiagnostic[]=[];
+  let paused=false;
+  const observer=new GridIntegrityObserver(event=>events.push(event),()=>{paused=true;});observer.pauseOnSevere=true;
+  const result=observer.audit(state);
+  assert.match(result.details.join('\n'),/Invalid envelope part geometry/);
+  assert.ok(result.severeIssueCount>0);assert.equal(result.repair!.attempted,0);
+  assert.equal(result.repair!.succeeded,0);assert.ok(result.repair!.unsafe>0);
+  assert.ok(result.repair!.remainingIssueCount>0);assert.ok(paused);
+  assert.deepEqual(createSnapshot(state,settings),before);
+  assert.match(events.at(-1)!.message,/requesting authoritative 0x pause/);
 });

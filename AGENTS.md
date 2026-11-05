@@ -1,3 +1,16 @@
+# Contributor P10.5 and correction budget amendment (2026-11-05)
+
+- Normal grid upkeep uses immediate incremental hooks; optional P5 now reports,
+  attempts targeted spatial repair and independently verifies. Severe-pause is
+  session-only and OFF by default. Preserve physical state and inherited P7–P10
+  ordering/geometry/reference contracts. See the P10.5 contract for external edits.
+- Default targeted harness/environment correction budget is now THREE cycles,
+  per the owner's explicit policy amendment; one unchanged failed-job retry.
+  See docs/contributor-workspace/procedures/WORK_CI_RETRY_BUDGET.md.
+- P10.5 has a separate explicit allowance of up to FOUR additional cycles after
+  the original two, maximum SIX total; do not reset history or add this default
+  again. No testing-to-main or upstream promotion is authorized by this allowance.
+
 # Contributor testing physical contact broadphase (P9, 2026-11-05)
 
 - Physical contacts query the phase-current P4 individual body-part view.
@@ -9,7 +22,7 @@
   No P10, cache, physical-rule/baseline change or performance claim.
 - Contract: docs/contributor-workspace/performance/CONTACT_GRID_P9.md.
   Apply the fork-main WORK_CI_RETRY_BUDGET.md policy: one unchanged failed-job
-  retry at most, two targeted harness/environment correction cycles, then stop.
+  retry at most, three targeted harness/environment correction cycles, then stop.
   Never merge/publish with a failed/unknown mandatory gate.
 
 # Contributor testing optical broadphase (P8, 2026-11-05)

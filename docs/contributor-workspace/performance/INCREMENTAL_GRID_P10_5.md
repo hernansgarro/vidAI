@@ -1,8 +1,8 @@
-# P10.5 — incremental upkeep and audited repair (candidate, STOP)
+# P10.5 — incremental upkeep and audited repair (candidate validation)
 
 **2026-11-05; fork topic branch only, NOT integrated or published in testing.**
 Base: `hernansgarro/vidAI:testing` `de658fd90e48154cc83d6d4ea6c22a4f82f0afa1`.
-Branch: `feature/incremental-grid-p10-5`; internal draft PR targets `testing`.
+Branch: `feature/incremental-grid-p10-5`; [internal PR122](https://github.com/hernansgarro/vidAI/pull/122) targets `testing`.
 Scope registered before coding in [existing decision PR120](https://github.com/hernansgarro/vidAI/pull/120#issuecomment-6666008234).
 Canonical upstream #67/#57 consulted read-only. Main, upstream, historical
 references, testing baseline/identity and research branches are unchanged.
@@ -170,7 +170,7 @@ remain in spatial-index, central-grid and feeding/optical reference tests.
 No historical source/test oracle was deleted. Contact body wrappers/AABBs and
 ordered per-pass pair arrays remain intentional production work.
 
-## Validation status, retained failures and mandatory STOP
+## Historical initial validation and mandatory STOP (superseded by authorization below)
 
 - npm ci passed.210 inherited focused tests passed.702/702 fast tests passed on
   the candidate before the last additional anatomy/counter test. No skips.
@@ -208,3 +208,42 @@ unresolved failure; no threshold/timeout/baseline/assertion weakening.
 
 No intended unpushed work after branch/PR preservation. Upstream submission is
 not approved, and main/testing publication is not claimed.
+
+
+## Owner-authorized resumption — 2026-11-05
+
+The owner explicitly authorizes **up to four additional test correction cycles**
+after the original two: six maximum total, not a reset. The future default also
+changes from two to three through merged docs-only [PR123](https://github.com/hernansgarro/vidAI/pull/123)
+to main; that default does not add another allowance to this explicit extension.
+One unchanged failed-job retry remains the default; zero used in P10.5 so far.
+
+- Additional cycle1 / overall3: change the coarse-anatomy fixture to a legal
+  integer dimN change with width=7*dimN. Keep a separate invalid-anatomy case
+  verifying unsafe/no attempted repair, unchanged physical snapshot and severe
+  pause. Focused2/2 PASS. Physical validation and production code are unchanged.
+- Original automatic CI: validate42088602514/job127460328983 fails at the known
+  invalid anatomy test. Worker/browser42088602400 has Worker,toolbar and side-window
+  PASS; Chromium job127460328114 and Firefox job127460327987 each fail only the
+  inherited observer-preference tests expecting6 checkboxes rather than7.
+  The new real Worker severe-pause browser case passes in both shards.
+  Locomotion42088602621 PASS. No manual unchanged rerun was used.
+- Additional cycle2 / overall4: update the complete Advanced Settings checkbox
+  count to7 and explicitly require the new severe-pause option OFF. Preserve all
+  original preference combinations, metadata/settings/full-state, selection,
+  tracking/import and physical-picking assertions. Required fresh-head browser
+  CI will validate this correction; no timeout or release gate change.
+- Local candidate now passes704/704 fast tests, build and actual compiled Worker. Final exact-head CI,
+  compiled Worker and browser completion receipts follow in PR122. No new
+  performance/compatibility campaign is run: runtime code is identical to the
+  previously compared/measured candidate; only tests, policy and documentation
+  changed. Original failures and registered measurement data stay immutable.
+
+Two of four additional correction cycles allocated; two remain if needed.
+Integration into testing remains conditional on every mandatory final-head gate
+and acceptance. No runtime promotion to main, upstream writes or P11/P12.
+
+Policy PR123 passed required validation42092465060 and merged into fork/main
+at f74de36902d39597c48d95ee4a7fdf809094ae75. Exactly AGENTS.md and the procedure
+changed; this is explicit owner-authorized policy documentation, not P10.5 runtime
+promotion. The original main-runtime restriction remains for P10.5 code.
