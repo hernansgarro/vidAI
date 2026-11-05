@@ -1,3 +1,4 @@
+// Infrastructure correction1: no scientific window ran in workflow42116356309.
 import {chromium} from '@playwright/test';
 import {spawn} from 'node:child_process';
 import {resolve,join} from 'node:path';
