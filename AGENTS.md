@@ -1,3 +1,17 @@
+# Contributor testing physical contact broadphase (P9, 2026-11-05)
+
+- Physical contacts query the phase-current P4 individual body-part view.
+  Freeze the entire ordered pair list before each pass: later flattened rank,
+  first-common-cell X/Y, earlier rank. Keep connected-neighbor exclusions,
+  exact AABBs/SAT, pass rotations, impulses, corrections and projection order.
+- Preserve all P4 motion/contact/joint/tube hooks, unconditional overflow,
+  P5 nonrepairing audits, P6 actual memberships and P7/P8 corrections/references.
+  No P10, cache, physical-rule/baseline change or performance claim.
+- Contract: docs/contributor-workspace/performance/CONTACT_GRID_P9.md.
+  Apply the fork-main WORK_CI_RETRY_BUDGET.md policy: one unchanged failed-job
+  retry at most, two targeted harness/environment correction cycles, then stop.
+  Never merge/publish with a failed/unknown mandatory gate.
+
 # Contributor testing optical broadphase (P8, 2026-11-05)
 
 - Vision now uses P4 maintained individual food/egg/body-part views in original
@@ -15,7 +29,7 @@
 - On this testing branch, post-physics feeding uses P4 maintained whole-prey, egg
   and combined nutrient/carrion views. Keep prey → egg → food priority, descending
   current array ranks and every existing narrowphase/energy rule. P8 migrates vision as documented above;
-  physical contacts remain on their original broadphase, with no P9/P10 work.
+  P9 now migrates physical contacts as documented above; P10 remains excluded.
 - Owner explicitly accepts correcting the stale feeding-index omission when an
   imported nutrient's radius increases after a bite. Use current radius, preserve
   closed stock and document this continuation exception; never silently normalize

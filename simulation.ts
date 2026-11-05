@@ -4042,7 +4042,7 @@ export function stepSimulation(
   const substeps = Math.max(NUM_SUBSTEPS, Math.ceil(dt * 240));
   for (let sub = 0; sub < substeps; sub++) {
     for (const org of active) work.set(org, work.get(org)! + advanceOrganismPhysics(org, settings, dt / substeps, observeMechanics, channels));
-    resolveBodyContacts(active, BASE_PART_DENSITY, projectBodyJoints, observeMechanics);
+    resolveBodyContacts(active, BASE_PART_DENSITY, projectBodyJoints, observeMechanics, spatial);
   }
   for (let index = active.length - 1; index >= 0; index--) {
     const org = active[index], g = org.genome;

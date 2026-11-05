@@ -1,3 +1,4 @@
+import {ensureMaintainedGrid} from '../maintainedGrid';
 import assert from 'node:assert/strict';
 import {test} from 'node:test';
 import * as sim from '../simulation';
@@ -183,11 +184,14 @@ test('self-contact excludes directly hinged neighbors and separates nonadjacent 
   o.segments[2].x = o.segments[0].x; o.segments[2].y = o.segments[0].y + 2;
   o.segments[1].x = 1300; // Isolate the tested root/leaf pair from its adjacent connection.
   const before = rectangleContact(o.segments[0], g.parts[0], o.segments[2], g.parts[2])!.depth;
-  resolveBodyContacts([o], sim.BASE_PART_DENSITY, () => {});
+  const state = createInitialWorld(settings, 21, 'balanced', 'standard', 0); state.organisms = [o];
+  const grid = ensureMaintainedGrid(state);
+  resolveBodyContacts([o], sim.BASE_PART_DENSITY, () => {}, undefined, grid);
   const after = rectangleContact(o.segments[0], g.parts[0], o.segments[2], g.parts[2]);
   assert.ok(!after || after.depth < before * .01);
-  o.segments[1] = {...o.segments[0]}; o.segments.pop(); g.parts.pop(); o.joints.pop();
-  const poses = structuredClone(o.segments); resolveBodyContacts([o], sim.BASE_PART_DENSITY, () => {});
+  o.segments[1] = {...o.segments[0]}; o.segments.pop(); g.parts = g.parts.slice(0, -1); o.joints.pop();
+  const poses = structuredClone(o.segments); grid.synchronize();
+  resolveBodyContacts([o], sim.BASE_PART_DENSITY, () => {}, undefined, grid);
   assert.deepEqual(o.segments, poses);
 });
 

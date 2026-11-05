@@ -262,3 +262,69 @@ test(`maintained optics: exact ${name} state (${fallback?'fallback':'Worker'})`,
     expect((await read()).state).toEqual(after.state);
   expect(errors).toEqual([]);
 });
+
+for (const fallback of [false,true])
+for (const name of ['branched','dense-boundary'])
+test(`maintained contacts: exact ${name} state (${fallback?'fallback':'Worker'})`,async({page})=>{
+  test.setTimeout(120000);
+  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
+  await page.clock.install({time:new Date('2026-01-01T00:00:00Z')});
+  await page.clock.pauseAt(new Date('2026-01-02T00:00:00Z'));
+  await page.addInitScript(()=>{
+    const w=window as any;w.contactWorkerTrace=[];
+    const record=(value:unknown)=>{w.contactWorkerTrace.push(value);if(w.contactWorkerTrace.length>80)w.contactWorkerTrace.shift();};
+    const OriginalWorker=window.Worker;
+    window.Worker=class extends OriginalWorker {
+      constructor(url:URL|string,options?:WorkerOptions){
+        super(url,options);this.addEventListener('message',({data})=>record({direction:'in',type:data.type,
+          epoch:data.frame?.epoch,id:data.id,message:data.message}));
+      }
+      postMessage(message:any,...rest:any[]){record({direction:'out',type:message.type,epoch:message.epoch,id:message.id});
+        return (OriginalWorker.prototype.postMessage as any).call(this,message,...rest);}
+    } as typeof Worker;
+  });
+  await page.goto(`./?autoplay${fallback?'&mainthread':''}`);
+  await page.addScriptTag({content:scenarioBrowserCode});
+  await page.getByTitle('Ecology & Physical Settings').dispatchEvent('click');
+  const scene=name;
+  const read=async()=>{
+    try {
+      const d=page.waitForEvent('download',{timeout:10000});
+      // Use a trusted gesture, as a user does, for the browser's download policy.
+      await page.getByRole('button',{name:'Export Snapshot',exact:true}).click({force:true});
+      return JSON.parse(await readFile((await(await d).path())!,'utf8'));
+    } catch(error) {
+      console.log('Contact export failure',scene,await page.locator('body').innerText(),
+        await page.evaluate(()=>(window as any).contactWorkerTrace));
+      throw error;
+    }
+  };
+  // Each mechanism has its own page/context: a burst of unrelated snapshot
+  // downloads must not couple otherwise independent contact controls.
+    const source=await page.evaluate(name=>{
+      const r=(window as any).scenarioReference,f=r.contactScene(name);
+      return r.createSnapshot(f.state,f.settings);
+    },name);
+    const canvas=page.getByLabel('Aquatic simulation'),epoch=Number(await canvas.getAttribute('data-world-epoch'));
+    await page.locator('input[type=file]').setInputFiles({name:`contact-${name}.json`,mimeType:'application/json',buffer:Buffer.from(JSON.stringify(source))});
+    await expect(canvas).toHaveAttribute('data-world-epoch',String(epoch+1));
+    await expect(page.getByRole('button',{name:'Resume',exact:true})).toBeVisible();
+    // Also acknowledge the actual reset frame, rather than only React's epoch.
+    if(!fallback) await expect.poll(()=>page.evaluate(epoch=>(window as any).contactWorkerTrace
+      .some((e:any)=>e.direction==='in'&&e.type==='frame'&&e.epoch===epoch),epoch+1)).toBe(true);
+    expect((await read()).state).toEqual(source.state);
+    await page.getByRole('button',{name:'1x',exact:true}).dispatchEvent('click');
+    if(fallback) await page.clock.runFor(50);
+    else await expect.poll(async()=>(await read()).state.simTime).toBeGreaterThan(source.state.simTime);
+    await page.getByRole('button',{name:'Pause',exact:true}).dispatchEvent('click');
+    const after=await read();expect(after.state.simTime).toBeGreaterThan(source.state.simTime);
+    const expected=await page.evaluate(({source,time})=>{
+      const r=(window as any).scenarioReference,f=r.restoreSnapshot(source);
+      const ticks=Math.round((time-source.state.simTime)*60);
+      for(let i=0;i<ticks;i++)r.stepSimulation(f.state,f.settings,1/60);
+      return {snapshot:r.createSnapshot(f.state,f.settings),issues:r.auditWorldGrid(f.state).issueCount};
+    },{source,time:after.state.simTime});
+    expect(after.state).toEqual(expected.snapshot.state);expect(expected.issues).toBe(0);
+    expect((await read()).state).toEqual(after.state);
+  expect(errors).toEqual([]);
+});

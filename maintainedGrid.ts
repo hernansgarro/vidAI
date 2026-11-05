@@ -35,7 +35,7 @@ function partBounds(org: Organism, index: number): SpatialBounds | null {
   return valid(b) ? b : null;
 }
 
-/** P4 maintained state. P7 feeding and P8 optics consume its phase-current typed views.
+/** P4 maintained state. P7 feeding, P8 optics and P9 contacts consume phase-current typed views.
  * Roster reconciliation scans source arrays, never clears/rebuilds the matrix.
  * Motion hooks relocate only moved entities; P1 owns every bucket mutation.
  * No audit, timer, repair mode, observer transfer or saved schema is added. */

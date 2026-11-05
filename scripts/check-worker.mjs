@@ -1,3 +1,4 @@
+import {contactScene,contactNames} from '../tests/support/contact-scene.ts';
 import {collectSpatialOverlay} from '../spatialDiagnostics.ts';
 import {cycleFixture, food as cycleFood} from '../tests/support/nutrient-cycle.ts';
 import {selfTubeFixture} from '../tests/support/self-tubes.ts';
@@ -529,6 +530,25 @@ try {
     await receive(v=>v.type==='frame'&&v.frame.epoch===epoch+100);
     assert.deepEqual(await request('snapshot',{},epoch+100),after,name);
   }
+  // P9 real contacts: full authoritative state, substeps, P5 and paused reset.
+  for (const [i,name] of contactNames.entries()) {
+    const fixture=contactScene(name),epoch=1101+i,source=createSnapshot(fixture.state,fixture.settings);
+    send({type:'reset',snapshot:source,epoch});
+    await receive(v=>v.type==='frame'&&v.frame.epoch===epoch);
+    assert.deepEqual(await request('snapshot',{},epoch),source,name);
+    send({type:'ack',epoch});send({type:'control',epoch,settings:fixture.settings,speed:1,selected:null});
+    await receive(v=>v.type==='frame'&&v.frame.epoch===epoch&&v.frame.state.simTime>source.state.simTime);
+    send({type:'control',epoch,settings:fixture.settings,speed:0,selected:null});
+    const after=await request('snapshot',{},epoch),direct=restoreSnapshot(source);
+    const ticks=Math.round((after.state.simTime-source.state.simTime)*60);assert.ok(ticks>0);
+    for(let tick=0;tick<ticks;tick++)stepSimulation(direct.state,direct.settings,1/60);
+    assert.deepEqual(after,createSnapshot(direct.state,direct.settings),name);
+    assert.equal(await request('grid-audit',{},epoch),0,name);
+    send({type:'reset',snapshot:after,epoch:epoch+100});
+    await receive(v=>v.type==='frame'&&v.frame.epoch===epoch+100);
+    assert.deepEqual(await request('snapshot',{},epoch+100),after,name);
+  }
+  console.log('P9 contacts Worker: branched/long/folded/dense/reversed/boundary bodies, full state/PRNG, P5 and exact paused reset passed.');
   console.log('P8 optics Worker: priorities, overlapping parts, dynamic pigment, opaque spectral loss, same-tick carrion/merge, full state/PRNG, P5 and exact paused reset passed.');
   console.log('P7 feeding Worker: overlapping targets, shrink/removal, laying, accepted imported-radius growth, P5 audit, full snapshot/PRNG equivalence and paused reset passed.');
   console.log('Spatial overlays Worker: default payload omission, independent toggles, actual matrix/bounds readback, paused refresh, reset/stale epochs and exact full-state continuation passed.');
