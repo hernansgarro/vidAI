@@ -161,10 +161,16 @@ export class GridAuditSchedule {
     if (enabled === this.enabled) return;
     this.enabled = enabled; this.reset(time);
   }
-  reset(time: number): void {this.next = this.enabled ? time + GRID_AUDIT_INTERVAL : Infinity;}
+  private deadline(time: number): number {
+    const next = time + GRID_AUDIT_INTERVAL;
+    // Historical imports admit any finite simTime. If +60 is no longer
+    // representable, do not turn a stopped numeric clock into an audit per tick.
+    return Number.isFinite(time) && Number.isFinite(next) && next > time ? next : Infinity;
+  }
+  reset(time: number): void {this.next = this.enabled ? this.deadline(time) : Infinity;}
   due(time: number): boolean {
-    if (!this.enabled || time + 1e-9 < this.next) return false;
-    this.next = time + GRID_AUDIT_INTERVAL; return true;
+    if (!this.enabled || !Number.isFinite(time) || time + 1e-9 < this.next) return false;
+    this.next = this.deadline(time); return true;
   }
 }
 

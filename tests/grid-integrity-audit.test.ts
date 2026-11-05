@@ -150,6 +150,10 @@ test('simulated 60-second schedule is opt-in, pause/speed independent and resets
   clock.reset(5); assert.equal(clock.due(64.99), false); assert.equal(clock.due(65), true);
   clock.setEnabled(false, 70); assert.equal(clock.due(100000), false);
   clock.setEnabled(true, 100); assert.equal(clock.due(160), true);
+  clock.reset(1e300);
+  for (let i=0;i<100;i++) assert.equal(clock.due(1e300), false, 'unrepresentable +60 cannot become a per-tick audit');
+  assert.equal(clock.due(Infinity), false); assert.equal(clock.due(NaN), false);
+  clock.reset(0); assert.equal(clock.due(60), true, 'ordinary imported clocks restart normally');
 });
 
 test('host periodic/manual audit, imports and bounded transport do not change saved simulation or tick results', () => {

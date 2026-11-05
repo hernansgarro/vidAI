@@ -34,6 +34,9 @@ an integrity mismatch reports evidence without pausing or correcting physics.
 | Large clock jump | At most one audit at the next boundary; next deadline is that time +60 s, no catch-up burst |
 
 The scheduler allows 1e-9 s rounding slack for repeated fixed 1/60 additions.
+Historical finite timestamps too large to represent a +60s deadline remain
+manual-only until a reset with a representable clock; nonfinite transient clocks
+do not fire periodic audits. This prevents accidental per-tick audits.
 No wall timer, substep audit, frame-driven Worker audit or audit on every
 command is installed. Disabled mode performs only a constant scalar check per
 authoritative host tick; no reference, cell scan or report is constructed.
