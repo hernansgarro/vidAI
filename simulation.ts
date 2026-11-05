@@ -7,7 +7,6 @@ import {passiveConstraintScale, paidMotorBatch, usesPaidActuation, muscleParamet
 import {markLineageChanged} from './lineageChanges';
 import {compiledBrain, compiledDeltas, alignPlasticRecords, invalidateCompiledBrain} from './neuralRuntime';
 import {resolveBodyContacts} from './contacts';
-import {OrderedSpatialIndex, type SpatialBounds} from './spatialIndex';
 import {type EnergyPool, occupiedPopulation, eggEnergyRequirement, fundIncubatingEggs,
   initializeClosedEgg, EGG_LIFETIME_MULTIPLIER, FOOD_SAFETY_LIMIT} from './energyEconomy';
 // ============================================================================
@@ -3791,24 +3790,10 @@ export function stepSimulation(
 
   spatial.synchronize();
 
-  // Nutrient vision broadphase is per-step scratch, never part of snapshots.
-  // Corpse dissolution can append carrion while iterating living organisms,
-  // so rebuild on any length change before their next eye cast.
-  // The entire sensing pass precedes movement. Index all physical objects in
-  // legacy priority order: food, eggs, then organism/part order. Pigment remains
-  // dynamic because earlier animals may have paid for learning this tick.
-  const bodySight = organisms.flatMap(other => other.dissolving ? [] : other.segments.map((seg, part) => {
-    const def = other.genome.parts[part], corners = getPartCornerVertices(seg, def);
-    const bounds = {left: Math.min(...corners.map(p => p.x)), right: Math.max(...corners.map(p => p.x)),
-      top: Math.min(...corners.map(p => p.y)), bottom: Math.max(...corners.map(p => p.y))};
-    return {kind: 'body' as const, other, part, seg, def, corners, bounds};
-  }));
-  const eggSight = eggs.map(egg => ({kind: 'egg' as const, egg,
-    bounds: {left: egg.x - 16, right: egg.x + 16, top: egg.y - 16, bottom: egg.y + 16}}));
-  type SightEntry = {kind: 'food'; food: Nutrient; bounds: SpatialBounds}
-    | (typeof eggSight)[number] | (typeof bodySight)[number];
-  let sightGrid: OrderedSpatialIndex | undefined, sightFoodCount = -1;
-  let sightEntries: SightEntry[] = [];
+  // P8: maintained optical views are current after food/egg processing and
+  // before any body movement. Corpse carrion hooks update food immediately;
+  // source ranks retain food, egg, then organism/part priority. Pigment is read
+  // at the actual hit, after any earlier animal's learning debit this tick.
   // 5. Organisms Simulation
   for (let orgIdx = organisms.length - 1; orgIdx >= 0; orgIdx--) {
     const org = organisms[orgIdx];
@@ -3880,14 +3865,6 @@ export function stepSimulation(
     }
 
     // A. MULTI-EYE OPTICAL RGB RAYCAST WITH WATER ATTENUATION
-    if (!sightGrid || sightFoodCount !== nutrients.length) {
-      const foodSight: SightEntry[] = nutrients.map(food => ({kind: 'food', food,
-        bounds: {left: food.x - food.radius, right: food.x + food.radius,
-          top: food.y - food.radius, bottom: food.y + food.radius}}));
-      sightEntries = [...foodSight, ...eggSight, ...bodySight];
-      sightGrid = new OrderedSpatialIndex(sightEntries.map(entry => entry.bounds));
-      sightFoodCount = nutrients.length;
-    }
     org.rayHits = [];
     org.neuralInputs.fill(0);
     let rayInputIdx = 0;
@@ -3926,20 +3903,21 @@ export function stepSimulation(
         let hitType: RayHit['objectType'] = 'none';
 
         // Walls, grid, bubbles, rays, glows and other display effects are invisible.
-        const candidates = sightGrid.query(eyeWorldX, eyeWorldY,
-          eyeWorldX + rayDirX * maxRange, eyeWorldY + rayDirY * maxRange);
+        const candidates = spatial.queryRay(eyeWorldX, eyeWorldY,
+          eyeWorldX + rayDirX * maxRange, eyeWorldY + rayDirY * maxRange,
+          ['nutrient', 'carrion', 'egg', 'body-part']);
         for (const candidate of candidates) {
-          const entry = sightEntries[candidate];
-          if (entry.kind === 'food') {
-            const nut = entry.food;
+          const entry = candidate.value;
+          if (entry.view === 'food') {
+            const nut = entry.entity as Nutrient;
             if (Math.abs(nut.x - eyeWorldX) > closestDist + nut.radius || Math.abs(nut.y - eyeWorldY) > closestDist + nut.radius) continue;
             const res = rayCircleIntersection(eyeWorldX, eyeWorldY, rayDirX, rayDirY, closestDist, nut.x, nut.y, nut.radius);
             if (res.hit && res.dist < closestDist) {
               closestDist = res.dist; hitHit = true; hitX = res.pointX; hitY = res.pointY;
               [hitR, hitG, hitB] = getFoodRGB(nut); hitType = nut.kind === 'carrion' ? 'carrion' : 'nutrient';
             }
-          } else if (entry.kind === 'egg') {
-            const egg = entry.egg;
+          } else if (entry.view === 'egg') {
+            const egg = entry.entity as Egg;
             if (Math.abs(egg.x - eyeWorldX) > closestDist + 24 || Math.abs(egg.y - eyeWorldY) > closestDist + 24) continue;
             const res = rayCircleIntersection(eyeWorldX, eyeWorldY, rayDirX, rayDirY, closestDist, egg.x, egg.y, 16.0);
             if (res.hit && res.dist < closestDist) {
@@ -3947,10 +3925,11 @@ export function stepSimulation(
               [hitR, hitG, hitB] = EGG_RGB; hitType = 'egg';
             }
           } else {
-            const {other, part, seg: otherSeg, corners} = entry;
+            const other = entry.organism!, part = entry.partIndex, otherSeg = entry.entity as PartPhys;
             if (other.id === org.id || other.dissolving) continue;
             // Preserve the legacy exact-test prefilter as well as edge/tie order.
             if (Math.abs(otherSeg.x - eyeWorldX) > closestDist + 50 || Math.abs(otherSeg.y - eyeWorldY) > closestDist + 50) continue;
+            const corners = getPartCornerVertices(otherSeg, other.genome.parts[part]);
             for (let c = 0; c < 4; c++) {
               const c1 = corners[c], c2 = corners[(c + 1) % 4];
               const inter = lineIntersection(eyeWorldX, eyeWorldY,

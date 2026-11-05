@@ -237,7 +237,7 @@ P1 adds `centralSpatialGrid.ts`, a typed, incrementally maintained matrix with
 fixed maximum-aquarium capacity, registration/relocation/removal, and unique
 conservative cell/bounds/ray candidates. P4 now maintains its membership in the
 authoritative simulation alongside the existing broadphases; their physical and
-sensory results remain unchanged. P7 now uses the maintained views for feeding, with the explicit imported-radius correction below. P5 adds optional integrity inspection; P6 adds optional observer overlays from its actual memberships. P4 retains explicit source-array/part ranks for ordered queries. No speedup is claimed.
+sensory results remain unchanged. P7 uses the maintained views for feeding and P8 for optics, with the explicit continuation differences below. P5 adds optional integrity inspection; P6 adds optional observer overlays from its actual memberships. P4 retains explicit source-array/part ranks for ordered queries. No speedup is claimed.
 See the [P1 API, bounds and memory contract](https://github.com/hernansgarro/vidAI/blob/testing/docs/contributor-workspace/performance/CENTRAL_GRID_P1.md).
 This section describes the fork's testing work, not upstream shipped behavior;
 the actual Wiki is not published as part of this task.
@@ -299,7 +299,7 @@ Articulated bodies have no guaranteed finite lifetime radius under the current
 solver/import rules. Their conservative current-pose square is refreshed after
 movement. Entries outside fixed capacity or exceeding bounded membership storage
 remain explicit always-candidates, including arithmetic overflow; nothing is
-silently clipped or culled. P7 now uses these views for feeding; vision and contact queries still run unchanged. P5 now provides optional independent audits, without repair. P6 adds observer overlays; no
+silently clipped or culled. P7/P8 use these views for feeding/vision; contact queries retain their original implementation. P5 now provides optional independent audits, without repair. P6 adds observer overlays; no
 extra creature sense or measured speedup is introduced. See the [P4 contract](https://github.com/hernansgarro/vidAI/blob/testing/docs/contributor-workspace/performance/MAINTAINED_GRID_P4.md).
 
 
@@ -347,7 +347,7 @@ anatomy radius is not an unconditional lifetime guarantee. Finite overflow
 squares remain drawable; unbounded ones are counted. No forward mouth, glow or
 sight range is included. Disabled overlays skip collection and payloads; enabled
 data travels only in acknowledged render frames, outside physical snapshots and
-senses/brains/energy. Existing feeding/vision/contact broadphases are unchanged.
+senses/brains/energy. P7/P8 now consume maintained feeding/vision views; the contact broadphase is unchanged.
 See the [P6 contract](https://github.com/hernansgarro/vidAI/blob/testing/docs/contributor-workspace/performance/SPATIAL_OVERLAYS_P6.md).
 
 
@@ -367,3 +367,21 @@ is smaller than the radius recomputed after a bite: a later mouth now finds its
 actual enlarged contact, which the old stale index could omit. Such a world's
 future trajectory can differ from P6. Other historical references remain intact.
 See [P7 ordering, safety and compatibility](https://github.com/hernansgarro/vidAI/blob/testing/docs/contributor-workspace/performance/FEEDING_GRID_P7.md).
+
+
+## Maintained optical queries — contributor testing only
+
+**Fork testing behavior; not an upstream release.** Rays query the maintained
+individual food/carrion, egg and body-part views before body movement, in original
+food → egg → organism/segment source order. Strict nearest-hit/edge ties, live
+pigment, occlusion, attenuation, spectral response and neural arithmetic remain.
+No sorting optimization, query cache or physical contact migration is enabled.
+Corpse carrion additions/merges are reflected immediately, and overflow remains
+unconditional. P5/P6 still inspect actual membership.
+
+At the food safety cap, a same-pass corpse merge can enlarge existing carrion
+without changing collection length. P7's count-only optical rebuild could miss
+its new cells. P8 sees the current surface, so this corner case can change RGB,
+neural inputs and subsequent continuation; universal P7 equivalence is not
+claimed. P7's accepted imported-nutrient feeding correction remains intact.
+No performance improvement is claimed. See the [P8 contract and evidence](https://github.com/hernansgarro/vidAI/blob/testing/docs/contributor-workspace/performance/OPTICAL_GRID_P8.md).

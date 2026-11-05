@@ -192,3 +192,47 @@ for (const fallback of [false, true]) test(`Pipe World startup, green icon and e
   expect(restored.metadata.observerPreferences).toEqual(pipe.metadata.observerPreferences);
   expect(errors).toEqual([]);
 });
+
+for (const fallback of [false,true]) test(`maintained optics: exact browser state, same-tick carrion and opaque vision (${fallback?'fallback':'Worker'})`,async({page})=>{
+  test.setTimeout(120000);
+  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
+  await page.clock.install({time:new Date('2026-01-01T00:00:00Z')});
+  await page.clock.pauseAt(new Date('2026-01-02T00:00:00Z'));
+  await page.goto(`./?autoplay${fallback?'&mainthread':''}`);
+  await page.addScriptTag({content:scenarioBrowserCode});
+  await page.getByTitle('Ecology & Physical Settings').dispatchEvent('click');
+  const read=async()=>{
+    const d=page.waitForEvent('download');
+    await page.getByRole('button',{name:'Export Snapshot',exact:true}).dispatchEvent('click');
+    return JSON.parse(await readFile((await(await d).path())!,'utf8'));
+  };
+  for(const name of ['food-egg-body-tie','dynamic-pigment','dark-occlusion','cap-merge-cross-cell']) {
+    const source=await page.evaluate(name=>{
+      const r=(window as any).scenarioReference,f=r.opticalScene(name);
+      return r.createSnapshot(f.state,f.settings);
+    },name);
+    const canvas=page.getByLabel('Aquatic simulation'),epoch=Number(await canvas.getAttribute('data-world-epoch'));
+    await page.locator('input[type=file]').setInputFiles({name:`optical-${name}.json`,mimeType:'application/json',buffer:Buffer.from(JSON.stringify(source))});
+    await expect(canvas).toHaveAttribute('data-world-epoch',String(epoch+1));
+    await expect(page.getByRole('button',{name:'Resume',exact:true})).toBeVisible();
+    expect((await read()).state).toEqual(source.state);
+    await page.getByRole('button',{name:'1x',exact:true}).dispatchEvent('click');
+    if(fallback) await page.clock.runFor(50);
+    else await expect.poll(async()=>(await read()).state.simTime).toBeGreaterThan(source.state.simTime);
+    await page.getByRole('button',{name:'Pause',exact:true}).dispatchEvent('click');
+    const after=await read();expect(after.state.simTime).toBeGreaterThan(source.state.simTime);
+    const expected=await page.evaluate(({source,time})=>{
+      const r=(window as any).scenarioReference,f=r.restoreSnapshot(source);
+      const ticks=Math.round((time-source.state.simTime)*60);
+      for(let i=0;i<ticks;i++)r.stepSimulation(f.state,f.settings,1/60);
+      return {snapshot:r.createSnapshot(f.state,f.settings),issues:r.auditWorldGrid(f.state).issueCount};
+    },{source,time:after.state.simTime});
+    expect(after.state).toEqual(expected.snapshot.state);expect(expected.issues).toBe(0);
+    if(name==='dark-occlusion') {
+      const hit=after.state.organisms[0].rayHits[2];expect(hit.objectType).toBe('creature');
+      expect([hit.r,hit.g,hit.b]).toEqual([0,0,0]);
+    }
+    expect((await read()).state).toEqual(after.state);
+  }
+  expect(errors).toEqual([]);
+});

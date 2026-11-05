@@ -1,9 +1,21 @@
+# Contributor testing optical broadphase (P8, 2026-11-05)
+
+- Vision now uses P4 maintained individual food/egg/body-part views in original
+  ascending food → egg → organism/segment order. Keep strict nearest-hit/edge
+  ties, phase-current pre-movement geometry, dynamic pigment and neural math.
+- Same-pass capped carrion growth now enters its current cells even without a
+  collection-count change. P7's stale optical membership can miss that surface;
+  disclose this continuation difference rather than claiming universal exact
+  P7 equivalence. See docs/contributor-workspace/performance/OPTICAL_GRID_P8.md.
+- Preserve all historical hashes and P7's approved imported-radius correction.
+  No physical contact migration, sorting optimization or cache (P9/P10).
+
 # Contributor testing feeding broadphase (P7, 2026-11-05)
 
 - On this testing branch, post-physics feeding uses P4 maintained whole-prey, egg
   and combined nutrient/carrion views. Keep prey → egg → food priority, descending
-  current array ranks and every existing narrowphase/energy rule. Vision and
-  physical contacts remain on their original broadphases; no P8/P9/P10 work.
+  current array ranks and every existing narrowphase/energy rule. P8 migrates vision as documented above;
+  physical contacts remain on their original broadphase, with no P9/P10 work.
 - Owner explicitly accepts correcting the stale feeding-index omission when an
   imported nutrient's radius increases after a bite. Use current radius, preserve
   closed stock and document this continuation exception; never silently normalize
