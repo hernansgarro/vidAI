@@ -1,0 +1,1661 @@
+{
+  "base": "7dc593236da08b87ec978e4b887ce9536d5ddb26",
+  "source": "Untouched P9 runtime, new additive P10 correctness references. Never refresh inherited references.",
+  "cases": [
+    {
+      "name": "legacy-v0",
+      "ticks": 16,
+      "dt": 0.016666666666666666,
+      "events": [],
+      "mechanicalHash": "4efb24343a2de85faba464e635d9b41640f8ce32a73c7751bed4f12b4e0a0412",
+      "mechanicalCounts": {
+        "forces-and-motors": 960,
+        "speed-guards": 960,
+        "anchor-constraint": 7680,
+        "contact-impulse": 72,
+        "position-projection": 81
+      },
+      "hashes": [
+        "883fa6d11417f8aa9afb88196fcdbe93db920954db3a846f9baea0f851f5f5f2",
+        "ef6d27b22d7c62b6fbbb41dec176a4bf0903d54a457a1841caf9dbe2ea8ebcba",
+        "0bb3d151d3fd3b1ddebef61618b3676772aae2af31443794f87838a69ae88b40",
+        "b0cd7a551dc86ca9f457ea4bfe7024f19f081fbcf3eabbdca66289b16febd543",
+        "ac686e8dd2d7225089381a9823d44349698fcb9753e77fbf3e327693aa0d597d",
+        "57ff23b280b2a9b9635fb60330bc3673d31e74b4029343024ec74f4b51c2427a",
+        "2054413f0d73c94df701ae3e28cdfd668ae5363ef391d37d7f09b0026cf1ce77",
+        "c8a0026fd766d293f58d2ca5fcdfc2eececd19fa5d77d749ccc4285ebd988a3f",
+        "70ff14fd045fd46736f0b5db3b0b09d467069f19eff3fb492d1b0740bd734beb",
+        "3bcc096a7dff15d84225cc7193821661ac26d39352dc97423046ab4b6db1cc73",
+        "4bc58d863aa36b5dc7b735f3faeaff6a255781072705e5523c0b1efd4c80c269",
+        "73f21225b6b53129c571d4e1e5fd0b15dda2342e4549f0280e105b584b47f786",
+        "06344f7dc7b195d6983f33d88bb8606cfa0edf91d44a7a72eca845fe3d1d6a49",
+        "a746069a5d8f9e74239afb66a643cb81dbb0d5330959f8ced2ed9dab8c31c151",
+        "bdd76ed07ff8bb1d27031122587625c85f899acf5a71eda44a0f915cb9810000",
+        "3e45669ccfc2aa83b9c95a23df55f8ecd34c43322525985d59e4a21a3e6e870f",
+        "ac7a1f81dd8cf0356f960738fc307037804136348778dd162f570c287f73b2b8"
+      ],
+      "energyHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "name": "surface-work-v1",
+      "ticks": 16,
+      "dt": 0.016666666666666666,
+      "events": [],
+      "mechanicalHash": "fb4272fb17d1d79cf6fa074a0745ea7fbd79f607d96892e61d8cad68f6edfbb7",
+      "mechanicalCounts": {
+        "sequential-motor": 768,
+        "forces-and-motors": 960,
+        "speed-guards": 960,
+        "anchor-constraint": 7680
+      },
+      "hashes": [
+        "3eb610f5a6e3bfc2e5664bb570b2b4227655d297b7d596c7008912ca57de8a5b",
+        "0cbae68000962088d06dbc8d8ec6dd42928a61b670dcca1325d51bac781df37d",
+        "21388bc62ddfb9457a06d93fcdb9b4a67a02e738ded319e102c62424cf1f0609",
+        "200289c76257309cf42d1ca6b09594b2c6ec68939aff2fe5ee48cd8c7424d9de",
+        "c95e3387fc889743736fcd8e0391da41f60d6a83f1d95b93739dc80524fd91e3",
+        "fdf1e4eb707c7a1d4398930839f88c8e9ee1f6980d8179e77357f21b9cc2dfca",
+        "20d71a78db4b47f59653da6c875d724cecfbc4a3db94f9d96e1b583657ec7f2e",
+        "c5f5a538d62bf42f60537a38d3c19d9ae085a98732b411316ee56de2cbddb14e",
+        "01b353f555f44535b13bae8baa6da729c9d3d70d7a025f31afc338c338410a42",
+        "26d5b449db8c4ad40e24756b040b294f6a7a903319e274a70fbc8efc85202633",
+        "795a52405ac925d7ec395e3b08c604de33d90ea07a6dd2023ca510959e44c7b8",
+        "cecadf55fa897d3a82544293574b66bc3a10ed7c8ecce9524abc8661e4993a42",
+        "57a9424fa1b7bee37a5e7a81e3158352239023176af7b07ab3bb957974c4c0b2",
+        "427360aba89013b439d8f6227e151378003206f5c5ff6fed4d033051e40d394b",
+        "407d44fb653d73b828c4d17eb91a7156b28adf8b725c2aa31f8a1b9d3947560d",
+        "b4d19642ad436f28ae1353e09a56ff919ad6ff11e31dff3fcde346c3acb37f14",
+        "a8d8f165d475f1e4506d5663238f0acde9649ad5c4c90c1ca1a6022f99f3044f"
+      ],
+      "energyHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "name": "paid-work-v2",
+      "ticks": 16,
+      "dt": 0.016666666666666666,
+      "events": [],
+      "mechanicalHash": "47867a45f51449c1d16c2d299723e4b84b3747a2e385ea033777463f0f7f4f86",
+      "mechanicalCounts": {
+        "forces-and-motors": 960,
+        "speed-guards": 960,
+        "anchor-constraint": 7680,
+        "contact-impulse": 72,
+        "position-projection": 81
+      },
+      "hashes": [
+        "4450cce9af4f560755b4fe2a9adac1d329d85452ad865c064c5caa5253ef12b3",
+        "03a4d63eebcb20e980c310fe750e88f218e48f5080cf411ed4ea8559b376c939",
+        "f40c157ff224c76464fad84b11f07503292790245fa539a7129fd5f4d6305caa",
+        "fb7d2399db8d025c81810030c0a738e630c7970912c547efb5281d1bd695141f",
+        "f25a200158ee45c6b41dad389083665f481a4635d97fec65d218d25cc1e709e5",
+        "fe734bd8040034e897c33a2ec02885d37025a65b9232a888e2e2a91b2e4a0190",
+        "7e8bc0ac50722cbf80df9cb41aa77a5159c98a4dff17dda8f4cbf8cf84a563bf",
+        "01685fef1239d6f715ffbda8cca98ddf13c134a4f0540ec5ae83770a357f31d5",
+        "09db1ff8035a7f32aa5f9b8f71e6227b73a5e57e8742592fd835b97e3dfccc7e",
+        "8ff59416eb059728982102669be49d110410be14ecbe9ec98e8e8ce26900f09a",
+        "e3f6154cacda721e1f4ce193eeac5cdb6c5b4a541eb63c0ce4b1ebc464290142",
+        "fec8e6a9e5976afbe1992dd20d0cde87fed9f274503ebb06b6f97e205cc6ce64",
+        "9a761e868a02aa66d72fc3e3843f4da947c069404fc23308cc77adfb8595bfab",
+        "dc891b9d38a5e9831468d09843d199ad33a6952c253a48c984e1c666674ae599",
+        "54d2830768dc99b7c1084b8bf3d0d3d9b67e62682b9e3de5cf59bd18318d684f",
+        "d5a88834904aaf2bdca562dc4fc051e50c6fffad2d1546584cf49dd2e7db0b97",
+        "44cc8e6f8113ef71bcefc7dd10654cc9a1bc541c44df56df7293c09381588b56"
+      ],
+      "energyHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "name": "passive-work-v3",
+      "ticks": 16,
+      "dt": 0.016666666666666666,
+      "events": [],
+      "mechanicalHash": "5dd471d4f051aa55254d2ec13269f5f88f456d6be3e7fbcf98fc63b34ee52408",
+      "mechanicalCounts": {
+        "forces-and-motors": 960,
+        "speed-guards": 960,
+        "constraint-batch": 192,
+        "contact-impulse": 72,
+        "position-projection": 81
+      },
+      "hashes": [
+        "7d52f966c5c12136a3e977ee25d915a4fa1918160219c46631ffe0638868a3f6",
+        "a197905e871f5d73a7d52fb00844d5b7ab7fec2d96e504679c034e658611cb84",
+        "62c45d83b4b38b964a97ad44381066c7ed76150eb6c93f9b1346719444df8995",
+        "c4ba4efaa47736976fca7a2fa7740384aeb1af069966d947e0a0f99ee4da81b5",
+        "e21d81a6df2143aa9da20085b45c3cc376eefbd83de67adbe8f0b574eebdce61",
+        "744a905925b4764759114e2a77c6bea1b5910ce3bf5defee78cfd791955019ae",
+        "0b23a09eacbcbce55273c78e32a4ad61ff2c08f6e8bbc44220014f37aa0e2668",
+        "cc018526d1e9c8b7bd8309bef6730d38b085548bc90737d4d2358152b42d7d10",
+        "d7b789aaa5bdb4a4ae8be0eb4a8fbbd81f358919bb9a933b2e225a128c782a79",
+        "22d6292f40cf343ad19e4d2403f8312adebf50c4c14434e670624f47f40fe5a0",
+        "db0bccba8d793ab6909403d4019965942f830ad930f0d7ede8652df7c4aa02ae",
+        "f761fa48ce17aa500c4bfd37381b2d82efe86d1da08fdf03ba4b92fc2a777e55",
+        "c06d246bfde572f648cfe508330604d472aab9e9e92bd4f1c7e6722b47b1efef",
+        "758f4eec66dca58e5d9620da408287a7c3131c1a60bc155724ed9123fdbc075f",
+        "22bd8a0fb4ac8970befceea3246b262b0a781ab016f5e966fd328a512492c4f4",
+        "4984bae7b9b5bc700f7d7f430ba64817751ead2a471b22f16cfab63c08a4171e",
+        "dd038df798b307e018333843be765f1475fed6f4d62dce1ed239d25b1cc286dd"
+      ],
+      "energyHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "name": "dense-food-carrion",
+      "ticks": 8,
+      "dt": 0.016666666666666666,
+      "events": [],
+      "mechanicalHash": "1148192e996b4583e1f710f43a2c450d1ac06e4a8472bc3108585ed8b398dec3",
+      "mechanicalCounts": {
+        "forces-and-motors": 2816,
+        "speed-guards": 2816,
+        "anchor-constraint": 21760
+      },
+      "hashes": [
+        "6c757ee34e90ef025bb934afd5e407ddd95ba8a8d7db3aa8a768f1506e7cab95",
+        "b092ed8512ce4e629925a6b6f19d84bab30f3040238b88a0085c3b7183ecbba8",
+        "423c60af2ff81c16d542b5c2540d25d50ea5ff025bd88919c156960a0bb0cd23",
+        "f0916bfe41313a3515451b0ebcfbf56d4e9a84395523273f2b7239aadfb7ed80",
+        "c1a1939153281be9c76310a8ce41b806a519d3c4bebec3da74dc1a9a99ceb6dc",
+        "74e1fee8730fee939c6ad3b4082219e3b8d5ce8c8a9bbe11c6499ef9c325a6fd",
+        "adc3667fc66346c57fcbf8afea99bd8b5d808cd22ae6c08a6faca7f165a7883f",
+        "dceaa8cd173f8b07cfa5040e46407a38d1cf42d411401389f2eb9dc077c89851",
+        "19c48090ac065a8cd1e7d84ea04a5dfaedda2a11fd54c20afcddfd6eda3ecf03"
+      ],
+      "energyHash": "5823ca1c3b326017b01763a8073db789f4fb1e40ca0cd20e5379fc583e453944"
+    },
+    {
+      "name": "branched-rotated-separated",
+      "ticks": 4,
+      "dt": 0.016666666666666666,
+      "events": [],
+      "mechanicalHash": "04fa3d1e3c3131d7ed04264bf022c4c1c6db9d5a34500293ac9da4129577578b",
+      "mechanicalCounts": {
+        "forces-and-motors": 1008,
+        "speed-guards": 1008,
+        "constraint-batch": 192,
+        "position-projection": 271,
+        "contact-impulse": 181
+      },
+      "hashes": [
+        "c50643eefe4c45818459c0843047edaf6f684803330602eeb9badea06432c59c",
+        "6be5936c6ee3b80971955db5a40843fd5e74ef6f33ef7a14650dc7406399c984",
+        "6490b79a1b951b5d7b3ce0d8cbe162115c13d17955a56f3f87b576c3b9c960f1",
+        "17d5fcb85bbe02ab4b3c2a1f0974cd7d361205d36fc12877f99702a5fd6b8f63",
+        "ab058518add780f48f305a7d527b5687345bb546808bc6e0c3a3419b7f98f8e5"
+      ],
+      "energyHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "name": "tube-L",
+      "ticks": 8,
+      "dt": 0.016666666666666666,
+      "events": [],
+      "mechanicalHash": "f3052edab90b21c3163ac2b96a7ac41360ea9e6158e0c991e872d08d0540e1c6",
+      "mechanicalCounts": {
+        "forces-and-motors": 128,
+        "speed-guards": 128,
+        "constraint-batch": 32,
+        "position-projection": 14
+      },
+      "hashes": [
+        "aff8e6013d9bb320dbb97e5565bc9e880c9076c6288913043e46ad656e442da7",
+        "22a6dcbe668761b262d0402ea66473af729e587b10917ce3e368bb2a042ee108",
+        "55f16efa8bfc4d0d86ba6b111982e188d51fdc50e55641d0b0ab6cd715c07ce7",
+        "d96146bbd4a766939071333bdc2a0cbe02ab0c26256e34010528f89245d7f903",
+        "ed433b0ce5895b33114c1ff26f8ad485bdeca2df6cb27c6b897f51460080e828",
+        "769d04eaa82918ee2213e3056d056aae8b1034035a88318c73da547609a66446",
+        "2da7260fe7d2f43d844e97562e089865bc4f0ea8b9932ea0024bffd28788bce9",
+        "ffc68b5ac36bedbbbecc904c7a8c0283dd4c525505b5122af50f5a3a45784ca1",
+        "2a2ede705c0181d13ab5360514d939d2d2aabb9a088c12d649e21b6638635dae"
+      ],
+      "energyHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "name": "tube-R",
+      "ticks": 8,
+      "dt": 0.016666666666666666,
+      "events": [],
+      "mechanicalHash": "d9324a99e8a5eaae351a71bd52030678409ac4814598c19c64309464f0c095e2",
+      "mechanicalCounts": {
+        "forces-and-motors": 128,
+        "speed-guards": 128,
+        "constraint-batch": 32,
+        "position-projection": 12
+      },
+      "hashes": [
+        "53584926202a802265c34ef5c0336d7293f9e48ef308efe1a3ab75849e496030",
+        "d6323b11fe89b9642304e9332f9348155f342070a66b034eab4db9da1032aa15",
+        "e2fa26620957d065d01664eaa3a2db5d07313cc9b2a004af4450fb70ba1bfdf1",
+        "e94231e909861b99f6488824216ebf85c3c1d971d560eb97f368bbab822fb39a",
+        "cf7f7ab77d1462f90e7a4e2178a05516796e5d12cf2d787cd88d559f266b28a3",
+        "1e203f15d15c2769fe6aed8ed642b8b29524f68fba9c20e0df6ac6997ce82761",
+        "d186364a013e1f4256ef38df52505dc3392e5b02889e0204bcf797efc9def6dd",
+        "bc09947ca3e46f2c031c65950fba4464a51ac5c87af977d3f86bce9901e3c024",
+        "cb5da7e0b9dcaed951d9c962be9e6e062142ba7760dd0be919ddfc3032a979bf"
+      ],
+      "energyHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "name": "closed-mineralization",
+      "ticks": 8,
+      "dt": 0.016666666666666666,
+      "events": [],
+      "mechanicalHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "mechanicalCounts": {},
+      "hashes": [
+        "eda99d789ef09a839a1713c73340d69e50ad342807b18b544fa0865013064644",
+        "0b6eb9450d87946f3232a78b879b21eb7516fea6f1d502c33f03d314ebc44582",
+        "c299bfd88d425ad59f4485f6723f634b7bd3517956caf07184fcb236c9db9816",
+        "68fa79b46d1c4a976585e5e321959b72d10e164ea640add143ce40a285ae5187",
+        "f5db25a206e769650d642bcc52a4dcf4f866090c230645ca173123b74312dab9",
+        "cce994150de41d579cd6ae1c2885a9c0f0c1f2db4908b9cfce148e22e1ce8c2f",
+        "73c3f651d212e8feaa78a845b01110c2cf6f21fc2fa3c4b3bac8c77393b315c5",
+        "889eabda5428daa131667533791af6ba7b729f26589e99a55ca73c6b09610eeb",
+        "d5273d2b471496fff24d5e0f423c057f8bb3f1409cedae19a5f1e225f4e99a55"
+      ],
+      "energyHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "name": "closed-eggs",
+      "ticks": 8,
+      "dt": 0.016666666666666666,
+      "events": [],
+      "mechanicalHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "mechanicalCounts": {},
+      "hashes": [
+        "075385252f87eb680c1427516b3841651219b53a84cbf2bff9bddd1f2e0fafd6",
+        "fbfc5c956982e6c97715e7ff9b72720089d8abd5eda3f712827675b87e3ee66a",
+        "c3fd086f2f98e0d80bfdc5c948e9ff1b281041085beb86664d290105310a137d",
+        "cbbbc9ffddfffa4ebb226f17ef47a3b06239bc58fdbe502fea1bcad4bd488d6e",
+        "1fafafb7c6be31f8348a18850a53606a20271a3e574be6c83d926a3d46d9576b",
+        "f1a241c930a9887d96744d87833bc9b202abc9d7854fcc18ddfbd91c03d6f223",
+        "addeafbcc4e4a5aee33905c59caa33a6ace42726cef8af3bba28b0a83f923fda",
+        "0996afeb36a62eb3012dbdc6e62c5450b3c4c6f95c3fac25e8c486e11d774162",
+        "be36252049c197887744f9ff339d6e7cac91dc02e731b243c6035a7afd1cb1ea"
+      ],
+      "energyHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "name": "feeding-learning",
+      "ticks": 12,
+      "dt": 0.016666666666666666,
+      "events": [],
+      "mechanicalHash": "0d0166828cbb8a119ae8e50237c2d2a8a001b1b8d41f82378cb30aa23ec57a0f",
+      "mechanicalCounts": {
+        "forces-and-motors": 96,
+        "speed-guards": 96
+      },
+      "hashes": [
+        "e07bf1a5e905c53d5e8ae3c8a92b48acd221027bf8669a21b1dc5cbc0820748b",
+        "6c54efe6dea2585bcf94c828d6d15f430032aaf5559c5a8cde98d963d805c649",
+        "180bad509b0368b424277df422a738a4c2f8162be10f640b7aa60429849243d2",
+        "42260fb90ebf783892db271b6ce5e5a5dc5b7031453c6c054cec795ddfad6962",
+        "9c5238ec8eabd1a4170d2bca43aa3229b272bcd6b578a405b4f4ec68fa39ca05",
+        "8df35ecaf03bd8c093af3cbe5b63edf047c07c3c1aa071b85a2c4fc7e760e83d",
+        "9dcd117d08ce3b927a76ea2171bc25d73059791bfcffd5027cbd3e940ce40900",
+        "0275eb6ce4d83b167b2e762405f9e860779ca1803368a3680911e78fc5c471ac",
+        "31c989432fec87be0b529d4397263517ebda5d14cc5da4acfddf79e71ff0371d",
+        "12c8b2a4aa580f044f4a067a6a64e3257a64f0626c895c53125850dc2a305dbc",
+        "b59f62d459d9e45b234c1615e13550bad7654a0c6da78eddfa6057f82982fc94",
+        "ea0a96e4229a1aaabacbd65c22a01106eb7e1310660da77fecc1ca075fc9d80f",
+        "c4aaf866152b02fea7175a05b298601ebc293fbcb845e758c4ea330d09db538c"
+      ],
+      "energyHash": "dcda9fc6f7ee529f045ff3555d9ab322a36c681339502fc3a09d0b3e84e01a58"
+    },
+    {
+      "name": "historical-v5",
+      "ticks": 12,
+      "dt": 0.016666666666666666,
+      "events": [],
+      "mechanicalHash": "117b5763505808d1363bc9780be1ced72edd38f81890602e9ce29dfd196923cc",
+      "mechanicalCounts": {
+        "forces-and-motors": 336,
+        "speed-guards": 336,
+        "anchor-constraint": 2880
+      },
+      "hashes": [
+        "31c25e2c07f9c022476b23dd094c1e668a67d1035d7bee5bc472b9c131f91503",
+        "421afc876a669c07a1e82938a910c286c2e8eff7f33750a29f431c0f26ebc37c",
+        "7683a7fabbdf4c554451ff35f78df50a5bfb3364db8d6c07528d2a6547d18662",
+        "92242715628c51f8d750ddc9ccfefc31ace07900d137f4d601a1bbcea4e190b9",
+        "d8370fe6914db3e58a62bb3a22b48acee3cca495969ee100d08942dbd8c1b544",
+        "82021f63a5923d5d4e95fd595d6ee13bc3024c6167ebdeb91e78a22564876d9e",
+        "909af780778ce832f89fce14cf786ee7d6b1b49edeb9cfa5e5eb918ba08e62ed",
+        "36e9921aff29ccfe52d0ac9f86bc623684893cd75f297b708871db03197f9862",
+        "4d28f234ecc9237e1c23d5379d6da332defaed8f7939a6788123f1efb706e404",
+        "a753a5bd60d31bdbf2585977c94c8669b52ed9e7d301e3c710e046afa8bf0506",
+        "3f85df01e5fdff75b481c2640434301c3a84afc0e3be568be26b9ede01d47058",
+        "62f7dd1b64d26785bf2864c50112044bba96194d611c198bd6edac1d2c8ff89f",
+        "891674beb5b8eb737069d37cd9ab961d53698c3d823402d947ff4a0153de7aa3"
+      ],
+      "energyHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "name": "overlap-legacy-historical-false",
+      "ticks": 6,
+      "dt": 0.016666666666666666,
+      "events": [
+        [
+          0,
+          "death"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          0,
+          "eat"
+        ],
+        [
+          0,
+          "eat"
+        ],
+        [
+          1,
+          "clash"
+        ],
+        [
+          1,
+          "clash"
+        ],
+        [
+          1,
+          "clash"
+        ]
+      ],
+      "mechanicalHash": "312d8bd0933cf9fc6fcf51927a5c5ccfe37cde0d495d8e45353d7dbb1cf8f906",
+      "mechanicalCounts": {
+        "forces-and-motors": 80,
+        "speed-guards": 80,
+        "constraint-batch": 80,
+        "contact-impulse": 32,
+        "position-projection": 72
+      },
+      "hashes": [
+        "3a5d275ef8107016e571b42dc28632b29790821d725e6c116013b0c66293bbac",
+        "a2756c0ce36a2dc92d21e6812fdc2b8f9979ce48879f0403ef8b47689e5d8a91",
+        "64cd10f7f2051d2004ffa3fd210a99e2eaec91b95aec13419cf32f39403a4f7b",
+        "e969ce914b43e6493fbbb4fff8d519d9781fa63e03480c19227733e16113de6b",
+        "13d75a6a4fcdd833a0df59f3d683fcb2e053e16c8d10c06a038a84516acc8584",
+        "45ea50fa40b0dff78195436a478125fc631842a609c80c78f5be8511046671bf",
+        "f0a374bf7bc7b91913e716f88340b2abf6159fe856aa12ab96032b3d37247361"
+      ],
+      "energyHash": "a3ef12f9fc9cb2b6e158e3ad93a6cb156f2b91ece15c5fc8879a252a2858c8e6"
+    },
+    {
+      "name": "overlap-legacy-historical-true",
+      "ticks": 6,
+      "dt": 0.016666666666666666,
+      "events": [
+        [
+          0,
+          "death"
+        ],
+        [
+          0,
+          "eat"
+        ],
+        [
+          0,
+          "eat"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          1,
+          "clash"
+        ]
+      ],
+      "mechanicalHash": "27314766d8aa58aaab54a4aa401b5b31ec75df83f1cb703792ba52e93f0617c6",
+      "mechanicalCounts": {
+        "forces-and-motors": 80,
+        "speed-guards": 80,
+        "constraint-batch": 80,
+        "contact-impulse": 32,
+        "position-projection": 72
+      },
+      "hashes": [
+        "a46f5cbf29be9f8cb351df00ccac5cc2fcfb4d5f968392b4682331e8ffe73c42",
+        "b7fd5cfe2507864f239b6fcad3df7156fea6e0e438af91fe5384f1ac9cd9f204",
+        "4e0db39cfdf9d81b9f2adc0268af0fc9d4b93782b25d3a0edb76f3ff1140848b",
+        "abfbe70506fac2801db3e6497968f4df3494122497d1b48c6472f96cab674b24",
+        "9f1f96ac49ff836311920fa25410b38a1d7c42b9df92f430fdc281e54c5fd3d2",
+        "2debb00017a11f19f1709c433ec2f46ac2b0c19fa75a48c25fe3141da42e2808",
+        "d44eb36f3e712d126b417971f705a29330a76ce976887be64ab8ceb22fdd7324"
+      ],
+      "energyHash": "13b756a05b1357f595867c67fb659e675d440e0df35cfbaad1bc74020194d4cc"
+    },
+    {
+      "name": "overlap-legacy-decay-v1-false",
+      "ticks": 6,
+      "dt": 0.016666666666666666,
+      "events": [
+        [
+          0,
+          "death"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          0,
+          "eat"
+        ],
+        [
+          0,
+          "eat"
+        ],
+        [
+          0,
+          "eat"
+        ],
+        [
+          1,
+          "clash"
+        ],
+        [
+          1,
+          "clash"
+        ],
+        [
+          1,
+          "clash"
+        ]
+      ],
+      "mechanicalHash": "312d8bd0933cf9fc6fcf51927a5c5ccfe37cde0d495d8e45353d7dbb1cf8f906",
+      "mechanicalCounts": {
+        "forces-and-motors": 80,
+        "speed-guards": 80,
+        "constraint-batch": 80,
+        "contact-impulse": 32,
+        "position-projection": 72
+      },
+      "hashes": [
+        "419c37a398278ea779699d751aa8553f732e9eff93cb91f41cb4daeb2c9b70df",
+        "a3fac8838171c4d59171587c38061c3c27cc0235544b8b2e0d59cf2e7d7d54c1",
+        "73e33efaeef82ac953e394c4b3c90cbae3a3a0e40929686630131e945216bc7a",
+        "9e5d2a76c4ba96598124faef64eb325c95b60af4793fa08deba7b3eeb3455068",
+        "ba117717688d263b6f875b75327d5ceedf8a35d8854d97b175d8573b019b7572",
+        "42ea3a29c4ea8f8d1e3b9390e8d0e1d895cef59d2427b6afc1f6650b224fa9f7",
+        "ee857ed3d76703b67be484d9e4030e7d1ea67b3a652a95a790bb1cae837b3c69"
+      ],
+      "energyHash": "682d5a791134c4a0b8fe6bbbd34040ee48c04a3db5c340e14d975fdf87926a77"
+    },
+    {
+      "name": "overlap-legacy-decay-v1-true",
+      "ticks": 6,
+      "dt": 0.016666666666666666,
+      "events": [
+        [
+          0,
+          "death"
+        ],
+        [
+          0,
+          "eat"
+        ],
+        [
+          0,
+          "eat"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          1,
+          "clash"
+        ]
+      ],
+      "mechanicalHash": "27314766d8aa58aaab54a4aa401b5b31ec75df83f1cb703792ba52e93f0617c6",
+      "mechanicalCounts": {
+        "forces-and-motors": 80,
+        "speed-guards": 80,
+        "constraint-batch": 80,
+        "contact-impulse": 32,
+        "position-projection": 72
+      },
+      "hashes": [
+        "658fe6c6600980231d16adb86b709d82e0fc1f1ff5bc089af0327770dadabb76",
+        "7d01907d71863b4f98cee67d7ee7e1bb4afbfa46ef62a19c3541dbe960642b02",
+        "18fc79ebcdc3368273ee5a3ece858b14c7577cf4d944265caa0757e37f44e128",
+        "07f74136cb89928475d1d62fb5086a55a82fc69bbd4de74f3b1b5459c5f13fb2",
+        "178306e45c63395e232fd4210878ad5f164b4bde1357f1a5ab83df988ae03261",
+        "8e72d29670eeecb10ec484d4340d485f709a5119a287fe9200b17a8965dd23d6",
+        "7057271d19da2c82763de28f70978f46014f7441b60f7d4ef798149b2fabd2cd"
+      ],
+      "energyHash": "a6e4d0ff23998a87f765349318d39ce052e739df17d8a77f32712818defc1669"
+    },
+    {
+      "name": "overlap-legacy-decay-v2-false",
+      "ticks": 6,
+      "dt": 0.016666666666666666,
+      "events": [
+        [
+          0,
+          "death"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          0,
+          "eat"
+        ],
+        [
+          0,
+          "eat"
+        ],
+        [
+          0,
+          "eat"
+        ],
+        [
+          1,
+          "clash"
+        ],
+        [
+          1,
+          "clash"
+        ],
+        [
+          1,
+          "clash"
+        ]
+      ],
+      "mechanicalHash": "312d8bd0933cf9fc6fcf51927a5c5ccfe37cde0d495d8e45353d7dbb1cf8f906",
+      "mechanicalCounts": {
+        "forces-and-motors": 80,
+        "speed-guards": 80,
+        "constraint-batch": 80,
+        "contact-impulse": 32,
+        "position-projection": 72
+      },
+      "hashes": [
+        "42fa393b3dd15105670fa0525da617c7d9f6eb779ef8a4b361005ff6588aa4f3",
+        "67ce139f5aaad4a479bdaf555d04631c952746c9aa2f3f5d0b3858315a14d7e1",
+        "ca975f67c8019e6d91ea2ae762e9216323058daec97bf5d23c7c6904b27a41bb",
+        "83e1a38540aa04bd6b1998f911d6a75517759c8989893a0cc3bd6b335fe8173b",
+        "65f01f30403c0d14f7aad50b37cdc61db662649cb7ffd4e3504d1e4f459b9210",
+        "5a6442868eb99cb3ebd1ec109756eb6d2583793d869b2af09453f9cc368d4dc0",
+        "bd93420c8e587c737780722af47473547a2f15a3fc4acfac355cf3a087e5bce7"
+      ],
+      "energyHash": "959af1def4d3258f7a4806b754f1849374e7f5469ef8e3d324e530ba2a8c4794"
+    },
+    {
+      "name": "overlap-legacy-decay-v2-true",
+      "ticks": 6,
+      "dt": 0.016666666666666666,
+      "events": [
+        [
+          0,
+          "death"
+        ],
+        [
+          0,
+          "eat"
+        ],
+        [
+          0,
+          "eat"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          1,
+          "clash"
+        ]
+      ],
+      "mechanicalHash": "27314766d8aa58aaab54a4aa401b5b31ec75df83f1cb703792ba52e93f0617c6",
+      "mechanicalCounts": {
+        "forces-and-motors": 80,
+        "speed-guards": 80,
+        "constraint-batch": 80,
+        "contact-impulse": 32,
+        "position-projection": 72
+      },
+      "hashes": [
+        "6e1b669d92a57d64b3ce795ac58b986ab6c268c18adf7e2852f3eb9252f272f5",
+        "1299fb05d1ec2154b910eeb48ffe02f7602bd1c29e6a7f1d065108e8aaa1036c",
+        "42e2d0b46a77f1898325d4d562d5c77b24953a1580807f5f5da0ac3d9f49c7bf",
+        "cd348fb68a54f9c72730f3f4d8f917dba5b217703e7600794ac7d10287eb14ea",
+        "5cf6ed4ccecfe67875135c69c9cf10585befc18e965d8ac180456ad0073219e0",
+        "c8bd4cd8ad070d04101a5fbb6d9890ac1fd6202d77edf10b6053893614e4f1a3",
+        "6cb3d50c3b9e6aa1158365dbdc116d13e66555dfa94a55412ef7443c988b993e"
+      ],
+      "energyHash": "9047a8ead9c9cdd0d04fb2d4d38657fc585a163bb5f17617b5af2e86d4f1e835"
+    },
+    {
+      "name": "overlap-capsule-v1-historical-false",
+      "ticks": 6,
+      "dt": 0.016666666666666666,
+      "events": [
+        [
+          0,
+          "death"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          0,
+          "eat"
+        ],
+        [
+          0,
+          "eat"
+        ],
+        [
+          1,
+          "clash"
+        ],
+        [
+          1,
+          "clash"
+        ],
+        [
+          1,
+          "clash"
+        ]
+      ],
+      "mechanicalHash": "312d8bd0933cf9fc6fcf51927a5c5ccfe37cde0d495d8e45353d7dbb1cf8f906",
+      "mechanicalCounts": {
+        "forces-and-motors": 80,
+        "speed-guards": 80,
+        "constraint-batch": 80,
+        "contact-impulse": 32,
+        "position-projection": 72
+      },
+      "hashes": [
+        "e8aab62146b8324fa430e0a1780a9bef43ca09fc36c3ae898fa8ceb20d1508aa",
+        "d13ceca3ec8c6417b4b454b8d2ff91d47c4e46ab05895ae10329d44d0b242256",
+        "fbbd3c4f4b01ab7c5ed8cc0af86be394750f94199d595e9749d281e8cd65087a",
+        "2d798fc75e05a54d943efbce8c75771e92f28697e023369cd9fded94dd23eecf",
+        "87e31742cf5166c763cfe49651aec8287ed55643623db0aa2bb3873de7f676fc",
+        "3f1f8447b2864bd07f487c18fa83760eb07ba0da48d72d27b89bf7ac10f4705c",
+        "ee33c41ade4855865a2dddb50b37f5005173e8af16deb29429e038474d37fb60"
+      ],
+      "energyHash": "a3ef12f9fc9cb2b6e158e3ad93a6cb156f2b91ece15c5fc8879a252a2858c8e6"
+    },
+    {
+      "name": "overlap-capsule-v1-historical-true",
+      "ticks": 6,
+      "dt": 0.016666666666666666,
+      "events": [
+        [
+          0,
+          "death"
+        ],
+        [
+          0,
+          "eat"
+        ],
+        [
+          0,
+          "eat"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          1,
+          "clash"
+        ]
+      ],
+      "mechanicalHash": "27314766d8aa58aaab54a4aa401b5b31ec75df83f1cb703792ba52e93f0617c6",
+      "mechanicalCounts": {
+        "forces-and-motors": 80,
+        "speed-guards": 80,
+        "constraint-batch": 80,
+        "contact-impulse": 32,
+        "position-projection": 72
+      },
+      "hashes": [
+        "07e2a116d96788a8739e1055ccbc59e6e815cc7b47eb874e3ab3d6697192881f",
+        "a31c7aeb00b5b9f18de894c0b85d76393cdc3b9faf2254b7ceb4c447c42323b1",
+        "79e27a1146f86ae3f54521926f9d344e744b5cd80b9c5417ef84b3503ede6175",
+        "038b39908446b43a6b3ea823efea8b4896b265c9acd646a252827cd29bc716ec",
+        "0812c189b5e3d19a69e57f0ffdb8db64a39b73539273103be3c8a1d5177f8e2e",
+        "53f97bde2bd7396b395decd69252e1f82181e3a174d3f119af3fc4f35f1d9c4e",
+        "328d90ccbb0b76dff9ad8b32e6589d760a9371d4268a34d17be88d5afc1cb571"
+      ],
+      "energyHash": "13b756a05b1357f595867c67fb659e675d440e0df35cfbaad1bc74020194d4cc"
+    },
+    {
+      "name": "overlap-capsule-v1-decay-v1-false",
+      "ticks": 6,
+      "dt": 0.016666666666666666,
+      "events": [
+        [
+          0,
+          "death"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          0,
+          "eat"
+        ],
+        [
+          0,
+          "eat"
+        ],
+        [
+          0,
+          "eat"
+        ],
+        [
+          1,
+          "clash"
+        ],
+        [
+          1,
+          "clash"
+        ],
+        [
+          1,
+          "clash"
+        ]
+      ],
+      "mechanicalHash": "312d8bd0933cf9fc6fcf51927a5c5ccfe37cde0d495d8e45353d7dbb1cf8f906",
+      "mechanicalCounts": {
+        "forces-and-motors": 80,
+        "speed-guards": 80,
+        "constraint-batch": 80,
+        "contact-impulse": 32,
+        "position-projection": 72
+      },
+      "hashes": [
+        "51a6b63ed92e86ac9b34faf5d3f5717640af2828ee2b60e1b757f31d384fc399",
+        "7326955cbb8ce4bc330a2ea4326e8cb038bd0acebb34f701c9cb7f96eb7ce921",
+        "4c49519f41d268d44162e0f2dd5a7b3ce430b8dd746388dae62f27ab1d3ff055",
+        "9130c29470404d025ce2e23020578c8782f39272d3ffa5f3b06cf22a90258542",
+        "c3f0d37f8c44f52d82a6e95fd4fa529fb723ef6dd9b1453c2a9eea4c15e5cade",
+        "3adbcf3516f21cbc325812b527892b6183439f851304ce81741a9cef0109a2b9",
+        "0b964a576df0b32dfee79b94b070379345db8b69883723f95acbc45fe5b2a37c"
+      ],
+      "energyHash": "682d5a791134c4a0b8fe6bbbd34040ee48c04a3db5c340e14d975fdf87926a77"
+    },
+    {
+      "name": "overlap-capsule-v1-decay-v1-true",
+      "ticks": 6,
+      "dt": 0.016666666666666666,
+      "events": [
+        [
+          0,
+          "death"
+        ],
+        [
+          0,
+          "eat"
+        ],
+        [
+          0,
+          "eat"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          1,
+          "clash"
+        ]
+      ],
+      "mechanicalHash": "27314766d8aa58aaab54a4aa401b5b31ec75df83f1cb703792ba52e93f0617c6",
+      "mechanicalCounts": {
+        "forces-and-motors": 80,
+        "speed-guards": 80,
+        "constraint-batch": 80,
+        "contact-impulse": 32,
+        "position-projection": 72
+      },
+      "hashes": [
+        "fea790c045c23402c6d8d914e78b89f43293541a4f3decacd70e5ddab52ab047",
+        "42cfefec67943397228beb37ffd5631ab5e097de373b542c0cdc427acea8fbc5",
+        "ba28f636b27a0e362e97be95268962386d49c7a6b53e5b28c9b63dd37e4adada",
+        "6c18ae6e3407671798cd8b96b35d3d35f3960be1a80aed7f6994902b60f00753",
+        "f7fd6f2b5beefddebb9b6589648d9a3d34c5a17bd66feff59073f11c6fcb9cc3",
+        "a08616740cf304e55ea58d1c5708dd4b5bbbb0cd91119d436d3cf43afb997fcd",
+        "1ba33c28d5fde70529d0ecbb0ed41b73b67086dc8d69e3057a328689c2838b5a"
+      ],
+      "energyHash": "a6e4d0ff23998a87f765349318d39ce052e739df17d8a77f32712818defc1669"
+    },
+    {
+      "name": "overlap-capsule-v1-decay-v2-false",
+      "ticks": 6,
+      "dt": 0.016666666666666666,
+      "events": [
+        [
+          0,
+          "death"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          0,
+          "eat"
+        ],
+        [
+          0,
+          "eat"
+        ],
+        [
+          0,
+          "eat"
+        ],
+        [
+          1,
+          "clash"
+        ],
+        [
+          1,
+          "clash"
+        ],
+        [
+          1,
+          "clash"
+        ]
+      ],
+      "mechanicalHash": "312d8bd0933cf9fc6fcf51927a5c5ccfe37cde0d495d8e45353d7dbb1cf8f906",
+      "mechanicalCounts": {
+        "forces-and-motors": 80,
+        "speed-guards": 80,
+        "constraint-batch": 80,
+        "contact-impulse": 32,
+        "position-projection": 72
+      },
+      "hashes": [
+        "9966f1948c03a2d270d9672f04ab5f7994b45eecc26086bb02068c017f9801ab",
+        "005478a9ec6072fb28a49c160e8ac50041945ff6bdc32a5e0ce850a2be2f51fe",
+        "f569d2b5a77e9ab14419160727007a88f1b86765dee170aaf4e7a363f570f3aa",
+        "1fb426ad2ab585107e0bbe71b8284bb884e6bb9e2f41b2e63a11a88fa142f2c1",
+        "48da73f02502c1be1dd0ed90d02083a616f3f6fc3f0df1bf5d3a666eedc75838",
+        "6c40245ed301a75445b6c2f043e1fe42c70c51e351d7e35a774dbced0c1e2bdf",
+        "c91ae87d40cc0151f951cc3fa51988fc87295ad811e61afbde631579aff8197e"
+      ],
+      "energyHash": "959af1def4d3258f7a4806b754f1849374e7f5469ef8e3d324e530ba2a8c4794"
+    },
+    {
+      "name": "overlap-capsule-v1-decay-v2-true",
+      "ticks": 6,
+      "dt": 0.016666666666666666,
+      "events": [
+        [
+          0,
+          "death"
+        ],
+        [
+          0,
+          "eat"
+        ],
+        [
+          0,
+          "eat"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          0,
+          "clash"
+        ],
+        [
+          1,
+          "clash"
+        ]
+      ],
+      "mechanicalHash": "27314766d8aa58aaab54a4aa401b5b31ec75df83f1cb703792ba52e93f0617c6",
+      "mechanicalCounts": {
+        "forces-and-motors": 80,
+        "speed-guards": 80,
+        "constraint-batch": 80,
+        "contact-impulse": 32,
+        "position-projection": 72
+      },
+      "hashes": [
+        "8353696fd66dd2e6adfbab9676495fe04dce953f26a067662f25719968fbe519",
+        "f3a9fff046f0ae0c768e6d18622f197f4cbca38dc4ad201a7726872dde943d3a",
+        "fd5fb7a12969a813c85bb4df676b233391cd65c9eaf64b076cc0d82189d93bee",
+        "faa5ddba6cc9919d436a21fe522d5d3c47ddd98aaaa554d0368e53b2dd66ee68",
+        "46c537434ad98b6cc9af001b20c146ffc120101e7f6646d591cdfc6e3662a84e",
+        "28bc766175ea23c4c5970c8772669708141fc26fbf8f5ccf331a8fcfe5b40e3f",
+        "b6335d2827ead9f0d85b237204a4985fd654025e91efe2a1378380bb16e0aa08"
+      ],
+      "energyHash": "9047a8ead9c9cdd0d04fb2d4d38657fc585a163bb5f17617b5af2e86d4f1e835"
+    },
+    {
+      "name": "same-tick-laying",
+      "ticks": 4,
+      "dt": 0.016666666666666666,
+      "events": [
+        [
+          0,
+          "birth"
+        ]
+      ],
+      "mechanicalHash": "2f045d158216cd8ea49d022c40110c03a0cec906ee1a634296b0b79774d6664d",
+      "mechanicalCounts": {
+        "forces-and-motors": 32,
+        "speed-guards": 32
+      },
+      "hashes": [
+        "17819fa6919160a4bee17640f5581426d21485b8d13c5659dd37af52d2fa8a56",
+        "e87e4050db76f5ba1b8e511ad1a1abe6f68e2486486c320671954512ef2c0b3c",
+        "91aaabd0802bf364ff12204990b06ee6466efa3d50c33dfc18c26c0abd8ef4c0",
+        "9927c99525d27581c56fa93f73b99e602346e548e792a97e8acdbe7154118b4a",
+        "a02f14274c3d954a40290c6f4ebfb356740b662c6089a9ccc1ee777f457148b4"
+      ],
+      "energyHash": "480f48cd940432c30a53cce3774708ff849488dc47219276af9522746f0db10d"
+    },
+    {
+      "name": "imported-radius-growth-open",
+      "ticks": 1,
+      "dt": 0.016666666666666666,
+      "events": [],
+      "mechanicalHash": "a31b853f718278e88a68d01b63387760d2bb0df8499081f89386420e641c3590",
+      "mechanicalCounts": {
+        "forces-and-motors": 8,
+        "speed-guards": 8,
+        "constraint-batch": 8
+      },
+      "hashes": [
+        "fce15c28eac1016389144e4249cfe0ddea2a207d8d85493fd4f8c874b0e9bdb6",
+        "d27c4a1fdbd44d81d245b91cb25b70ba0eabee1e881288bbc7dc9daaa3c3dada"
+      ],
+      "energyHash": "dc4a14df4cad3ee9db9d5ad1d2439b4f8a89117eaa38d086115373edbba0913b"
+    },
+    {
+      "name": "imported-radius-growth-closed",
+      "ticks": 1,
+      "dt": 0.016666666666666666,
+      "events": [],
+      "mechanicalHash": "a31b853f718278e88a68d01b63387760d2bb0df8499081f89386420e641c3590",
+      "mechanicalCounts": {
+        "forces-and-motors": 8,
+        "speed-guards": 8,
+        "constraint-batch": 8
+      },
+      "hashes": [
+        "19d411cf2c4613bea6b154c7737f939ebd7200d904acbef8d5cf3d851c415fff",
+        "973a2b3701db4ee920919e575674cae9a8451054d3117a548b267f6dedba112f"
+      ],
+      "energyHash": "dc4a14df4cad3ee9db9d5ad1d2439b4f8a89117eaa38d086115373edbba0913b"
+    },
+    {
+      "name": "same-tick-shrink-cell-crossing",
+      "ticks": 1,
+      "dt": 0.016666666666666666,
+      "events": [],
+      "mechanicalHash": "5dc17718c652fd1be101e10a726e890f62080189b10475a2a027148abd7da34f",
+      "mechanicalCounts": {
+        "forces-and-motors": 8,
+        "speed-guards": 8,
+        "constraint-batch": 8
+      },
+      "hashes": [
+        "e75b427a9426b6146c6ca93200b50dce05780fc9f1804973bbc9a84d0f6e352e",
+        "2e88a247011c32e886cbb79e30dda42257fbe894ab070e7e622050159b251a53"
+      ],
+      "energyHash": "daee325d474fc2712f878407f8519dfc60069a71b46fed0fd669bd6d9f31aa75"
+    },
+    {
+      "name": "food-egg-body-tie",
+      "ticks": 4,
+      "dt": 0.016666666666666666,
+      "events": [],
+      "mechanicalHash": "5df6ca69eb221f2ed7b9c63670f51b6c0ea0207db06754d574bbf27fdb852284",
+      "mechanicalCounts": {
+        "forces-and-motors": 32,
+        "speed-guards": 32,
+        "constraint-batch": 32
+      },
+      "hashes": [
+        "6e5e3b8e2ba12ca2f24cf2d1e8418197881aaa731b40857eda775618c91e311a",
+        "61a0abd95b12702ecc48d8cbd0dce6316c3d6d9562c15396ac69f0d84fff65b8",
+        "bccef90bf5fb96f5aa905ebd88a52961cc7877ce6d81e151215d7c15a052599c",
+        "edfa14fa6c1d1b9998f5a1b8968c1b49b65de1d6a4ac7d3955dfa59ac4eed66c",
+        "ff43322df4fc16fb02a6548713b8a4ef14dabef53c4be5f28830114aef509226"
+      ],
+      "energyHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "name": "reverse-food-tie",
+      "ticks": 4,
+      "dt": 0.016666666666666666,
+      "events": [],
+      "mechanicalHash": "5df6ca69eb221f2ed7b9c63670f51b6c0ea0207db06754d574bbf27fdb852284",
+      "mechanicalCounts": {
+        "forces-and-motors": 32,
+        "speed-guards": 32,
+        "constraint-batch": 32
+      },
+      "hashes": [
+        "47eff418e41a80255ac237062712ee05a01ba02de660a39f3b3c2788f1df1cb2",
+        "debab39f1e0cc7756a80a143a25744198563f079149c13162afcc7ac3a82f4b3",
+        "0b92b4c75be09586adc33b4da93710743a148f946b48ac6da4813a67f0480b14",
+        "f9e0a6bab253828d81b87bc4003da485862ee9c5450a91ef38b854225f5904c7",
+        "c3e3becc2552bdd1716423d59ee014c56cf2a589e52f57f2170fc9f193ed5343"
+      ],
+      "energyHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "name": "egg-body-tie",
+      "ticks": 4,
+      "dt": 0.016666666666666666,
+      "events": [],
+      "mechanicalHash": "5df6ca69eb221f2ed7b9c63670f51b6c0ea0207db06754d574bbf27fdb852284",
+      "mechanicalCounts": {
+        "forces-and-motors": 32,
+        "speed-guards": 32,
+        "constraint-batch": 32
+      },
+      "hashes": [
+        "afa738a5c1a6571c61621de0ab4c4b2bc5e9898fa9cb335f91f498f0e93359a4",
+        "006ab4d5595a163d6644ff3aa9f3987d0a449e36df88225a3494bc6da92c9d52",
+        "aabbf03ef29763ab4123bd0576433303e645282956783536becbce3aeffd82f4",
+        "b8da70a81a1c822d9ae0574af95e4e3916b9ba0d2341a0801080662571b32ec8",
+        "9120a2088342f314149d88c350afdfbbae29b89f9c667c8186939eefe961f979"
+      ],
+      "energyHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "name": "body-order-tie",
+      "ticks": 4,
+      "dt": 0.016666666666666666,
+      "events": [],
+      "mechanicalHash": "b3fe060d438fce18ebfbe0db27b51d72694273de8b976956be663d3943cf2c7a",
+      "mechanicalCounts": {
+        "forces-and-motors": 48,
+        "speed-guards": 48,
+        "constraint-batch": 48,
+        "contact-impulse": 128,
+        "position-projection": 288
+      },
+      "hashes": [
+        "9bd7551352003923dc30e9cc0dfc6595ddccd285fb1076aaa2d50cc23110a1a9",
+        "bfbf8ef173d08eb93fa24d52ab4f3718414ce8665ce7cb07e42aad301df00f42",
+        "346af6e7e66ed1c32ec199d4669961a484bb28d244638eadbde97c0795310e69",
+        "519b3fcf18e42e6330a9e99008debb002502d38f2213931e39da6ebec9d1b814",
+        "62a9354253738f923a09a56b4d35dde6ef60ec942a0b36532a9105cc8ed2dc52"
+      ],
+      "energyHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "name": "reverse-body-tie",
+      "ticks": 4,
+      "dt": 0.016666666666666666,
+      "events": [],
+      "mechanicalHash": "b3fe060d438fce18ebfbe0db27b51d72694273de8b976956be663d3943cf2c7a",
+      "mechanicalCounts": {
+        "forces-and-motors": 48,
+        "speed-guards": 48,
+        "constraint-batch": 48,
+        "contact-impulse": 128,
+        "position-projection": 288
+      },
+      "hashes": [
+        "b6fa9d56a83563925a66af21d70d5394d4898cacae3e7936e907cc6a8e189322",
+        "4013d948e284ba35f3f72a2c8fb9bf5c7aa3e470bda84f7009d4c674b7289e23",
+        "8325f5d602e2cb1b36eaacf7dc5ac84411cc4b4b167dba63a5a1370f8a943806",
+        "6c0023b2a5feaa17efc6c500fa3c51f37190e16e397ac07309384e51c60e88f7",
+        "ec0712a5fc9bd75ba143bf0a5cbee52032869f8004cb02c04183b918d2d40969"
+      ],
+      "energyHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "name": "part-order-tie",
+      "ticks": 4,
+      "dt": 0.016666666666666666,
+      "events": [],
+      "mechanicalHash": "a0aac85d63a2bfb066b5bffd5ab78118077b87ca209ada8ed0d87d7ed27118e0",
+      "mechanicalCounts": {
+        "forces-and-motors": 64,
+        "speed-guards": 64,
+        "constraint-batch": 32,
+        "position-projection": 7
+      },
+      "hashes": [
+        "4e1faf898177d86c2583a520a3c5c1530488acaa3b0d05cafff25e656dd2c59e",
+        "5b76e8ec84fb08e03988b2d8eb36dbd03a650108ed9eb1cbf08530b8852a475b",
+        "98c7f705ee11d88533ef60b7ad006bafaded2ad3090203969e58392494f453ff",
+        "62898aafaa948d31f30aeece029e134376b2703c791d74d3a0405b3da0bf8ee2",
+        "abcf2281a6248280e392cdca031d6138db2260baa379dc86de75b60bdbdf6a54"
+      ],
+      "energyHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "name": "dynamic-pigment",
+      "ticks": 4,
+      "dt": 0.016666666666666666,
+      "events": [],
+      "mechanicalHash": "bdcfa457d86e6f208ad129fd2dc6cb4fa939200aeeb0f8d116b64284aa26e228",
+      "mechanicalCounts": {
+        "forces-and-motors": 32,
+        "speed-guards": 32,
+        "constraint-batch": 32
+      },
+      "hashes": [
+        "62e840db2c09e54de7ada50064722a0b108cc702198c7cb70300ecd19ee45dcf",
+        "250aa483668d9d4443219c53fd5a6333122b09aab5ad2e52a03a2a8085f9b3fd",
+        "7c11116f5e4ad4ad616b74e027e54db0aafdac54c6bc34ce8d9a71409de12375",
+        "3baefb56d5f0ac7438444a07afefc04f4147ea73d192cbc95457b4558da41b72",
+        "7ce13b277a885e08715c65039823ba7c40ffdd66460a3f27239399321ef34f21"
+      ],
+      "energyHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "name": "dark-occlusion",
+      "ticks": 4,
+      "dt": 0.016666666666666666,
+      "events": [],
+      "mechanicalHash": "bdcfa457d86e6f208ad129fd2dc6cb4fa939200aeeb0f8d116b64284aa26e228",
+      "mechanicalCounts": {
+        "forces-and-motors": 32,
+        "speed-guards": 32,
+        "constraint-batch": 32
+      },
+      "hashes": [
+        "1cab83eb201b15be77ed55fab69e2f7871b5cfe177a76d83fa637a67076f49b8",
+        "e226b547d2bd8449df36636c7fbfb275d82231f246310b9798a59f729214053f",
+        "cd668e012fe629a947f251829d3d697d119c49b8345af5f27420359746e18fd5",
+        "a0feef619be67c497e6f362b1b0ecf3d34ef2708fe995df4e0cc3ebc05331a1d",
+        "d0eb6db11aa3dc0ac22d2e3cd1b2e6a14e1d133f57cf059da2e7e81da6e5bfbc"
+      ],
+      "energyHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "name": "spectral-occlusion",
+      "ticks": 4,
+      "dt": 0.016666666666666666,
+      "events": [],
+      "mechanicalHash": "bdcfa457d86e6f208ad129fd2dc6cb4fa939200aeeb0f8d116b64284aa26e228",
+      "mechanicalCounts": {
+        "forces-and-motors": 32,
+        "speed-guards": 32,
+        "constraint-batch": 32
+      },
+      "hashes": [
+        "da82cb813847bfe627ee6b72bd43960f7151193683462a5b208fa7e10e91ed64",
+        "acdfef71d7f4e389e033068c8c1ddfb24aefd237b3d350829029fa8842d0d851",
+        "fdb82b8bc8e35f72a6607dc7166761e94958d3886ea379bae07784eb7f5dd7d5",
+        "492c4c8ff1e3483e7ad27a6fbb922c7e73e12dbc54360800bb043dac5fc31157",
+        "e932ffcfb6af54bcb163127efb4fc8d3547ee4312820dc0b886e6558efdf487d"
+      ],
+      "energyHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "name": "nearest-body",
+      "ticks": 4,
+      "dt": 0.016666666666666666,
+      "events": [],
+      "mechanicalHash": "bdcfa457d86e6f208ad129fd2dc6cb4fa939200aeeb0f8d116b64284aa26e228",
+      "mechanicalCounts": {
+        "forces-and-motors": 32,
+        "speed-guards": 32,
+        "constraint-batch": 32
+      },
+      "hashes": [
+        "da82cb813847bfe627ee6b72bd43960f7151193683462a5b208fa7e10e91ed64",
+        "acdfef71d7f4e389e033068c8c1ddfb24aefd237b3d350829029fa8842d0d851",
+        "fdb82b8bc8e35f72a6607dc7166761e94958d3886ea379bae07784eb7f5dd7d5",
+        "492c4c8ff1e3483e7ad27a6fbb922c7e73e12dbc54360800bb043dac5fc31157",
+        "e932ffcfb6af54bcb163127efb4fc8d3547ee4312820dc0b886e6558efdf487d"
+      ],
+      "energyHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "name": "same-tick-carrion",
+      "ticks": 4,
+      "dt": 0.016666666666666666,
+      "events": [
+        [
+          0,
+          "death"
+        ]
+      ],
+      "mechanicalHash": "1e1bedc960df3dcebdd8bdf9e945a1f78af55ffde167659f7df6ccaf1d2d1e59",
+      "mechanicalCounts": {
+        "forces-and-motors": 16,
+        "speed-guards": 16,
+        "constraint-batch": 16
+      },
+      "hashes": [
+        "7eb771637551969d58801714854153ef98192f8eb8726ce08a64712d76d07621",
+        "a466951bdb0983cc10fd3cd3f1f8701bdc0947a3e35ab0bd81f63333871242ca",
+        "90fb0bde4b91a34a77f54e581779c7fa4657407a56c50e3f24e04a1c410d8cb0",
+        "44f915e3a9d316db4a319f3ddf641a0efc871a026f3ad8ee81ee01cfed271485",
+        "eaec052954d2125b2bc222151326b95015e2d32fdfb8ace9cce4606f6478d358"
+      ],
+      "energyHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "name": "cap-merge-same-cell",
+      "ticks": 1,
+      "dt": 0.016666666666666666,
+      "events": [
+        [
+          0,
+          "death"
+        ]
+      ],
+      "mechanicalHash": "8a36a8fc4f96b89fd16ac9663b1b91e2d07dd996e8348bea2d6cd32e3773a971",
+      "mechanicalCounts": {
+        "forces-and-motors": 8,
+        "speed-guards": 8,
+        "constraint-batch": 8
+      },
+      "hashes": [
+        "86e7a38b44499a0580348df61105b89e380d69ca0b5c976bb47148a99f936d68",
+        "ef6cbee6b2270f16550da7932a52d438db5904487bb1043b4a43c09ad675a6c7"
+      ],
+      "energyHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "name": "cap-merge-cross-cell",
+      "ticks": 1,
+      "dt": 0.016666666666666666,
+      "events": [
+        [
+          0,
+          "death"
+        ]
+      ],
+      "mechanicalHash": "8a36a8fc4f96b89fd16ac9663b1b91e2d07dd996e8348bea2d6cd32e3773a971",
+      "mechanicalCounts": {
+        "forces-and-motors": 8,
+        "speed-guards": 8,
+        "constraint-batch": 8
+      },
+      "hashes": [
+        "288c33191e84b127e74a476531dfe58226728b3e8ffd9ca2f88c290f2a944c1d",
+        "0eaec0f8abf4ae976f4962e7d5c397740bebdc06772f3a835d1968d4bf97381d"
+      ],
+      "energyHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "name": "boundary-tangent",
+      "ticks": 4,
+      "dt": 0.016666666666666666,
+      "events": [],
+      "mechanicalHash": "1e1bedc960df3dcebdd8bdf9e945a1f78af55ffde167659f7df6ccaf1d2d1e59",
+      "mechanicalCounts": {
+        "forces-and-motors": 16,
+        "speed-guards": 16,
+        "constraint-batch": 16
+      },
+      "hashes": [
+        "2e250178728ce9a2c75b38b69dfb21963d876b13ae03192f6c3ba68ae98e061c",
+        "bd6538372dbc7003a40aa34bb5bf5792e3678c3b85d78aa54c08a692db1e7b55",
+        "4a0e904323f5795acfaa496ee02a8417e386d3e8085315106bd98ae8e50dcee0",
+        "a9f43c9f1729bc24c9aa9b51f74e380841b264cbaf427ca38ed9f27119d4b075",
+        "032c4f197bece34ba2154cccbdc4dc371ac0db6e29feebbed5c194f286076940"
+      ],
+      "energyHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "name": "branched",
+      "ticks": 4,
+      "dt": 0.016666666666666666,
+      "events": [],
+      "mechanicalHash": "735fb405002c29baf61cfa0609ae4dd01879b223134cba1923b7aeafae26c2b8",
+      "mechanicalCounts": {
+        "forces-and-motors": 384,
+        "speed-guards": 384,
+        "constraint-batch": 64,
+        "contact-impulse": 2734,
+        "position-projection": 590
+      },
+      "hashes": [
+        "20dbfc2b2e4df097a2ef6570b4780e82720b1b2ab6aef8725868c26fee989edc",
+        "f9492e0b1591b1a66f8b899aa6cae9bb55bfa9f8ed400b8cad1aff6601241f6d",
+        "5eadd5a91051ac334482b5f2c28998b2c8962fd0fd15eb76d4d3f28945cd530f",
+        "8114c27910d0178d73e52f676df9fda95ecebbb90ff19c011d54e559e3e25f31",
+        "e26c89ac80405355fce8f415c7b4633403dbaec5693ecdfb81024f3d56220cd6"
+      ],
+      "energyHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "name": "long-folded",
+      "ticks": 4,
+      "dt": 0.016666666666666666,
+      "events": [],
+      "mechanicalHash": "dcfa54bf83150cc790632eb014808ae2f74b948064f9b7ab9e636c86edd82f2a",
+      "mechanicalCounts": {
+        "forces-and-motors": 192,
+        "speed-guards": 192,
+        "constraint-batch": 64,
+        "position-projection": 551,
+        "contact-impulse": 769
+      },
+      "hashes": [
+        "2e3d7af728e8b4e92647c63002e33933dc5c94ece5c9698ccc371d4c91f4b77d",
+        "5e97a0bb62f0ae834e2446a8f49876cbc71f775d7119dfdff92560e82b69ac5a",
+        "462731a8aea35a2702ad76e2cd15949472f6f10300e63bf56e3a165d2f68f3ed",
+        "97907fbc9ab550e72d9f9e8cef7125e9e5705d202ff079226ffb53c3dbeb8b26",
+        "43dd96d2707e1d5b33ece1a711b90fcbc17a6c11902530fb16c0eaba93b59972"
+      ],
+      "energyHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "name": "dense-boundary",
+      "ticks": 4,
+      "dt": 0.016666666666666666,
+      "events": [],
+      "mechanicalHash": "3eb4f80f32579b5a234e267630714f4e72539b55fdb5c606e13b5afa3ada4f45",
+      "mechanicalCounts": {
+        "forces-and-motors": 576,
+        "speed-guards": 576,
+        "constraint-batch": 192,
+        "contact-impulse": 4419,
+        "position-projection": 1736
+      },
+      "hashes": [
+        "9bcc63bbd07c09b46086afebd051983e5da59aaa1d1c76208f2d52b39b82ce2f",
+        "5cc9e6167cfb07b31ddc76fd6e7549fa41e4c94308c3a4f3160d2052141bc5a7",
+        "c05255995c37c02a9b3aa3b5a75b26cb13e737d35c1c42ac94c94b443fcd1f6c",
+        "f4c2ba123c2efe081846b11f3ab87e31c73d061c09b248c5fd7587cd935659ef",
+        "133769c42706c7f01899e039917974f6cbb1d3a7a641918c2b1b4c9a47c33a07"
+      ],
+      "energyHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "name": "reverse-dense",
+      "ticks": 4,
+      "dt": 0.016666666666666666,
+      "events": [],
+      "mechanicalHash": "e500a5907142db778addd446552e564aead368c5cc90dcebc86b5b6f394f367e",
+      "mechanicalCounts": {
+        "forces-and-motors": 576,
+        "speed-guards": 576,
+        "constraint-batch": 192,
+        "contact-impulse": 4561,
+        "position-projection": 1722
+      },
+      "hashes": [
+        "336545c532f39487f34f1a2428237e5bda6fda691134acd15b0f8eb4f0b748ed",
+        "f83d0025b867c057bb2814a51299731dfd8f96c8693eb3536891e099ca8aca91",
+        "33eef848a54a3f4c2db9cb7e533ce21e7f5af90b429a2d48878740bc6c054f62",
+        "a3e1cb4d2c6121b8665c751f3fc09a8c1352201c4bb94ba5357712846f13cfe6",
+        "7e5de1f385dc0274e020474362c43d28c19584af7f4256f810e0db568c36efeb"
+      ],
+      "energyHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "name": "cell-corners",
+      "ticks": 4,
+      "dt": 0.016666666666666666,
+      "events": [],
+      "mechanicalHash": "b50f9263e8c5ec77c27339d834fbc8b188f2219f9676c73bd306187a67e090f5",
+      "mechanicalCounts": {
+        "forces-and-motors": 192,
+        "speed-guards": 192,
+        "constraint-batch": 64,
+        "position-projection": 534,
+        "contact-impulse": 1211
+      },
+      "hashes": [
+        "871b7801ff3f863b6234af7eb8b1b1ddba026a6d95fb8eae12de27e0daf82a9a",
+        "a3c0ee6b1849e933a15ab507ac7829bc9749368956779d4528317892de9c2144",
+        "0cb2a34b8d1b7fa4d0473f5c86ec5ca66ce3a8ab1f0f92c7ef8afcc74a727d29",
+        "5ff28688dddfe844bbc923b6c878809c29a2f3bff5559373dd0d4cc2bbce7d2e",
+        "a20966730b177ca159ab7febade531d847c3c67b3f973a19d63c02666b7c41f7"
+      ],
+      "energyHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "name": "fast-substeps",
+      "ticks": 4,
+      "dt": 0.03333333333333333,
+      "events": [],
+      "mechanicalHash": "bc3f4e730b87532853c44b1ab38ed2777f16500b0287b0e2f506ffc62208fb23",
+      "mechanicalCounts": {
+        "forces-and-motors": 384,
+        "speed-guards": 384,
+        "constraint-batch": 128,
+        "contact-impulse": 1928,
+        "position-projection": 1098
+      },
+      "hashes": [
+        "e9ab6e2f9e3e6756e5f3db4f98dc2af29f7778e574b47cfd6dd6f002cb313c23",
+        "33c11d7bc861d2be35573b18d7f988e97f65fa2de040d023d2bf1f78cf2d281d",
+        "ae6554a768c2cc3525eb6a90ea04e2bd3c9fb1555f6ff91538d07b452b70e954",
+        "1434926a9b81bfbbc045f372d16d04472f0ea5278ae66b84ed479cc995e5d074",
+        "d487a7596f0c68a1a267681de793b5ea483dc668167959f38b4652278cc7a373"
+      ],
+      "energyHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "name": "food-cell-false-positives",
+      "ticks": 4,
+      "dt": 0.016666666666666666,
+      "events": [],
+      "mechanicalHash": "2e897980c17712c72d174a46379c069978bccd487600ee4e806c10cfb2414a2e",
+      "mechanicalCounts": {
+        "forces-and-motors": 16,
+        "speed-guards": 16,
+        "constraint-batch": 16
+      },
+      "hashes": [
+        "7478b615afb7ec9234d6874fd49caa236ac7ec8556ce9b415f7aa20b94301632",
+        "56cb06945ca010fd127a868704fadd6dbb75d7fb5b17d14f82e1eddc40eff634",
+        "bfb0507995f1da9b4a7efeddaa5f29604074c6b1d331e7d7d7aae3bdf9ca8ce6",
+        "f661c9373d127fbfeb508ebcb9d3ae6141b09515d3f090555243d3acf85b7c81",
+        "861cb25626f9243f35a64faf9ea24bb9e953a62c1a65c3c8672ed9f1d91192e2"
+      ],
+      "energyHash": "342f5643cd3297d56f6ba6efbad176c270f63e030fc5285f0484414638bdd74d"
+    },
+    {
+      "name": "food-cell-reversed",
+      "ticks": 4,
+      "dt": 0.016666666666666666,
+      "events": [],
+      "mechanicalHash": "2e897980c17712c72d174a46379c069978bccd487600ee4e806c10cfb2414a2e",
+      "mechanicalCounts": {
+        "forces-and-motors": 16,
+        "speed-guards": 16,
+        "constraint-batch": 16
+      },
+      "hashes": [
+        "bd7766449970ab6f9bc267b19f51c63bd567ace831a2fe89aaf43e52cb7bf991",
+        "8c296dc45fb8fa09fb6dc64bf0119946653e6b532773b4dbcf1112d32f6b9f0d",
+        "4c2b879ae1cdcb156496492b1da20929dd8593e369f01189643bbda437868863",
+        "1d6edfe659edd59b0b6c36bcc9adb132a7bf6d2935ad5e17e06d77caceb8dc60",
+        "ffb5bea7a86fe3c5f9989d1b5ce9c03b98eb600689087fc7e15b3bab93e0a42b"
+      ],
+      "energyHash": "342f5643cd3297d56f6ba6efbad176c270f63e030fc5285f0484414638bdd74d"
+    },
+    {
+      "name": "food-contact-tangency",
+      "ticks": 4,
+      "dt": 0.016666666666666666,
+      "events": [],
+      "mechanicalHash": "2e897980c17712c72d174a46379c069978bccd487600ee4e806c10cfb2414a2e",
+      "mechanicalCounts": {
+        "forces-and-motors": 16,
+        "speed-guards": 16,
+        "constraint-batch": 16
+      },
+      "hashes": [
+        "8c963d74700e09daebf8cdf3501710a184cbb27d0e7395142edfa8f938195c6e",
+        "017401a8ee058bd953aeacc4c6ce5cbab371e014c6dbe6240f7391d4f0472eec",
+        "4cd337b096c5dd703b62550e19aebb9f2b1b3edfad250cc68bd27834d8901703",
+        "49c57903fdda07ee4eb3d7dfb1622969e127d288503fe70b8c8bd5ceae3e5861",
+        "b17c57ea8d32e3d1f6602ef348b1ae1bc5f0a218d39bac23867eb4f6b01dbbe7"
+      ],
+      "energyHash": "342f5643cd3297d56f6ba6efbad176c270f63e030fc5285f0484414638bdd74d"
+    },
+    {
+      "name": "food-budget-contact",
+      "ticks": 4,
+      "dt": 0.016666666666666666,
+      "events": [],
+      "mechanicalHash": "2e897980c17712c72d174a46379c069978bccd487600ee4e806c10cfb2414a2e",
+      "mechanicalCounts": {
+        "forces-and-motors": 16,
+        "speed-guards": 16,
+        "constraint-batch": 16
+      },
+      "hashes": [
+        "16e3793e079f0af15792fc78622d1d6ca3c2caaea8f3f14b82b72f7c4f426e32",
+        "e01c6a779befb5c16baee356a337b6277633f552c51a288129137f8336ecf6dd",
+        "0a4bc7f44c5f58326de5b1ceb9db7af94c93ed3570bfb78e72ece560e7404416",
+        "8fa47e2b3fb98c884c218b0addb3b82b14e61282fdc2f46e2798a72359f17487",
+        "147ed970becc899f828e7b66900d333224d69d58e28ef270c742b2d4ba4d95d3"
+      ],
+      "energyHash": "f9943c24d1c01b91dd8c1cee04c325d156609cc35ba62fa12e7774dc46199029"
+    }
+  ]
+}
