@@ -37,6 +37,13 @@ port.onmessage = ({data}: MessageEvent) => {
       host.settings = {...data.settings, physicsRegime: host.settings.physicsRegime ?? 'legacy-v0'} as SimulationSettings; host.speed = data.speed;
       host.selected = data.selected; return;
     }
+    if (data.type === 'spatial-overlay-config') {
+      if (typeof data.cells !== 'boolean' || typeof data.envelopes !== 'boolean' || !Number.isSafeInteger(data.revision))
+        throw new Error('Expected spatial overlay booleans and integer revision');
+      host.spatialOverlays = {cells: data.cells, envelopes: data.envelopes};
+      host.spatialOverlayRevision = data.revision;
+      dirty = true; sendFrame(); return;
+    }
     if (data.type === 'grid-audit-config') {
       if (typeof data.enabled !== 'boolean') throw new Error('Expected boolean grid audit toggle');
       host.gridAudit.schedule.setEnabled(data.enabled, host.state.simTime); return;

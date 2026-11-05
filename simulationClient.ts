@@ -1,3 +1,4 @@
+import type {SpatialOverlayOptions} from './spatialDiagnostics';
 import type {SimulationSpeed} from './simulationSpeed';
 import {RenderReplica, type RenderFrame, type WorldSnapshot, type WorldAction} from './simulationHost';
 import type {SimulationState, SimulationSettings} from './simulation';
@@ -47,6 +48,9 @@ export class SimulationClient {
       this.pending.set(id, {resolve, reject});
       this.worker.postMessage({type, epoch: this.epoch, id, ...extra});
     });
+  }
+  configureSpatialOverlays(options: SpatialOverlayOptions, revision: number): void {
+    this.worker.postMessage({type: 'spatial-overlay-config', epoch: this.epoch, ...options, revision});
   }
   configureGridAudit(enabled: boolean): void {
     this.worker.postMessage({type: 'grid-audit-config', epoch: this.epoch, enabled});

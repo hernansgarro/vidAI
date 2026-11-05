@@ -53,8 +53,11 @@ for (const fallback of [false, true]) test(`energy contour glows follow real bod
   };
   const upload = async (name: string) => {
     const snapshot = JSON.parse(JSON.stringify(createSnapshot(state, config)));
+    const canvas = page.getByLabel('Aquatic simulation');
+    const epoch = Number(await canvas.getAttribute('data-world-epoch'));
     await page.locator('input[type=file]').setInputFiles({name, mimeType: 'application/json',
       buffer: Buffer.from(JSON.stringify(snapshot))});
+    await expect(canvas).toHaveAttribute('data-world-epoch', String(epoch + 1));
     await expect(page.getByRole('button', {name: 'Resume', exact: true})).toBeVisible();
     // An already-visible Resume button or a wall-clock delay cannot acknowledge
     // file.text(), React's replacement, and the authoritative Worker reset.

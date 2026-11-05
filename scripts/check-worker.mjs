@@ -1,3 +1,4 @@
+import {collectSpatialOverlay} from '../spatialDiagnostics.ts';
 import {cycleFixture, food as cycleFood} from '../tests/support/nutrient-cycle.ts';
 import {selfTubeFixture} from '../tests/support/self-tubes.ts';
 import assert from 'node:assert/strict';
@@ -442,6 +443,48 @@ try {
   send({type: 'grid-audit-config', epoch: auditEpoch+1, enabled: false});
   assert.equal(await request('grid-audit', {}, auditEpoch+1), 0);
   assert.deepEqual(await request('snapshot', {}, auditEpoch+1), auditSource);
+  // P6: optional real membership readback and independent configuration.
+  const overlayEpoch = 401;
+  const overlaySettings = {...DEFAULT_SETTINGS, targetNutrients: 12, inflowRate: 0};
+  const overlaySource = createSnapshot(createInitialWorld(overlaySettings, 712, 'balanced', 'standard', 2), overlaySettings);
+  send({type: 'reset', snapshot: overlaySource, epoch: overlayEpoch});
+  let overlayFrame = await receive(v => v.type === 'frame' && v.frame.epoch === overlayEpoch);
+  assert.equal(Object.hasOwn(overlayFrame.frame, 'spatialOverlay'), false);
+  let revision = 0;
+  for (const [cells, envelopes] of [[true,false],[false,true],[true,true],[false,false],[true,true]]) {
+    send({type: 'ack', epoch: overlayEpoch});
+    send({type: 'spatial-overlay-config', epoch: overlayEpoch, cells, envelopes, revision: ++revision});
+    overlayFrame = await receive(v => v.type === 'frame' && v.frame.epoch === overlayEpoch
+      && ((cells || envelopes) ? v.frame.spatialOverlay?.revision === revision : !v.frame.spatialOverlay));
+    if (cells || envelopes) {
+      assert.equal(overlayFrame.frame.spatialOverlay.available, true);
+      assert.equal(Object.hasOwn(overlayFrame.frame.spatialOverlay, 'cells'), cells);
+      assert.equal(Object.hasOwn(overlayFrame.frame.spatialOverlay, 'envelopes'), envelopes);
+      const restored = restoreSnapshot(overlaySource);
+      assert.deepEqual(overlayFrame.frame.spatialOverlay, collectSpatialOverlay(restored.state, {cells,envelopes}, revision));
+    } else assert.equal(Object.hasOwn(overlayFrame.frame, 'spatialOverlay'), false);
+    assert.deepEqual(await request('snapshot', {}, overlayEpoch), overlaySource);
+  }
+  send({type: 'ack', epoch: overlayEpoch});
+  send({type: 'control', epoch: overlayEpoch, settings: overlaySettings, speed: 5, selected: null});
+  await new Promise(resolve => setTimeout(resolve, 120));
+  send({type: 'control', epoch: overlayEpoch, settings: overlaySettings, speed: 0, selected: null});
+  const overlayPaused = await request('snapshot', {}, overlayEpoch), overlayDirect = restoreSnapshot(overlaySource);
+  const overlayTicks = Math.round(overlayPaused.state.simTime * 60);
+  assert.ok(overlayTicks > 0);
+  for (let i=0;i<overlayTicks;i++) stepSimulation(overlayDirect.state,overlayDirect.settings,1/60);
+  assert.deepEqual(overlayPaused,createSnapshot(overlayDirect.state,overlayDirect.settings));
+  send({type:'reset',snapshot:overlaySource,epoch:overlayEpoch+1});
+  overlayFrame = await receive(v=>v.type==='frame'&&v.frame.epoch===overlayEpoch+1);
+  assert.equal(overlayFrame.frame.spatialOverlay.revision,revision);
+  assert.deepEqual(await request('snapshot',{},overlayEpoch+1),overlaySource);
+  // Reset retains session choices; stale-world controls cannot change them.
+  send({type:'spatial-overlay-config',epoch:overlayEpoch,cells:false,envelopes:false,revision:9999});
+  await request('action',{action:{kind:'clear-food'}},overlayEpoch+1);
+  send({type:'ack',epoch:overlayEpoch+1});
+  overlayFrame=await receive(v=>v.type==='frame'&&v.frame.epoch===overlayEpoch+1);
+  assert.equal(overlayFrame.frame.spatialOverlay.revision,revision);
+  console.log('Spatial overlays Worker: default payload omission, independent toggles, actual matrix/bounds readback, paused refresh, reset/stale epochs and exact full-state continuation passed.');
   console.log('Grid audit Worker: paused manual action/diagnostics, opt-in 60 simulated seconds, MAX, import/reset, disable and exact full-state/PRNG continuation passed.');
   console.log('Nutrient-cycle Worker: schema-18/19 tank/tube reset, 5x exact direct decay/mineralization/PRNG continuation, paused restoration and control-switch rejection passed.');
   console.log('Self-tube Worker: schema-17 reset, full-state L/R transfer, exact direct continuation, unchanged IDs/births/stock, paused closure and stale-command rejection passed.');

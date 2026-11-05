@@ -58,6 +58,12 @@ export class MaintainedWorldGrid {
   inspectOverflow(visit: (entry: GridEntry<WorldGridValue>) => void): void {
     for (const entry of this.overflow) visit(entry);
   }
+  /** P6 reads the exact P4 coarse bounds and cached P2 certificate, without
+   * recomputing anatomy/pose or touching memberships. */
+  inspectCreatureEnvelopes(visit: (bounds: SpatialBounds | null, certified: boolean, overflow: boolean) => void): void {
+    for (const record of this.records) if (record.entry.value.view === 'organism')
+      visit(record.entry.value.bounds, Number.isFinite(record.envelope?.radius), this.overflow.has(record.entry));
+  }
   private local(entity: Entity, view: GridView, kind: GridKind, sourceIndex: number, partIndex = -1, organism?: Organism): Local {
     if (this.disposed) throw new Error('Disposed maintained world grid');
     const e = entity as WithMemberships;

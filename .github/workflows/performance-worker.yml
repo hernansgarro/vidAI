@@ -135,6 +135,13 @@ jobs:
           name: side-window-previews
           path: test-results/**/side-windows-*.png
 
+      - name: Preserve spatial overlay visual acceptance screenshots
+        if: always() && (matrix.suite == 'chromium-regressions' || matrix.suite == 'firefox-regressions')
+        uses: actions/upload-artifact@v4
+        with:
+          name: spatial-overlay-previews-${{ matrix.browser }}
+          path: test-results/**/spatial-overlays-*.png
+
   # Preserve the previous required check name and fail it if any gate fails.
   browser-smoke:
     runs-on: ubuntu-24.04
