@@ -330,7 +330,15 @@ for (const fallback of [false, true]) test(`grid audit uses authoritative paused
   // Valid saved separation exercises the unconditional candidate path.
   state.organisms[0].segments.at(-1)!.x += 9000;
   const source = createSnapshot(state, config);
-  const upload = () => settings.locator('input[type=file]').setInputFiles({name: 'grid-audit.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(source))});
+  const upload = async () => {
+    const canvas = page.getByLabel('Aquatic simulation');
+    const epoch = Number(await canvas.getAttribute('data-world-epoch'));
+    await settings.locator('input[type=file]').setInputFiles({name: 'grid-audit.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(source))});
+    // File.text() completes asynchronously. Wait for reset before exporting:
+    // an earlier export request can otherwise be cancelled by world replacement.
+    await expect(canvas).toHaveAttribute('data-world-epoch', String(epoch+1));
+    await expect(page.getByRole('button', {name: 'Resume', exact: true})).toBeVisible();
+  };
   await upload();
   await expect(page.getByRole('button', {name: 'Resume', exact: true})).toBeVisible();
   const read = async () => {
