@@ -14,7 +14,9 @@
 | [Performance audit](performance/PERFORMANCE_AUDIT_PLAN.md) | IDEA-023 P0 current measurement objective, protocol/stage gates |
 | [Worker research handoff](performance/WORKER_HOTPATH_RESEARCH_HANDOFF.md) | Current Stage3 checkpoint, verified evidence, safeguards and next bounded-lot requirements |
 | [Performance priorities](performance/PERFORMANCE_AUDIT_PRIORITIES.md) | Historical technical hypotheses and current owner priority overrides |
-| [Maintained spatial grid design](performance/MAINTAINED_SPATIAL_GRID_DESIGN.md) | Source-backed owner discussion, query ordering, persistent central grid, diagnostics, and dependency-ordered testing implementation plan (not implemented) |
+| [Maintained spatial grid design](performance/MAINTAINED_SPATIAL_GRID_DESIGN.md) | Source-backed design and dependency-ordered P0–P12 plan; check the separate implementation status for actual deliveries |
+| [Maintained-grid implementation status](performance/MAINTAINED_GRID_IMPLEMENTATION_STATUS.md) | Verified P0–P8 merges in fork testing, P8 publication, exceptions and next-stage handoff |
+| [ChatGPT conversation continuity incident](tracking/CHATGPT_WORK_CONTINUITY_2026-11-05.md) | Temporary/unresolved chat access symptoms, privacy-preserving evidence limits and recovery procedure |
 | [Stage 2 evidence](performance/PERFORMANCE_AUDIT_STAGE_2.md) | Pinned source-based performance cost model; not measured proof |
 | [Verified contributor deliveries](tracking/CONTRIBUTOR_COMPLETED.md) | Fork implementations and upstream acceptance boundaries |
 | [Contributor workflow status](tracking/CONTRIBUTOR_WORKFLOW_STATUS.md) | Current delivery and upstream-submission gates |
