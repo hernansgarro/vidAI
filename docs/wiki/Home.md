@@ -131,7 +131,12 @@ history. Worker startup/fallback/errors and snapshot import outcomes are
 recorded. No event history enters saved worlds or the organisms' senses.
 Back or Escape returns to the advanced options; another Escape closes the
 window. The close button also dismisses it. Its size/position stay within the
-tank viewport, including on phones. No grid-integrity auditing is implemented.
+tank viewport, including on phones. Contributor testing also provides manual
+**Audit grid now**, optional60-simulated-second integrity auditing and independent
+**Pause on severe grid inconsistency** (both switches OFF by default). Audits log
+original defects, attempt spatial-only repair and independently verify outcomes;
+severe-pause acts only after an actual audit and at complete-tick boundaries.
+These diagnostic preferences/history remain session-only, outside saved worlds.
 See [observer diagnostic console](Simulation-Performance#diagnostic-console--contributor-testing-only).
 
 Observer-only energy activity is documented in [Energy Activity](Energy-Activity).
