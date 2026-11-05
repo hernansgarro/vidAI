@@ -1,3 +1,4 @@
+// Infrastructure correction2: import input exists only after opening Settings; no scientific window started in42116620608.
 // Infrastructure correction1: no scientific window ran in workflow42116356309.
 import {chromium} from '@playwright/test';
 import {spawn} from 'node:child_process';
@@ -33,10 +34,10 @@ async function run(label,scene,round,pilot) {
       });
     });
     await page.goto(`http://127.0.0.1:${label==='main'?4174:4175}/vidAI/?autoplay`,{timeout:30000});
+    await page.getByTitle('Ecology & Physical Settings').dispatchEvent('click');
     const source=await readFile(join(out,'scenes',scene+'.json'));
     await page.locator('input[type=file]').setInputFiles({name:'p11.json',mimeType:'application/json',buffer:source});
     await page.getByRole('button',{name:'Resume',exact:true}).waitFor();
-    await page.getByTitle('Ecology & Physical Settings').dispatchEvent('click');
     await page.getByRole('button',{name:'Advanced Settings',exact:true}).dispatchEvent('click');
     const caustics=page.getByLabel('Show water caustics',{exact:true});if(await caustics.isChecked())await caustics.dispatchEvent('click');
     await page.getByTitle('Close advanced settings',{exact:true}).dispatchEvent('click');
