@@ -3,3 +3,7 @@
 export {createSnapshot} from '../../persistence';
 export {createInitialWorld} from '../../world';
 export {createScenarioWorld} from '../../environmentScenarios';
+export {opticalScene} from './optical-scene';
+export {restoreSnapshot} from '../../persistence';
+export {stepSimulation} from '../../simulation';
+export {auditWorldGrid} from '../../gridIntegrityAudit';

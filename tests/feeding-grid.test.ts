@@ -149,11 +149,11 @@ test('unconditional overflow, extreme query coordinates and unbounded query arit
   assert.equal(full.length,grid.entryCount); grid.dispose();
 });
 
-test('feeding uses only maintained queries; optical and physical migration stay out of P7', () => {
+test('feeding uses only maintained queries; physical contact migration remains separate', () => {
   const source=readFileSync(new URL('../simulation.ts',import.meta.url),'utf8');
   const feeding=source.slice(source.indexOf('// P4 pose/lifecycle hooks'),source.indexOf('// E. REPRODUCTION'));
   assert.doesNotMatch(feeding,/new OrderedSpatialIndex|new NutrientSightGrid|oralFoodGrid|oralEggGrid|preyGrid/);
   assert.match(feeding,/\['organism'\], true/); assert.match(feeding,/\['egg'\], true/);
   assert.match(feeding,/\['nutrient', 'carrion'\], true/);
-  assert.match(source,/sightGrid = new OrderedSpatialIndex/);
+  assert.doesNotMatch(source,/sightGrid = new OrderedSpatialIndex/);
 });

@@ -25,13 +25,20 @@ for (const fallback of [false, true]) test(`versioned nutrient radii, paused imp
   await page.getByTitle('Ecology & Physical Settings').click();
   const read = async () => {
     const download = page.waitForEvent('download');
-    await page.getByRole('button', {name: 'Export Snapshot', exact: true}).dispatchEvent('click');
+    // A real export gesture avoids coupling rapid snapshots through automatic-download policy.
+    await page.getByRole('button', {name: 'Export Snapshot', exact: true}).click({force: true});
     return JSON.parse(await readFile((await (await download).path())!, 'utf8'));
   };
   const upload = async (snapshot: unknown) => {
     await page.evaluate(() => {(window as any).nutrientRadii.length = 0;});
+    const canvas = page.getByLabel('Aquatic simulation');
+    const epoch = Number(await canvas.getAttribute('data-world-epoch'));
     await page.locator('input[type=file]').setInputFiles({name: 'nutrient-cycle.json', mimeType: 'application/json',
       buffer: Buffer.from(JSON.stringify(snapshot))});
+    // File.text can replace the world after an early export request, cancelling
+    // that request and leaving its download waiter unresolved. Acknowledge the
+    // new epoch before asking for an authoritative export; retain exact equality.
+    await expect(canvas).toHaveAttribute('data-world-epoch', String(epoch + 1));
     await expect(page.getByRole('button', {name: 'Resume', exact: true})).toBeVisible();
     // An already-paused world also has Resume visible before File.text resolves.
     // Wait for the exact replacement, not that stale UI acknowledgement.

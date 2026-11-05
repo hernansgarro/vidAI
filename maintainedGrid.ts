@@ -35,7 +35,7 @@ function partBounds(org: Organism, index: number): SpatialBounds | null {
   return valid(b) ? b : null;
 }
 
-/** P4 maintained state. P7 feeding consumes its post-physics typed views.
+/** P4 maintained state. P7 feeding and P8 optics consume its phase-current typed views.
  * Roster reconciliation scans source arrays, never clears/rebuilds the matrix.
  * Motion hooks relocate only moved entities; P1 owns every bucket mutation.
  * No audit, timer, repair mode, observer transfer or saved schema is added. */
@@ -186,6 +186,10 @@ export class MaintainedWorldGrid {
       ? this.matrix.queryBounds(clipped, kinds) : [], kinds, descending);
   }
   queryRay(x0: number, y0: number, x1: number, y1: number, kinds: readonly GridKind[] = GRID_KINDS): GridEntry<WorldGridValue>[] {
+    // Overflow remains unconditional. Nonfinite endpoints/deltas cannot define
+    // a conservative corridor, so fail open through the existing bounded path.
+    if (![x0, y0, x1, y1, x1 - x0, y1 - y0].every(Number.isFinite))
+      return this.queryBounds({left: NaN, right: NaN, top: NaN, bottom: NaN}, kinds);
     return this.ordered(this.matrix.queryRay(x0, y0, x1, y1, kinds), kinds, false);
   }
   dispose(): void {
