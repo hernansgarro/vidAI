@@ -11,7 +11,7 @@ export interface SpatialOverlayFrame {
   cells?: Array<{x: number; y: number; rgb: number}>;
   envelopes?: Array<{bounds: SpatialBounds; certified: boolean; overflow: boolean}>;
   overflow: number;
-  unboundedCreatures: number;
+  unboundedCreatures?: number;
 }
 /** Presence channels are already saturated: duplicate occupants never brighten. */
 export function gridKindRGB(kind: string): number {
@@ -30,7 +30,7 @@ export function rgbHex(rgb: number): string {return '#' + rgb.toString(16).padSt
 export function collectSpatialOverlay(state: SimulationState, options: SpatialOverlayOptions, revision = 0): SpatialOverlayFrame | undefined {
   if (!options.cells && !options.envelopes) return undefined;
   const grid = getMaintainedGrid(state);
-  const frame: SpatialOverlayFrame = {revision, available: !!grid, overflow: grid?.overflowCount ?? 0, unboundedCreatures: 0};
+  const frame: SpatialOverlayFrame = {revision, available: !!grid, overflow: grid?.overflowCount ?? 0};
   if (!grid) return frame;
   if (options.cells) {
     const cells = new Map<string, {x: number; y: number; rgb: number}>();
@@ -44,10 +44,10 @@ export function collectSpatialOverlay(state: SimulationState, options: SpatialOv
     frame.cells = [...cells.values()];
   }
   if (options.envelopes) {
-    frame.envelopes = [];
+    frame.envelopes = []; frame.unboundedCreatures = 0;
     grid.inspectCreatureEnvelopes((bounds, certified, overflow) => {
       if (bounds) frame.envelopes!.push({bounds: {...bounds}, certified, overflow});
-      else frame.unboundedCreatures++;
+      else frame.unboundedCreatures!++;
     });
   }
   return frame;

@@ -66,7 +66,9 @@ test('independent OFF options do no inspection/initialization; per-option payloa
   grid.inspectCreatureEnvelopes = inspectEnvelopes;
   assert.equal(Object.hasOwn(collectSpatialOverlay(state,{cells:false,envelopes:true})!,'cells'),false);
   grid.matrix.inspectCells = inspectCells; grid.inspectCreatureEnvelopes = () => {throw new Error('envelope scan');};
-  assert.equal(Object.hasOwn(collectSpatialOverlay(state,{cells:true,envelopes:false})!,'envelopes'),false);
+  const cellsOnly = collectSpatialOverlay(state,{cells:true,envelopes:false})!;
+  assert.equal(Object.hasOwn(cellsOnly,'envelopes'),false);
+  assert.equal(Object.hasOwn(cellsOnly,'unboundedCreatures'),false);
   const detached = {...state}; assert.equal(getMaintainedGrid(detached),undefined);
   assert.equal(collectSpatialOverlay(detached,options)!.available,false);
   assert.equal(getMaintainedGrid(detached),undefined);

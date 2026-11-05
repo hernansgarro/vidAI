@@ -1305,10 +1305,12 @@ export default function App() {
     }
 
     // P6 observer diagnostics: after decoration, below all creature/glow layers.
-    const spatialOverlay = workerClientRef.current ? spatialOverlayRef.current
-      : collectSpatialOverlay(s, spatialOverlays);
-    drawSpatialOverlay(ctx, spatialOverlay, spatialOverlays, zoom,
-      {left: viewLeft, right: viewRight, top: viewTop, bottom: viewBottom});
+    if (spatialOverlays.cells || spatialOverlays.envelopes) {
+      const spatialOverlay = workerClientRef.current ? spatialOverlayRef.current
+        : collectSpatialOverlay(s, spatialOverlays);
+      drawSpatialOverlay(ctx, spatialOverlay, spatialOverlays, zoom,
+        {left: viewLeft, right: viewRight, top: viewTop, bottom: viewBottom});
+    }
 
     // Glow pass: every halo is behind every physical entity.
     for (const nut of s.nutrients) {
@@ -1721,7 +1723,7 @@ export default function App() {
         spatialOverlayRef.current = frame.spatialOverlay;
         const overlay = frame.spatialOverlay;
         setSpatialOverlayStatus(overlay.available
-          ? `Overflow entries: ${overlay.overflow}. Unbounded creature enclosures: ${overlay.unboundedCreatures}.`
+          ? `Overflow entries: ${overlay.overflow}.${overlay.unboundedCreatures === undefined ? '' : ` Unbounded creature enclosures: ${overlay.unboundedCreatures}.`}`
           : 'Maintained grid unavailable; no assignments reconstructed.');
       }
       for (const event of frame.diagnostics) diagnosticEvents.record(event);
@@ -2598,7 +2600,7 @@ export default function App() {
               {(spatialOverlays.cells || spatialOverlays.envelopes) && <p className="text-xs text-slate-400" role="status">
                 {workerClientRef.current ? spatialOverlayStatus : (() => {
                   const overlay = collectSpatialOverlay(simStateRef.current, spatialOverlays);
-                  return overlay?.available ? `Overflow entries: ${overlay.overflow}. Unbounded creature enclosures: ${overlay.unboundedCreatures}.`
+                  return overlay?.available ? `Overflow entries: ${overlay.overflow}.${overlay.unboundedCreatures === undefined ? '' : ` Unbounded creature enclosures: ${overlay.unboundedCreatures}.`}`
                     : 'Maintained grid unavailable; no assignments reconstructed.';
                 })()}</p>}
               <button type="button" disabled={gridAuditBusy} onClick={runGridAudit}
