@@ -319,7 +319,8 @@ or synchronization. Missing, extra, duplicate, misclassified, stale and wrong-ce
 entries produce bounded severity/subsystem/timestamp reports, with simulated
 time and useful identity/cell context. Legitimate P4 out-of-capacity, arithmetic
 and budget overflow entries remain unconditional candidates and pass validation.
-**P10.5 candidate on a topic branch; NOT yet integrated in testing.**
+**P10.5 contributor testing only; not an upstream release.**
+Integration/publication receipts are tracked in fork PR122.
 It logs original defects before attempting affected-record registration,
 relocation/removal and counter recovery. A fresh independent inspection verifies
 success, failure or unsafe repairs and logs counts. Repair never moves physical

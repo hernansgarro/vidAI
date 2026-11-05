@@ -184,3 +184,13 @@ test('invalid authoritative anatomy remains unsafe, physically unchanged and eli
   assert.deepEqual(createSnapshot(state,settings),before);
   assert.match(events.at(-1)!.message,/requesting authoritative 0x pause/);
 });
+
+test('explicit post-initialization anatomy edits refresh the coarse certificate even with the same parts array',()=>{
+  const state=createInitialWorld(settings,73,'balanced','standard',2);
+  stepSimulation(state,settings,1/60);
+  const parts=state.organisms[0].genome.parts;
+  editSpatialState(state,()=>{const def=parts[0];def.dimN=def.dimN===10?9:def.dimN+1;def.width=def.dimN*7;});
+  assert.equal(state.organisms[0].genome.parts,parts);
+  const result=auditWorldGrid(state);
+  assert.equal(result.issueCount,0,result.details.join('\n'));
+});

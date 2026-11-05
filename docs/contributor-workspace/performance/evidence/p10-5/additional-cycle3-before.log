@@ -1,0 +1,30 @@
+✖ explicit post-initialization anatomy edits refresh the coarse certificate even with the same parts array (14.472327ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 531.439582
+
+✖ failing tests:
+
+test at tests/incremental-grid.test.ts:1:11332
+✖ explicit post-initialization anatomy edits refresh the coarse certificate even with the same parts array (14.472327ms)
+  AssertionError [ERR_ASSERTION]: Stale bounds: organism[0] part=-1 id=ORG-908f68-3je25b; stored={"left":1230.2199604877928,"right":1338.2416955330973,"top":355.88818514314704,"bottom":463.9099201884515}, physical={"left":1227.426177078049,"right":1341.209287249745,"top":353.0963452657534,"bottom":466.8794554374494}.
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (/workspace/scratch/0833ce21abf8/vidAI/tests/incremental-grid.test.ts:195:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

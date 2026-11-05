@@ -1,6 +1,8 @@
-# P10.5 — incremental upkeep and audited repair (candidate validation)
+# P10.5 — incremental upkeep and audited repair
 
-**2026-11-05; fork topic branch only, NOT integrated or published in testing.**
+**2026-11-05; fork testing implementation, not upstream/main runtime.**
+Current review, integration and publication receipts are recorded in PR122;
+passing local checks alone do not authorize publication.
 Base: `hernansgarro/vidAI:testing` `de658fd90e48154cc83d6d4ea6c22a4f82f0afa1`.
 Branch: `feature/incremental-grid-p10-5`; [internal PR122](https://github.com/hernansgarro/vidAI/pull/122) targets `testing`.
 Scope registered before coding in [existing decision PR120](https://github.com/hernansgarro/vidAI/pull/120#issuecomment-6666008234).
@@ -247,3 +249,29 @@ Policy PR123 passed required validation42092465060 and merged into fork/main
 at f74de36902d39597c48d95ee4a7fdf809094ae75. Exactly AGENTS.md and the procedure
 changed; this is explicit owner-authorized policy documentation, not P10.5 runtime
 promotion. The original main-runtime restriction remains for P10.5 code.
+
+
+## Final external-edit correction (additional3 / overall5)
+
+Acceptance review found a real external API defect: legal in-place dimensions
+changed inside the same parts array retained the old cached coarse certificate
+when editSpatialState called full synchronization. New post-initialization
+regression reproduced one stale coarse bound (original failure retained).
+The full explicit synchronization boundary now invalidates the affected cached
+anatomy descriptor before re-registering the organism; ordinary pose/motion hooks
+retain their cache and unchanged equations. Focused3/3,705/705 fast, build and actual compiled Worker PASS.
+
+The complete detached-P10 comparison was repeated once for this concrete source
+change: all52 cases/353 complete states/301 ticks and100261 mechanical observations
+remain deeply and byte-identically equal, same575243d8... SHA256.
+See evidence/p10-5/final-equivalence.json. Existing historical references unchanged.
+The earlier bounded performance results belong to the exact retained probes
+before this final explicit-boundary invalidation; do not claim a new measurement
+of the final initialization/edit path. Steady per-tick hooks/call counts are
+unchanged, and no repeat performance campaign is authorized or performed.
+
+Three of FOUR additional correction cycles used; one remains. Zero unchanged
+manual retries. Prior head0eca21da validation42092805234 and locomotion42092805061
+PASS; browser42092805299 results are retained in PR122. The final changed head
+requires its own mandatory full gates before the authorized testing merge.
+The initial stop and failed evidence above remain historical, not erased.

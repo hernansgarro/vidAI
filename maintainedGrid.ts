@@ -211,7 +211,13 @@ export class MaintainedWorldGrid {
     this.generation++;
     this.state.nutrients.forEach((food, i) => this.syncFood(food, i));
     this.state.eggs.forEach((egg, i) => this.syncEgg(egg, i));
-    this.state.organisms.forEach((org, i) => this.syncOrganism(org, i));
+    this.state.organisms.forEach((org, i) => {
+      // Explicit edits may change legal dimensions inside the same parts array.
+      // Only this full boundary invalidates anatomy; normal pose hooks reuse it.
+      const record = (org as WithMemberships)[MEMBERSHIPS]?.get(this);
+      if (record) record.parts = undefined;
+      this.syncOrganism(org, i);
+    });
     for (const record of this.records) if (record.seen !== this.generation) this.forget(record);
     this.acceptRosterChanges();
   }
