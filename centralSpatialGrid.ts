@@ -75,6 +75,19 @@ export class CentralSpatialGrid<T> {
   get membershipCount(): number {return this.memberships;}
   get occupiedCellCount(): number {return this.occupied;}
 
+  /** Read-only P5 inspection: raw buckets, including corrupt categories, without
+   * query deduplication/stamps or geometry derived from membership handles. */
+  inspectCells(visit: (x: number, y: number, kind: string, entries: Iterable<GridEntry<T>>) => void): void {
+    for (let slot = 0; slot < this.cells.length; slot++) {
+      const cell = this.cells[slot];
+      if (!cell) continue;
+      const x = this.cellRange.left + slot % this.columns;
+      const y = this.cellRange.top + Math.floor(slot / this.columns);
+      for (const [kind, entries] of Object.entries(cell)) if (entries) visit(x, y, kind, entries);
+    }
+  }
+  owns(entry: GridEntry<T>): boolean {return entry?.[STATE]?.owner === this.owner;}
+
   createEntry(value: T, kind: GridKind): GridEntry<T> {
     kindCheck(kind); return GridEntry.create(value, this.owner, kind);
   }

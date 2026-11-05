@@ -1,3 +1,4 @@
+import {GridIntegrityObserver, type GridAuditDiagnostic} from './gridIntegrityAudit';
 import {disposeMaintainedGrid} from './maintainedGrid';
 import {setSelfTubes, type SelfTubes} from './selfTubes';
 import {EnergyActivityCollector, type EnergyActivityFrame} from './energyActivity';
@@ -22,6 +23,7 @@ type LiveOrganism = Omit<Organism, 'genome'> & {genomeKey: string};
 type LiveEgg = Omit<Egg, 'genome'> & {genomeKey: string};
 export interface RenderFrame {
   epoch: number; steps: number; events: string[];
+  diagnostics: GridAuditDiagnostic[];
   energyActivity: EnergyActivityFrame;
   genomes: Array<[string, Genome]>;
   lineage: Array<[string, Omit<LineageRecord, 'genome'> & {genomeKey: string}]>;
@@ -42,12 +44,20 @@ export class SimulationHost {
   private steps = 0;
   private events = new Set<string>();
 
+  private diagnostics: GridAuditDiagnostic[] = [];
+  private droppedDiagnostics = 0;
+  readonly gridAudit = new GridIntegrityObserver(event => {
+    if (this.diagnostics.length === 64) {this.diagnostics.shift(); this.droppedDiagnostics++;}
+    this.diagnostics.push(event);
+  });
+
   reset(snapshot: WorldSnapshot, epoch: number): void {
     const restored = restoreSnapshot(snapshot);
     this.lineageChanges?.dispose();
     if (this.state) disposeMaintainedGrid(this.state);
     this.state = restored.state; this.settings = restored.settings; this.epoch = epoch;
     this.energyActivity.clear();
+    this.gridAudit.schedule.reset(this.state.simTime);
     this.speed = 0; this.steps = 0; this.events.clear();
     this.genomeIds = new WeakMap(); this.nextGenome = 0;
     this.lineageChanges = watchLineage(this.state.lineage);
@@ -56,6 +66,7 @@ export class SimulationHost {
     stepSimulation(this.state, this.settings, 1 / 60, event => this.events.add(event), undefined, this.energyActivity.record);
     this.energyActivity.advance(this.state);
     this.steps++;
+    this.gridAudit.afterTick(this.state);
   }
   snapshot(metadata: Record<string, unknown> = {}): WorldSnapshot {
     return createSnapshot(this.state, this.settings, metadata);
@@ -119,7 +130,11 @@ export class SimulationHost {
       lineage.push([id, {...entry, genomeKey: key(genome)}]);
     }
     this.lineageChanges!.pending.clear();
-    const result = {epoch: this.epoch, steps: this.steps, events: [...this.events], genomes, lineage,
+    const diagnostics = this.diagnostics;
+    if (this.droppedDiagnostics) diagnostics.push({severity: 'warning', subsystem: 'grid-integrity',
+      message: `${this.droppedDiagnostics} older grid diagnostic events dropped while awaiting a frame.`});
+    this.diagnostics = []; this.droppedDiagnostics = 0;
+    const result = {diagnostics, epoch: this.epoch, steps: this.steps, events: [...this.events], genomes, lineage,
       energyActivity: this.energyActivity.frame(),
       state: {...rest, organisms: live, eggs: liveEggs}};
     this.steps = 0; this.events.clear();

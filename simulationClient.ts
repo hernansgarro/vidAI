@@ -48,6 +48,10 @@ export class SimulationClient {
       this.worker.postMessage({type, epoch: this.epoch, id, ...extra});
     });
   }
+  configureGridAudit(enabled: boolean): void {
+    this.worker.postMessage({type: 'grid-audit-config', epoch: this.epoch, enabled});
+  }
+  auditGrid(): Promise<number> {return this.request('grid-audit', {}) as Promise<number>;}
   action(action: WorldAction) { return this.request('action', {action}) as Promise<string | number | null>; }
   snapshot(metadata: Record<string, unknown> = {}) {
     return this.request('snapshot', {metadata}) as Promise<WorldSnapshot>;

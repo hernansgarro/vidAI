@@ -63,7 +63,7 @@ for (const fallback of [false, true]) test(`independent observer preferences, bo
   for (const selectAddedCreature of [false, true]) for (const trackSelectedCreature of [false, true]) {
     await upload(source); await expect(badge).toHaveCount(0);
     const advanced = await openAdvanced();
-    await expect(advanced.getByRole('checkbox')).toHaveCount(3);
+    await expect(advanced.getByRole('checkbox')).toHaveCount(4);
     await setChecked(advanced.getByLabel('Automatically select added creatures', {exact: true}), selectAddedCreature);
     await setChecked(advanced.getByLabel('Automatically track selected creatures', {exact: true}), trackSelectedCreature);
     const configured = await read();
@@ -315,4 +315,71 @@ test('diagnostic warning retains a real Worker initialization fallback', async (
   await console.getByLabel('Diagnostic severity').selectOption('warning');
   await expect(console.getByTestId('diagnostic-event')).toHaveCount(1);
   await expect(console.getByTestId('diagnostic-event')).toContainText('Worker unavailable; running simulation on the main thread.');
+});
+
+for (const fallback of [false, true]) test(`grid audit uses authoritative paused state and session-only opt-in (${fallback ? 'fallback' : 'Worker'})`, async ({page}) => {
+  await page.setViewportSize({width: 1280, height: 850});
+  await page.clock.install({time: new Date('2026-01-01T00:00:00Z')});
+  await page.clock.pauseAt(new Date('2026-01-02T00:00:00Z'));
+  const errors: string[] = []; page.on('pageerror', e => errors.push(e.message));
+  await page.goto(`./?autoplay${fallback ? '&mainthread' : ''}`);
+  await page.getByTitle('Ecology & Physical Settings').dispatchEvent('click');
+  const settings = page.getByTestId('settings-window');
+  const config = {...DEFAULT_SETTINGS, targetNutrients: 0, inflowRate: 0};
+  const state = createInitialWorld(config, 73, 'balanced', 'standard', 2);
+  // Valid saved separation exercises the unconditional candidate path.
+  state.organisms[0].segments.at(-1)!.x += 9000;
+  const source = createSnapshot(state, config);
+  const upload = async () => {
+    const canvas = page.getByLabel('Aquatic simulation');
+    const epoch = Number(await canvas.getAttribute('data-world-epoch'));
+    await settings.locator('input[type=file]').setInputFiles({name: 'grid-audit.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(source))});
+    // File.text() completes asynchronously. Wait for reset before exporting:
+    // an earlier export request can otherwise be cancelled by world replacement.
+    await expect(canvas).toHaveAttribute('data-world-epoch', String(epoch+1));
+    await expect(page.getByRole('button', {name: 'Resume', exact: true})).toBeVisible();
+  };
+  await upload();
+  await expect(page.getByRole('button', {name: 'Resume', exact: true})).toBeVisible();
+  const read = async () => {
+    const download = page.waitForEvent('download');
+    await settings.getByRole('button', {name: 'Export Snapshot', exact: true}).dispatchEvent('click');
+    return JSON.parse(await readFile((await (await download).path())!, 'utf8'));
+  };
+  await expect.poll(async () => (await read()).state).toEqual(source.state);
+  const before = await read();
+  await settings.getByRole('button', {name: 'Advanced Settings', exact: true}).dispatchEvent('click');
+  const advanced = page.getByRole('dialog', {name: 'Advanced Settings', exact: true});
+  const toggle = advanced.getByLabel('Periodic grid integrity audit (60 simulated seconds)', {exact: true});
+  await expect(toggle).not.toBeChecked();
+  await toggle.focus(); await page.keyboard.press('Space'); await expect(toggle).toBeChecked();
+  await expect(page.getByRole('button', {name: 'Resume', exact: true})).toBeVisible();
+  await advanced.getByRole('button', {name: 'Audit grid now', exact: true}).dispatchEvent('click');
+  const console = page.getByRole('region', {name: 'System diagnostics', exact: true});
+  await expect(console).toBeVisible();
+  await console.getByLabel('Diagnostic subsystem').selectOption('grid-integrity');
+  const rows = console.getByTestId('diagnostic-event');
+  await expect(rows).toHaveCount(1);
+  await expect(rows).toContainText('manual grid audit at t=0.000s: passed');
+  await expect(rows).toContainText('unconditional candidates');
+  await expect(rows.locator('time')).toHaveAttribute('datetime', /2026-01-02T/);
+  // Even a long paused wall-clock advance must not produce a periodic audit.
+  await page.clock.fastForward(61000);
+  await expect(rows).toHaveCount(1);
+  const after = await read(); expect(after.state).toEqual(before.state); expect(after.settings).toEqual(before.settings);
+  expect(after.metadata).toEqual(before.metadata);
+  await console.getByRole('button', {name: 'Back to advanced settings'}).dispatchEvent('click');
+  await expect(toggle).toBeChecked();
+  await upload(); await expect.poll(async () => (await read()).state).toEqual(source.state);
+  await expect(toggle).toBeChecked();
+  await toggle.dispatchEvent('click'); await expect(toggle).not.toBeChecked();
+  await advanced.getByRole('button', {name: 'Audit grid now', exact: true}).dispatchEvent('click');
+  await expect(console).toBeVisible(); await console.getByLabel('Diagnostic subsystem').selectOption('grid-integrity');
+  await expect(rows).toHaveCount(2);
+  await expect(rows.first()).toContainText('passed');
+  await page.setViewportSize({width: 375, height: 812}); await page.clock.runFor(32);
+  const box = (await advanced.boundingBox())!, tank = (await page.getByLabel('Aquatic simulation').boundingBox())!;
+  expect(box.x).toBeGreaterThanOrEqual(tank.x); expect(box.x+box.width).toBeLessThanOrEqual(tank.x+tank.width);
+  expect(box.y+box.height).toBeLessThanOrEqual(tank.y+tank.height);
+  expect(errors).toEqual([]);
 });

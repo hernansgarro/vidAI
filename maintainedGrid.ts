@@ -50,6 +50,14 @@ export class MaintainedWorldGrid {
   }
   get entryCount(): number {return this.records.size;}
   get overflowCount(): number {return this.overflow.size;}
+  /** Inspection never synchronizes, reclassifies, repairs or marks a query. */
+  inspectRecords(visit: (entry: GridEntry<WorldGridValue>, localMatches: boolean) => void): void {
+    for (const record of this.records) visit(record.entry,
+      (record.entry.value.entity as WithMemberships)[MEMBERSHIPS]?.get(this) === record);
+  }
+  inspectOverflow(visit: (entry: GridEntry<WorldGridValue>) => void): void {
+    for (const entry of this.overflow) visit(entry);
+  }
   private local(entity: Entity, view: GridView, kind: GridKind, sourceIndex: number, partIndex = -1, organism?: Organism): Local {
     if (this.disposed) throw new Error('Disposed maintained world grid');
     const e = entity as WithMemberships;

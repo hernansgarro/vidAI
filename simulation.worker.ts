@@ -37,7 +37,15 @@ port.onmessage = ({data}: MessageEvent) => {
       host.settings = {...data.settings, physicsRegime: host.settings.physicsRegime ?? 'legacy-v0'} as SimulationSettings; host.speed = data.speed;
       host.selected = data.selected; return;
     }
-    if (data.type === 'action') {
+    if (data.type === 'grid-audit-config') {
+      if (typeof data.enabled !== 'boolean') throw new Error('Expected boolean grid audit toggle');
+      host.gridAudit.schedule.setEnabled(data.enabled, host.state.simTime); return;
+    }
+    if (data.type === 'grid-audit') {
+      const result = host.gridAudit.audit(host.state);
+      dirty = true; sendFrame();
+      port.postMessage({type: 'result', id: data.id, epoch: host.epoch, value: result.issueCount});
+    } else if (data.type === 'action') {
       const value = host.action(data.action as WorldAction);
       dirty = true;
       sendFrame(); port.postMessage({type: 'result', id: data.id, epoch: host.epoch, value});

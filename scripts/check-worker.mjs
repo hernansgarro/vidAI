@@ -410,6 +410,39 @@ try {
     assert.match((await receive(value => value.id === -300 - epoch)).message, /Nutrient cycle/);
     assert.deepEqual(await request('snapshot', {}, epoch + 10), after);
   }
+  // P5: real Worker protocol, paused manual audit, opt-in simulated clock,
+  // bounded diagnostic frame delivery and exact continuation without auditing.
+  const auditSettings = {...DEFAULT_SETTINGS, targetNutrients: 0, inflowRate: 0};
+  const auditSource = createSnapshot(createInitialWorld(auditSettings, 51, 'balanced', 'standard', 0), auditSettings);
+  const auditEpoch = 301;
+  send({type: 'reset', snapshot: auditSource, epoch: auditEpoch});
+  let auditFrame = await receive(value => value.type === 'frame' && value.frame.epoch === auditEpoch);
+  assert.deepEqual(auditFrame.frame.diagnostics, []);
+  assert.equal(await request('grid-audit', {}, auditEpoch), 0);
+  assert.deepEqual(await request('snapshot', {}, auditEpoch), auditSource);
+  send({type: 'ack', epoch: auditEpoch});
+  auditFrame = await receive(value => value.type === 'frame' && value.frame.epoch === auditEpoch);
+  assert.equal(auditFrame.frame.diagnostics.length, 1);
+  assert.match(auditFrame.frame.diagnostics[0].message, /manual.*t=0.000s.*passed/);
+  send({type: 'grid-audit-config', epoch: auditEpoch, enabled: true});
+  send({type: 'ack', epoch: auditEpoch});
+  send({type: 'control', epoch: auditEpoch, settings: auditSettings, speed: 'max', selected: null});
+  do {
+    auditFrame = await receive(value => value.type === 'frame' && value.frame.epoch === auditEpoch);
+    send({type: 'ack', epoch: auditEpoch});
+  } while (!auditFrame.frame.diagnostics.some(e => /periodic/.test(e.message)));
+  send({type: 'control', epoch: auditEpoch, settings: auditSettings, speed: 0, selected: null});
+  const audited = await request('snapshot', {}, auditEpoch), auditDirect = restoreSnapshot(auditSource);
+  assert.ok(audited.state.simTime >= 60);
+  const auditTicks = Math.round(audited.state.simTime*60);
+  for (let i=0; i<auditTicks; i++) stepSimulation(auditDirect.state, auditDirect.settings, 1/60);
+  assert.deepEqual(audited, createSnapshot(auditDirect.state, auditDirect.settings));
+  send({type: 'reset', snapshot: auditSource, epoch: auditEpoch+1});
+  await receive(value => value.type === 'frame' && value.frame.epoch === auditEpoch+1);
+  send({type: 'grid-audit-config', epoch: auditEpoch+1, enabled: false});
+  assert.equal(await request('grid-audit', {}, auditEpoch+1), 0);
+  assert.deepEqual(await request('snapshot', {}, auditEpoch+1), auditSource);
+  console.log('Grid audit Worker: paused manual action/diagnostics, opt-in 60 simulated seconds, MAX, import/reset, disable and exact full-state/PRNG continuation passed.');
   console.log('Nutrient-cycle Worker: schema-18/19 tank/tube reset, 5x exact direct decay/mineralization/PRNG continuation, paused restoration and control-switch rejection passed.');
   console.log('Self-tube Worker: schema-17 reset, full-state L/R transfer, exact direct continuation, unchanged IDs/births/stock, paused closure and stale-command rejection passed.');
   console.log('Environment Worker: Harsh and independent Pipe time-zero empty food/full grant, Pipe 4600x2100 with zero topology, editable controls, exact direct continuation and snapshot reset passed.');
