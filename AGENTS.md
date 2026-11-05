@@ -1,3 +1,17 @@
+# Contributor testing feeding broadphase (P7, 2026-11-05)
+
+- On this testing branch, post-physics feeding uses P4 maintained whole-prey, egg
+  and combined nutrient/carrion views. Keep prey → egg → food priority, descending
+  current array ranks and every existing narrowphase/energy rule. Vision and
+  physical contacts remain on their original broadphases; no P8/P9/P10 work.
+- Owner explicitly accepts correcting the stale feeding-index omission when an
+  imported nutrient's radius increases after a bite. Use current radius, preserve
+  closed stock and document this continuation exception; never silently normalize
+  imports or add a cache to reproduce the omission. See
+  docs/contributor-workspace/performance/FEEDING_GRID_P7.md.
+- Preserve P4 unconditional overflow and P5 nonrepairing audits. Keep all prior
+  references and the new detached-P6 feeding controls. No speedup is established.
+
 # Contributor submission waves — clarified 2026-11-03
 
 - Federico/upstream maintainer policy governs how contributions are submitted.
@@ -357,8 +371,8 @@
   must be rebuilt after projection. Preserve original candidate/impulse order.
 - `spatialIndex.ts` indexes full physical AABBs and returns unique source-ordered
   ray-corridor/aperture candidates. Vision priority is food, eggs, body parts.
-  Feeding rebuilds from post-physics positions and keeps descending order;
-  food removal rebuilds before the next mouth, egg removal invalidates immediately.
+  Historical feeding rebuilt from post-physics positions and kept descending order;
+  this testing branch now uses maintained feeding views under P7 above.
   Never persist spatial scratch or reuse sight bounds after movement.
 - Clicking a creature opens general status only. Each explicit diagnostics
   opening resets graph pruning to 0.5 before rendering; graph pruning never

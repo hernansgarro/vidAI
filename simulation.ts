@@ -7,7 +7,6 @@ import {passiveConstraintScale, paidMotorBatch, usesPaidActuation, muscleParamet
 import {markLineageChanged} from './lineageChanges';
 import {compiledBrain, compiledDeltas, alignPlasticRecords, invalidateCompiledBrain} from './neuralRuntime';
 import {resolveBodyContacts} from './contacts';
-import {NutrientSightGrid} from './sightBroadphase';
 import {OrderedSpatialIndex, type SpatialBounds} from './spatialIndex';
 import {type EnergyPool, occupiedPopulation, eggEnergyRequirement, fundIncubatingEggs,
   initializeClosedEgg, EGG_LIFETIME_MULTIPLIER, FOOD_SAFETY_LIMIT} from './energyEconomy';
@@ -4110,10 +4109,8 @@ export function stepSimulation(
     returnedEnergy += totalBasalDissipation * paidFraction + frameMechanicalWork * (corrected ? 1 : paidFraction);
 
   }
-  // Feeding has its own post-movement index; sight bounds must never be reused.
-  const preyGrid = new OrderedSpatialIndex(organisms.map(other => bodyBounds(other.genome.parts, other.segments)));
-  let oralFoodGrid: NutrientSightGrid | undefined;
-  let oralEggGrid: OrderedSpatialIndex | undefined, oralEggCount = -1;
+  // P4 pose/lifecycle hooks have already synchronized post-physics membership.
+  // Each group keeps descending current source rank; exact feeding stays below.
   // Charge every active body's expenditure before any bites are exchanged.
   for (let index = active.length - 1; index >= 0; index--) {
     const org = active[index], g = org.genome;
@@ -4160,8 +4157,9 @@ export function stepSimulation(
       const left = Math.min(x1, x2) - mouthRadius, right = Math.max(x1, x2) + mouthRadius;
       const top = Math.min(y1, y2) - mouthRadius, bottom = Math.max(y1, y2) + mouthRadius;
       if (eatsMeat) {
-        for (const i of preyGrid.queryBounds(left, top, right, bottom).reverse()) {
+        for (const candidate of spatial.queryBounds({left, top, right, bottom}, ['organism'], true)) {
           if (!(canEat() || !feedback.contact)) break;
+          const i = candidate.value.sourceIndex;
           const prey = organisms[i];
           if (prey.id === org.id || prey.dissolving || (isKinshipProtected && areSiblings(org, prey))) continue;
           let contact = false, contactPart = -1;
@@ -4198,14 +4196,10 @@ export function stepSimulation(
             if (onEvent) onEvent('clash');
           }
         }
-        // Reproduction can append eggs between mouths; predation can remove them.
-        if (!oralEggGrid || oralEggCount !== eggs.length) {
-          oralEggGrid = new OrderedSpatialIndex(eggs.map(egg => ({
-            left: egg.x - 16, right: egg.x + 16, top: egg.y - 16, bottom: egg.y + 16})));
-          oralEggCount = eggs.length;
-        }
-        for (const i of oralEggGrid.queryBounds(left, top, right, bottom).reverse()) {
+        // Laying/removal hooks keep individual eggs and their current ranks live.
+        for (const candidate of spatial.queryBounds({left, top, right, bottom}, ['egg'], true)) {
           if (!(canEat() || !feedback.contact)) break;
+          const i = candidate.value.sourceIndex;
           const egg = eggs[i];
           if (isKinshipProtected && isEggKin(org, egg)) continue;
           if (distPointToSegment(egg.x, egg.y, x1, y1, x2, y2) > 16 + mouthRadius) continue;
@@ -4220,15 +4214,15 @@ export function stepSimulation(
             returnedEnergy += egg.fundedReserve + egg.fundedStructural;
             org.eggsPredated = (org.eggsPredated || 0) + 1;
             org.preyEaten++; org.foodEaten++;
-            spatial.remove(egg); eggs.splice(i, 1); spatial.refreshRanks('egg'); oralEggGrid = undefined;
+            spatial.remove(egg); eggs.splice(i, 1); spatial.refreshRanks('egg');
             if (onEvent) onEvent('clash');
           }
         }
       }
-      if (!oralFoodGrid || oralFoodGrid.nutrientCount !== nutrients.length)
-        oralFoodGrid = new NutrientSightGrid(nutrients);
-      for (const i of oralFoodGrid.queryBounds(left, top, right, bottom).reverse()) {
+      // Nutrients and carrion share the original collection/order, not two passes.
+      for (const candidate of spatial.queryBounds({left, top, right, bottom}, ['nutrient', 'carrion'], true)) {
         if (!(canEat() || !feedback.contact)) break;
+        const i = candidate.value.sourceIndex;
         const food = nutrients[i], carrion = food.kind === 'carrion';
         if (carrion ? !eatsMeat : !eatsPlants) continue;
         const reach = food.radius + intakeLength + mouthRadius;

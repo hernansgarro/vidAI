@@ -237,8 +237,7 @@ P1 adds `centralSpatialGrid.ts`, a typed, incrementally maintained matrix with
 fixed maximum-aquarium capacity, registration/relocation/removal, and unique
 conservative cell/bounds/ray candidates. P4 now maintains its membership in the
 authoritative simulation alongside the existing broadphases; their physical and
-sensory results remain unchanged. P5 adds optional integrity inspection; P6 adds optional observer overlays from its actual memberships. P4 retains explicit source-array/part ranks for later query
-migration. No speedup is claimed.
+sensory results remain unchanged. P7 now uses the maintained views for feeding, with the explicit imported-radius correction below. P5 adds optional integrity inspection; P6 adds optional observer overlays from its actual memberships. P4 retains explicit source-array/part ranks for ordered queries. No speedup is claimed.
 See the [P1 API, bounds and memory contract](https://github.com/hernansgarro/vidAI/blob/testing/docs/contributor-workspace/performance/CENTRAL_GRID_P1.md).
 This section describes the fork's testing work, not upstream shipped behavior;
 the actual Wiki is not published as part of this task.
@@ -300,8 +299,7 @@ Articulated bodies have no guaranteed finite lifetime radius under the current
 solver/import rules. Their conservative current-pose square is refreshed after
 movement. Entries outside fixed capacity or exceeding bounded membership storage
 remain explicit always-candidates, including arithmetic overflow; nothing is
-silently clipped or culled. Existing vision, feeding and contact queries still
-run unchanged. P5 now provides optional independent audits, without repair. P6 adds observer overlays; no
+silently clipped or culled. P7 now uses these views for feeding; vision and contact queries still run unchanged. P5 now provides optional independent audits, without repair. P6 adds observer overlays; no
 extra creature sense or measured speedup is introduced. See the [P4 contract](https://github.com/hernansgarro/vidAI/blob/testing/docs/contributor-workspace/performance/MAINTAINED_GRID_P4.md).
 
 
@@ -351,3 +349,21 @@ sight range is included. Disabled overlays skip collection and payloads; enabled
 data travels only in acknowledged render frames, outside physical snapshots and
 senses/brains/energy. Existing feeding/vision/contact broadphases are unchanged.
 See the [P6 contract](https://github.com/hernansgarro/vidAI/blob/testing/docs/contributor-workspace/performance/SPATIAL_OVERLAYS_P6.md).
+
+
+## Maintained feeding queries — contributor testing only
+
+**Fork testing only; not accepted or shipped upstream.** Post-physics feeding
+queries whole-organism prey, individual eggs and individual nutrient/carrion
+objects from the maintained grid. Each mouth keeps prey → eggs → combined food
+priority and descending current collection order. The old feeding indexes are
+no longer rebuilt. Exact contact, budget, assimilation and removal rules remain
+unchanged. Radius changes and collection edits are visible to subsequent mouths;
+overflow entries remain unconditional candidates. Optical and physical contact
+broadphases still use their existing implementations. No speedup is claimed.
+
+One explicit owner-approved correction affects imported food whose stored radius
+is smaller than the radius recomputed after a bite: a later mouth now finds its
+actual enlarged contact, which the old stale index could omit. Such a world's
+future trajectory can differ from P6. Other historical references remain intact.
+See [P7 ordering, safety and compatibility](https://github.com/hernansgarro/vidAI/blob/testing/docs/contributor-workspace/performance/FEEDING_GRID_P7.md).

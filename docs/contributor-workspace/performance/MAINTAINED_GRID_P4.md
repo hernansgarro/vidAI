@@ -134,5 +134,5 @@ Exact receipts, PR, final heads and publication checks belong in the internal PR
 No performance experiment or historical ecological trial is rerun.
 
 P5 now independently observes this membership; see [P5 contract](GRID_INTEGRITY_P5.md).
-P6 and query migration P7+ remain unimplemented. Source Wiki describes only
+P6 adds observer overlays. P7 now consumes these views for feeding only; see [P7 contract](FEEDING_GRID_P7.md). Optical/contact migration P8/P9 remains unimplemented. Source Wiki describes only
 fork-testing behavior; no actual upstream Wiki publication is authorized.
