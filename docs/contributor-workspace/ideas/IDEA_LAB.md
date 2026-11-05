@@ -31,6 +31,7 @@
 | — | [IDEA-024 · Preset initial zoom](#idea-024-world-preset-initial-zoom-and-framing) | — | — | — | — |
 | — | [IDEA-025 · Heritable per-eye ray subsets](#idea-025-heritable-per-eye-ray-subsets) | — | — | — | — |
 | — | [IDEA-026 · Chemical scents and olfaction](#idea-026-chemical-scents-olfaction-and-pheromone-traces) | — | — | — | — |
+| [IDEA-027 · Effective-speed audio cues](#idea-027-audio-cues-for-abrupt-effective-speed-changes) | — | — | — | — | — |
 
 **Completed work is not an active column.** [IDEA-001 — Pipe World](../tracking/CONTRIBUTOR_COMPLETED.md) was delivered to fork main via [PR #53](https://github.com/hernansgarro/vidAI/pull/53). [IDEA-012 — Retained window agreements during resizing](../tracking/CONTRIBUTOR_COMPLETED.md) was already implemented with local side-window/tube stages 1–3, as verified against code and automated tests on 2026-11-02. Both are recorded in the [completed-work register](../tracking/CONTRIBUTOR_COMPLETED.md). Their implementation in the fork does not authorize an upstream PR.
 
@@ -57,6 +58,7 @@ maintainer authority or authorizing work in another branch.
 | IDEA-011 — Portable organism state | High; remains deferred pending design |
 | IDEA-021 — Nutrient contact and ledge geometry | **Medium-high**; exploratory |
 | IDEA-022 — Nutrient-to-nutrient collisions | **Medium-high**; exploratory, independently scoped |
+| IDEA-027 — Audio cues for abrupt effective-speed changes | **Low**; potentially quick to implement, which may raise scheduling priority |
 
 
 **Egg-energy design prerequisite:** Before proposing changes to parental
@@ -266,6 +268,17 @@ or upstream contact is authorized by this note.
 - **Selected egg concept:** each egg's signature resembles the **future offspring's inherited three-channel signature**, shifted toward white with a positive R/G/B floor and FF cap. The whitening parameter is **undecided**.
 - **Representation:** `RRGGBBTT` fixes each circle's chemical signature; one declining intensity equals the observer's alpha TT **one-to-one**. No changing fragrance ratios during a pulse, no optical sense of odor. Exact observer alpha-overlap fidelity is intentionally deferred.
 - **Unresolved and safeguarded:** Emission/decay laws, counts/intensities, egg genetics timing, nose/gland inheritance, energy costs and persistence, spatial transport and CPU budgets. Do not implement until the [P0 performance audit](../performance/PERFORMANCE_AUDIT_PLAN.md) and separate bounded user decisions support it. Original design iterations remain in Git/PR history, not in the current spec.
+
+### IDEA-027: Audio cues for abrupt effective-speed changes
+
+- **State:** Ideas; captured 2026-11-05. **Personal priority: Low**, with potentially low implementation effort as a reason it could be scheduled earlier than other low-priority ideas. This is not implementation authorization.
+- **Intent:** Play a brief, futuristic engine-like sound when the **achieved/effective simulation speed** changes sharply, to alert an observer without continuously watching the speed indicator.
+- **Examples:** A sudden drop from roughly 3x to 0.5x should trigger a **descending pitch** (machine slowing down); a rise from roughly 0.5x to 3x should trigger an **ascending pitch** (engine accelerating). These are illustrative transitions, not chosen numerical thresholds.
+- **Motivation:** A sudden increase in effective speed may indicate a substantially lighter computational workload, for example when an aquarium loses all its creatures. The sound is an indirect performance/activity cue, not an authoritative cause diagnosis.
+- **Accepted latency:** Detection and playback may occur after the actual speed change; immediate synchronization is unnecessary.
+- **Open decisions:** Detect relative versus absolute change; minimum magnitude and sample window; debounce/cooldown for noisy fluctuations; whether playback is opt-in/mutable; browser audio permission and mute behavior; accessible non-audio alternative; sound design and volume.
+- **Guardrails:** Observer-only feedback based on measured effective speed, **not the user-selected speed setting**. No impact on Worker pacing, ticks, simulation state, physics, energy, deterministic saves, or ecological behavior. Avoid repeated sounds from ordinary small fluctuations.
+- **Implementation:** Not requested. No upstream issue, PR, or experiment authorized by this idea capture.
 
 ## Promotion boundaries
 
