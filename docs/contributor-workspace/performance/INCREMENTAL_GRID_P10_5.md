@@ -275,3 +275,36 @@ manual retries. Prior head0eca21da validation42092805234 and locomotion420928050
 PASS; browser42092805299 results are retained in PR122. The final changed head
 requires its own mandatory full gates before the authorized testing merge.
 The initial stop and failed evidence above remain historical, not erased.
+
+
+## Last authorized correction — additional4 / overall6
+
+Final source b618c557 required exact-head validate42094772293 and
+locomotion42094772102 PASS. Worker/browser42094772087 passed actual Worker,
+Firefox60/60,toolbar16/16 and side-window5/5. Chromium54/55 failed an inherited
+energy-glow pause-readiness assertion (job127481815976). The original failure
+and artifact13446014497 remain linked in PR122; a normalized failure excerpt is
+retained here. One permitted unchanged retry of that Chromium job was started;
+its outcome is recorded in PR122. No successful shard was manually rerun.
+
+The test's running predicate used cumulative color counts, so it could accept
+expired activity. A subsequent separate actionable Pause click could outlive a
+finite glow before the correct post-pause fresh-paint assertion. This is a
+concrete stale-evidence setup defect; the exact original run's timing cause is
+still an inference. Last correction records each real stroke's current canvas
+frame and requires BOTH colors in the current frame, then invokes the actual
+Pause button inside that same browser task. No synthetic activity, physical
+mutation, changed timeout/tolerance or weakened frozen-frame/path/alpha/width/
+zoom/import assertion. This strengthens the existing real-activity prerequisite.
+
+Also replace stale Advanced Settings prose saying reports never repair with the
+implemented log/attempt grid-only repair/verify behavior. Production simulation,
+energy presentation and save code are unchanged by this final correction. Local
+build/typecheck PASS; full final-head CI remains required. The Worker bundle is
+unchanged by the UI copy/harness correction. No new performance campaign or
+historical reference update is included.
+
+All FOUR additional correction cycles (SIX total) and the ONE unchanged retry
+are now used/allocated. No further cycle/retry is authorized. Stop on another
+unresolved mandatory failure, preserve evidence and do not integrate with red or
+unknown gates. Final acceptance/integration/publication receipts live in PR122.

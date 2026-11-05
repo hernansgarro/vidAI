@@ -8,8 +8,8 @@ test.setTimeout(60000);
 for (const fallback of [false, true]) test(`energy contour glows follow real body paths and freeze at x0 (${fallback ? 'fallback' : 'Worker'})`, async ({page}, info) => {
   const errors: string[] = []; page.on('pageerror', e => errors.push(e.message));
   await page.addInitScript(() => {
-    const capture = {frames: 0, skinFills: 0, bodyOverGlow: 0, totals: {green: 0, red: 0}, green: [] as Array<{alpha: number; path: number[]; at: number; scale: number; width: number}>,
-      red: [] as Array<{alpha: number; path: number[]; at: number; scale: number; width: number}>};
+    const capture = {frames: 0, skinFills: 0, bodyOverGlow: 0, totals: {green: 0, red: 0}, green: [] as Array<{alpha: number; path: number[]; at: number; frame: number; scale: number; width: number}>,
+      red: [] as Array<{alpha: number; path: number[]; at: number; frame: number; scale: number; width: number}>};
     Object.assign(window, {energyTintCapture: capture});
     const fillRect = CanvasRenderingContext2D.prototype.fillRect;
     CanvasRenderingContext2D.prototype.fillRect = function(...args) {
@@ -37,7 +37,7 @@ for (const fallback of [false, true]) test(`energy contour glows follow real bod
         pendingGlow.add(this);
         const alpha = Number(style.match(/([\d.]+)\)$/)![1]);
         capture.totals[color]++;
-        capture[color].push({width: this.lineWidth, alpha, path: paths.get(this) ?? [], at: performance.now(), scale: Math.hypot(this.getTransform().a, this.getTransform().b)});
+        capture[color].push({width: this.lineWidth, alpha, path: paths.get(this) ?? [], at: performance.now(), frame: capture.frames, scale: Math.hypot(this.getTransform().a, this.getTransform().b)});
         if (capture[color].length > 1000) capture[color].shift();
       }
       return originalStroke.apply(this, args);
@@ -67,13 +67,16 @@ for (const fallback of [false, true]) test(`energy contour glows follow real bod
   await page.evaluate(() => {const c = (window as any).energyTintCapture; c.green.length = c.red.length = c.totals.green = c.totals.red = 0;});
   await page.getByRole('button', {name: '1x', exact: true}).click();
   await expect.poll(() => page.evaluate(() => {
-    // Real finite feeding must paint both signals. A slow renderer can skip the
-    // short peaks; exact peak amplitudes are checked with a controlled clock in
-    // energy-activity.test.ts, including the actual glow drawing function.
-    const c = (window as any).energyTintCapture; return c.totals.green > 0 && c.totals.red > 0;
+    // Require BOTH real signals in the current painted frame, not cumulative
+    // counts left over from expired activity. Pause in this same browser task:
+    // another actionability wait/round trip can outlive a finite glow.
+    const c = (window as any).energyTintCapture;
+    if (c.green.at(-1)?.frame !== c.frames || c.red.at(-1)?.frame !== c.frames) return false;
+    const pause = [...document.querySelectorAll('button')].find(button => button.textContent?.trim() === 'Pause');
+    if (!pause || pause.disabled) return false;
+    pause.click(); return true;
   })).toBe(true);
   // Freeze while activity is ongoing; navigation/inspection remain available.
-  await page.getByRole('button', {name: 'Pause', exact: true}).click();
   await expect(page.getByRole('button', {name: 'Resume', exact: true})).toBeVisible();
   const sample = () => page.evaluate(() => {
     const c = (window as any).energyTintCapture;

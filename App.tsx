@@ -2592,7 +2592,7 @@ export default function App() {
                   onChange={e => setGridAuditEnabled(e.target.checked)}/>
                 <span>Periodic grid integrity audit (60 simulated seconds)</span>
               </label>
-              <p className="text-slate-400">Pauses stop the audit clock. Restart/import starts a fresh interval. Reports never repair the grid.</p>
+              <p className="text-slate-400">Pauses stop the audit clock. Restart/import starts a fresh interval. Audits log defects, attempt grid-only repairs and verify the result.</p>
               <label className="flex items-start gap-2 text-xs text-slate-200">
                 <input type="checkbox" className="mt-0.5 accent-blue-400" checked={spatialOverlays.cells}
                   onChange={e => setSpatialOverlays(p => ({...p, cells: e.target.checked}))}/>
