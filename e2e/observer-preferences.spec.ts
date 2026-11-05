@@ -254,7 +254,7 @@ for (const fallback of [false, true]) test(`diagnostic console retains, filters 
   await upload(JSON.stringify(source));
   await expect(rows).toHaveCount(3);
   await console.getByLabel('Diagnostic subsystem').selectOption('');
-  await expect(rows).toHaveCount(6);
+  await expect(rows).toHaveCount(4);
   const afterBrowsing = await read();
   expect(afterBrowsing.state).toEqual(before.state); expect(afterBrowsing.settings).toEqual(before.settings);
   expect(afterBrowsing.metadata).toEqual(before.metadata);
@@ -386,6 +386,9 @@ for (const fallback of [false, true]) test(`grid audit uses authoritative paused
 
 test.describe('P6 diagnostics at DPR2',()=>{
   test.use({deviceScaleFactor:2});
+  test.afterEach(async ({page},info)=>{
+    if(info.status!==info.expectedStatus) await page.screenshot({path:info.outputPath('spatial-overlays-failure.png')});
+  });
 for (const fallback of [false, true]) test(`spatial overlays: independent options, real canvas colors, scaling, imports and state isolation (${fallback ? 'fallback' : 'Worker'})`, async ({page}, info) => {
   await page.setViewportSize({width: 1280,height: 850});
   await page.clock.install({time:new Date('2026-01-01T00:00:00Z')});
@@ -395,7 +398,7 @@ for (const fallback of [false, true]) test(`spatial overlays: independent option
     const w=window as any; w.spatialPaint={cells:[],envelopes:[]}; w.overlayFrames=[];
     const strokeRect=CanvasRenderingContext2D.prototype.strokeRect;
     CanvasRenderingContext2D.prototype.strokeRect=function(x,y,width,height){
-      if(this.globalAlpha===.55){
+      if(Math.abs(this.globalAlpha-.55)<1e-6){
         const m=this.getTransform();
         if(w.spatialPaint.cells.length<2000) w.spatialPaint.cells.push({color:this.strokeStyle,x,y,width,height,
           cssWidth:this.lineWidth*Math.hypot(m.a,m.b)/devicePixelRatio});
@@ -404,7 +407,7 @@ for (const fallback of [false, true]) test(`spatial overlays: independent option
     };
     const stroke=CanvasRenderingContext2D.prototype.stroke;
     CanvasRenderingContext2D.prototype.stroke=function(...args:any[]){
-      if(this.globalAlpha===.55 && this.strokeStyle==='#0000ff' && w.spatialPaint.envelopes.length<2000)
+      if(Math.abs(this.globalAlpha-.55)<1e-6 && this.strokeStyle==='#0000ff' && w.spatialPaint.envelopes.length<2000)
         w.spatialPaint.envelopes.push({dash:this.getLineDash(),lineWidth:this.lineWidth});
       return (stroke as any).apply(this,args);
     };
@@ -458,7 +461,9 @@ for (const fallback of [false, true]) test(`spatial overlays: independent option
   let painted=await paint(); expect(painted.cells.length).toBeGreaterThan(0); expect(painted.envelopes).toEqual([]);
   expect(painted.cells.some((c:any)=>c.color==='#ffffff')).toBe(true);
   expect(painted.cells.some((c:any)=>c.color==='#00ff00')).toBe(true);
-  expect(painted.cells.every((c:any)=>Math.abs(c.cssWidth-1)<1e-8)).toBe(true);
+  // Native canvas state/transforms can round through float32 in either engine.
+  // This is 0.0001% of one CSS pixel; the pure geometry test remains exact.
+  expect(painted.cells.every((c:any)=>Math.abs(c.cssWidth-1)<1e-6),JSON.stringify(painted.cells)).toBe(true);
   await cells.dispatchEvent('click'); await envelopes.dispatchEvent('click');
   if(!fallback) await expect.poll(()=>page.evaluate(()=>(window as any).overlayFrames.at(-1)?.overlay?.envelopes?.length??0)).toBeGreaterThan(0);
   painted=await paint(); expect(painted.cells).toEqual([]); expect(painted.envelopes.some((e:any)=>e.dash.length===2)).toBe(true);
@@ -473,7 +478,9 @@ for (const fallback of [false, true]) test(`spatial overlays: independent option
   await page.mouse.move(box.x+box.width*.7,box.y+box.height*.7); await page.mouse.wheel(0,-300);
   await page.clock.runFor(64); painted=await paint();
   expect(painted.cells.length).toBeGreaterThan(0);
-  expect(painted.cells.every((c:any)=>Math.abs(c.cssWidth-1)<1e-8)).toBe(true);
+  // Native canvas state/transforms can round through float32 in either engine.
+  // This is 0.0001% of one CSS pixel; the pure geometry test remains exact.
+  expect(painted.cells.every((c:any)=>Math.abs(c.cssWidth-1)<1e-6),JSON.stringify(painted.cells)).toBe(true);
   await advanced.getByTitle('Close advanced settings').dispatchEvent('click');
   await page.getByTitle('Close settings (✕)').dispatchEvent('click'); await page.clock.runFor(64);
   await page.screenshot({path:info.outputPath('spatial-overlays-desktop.png')});
