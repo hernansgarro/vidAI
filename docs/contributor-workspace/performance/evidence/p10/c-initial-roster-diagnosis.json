@@ -1,0 +1,2 @@
+{"before":{"simTime":0,"expectedEntries":5,"overflowEntries":0,"issueCount":5,"details":["Missing food[0] part=-1.","Missing organism[0] part=-1.","Missing body-part[0] part=0.","Missing organism[1] part=-1.","Missing body-part[1] part=0."]}}
+{"after":{"simTime":0,"expectedEntries":5,"overflowEntries":0,"issueCount":0,"details":[]}}

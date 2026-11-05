@@ -1,0 +1,148 @@
+{
+  "node": "v24.22.1",
+  "platform": "linux",
+  "arch": "x64",
+  "scope": "Bounded local operation controls, not P11 or whole-game throughput. B uses actual unordered matrix/overflow traversal and frozen live geometry; original omits all downstream filtering (conservative sort-only lower bound), selected includes actual pure diet/reach predicate and compaction. Same fresh query collection is excluded from both. Durations are ms per1000 complete captured batches.",
+  "b": {
+    "small": {
+      "batches": 164,
+      "candidates": 773,
+      "retained": 494,
+      "oldComparisons": 9121000,
+      "newComparisons": 4396000,
+      "rounds": [
+        {
+          "original": 35.64307699999995,
+          "selected": 49.97339299999999
+        },
+        {
+          "original": 33.49788699999999,
+          "selected": 61.24557800000002
+        },
+        {
+          "original": 38.110454000000004,
+          "selected": 48.11688800000002
+        },
+        {
+          "original": 34.6138820000001,
+          "selected": 46.89600399999995
+        },
+        {
+          "original": 33.99752200000012,
+          "selected": 47.64386300000001
+        },
+        {
+          "original": 35.90862900000002,
+          "selected": 60.947668999999905
+        },
+        {
+          "original": 35.02934000000005,
+          "selected": 48.693228999999974
+        }
+      ]
+    },
+    "large": {
+      "batches": 4,
+      "candidates": 967,
+      "retained": 7,
+      "oldComparisons": 13468000,
+      "newComparisons": 21000,
+      "rounds": [
+        {
+          "original": 29.916226999999935,
+          "selected": 20.236024999999927
+        },
+        {
+          "original": 29.027284999999893,
+          "selected": 17.724872000000005
+        },
+        {
+          "original": 29.781533999999965,
+          "selected": 17.767295999999988
+        },
+        {
+          "original": 28.493829000000005,
+          "selected": 18.182583999999906
+        },
+        {
+          "original": 29.783046000000013,
+          "selected": 17.94823999999994
+        },
+        {
+          "original": 29.284362999999985,
+          "selected": 17.92412400000012
+        },
+        {
+          "original": 29.444625000000087,
+          "selected": 17.38226500000019
+        }
+      ]
+    }
+  },
+  "c": [
+    {
+      "freshMs": 6.156639000000041,
+      "cachedMs": 13.410854999999856,
+      "hits": 0,
+      "misses": 32,
+      "invalidations": 8336,
+      "maxEntries": 1,
+      "maxReferences": 1
+    },
+    {
+      "freshMs": 4.319434999999885,
+      "cachedMs": 8.938881000000038,
+      "hits": 0,
+      "misses": 32,
+      "invalidations": 8336,
+      "maxEntries": 1,
+      "maxReferences": 1
+    },
+    {
+      "freshMs": 6.187916000000087,
+      "cachedMs": 9.957024000000047,
+      "hits": 0,
+      "misses": 32,
+      "invalidations": 8336,
+      "maxEntries": 1,
+      "maxReferences": 1
+    },
+    {
+      "freshMs": 5.67520300000001,
+      "cachedMs": 13.391788000000133,
+      "hits": 0,
+      "misses": 32,
+      "invalidations": 8336,
+      "maxEntries": 1,
+      "maxReferences": 1
+    },
+    {
+      "freshMs": 4.7461490000000595,
+      "cachedMs": 7.425946000000067,
+      "hits": 0,
+      "misses": 32,
+      "invalidations": 8336,
+      "maxEntries": 1,
+      "maxReferences": 1
+    },
+    {
+      "freshMs": 3.614530000000059,
+      "cachedMs": 15.232026000000133,
+      "hits": 0,
+      "misses": 32,
+      "invalidations": 8336,
+      "maxEntries": 1,
+      "maxReferences": 1
+    },
+    {
+      "freshMs": 3.8509459999997944,
+      "cachedMs": 10.183771999999863,
+      "hits": 0,
+      "misses": 32,
+      "invalidations": 8336,
+      "maxEntries": 1,
+      "maxReferences": 1
+    }
+  ],
+  "sink": 16135200
+}

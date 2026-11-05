@@ -1,3 +1,4 @@
+import {p10FoodScene} from '../tests/support/p10-scenes';
 import {test, expect} from '@playwright/test';
 import {build} from 'vite';
 import {readFile} from 'node:fs/promises';
@@ -264,7 +265,7 @@ test(`maintained optics: exact ${name} state (${fallback?'fallback':'Worker'})`,
 });
 
 for (const fallback of [false,true])
-for (const name of ['branched','dense-boundary'])
+for (const name of ['branched','dense-boundary','food-cell-false-positives'])
 test(`maintained contacts: exact ${name} state (${fallback?'fallback':'Worker'})`,async({page})=>{
   test.setTimeout(120000);
   const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
@@ -301,7 +302,9 @@ test(`maintained contacts: exact ${name} state (${fallback?'fallback':'Worker'})
   };
   // Each mechanism has its own page/context: a burst of unrelated snapshot
   // downloads must not couple otherwise independent contact controls.
-    const source=await page.evaluate(name=>{
+    const source=name==='food-cell-false-positives'
+      ? createSnapshot(p10FoodScene('food-cell-false-positives').state,p10FoodScene('food-cell-false-positives').settings)
+      : await page.evaluate(name=>{
       const r=(window as any).scenarioReference,f=r.contactScene(name);
       return r.createSnapshot(f.state,f.settings);
     },name);
@@ -318,12 +321,13 @@ test(`maintained contacts: exact ${name} state (${fallback?'fallback':'Worker'})
     else await expect.poll(async()=>(await read()).state.simTime).toBeGreaterThan(source.state.simTime);
     await page.getByRole('button',{name:'Pause',exact:true}).dispatchEvent('click');
     const after=await read();expect(after.state.simTime).toBeGreaterThan(source.state.simTime);
-    const expected=await page.evaluate(({source,time})=>{
+    const expected=await page.evaluate(({source,time,unfiltered})=>{
       const r=(window as any).scenarioReference,f=r.restoreSnapshot(source);
+      if(unfiltered)r.disableP10FeedingFilter(f.state);
       const ticks=Math.round((time-source.state.simTime)*60);
       for(let i=0;i<ticks;i++)r.stepSimulation(f.state,f.settings,1/60);
       return {snapshot:r.createSnapshot(f.state,f.settings),issues:r.auditWorldGrid(f.state).issueCount};
-    },{source,time:after.state.simTime});
+    },{source,time:after.state.simTime,unfiltered:name==='food-cell-false-positives'});
     expect(after.state).toEqual(expected.snapshot.state);expect(expected.issues).toBe(0);
     expect((await read()).state).toEqual(after.state);
   expect(errors).toEqual([]);

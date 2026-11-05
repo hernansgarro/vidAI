@@ -55,7 +55,7 @@ test('live feeding queries preserve descending ranks and fresh legacy candidate 
       const old = entry?.cellRange; syncFood(food, index);
       if (old && entry?.cellRange && old.left !== entry.cellRange.left) shrinkCrossings++;
     };
-    grid.queryBounds = (q, kinds, descending) => {
+    grid.queryBounds = (q, kinds, descending, retain) => {
       assert.equal(auditWorldGrid(state).issueCount, 0, `${fixture.name}: before consumption, without repair`);
       // P9 contact queries share the grid; this oracle checks feeding order only.
       if (kinds?.length === 1 && kinds[0] === 'body-part') return query(q, kinds, descending);
@@ -80,7 +80,12 @@ test('live feeding queries preserve descending ranks and fresh legacy candidate 
         expected = [...new Set([...expected,...overflow])].sort((a,b)=>b-a);
         assert.deepEqual(ranks,expected,'individual food/egg views equal fresh legacy candidates plus overflow');
       }
-      return actual;
+      // Preserve the original unfiltered candidate oracle above. P10 may only
+      // reject with the supplied pure predicate and retain exact source order.
+      if (!retain) return actual;
+      const filtered = query(q, kinds, descending, retain);
+      assert.deepEqual(filtered, actual.length >= 128 ? actual.filter(retain) : actual);
+      return filtered;
     };
     for (let tick=0;tick<ticks;tick++) stepSimulation(state,settings,1/60);
   }

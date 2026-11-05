@@ -4199,7 +4199,15 @@ export function stepSimulation(
         }
       }
       // Nutrients and carrion share the original collection/order, not two passes.
-      for (const candidate of spatial.queryBounds({left, top, right, bottom}, ['nutrient', 'carrion'], true)) {
+      for (const candidate of spatial.queryBounds({left, top, right, bottom}, ['nutrient', 'carrion'], true, candidate => {
+        // Pure rejection before source-order sorting, for this mouth/group only.
+        // Transfers cannot move or resize OTHER food in this loop. Later mouths
+        // query again after every live radius/category/membership change.
+        const food = candidate.value.entity as Nutrient;
+        if (food.kind === 'carrion' ? !eatsMeat : !eatsPlants) return false;
+        const reach = food.radius + intakeLength + mouthRadius;
+        return !(Math.abs(food.x - cx) > reach || Math.abs(food.y - cy) > reach);
+      })) {
         if (!(canEat() || !feedback.contact)) break;
         const i = candidate.value.sourceIndex;
         const food = nutrients[i], carrion = food.kind === 'carrion';

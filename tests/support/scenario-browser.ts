@@ -8,3 +8,4 @@ export {restoreSnapshot} from '../../persistence';
 export {stepSimulation} from '../../simulation';
 export {auditWorldGrid} from '../../gridIntegrityAudit';
 export {contactScene} from './contact-scene';
+export {disableP10FeedingFilter} from './p10-browser';
