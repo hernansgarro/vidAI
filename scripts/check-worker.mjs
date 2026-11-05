@@ -1,6 +1,7 @@
 import {collectSpatialOverlay} from '../spatialDiagnostics.ts';
 import {cycleFixture, food as cycleFood} from '../tests/support/nutrient-cycle.ts';
 import {selfTubeFixture} from '../tests/support/self-tubes.ts';
+import {feedingGridCases} from '../tests/support/feeding-grid.ts';
 import assert from 'node:assert/strict';
 import {Worker} from 'node:worker_threads';
 import {readdir} from 'node:fs/promises';
@@ -484,6 +485,30 @@ try {
   send({type:'ack',epoch:overlayEpoch+1});
   overlayFrame=await receive(v=>v.type==='frame'&&v.frame.epoch===overlayEpoch+1);
   assert.equal(overlayFrame.frame.spatialOverlay.revision,revision);
+  // P7: real built Worker, valid imports, live post-physics feeding, P5 and
+  // complete authoritative continuation, including the approved radius fix.
+  const feedingCases = feedingGridCases().filter(f => ['overlap-capsule-v1-decay-v2-false',
+    'same-tick-shrink-cell-crossing', 'same-tick-laying'].includes(f.name)
+    || f.name.startsWith('imported-radius-growth'));
+  for (const [i, fixture] of feedingCases.entries()) {
+    const epoch = 501+i, source = createSnapshot(fixture.state,fixture.settings);
+    send({type:'reset',snapshot:source,epoch});
+    await receive(v=>v.type==='frame'&&v.frame.epoch===epoch);
+    assert.deepEqual(await request('snapshot',{},epoch),source);
+    send({type:'ack',epoch});
+    send({type:'control',epoch,settings:fixture.settings,speed:5,selected:null});
+    await receive(v=>v.type==='frame'&&v.frame.epoch===epoch&&v.frame.state.simTime>source.state.simTime);
+    send({type:'control',epoch,settings:fixture.settings,speed:0,selected:null});
+    const after=await request('snapshot',{},epoch), direct=restoreSnapshot(source);
+    const ticks=Math.round((after.state.simTime-source.state.simTime)*60); assert.ok(ticks>0);
+    for (let tick=0;tick<ticks;tick++) stepSimulation(direct.state,direct.settings,1/60);
+    assert.deepEqual(after,createSnapshot(direct.state,direct.settings),fixture.name);
+    assert.equal(await request('grid-audit',{},epoch),0,fixture.name);
+    send({type:'reset',snapshot:after,epoch:epoch+100});
+    await receive(v=>v.type==='frame'&&v.frame.epoch===epoch+100);
+    assert.deepEqual(await request('snapshot',{},epoch+100),after);
+  }
+  console.log('P7 feeding Worker: overlapping targets, shrink/removal, laying, accepted imported-radius growth, P5 audit, full snapshot/PRNG equivalence and paused reset passed.');
   console.log('Spatial overlays Worker: default payload omission, independent toggles, actual matrix/bounds readback, paused refresh, reset/stale epochs and exact full-state continuation passed.');
   console.log('Grid audit Worker: paused manual action/diagnostics, opt-in 60 simulated seconds, MAX, import/reset, disable and exact full-state/PRNG continuation passed.');
   console.log('Nutrient-cycle Worker: schema-18/19 tank/tube reset, 5x exact direct decay/mineralization/PRNG continuation, paused restoration and control-switch rejection passed.');

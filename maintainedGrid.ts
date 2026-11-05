@@ -35,7 +35,7 @@ function partBounds(org: Organism, index: number): SpatialBounds | null {
   return valid(b) ? b : null;
 }
 
-/** P4 shadow state. Consumers still use the historical broadphases.
+/** P4 maintained state. P7 feeding consumes its post-physics typed views.
  * Roster reconciliation scans source arrays, never clears/rebuilds the matrix.
  * Motion hooks relocate only moved entities; P1 owns every bucket mutation.
  * No audit, timer, repair mode, observer transfer or saved schema is added. */
@@ -174,7 +174,16 @@ export class MaintainedWorldGrid {
     return entries;
   }
   queryBounds(bounds: SpatialBounds, kinds: readonly GridKind[] = GRID_KINDS, descending = false): GridEntry<WorldGridValue>[] {
-    return this.ordered(this.matrix.queryBounds(bounds, kinds), kinds, descending);
+    // Imported finite poses can exceed safe cell coordinates. Clip the QUERY,
+    // never entity membership; overflow entries remain unconditional below.
+    // Unbounded mouth arithmetic cannot provide a safe exclusion region.
+    if (!valid(bounds)) return this.ordered([...this.records].map(r => r.entry)
+      .filter(e => e.registered && kinds.includes(e.kind)), kinds, descending);
+    const c = this.matrix.capacity;
+    const clipped = {left: Math.max(bounds.left, c.left), right: Math.min(bounds.right, c.right),
+      top: Math.max(bounds.top, c.top), bottom: Math.min(bounds.bottom, c.bottom)};
+    return this.ordered(clipped.left <= clipped.right && clipped.top <= clipped.bottom
+      ? this.matrix.queryBounds(clipped, kinds) : [], kinds, descending);
   }
   queryRay(x0: number, y0: number, x1: number, y1: number, kinds: readonly GridKind[] = GRID_KINDS): GridEntry<WorldGridValue>[] {
     return this.ordered(this.matrix.queryRay(x0, y0, x1, y1, kinds), kinds, false);
