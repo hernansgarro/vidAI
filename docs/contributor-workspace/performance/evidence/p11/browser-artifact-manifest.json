@@ -1,0 +1,94 @@
+{
+  "p11-browser/browser.json": {
+    "bytes": 670308,
+    "sha256": "a67127d1b6fbb3f0ba3d7bffd37620b09ce75e15c421b7a9bad8246275170a3f"
+  },
+  "p11-browser/pilot-main-dense--1.png": {
+    "bytes": 1241039,
+    "sha256": "b62e48545b479b1f991c6c0bde99fba8a0cb6d3c95aaaa4153a357420f0b4d6b"
+  },
+  "p11-browser/primary-main-adversarial-0.png": {
+    "bytes": 909662,
+    "sha256": "c436524916cd52967ece41cce6361ee1ed2b97d2ee748703e2bf0a98d5c8d1e7"
+  },
+  "p11-browser/pilot-testing-dense--1.png": {
+    "bytes": 1283610,
+    "sha256": "4006d9adb4a1e962b8697dc91123e3bfa79581164823b6f6985c90cdde8f82e8"
+  },
+  "p11-browser/primary-main-adversarial-1.png": {
+    "bytes": 909931,
+    "sha256": "14e0838a5425388026b205610c07d72f0c66c12cf195bbd94c3c5820fe60f394"
+  },
+  "p11-browser/primary-main-dense-0.png": {
+    "bytes": 1186576,
+    "sha256": "cf01e4fcbbb0b8a9a3335b84547ef0fb13fc4289afa99657bac17311ba891069"
+  },
+  "p11-browser/primary-main-dense-1.png": {
+    "bytes": 1182356,
+    "sha256": "a8a3b8d471a125c11c6f8f26785622f2de8e0d09a118ced060b37f431ad2308b"
+  },
+  "p11-browser/primary-main-empty-0.png": {
+    "bytes": 357911,
+    "sha256": "7bfd09441047cd7dffd8034aaf8bfb2b3af08ac0d9bc88404d5d52f5e6825bb9"
+  },
+  "p11-browser/primary-main-empty-1.png": {
+    "bytes": 358176,
+    "sha256": "0fd288453ef389221f8623a3f51bd5c5ded346c04c312b2d4f2b3adb1ec9c6ae"
+  },
+  "p11-browser/primary-main-moderate-0.png": {
+    "bytes": 921674,
+    "sha256": "13da180d918e468df458bdc056b629aea7d860c499865f69bd950e40ff6646d1"
+  },
+  "p11-browser/primary-main-moderate-1.png": {
+    "bytes": 925201,
+    "sha256": "bbf1647e66350a9c8978fe3ad308a84badcbb946b4327eaf0f8ef0834508dac2"
+  },
+  "p11-browser/primary-testing-adversarial-0.png": {
+    "bytes": 984042,
+    "sha256": "8d74a075de2eee0913ee75577fa24830369ef32428543e74f00562406c4f31a5"
+  },
+  "p11-browser/primary-testing-adversarial-1.png": {
+    "bytes": 983692,
+    "sha256": "7b864c40d84f1b150ed0f20fb2efb1dcfe61686591f9f5a02fab4d035a782ed4"
+  },
+  "p11-browser/primary-testing-dense-0.png": {
+    "bytes": 1214751,
+    "sha256": "c0894fcdba6f04f6150d5e574fc4823c553be641178565e141aa5c7a02ad3e65"
+  },
+  "p11-browser/primary-testing-dense-1.png": {
+    "bytes": 1225621,
+    "sha256": "b91eb1203879c5bc5f7dc9e2cfe886e42bbb2a1a9112080f189a4b5b68ff5623"
+  },
+  "p11-browser/primary-testing-empty-0.png": {
+    "bytes": 577308,
+    "sha256": "5f1f00ce3d3596ea5a5312a9b89c3f668519e6e94225eb1455747d21d364ae69"
+  },
+  "p11-browser/primary-testing-empty-1.png": {
+    "bytes": 606505,
+    "sha256": "cb9ae46baf64e3e1a6418f4a952f9e7bd117b753832f4e7dec0f9d52fb87780f"
+  },
+  "p11-browser/primary-testing-moderate-0.png": {
+    "bytes": 957151,
+    "sha256": "8ede165dd66fa20b59f5988490e4842ceff556c28f3828803f9bc06b1e1ba7b6"
+  },
+  "p11-browser/primary-testing-moderate-1.png": {
+    "bytes": 957614,
+    "sha256": "9ad51e43cdbb5d9ea8f2d9ceafbfac9831b9031fcafa61894c291eb5acdb2455"
+  },
+  "p11-browser/scenes/adversarial.json": {
+    "bytes": 3270389,
+    "sha256": "916f426724df1f9e347b566f8c53a9749efb9a1642db274150c173085cd48c72"
+  },
+  "p11-browser/scenes/dense.json": {
+    "bytes": 12657087,
+    "sha256": "37f63d41cb751ce0665270f6fc044471ca8ba8472ef95df12c2e1b3531216c02"
+  },
+  "p11-browser/scenes/empty.json": {
+    "bytes": 48579,
+    "sha256": "c9152338bfd637872f01d388f54d7777d934c0ecb13bd0460c11ccfc65ff7308"
+  },
+  "p11-browser/scenes/moderate.json": {
+    "bytes": 2375526,
+    "sha256": "01d3cc309340688e2c3f6dc2a5524fb379486bc8e448e3bee745ad7b0715e8f6"
+  }
+}

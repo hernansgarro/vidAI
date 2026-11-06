@@ -1,0 +1,80 @@
+{
+  "main": {
+    "commit": "f74de36902d39597c48d95ee4a7fdf809094ae75",
+    "files": {
+      "package-lock.json": {
+        "bytes": 96168,
+        "sha256": "12450a0271695e3542f0fdf21e5bf0cb5a19c48700f976b5dca8b5678cd66994"
+      },
+      "simulation.ts": {
+        "bytes": 192467,
+        "sha256": "0846437a3f54be8abdf7aaf52f5368eb398a65762f2d889df7a671a8ef66b63e"
+      },
+      "contacts.ts": {
+        "bytes": 9454,
+        "sha256": "ea9be05c5913006c6d6c6b1d2f4a22bc6a7c889d1a4df1cc956c8d3831c16cce"
+      },
+      "simulationHost.ts": {
+        "bytes": 7355,
+        "sha256": "801bda0009738bef014066b9650fedfd97e4b856e0af70e0426119178a971e86"
+      },
+      "simulation.worker.ts": {
+        "bytes": 4182,
+        "sha256": "50dcc968cf1b0a8a8ea496a5993c0d87992340e60e9c11c7f83fdae4db6bd6d0"
+      },
+      "simulationPerformance.ts": {
+        "bytes": 4146,
+        "sha256": "1f4a5b31e2c4ecbd84f26304da0928b15a52f6316b4a5bff197722b278248be7"
+      },
+      "SimulationPerformanceIndicator.tsx": {
+        "bytes": 4123,
+        "sha256": "b0232d0714547d5e9b0219c5ec698e5f31bfb9d40fb7d2dbc2e7eb76dd461b4e"
+      }
+    }
+  },
+  "testing": {
+    "commit": "b9cac9a5c47d97e023e3329ba3260f565b4f2a25",
+    "files": {
+      "package-lock.json": {
+        "bytes": 96168,
+        "sha256": "12450a0271695e3542f0fdf21e5bf0cb5a19c48700f976b5dca8b5678cd66994"
+      },
+      "simulation.ts": {
+        "bytes": 193088,
+        "sha256": "32b72f323894e83cf444329944f34e353608ed28b1bebd46c9c32a41a5f3ee5e"
+      },
+      "contacts.ts": {
+        "bytes": 9420,
+        "sha256": "5926735a8876d7ec6441458c362ee7907985a3e6ae6510bcde2416aead7d5dd0"
+      },
+      "simulationHost.ts": {
+        "bytes": 9083,
+        "sha256": "3bc502b9687bee7470aa9ab41d39b24f9ded30ff15393936e6eea615e525c392"
+      },
+      "simulation.worker.ts": {
+        "bytes": 5388,
+        "sha256": "9277d24b279e8ad1c4536ed35da604da1b9211566e86eeaebbcf956e2babc53e"
+      },
+      "maintainedGrid.ts": {
+        "bytes": 16417,
+        "sha256": "fbcf82296e904447c474d4eb11c109cf01059f64391a1c3065934af42e6498f4"
+      },
+      "centralSpatialGrid.ts": {
+        "bytes": 12501,
+        "sha256": "e270b37ce55115881eb6f7ad4fafffa7d6530dab43c6c834e17d534913974f6b"
+      },
+      "creatureEnvelope.ts": {
+        "bytes": 6466,
+        "sha256": "f6948e371c118f3ab86593c80ae7ea45865f8cfff83e8d7980913694bfdfd043"
+      },
+      "simulationPerformance.ts": {
+        "bytes": 4146,
+        "sha256": "1f4a5b31e2c4ecbd84f26304da0928b15a52f6316b4a5bff197722b278248be7"
+      },
+      "SimulationPerformanceIndicator.tsx": {
+        "bytes": 4123,
+        "sha256": "b0232d0714547d5e9b0219c5ec698e5f31bfb9d40fb7d2dbc2e7eb76dd461b4e"
+      }
+    }
+  }
+}

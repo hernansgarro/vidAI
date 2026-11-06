@@ -1,0 +1,66 @@
+{
+  "scenes/adversarial.json": {
+    "bytes": 3270389,
+    "sha256": "916f426724df1f9e347b566f8c53a9749efb9a1642db274150c173085cd48c72"
+  },
+  "scenes/dense.json": {
+    "bytes": 12657087,
+    "sha256": "37f63d41cb751ce0665270f6fc044471ca8ba8472ef95df12c2e1b3531216c02"
+  },
+  "scenes/empty.json": {
+    "bytes": 48579,
+    "sha256": "c9152338bfd637872f01d388f54d7777d934c0ecb13bd0460c11ccfc65ff7308"
+  },
+  "scenes/moderate.json": {
+    "bytes": 2375526,
+    "sha256": "01d3cc309340688e2c3f6dc2a5524fb379486bc8e448e3bee745ad7b0715e8f6"
+  },
+  "browser-install-failure.log": {
+    "bytes": 5062,
+    "sha256": "2460f3c50f133a9eee4766672e3f2bd57a7404b15bba0d5cd50280ad7a817317"
+  },
+  "build.log": {
+    "bytes": 1328,
+    "sha256": "bf8c44bffb167dbd06ec88032bc6a647f9f200668271c80c8cab5ee56de6d9f5"
+  },
+  "fast.log": {
+    "bytes": 102351,
+    "sha256": "4b816919d685a49276aa324d3357314de4b83eabcd6b97ddd17afb95039fce20"
+  },
+  "initial-scenes.tar.gz": {
+    "bytes": 7838260,
+    "sha256": "ea4aa7c37910146da14c7cac2dff50ed501909972992a6d3edb7ddcb39bd992e"
+  },
+  "main-false/probe.mjs": {
+    "bytes": 265931,
+    "sha256": "9bc6187ee2e8e670b942830b15afad9e5b3f241e5052d58286a8505816867a5c"
+  },
+  "pilot.json": {
+    "bytes": 8631,
+    "sha256": "e2670d41678e62b7c42a792b4893729405582227445c32fcb6e28736b1d688fd"
+  },
+  "pilot.log": {
+    "bytes": 3745,
+    "sha256": "bbf13f1f078d364d09affd219eab02adf8a9f73aca85c3920f3990200decd96a"
+  },
+  "primary.json": {
+    "bytes": 5589,
+    "sha256": "aced45824f19a28bb4663c4b2afc0dfdaa1170d30432506e46768fd163e3c100"
+  },
+  "primary.log": {
+    "bytes": 3097,
+    "sha256": "1de8e152e9aebf75cdfaa37112c31a00734782c398500575df5ccf0c46c9114b"
+  },
+  "scene-manifest.jsonl": {
+    "bytes": 333,
+    "sha256": "325c9440cd65d4035a44bcecf9b038636e9c95de7c68eea05b79e4f0352afcb7"
+  },
+  "testing-false/probe.mjs": {
+    "bytes": 297093,
+    "sha256": "0beb4b533baf9f019c38bb0552884ac40865fdce736799eb168ed87d45be964b"
+  },
+  "worker.log": {
+    "bytes": 2465,
+    "sha256": "e71a375687e9ddfe4bb4bd81b01d6eab9bb902d614f323000726b529f0c17295"
+  }
+}

@@ -23,3 +23,11 @@ Primary: elapsed ms, ms/tick, completed ticks/s, effective x=ticks/s/60; individ
 Secondary diagnostics: incremental sync calls/time, actual matrix relocate changes, query input/output/candidate rejection/dedup/sort where feasible, vision/feeding/physics/contact phases, transient allocations/heap/GC, optional P5 audit. Count full synchronizations/roster visits independently. Source inspect for equivalent replacement scans. Profiling estimates and nested inclusive times do not establish exclusive CPU or removable savings.
 Browser tick throughput includes pacing/transport/render competition; kernel throughput does not. Distinguish request speed, actual simulation progress and UI FPS. Population/part/food evolution and endpoint divergence constrain comparisons. Headless external edits use editSpatialState, explicit sync or hooks.
 No historical campaign repeated; Stage3.10–3.12 weighted allocation shares are not CPU percentages. No P12, main/testing runtime changes, promotion, upstream writes, scientific reruns or final owner visual acceptance.
+
+## Execution closeout (does not amend the preregistration)
+
+See [P11 report](P11_REPORT.md). Kernel primary stopped at slot6; no scientific
+rerun. Browser18/18 measurements retained, followed by failed process closure
+and cancelled workflow; focused browser checks skipped and orchestration budget
+exceeded. No numerical attribution/allocation campaign executed. Owner visual
+acceptance/P12 remain pending; no promotion recommended.

@@ -1,5 +1,14 @@
 # VIDA 2D — Maintained Spatial Grid, Ordered Queries, and Observer Diagnostics
 
+> **P11 checkpoint, 2026-11-05:** P0–P10.5 is published in fork testing at
+> `b9cac9a5c47d97e023e3329ba3260f565b4f2a25`; main remains original runtime at
+> `f74de36902d39597c48d95ee4a7fdf809094ae75`. The research-only
+> [P11 report](P11_REPORT.md) preserves a stopped/incomplete controlled comparison
+> and a substantial n1 moderate regression signal. No general speedup or P12
+> promotion is established; owner final visual acceptance remains pending.
+> The dated P0–P8 introduction below is historical, superseded by stage PRs and
+> this checkpoint; retain its original design decisions and prior evidence.
+
 > **Status (2026-11-04): fork-only design and implementation plan. P0/P1 are integrated into testing. P2 adds an isolated mass-weighted anatomy envelope and an explicit current-pose fallback; the existing solver/import rules provide no finite unconditional multi-part lifetime radius. See [P1 contract](CENTRAL_GRID_P1.md) and [P2 proof, API and limitation](CREATURE_ENVELOPE_P2.md). Integration/validation/publication receipts remain in the internal PRs. P4 maintains authoritative shadow membership without replacing existing queries; see [P4 ownership, synchronization and overflow contract](MAINTAINED_GRID_P4.md). No measured improvement, upstream acceptance or production-promotion authorization. P3 adds a bounded observer-only console under Advanced Settings; see [P3 contract](DIAGNOSTICS_CONSOLE_P3.md). P5 adds independent nonrepairing integrity inspection, manual action and OFF-by-default 60-simulated-second audits; see [P5 contract](GRID_INTEGRITY_P5.md). P6 adds optional actual-membership cell outlines and actual P4 creature enclosures; see [P6 observer contract](SPATIAL_OVERLAYS_P6.md). P7 migrates only post-physics feeding to the maintained views; see [P7 ordering, compatibility decision and evidence](FEEDING_GRID_P7.md). P8 migrates optical food/egg/part queries; see [phase, ordering and disclosed capped-carrion continuation difference](OPTICAL_GRID_P8.md). P9+ remains unimplemented.**
 >
 > **Owner intent:** keep this design in `hernansgarro/vidAI:main`; after design review, refresh the fork's `testing` branch from fork `main` while preserving its independent testing overlay and historical experiment identity, then implement and manually inspect there. No experimental performance batch is a prerequisite. Automated correctness/regression tests remain mandatory. Compare against untouched `main` after the implementation is usable. No upstream PR or upstream merge is authorized.

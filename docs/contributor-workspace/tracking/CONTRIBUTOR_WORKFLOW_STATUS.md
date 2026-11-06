@@ -33,6 +33,13 @@ the historical records. No new upstream submission is authorized.
 
 ## Current personal planning
 
+- **Maintained grid P11 (2026-11-05):** testing P0–P10.5 published; research
+  [PR124](https://github.com/hernansgarro/vidAI/pull/124) stays unmerged.
+  [Evaluation report](../performance/P11_REPORT.md) records a stopped primary lot
+  and incomplete adverse evidence. Further causal experiments need a separate
+  bounded authorization; final owner visual acceptance and P12 decision pending.
+  No main runtime integration or upstream submission is authorized.
+
 - **P0 / IDEA-023 performance audit:** research and measurement are the user's highest personal priority. The [active four-stage audit plan](../performance/PERFORMANCE_AUDIT_PLAN.md) sets the **current 2026-11-03 throughput target** (populated running simulation, MAX capacity, caustics OFF, minimal observer load). [Stage 2 hypotheses](../performance/PERFORMANCE_AUDIT_STAGE_2.md) and [owner-selected measurement priorities](../performance/PERFORMANCE_AUDIT_PRIORITIES.md) are preserved. The plan references bounded Stage 3 evidence/receipts; **do not infer completed Stage 4 synthesis or authorization to optimize**. Check exact current protocol/evidence before continuing a trial. The old 2026-11-02 'no Stage 3 run' summary is not a current gate.
 - **Other unfinished ideas:** statuses, individual priorities, unknowns and blockers are maintained **only in [IDEA_LAB.md](../ideas/IDEA_LAB.md)**. In particular IDEA-008 is High; IDEA-021/022 are Medium-high; IDEA-010 remote aquariums and IDEA-011 portable living state remain deferred. IDEA-012 local agreement retention is already completed. IDEA-026 scent design is captured but not approved to implement.
 - **Implementation boundaries:** No new code, experiments or upstream proposal is authorized merely by personal notes. The fork's completed work does not silently expand the upstream accepted scope.
