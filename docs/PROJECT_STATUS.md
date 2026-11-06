@@ -1,5 +1,3 @@
-# Maintained spatial grid — contributor testing checkpoint (2026-11-05)
-
 # Maintained grid — verified P0–P11 fork checkpoint (2026-11-05)
 
 The [fork implementation ledger](contributor-workspace/performance/MAINTAINED_GRID_IMPLEMENTATION_STATUS.md)
@@ -41,7 +39,7 @@ authorize a bounded causal study separately before any experiment or P12.
 
 ---
 
-
+## Historical P9-era checkpoint (superseded above)
 
 The fork-only [maintained-grid implementation status](contributor-workspace/performance/MAINTAINED_GRID_IMPLEMENTATION_STATUS.md)
 records all **P0–P9** verified fork `testing` merges, the final P9 testing head
