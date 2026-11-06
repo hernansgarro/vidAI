@@ -1,0 +1,65 @@
+# P11.1 — Spatial design fundamentals and hierarchical/hybrid broadphase
+
+> **Owner-requested fork-main design checkpoint, 2026-11-05.** Proposed investigation after the **incomplete, adverse P11 evaluation**; not an implementation authorization, a new scientific budget, or a production/upstream promotion. Canonical tracking remains upstream [#67](https://github.com/smeagol44/vidAI/issues/67) and [#57](https://github.com/smeagol44/vidAI/issues/57). Keep [P11 research PR #124](https://github.com/hernansgarro/vidAI/pull/124) open and **unmerged**; its original evidence is immutable. Read the [implementation status](MAINTAINED_GRID_IMPLEMENTATION_STATUS.md), [original design](MAINTAINED_SPATIAL_GRID_DESIGN.md) and [P11 report](https://github.com/hernansgarro/vidAI/blob/8b08c3b3cc049abb91c1b496ba5cf13596959aa5/docs/contributor-workspace/performance/P11_REPORT.md) before new work.
+
+## Motivation and evidence boundary
+
+The owner favors preserving a central incrementally maintained grid but rethinking its **granularity and update schedule**, rather than abandoning the idea after P11. In P11, one same-initial-and-final-state moderate fixed-tick pair measured `main` 275.648 TPS versus `testing` 104.126 TPS (**-62.22% throughput**); the registered three-pair criterion was not met. Browser populated comparisons were also adverse but used equal wall time and unequal simulated progress/populations. The dense fixed-tick slot timed out; further phase, allocation and audit-cost measurements did not run. **No function-specific CPU cause is established.** P10.5's prior relative improvement versus P10 does **not** establish an improvement versus `main`.
+
+The owner separately reported a favorable manual post-P10.5 impression in dense scenes, successful **+ Vida** spawning and creature transfers through connected tubes, and approximately ten clean 60-s-simulated-time grid audits with **no repair or unexpected pause** (about 36,000 ticks if ten complete intervals). These observations are not reproducible throughput data, do not prove there were no intermediate defects and do not exercise the repair path. Retain them as owner-reported visual/functional evidence, alongside the adverse quantitative P11 results. Owner final visual approval and P12 remain pending.
+
+## What is already implemented, and what still repeats
+
+- `creatureEnvelope.ts::calculateCreatureEnvelope` computes the anatomy descriptor on first/new anatomy and **caches it**. This is **not** an anatomy-tree recalculation on every movement. The separate `encloseCreaturePose` computes a **current-pose** center and radius by scanning segment centers, because current joints/import rules provide no provable finite lifetime gap bound.
+- `maintainedGrid.ts::syncOrganism` refreshes **both** coarse organism enclosure and every part's bounds. `contacts.ts::resolveBodyContacts` invokes `syncTrackedOrganism` for **both bodies after each positional pair correction**, and joint projection also triggers organism-wide synchronization. These are **source-supported repeated operations**, not measured performance attribution.
+- Grid `partBounds` constructs all four rectangle corner points, whereas the contact wrapper separately derives rectangle AABBs from center, width/height and `abs(sin/cos)`. The duplicate-looking geometry and temporary allocations warrant a low-overhead call-count/reuse study, not an unproven speedup claim.
+- The matrix already skips mutations when an entry retains exactly the same cell range/kind; the bounds, geometry and validity calculations upstream can still cost time. Main's previous transient contact index also reused buckets/generation stamps, so “rebuilt” never implied an entirely naive fresh allocation each pass.
+- Existing consumers differ: optics queries individual parts, feeding queries whole creatures and contacts query individual parts. Sequential solver/contact order, optical edge/tie order and feeding receipt order are behavioral contracts.
+
+## Owner proposals to study, not accepted code changes
+
+### 1. Coarse enclosure centered on actual body geometry
+
+**Center preference:** the creature's **geometric center**, ideally its **center of mass (COM)** if an already-computed COM can be reused cheaply. If repeated center calculation costs too much, choose **at birth** the module whose center is closest to the anatomical/geometric center and thereafter use **that selected module's current center**. **Do not default to the root/main part**, which may be at one end of a long or branched body.
+
+Define “geometric center” precisely: bounding-box center, centroid of segment centers, area-weighted geometric centroid and mass COM differ. Measure whether a trustworthy current COM is available from an existing physics loop without an extra complete scan. The choice of central reference module must be deterministic and reconsidered after anatomical change/import; its center is not necessarily the geometric center of a later pose.
+
+**Radius preference:** compute a sufficiently generous anatomy-based radius once at birth/anatomy change and ordinarily update only the center. The current P2 proof establishes an ideal anatomical bound but **not** a finite lifetime bound for any allowed pose: the finite-iteration solver tries to restore joints but does not guarantee a maximum anchor gap; historically imported bodies may already be separated. Study a provable bound, an event-driven expansion/breach test piggybacking on existing physics loops, and an explicitly **best-effort** fixed radius with documented risk.
+
+The owner is willing to discuss rare missed spatial interactions to avoid costly repeated bounds calculations. This is a **potential new behavioral tradeoff**, **not** automatic permission to sacrifice exact physics/sight. A geometrically undersized shape can create false negatives that a periodic membership audit cannot necessarily detect or undo. Before implementation identify whether the design is mathematically conservative or intentionally approximate; request separate owner approval for deviations from exact-state/interaction equivalence. Do not retune joints, add propulsion or modify physics to obtain a tighter guarantee.
+
+### 2. Compare a circle with an axis-aligned square
+
+If the circle is comparably cheap, the owner **prefers a circle** as a possibly tighter coarse rejector. A center/radius describes either a circle or a circumscribed square cheaply. **Crucial qualification:** the maintained matrix currently stores **axis-aligned cell ranges**; indexing the circle through its AABB occupies the **same cell range** as the square, so a circle **alone** does not save cell memberships. A circle-vs-ray or circle-vs-AABB test *after* grid lookup may filter more candidates; exact disk-vs-cell registration may reduce cells but introduces overlap checks, tangency/slack and update cost. A long, asymmetric or branched creature may make a circle unusually broad. Compare total work and false positives, not just visual geometric tightness; ellipses/capsules are distinct unapproved options.
+
+### 3. Two-level physical and optical queries; option 2 or 3
+
+**Option 2 — hierarchical:** maintain coarse creature entries, nutrient/carrion entries and eggs in the global grid. Use coarse creature-pair overlap to find potential physical interactions, and only then compute part bounds/exact contacts for relevant creatures. For vision, first test the ray against each candidate creature's coarse envelope, then compute/test its parts only when the coarse test allows a hit. Retain live precise rays, pigment, feeding, rotations, impulses and ordered effects.
+
+**Option 3 — hybrid (preferred investigation):** keep the coarse maintained grid; materialize **part geometry on demand**, with possible phase-local part spatial indexing if coarse candidate sets become huge. Optics and contact may consume different phase-local representations. Geometry should be produced for candidates and reused across queries in an unchanged pose, not maintained as global per-part grid membership after every movement by default. Study sparse and high-overlap cases: a large coarse envelope can cause many part-by-part false positives and make this worse than the current maintained-part index.
+
+**Self-collision safeguard:** the existing solver supports contacts between **non-adjacent parts of the same organism**. A gate that only selects *pairs of distinct creatures* must not drop those intra-creature contacts. Preserve all current exclusions (connected parent/child pairs), stable contact resolution order, substeps, solver iteration counts, precise optics, nutrient growth, energy/genetics/learning and historical snapshot behavior.
+
+### 4. Geometry cache per creature, invalidated by actual mutation
+
+Explore an ephemeral cache keyed by organism **object identity** and a pose/anatomy version, optionally per-part versions. Cache current per-part AABBs/corners/rotations **only when requested**, and reuse within subsequent optical/contact queries while the source pose is unchanged. Invalidate on **each** position/angle change, including multiple corrections and joint projections **within the same tick**, and after tube transfer, resize/topology edit, import/world replacement/disposal. A tick number alone does not ensure validity. Report hit/miss/invalidation/recomputation counts and cache housekeeping cost; no reuse benefit is guaranteed when contacts continually move the organism.
+
+This is **not** P10's rejected cache of complete candidate *query results*, which had zero hits and higher cost in that measured prototype. Its result neither validates nor disproves a per-creature **geometry** cache.
+
+### 5. Stationary nutrients/carrion: membership work only when relevant
+
+The owner prefers skipping spatial-membership reevaluation for a nutrient **truly at rest**, with its complete footprint well within its current registered cells and no interaction, despite gradual dissolution. Any gravity sign/direction change, tube closure/opening, reposition, wall or tube projection, eating, carrion merge/growth, kind/radius threshold change, import/reset or other physical movement must wake/recertify it.
+
+A nutrient occupies all cells intersecting its **current center-plus-radius footprint**, not just the cell containing its center. Shrinkage can preserve its cell range for many ticks; a threshold crossing or growth can require a real membership update. **Physical radius and energy still change**: precise sight/feeding/contact must use live values even if grid membership is skipped. Study a cheap event-driven/threshold certificate instead of a blanket “stationary forever” flag, and verify whether the actual physics allows long stretches of exact zero movement.
+
+**P5 exactness constraint:** the current integrity auditor checks exact cell occupancy. Keeping obsolete extra memberships after shrinkage (“overindexing”) could avoid missed candidates but **would report as an inconsistency** and trigger recovery. Prefer preserving exact ranges via a known cell-boundary threshold, or obtain a separate explicit owner decision to change P5's contract to accept a bounded conservative superset. Never silently suppress audit findings or disable decay/physics.
+
+## Scope and proof gates for P11.1
+
+1. **Static/callsite audit first:** inventory phase consumers and updates (including Worker, paused edits, imports, tubes, headless and P5/P6). Distinguish immutable anatomy descriptors from recomputed pose, contact wrappers, matrix bucket mutations and exact geometry.
+2. **Prove feasibility:** define coarse center and fixed radius, circle-vs-square cell and ray criteria, broadphase candidate ordering, intrabody contacts and cache invalidation. Record where exact equivalence is possible and where a rare-error acceptance would be needed.
+3. **Only after a new bounded owner authorization**, preregister instrumentation/trials with immutable heads, valid same-world comparisons, cost and observer-overhead controls and original-data preservation. Count whole-organism sync calls, parts processed, real cell changes, candidate/false-positive rates, per-part geometric recomputation, cache hits and CPU costs. Do **not** rerun the stopped P11 lot or its lost dense slot under the old budget.
+4. Evaluate one isolated mechanism at a time against P10.5, contrasting the hierarchical and hybrid options. Preserve exact complete-state, physical and ordered-effect equality until a specific, separately approved semantics change. No silent baseline/physics tuning.
+5. Report tradeoffs in sparse, moderately populated, high-density/long/branched, and tube-related cases; quantify performance before proposing a `testing` implementation. This document authorizes **documentation only**; no runtime merge, experimental campaign, P12 or upstream submission.
+
+**State:** owner hypotheses captured; source review supports reasons to investigate but has **not** measured their causal cost or approved any new behavior. P11 remains incomplete with an adverse signal; no promotion is recommended until the owner separately decides next steps.
