@@ -15,8 +15,10 @@
 | [Worker research handoff](performance/WORKER_HOTPATH_RESEARCH_HANDOFF.md) | Current Stage3 checkpoint, verified evidence, safeguards and next bounded-lot requirements |
 | [Performance priorities](performance/PERFORMANCE_AUDIT_PRIORITIES.md) | Historical technical hypotheses and current owner priority overrides |
 | [Maintained spatial grid design](performance/MAINTAINED_SPATIAL_GRID_DESIGN.md) | Source-backed design and dependency-ordered P0–P12 plan; check the separate implementation status for actual deliveries |
-| [Maintained-grid implementation status](performance/MAINTAINED_GRID_IMPLEMENTATION_STATUS.md) | Verified P0–P9 fork testing merges/publication, correction boundaries and pending next stages |
-| [Pre-P11 residual-grid source review](performance/SPATIAL_GRID_PRE_P11_REVIEW.md) | Static inventory of obsolete broadphase remnants, repeated roster reconciliation and empty-world MAX indicator; proposed bounded P10.5 checkpoint, **not** measured slowdown |
+| [Maintained-grid implementation status](performance/MAINTAINED_GRID_IMPLEMENTATION_STATUS.md) | **Current** fork P0–P10.5 merges/publication; P11 adverse/incomplete evidence, owner observations and promotion stop; older P9-era details retained as history |
+| [P11.1 hierarchical/hybrid design review](performance/SPATIAL_GRID_P11_1_ARCHITECTURE_REVIEW.md) | Owner's center/radius/circle, coarse-first optics and contacts, pose-versioned per-part geometry cache, stationary nutrient thresholds and explicit correctness gates; **proposal only** |
+| [P11 original incomplete report (unmerged research PR #124)](https://github.com/hernansgarro/vidAI/blob/8b08c3b3cc049abb91c1b496ba5cf13596959aa5/docs/contributor-workspace/performance/P11_REPORT.md) | Fixed-tick and browser adverse observations, methodology limits and preserved stopped-lot evidence; **not** a completed causal diagnosis |
+| [Historical pre-P11 source review](performance/SPATIAL_GRID_PRE_P11_REVIEW.md) | Dated P9 review of residual reconciliation, followed by P10.5 owner decision; **superseded as operational state** by current implementation ledger |
 | [ChatGPT conversation continuity incident](tracking/CHATGPT_WORK_CONTINUITY_2026-11-05.md) | Temporary/unresolved chat access symptoms, privacy-preserving evidence limits and recovery procedure |
 | [Stage 2 evidence](performance/PERFORMANCE_AUDIT_STAGE_2.md) | Pinned source-based performance cost model; not measured proof |
 | [Verified contributor deliveries](tracking/CONTRIBUTOR_COMPLETED.md) | Fork implementations and upstream acceptance boundaries |
