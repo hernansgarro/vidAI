@@ -1,6 +1,8 @@
 # Maintained-grid residual work — pre-P11 source-review checkpoint
 
-> **Historical P9 source review / P10.5 decision; superseded operationally.** P10.5 was subsequently **implemented and published** on fork `testing` in [PR #122](https://github.com/hernansgarro/vidAI/pull/122), and P11 later stopped with adverse/incomplete evidence in [draft PR #124](https://github.com/hernansgarro/vidAI/pull/124). Read the [current through-P11 implementation ledger](MAINTAINED_GRID_IMPLEMENTATION_STATUS.md) and [proposed P11.1 design review](SPATIAL_GRID_P11_1_ARCHITECTURE_REVIEW.md). The older “P10 active/not started” language below is **historical**, not a current recommendation or statement of state.\n\n
+> **Historical P9 source review / P10.5 decision; superseded operationally.** P10.5 was subsequently **implemented and published** on fork `testing` in [PR #122](https://github.com/hernansgarro/vidAI/pull/122), and P11 later stopped with adverse/incomplete evidence in [draft PR #124](https://github.com/hernansgarro/vidAI/pull/124). Read the [current through-P11 implementation ledger](MAINTAINED_GRID_IMPLEMENTATION_STATUS.md) and [proposed P11.1 design review](SPATIAL_GRID_P11_1_ARCHITECTURE_REVIEW.md). The older “P10 active/not started” language below is **historical**, not a current recommendation or statement of state.
+
+
 
 > **Fork contributor review and owner scope decision, 2026-11-05.** Source findings inspect verified P9 `testing` at `7dc593236da08b87ec978e4b887ce9536d5ddb26`; owner subsequently chose the P10.5 architecture documented below. **P10 is currently active separately; P10.5 has not been implemented, benchmarked, tested, or started.** This document is a decision/handoff on fork `main`, not an assertion of a runtime regression, performance gain, completed P11 experiment, or production promotion. Recheck the final P10 `testing` head before P10.5 coding.
 
