@@ -1,0 +1,4 @@
+{"name":"empty","organisms":0,"parts":0,"eyes":0,"food":275,"energy":825000}
+{"name":"moderate","organisms":18,"parts":94,"eyes":48,"food":455,"energy":1658680}
+{"name":"dense","organisms":100,"parts":520,"eyes":260,"food":455,"energy":2986000}
+{"name":"adversarial","organisms":24,"parts":120,"eyes":72,"food":455,"energy":1764120}

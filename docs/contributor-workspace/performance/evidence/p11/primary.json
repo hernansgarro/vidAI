@@ -1,0 +1,211 @@
+{
+  "mode": "primary",
+  "node": "v24.22.1",
+  "cpu": "AMD EPYC 9V74 80-Core Processor",
+  "started": "2026-11-05T21:51:39.670Z",
+  "durationMs": 56349.453095000004,
+  "results": [
+    {
+      "label": "main",
+      "scene": "empty",
+      "round": 0,
+      "kind": "lean",
+      "done": 180,
+      "requested": 180,
+      "elapsedMs": 7.686719000000039,
+      "tps": 23417.013162572886,
+      "effectiveX": 390.2835527095481,
+      "threadCpuUs": {
+        "user": 5398,
+        "system": 0
+      },
+      "memoryBefore": {
+        "rss": 355475456,
+        "heapTotal": 21295104,
+        "heapUsed": 12037432,
+        "external": 5437579,
+        "arrayBuffers": 86103
+      },
+      "memoryAfter": {
+        "rss": 355737600,
+        "heapTotal": 21295104,
+        "heapUsed": 15117776,
+        "external": 5437635,
+        "arrayBuffers": 86119
+      },
+      "hash": "8fc9451d39406b7073c1a0d7191c1235bab20096b5dcbf3774ba68d8acad0947",
+      "startHash": "503fa3214c9cc3a8cd78baf54cc8dd17e2d123da0ed1c6c4e1ea1fb660d6c2a0",
+      "population": 0,
+      "parts": 0,
+      "food": 275,
+      "eggs": 0,
+      "energyError": 1.3387762010097504e-8,
+      "metrics": {},
+      "operations": {},
+      "diagnostics": []
+    },
+    {
+      "label": "testing",
+      "scene": "empty",
+      "round": 0,
+      "kind": "lean",
+      "done": 180,
+      "requested": 180,
+      "elapsedMs": 23.32545499999992,
+      "tps": 7716.891267501561,
+      "effectiveX": 128.61485445835933,
+      "threadCpuUs": {
+        "user": 17672,
+        "system": 4285
+      },
+      "memoryBefore": {
+        "rss": 357937152,
+        "heapTotal": 22147072,
+        "heapUsed": 13878144,
+        "external": 5437579,
+        "arrayBuffers": 86103
+      },
+      "memoryAfter": {
+        "rss": 367374336,
+        "heapTotal": 31059968,
+        "heapUsed": 13479048,
+        "external": 5437635,
+        "arrayBuffers": 86119
+      },
+      "hash": "8fc9451d39406b7073c1a0d7191c1235bab20096b5dcbf3774ba68d8acad0947",
+      "startHash": "503fa3214c9cc3a8cd78baf54cc8dd17e2d123da0ed1c6c4e1ea1fb660d6c2a0",
+      "population": 0,
+      "parts": 0,
+      "food": 275,
+      "eggs": 0,
+      "energyError": 1.3387762010097504e-8,
+      "metrics": {},
+      "operations": {},
+      "diagnostics": []
+    },
+    {
+      "label": "main",
+      "scene": "moderate",
+      "round": 0,
+      "kind": "lean",
+      "done": 180,
+      "requested": 180,
+      "elapsedMs": 653.0069959999998,
+      "tps": 275.6478890771333,
+      "effectiveX": 4.594131484618889,
+      "threadCpuUs": {
+        "user": 618209,
+        "system": 30404
+      },
+      "memoryBefore": {
+        "rss": 534122496,
+        "heapTotal": 126504960,
+        "heapUsed": 89634624,
+        "external": 5825919,
+        "arrayBuffers": 494831
+      },
+      "memoryAfter": {
+        "rss": 629231616,
+        "heapTotal": 192790528,
+        "heapUsed": 49162184,
+        "external": 5780891,
+        "arrayBuffers": 449763
+      },
+      "hash": "4149b4e76af83b30ac2910b75e7b10254115aa65dba70e7cd44eed899d07a3b5",
+      "startHash": "cc55ec71514688ae6f736339fc2e5aa672bda7fe7623313c5d158f8327cca003",
+      "population": 18,
+      "parts": 94,
+      "food": 452,
+      "eggs": 0,
+      "energyError": 2.2817403078079224e-8,
+      "metrics": {},
+      "operations": {},
+      "diagnostics": []
+    },
+    {
+      "label": "testing",
+      "scene": "moderate",
+      "round": 0,
+      "kind": "lean",
+      "done": 180,
+      "requested": 180,
+      "elapsedMs": 1728.668412,
+      "tps": 104.12638927771418,
+      "effectiveX": 1.7354398212952364,
+      "threadCpuUs": {
+        "user": 1701017,
+        "system": 11835
+      },
+      "memoryBefore": {
+        "rss": 653955072,
+        "heapTotal": 150425600,
+        "heapUsed": 89524928,
+        "external": 5821831,
+        "arrayBuffers": 490743
+      },
+      "memoryAfter": {
+        "rss": 655572992,
+        "heapTotal": 167026688,
+        "heapUsed": 54068312,
+        "external": 5764623,
+        "arrayBuffers": 433495
+      },
+      "hash": "4149b4e76af83b30ac2910b75e7b10254115aa65dba70e7cd44eed899d07a3b5",
+      "startHash": "cc55ec71514688ae6f736339fc2e5aa672bda7fe7623313c5d158f8327cca003",
+      "population": 18,
+      "parts": 94,
+      "food": 452,
+      "eggs": 0,
+      "energyError": 2.2817403078079224e-8,
+      "metrics": {},
+      "operations": {},
+      "diagnostics": []
+    },
+    {
+      "label": "main",
+      "scene": "dense",
+      "round": 0,
+      "kind": "lean",
+      "done": 180,
+      "requested": 180,
+      "elapsedMs": 5564.074052,
+      "tps": 32.35039618771774,
+      "effectiveX": 0.5391732697952957,
+      "threadCpuUs": {
+        "user": 5522914,
+        "system": 19295
+      },
+      "memoryBefore": {
+        "rss": 808431616,
+        "heapTotal": 280821760,
+        "heapUsed": 174100656,
+        "external": 7580859,
+        "arrayBuffers": 2243651
+      },
+      "memoryAfter": {
+        "rss": 840175616,
+        "heapTotal": 310206464,
+        "heapUsed": 172815864,
+        "external": 7285331,
+        "arrayBuffers": 1938183
+      },
+      "hash": "ae0cea02b2de6357be54b92d5b8c1a94a57b2300538bdd6430dc202d6d558512",
+      "startHash": "9837fdc31daeced9ae3a672c0df967e87aecb3e284e220116f69af6c3775509c",
+      "population": 100,
+      "parts": 520,
+      "food": 449,
+      "eggs": 0,
+      "energyError": -4.98257577419281e-8,
+      "metrics": {},
+      "operations": {},
+      "diagnostics": []
+    },
+    {
+      "label": "testing",
+      "scene": "dense",
+      "round": 0,
+      "kind": "lean",
+      "error": "Error: window timeout"
+    }
+  ]
+}

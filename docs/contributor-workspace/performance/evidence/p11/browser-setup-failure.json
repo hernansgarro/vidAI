@@ -1,0 +1,14 @@
+{
+  "browser": "145.0.7632.6",
+  "cpu": "AMD EPYC 9V45 96-Core Processor",
+  "platform": "linux",
+  "results": [
+    {
+      "label": "main",
+      "scene": "dense",
+      "round": -1,
+      "pilot": true,
+      "error": "TimeoutError: locator.setInputFiles: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('input[type=file]')\n"
+    }
+  ]
+}

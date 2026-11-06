@@ -1,0 +1,38 @@
+name: P11 isolated browser evaluation
+on:
+  push:
+    branches: [research/maintained-grid-p11]
+    paths: ['scripts/p11-browser.mjs']
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    container:
+      image: mcr.microsoft.com/playwright:v1.58.2-noble
+    env:
+      HOME: /root
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm ci
+      - run: git -c safe.directory="$GITHUB_WORKSPACE" worktree add --detach ../p11-main f74de36902d39597c48d95ee4a7fdf809094ae75
+      - run: cd ../p11-main && npm ci && npm run build
+      - run: npm run build
+      - run: mkdir -p p11-browser && node --import tsx scripts/p11-scenes.ts p11-browser/scenes
+      - run: node scripts/p11-browser.mjs ../p11-main p11-browser
+      - name: Focused existing P5/P6 and severe-pause browser controls
+        run: npx playwright test e2e/observer-preferences.spec.ts --grep 'grid audit|spatial overlays|severe manual' --workers=1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: p11-browser-evidence
+          path: |
+            p11-browser
+            test-results
+          retention-days: 14

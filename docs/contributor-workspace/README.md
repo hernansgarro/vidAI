@@ -16,6 +16,7 @@
 | [Performance priorities](performance/PERFORMANCE_AUDIT_PRIORITIES.md) | Historical technical hypotheses and current owner priority overrides |
 | [Maintained spatial grid design](performance/MAINTAINED_SPATIAL_GRID_DESIGN.md) | Source-backed owner discussion, query ordering, persistent central grid, diagnostics, and dependency-ordered testing plan; P1–P9 implemented on testing topic branches; see stage PRs for validation/integration |
 | [Query options P10](performance/QUERY_OPTIONS_P10.md) | Partial large-food filtering; rejected optical/cache alternatives, P9 equivalence and local cost limits |
+| [P11 evaluation](performance/P11_REPORT.md) | Exact main/testing comparison, stopped primary lot, adverse n1 signal, raw evidence and pending owner/P12 gates |
 | [Physical contacts P9](performance/CONTACT_GRID_P9.md) | Exact pair order, maintained segment queries, P8 compatibility and bounded validation |
 | [Stage 2 evidence](performance/PERFORMANCE_AUDIT_STAGE_2.md) | Pinned source-based performance cost model; not measured proof |
 | [Verified contributor deliveries](tracking/CONTRIBUTOR_COMPLETED.md) | Fork implementations and upstream acceptance boundaries |

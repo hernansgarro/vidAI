@@ -1,3 +1,23 @@
+# P11 — partial maintained-grid evaluation; promotion not recommended (2026-11-05)
+
+Exact main `f74de36902d39597c48d95ee4a7fdf809094ae75` versus testing
+`b9cac9a5c47d97e023e3329ba3260f565b4f2a25`. Research-only
+[PR124](https://github.com/hernansgarro/vidAI/pull/124),
+[protocol](contributor-workspace/performance/P11_PROTOCOL.md) and
+[report/raw evidence](contributor-workspace/performance/P11_REPORT.md).
+Pilot8/8 has equal endpoint hashes but contaminated timing. Primary5complete,
+slot6dense-testing total-Worker timeout, no rerun/replacement. Moderate pair
+275.648→104.126TPS (-62.22%, n1), insufficient for the registered three-pair
+verdict; empty pair too short, dense/adversarial primary incomplete. Attribution,
+allocation and audit-latency windows remain unstarted. Recovered705fast/build/
+actualWorker PASS. Browser18/18 measurements retained, populated TPS medians
+-42.98% moderate/-71.34% dense/-64.74% adversarial (n2, unequal-progress
+confounds); empty ratio invalid as an equal-work comparison. Workflow failed
+closure; focused checks skipped; orchestration budget exceeded. See report.
+No functional main/testing edits, algorithm changes, historical reruns, baseline
+updates or upstream writes. Final owner visual acceptance and P12 remain pending.
+Recommendation: a separately authorized causal investigation before promotion.
+
 # Query options P10 — partial contributor testing implementation (2026-11-05)
 
 Authorized P9 base `7dc593236da08b87ec978e4b887ce9536d5ddb26`; branch

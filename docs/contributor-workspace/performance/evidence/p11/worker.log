@@ -1,0 +1,19 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> vidai@0.39.0 test:worker
+> node --import tsx scripts/check-worker.mjs
+
+P10-B Worker: large food lists, reversed order, tangency, full reserve, exact unfiltered P9 state and P5/reset passed; no A/C runtime changes.
+P9 contacts Worker: branched/long/folded/dense/reversed/boundary bodies, full state/PRNG, P5 and exact paused reset passed.
+P8 optics Worker: priorities, overlapping parts, dynamic pigment, opaque spectral loss, same-tick carrion/merge, full state/PRNG, P5 and exact paused reset passed.
+P7 feeding Worker: overlapping targets, shrink/removal, laying, accepted imported-radius growth, P5 audit, full snapshot/PRNG equivalence and paused reset passed.
+Spatial overlays Worker: default payload omission, independent toggles, actual matrix/bounds readback, paused refresh, reset/stale epochs and exact full-state continuation passed.
+Grid audit Worker: paused manual action/diagnostics, opt-in 60 simulated seconds, MAX, import/reset, disable and exact full-state/PRNG continuation passed.
+Nutrient-cycle Worker: schema-18/19 tank/tube reset, 5x exact direct decay/mineralization/PRNG continuation, paused restoration and control-switch rejection passed.
+Self-tube Worker: schema-17 reset, full-state L/R transfer, exact direct continuation, unchanged IDs/births/stock, paused closure and stale-command rejection passed.
+Environment Worker: Harsh and independent Pipe time-zero empty food/full grant, Pipe 4600x2100 with zero topology, editable controls, exact direct continuation and snapshot reset passed.
+Egg reserve Worker: original reference/frame/export/reset, legacy-current migration, exact 5x funded recovery, structure-only pink and x0 freeze passed.
+Energy activity Worker: concurrent real feeding/predation, contacted segment, exact observer-free optical/neural/PRNG/save continuation and x0 freeze passed.
+Unlimited MAX: measured x6141.2; 256256 exact ticks, responsive pause, frozen snapshots and finite resume passed.
+x0 Worker: zero ticks during manual food/spawn/clear/inspection, funded budget and caps, immediate frames, no stopped-wall-time catch-up, exact continuation and paused reset passed.
+Production Worker: open/closed exact exports, funded commands, independent stepping, debt, direct equivalence, all physics regimes, mouth contact in all eight physics/ecology combinations, regime-switch and stale-world rejection passed.
