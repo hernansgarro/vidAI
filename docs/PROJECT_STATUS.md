@@ -1,5 +1,48 @@
 # Maintained spatial grid — contributor testing checkpoint (2026-11-05)
 
+# Maintained grid — verified P0–P11 fork checkpoint (2026-11-05)
+
+The [fork implementation ledger](contributor-workspace/performance/MAINTAINED_GRID_IMPLEMENTATION_STATUS.md)
+now records P0–P9 integrations, P10's completed three-option **evaluation**
+(only large-food filtering adopted), and P10.5's validated/published
+incremental-only upkeep, optional 60-s simulated audit with logged targeted repair,
+and independent severe-error pause OFF by default.
+[PR #122](https://github.com/hernansgarro/vidAI/pull/122) merged to fork
+`testing` at `b9cac9a5c47d97e023e3329ba3260f565b4f2a25`;
+[publication 42101261062](https://github.com/hernansgarro/vidAI/actions/runs/42101261062)
+succeeded. Fork `main` runtime remains unchanged.
+
+**P11 is incomplete and contains an adverse performance signal; do not promote.**
+Matched moderate fixed-tick source `main` `f74de369` delivered
+275.648 TPS versus `testing` 104.126 TPS (-62.22%, **n=1**, equal
+endpoint-state hashes). Browser populated scenarios also ran slower in
+`testing`, but equal-wall windows progressed to different world ages.
+The dense primary timed out, the browser workflow exceeded its closure
+budget after saving useful measurements, and causal phase/allocation
+attribution was **not** completed. Retain the original [P11 report and evidence](https://github.com/hernansgarro/vidAI/blob/8b08c3b3cc049abb91c1b496ba5cf13596959aa5/docs/contributor-workspace/performance/P11_REPORT.md)
+in **open, unmerged draft [PR #124](https://github.com/hernansgarro/vidAI/pull/124)**.
+The previously published P10.5 improvement against P10 is a **different comparator**,
+not a rebuttal of P11.
+
+The owner independently reported approximately ten clean periodic grid audits
+without repair or pause, working `+ Vida` spawns, working transfers through
+connected tubes and a favorable visual impression at some high creature counts.
+These are valuable owner observations, **not** controlled numeric speed evidence
+or proof against intermittent errors. Final owner visual acceptance remains open.
+
+A [proposed P11.1 architecture review](contributor-workspace/performance/SPATIAL_GRID_P11_1_ARCHITECTURE_REVIEW.md)
+now captures the owner's preferred geometric center / birth-selected central
+module, possible circle rather than square enclosure, hierarchical/hybrid
+creature-first optical/contact broadphase, on-demand per-part geometry cache,
+and stationary nutrient membership optimizations. These are **hypotheses**,
+not approved runtime changes or a new scientific test lot. Preserve exact
+geometry/order/physics, note lifetime-bound and P5 audit limitations, and
+authorize a bounded causal study separately before any experiment or P12.
+
+---
+
+
+
 The fork-only [maintained-grid implementation status](contributor-workspace/performance/MAINTAINED_GRID_IMPLEMENTATION_STATUS.md)
 records all **P0–P9** verified fork `testing` merges, the final P9 testing head
 `7dc593236da08b87ec978e4b887ce9536d5ddb26`, and
